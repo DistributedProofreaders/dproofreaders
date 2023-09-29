@@ -1035,15 +1035,23 @@ function get_page_header_image($image)
 }
 
 // Output a tab bar of various view modes and a selected mode
-// $view_modes is a complex associative array, eg:
-// [
-//     "mode1" => [
-//         "label" => "Tab label",
-//         "url" => "",         # optional URL
-//         "postscript" => "",  # optional postscript for after tab bar
-//     ],
-//     "mode2" => [
-//     ], ...
+// $view_modes - a complex associative array, eg:
+//     [
+//         "mode1" => [
+//             "label" => "Tab label",
+//             "url" => "",         # optional URL
+//             "postscript" => "",  # optional postscript for after tab bar
+//         ],
+//         "mode2" => [
+//         ], ...
+//     ]
+// $selected_mode - which view mode (a key in $view_modes) is currently selected
+// $view_variable - the URL parameter to use when selecting a new mode,
+//     most commonly "show" but it can be anything
+// $url_addition - an optional string that will be appended to the URL. This can
+//     be other page parameters and/or a page anchor
+// $display_mode - one of "full" or "auto" - full will cause the bar to span the
+//     entire page while auto will only use as much horizontal space as needed.
 function output_tab_bar($view_modes, $selected_mode, $view_variable, $url_addition = "", $display_mode = "full")
 {
     $div_style = $display_mode == "auto" ? "style='width: auto;'" : "";
