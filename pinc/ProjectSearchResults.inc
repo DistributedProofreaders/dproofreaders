@@ -661,10 +661,20 @@ function get_search_configure_link()
     return "<a href='?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
 }
 
+function make_url($new_array, $anchor = '')
+{
+    return "?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
+}
+
 function make_link($new_array, $text, $anchor = '')
 {
-    $url = "?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
+    $url = make_url($new_array, $anchor);
     return "<a href='" . attr_safe($url) . "'>$text</a>";
+}
+
+function get_refine_search_url()
+{
+    return make_url(['show' => 'search_form']);
 }
 
 function get_refine_search_link($label = null)
@@ -672,5 +682,6 @@ function get_refine_search_link($label = null)
     if (!$label) {
         $label = _("Refine Search");
     }
-    return make_link(['show' => 'search_form'], $label);
+    $url = get_refine_search_url();
+    return "<a href='" . attr_safe($url) . "'>$label</a>";
 }

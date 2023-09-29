@@ -498,24 +498,10 @@ function show_page_menu($all_view_modes, $round_view, $username, $key)
 
     $qs_username = "";
     if ($pguser != $username) {
-        $qs_username = "username=$username&amp;";
+        $qs_username = "username=$username";
     }
 
-    echo "<div class='tabs'>";
-    echo "<ul>";
-
-    foreach ($all_view_modes as $setting => $setting_values) {
-        $label = $setting_values["label"];
-        if ($round_view == $setting) {
-            echo "<li class='current-tab'><a>$label</a></li>";
-        } else {
-            echo "<li><a href='?{$qs_username}{$key}=$setting#$key'>$label</a></li>";
-        }
-    }
-
-    echo "</ul>";
-    echo "</div>";
-    echo "<div style='clear: both;'></div>";
+    output_tab_bar($all_view_modes, $round_view, $key, "$qs_username#$key");
 }
 
 function sql_order_spec($colspecs, $order_col, $order_dir)

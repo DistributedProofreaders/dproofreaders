@@ -38,11 +38,17 @@ if (empty($origin)) {
 // Define the available tabs.
 // The indexes of the array are used elsewhere in this script.
 $tabs = [
-    0 => _('General'),
-    1 => _('Proofreading'),
+    0 => [
+        "label" => _('General'),
+    ],
+    1 => [
+        "label" => _('Proofreading'),
+    ],
 ];
 if (user_is_PM()) {
-    $tabs[2] = _('Project managing');
+    $tabs[2] = [
+        "label" => _('Project managing'),
+    ];
 }
 
 $selected_tab = get_integer_param($_REQUEST, "tab", 0, 0, max(array_keys($tabs)));
@@ -185,7 +191,7 @@ set_csrf_token();
 output_header($header, NO_STATSBAR, $theme_extra_args);
 echo "<h1>$header</h1>";
 
-echo_tabs($tabs, $selected_tab);
+output_tab_bar($tabs, $selected_tab, "tab", "origin=" . urlencode($origin));
 
 echo "<p>" . _("Click the ? for help on that specific preference.") . "</p>";
 
@@ -220,26 +226,6 @@ echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Produce tabs (display as an unordered list of links to non-CSS browsers)
-function echo_tabs($tab_names, $selected_tab)
-{
-    global $origin;
-
-    echo "<div class='tabs'>";
-    echo "<ul>";
-    foreach (array_keys($tab_names) as $index) {
-        if ($index == $selected_tab) {
-            echo "<li class='current-tab'>";
-        } else {
-            echo "<li>";
-        }
-        $url = "?tab=$index&amp;origin=" . urlencode($origin);
-        echo "<a href='$url'>{$tab_names[$index]}</a>";
-    }
-    echo "</ul>";
-    echo "</div>";
-    echo "<div style='clear: left;'></div>";
-}
 
 function echo_general_tab($user)
 {

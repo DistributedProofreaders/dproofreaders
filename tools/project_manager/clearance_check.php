@@ -19,11 +19,11 @@ if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
 $view_modes = [
     "suspect" => [
         "label" => _("Projects with suspect clearances"),
-        "description" => _("Showing projects with suspect clearances that have not been posted or deleted."),
+        "postscript" => _("Showing projects with suspect clearances that have not been posted or deleted."),
     ],
     "all" => [
         "label" => _("All projects"),
-        "description" => _("Showing all of your projects that have not been posted or deleted."),
+        "postscript" => _("Showing all of your projects that have not been posted or deleted."),
     ],
 ];
 
@@ -50,9 +50,8 @@ if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
 
 echo "<h1>$title</h1>";
 
-show_page_menu($view_modes, $view_mode, $username);
-
-echo "<p>" . $view_modes[$view_mode]["description"] . "</p>";
+$url_additions = ($pguser != $username) ? "username=$username&amp;" : "";
+output_tab_bar($view_modes, $view_mode, "show", $url_additions);
 
 echo "<table class='themed theme_striped' style='width: auto;'>";
 echo "<tr>";
@@ -77,32 +76,6 @@ while ($row = mysqli_fetch_assoc($res)) {
 echo "</table>";
 
 //---------------------------------------------------------------------------
-
-function show_page_menu($all_view_modes, $view_mode, $username)
-{
-    global $pguser;
-
-    $qs_username = "";
-    if ($pguser != $username) {
-        $qs_username = "username=$username&amp;";
-    }
-
-    echo "<div class='tabs'>";
-    echo "<ul>";
-
-    foreach ($all_view_modes as $setting => $setting_values) {
-        $label = $setting_values["label"];
-        if ($view_mode == $setting) {
-            echo "<li class='current-tab'><a>$label</a></li>";
-        } else {
-            echo "<li><a href='?${qs_username}show=$setting'>$label</a></li>";
-        }
-    }
-
-    echo "</ul>";
-    echo "</div>";
-    echo "<div style='clear: both;'></div>";
-}
 
 function get_table_query_resource($username, $view_mode)
 {
