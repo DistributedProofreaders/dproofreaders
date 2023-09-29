@@ -1033,3 +1033,48 @@ function get_page_header_image($image)
     // Fall back to nothing
     return "";
 }
+
+// Output a tab bar of various view modes and a selected mode
+// $view_modes is a complex associative array, eg:
+// [
+//     "mode1" => [
+//         "label" => "Tab label",
+//         "url" => "",         # optional URL
+//         "postscript" => "",  # optional postscript for after tab bar
+//     ],
+//     "mode2" => [
+//     ], ...
+function output_tab_bar($view_modes, $selected_mode, $view_variable, $url_addition = "", $display_mode = "full")
+{
+    $div_style = $display_mode == "auto" ? "style='width: auto;'" : "";
+    $clear_style = $display_mode == "auto" ? "style='clear: left;'" : "style='clear: both;'";
+
+    echo "<div class='tabs' $div_style>";
+    echo "<ul>";
+
+    foreach ($view_modes as $setting => $setting_values) {
+        $label = $setting_values["label"];
+        if ($selected_mode == $setting) {
+            echo "<li class='current-tab'><a>" . html_safe($label) . "</a></li>";
+        } else {
+            if (@$setting_values["url"]) {
+                $url = $setting_values["url"];
+            } else {
+                $url = "?{$view_variable}=$setting";
+                if (!startswith($url_addition, "#")) {
+                    $url .= "&amp;";
+                }
+                $url .= $url_addition;
+            }
+            echo "<li><a href='" . attr_safe($url) . "'>" . html_safe($label) . "</a></li>";
+        }
+    }
+
+    echo "</ul>";
+    echo "</div>";
+    echo "<div $clear_style></div>";
+
+    if (isset($view_modes[$selected_mode]["postscript"])) {
+        echo "<p>" . $view_modes[$selected_mode]["postscript"] . "</p>";
+    }
+}

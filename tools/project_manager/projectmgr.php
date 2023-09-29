@@ -107,27 +107,21 @@ $search_results->render($condition);
 function echo_shortcut_links($show_view)
 {
     $views = [
-        // TRANSLATORS: Abbreviation for Project Manager
-        "user_active" => _("Your Active PM Projects"),
-        // TRANSLATORS: Abbreviation for Project Manager
-        "user_all" => _("All Your PM Projects"),
-        "search" => _("Search"),
+        "user_active" => [
+            // TRANSLATORS: Abbreviation for Project Manager
+            "label" => _("Your Active PM Projects"),
+        ],
+        "user_all" => [
+            // TRANSLATORS: Abbreviation for Project Manager
+            "label" => _("All Your PM Projects"),
+        ],
+        "search" => [
+            "label" => _("Search"),
+            "url" => get_refine_search_url(),
+        ],
     ];
 
-    echo "<div class='tabs' style='width: auto;'>";
-    echo "<ul>";
-    foreach ($views as $view => $label) {
-        if ($show_view == $view) {
-            echo "<li class='current-tab'><a>$label</a></li>";
-        } elseif ($view == "search") {
-            echo "<li>" . get_refine_search_link($label) . "</li>";
-        } else {
-            echo "<li><a href='?show=$view'>$label</a></li>";
-        }
-    }
-    echo "</ul>";
-    echo "</div>";
-    echo "<div style='clear: left;'></div>";
+    output_tab_bar($views, $show_view, "show", "", "auto");
 
     $links = [];
     if ($show_view == "search") {
