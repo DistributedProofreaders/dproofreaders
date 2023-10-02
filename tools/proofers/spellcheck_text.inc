@@ -51,6 +51,13 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
 
     [$uncommonScriptWords, $uncommonScripts] =
         get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($orig_text)));
+
+    // If Greek is present in $uncommonScripts, we always want it to be first
+    // so it always has the same color across pages and projects. We do this
+    // only for Greek as it is the most common non-Latin script at pgdp.net.
+    if (in_array("Greek", $uncommonScripts)) {
+        $uncommonScripts = array_merge(["Greek"], array_diff($uncommonScripts, ["Greek"]));
+    }
     $uncommonScriptMap = array_flip($uncommonScripts);
 
     // Prepare the style block which requires some dynamic content from
