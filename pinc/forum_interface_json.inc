@@ -79,7 +79,7 @@ class ForumJsonUser extends ForumJson
     public function load($username)
     {
         $users = $this->load_from_json();
-        return $users[$username] ?? [];
+        return $users[$username] ?? null;
     }
 }
 
@@ -236,7 +236,7 @@ function get_forum_user_details($username)
     ];
 
     $userManager = new ForumJsonUser();
-    $user = $userManager->load($username);
+    $user = $userManager->load($username) ?? [];
 
     $return_data = [];
 
