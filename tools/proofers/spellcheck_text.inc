@@ -53,23 +53,27 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
         get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($orig_text)));
     $uncommonScriptMap = array_flip($uncommonScripts);
 
-    // ok, at this point we have a finalized list of bad words.
-    // start preparing the page
+    // Prepare the style block which requires some dynamic content from
+    // the user's preferences and the page itself.
     [$font_style, $font_size, $font_family] = get_user_proofreading_font();
     if ($font_size != '') {
         $font_size = "font-size: $font_size";
     } else {
         $font_size = "font-size: unset";
     }
-    // define the styles used for the interface (highlight for the punctuation, AW button, etc)
+
+    $highlight_colors = ["lightpink", "lightgreen", "CadetBlue", "mediumpurple"];
+    $highlight_styles = "  .hl-punc { background-color: yellow; color: black; }\n";
+    for ($index = 0; $index < count($uncommonScripts); $index++) {
+        $color_index = min($index, count($highlight_colors) - 1);
+        $color = $highlight_colors[$color_index];
+        $highlight_styles .= "  .hl-script-{$index} { background-color: $color; color: black; }\n";
+    }
+
     $returnString .= "<style>" .
                    "  pre { line-height: 2.7; }".
                    "  .proofingfont { font-family: $font_family; $font_size }" .
-                   "  .hl-punc { background-color: yellow; color: black; }" .
-                   "  .hl-script-0 { background-color: CadetBlue; color: black; }" .
-                   "  .hl-script-1 { background-color: lightpink; color: black; }" .
-                   "  .hl-script-2 { background-color: lightgreen; color: black; }" .
-                   "  .hl-script-3 { background-color: mediumpurple; color: black; }" .
+                   $highlight_styles .
                    "  img.aw { border: 0; margin-left: 5px; }" .
                    "  span.aw { background-color: white; color: black; }" .
                    "</style>";
