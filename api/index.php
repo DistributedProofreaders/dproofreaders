@@ -129,7 +129,7 @@ function api_rate_limit($key)
 
 function api_get_request_body()
 {
-    $json = json_decode(file_get_contents('php://input'));
+    $json = json_decode(file_get_contents('php://input'), true);
     if ($json === null) {
         throw new InvalidValue("Content was not valid JSON");
     }
