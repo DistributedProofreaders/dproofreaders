@@ -174,7 +174,7 @@ function create_or_update_project($project)
     $orig_project = $project;
 
     // update all updatable fields
-    $updates = (array)api_get_request_body();
+    $updates = api_get_request_body();
     try {
         foreach (get_updatable_project_fields() as $api_key => $project_key) {
             // allow partial record updates by only updating specified values
