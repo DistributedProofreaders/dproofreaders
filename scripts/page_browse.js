@@ -146,7 +146,7 @@ function makeTextWidget(container, splitter = false) {
     };
 }
 
-// Construct the buttons for horizontal/vertical split
+// Construct the button for horizontal/vertical split
 // and return a splitter variable.
 var viewSplitter = function(container, storageKey) {
     const storageKeyLayout = storageKey + "-layout";
@@ -154,16 +154,16 @@ var viewSplitter = function(container, storageKey) {
     if(!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
         layout = {splitDirection: "horizontal"};
     }
-    const splitVertical = (layout.splitDirection === "vertical");
+    let splitVertical = (layout.splitDirection === "vertical");
 
     const mainSplit = splitControl(container, {splitVertical: splitVertical});
     window.addEventListener("resize", mainSplit.reLayout);
 
     const imageButtonSize = 26;
-    const vSplitImage = $("<img>", {src: proofIntData.buttonImages.imgVSplit, height: imageButtonSize, width: imageButtonSize});
-    const vSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchVert}).append(vSplitImage);
-    const hSplitImage = $("<img>", {src: proofIntData.buttonImages.imgHSplit, height: imageButtonSize, width: imageButtonSize});
-    const hSwitchButton = $("<button>", {type: 'button', class: 'img-button control', title: proofIntData.strings.switchHoriz}).append(hSplitImage);
+    const splitImage = document.createElement("img");
+    splitImage.height = imageButtonSize;
+    splitImage.width = imageButtonSize;
+    splitImage.classList.add('img-button', 'control');
 
     let splitKey;
     const setSplitDirCallback = [];
@@ -179,14 +179,8 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.setSplitPercent(directionData.splitPercent);
     });
 
-    function setSplitControls(splitVert) {
-        if (splitVert) {
-            hSwitchButton.show();
-            vSwitchButton.hide();
-        } else {
-            hSwitchButton.hide();
-            vSwitchButton.show();
-        }
+    function setSplitControls() {
+        splitImage.src = splitVertical ? proofIntData.buttonImages.imgHSplit : proofIntData.buttonImages.imgVSplit;
     }
 
     function fireSetSplitDir() {
@@ -196,23 +190,16 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.reLayout();
     }
 
-    function changeSplit(splitVert) {
-        mainSplit.setSplit(splitVert);
-        setSplitControls(splitVert);
-        layout.splitDirection = splitVert ? "vertical" : "horizontal";
+    splitImage.addEventListener("click", function () {
+        splitVertical = !splitVertical;
+        layout.splitDirection = splitVertical ? "vertical" : "horizontal";
         localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
+        mainSplit.setSplit(splitVertical);
+        setSplitControls();
         fireSetSplitDir();
-    }
-
-    vSwitchButton.click(function () {
-        changeSplit(true);
     });
 
-    hSwitchButton.click(function () {
-        changeSplit(false);
-    });
-
-    setSplitControls(splitVertical);
+    setSplitControls();
 
     mainSplit.onDragEnd.add(function (percent) {
         localStorage.setItem(splitKey, JSON.stringify({splitPercent: percent}));
@@ -220,7 +207,7 @@ var viewSplitter = function(container, storageKey) {
 
     return {
         mainSplit,
-        buttons: [vSwitchButton, hSwitchButton],
+        button: splitImage,
         setSplitDirCallback,
         fireSetSplitDir,
     };
@@ -455,7 +442,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                                 textWidget = makeTextWidget(textDiv);
                             }
                             theSplitter.setSplitDirCallback.push(imageWidget.setup, textWidget.setup);
-                            fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.buttons);
+                            fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
                             theSplitter.fireSetSplitDir();
                             break;
                         }
