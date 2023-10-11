@@ -9,7 +9,12 @@ include_once('spellcheck_text.inc');
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 
-// text_data should be set before we get here -- should take place in processtext.php
+// The following variables should be set before we get here (via processtext.php)
+// * $ppage
+// * $text_data
+// * $is_changed
+// * $accepted_words
+// * $aux_language
 
 $revert_text = $_POST['revert_text'] ?? $text_data;
 
@@ -78,10 +83,10 @@ if ($user->profile->i_type == 1) {
     $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);
 
     echo "<input type='hidden' name='revert_text' value='" . attr_safe($revert_text) . "'>\n";
-    echo "<input type='hidden' id='is_changed' name='is_changed' value='$is_changed'>\n";
+    echo "<input type='hidden' id='is_changed' name='is_changed' value='" . attr_safe($is_changed) . "'>\n";
     echo "<input type='hidden' id='accepted_words' name=\"accepted_words\" value='"
         . attr_safe(implode(' ', $accepted_words)) . "'>\n";
-    echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='$is_header_visible'>\n";
+    echo "<input type='hidden' id='is_header_visible' name=\"is_header_visible\" value='" . attr_safe($is_header_visible) . "'>\n";
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
     [$page_contents, $languages, $messages, $highlights] =
