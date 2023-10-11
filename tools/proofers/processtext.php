@@ -91,10 +91,10 @@ if (isset($_POST['rerunauxlanguage'])) {
 $user = User::load_current();
 if ($user->profile->i_type == 1) {
     if (isset($_POST['fntFace'])) {
-        $fntFace = $_POST['fntFace'];
+        $fntFace = get_integer_param($_POST, 'fntFace', 0, 0, null);
     }
     if (isset($_POST['fntSize'])) {
-        $fntSize = $_POST['fntSize'];
+        $fntSize = get_integer_param($_POST, 'fntSize', 0, 0, null);
     }
 
     if ($user->profile->i_layout == 1) {
@@ -207,7 +207,7 @@ try {
             include_once('spellcheck_text.inc');
             [$correct_text, $corrections] = spellcheck_apply_corrections();
             $accepted_words = explode(' ', $_POST["accepted_words"]);
-            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+            $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
 
             // the user is submitting corrections, so pull any temporary corrections
             // they made long the way for saving in WordCheck (they've already been
@@ -221,7 +221,7 @@ try {
             // functions for returning the round ID and the page number
             // without the mess below
             save_wordcheck_event(
-                $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, $corrections);
+                $projectid, $ppage->lpage->round->id, $page, $pguser, $accepted_words, $corrections);
 
             $ppage->saveAsInProgress($correct_text, $pguser);
             leave_spellcheck_mode($ppage);
@@ -232,14 +232,14 @@ try {
             include_once('spellcheck_text.inc');
             $correct_text = spellcheck_quit();
             $accepted_words = explode(' ', $_POST["accepted_words"]);
-            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+            $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
 
             // the user wants to quit, so clear out the temporary variable
             // storing the corrections
             unset($_SESSION[$wcTempCorrections]);
 
             save_wordcheck_event(
-                $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
+                $projectid, $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
 
             $ppage->saveAsInProgress($correct_text, $pguser);
             leave_spellcheck_mode($ppage);
@@ -254,7 +254,7 @@ try {
             include_once('spellcheck_text.inc');
             $correct_text = spellcheck_quit();
             $accepted_words = explode(' ', $_POST["accepted_words"]);
-            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+            $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
 
             // 1. Quit the wordcheck interface:
             // Discard the session state holding current wordcheck corrections
@@ -269,7 +269,7 @@ try {
             unset($_SESSION[$wcTempCorrections]);
 
             save_wordcheck_event(
-                $_POST["projectid"], $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
+                $projectid, $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
 
             // 2. Save the current page as done
             $ppage->attempt_to_save_as_done($correct_text);
@@ -295,7 +295,7 @@ try {
             include_once('spellcheck_text.inc');
             $aux_language = $_POST["aux_language"];
             $accepted_words = explode(' ', $_POST["accepted_words"]);
-            $_SESSION["is_header_visible"] = $_POST["is_header_visible"];
+            $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
             [$text_data, $corrections] = spellcheck_apply_corrections();
 
             // save the already-made corrections in a temporary session variable
@@ -305,7 +305,7 @@ try {
             }
             $_SESSION[$wcTempCorrections] = $corrections;
 
-            $is_changed = $_POST['is_changed'];
+            $is_changed = get_integer_param($_POST, 'is_changed', 0, 0, 1);
             include('spellcheck.inc');
             break;
 

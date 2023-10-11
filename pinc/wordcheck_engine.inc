@@ -81,7 +81,8 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
 {
     $messages = [];
 
-    // Get the list of languages that we'll use.
+    // Get the list of languages that we'll use. This also ensures that
+    // $aux_language is a valid language and if not discards it.
     $languages = array_values(get_project_languages($projectid, $aux_language));
 
     // And the langcode3s for those languages
