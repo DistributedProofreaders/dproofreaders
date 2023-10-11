@@ -93,6 +93,7 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     // as strings (and compare them as such), otherwise things like
     // having a bad word of '0' messes up the in_array function
     $badWords = array_map('strval', $badWords);
+    $numBadWords = 0;
 
     // loop through all the original lines one at a time
     for ($origLineNum = 0; $origLineNum < count($orig_lines); $origLineNum++) {
