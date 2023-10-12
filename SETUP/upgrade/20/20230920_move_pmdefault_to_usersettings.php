@@ -13,9 +13,16 @@ $pm_view_options = [
 ];
 
 $pms = Settings::get_users_with_setting("manager", "yes");
+sort($pms);
 
 foreach ($pms as $pm) {
-    $user = new User($pm);
+    echo "Setting PM view for $pm\n";
+    try {
+        $user = new User($pm);
+    } catch (NonexistentUserException $exception) {
+        echo "    Error: " . $exception->getMessage() . "\n";
+        continue;
+    }
     $user_settings = new Settings($pm);
     $user_settings->set_value("pm_view", $pm_view_options[$user->i_pmdefault]);
 }
