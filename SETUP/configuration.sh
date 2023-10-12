@@ -117,6 +117,7 @@ _DYN_URL=$base_url/d
 # The DP code uses a forum for authentication and facilitating communication
 # about projects. The following types are supported:
 #   phpbb3 -- phpBB versions 3.0, 3.1, 3.2, and 3.3
+#   json -- a _test only_ forum used for development
 _FORUM_TYPE=phpbb3
 
 # phpBB3 forum configuration options
@@ -135,6 +136,12 @@ _PHPBB_TABLE_PREFIX=phpbb
 # These should not contain a trailing /
 _PHPBB_DIR=$base_dir/phpBB3
 _PHPBB_URL=$base_url/phpBB3
+
+# JSON forum configuration options
+#
+# Location of JSON files, must be writable by web server
+_JSON_USERS=
+_JSON_POSTS=
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

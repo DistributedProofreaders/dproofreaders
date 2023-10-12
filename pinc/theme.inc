@@ -235,9 +235,6 @@ function html_navbar()
     } else {
         //Code to display if the user is logged in
 
-        // Fetch some values from the database for use in links later
-        $numofPMs = get_number_of_unread_messages($user->username);
-
         // left side
         echo "<span id='navbar-left'>";
         echo headerbar_text_array([['text' => $site_abbreviation, 'url' => "default.php"]]);
@@ -271,11 +268,15 @@ function html_navbar()
         // on the same line.
         echo "<span id='navbar-right'>";
         $links = [];
-        $inbox_text = _("Inbox");
-        if ($numofPMs > 0) {
-            $inbox_text .= " " . sprintf(_("(%s unread)"), $numofPMs);
+        if (get_url_for_inbox()) {
+            $inbox_text = _("Inbox");
+
+            $numofPMs = get_number_of_unread_messages($user->username);
+            if ($numofPMs > 0) {
+                $inbox_text .= " " . sprintf(_("(%s unread)"), $numofPMs);
+            }
+            $links[] = ['text' => $inbox_text, 'url' => get_url_for_inbox()];
         }
-        $links[] = ['text' => $inbox_text, 'url' => get_url_for_inbox()];
 
         if (get_url_for_forum()) {
             $links[] = ['text' => _("Forums"), 'url' => get_url_for_forum()];
