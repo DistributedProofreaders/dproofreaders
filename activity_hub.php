@@ -140,17 +140,26 @@ activity_descriptions();
 
 // ----------------------------------
 
+/**
+ * Print out the snapshot table.
+ *
+ * The table contains a row for each stage including the user's access for
+ * that stage as well as project and page metrics.
+ *
+ * @param bool $show_filtered_projects
+ *   If TRUE, the table will show numbers based on the user's project filter
+ *   for that stage.
+ *
+ * @param bool $show_filtering_links
+ *   If TRUE, the table will allow the user to toggle between viewing numbers
+ *   for ALL projects and just those for filters.
+ *
+ * @param bool $show_beginner_help
+ *   If TRUE, the table will be prefaced with an informational paragraph.
+ *
+ * @return void
+ */
 function progress_snapshot_table($show_filtered_projects, $show_filtering_links, $show_beginner_help)
-// Prints out a table containing a row for each stage including the user's
-// access for that stage as well as project and page metrics.
-// Arguments:
-//   $show_filtered_projects - if TRUE, the table will show numbers based on
-//                             the user's project filter for that stage
-//   $show_filtering_links   - if TRUE, the table will allow the user to
-//                             toggle between viewing numbers for ALL projects
-//                             and just those for filters.
-//   $show_beginner_help     - if TRUE, the table will be prefaced with an
-//                             informational paragraph
 {
     global $Stage_for_id_;
 
@@ -287,9 +296,23 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "<a href='faq/site_progress_snapshot_legend.php' target='_blank'>" . _("Information about this table") . "</a>";
 }
 
+/**
+ * Print out an activity summary row for the progress table.
+ *
+ * @param object $stage Stage to summarize
+ *
+ * @param string[] $desired_states Array of desired states
+ *
+ * @param bool $show_filtered_projects
+ *   If TRUE, the row will include the user's project filter
+ *
+ * @param string $filter_type Type of project filter, usually a stage ID
+ *
+ * @return void
+ *
+ * @see progress_snapshot_table()
+ */
 function summarize_stage($stage, $desired_states, $show_filtered_projects = false, $filter_type = "")
-// Prints out an activity summary table row for a specific stage (be it a
-// Round, Pool, or Stage).
 {
     global $pguser, $n_projects_in_state_, $n_projects_transitioned_to_state_;
 
@@ -474,9 +497,13 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
 }
 
 
+/**
+ * Prints out a list of activities (Stages, Rounds, and Pools) and their
+ * description.
+ *
+ * @return void
+ */
 function activity_descriptions()
-// Prints out a list of activities (Stages, Rounds, and Pools) and their
-// description.
 {
     global $Stage_for_id_, $code_url;
 
