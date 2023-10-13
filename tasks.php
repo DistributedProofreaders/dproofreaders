@@ -309,10 +309,12 @@ $SearchParams_choices = [
 // a sitemanager/task_center_mgr whose u_id happens to be 999.
 // However, there's a fairly low chance of it ever being triggered.
 
+/**
+ * For each of the search parameters, echo its control (HTML markup),
+ * initializing it with any (valid) value that the current request
+ * has supplied for the parameter.
+ */
 function SearchParams_echo_controls()
-// For each of the search parameters, echo its control (HTML markup),
-// initializing it with any (valid) value that the current request
-// has supplied for the parameter.
 {
     global $SearchParams_choices, $tasks_url;
 
@@ -341,10 +343,12 @@ function SearchParams_echo_controls()
     echo "</table></form><br>\n";
 }
 
+/**
+ * Return a SQL condition that expresses the restriction on tasks
+ * implied by the values (if any) supplied for the search parameters
+ * by the current request.
+ */
 function SearchParams_get_sql_condition($request_params)
-// Return a SQL condition that expresses the restriction on tasks
-// implied by the values (if any) supplied for the search parameters
-// by the current request.
 {
     global $testing, $SearchParams_choices;
 
@@ -389,10 +393,12 @@ function SearchParams_get_sql_condition($request_params)
     return $condition;
 }
 
+/**
+ * Return a string (suitable for use in the 'query string' portion of a URL)
+ * that represents (and possibly just reiterates) the values (if any)
+ * supplied for the search parameters by the current request.
+ */
 function SearchParams_get_url_query_string()
-// Return a string (suitable for use in the 'query string' portion of a URL)
-// that represents (and possibly just reiterates) the values (if any)
-// supplied for the search parameters by the current request.
 {
     global $SearchParams_choices;
 
@@ -865,7 +871,9 @@ function handle_action_on_a_specified_task()
     }
 }
 
-// Add or remove a related task to the current task.
+/**
+ * Add or remove a related task to the current task.
+ */
 function process_related_task($pre_task, $action, $related_task_id)
 {
     global $pguser, $tasks_url;
@@ -902,7 +910,9 @@ function process_related_task($pre_task, $action, $related_task_id)
     metarefresh(0, "$tasks_url?task_id=$pre_task_id");
 }
 
-// Add or remove a related topic (forum thread) to the curent task.
+/**
+ * Add or remove a related topic (forum thread) to the curent task.
+ */
 function process_related_topic($pre_task, $action, $related_topic_id)
 {
     global $pguser, $tasks_url;
@@ -1021,17 +1031,21 @@ function TaskHeader($header, $show_new_alert = false)
     echo "<div style='clear: both;'></div>";
 }
 
-// Encode an array into text for insertion into the database.
+/**
+ * Encode an array into text for insertion into the database.
+ */
 function encode_array($a)
 {
     return base64_encode(serialize($a));
 }
 
-// Decode an array from its text form pulled into a PHP array.
-//
-// This should return an array, but if $str is empty,
-// unserialize("") === bool(false). In that case we explicitly return
-// an empty array.
+/**
+ * Decode an array from its text form pulled into a PHP array.
+ *
+ * This should return an array, but if $str is empty,
+ * unserialize("") === bool(false). In that case we explicitly return
+ * an empty array.
+ */
 function decode_array($str)
 {
     $a = unserialize(base64_decode($str));
@@ -1219,8 +1233,10 @@ function TaskForm($task)
     echo "</td></tr></table></form>\n";
 }
 
+/**
+ * Echo a <tr> element containing a label and a <select> for the given property.
+ */
 function property_echo_select_tr($property_id, $current_value, $options)
-// Echo a <tr> element containing a label and a <select> for the given property.
 {
     $label = property_get_label($property_id, false);
     echo "<tr><th>$label</th><td>\n";
@@ -1899,15 +1915,20 @@ function get_username_for_uid($u_id)
     return $user->username;
 }
 
-// Given a task row from the DB, produce an unescaped string representing
-// the task and suitable for display in a page title or similar.
+/**
+ * Given a task row from the DB, produce an unescaped string representing
+ * the task and suitable for display in a page title or similar.
+ */
 function title_string_for_task($pre_task)
 {
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
 }
 
-// Get key corresponding to a task properties string
-// Input string must be a valid property value
+/**
+ * Get key corresponding to a task properties string
+ *
+ * Input string must be a valid property value
+ */
 function get_property_key($value, $array)
 {
     if (($key = array_search($value, $array)) === false) {

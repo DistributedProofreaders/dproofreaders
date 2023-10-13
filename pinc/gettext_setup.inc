@@ -2,22 +2,25 @@
 // Localization setup
 include_once($relPath.'languages.inc');
 
-// Return a locale that best matches the language that the user wants and
-// that we have a site translation for. "Best" is tricky, because there are
-// multiple ways that a user could indicate (either explicitly or implicitly)
-// what language they want a page returned in. We walk through the following
-// possibilities in this order:
-// * If $_GET['lang'] is set (a page is requested as eg: default.php?lang=sr)
-//   and requested language is installed, then use that language and set
-//   language cookie so that after clicking on links user would remain in the
-//   language. This is useful for external linking to a localised version.
-// * If user is logged in, and has set language in user preferences, use that
-//   language.
-// * If user is not logged in, use language cookie, if there is one.
-// * If there is no cookie try to guess an appropriate language from browser's
-//   settings. There is no need to set the cookie because browser remains the
-//   same.
-// * If everything else fails, default to en_US.
+/**
+ * Return a locale that best matches the language that the user wants and
+ * that we have a site translation for.
+ *
+ * "Best" is tricky, because there are multiple ways that a user could
+ * indicate (either explicitly or implicitly) what language they want a page
+ * returned in. We walk through the following possibilities in this order:
+ * - If $_GET['lang'] is set (a page is requested as eg: default.php?lang=sr)
+ *   and requested language is installed, then use that language and set
+ *   language cookie so that after clicking on links user would remain in the
+ *   language. This is useful for external linking to a localised version.
+ * - If user is logged in, and has set language in user preferences, use that
+ *   language.
+ * - If user is not logged in, use language cookie, if there is one.
+ * - If there is no cookie try to guess an appropriate language from browser's
+ *   settings. There is no need to set the cookie because browser remains the
+ *   same.
+ * - If everything else fails, default to en_US.
+ */
 function get_desired_language()
 {
     // This function maybe called multiple times within a page load.
@@ -75,9 +78,12 @@ function configure_gettext($charset, $locale, $dyn_locales_dir, $system_locales_
     }
 }
 
-// Get the language (locale) for the specified user.
-// $user can be a User object or a username.
-// If $user is NULL, the current user's locale is returned.
+/**
+ * Get the language (locale) for the specified user.
+ *
+ * @param string|object $user
+ *   User object or a username. If NULL, the current user's locale is returned.
+ */
 function get_user_language($user = null)
 {
     if (!$user) {
@@ -91,7 +97,9 @@ function get_user_language($user = null)
     return $locale;
 }
 
-// Configure gettext for a specific user, useful for sending emails.
+/**
+ * Configure gettext for a specific user, useful for sending emails.
+ */
 function configure_gettext_for_user($user = null)
 {
     global $charset, $dyn_locales_dir, $system_locales_dir;
@@ -133,8 +141,12 @@ if (!function_exists('pgettext')) {
     }
 }
 
-// Return a localized date/time string for a date where $pattern is in ICU
-// format (https://unicode-org.github.io/icu/userguide/format_parse/datetime/).
+/**
+ * Return a localized date/time string for a date where $pattern is in ICU
+ * format.
+ *
+ * https://unicode-org.github.io/icu/userguide/format_parse/datetime/
+ */
 function icu_date($pattern, $timestamp = null, $user = null)
 {
     $locale = get_user_language($user);
@@ -147,7 +159,9 @@ function icu_date($pattern, $timestamp = null, $user = null)
     return $idf->format($timestamp);
 }
 
-// Return a localized date from a predefined template
+/**
+ * Return a localized date from a predefined template
+ */
 function icu_date_template($template, $timestamp = null, $user = null)
 {
     $templates = [

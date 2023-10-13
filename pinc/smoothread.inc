@@ -12,22 +12,18 @@ include_once($relPath.'user_project_info.inc'); // notify_project_event_subscrib
 *
 ****************************************************************************************/
 
-/***************************************************************************************
-*
-* function sr_users_is_commited: checks the association table for existing commitment
-*
-* inputs: projectid, username
-*
-* output: true/false regarding existence of commitment
-*
-* Remarks:
-*
-* Currently only a check for existence of record and field being > 0 is done. The latter
-* would allow the extension for a timestamp and the resetting to 0 if revoked in order
-* to still show users that have once committed but then revoked that commitment.
-*
-****************************************************************************************/
-
+/**
+ * Has the user committed to SR a specific project
+ *
+ * Currently only a check for existence of record and field being > 0 is done. The latter
+ * would allow the extension for a timestamp and the resetting to 0 if revoked in order
+ * to still show users that have once committed but then revoked that commitment.
+ *
+ * @param string $projectid
+ * @param string $username
+ *
+ * @return bool
+ */
 function sr_user_is_committed($projectid, $username)
 {
     $sql = sprintf("
@@ -43,23 +39,18 @@ function sr_user_is_committed($projectid, $username)
     return $count > 0;
 }
 
-
-/***************************************************************************************
-*
-* function sr_commit: inserts record into the association table for commitment
-*
-* inputs: projectid, username
-*
-* output: none
-*
-* Remarks:
-*
-* Currently the record is only inserted with the committed field being set to one.
-* This allows the future extension for a timestamp and the resetting to 0 if revoked in
-* order to still show users that have once committed but then revoked that commitment.
-*
-****************************************************************************************/
-
+/**
+ * Insert SR commitment from a user about a specific project
+ *
+ * Currently the record is only inserted with the committed field being set to one.
+ * This allows the future extension for a timestamp and the resetting to 0 if revoked in
+ * order to still show users that have once committed but then revoked that commitment.
+ *
+ * @param string $projectid
+ * @param string $username
+ *
+ * @return void
+ */
 function sr_commit($projectid, $username)
 {
     $sql = sprintf("
@@ -71,20 +62,14 @@ function sr_commit($projectid, $username)
     DPDatabase::query($sql);
 }
 
-/***************************************************************************************
-*
-* function sr_withdraw_commitment: deletes record from the association table for commitment
-*
-* inputs: projectid, username
-*
-* output: none
-*
-* Remarks:
-*
-* Currently the record is of commitment is deleted.
-*
-****************************************************************************************/
-
+/**
+ * Delete a commitment from a user to SR a specific project
+ *
+ * @param string $projectid
+ * @param string $username
+ *
+ * @return void
+ */
 function sr_withdraw_commitment($projectid, $username)
 {
     $sql = sprintf("
@@ -95,18 +80,13 @@ function sr_withdraw_commitment($projectid, $username)
     DPDatabase::query($sql);
 }
 
-/***************************************************************************************
-*
-* function sr_get_committed_users: provide list of users with sr-commitment to project
-*
-* inputs: projectid
-*
-* output: Array of usernames
-*
-* Remarks:
-*
-****************************************************************************************/
-
+/**
+ * Provide list of users with SR-commitment to project
+ *
+ * @param string $projectid
+ *
+ * @return string[]
+ */
 function sr_get_committed_users($projectid)
 {
     $sql = sprintf("
@@ -126,40 +106,28 @@ function sr_get_committed_users($projectid)
     return $list;
 }
 
-/***************************************************************************************
-*
-* function sr_number_users_committed: provide number of users with sr-commitment to project
-*
-* inputs: projectid
-*
-* output: number of users
-*
-* Remarks:
-*
-****************************************************************************************/
-
+/**
+ * Return number of users with SR-commitment to project
+ *
+ * @param string $projectid
+ *
+ * @return int
+ */
 function sr_number_users_committed($projectid)
 {
     return count(sr_get_committed_users($projectid));
 }
 
-
-/***************************************************************************************
-*
-* function sr_echo_commitment_form: create button and call page for database access
-*
-* inputs: projectid
-*
-* output: none
-*
-* Remarks:
-*
-* This calls a transient page executing the database function for inserting commitment
-* and provides the current URI for return to current page.
-*
-****************************************************************************************/
-
-
+/**
+ * Output HTML to call page to volunteer for SR
+ *
+ * This calls a transient page executing the database function for inserting commitment
+ * and provides the current URI for return to current page.
+ *
+ * @param string $projectid
+ *
+ * @return void
+ */
 function sr_echo_commitment_form($projectid)
 {
     global $code_url;
@@ -175,21 +143,16 @@ function sr_echo_commitment_form($projectid)
     echo "</form>\n";
 }
 
-/***************************************************************************************
-*
-* function sr_echo_withdrawal_form: create button and call page for database access
-*
-* inputs: projectid
-*
-* output: none
-*
-* Remarks:
-*
-* This calls a transient page executing the database function for withdrawing a commitment
-* and provides the current URI for return to current page.
-*
-****************************************************************************************/
-
+/**
+ * Output HTML to call page to withdraw SR commitment
+ *
+ * This calls a transient page executing the database function for inserting commitment
+ * and provides the current URI for return to current page.
+ *
+ * @param string $projectid
+ *
+ * @return void
+ */
 function sr_echo_withdrawal_form($projectid)
 {
     global $code_url;
@@ -205,13 +168,10 @@ function sr_echo_withdrawal_form($projectid)
     echo "</form>\n";
 }
 
-/***************************************************************************************
-*
-* Record and notify for smooth reading upload and deadline extension
-* which do not involve a state change
-*
-****************************************************************************************/
-
+/**
+ * Record and notify for smooth reading upload and deadline extension
+ * which do not involve a state change
+ */
 function handle_smooth_reading_change($project, $postcomments, $days, $extend)
 {
     global $pguser, $auto_post_to_project_topic;

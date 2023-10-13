@@ -194,8 +194,15 @@ class NonactivatedUser
 
     // static functions
 
-    // Load a NonactivatedUser record by ID
-    // e.g. $user = NonactivatedUser::load_from_id($id);
+    /**
+     * Load a NonactivatedUser record by ID
+     *
+     * Example: `$user = NonactivatedUser::load_from_id($id);`
+     *
+     * @param string $id
+     *
+     * @return object NonactivatedUser
+     */
     public static function load_from_id($id)
     {
         $user = new NonactivatedUser();
@@ -203,10 +210,18 @@ class NonactivatedUser
         return $user;
     }
 
-    // Load a NonactivatedUser record by email address
-    // e.g. $user = NonactivatedUser::load_from_email($email);
-    // The email address is not guaranteed to be unique and this function
-    // may raise NonuniqueNonactivatedUserException
+    /**
+     * Load a NonactivatedUser record by email address
+     *
+     * Example: `$user = NonactivatedUser::load_from_email($email);`
+     *
+     * @param string $email
+     *
+     * @throws NonuniqueNonactivatedUserException
+     *   The email address is not guaranteed to be unique.
+     *
+     * @return object NonactivatedUser
+     */
     public static function load_from_email($email)
     {
         $user = new NonactivatedUser();

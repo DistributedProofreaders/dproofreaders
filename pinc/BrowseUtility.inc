@@ -76,26 +76,34 @@ class BrowseUtility
         }
     }
 
-    // returns the number of rows to display (typically count)
+    /**
+     * Return the number of rows to display (typically count)
+     */
     public function getRowCountToList()
     {
         return $this->_displayed_count;
     }
 
-    // returns true if there can (should) be a "previous" link, false otherwise
+    /**
+     * Return true if there can (should) be a "previous" link, false otherwise
+     */
     public function isPreviousBrowseAvailable()
     {
         return ($this->_start > 0);
     }
 
-    // returns true if there can (should) be a "next" link, false otherwise
+    /**
+     * Return true if there can (should) be a "next" link, false otherwise
+     */
     public function isNextBrowseAvailable()
     {
         return ($this->_last_index < $this->_total_row_count - 1);
     }
 
-    // returns query strings such as "start=40&count=20"
-    // to use with a "previous" link
+    /**
+     * Return query strings such as "start=40&count=20"
+     * to use with a "previous" link
+     */
     public function getPreviousBrowseQueryString()
     {
         $new_start = $this->_start - $this->_count;
@@ -105,16 +113,22 @@ class BrowseUtility
         return "start=$new_start&count=" . $this->_count;
     }
 
-    // returns query strings such as "start=40&count=20"
-    // to use with a "next" link
+    /**
+     * Return query strings such as "start=40&count=20"
+     * to use with a "next" link
+     */
     public function getNextBrowseQueryString()
     {
         $new_start = $this->_start + $this->_count;
         return "start=$new_start&count=" . $this->_count;
     }
 
-    // "Displaying entries 6-10 of 24."
-    // indices are reported one high, e.g. 1-10 instead of 0-9
+    /**
+     * Return pagination details string
+     *
+     * For Example: "Displaying entries 6-10 of 24.".
+     * Indices are reported one high, e.g. 1-10 instead of 0-9
+     */
     public function getDisplayingString()
     {
         if ($this->_total_row_count == 0) {
@@ -128,14 +142,17 @@ class BrowseUtility
         }
     }
 
-    // writes a drop-down for selecting the count-parameter
-    // arguments: any number of integers that will be used
-    // as options for count. Zero means infinity.
-    // No arguments means a default list will be used.
-    // The page is simply reloaded with the new count,
-    // all other arguments being the same and the method (POST/GET)
-    // being the same.
-    // Supports POST and GET.
+    /**
+     * Writes a drop-down for selecting the count-parameter
+     *
+     * Arguments: any number of integers that will be used
+     * as options for count. Zero means infinity.
+     * No arguments means a default list will be used.
+     * The page is simply reloaded with the new count,
+     * all other arguments being the same and the method (POST/GET)
+     * being the same.
+     * Supports POST and GET.
+     */
     public function echoCountSelectionList()
     {
         if (func_num_args() == 0) {

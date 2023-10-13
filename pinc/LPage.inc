@@ -13,10 +13,14 @@ include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_roun
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Returns the best page entry for the user given the specified preceding
+ * project restriction.
+ *
+ * If successful, it returns [ $imagename, $state ],
+ * on failure it returns NULL;
+ */
 function get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction)
-// Returns the best page entry for the user given the specified preceding
-// project restriction. If successful, it returns [ $imagename, $state ],
-// on failure it returns NULL;
 {
     // Normally, pages are served in order of "page number"
     // (i.e., by the 'image' field)
@@ -121,9 +125,11 @@ function get_available_page_array($project, $round, $pguser, $preceding_proofer_
     return [$npage['image'], $npage['state']];
 }
 
+/**
+ * Returns an LPage, unless no page is available,
+ * in which case returns NULL and sets $err.
+ */
 function get_available_page($projectid, $proj_state, $pguser, &$err)
-// Returns an LPage, unless no page is available,
-// in which case returns NULL and sets $err.
 {
     // can throw NonexistentProjectException
     $project = new Project($projectid);
@@ -150,9 +156,11 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
     return $lpage;
 }
 
+/**
+ * Returns an array [image, state] unless no page is available,
+ * in which case throw an exception.
+ */
 function get_available_proof_page_array($project, $round, $pguser)
-// Returns an array [image, state] unless no page is available,
-// in which case throw an exception.
 {
     global $preceding_proofer_restriction;
 
@@ -179,14 +187,16 @@ function get_available_proof_page_array($project, $round, $pguser)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Returns an LPage, unless the parameters do not correctly identify a page,
+ * in which case it throws an exception.
+ */
 function get_indicated_LPage(
     $projectid,
     $proj_state,
     $imagefile,
     $page_state,
     $reverting_to_orig)
-// Returns an LPage, unless the parameters do not correctly identify a page,
-// in which case it throws an exception.
 {
     // Make sure project is still in same state.
     // can throw NonexistentProjectException
@@ -245,12 +255,15 @@ function project_continuity_test($project, $orig_state, $no_more_pages)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Logical page
+ *
+ * The "L" stands for "Logic", as in the 3 tiers of Data, Logic, and Presentation.
+ * For pages, the Data layer is `pinc/DPage.inc`,
+ * and the Presentation layer is most of `tools/proofers/*`.
+ * However, we're not very strict about the divisions yet.
+ */
 class LPage
-// The "L" stands for "Logic",
-// as in the 3 tiers of Data, Logic, and Presentation.
-// (For pages, the Data layer is pinc/DPage.inc,
-// and the Presentation layer is most of tools/proofers/*.
-// However, we're not very strict about the divisions yet.)
 {
     public function __construct($projectid, $imagefile, $page_state, $reverting_to_orig)
     {
@@ -328,14 +341,18 @@ class LPage
         $this->reverting_to_orig = 0;
     }
 
+    /**
+     * Attempt to save a page as done
+     *
+     * Return an array containing two values:
+     * - a boolean indicating whether the page was saved,
+     * - a boolean indicating whether user has reached the round's daily page limit.
+     *
+     * Note that `[FALSE, FALSE]` is currently impossible:
+     * - if this function says that the page was not saved,
+     * - it can only be because the user already reached the daily page limit.
+     */
     public function attemptSaveAsDone($text_data, $pguser)
-    // Return an array containing two values:
-    // a boolean indicating whether the page was saved,
-    // and a boolean indicating whether user has reached the round's daily page limit.
-    //
-    // (Note that (FALSE, FALSE) is currently impossible:
-    // if this function says that the page was not saved,
-    // it can only be because the user already reached the DPL.)
     {
         if ($this->round->has_a_daily_page_limit()) {
             $pre_save_dpl_count = get_dpl_count_for_user_in_round($pguser, $this->round);
@@ -376,8 +393,10 @@ class LPage
         $this->reverting_to_orig = 0;
     }
 
+    /**
+     * Return TRUE if this report causes project to be marked bad.
+     */
     public function markAsBad($user, $reason)
-    // Return TRUE if this report causes project to be marked bad.
     {
         global $code_url, $PAGE_BADNESS_REASONS;
 

@@ -1,7 +1,9 @@
 <?php
 include_once($relPath.'misc.inc');
 
-// return a set of hard-coded special days keyed by spec_code
+/**
+ * Return a set of hard-coded special days keyed by spec_code
+ */
 function load_common_special_days()
 {
     return [
@@ -86,8 +88,10 @@ function sort_special_days(&$special_days, $sort_by = "display_name")
     }
 }
 
-// Returns the special day array associated with this
-// project, or null if no such special day is specified.
+/**
+ * Returns the special day array associated with this
+ * project, or null if no such special day is specified.
+ */
 function get_special_day($special_code)
 {
     static $specials_array = [];
@@ -126,12 +130,13 @@ function get_special_day($special_code)
 }
 
 
-// outputs HTML showing the name of all SPECIAL DAYS
-// backed by their characteristic colour,
-// that have any projects within the set of projects
-// specified by $projects_where_clause (WHERE keyword NOT needed)
-// for use as a legend.
-
+/**
+ * Output HTML showing the name of all SPECIAL DAYS
+ * backed by their characteristic colour,
+ * that have any projects within the set of projects
+ * specified by $projects_where_clause (WHERE keyword NOT needed)
+ * for use as a legend.
+ */
 function echo_special_legend($projects_where_clause)
 {
     global $code_url;
@@ -190,7 +195,9 @@ function echo_special_legend($projects_where_clause)
     echo "</table>";
 }
 
-// Given a special day, return building blocks to construct a cell for a row
+/**
+ * Given a special day, return building blocks to construct a cell for a row
+ */
 function get_special_day_cell_parts($special_day, $include_title = true)
 {
     $background_color = str_replace("#", "", $special_day['color']);
@@ -208,8 +215,11 @@ function get_special_day_cell_parts($special_day, $include_title = true)
     return [$style, $contents];
 }
 
-// Select a reasonable text color given a specific background color.
-// From https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
+/**
+ * Select a reasonable text color given a specific background color.
+ *
+ * From https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
+ */
 function pick_text_color_given_bgcolor($bg_color, $light_color, $dark_color)
 {
     $color = str_replace("#", "", $bg_color);

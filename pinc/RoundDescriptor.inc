@@ -17,60 +17,70 @@ $Round_for_project_state_ = [];
 $Round_for_page_state_ = [];
 $PAGE_STATES_IN_ORDER = [];
 
-class Round extends Stage
 // A container for various constants relating to a particular round of proofreading.
+class Round extends Stage
 {
+    /**
+     * Round constructor
+     *
+     * @param array $pi_tools
+     *   A list of which tools should be available in the proofreading
+     *   interface's toolbox when proofreading a page in this round.
+     *   The format is:
+     *   ```
+     *   [
+     *       'popup_links' => [ 'link1', 'link2', ... ],
+     *       'tool_buttons' => [ 'button1', 'button2', ... ],
+     *       'tool_links' => [ 'link1', 'link2', ... ],
+     *   ]
+     *   ```
+     *   Alternatively, if you want all tools to be visible, use 'ALL'
+     *   for the array instead:
+     *   ```
+     *   [
+     *       'popup_links' => 'ALL',
+     *       'tool_buttons' => 'ALL',
+     *       'tool_links' => 'ALL',
+     *   ]
+     *   ```
+     *   See `pinc/ProofreadingToolbox.inc` for which tools are available
+     *   and their names.
+     * @param $daily_page_limit
+     *   This is either NULL (indicating no daily page limit for this round)
+     *   or a non-negative (though likely positive) integer.
+     * @param array $other_rounds_with_visible_usernames
+     *   An array of round_ids.
+     *   If user X worked on a page in this round, they can see the
+     *   username of another user Y who worked on the page *if* user Y
+     *   worked on the page in a round that appears in this parameter.
+     * @param array $honorifics
+     *   An array of integer => string items that determine a user's
+     *   "title" on the basis of their page tally in this round.
+     *   In each item:
+     *   - The number is a page-tally threshold.
+     *   - The string is the honorific for someone who has achieved that
+     *     threshold, but not the next higher.
+     *   (Needn't be in a particular order.)
+     */
     public function __construct(
-        $round_id,
-        $round_name,
+        $id,
+        $name,
         $access_minima,
         $after_satisfying_minima,
         $evaluation_criteria,
         $access_change_callback,
         $description,
         $document,
-
         $pi_tools,
-            // A list of which tools should be available in the proofreading
-            // interface's toolbox when proofreading a page in this round.
-            // The format is:
-            // [
-            //     'popup_links' => [ 'link1', 'link2', ... ],
-            //     'tool_buttons' => [ 'button1', 'button2', ... ],
-            //     'tool_links' => [ 'link1', 'link2', ... ],
-            // ]
-            // Alternatively, if you want all tools to be visible, use 'ALL'
-            // for the array instead:
-            // [
-            //     'popup_links' => 'ALL',
-            //     'tool_buttons' => 'ALL',
-            //     'tool_links' => 'ALL',
-            // ]
-            // See pinc/ProofreadingToolbox.inc for which tools are avaialble
-            // and their names.
-
         $daily_page_limit,
-            // This is either NULL (indicating no daily page limit for this round)
-            // or a non-negative (though likely positive) integer.
-
         $other_rounds_with_visible_usernames,
-            // An array of round_ids.
-            // If user X worked on a page in this round, they can see the
-            // username of another user Y who worked on the page *if* user Y
-            // worked on the page in a round that apppears in this parameter.
-
         $honorifics
-            // An array of integer => string items that determine a user's
-            // "title" on the basis of their page tally in this round.
-            // In each item:
-            // -- The number is a page-tally threshold.
-            // -- The string is the honorific for someone who has achieved that
-            //    threshold, but not the next higher.
-            // (Needn't be in a particular order.)
     ) {
+        $round_id = $id;
+
         parent::__construct(
-            $round_id,
-            $round_name,
+            $id,
+            $name,
             $access_minima,
             $after_satisfying_minima,
             $evaluation_criteria,
@@ -229,10 +239,13 @@ function get_Round_for_round_id($round_id)
 
 // ---------------------------
 
+/**
+ * Get a round object given a round number
+ *
+ * If `$round_number` is a valid proofreading-round number,
+ * return the appropriate Round instance. Otherwise, return NULL.
+ */
 function get_Round_for_round_number($round_number)
-// If $round_number is a valid proofreading-round number,
-// return the appropriate Round instance.
-// Otherwise, return NULL.
 {
     global $Round_for_round_number_;
     return array_get($Round_for_round_number_, $round_number, null);
@@ -269,20 +282,28 @@ function get_Round_for_text_column_name($text_column_name)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Return an SQL snippet used to sort rounds
+ *
+ * In an SQL query, if you `ORDER BY round_id`, it will use alphabetical order,
+ * which is not very useful. Instead, ORDER BY the result of this function,
+ * and it will use the canonical order-of-declaration for rounds.
+ */
 function sql_collater_for_round_id($round_id_column)
-// In an SQL query, if you "ORDER BY round_id", it will use alphabetical order,
-// which is not very useful. Instead, ORDER BY the result of this function,
-// and it will use the canonical order-of-declaration for rounds.
 {
     global $Round_for_round_id_;
     return sprintf("FIELD($round_id_column, %s)",
         surround_and_join(array_keys($Round_for_round_id_), "'", "'", ","));
 }
 
+/**
+ * Return an SQL snippet used to page states
+ *
+ * In an SQL query, if you `ORDER BY state`, it will use alphabetical order,
+ * which is not very useful. Instead, ORDER BY the result of this function,
+ * and it will use the canonical order-of-declaration for page states.
+ */
 function sql_collater_for_page_state($state_column)
-// In an SQL query, if you "ORDER BY state", it will use alphabetical order,
-// which is not very useful. Instead, ORDER BY the result of this function,
-// and it will use the canonical order-of-declaration for page states.
 {
     global $PAGE_STATES_IN_ORDER;
     return sprintf("FIELD($state_column, %s)",
@@ -291,10 +312,14 @@ function sql_collater_for_page_state($state_column)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Define pairs of rounds used for mentoring
+ *
+ * Asserts that, for difficulty='beginner' projects, pages done in one round
+ * (the "mentored" or "mentee" round) will garner feedback by qualified users
+ * ("mentors") in a subsequent round (the "mentoring" or "mentor" round).
+ */
 function declare_mentoring_pair($mentee_round_id, $mentor_round_id)
-// Asserts that, for difficulty='beginner' projects, pages done in one round
-// (the "mentored" or "mentee" round) will garner feedback by qualified users
-// ("mentors") in a subsequent round (the "mentoring" or "mentor" round).
 {
     $mentee_round = & get_Stage_for_id($mentee_round_id);
     $mentor_round = & get_Stage_for_id($mentor_round_id);

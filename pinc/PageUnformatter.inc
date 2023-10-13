@@ -1,6 +1,8 @@
 <?php
 
-// functions to remove formatting in order to compare P to F (or F to F) rounds
+/**
+ * Functions to remove formatting in order to compare P to F (or F to F) rounds
+ */
 class PageUnformatter
 {
     private function find_close($text, $offset)

@@ -2,30 +2,39 @@
 
 use voku\helper\UTF8;
 
-// Normalize UTF-8 strings to NFC
+/**
+ * Normalize UTF-8 strings to NFC
+ */
 function utf8_normalize($string)
 {
     $normalizer = new Normalizer();
     return $normalizer->normalize($string);
 }
 
-// Given one or more codepoints, return the UTF-8 character that it describes.
-// This is very similar to UTF8::hex_to_chr(), except if $codepoint contains
-// a > it is assumed to represent a combined character.
+/**
+ * Given one or more codepoints, return the UTF-8 character that it describes.
+ *
+ * This is very similar to UTF8::hex_to_chr(), except if $codepoint contains
+ * a > it is assumed to represent a combined character.
+ */
 function utf8_combined_chr($codepoint)
 {
     $codepoints = explode('>', $codepoint);
     return implode('', array_map('voku\helper\UTF8::hex_to_chr', $codepoints));
 }
 
-// Given a character, return the Unicode script it belongs to
+/**
+ * Given a character, return the Unicode script it belongs to
+ */
 function utf8_char_script($char)
 {
     $enum = IntlChar::getIntPropertyValue($char, IntlChar::PROPERTY_SCRIPT);
     return IntlChar::getPropertyValueName(IntlChar::PROPERTY_SCRIPT, $enum);
 }
 
-// Given a string, return an array of Unicode scripts used within the string.
+/**
+ * Given a string, return an array of Unicode scripts used within the string.
+ */
 function utf8_string_scripts($string)
 {
     $scripts = [];
@@ -56,10 +65,13 @@ function utf8_string_scripts($string)
     return array_unique($scripts);
 }
 
-// Get codepoints that are not normalized.
-// Returns an associative array where the key is the nonnormalized codepoint
-// and the value is the normalized version. If all codepoints are normalized
-// it returns an empty array.
+/**
+ * Get codepoints that are not normalized.
+ *
+ * Returns an associative array where the key is the nonnormalized codepoint
+ * and the value is the normalized version. If all codepoints are normalized
+ * it returns an empty array.
+ */
 function get_nonnormalized_codepoints($codepoints)
 {
     $characters = convert_codepoint_ranges_to_characters($codepoints);
@@ -75,7 +87,9 @@ function get_nonnormalized_codepoints($codepoints)
     return $nonnorm_codepoints;
 }
 
-// Given a single character, or a combined character, return its name
+/**
+ * Given a single character, or a combined character, return its name
+ */
 function utf8_character_name($characters)
 {
     $title_pieces = [];
@@ -85,8 +99,11 @@ function utf8_character_name($characters)
     return implode(" + ", $title_pieces);
 }
 
-// Split a string into chunks on Unicode script boundaries
-// Inherited characters are included in the chunk with the base character
+/**
+ * Split a string into chunks on Unicode script boundaries.
+ *
+ * Inherited characters are included in the chunk with the base character
+ */
 function split_multiscript_string($string)
 {
     $chunks = [];
@@ -133,7 +150,9 @@ function split_graphemes($string)
     }
 }
 
-// Split a Unicode string into codepoints keeping combining characters together
+/**
+ * Split a Unicode string into codepoints keeping combining characters together
+ */
 function utf8_codepoints_combining($string)
 {
     $codepoints = [];
@@ -143,13 +162,17 @@ function utf8_codepoints_combining($string)
     return $codepoints;
 }
 
-// Given a string, return a string of codepoints in U+ format
+/**
+ * Given a string, return a string of codepoints in U+ format
+ */
 function string_to_codepoints_string($string, $imploder = " ")
 {
     return implode($imploder, UTF8::codepoints($string, true));
 }
 
-// Filter to only characters in $string that are in $valid_codepoints.
+/**
+ * Filter to only characters in $string that are in $valid_codepoints.
+ */
 function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement = "")
 {
     $pattern_string = build_character_regex_filter($valid_codepoints);
@@ -165,7 +188,9 @@ function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement = ""
     return $result;
 }
 
-// Filter out any characters in $string that are in $remove_codepoints
+/**
+ * Filter out any characters in $string that are in $remove_codepoints
+ */
 function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement = "")
 {
     $pattern_string = build_character_regex_filter($remove_codepoints);
@@ -180,10 +205,14 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement = 
     return $result;
 }
 
-// Given a codepoint (U+####), return an escaped version of the
-// codepoint for use in a regex in the given language.
-// https://www.php.net/manual/en/regexp.reference.escape.php
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes
+/**
+ * Given a codepoint (U+####), return an escaped version of the
+ * codepoint for use in a regex in the given language.
+ *
+ * https://www.php.net/manual/en/regexp.reference.escape.php
+ *
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes
+ */
 function get_unicode_regex_class($codepoint, $lang = 'php')
 {
     $hex = str_replace("U+", "", $codepoint);
@@ -196,10 +225,17 @@ function get_unicode_regex_class($codepoint, $lang = 'php')
     }
 }
 
-// Take an array of Unicode codepoints (U+####), codepoint ranges
-// (U+####-U+####), or combined characters (U+####>U+####) and
-// return a regular expression character class to match a single
-// character. $lang is the consuming language (php or js).
+/**
+ * Take an array of Unicode codepoints (U+####), codepoint ranges
+ * (U+####-U+####), or combined characters (U+####>U+####) and
+ * return a regular expression character class to match a single
+ * character.
+ *
+ * @param array $codepoints
+ *
+ * @param string $lang
+ *   Consuming language (php or js).
+ */
 function build_character_regex_filter($codepoints, $lang = 'php')
 {
     $char_class = "";
@@ -231,9 +267,11 @@ function build_character_regex_filter($codepoints, $lang = 'php')
     return "^(?:" . implode("|", $alternatives) . ")\$";
 }
 
-// Take an array of Unicode codepoints (U+####), codepoint ranges
-// (U+####-U+####), or combined characters (U+####>U+####) and
-// return an array of unicode characters.
+/**
+ * Take an array of Unicode codepoints (U+####), codepoint ranges
+ * (U+####-U+####), or combined characters (U+####>U+####) and
+ * return an array of unicode characters.
+ */
 function convert_codepoint_ranges_to_characters($codepoints)
 {
     $return_array = [];
@@ -257,7 +295,9 @@ function convert_codepoint_ranges_to_characters($codepoints)
     return $return_array;
 }
 
-// Return an array of invalid characters and their count
+/**
+ * Return an array of invalid characters and their count
+ */
 function get_invalid_characters($string, $codepoints)
 {
     $string = utf8_filter_out_codepoints($string, $codepoints);
@@ -274,10 +314,12 @@ function get_invalid_characters($string, $codepoints)
     return $char_count;
 }
 
-// Convert a text file to UTF-8, guessing its encoding returns:
-// [ $success, $message ]
-// where $success is TRUE if the file is already UTF-8 or was
-// sucessfully converted. $message is a more detailed message.
+/**
+ * Convert a text file to UTF-8, guessing its.
+ *
+ * Returns `[ $success, $message ]` where $success is TRUE if the file is
+ * already UTF-8 or was successfully converted. $message is a more detailed message.
+ */
 function convert_text_file_to_utf8($filename)
 {
     $text = file_get_contents($filename);
@@ -305,14 +347,19 @@ function convert_text_file_to_utf8($filename)
     return [true, "$filename was converted from $encoding to UTF-8."];
 }
 
-// Attempt to detect a string's encoding from a subset of expected encodings:
-//   * UTF-8 (includes pure-ASCII which is a valid subset)
-//   * UTF-16BE, UTF-16LE, UTF-32BE, UTF-32LE based on the BOM
-//   * Windows-1252
-//   * ISO-8859-1
-// These strings match what mb_detect_encoding() would return. The function
-// returns False if it's unable to guess, although it will readily return
-// ISO-8859-1 in many circumstances.
+/**
+ * Attempt to detect a string's encoding from a subset of expected encodings
+ *
+ * Possible expected encodings:
+ * * UTF-8 (includes pure-ASCII which is a valid subset)
+ * * UTF-16BE, UTF-16LE, UTF-32BE, UTF-32LE based on the BOM
+ * * Windows-1252
+ * * ISO-8859-1
+ *
+ * These strings match what mb_detect_encoding() would return. The function
+ * returns False if it's unable to guess, although it will readily return
+ * ISO-8859-1 in many circumstances.
+ */
 function guess_string_encoding($text)
 {
     if (preg_match('//u', $text)) {
@@ -350,9 +397,11 @@ function guess_string_encoding($text)
     return 'ISO-8859-1';
 }
 
-// Return a list of Unicode codepoints we want to replace with some ASCII
-// equivalence. We convert these codepoints to ASCII up on page save in
-// DPage.inc.
+/**
+ * Return a list of Unicode codepoints we want to replace with some ASCII
+ * equivalence. We convert these codepoints to ASCII up on page save in
+ * DPage.inc.
+ */
 function get_utf8_to_ascii_codepoints()
 {
     return [
@@ -407,8 +456,10 @@ function get_utf8_to_ascii_codepoints()
     ];
 }
 
-// Return a list of disallowed codepoints. These codepoints are converted
-// to ASCII upon page save and are not valid in character suites.
+/**
+ * Return a list of disallowed codepoints. These codepoints are converted
+ * to ASCII upon page save and are not valid in character suites.
+ */
 function get_disallowed_codepoints()
 {
     $invalid_codepoints = [];

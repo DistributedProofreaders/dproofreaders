@@ -8,8 +8,10 @@ $PGLAF_upload_url = "https://upload.pglaf.org";
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Given a PG etext number, return a URL for the PG catalog page for that text.
+ */
 function get_pg_catalog_url_for_etext($etext_number)
-// Given a PG etext number, return a URL for the PG catalog page for that text.
 {
     global $PG_home_url;
     return "$PG_home_url/ebooks/$etext_number";
@@ -17,9 +19,11 @@ function get_pg_catalog_url_for_etext($etext_number)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Given a PG etext number, return an HTML <a> element
+ * that links to the PG catalog page for that text.
+ */
 function get_pg_catalog_link_for_etext($etext_number, $link_text = null)
-// Given a PG etext number, return an HTML <a> element
-// that links to the PG catalog page for that text.
 {
     $url = get_pg_catalog_url_for_etext($etext_number);
 

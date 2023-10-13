@@ -8,12 +8,17 @@ include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 include($relPath.'udb_user.php'); // $archive_db_name
 
 
+/**
+ * Archive a project
+ *
+ * This will:
+ * - Move the project's page-table to the archive database.
+ * - Move the project's directory out of $projects_dir &
+ *   write out project's metadata to a JSON file.
+ *   (for later off-site migration).
+ * - Mark the project as having been archived.
+ */
 function archive_project($project, $dry_run)
-// -- Move the project's page-table to the archive database.
-// -- Move the project's directory out of $projects_dir &
-//    write out project's metadata to a JSON file.
-//    (for later off-site migration).
-// -- Mark the project as having been archived.
 {
     global $archive_projects_dir, $archive_db_name;
 
@@ -82,8 +87,10 @@ function archive_project($project, $dry_run)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Write out project's metadata to a JSON file within the archive
+ */
 function generate_project_metadata_json($project, $filename, $dry_run)
-// Write out project's metadata to a JSON file within the archive
 {
     $metadata = [
         "projectid" => $project->projectid,
@@ -105,9 +112,11 @@ function generate_project_metadata_json($project, $filename, $dry_run)
     }
 }
 
+/**
+ * Archive the ancillary info relating to $project
+ * or to any project that was merged into it (and then deleted).
+ */
 function archive_ancillary_data_for_project_etc($project, $indent, $dry_run)
-// Archive the ancillary info relating to $project
-// or to any project that was merged into it (and then deleted).
 {
     archive_ancillary_data_for_project($project, $indent, $dry_run);
 
@@ -156,11 +165,13 @@ function archive_ancillary_data_for_project($project, $indent, $dry_run)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * "Move" (copy and delete) rows pertaining to the given project
+ * from $table_name in the main db to $table_name in the archive db.
+ *
+ * Assumes that the table has a column named 'projectid'.
+ */
 function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_run)
-// "Move" (i.e. copy and delete) rows pertaining to the given project
-// from $table_name in the main db to $table_name in the archive db.
-//
-// (Assumes that the table has a column named 'projectid'.)
 {
     global $archive_db_name;
 

@@ -1,8 +1,10 @@
 <?php
 
-// Return an associative array of genres in the format
-//     english_name => translated_name
-// sorted by the translated name
+/**
+ * Return an associative array of genres in the format
+ *     english_name => translated_name
+ * sorted by the translated name
+ */
 function load_genre_translation_array()
 {
     $genres = [

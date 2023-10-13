@@ -7,20 +7,27 @@ include_once($relPath.'unicode.inc');
 
 use voku\helper\UTF8;
 
-// Arguments:
-//   orig_text - original text to run through dictionary
-//   projectid - id of projected, needed for temp filename
-//               and to load the custom dictionaries
-//   imagefile - image filename, needed for temp filename
-//   aux_languages - auxiliary language to check against
-//   accepted_words - array of words that should not be considered misspelled
-//
-// Returns an array consisting of:
-//     -- a string containing the HTML code for the 'text' part of the spellcheck interface.
-//     -- an array of messages (errors/warnings)
-//     -- an array of names of languages used.
-//
-
+/**
+ * Build HTML for the WordCheck UI
+ *
+ * Returns an array consisting of:
+ * - a string containing the HTML code for the 'text' part of the spellcheck interface.
+ * - an array of messages (errors/warnings)
+ * - an array of names of languages used.
+ *
+ * @param text $orig_text
+ *   Original text to run through dictionary
+ * @param text $projectid
+ *   Id of projected, needed for temp filename and to load the custom dictionaries
+ * @param text $imagefile
+ *   Image filename, needed for temp filename
+ * @param text $aux_language
+ *   Auxiliary language to check against
+ * @param array $accepted_words
+ *   Array of words that should not be considered misspelled
+ *
+ * @return array
+ */
 function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $accepted_words)
 {
     global $puncCharacters;
@@ -185,19 +192,25 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     return [$returnString, $languages, $messages, $highlightsUsed];
 }
 
-// adds HTML code to highlight text
+/**
+ * Adds HTML code to highlight text
+ */
 function _wrapHighlight($word, $highlightClass)
 {
     return "<span class='$highlightClass'>$word</span>";
 }
 
-// adds HTML code to punctuation to highlight it
+/**
+ * Adds HTML code to punctuation to highlight it
+ */
 function _wrapPunc($word)
 {
     return _wrapHighlight($word, "hl-punc");
 }
 
-// adds HTML code to highlight words in multiple scripts
+/**
+ * Adds HTML code to highlight words in multiple scripts
+ */
 function _wrapScriptWord($word, $scriptMap)
 {
     global $common_unicode_scripts;
@@ -215,13 +228,17 @@ function _wrapScriptWord($word, $scriptMap)
     return $returnString;
 }
 
-// adds HTML code to an accepted word to highlight it
+/**
+ * Adds HTML code to an accepted word to highlight it
+ */
 function _wrapAW($word)
 {
     return "<span class='aw'>$word</span>";
 }
 
-// adds HTML code to manage a bad word
+/**
+ * Adds HTML code to manage a bad word
+ */
 function _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, $badWordType)
 {
     global $code_url;

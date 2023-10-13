@@ -27,8 +27,11 @@ function lang_code($language_code)
     return false;
 }
 
-// Return the 2-letter short code for the specified locale specifier.
-// If no locale is passed in, the locale of the current user is used.
+/**
+ * Return the 2-letter short code for the specified locale specifier.
+ *
+ * If no locale is passed in, the locale of the current user is used.
+ */
 function short_lang_code($langcode = false)
 {
     if ($langcode === false) {
@@ -38,8 +41,9 @@ function short_lang_code($langcode = false)
     return substr($langcode, 0, 2);
 }
 
-// Given a 2-letter language code, return the language name in that
-// language.
+/**
+ * Given a 2-letter language code, return the language name in that language.
+ */
 function lang_name($langcode)
 {
     global $lang_name_data;
@@ -51,7 +55,9 @@ function lang_name($langcode)
     return locale_get_display_language($langcode, $langcode);
 }
 
-// Given a 2-letter language code, return the language name in English.
+/**
+ * Given a 2-letter language code, return the language name in English.
+ */
 function eng_name($langcode)
 {
     global $eng_name_data;
@@ -63,8 +69,10 @@ function eng_name($langcode)
     return locale_get_display_language($langcode, "en");
 }
 
-// Given a 2-letter language code, return a name for that language both
-// in English and in the native language.
+/**
+ * Given a 2-letter language code, return a name for that language both
+ * in English and in the native language.
+ */
 function bilingual_name($langcode)
 {
     $a = eng_name($langcode);
@@ -79,9 +87,17 @@ function bilingual_name($langcode)
     }
 }
 
-// Return a direction for a given language. Returns either:
-// LTR for left-to-right languages
-// RTL for right-to-left languages
+/**
+ * Return a direction for a given language.
+ *
+ * Returns either:
+ * - LTR for left-to-right languages
+ * - RTL for right-to-left languages
+ *
+ * @param mixed $langcode
+ *
+ * @return string
+ */
 function lang_direction($langcode = false)
 {
     if ($langcode === false) {
@@ -101,7 +117,9 @@ function lang_direction($langcode = false)
     }
 }
 
-// Return all installed system locales
+/**
+ * Return all installed system locales
+ */
 function get_installed_system_locales()
 {
     global $charset;
@@ -127,11 +145,15 @@ function get_installed_system_locales()
     return $system_locales;
 }
 
-// Get a list of all locale translations.
-// $state can be one of:
-//   "all" - all installed locale translations
-//   "enabled" - locale translation is enabled
-//   "disabled" - locale translation is disabled
+/**
+ * Get a list of all locale translations.
+ *
+ * @param string $state
+ *   One of:
+ *   - "all" - all installed locale translations
+ *   - "enabled" - locale translation is enabled
+ *   - "disabled" - locale translation is disabled
+ */
 function get_installed_locale_translations($state = "all")
 {
     global $dyn_locales_dir;
@@ -219,10 +241,13 @@ function set_locale_translation_enabled($locale, $enable)
     }
 }
 
+/**
+ * Return an associative array for all translations a user can select.
+ *
+ * Keys are the locale and the value being the name of the
+ * language and the locale.
+ */
 function get_locale_translation_selection_options()
-// Return an associative array for all translations a user can select
-// with keys being the locale and the value being the name of the
-// language and the locale.
 {
     $translations = get_installed_locale_translations("enabled");
 
@@ -240,17 +265,23 @@ function get_locale_translation_selection_options()
     return $options;
 }
 
+/**
+ * Get the best matching locale code from the browser
+ *
+ * This code is largely inspired by the excellent write-up here:
+ * https://www.dyeager.org/2008/10/getting-browser-default-language-php.html
+ * accordingly:
+ * ```
+ * #########################################################
+ * # Copyright © 2008 Darrin Yeager                        #
+ * # https://www.dyeager.org/                              #
+ * # Licensed under BSD license.                           #
+ * #   https://www.dyeager.org/downloads/license-bsd.txt   #
+ * #########################################################
+ * ```
+ * On success it returns an installed locale. On failure it returns NULL.
+ */
 function get_locale_matching_browser_accept_language($http_accept)
-// This code is largely inspired by the excellent write-up here:
-// https://www.dyeager.org/2008/10/getting-browser-default-language-php.html
-// accordingly:
-//########################################################
-// Copyright © 2008 Darrin Yeager                        #
-// https://www.dyeager.org/                              #
-// Licensed under BSD license.                           #
-//   https://www.dyeager.org/downloads/license-bsd.txt   #
-//########################################################
-// On success it returns an installed locale. On failure it returns NULL.
 {
     // split the languages into their respective parts
     $browser_accepts = explode(",", $http_accept);
@@ -279,9 +310,11 @@ function get_locale_matching_browser_accept_language($http_accept)
     return null;
 }
 
+/**
+ * Given a browser's accept-language string, return a locale string
+ * that most closely matches it.
+ */
 function massage_browser_lang_code_to_locale($browser_lang_code)
-// Given a browser's accept-language string, return a locale string
-// that most closely matches it.
 {
     // system locales are always in the format xx_YY, but browsers can
     // send accepts in many different formats (eg: en, en-us, en-US)

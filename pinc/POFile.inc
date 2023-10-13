@@ -43,8 +43,11 @@ class POFile
         return $this->num_messages_translated;
     }
 
-    // Count the total number of strings and the number of translated strings.
-    // Returns: array($count, $translated);
+    /**
+     * Count the total number of strings and the number of translated strings.
+     *
+     * @return array `[$count, $translated]`
+     */
     private function count_translated_strings()
     {
         $iterator = new POFileIterator($this->po_filename);
@@ -75,9 +78,12 @@ class POFile
         $this->num_messages_translated = $translated;
     }
 
-    // Given a msgid/msgstr block from a PO file, determine if the block
-    // is translated. This is slightly complicated because of multiline
-    // strings, hence the gymnastics.
+    /**
+     * Given a msgid/msgstr block from a PO file, determine if the block
+     * is translated.
+     *
+     * This is slightly complicated because of multiline strings, hence the gymnastics.
+     */
     private function is_block_translated($block)
     {
         [$msgid, $msgstr] = @explode("msgstr", $block);
@@ -90,8 +96,10 @@ class POFile
         return true;
     }
 
-    // Get the full Content-Type from the comment block at the beginning of a PO
-    // file (without any trailing newline) or NULL on error.
+    /**
+     * Get the full Content-Type from the comment block at the beginning of a PO
+     * file (without any trailing newline) or NULL on error.
+     */
     private function get_content_type()
     {
         $fh = fopen($this->po_filename, "rt");

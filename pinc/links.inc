@@ -3,9 +3,11 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'misc.inc'); // attr_safe()
 
+/**
+ * Returns a string containing a snippet of HTML
+ * for a link that opens in a new window.
+ */
 function new_window_link($href, $linktext)
-// Returns a string containing a snippet of HTML
-// for a link that opens in a new window.
 {
     global $code_url;
 
@@ -19,9 +21,11 @@ function new_window_link($href, $linktext)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns a string containing a snippet of HTML
+ * for a link that opens in a specific target.
+ */
 function recycle_window_link($href, $linktext, $target)
-// Returns a string containing a snippet of HTML
-// for a link that opens in a specific target.
 {
     global $code_url;
 
@@ -35,9 +39,11 @@ function recycle_window_link($href, $linktext, $target)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns a string containing a snippet of HTML
+ * for a link that opens a help topic in a new window.
+ */
 function new_help_window_link($help_topic_id, $linktext)
-// Returns a string containing a snippet of HTML
-// for a link that opens a help topic in a new window.
 {
     global $code_url;
 
@@ -51,12 +57,15 @@ function new_help_window_link($help_topic_id, $linktext)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns a string containing a snippet of HTML
+ * for a link that opens a window to send a PM to the
+ * specified user.
+ *
+ * Specifying a NULL $target parameter will return a link to send
+ * a PM in the current window.
+ */
 function private_message_link($proofer_username, $target = "_blank")
-// returns a string containing a snippet of HTML
-// for a link that opens a window to send a PM to the
-// specified user.
-// Specifying a NULL $target parameter will return a link to send
-// a PM in the current window.
 {
     global $code_url;
 
@@ -81,11 +90,18 @@ function private_message_link($proofer_username, $target = "_blank")
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns HTML-safe URL for the given project page.
+ *
+ * @param array $query_param_array
+ *   Query parameters (without ?/&), e.g. ["detail_level=4"].
+ *   Should be `urlencode()` d if necessary
+ *
+ * @param string $anchor_link
+ *   Page anchor (without #), e.g "holds"
+ *   Should be `urlencode()` d if necessary
+ */
 function project_page_link_url($projectid, $query_param_array = null, $anchor_link = "")
-// Returns HTML-safe URL for the given project page.
-// Optional second argument is array of query parameters (without ?/&), e.g. ["detail_level=4"]
-// Optional third argument is page anchor (without #), e.g "holds"
-// NOTE: query_params and anchor_link should be urlencoded if necessary
 {
     global $code_url;
 
@@ -101,11 +117,18 @@ function project_page_link_url($projectid, $query_param_array = null, $anchor_li
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns a string containing an HTML link to return to a project page.
+ *
+ * @param array $query_param_array
+ *   Query parameters (without ?/&), e.g. ["detail_level=4"].
+ *   Should be `urlencode()` d if necessary
+ *
+ * @param string $anchor_link
+ *   Page anchor (without #), e.g "holds"
+ *   Should be `urlencode()` d if necessary
+ */
 function return_to_project_page_link($projectid, $query_param_array = null, $anchor_link = "")
-// Returns a string containing an HTML link to return to a project page.
-// Optional second argument is array of query parameters (without ?/&), e.g. ["detail_level=4"]
-// Optional third argument is page anchor (without #), e.g "holds"
-// NOTE: query_params and anchor_link should be urlencoded if necessary
 {
     $url = project_page_link_url($projectid, $query_param_array, $anchor_link);
     return sprintf(
@@ -116,8 +139,10 @@ function return_to_project_page_link($projectid, $query_param_array = null, $anc
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns a string containing a snippet of HTML to return to a round page.
+ */
 function return_to_round_page_link($round_id)
-// Returns a string containing a snippet of HTML to return to a round page.
 {
     global $code_url;
 
@@ -130,8 +155,10 @@ function return_to_round_page_link($round_id)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns a string containing a snippet of HTML to return to the Activity Hub.
+ */
 function return_to_activity_hub_link()
-// Returns a string containing a snippet of HTML to return to the Activity Hub.
 {
     global $code_url;
 

@@ -6,8 +6,10 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 
+/**
+ * Generate the files needed for post-processing.
+ */
 function generate_post_files($project, $limit_round_id, $which_text, $include_proofers, $base_extra)
-// Generate the files needed for post-processing.
 {
     if (!$project->pages_table_exists) {
         throw new Exception(_("Project table not found, it may have been deleted or archived."));
@@ -56,7 +58,10 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
 }
 
 // -----------------------------------------------------------------------------
-// generate a zip file on the fly and download it
+
+/**
+ * Generate a zip file on the fly and download it
+ */
 function generate_interim_file($project, $limit_round_id, $which_text, $include_proofers)
 {
     if (!$project->pages_table_exists) {
@@ -134,8 +139,10 @@ function write_project_comments($project, $fp)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an array whose values are the page-texts in the query-result.
+ */
 function get_page_texts($pages_res)
-// Return an array whose values are the page-texts in the query-result.
 {
     $page_texts = [];
     while ([$page_text, $imagename, $proofer_names] = page_info_fetch($pages_res)) {
@@ -144,9 +151,12 @@ function get_page_texts($pages_res)
     return $page_texts;
 }
 
+/**
+ * Return the concatenation of the page-texts in the query-result.
+ *
+ * Similar to join_proofed_text, but without the page-separators.
+ */
 function join_page_texts($pages_res)
-// Return the concatenation of the page-texts in the query-result.
-// (Similar to join_proofed_text, but without the page-separators.)
 {
     $text = "";
     while ([$text_data, $filename, $proofer_names] = page_info_fetch($pages_res)) {
@@ -270,13 +280,17 @@ function page_info_query($projectid, $limit_round_id, $which_text)
     return $res;
 }
 
+/**
+ * Return information about a page
+ *
+ * For the next page in the query-result, return an array consisting of (in order):
+ * - the page text resulting from the page-editing rounds
+ * - the filename of the page image
+ * - an array of the usernames of the users who worked on the page in the rounds.
+ *
+ * If there's no next page, return FALSE
+ */
 function page_info_fetch($res)
-// For the next page in the query-result,
-// return an array consisting of (in order):
-// -- the page text resulting from the page-editing rounds;
-// -- the filename of the page image;
-// -- an array of the usernames of the users who worked on the page in the rounds.
-// If there's no next page, return FALSE;
 {
     $a = mysqli_fetch_row($res);
     if (!$a) {

@@ -111,7 +111,9 @@ function prepare_search()
     }
 }
 
-// prepare a string for use with LIKE
+/**
+ * Prepare a string for use with LIKE
+ */
 function sql_like_encode($str)
 {
     // escape quotes -- note: does not encode % and _ !
@@ -190,8 +192,10 @@ function search()
     return $search_result;
 }
 
-// Builds a query string by joining the arguments by '&',
-// ignoring arguments that are blank strings.
+/**
+ * Builds a query string by joining the arguments by '&',
+ * ignoring arguments that are blank strings.
+ */
 function build_query_string()
 {
     $count = func_num_args();

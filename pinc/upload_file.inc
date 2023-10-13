@@ -13,13 +13,18 @@ include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_
 
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 
-// If uploading large files this function should be called near the beginning
-// of the page to which the upload is submitted (resumable or not). It detects
-// a problem which can occur with non-resumable uploads when the file uploaded
-// was larger than post_max_size and shows an error instead of failing silently.
-// We do this first because if the POST failed, $_REQUEST and $_POST are empty
-// and we have no data.
-// http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
+/**
+ * Detect too-large file uploads
+ *
+ * If uploading large files this function should be called near the beginning
+ * of the page to which the upload is submitted (resumable or not). It detects
+ * a problem which can occur with non-resumable uploads when the file uploaded
+ * was larger than post_max_size and shows an error instead of failing silently.
+ * We do this first because if the POST failed, $_REQUEST and $_POST are empty
+ * and we have no data.
+ *
+ * http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
+ */
 function detect_too_large()
 {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
@@ -72,17 +77,21 @@ function get_upload_args()
     ];
 }
 
-// This shows a form with a border for uploading a file using
-// a resumable process if supported by the browser.
-// The form is submitted to the php file in which it is used.
-// Extra content can be supplied in the $form_content parameter
-// this can be abritrary HTML/other inputs
-// and can contain a hidden input which can be used to
-// decide when to process the uploaded file using the validate_uploaded_file()
-// function below. Be careful to avoid $form_content clashing with
-// the names or ids used internally in this form.
-// It contains a 'choose file' button and a labeled submit button
-// and shows approprite messages to the user.
+/**
+ * Output a file upload form
+ *
+ * This shows a form with a border for uploading a file using
+ * a resumable process if supported by the browser.
+ * The form is submitted to the php file in which it is used.
+ * Extra content can be supplied in the $form_content parameter
+ * this can be arbitrary HTML/other inputs
+ * and can contain a hidden input which can be used to
+ * decide when to process the uploaded file using the validate_uploaded_file()
+ * function below. Be careful to avoid $form_content clashing with
+ * the names or ids used internally in this form.
+ * It contains a 'choose file' button and a labeled submit button
+ * and shows appropriate messages to the user.
+ */
 function show_upload_form($form_content, $submit_label)
 {
     $standard_blurb = _("The file must be Zipped (not gzip, tar, etc.) and have the .zip extension. The file name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen and be no longer than 200 characters.");
@@ -137,14 +146,18 @@ class NoFileUploadedException extends Exception
 {
 }
 
-// This is called to process the posted information from the upload form
-// It returns a file_info with 'name' (the original file name)
-// and 'tmp_name' (the path to the file).
-// It checks for an empty file and for virus infection.
-// throws NoFileUploadedException if there is no file
-// throws a FileUploadException if there is a problem
-// if an exception is thrown any file will have been deleted.
-// verbose will echo progress messages - must disable apache gzip compression
+/**
+ * Validate uploaded file
+ *
+ * This is called to process the posted information from the upload form
+ * It returns a file_info with 'name' (the original file name)
+ * and 'tmp_name' (the path to the file).
+ * It checks for an empty file and for virus infection.
+ * throws NoFileUploadedException if there is no file
+ * throws a FileUploadException if there is a problem
+ * if an exception is thrown any file will have been deleted.
+ * verbose will echo progress messages - must disable apache gzip compression
+ */
 function validate_uploaded_file($verbose)
 {
     $file_path = "";

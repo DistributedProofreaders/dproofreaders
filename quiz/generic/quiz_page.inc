@@ -257,14 +257,17 @@ function in_string($needle, $haystack, $sensitive = 0)
     return (str_posn($haystack, $needle, $sensitive) !== false);
 }
 
+/**
+ * Find the numeric (0-based) position of
+ * the first occurrence of $needle in $haystack.
+ *
+ * The search is case-sensitive or not, depending on
+ * whether the value of $cs is true-ish or not (respectively).
+ *
+ * Returns FALSE if $needle is not found.
+ * Be careful to distinguish FALSE from 0.
+ */
 function str_posn($haystack, $needle, $cs)
-// Find the numeric (0-based) position of
-// the first occurrence of $needle in $haystack.
-// The search is case-sensitive or not, depending on
-// whether the value of $cs is true-ish or not (respectively).
-//
-// Returns FALSE if $needle is not found.
-// (Be careful to distinguish FALSE from 0.)
 {
     if ($cs) {
         return strpos($haystack, $needle);
@@ -428,9 +431,13 @@ function qp_choose_solution($text)
 
 // =============================================================================
 
+/**
+ * Compare two texts and if the outputs differ explain how
+ *
+ * If the two texts are the same, return FALSE.
+ * If they differ, output HTML that describes how they differ, and return TRUE.
+ */
 function qp_compare_texts($user_text, $soln_text)
-// If the two texts are the same, return FALSE.
-// If they differ, output HTML that describes how they differ, and return TRUE.
 {
     if ($user_text == $soln_text) {
         return false;

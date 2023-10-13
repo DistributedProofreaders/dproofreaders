@@ -1251,8 +1251,10 @@ function do_history()
     echo "</table>\n";
 }
 
+/**
+ * If the project's event-history has gaps, fill them with pseudo-events.
+ */
 function fill_gaps_in_events($in_events)
-// If the project's event-history has gaps, fill them with pseudo-events.
 {
     $out_events = [];
 

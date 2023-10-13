@@ -7,8 +7,10 @@ include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_q
 include_once('bad_bytes.inc');
 include_once('image_check.inc'); // get_image_size_error()
 
-// Transition callback function to prevent a project state change if PQC
-// results return an error.
+/**
+ * Transition callback function to prevent a project state change if PQC
+ * results return an error.
+ */
 function gate_on_pqc($projectid)
 {
     global $code_url;
@@ -525,8 +527,10 @@ function write_row_start(&$first_row)
     }
 }
 
-// We can calculate what round number a page text was selected from by
-// the number of proofers that has touched it.
+/**
+ * Calculate what round number a page text was selected from by
+ * the number of proofers that has touched it.
+ */
 function get_round_num_from_proofers($proofers)
 {
     $round_num = 0;
@@ -540,10 +544,12 @@ function get_round_num_from_proofers($proofers)
     return $round_num;
 }
 
+/**
+ * Return a string containing TD elements
+ * that present the byte-sequence $raw in various ways,
+ * and say why it's bad.
+ */
 function tds_for_bad_bytes($raw)
-// Returns a string containing TD elements
-// that present the byte-sequence $raw in various ways,
-// and say why it's bad.
 {
     $tds = "";
 

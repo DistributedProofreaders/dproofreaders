@@ -8,7 +8,9 @@ include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particula
 include_once($relPath.'misc.inc'); // surround_and_join, attr_safe
 include_once($relPath.'links.inc'); // private_message_link
 
-// Given a project, return the rounds that contain useful data
+/**
+ * Given a project, return the rounds that contain useful data
+ */
 function get_rounds_to_display($project)
 {
     $project_round = get_Round_for_project_state($project->state);
@@ -41,35 +43,37 @@ function get_rounds_to_display($project)
     return $rounds_to_display;
 }
 
-/*
-Generator to return page table data for a project, one page at a time.
-Data is returned in an multi-level associative array that abstracts away
-the lower-level database structure. The returned format looks like:
-
-{
-    "image": "018.png",
-    "image_url": "https://www.pgdp.net/projects/projectID460978cb8e116/018.png",
-    "state": "P3.page_saved",
-    "image_size": 45541,
-    "pagerounds": {
-        "OCR": {
-            "page_size": "1445"
-        },
-        "P1": {
-            "page_size": "1446",
-            "is_diff": "0",
-            "username": "username",
-            "user_page_tally": "117"
-            "wordcheck_ran": "0",
-            "modified_timestamp": "1175026200",
-        },
-        "P2": {
-            ...
-        },
-        ...
-    }
-}
-*/
+/**
+ * Generator to return page table data for a project, one page at a time.
+ *
+ * Data is returned in an multi-level associative array that abstracts away
+ * the lower-level database structure. The returned format looks like:
+ * ```
+ * {
+ *     "image": "018.png",
+ *     "image_url": "https://www.pgdp.net/projects/projectID460978cb8e116/018.png",
+ *     "state": "P3.page_saved",
+ *     "image_size": 45541,
+ *     "pagerounds": {
+ *         "OCR": {
+ *             "page_size": "1445"
+ *         },
+ *         "P1": {
+ *             "page_size": "1446",
+ *             "is_diff": "0",
+ *             "username": "username",
+ *             "user_page_tally": "117"
+ *             "wordcheck_ran": "0",
+ *             "modified_timestamp": "1175026200",
+ *         },
+ *         "P2": {
+ *             ...
+ *         },
+ *         ...
+ *     }
+ * }
+ * ```
+ */
 function fetch_page_table_data($project, $page_selector = null, $proofed_in_round = null)
 {
     if (!$project->pages_table_exists) {
@@ -498,9 +502,11 @@ function changeSelection(sel) {
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Returns an array of Rounds representing those rounds
+ * for which the given project has some useful data.
+ */
 function get_rounds_with_data($projectid)
-// Returns an array of Rounds representing those rounds
-// for which the given project has some useful data.
 {
     $rounds_with_data = [];
 

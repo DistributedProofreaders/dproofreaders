@@ -11,11 +11,14 @@ include_once($relPath.'misc.inc'); // get_integer_param()
 // Maybe it should include unshared stuff too, for completeness.)
 
 
+/**
+ * Retrieve the number of pages proofread by the current user.
+ *
+ * For demo purposes, allow the user (via the URL parameter 'numofpages')
+ * to pretend to have a different number of pages,
+ * as long as it's less than their actual number.
+ */
 function get_pages_proofed_maybe_simulated()
-// Retrieve the number of pages proofread by the current user.
-// For demo purposes, allow the user (via the URL parameter 'numofpages')
-// to pretend to have a different number of pages,
-// as long as it's less than their actual number.
 {
     global $pguser;
 
@@ -151,7 +154,9 @@ function maybe_output_new_proofer_message()
     }
 }
 
-// Help direct new proofers to projects to proof.
+/**
+ * Help direct new proofers to projects to proof.
+ */
 function maybe_output_new_proofer_project_message($project)
 {
     global $code_url, $ELR_round;

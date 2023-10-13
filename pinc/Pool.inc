@@ -9,42 +9,48 @@ $Pool_for_id_ = [];
 $Pool_for_state_ = [];
 
 class Pool extends Stage
-// A container for various constants relating to a particular pool.
 {
+    /**
+     * Pool constructor
+     *
+     * A container for various constants relating to a particular pool.
+     *
+     * @param string $project_checkedout_state
+     * @param string $project_available_state
+     * @param $foo_Header
+     * @param $foo_field_name
+     *   The relevant person to display in pool listings, both
+     *   as shown to the user and as a field in the projects table
+     *   (e.g. "postprocessor" when listing books available for PPV).
+     *   Used by `pinc/showavailablebooks.inc`
+     * @param $blather
+     *   An array of strings to echo on the pool's home page.
+     */
     public function __construct(
-        $pool_id,
-        $pool_name,
+        $id,
+        $name,
         $access_minima,
         $after_satisfying_minima,
         $evaluation_criteria,
         $access_change_callback,
         $description,
         $document,
-
         $project_checkedout_state,
         $project_available_state,
-            // Eventually, these will be generated based on $pool_id
-
         $foo_Header,
         $foo_field_name,
-            // The relevant person to display in pool listings, both
-            // as shown to the user and as a field in the projects table
-            // (e.g. "postprocessor" when listing books available for PPV).
-            // Used by pinc/showavailablebooks.inc
-
         $blather
-            // An array of strings to echo on the pool's home page.
     ) {
         parent::__construct(
-            $pool_id,
-            $pool_name,
+            $id,
+            $name,
             $access_minima,
             $after_satisfying_minima,
             $evaluation_criteria,
             $access_change_callback,
             $description,
             $document,
-            "tools/pool.php?pool_id=$pool_id"
+            "tools/pool.php?pool_id=$id"
         );
 
         $this->project_checkedout_state = $project_checkedout_state;

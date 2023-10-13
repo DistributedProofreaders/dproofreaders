@@ -31,7 +31,9 @@ class RandomRule
         return isset($this->table_row[$name]);
     }
 
-    // Load a specific rule into this object given its ID
+    /**
+     * Load a specific rule into this object given its ID
+     */
     public function load($id)
     {
         $sql = sprintf("
@@ -44,7 +46,9 @@ class RandomRule
         $this->table_row = mysqli_fetch_assoc($result);
     }
 
-    // Get a specific RandomRule given its document/anchor/langcode
+    /**
+     * Get a specific RandomRule given its document/anchor/langcode
+     */
     public static function load_from_anchor($document, $anchor, $langcode = 'en')
     {
         $sql = sprintf("
@@ -68,7 +72,9 @@ class RandomRule
         return new RandomRule($row["id"]);
     }
 
-    // Get a RandomRule object for a given document-langcode pair.
+    /**
+     * Get a RandomRule object for a given document-langcode pair.
+     */
     public static function get_random($document, $langcode = 'en')
     {
         $sql = sprintf("
@@ -91,7 +97,9 @@ class RandomRule
         return new RandomRule($row["id"]);
     }
 
-    // Return an array of RandomRule objects for a given document/langcode pair
+    /**
+     * Return an array of RandomRule objects for a given document/langcode pair
+     */
     public static function get_rules($document, $langcode = 'en')
     {
         $sql = sprintf("
@@ -114,8 +122,12 @@ class RandomRule
         return $rules;
     }
 
-    // Return an associative array containing metadata about the rules in
-    // the table. Useful primarily for the administartive interface.
+    /**
+     * Return an associative array containing metadata about the rules in
+     * the table.
+     *
+     * Useful primarily for the administrative interface.
+     */
     public static function get_summary()
     {
         $sql = "
@@ -138,7 +150,9 @@ class RandomRule
         return $summary;
     }
 
-    // Delete rules in the database matching a specific document/langcode pair
+    /**
+     * Delete rules in the database matching a specific document/langcode pair
+     */
     public static function delete_rules($document, $langcode)
     {
         $sql = sprintf("
@@ -153,9 +167,12 @@ class RandomRule
         DPDatabase::query($sql);
     }
 
-    // Reload rules by parsing a URL and reloading the rules found in it
-    // This function supports the HTML rendered from the in-code documents in faq/
-    // as well as the wiki-generated HTML for the guidelines at pgdp.net.
+    /**
+     * Reload rules by parsing a URL and reloading the rules found in it
+     *
+     * This function supports the HTML rendered from the in-code documents in faq/
+     * as well as the wiki-generated HTML for the guidelines at pgdp.net.
+     */
     public static function reload_rules($url, $document, $langcode)
     {
         // delete all existing random rules for this ($document, $langcode)
@@ -210,7 +227,9 @@ class RandomRule
         fclose($fhandle);
     }
 
-    // Add a rule to the database
+    /**
+     * Add a rule to the database
+     */
     private static function _add_rule($document, $langcode, $url, $anchor, $subject, $rule)
     {
         // skip "empty" rules, likely caused by parser errors

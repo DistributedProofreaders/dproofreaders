@@ -67,9 +67,11 @@ function showMbrProfile($user)
     echo "</td></tr></table>";
 }
 
+/**
+ * Return a string like "Today!", or "Yesterday", or "2 days ago" depending on
+ * a timestamp
+ */
 function days_to_now($timestamp)
-// return a string like "Today!", or "Yesterday", or "2 days ago" depending on
-// a timestamp
 {
     // Ensure that all calls to this function have the same base time.
     static $now = null;

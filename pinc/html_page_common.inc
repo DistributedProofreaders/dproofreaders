@@ -9,8 +9,10 @@ define('SHOW_STATSBAR', true);
 // output the HTML header and footer for all pages that show output to the
 // user.
 
-// Output the opening HTML page code, including pulling in common styles,
-// page title, etc. eg:
+/**
+ * Output the opening HTML page code, including pulling in common styles,
+ * page title, etc.
+ */
 function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
 {
     global $code_url, $site_abbreviation;
@@ -128,7 +130,9 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     }
 }
 
-// Output HTML page footer to close the page
+/**
+ * Output HTML page footer to close the page
+ */
 function output_html_footer($extra_args = [])
 {
     // close up the page
@@ -140,12 +144,16 @@ function output_html_footer($extra_args = [])
     echo "</html>\n";
 }
 
-// Browser caches are great, but they are a real PITA when we want to change
-// CSS/JS and it's still serving up the older version. This is particularly bad
-// when we're doing things like changing page editing interfaces.
-// To address that, append the file's timestamp as a query parameter to the file.
-// Apache will ignore this but when the value changes the browser will reread
-// the file. PHP's statcache should make this fast.
+/**
+ * Get a browser cache-busting key for a local URL
+ *
+ * Browser caches are great, but they are a real PITA when we want to change
+ * CSS/JS and it's still serving up the older version. This is particularly bad
+ * when we're doing things like changing page editing interfaces.
+ * To address that, append the file's timestamp as a query parameter to the file.
+ * Apache will ignore this but when the value changes the browser will reread
+ * the file. PHP's statcache should make this fast.
+ */
 function get_local_file_browser_cache_key($url)
 {
     global $code_url, $code_dir;

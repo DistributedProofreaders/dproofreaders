@@ -1,17 +1,19 @@
 <?php
 include_once($relPath."html_page_common.inc");
 
-// Output valid HTML for a non-themed page. The optional $extra_args variable
-// is an associative array to control what exactly is output. By default an
-// HTML 4.0 transitional page header is output and the body tag is opened.
-// $extra_args = array(
-//     'frameset' => FALSE (default) | TRUE
-//     'head_data' => strings to output as-is in <head> tag
-//     'css_files' => CSS files to include in the page
-//     'css_data' => CSS to include in the page
-//     'js_data'  => JS code to include in the page,
-//     'js_files' => array of .js files to link to
-//     'body_attributes' => body tag attributes to output
+/**
+ * Output valid HTML to begin a non-themed page.
+ *
+ * @param array $extra_args
+ *   An associative array to control what exactly is output. Valid keys:
+ *   - 'frameset' => FALSE (default) | TRUE
+ *   - 'head_data' => strings to output as-is in <head> tag
+ *   - 'css_files' => CSS files to include in the page
+ *   - 'css_data' => CSS to include in the page
+ *   - 'js_data'  => JS code to include in the page,
+ *   - 'js_files' => array of .js files to link to
+ *   - 'body_attributes' => body tag attributes to output
+ */
 function slim_header($title = "", $extra_args = [])
 {
     global $code_url;

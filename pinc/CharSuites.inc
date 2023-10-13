@@ -186,8 +186,16 @@ class CharSuites
         DPDatabase::query($sql);
     }
 
-    // Check to see if $charsuite is a real CharSuite object or a charsuite name
-    // and if the latter, return the former.
+    /**
+     * Resolve $charsuite to a CharSuite object
+     *
+     * Check to see if `$charsuite` is a real CharSuite object or a charsuite
+     * name and if the latter, return a CharSuite object of that name.
+     *
+     * @param string|object $charsuite Character suite name or object
+     *
+     * @return object
+     */
     public static function resolve($charsuite)
     {
         if ($charsuite instanceof CharSuite) {

@@ -120,21 +120,27 @@ function insert_site_name($sentence)
     return sprintf($sentence, $site_name);
 }
 
+/**
+ * Output a paragraph of sentences.
+ *
+ * Each sentence will have the first sprintf argument replaced with $site_name.
+ */
 function output_paragraph($sentences)
-// Output a paragraph of sentences. Each sentence will have the first sprintf
-// argument replaced with $site_name.
 {
     echo "<p>";
     echo implode(" ", array_map("insert_site_name", $sentences));
     echo "</p>";
 }
 
+/**
+ * Output a section of the privacy statement, including the section header
+ * and one or more paragraphs.
+ *
+ * The number of arguments this function accepts is variable, and is of the
+ * format ($header, $paragraph1, $paragraph2, ...) where each paragraph is
+ * an array of strings (ie: sentences).
+ */
 function output_section()
-// Output a section of the privacy statement, including the section header
-// and one or more paragraphs.
-// The number of arguments this function accepts is variable, and is of the
-// format ($header, $paragraph1, $paragraph2, ...) where each paragraph is
-// an array of strings (ie: sentences).
 {
     $arguments = func_get_args();
     $header = array_shift($arguments);

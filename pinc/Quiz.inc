@@ -57,10 +57,13 @@ class Quiz
         }
     }
 
-    // Get an array of quiz pages and the date the user passed them. The date
-    // will be null if the user did not attempt or pass the page (because we
-    // don't store non-passed attempts, we can't distinguish notpassed from
-    // not attempted).
+    /**
+     * Get an array of quiz pages and the date the user passed them.
+     *
+     * The date will be null if the user did not attempt or pass the page
+     * (because we don't store non-passed attempts, we can't distinguish not
+     * passed from not attempted).
+     */
     private function get_user_page_passes($username, $use_pass_requirements = true)
     {
         foreach (array_keys($this->pages) as $quiz_page_id) {
@@ -233,16 +236,24 @@ class QuizCharSuites
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return a valid quiz ID from an array
+ *
+ * If $arr[$key] is defined and is a valid quiz id, return it.
+ * Otherwise, die with an error message.
+ */
 function get_quiz_id_param($arr, $key)
-// If $arr[$key] is defined and is a valid quiz id, return it.
-// Otherwise, die with an error message.
 {
     return get_enumerated_param($arr, $key, null, array_keys(Quiz::$map_quiz_id_to_Quiz));
 }
 
+/**
+ * Return a valid quiz page ID from an array
+ *
+ * If $arr[$key] is defined and is a valid quiz page id, return it.
+ * Otherwise, die with an error message.
+ */
 function get_quiz_page_id_param($arr, $key)
-// If $arr[$key] is defined and is a valid quiz page id, return it.
-// Otherwise, die with an error message.
 {
     return get_enumerated_param($arr, $key, null, Quiz::$valid_quiz_page_ids);
 }

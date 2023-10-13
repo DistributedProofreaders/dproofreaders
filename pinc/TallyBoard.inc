@@ -28,9 +28,11 @@ include_once($relPath.'misc.inc');
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an array of TallyBoard objects, representing all
+ * boards on which there is some tally explicitly recorded.
+ */
 function get_all_current_tallyboards()
-// Return an array of TallyBoard objects, representing all
-// boards on which there is some tally explicitly recorded.
 {
     $tallyboards = [];
     $res = DPDatabase::query("
@@ -77,31 +79,34 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return an array containing two strings of SQL code to
+     * extract the current tallies for a (SQL-specified) set of holders.
+     *
+     * The resulting strings are:
+     * - a join-expression (for use in the FROM clause);
+     * - a select-expression (for use in the SELECT and/or WHERE clauses)
+     *   that yields the current tally for each selected holder.
+     *   (It could be just a column-name, but don't rely on that.
+     *   In particular, don't assume that this will work:
+     *   ```
+     *   $res = DPDatabase::query("SELECT ... $expr_for_tally FROM ...");
+     *   $row = mysqli_fetch_assoc($res);
+     *   ... $row[$expr_for_tally] ...
+     *   ```
+     *   Instead, if you want to use mysqli_fetch_assoc, this should work:
+     *   ```
+     *   $res = DPDatabase::query("SELECT ... $expr_for_tally AS foo FROM ...");
+     *   $row = mysqli_fetch_assoc($res);
+     *   ... $row['foo'] ...
+     *   ```
+     *
+     * @param string $holder_id_expr
+     *   String containing an SQL expression (typically just a column name)
+     *   that yields the holder_ids of the holders for whom you want to extract
+     *   tally data.
+     */
     public function get_sql_joinery_for_current_tallies($holder_id_expr)
-    // Return an array containing two strings of SQL code.
-    // You can use these in a SELECT statement when you want to
-    // extract the current tallies for a (SQL-specified) set of holders.
-    //
-    // $holder_id_expr is a string containing an SQL expression
-    // (typically just a column name) that yields the holder_ids
-    // of the holders for whom you want to extract tally data.
-    //
-    // The resulting strings are:
-    // -- a join-expression (for use in the FROM clause);
-    // -- a select-expression (for use in the SELECT and/or WHERE clauses)
-    //    that yields the current tally for each selected holder.
-    //    (It could be just a column-name, but don't rely on that.
-    //    In particular, don't assume that this will work:
-    //
-    //        $res = DPDatabase::query("SELECT ... $expr_for_tally FROM ...");
-    //        $row = mysqli_fetch_assoc($res);
-    //        ... $row[$expr_for_tally] ...
-    //
-    //    Instead, if you want to use mysqli_fetch_assoc, this should work:
-    //
-    //        $res = DPDatabase::query("SELECT ... $expr_for_tally AS foo FROM ...");
-    //        $row = mysqli_fetch_assoc($res);
-    //        ... $row['foo'] ...
     {
         static $n = 0;
         $n++;
@@ -138,10 +143,13 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return the given holder's current tally on this TallyBoard.
+     *
+     * Note that if you want tallies for multiple holders, it's probably
+     * more efficient to use SQL-joinery supplied by the previous method.
+     */
     public function get_current_tally($holder_id)
-    // Return the given holder's current tally on this TallyBoard.
-    // (Note that if you want tallies for multiple holders, it's probably
-    // more efficient to use SQL-joinery supplied by the previous method.)
     {
         $sql = sprintf("
             SELECT tally_value
@@ -168,9 +176,11 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return the given holder's rank, as determined by the current tallies
+     * on this TallyBoard.
+     */
     public function get_rank($holder_id)
-    // Return the given holder's rank, as determined
-    // by the current tallies on this TallyBoard.
     {
         $sql = sprintf("
             SELECT holder_id, tally_value
@@ -198,31 +208,32 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return the tally-neighborhood of the target holder.
+     *
+     * Returns an array where the keys are integers from the range
+     * [-$radius, +$radius], indicating a holder's position (w.r.t. tally)
+     * relative to the target holder. (So key=0 refers to the target holder.)
+     * The set of keys will be less than the full [-$radius, +$radius]
+     * range if the target holder holder is within $radius of the
+     * corresponding end of the ranked list.
+     *
+     * For a given key, the value is data for the corresponding neighbor:
+     * an associative array as returned by `mysqli_fetch_assoc()`, with an
+     * item added for the neighbor's rank.
+     *
+     * Parameters after `$radius` are an optimization for extracting
+     * other info from the database at the same time.
+     */
     public function get_neighborhood(
         $target_holder_id,
         $radius,
-        // The remaining params are an optimization for extracting
-        // other info from the database at the same time.
         $other_table,
         $holder_id_expr,
         $other_select_exprs,
         $tally_alias,
         $rank_alias
-    )
-    // Return the tally-neighborhood of the target holder. This is an array:
-    //
-    //    The keys are integers from the range [-$radius, +$radius],
-    //    indicating a holder's position (w.r.t. tally)
-    //    relative to the target holder.
-    //    (So key=0 refers to the target holder.)
-    //    The set of keys will be less than the full [-$radius, +$radius]
-    //    range if the target holder holder is within $radius of the
-    //    corresponding end of the ranked list.
-    //
-    //    For a given key, the value is data for the corresponding neighbor:
-    //    an associative array as returned by mysqli_fetch_assoc(), with an
-    //    item added for the neighbor's rank.
-    {
+    ) {
         assert($radius >= 0);
 
         $sql = sprintf("
@@ -294,12 +305,14 @@ class TallyBoard
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+    /**
+     * Take a snapshot of this TallyBoard's current data,
+     * and append it to the TallyBoard's history
+     * (ascribing it to $ascribe_time rather than the current time).
+     *
+     * If `$dry_run` is true, merely echo queries that would change db.
+     */
     public function take_snapshot($ascribe_time, $dry_run)
-    // Take a snapshot of this TallyBoard's current data,
-    // and append it to the TallyBoard's history
-    // (ascribing it to $ascribe_time rather than the current time).
-    // If $dry_run is true, merely echo queries that would change db.
-    //
     {
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
@@ -409,9 +422,11 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return the ascribed timestamp of the latest snapshot for this TallyBoard,
+     * or $default if there has been no snapshot yet.
+     */
     public function get_time_of_latest_snapshot($default = null)
-    // Return the ascribed timestamp of the latest snapshot for this TallyBoard,
-    // or $default if there has been no snapshot yet.
     {
         $sql = sprintf("
             SELECT MAX(timestamp) as max_timestamp
@@ -436,12 +451,16 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return an associative array of information about the given holder
+     * from the latest snapshot.
+     *
+     * Keys are:
+     * - timestamp
+     * - tally_delta
+     * - tally_value
+     */
     public function get_info_from_latest_snapshot($holder_id)
-    // Return an associative array of information about the given holder
-    // from the latest snapshot. Keys are:
-    //     'timestamp'
-    //     'tally_delta'
-    //     'tally_value'
     {
         $sql = sprintf("
             SELECT timestamp, tally_delta, tally_value
@@ -478,10 +497,14 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return an array of the largest recorded delta on this TallyBoard
+     *
+     * Array consisting of:
+     * - the given holder's largest recorded delta on this TallyBoard, and
+     * - the earliest timestamp for which that delta was recorded.
+     */
     public function get_info_re_largest_delta($holder_id)
-    // Return an array consisting of:
-    // -- the given holder's largest recorded delta on this TallyBoard, and
-    // -- the earliest timestamp for which that delta was recorded.
     {
         $sql = sprintf("
             SELECT tally_delta, timestamp
@@ -509,10 +532,14 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return an array of the best recorded rank on this TallyBoard
+     *
+     * Array consisting of:
+     * - the given holder's best recorded rank on this TallyBoard, and
+     * - the earliest timestamp for which that rank was recorded.
+     */
     public function get_info_re_best_rank($holder_id)
-    // Return an array consisting of:
-    // -- the given holder's best recorded rank on this TallyBoard, and
-    // -- the earliest timestamp for which that rank was recorded.
     {
         $sql = sprintf("
             SELECT best_rank, best_rank_timestamp
@@ -538,13 +565,16 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return all tally deltas recorded for the given holder
+     * since $min_timestamp.
+     *
+     * Specifically, the result is an array of key => value pairs,
+     * where key is the ascribed time of a snapshot,
+     * and value is the tally delta recorded for that time.
+     * (The items are sorted by timestamp.)
+     */
     public function get_deltas($holder_id, $min_timestamp)
-    // Return all tally deltas recorded for the given holder
-    // since $min_timestamp.
-    // Specifically, the result is an array of key => value pairs,
-    // where key is the ascribed time of a snapshot,
-    // and value is the tally delta recorded for that time.
-    // (The items are sorted by timestamp.)
     {
         $sql = sprintf("
             SELECT timestamp, tally_delta
@@ -569,16 +599,19 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return the sum of the 'tally_delta' values at all timestamps such that
+     * `$start_timestamp < timestamp <= $end_timestamp`
+     *
+     * Note that the case of timestamp = $start_timestamp is excluded,
+     * because its delta is for the period preceding $start_timestamp.
+     *
+     * If (as is often the case) $start_timestamp and $end_timestamp
+     * match timestamps in the table, then the result should be the same
+     * as the difference between the tally_value at those two times.
+     * But summing the intervening deltas is the more general solution.
+     */
     public function get_delta_sum($holder_id, $start_timestamp, $end_timestamp)
-    // Return the sum of the 'tally_delta' values at all timestamps such that
-    //     $start_timestamp < timestamp <= $end_timestamp
-    // Note that the case of timestamp = $start_timestamp is excluded,
-    // because its delta is for the period preceding $start_timestamp.
-    //
-    // If (as is often the case) $start_timestamp and $end_timestamp
-    // match timestamps in the table, then the result should be the same
-    // as the difference between the tally_value at those two times.
-    // But summing the intervening deltas is the more general solution.
     {
         $sql = sprintf("
             SELECT SUM(tally_delta)
@@ -607,10 +640,13 @@ class TallyBoard
         return ($current_tally - $latest_snapshot_tally);
     }
 
+    /**
+     * Return an object whose members are various useful quantities
+     * from this tallyboard for the given holder.
+     *
+     * This is just a convenience function.
+     */
     public function get_vitals($holder_id)
-    // Return an object whose members are various useful quantities
-    // from this tallyboard for the given holder.
-    // (This is just a convenience function.)
     {
         $obj = new StdClass();
 
@@ -648,10 +684,14 @@ class TallyBoard
 
 class Ranker
 {
+    /**
+     * Ranker constructor
+     *
+     * @param bool $zero_begets_zero
+     *   If TRUE, a value of zero or less will yield the special rank of zero.
+     *   (Think of it as a null rank.)
+     */
     public function __construct($zero_begets_zero)
-    // If $zero_begets_zero is TRUE,
-    // a value of zero or less will yield the special rank of zero.
-    // (Think of it as a null rank.)
     {
         $this->zero_begets_zero = $zero_begets_zero;
 

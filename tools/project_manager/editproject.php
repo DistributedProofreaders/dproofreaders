@@ -589,9 +589,11 @@ class ProjectInfoHolder
 
     // -------------------------------------------------------------------------
 
+    /**
+     * In the project's text fields, replace sequences of space characters
+     * with a unique space, and trim beginning and end space
+     */
     public function normalize_spaces()
-    // In the project's text fields, replace sequences of space characters
-    // with a unique space, and trim beginning and end space
     {
         $this->project->nameofwork = preg_replace('/\s+/', ' ', trim($this->project->nameofwork));
         $this->project->authorsname = preg_replace('/\s+/', ' ', trim($this->project->authorsname));

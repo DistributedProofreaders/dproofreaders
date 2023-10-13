@@ -4,9 +4,10 @@
 // system dictionaries used with WordCheck. The functions in language.inc
 // deal with localizations/translations and system locales.
 
-// Returns an associative array of those languages with a dictionary that is
-// installed on the system
-//   $array[$langcode]=$language;
+/**
+ * Returns an associative array of those languages with a dictionary that is
+ * installed on the system
+ */
 function get_languages_with_dictionaries()
 {
     global $aspell_prefix;
@@ -26,8 +27,11 @@ function get_languages_with_dictionaries()
     return $returnArray;
 }
 
-// Given a langcode, return the Unicode script that language is written in.
-// Will return "Latin" if the langcode is not known.
+/**
+ * Given a langcode, return the Unicode script that language is written in.
+ *
+ * Will return "Latin" if the langcode is not known.
+ */
 function get_script_for_langcode($langcode)
 {
     // This, decidedly incomplete, mapping was created by taking the list of
@@ -618,9 +622,11 @@ function get_iso_language_list()
     ];
 }
 
+/**
+ * For the given three-letter code, return the corresponding language-name,
+ * or null if not found.
+ */
 function langname_for_langcode3($langcode3)
-// For the given three-letter code, return the corresponding language-name,
-// or null if not found.
 {
     foreach (get_iso_language_list() as $entry) {
         if (in_array($langcode3, explode("/", $entry['lang_code']))) {
@@ -630,9 +636,11 @@ function langname_for_langcode3($langcode3)
     return null;
 }
 
+/**
+ * For the given language-name, return the corresponding three-letter code,
+ * or null if not found.
+ */
 function langcode3_for_langname($langname)
-// For the given language-name, return the corresponding three-letter code,
-// or null if not found.
 {
     foreach (get_iso_language_list() as $entry) {
         $entry_name = $entry['lang_name'];
@@ -648,8 +656,10 @@ function langcode3_for_langname($langname)
     return null;
 }
 
+/**
+ * Given a two-letter language code, return the language name or NULL
+ */
 function langname_for_langcode2($langcode2)
-// Given a two-letter language code, return the language name or NULL
 {
     $langcode3 = array_search($langcode2, get_iso_639_3_to_2_mapping());
     if ($langcode3) {
@@ -658,10 +668,13 @@ function langname_for_langcode2($langcode2)
     return null;
 }
 
+/**
+ * Given a language name, return the two-letter code if available.
+ *
+ * If a two letter code isn't available, but a three-letter one is, return that.
+ * If the language is not found return NULL.
+ */
 function langcode2_for_langname($langname)
-// Given a language name, return the two-letter code if available. If a two
-// letter code isn't available, but a three-letter one is, return that. If
-// the language is not found return NULL.
 {
     $mapping = get_iso_639_3_to_2_mapping();
     $fallback_code = null;
@@ -680,8 +693,10 @@ function langcode2_for_langname($langname)
     return $fallback_code;
 }
 
+/**
+ * Given a two- or three-letter language code return the language name or NULL.
+ */
 function langname_for_langcode($langcode)
-// Given a two- or three-letter language code return the language name or NULL.
 {
     return langname_for_langcode2($langcode) ?? langname_for_langcode3($langcode);
 }

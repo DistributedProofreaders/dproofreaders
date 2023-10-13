@@ -11,7 +11,11 @@ class NonuniqueUserException extends Exception
 {
 }
 
-// all user errors extend from here and in range 300-399
+/**
+ * Base exception that all User exceptions should derive from.
+ *
+ * These exception codes range from 300 to 399
+ */
 class UserAccessException extends Exception
 {
     public function __construct($message = "", $code = 300)
@@ -341,14 +345,18 @@ class User
 
     // static functions
 
-    // Return the username of the currently-logged-in user
+    /**
+     * Return the username of the currently-logged-in user
+     */
     public static function current_username()
     {
         global $pguser;
         return $pguser;
     }
 
-    // Load the current user object
+    /**
+     * Load the current user object
+     */
     public static function load_current()
     {
         static $current_user = null;
@@ -367,8 +375,15 @@ class User
         return $current_user;
     }
 
-    // Load a User record by u_id
-    // e.g. $user = User::load_from_uid($u_id);
+    /**
+     * Load a User record by u_id
+     *
+     * Example: `$user = User::load_from_uid($u_id);`
+     *
+     * @param int $u_id
+     *
+     * @return object User
+     */
     public static function load_from_uid($u_id)
     {
         $user = new User();
@@ -376,8 +391,15 @@ class User
         return $user;
     }
 
-    // Load a User record by registration token
-    // e.g. $user = User::load_from_registration_token($reg_token);
+    /**
+     * Load a User record by registration token
+     *
+     * Example: `$user = User::load_from_registration_token($reg_token);`
+     *
+     * @param string $reg_token
+     *
+     * @return object User
+     */
     public static function load_from_registration_token($reg_token)
     {
         $user = new User();
@@ -385,8 +407,15 @@ class User
         return $user;
     }
 
-    // Load a User record by API key
-    // e.g. $user = User::load_from_api_key($api_key);
+    /**
+     * Load a User record by API key
+     *
+     * Example: `$user = User::load_from_api_key($api_key);`
+     *
+     * @param string $api_key
+     *
+     * @return object User
+     */
     public static function load_from_api_key($api_key)
     {
         $user = new User();
@@ -394,9 +423,18 @@ class User
         return $user;
     }
 
-    // Load a User record by email address. email address is not guaranteed to
-    // be unique and this may very likely raise a NonuniqueUserException
-    // e.g. $user = User::load_from_email($email);
+    /**
+     * Load a User record by email address
+     *
+     * Example: `$user = User::load_from_email($email);`
+     *
+     * @param string $email
+     *
+     * @throws NonuniqueUserException
+     *   The email address is not guaranteed to be unique.
+     *
+     * @return object User
+     */
     public static function load_from_email($email)
     {
         $user = new User();
@@ -404,8 +442,10 @@ class User
         return $user;
     }
 
-    // Static function to determine if the specified username is associated
-    // with a valid user without the overhead of creating an object.
+    /**
+     * Determine if the specified username is associated
+     * with a valid user without the overhead of creating an object.
+     */
     public static function is_valid_user($username, $strict = true)
     {
         $sql = sprintf("
@@ -439,7 +479,9 @@ class User
         return $is_valid;
     }
 
-    // Static function to return possible user referrer options
+    /**
+     * Return possible user referrer options
+     */
     public static function get_referrer_options()
     {
         return [
@@ -465,11 +507,14 @@ global $valid_username_chars_statement_for_elsewhere;
 $valid_username_chars_statement_for_reg_form = _("(Valid characters are: a-z A-Z 0-9 - . space)");
 $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-Z 0-9 @ - . _ space)");
 
+/**
+ * Check whether $username is a reasonable/acceptable User Name (ID).
+ *
+ * If it is, return an empty string.
+ * If not, return a string detailing the problem.
+ * (This is used at both registration and login.)
+ */
 function check_username($username, $registering = false)
-// Check whether $username is a reasonable/acceptable User Name (ID).
-// If it is, return an empty string.
-// If not, return a string detailing the problem.
-// (This is used at both registration and login.)
 {
     $username_max_len = 25;
     // This is the length of the 'username' field in the 'users' table.

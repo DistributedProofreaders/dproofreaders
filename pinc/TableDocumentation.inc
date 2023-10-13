@@ -63,10 +63,12 @@ class TableDocumentation
 
     /**
      * Creates a markdown table of the data with the only the specified columns shown and in the specified order.
+     *
      * Every cell is padded right with spaces to ensure every column is as wide as the widest cell in that column.
      *
      * @param array $contents the data that is shown within the table
      * @param array $table_columns the columns to display
+     *
      * @return array array of strings -- the generate markdown table
      */
     public static function create_markdown_table(array $contents, array $table_columns): array
@@ -114,6 +116,7 @@ class TableDocumentation
      *
      * @param array $lines an array of strings -- the lines of the text
      * @param array $column_names column names of the current columns in the table
+     *
      * @return array an array of strings containing the text with updated column definitions
      */
     public static function update_column_definitions(array $lines, array $column_names): array
@@ -154,6 +157,7 @@ class TableDocumentation
      *
      * @param array $lines an array of strings -- the lines of the text
      * @param array $new_table an array of strings -- the new table
+     *
      * @return array an array of strings containing the text with the first table replaced with the second argument
      */
     public static function replace_first_table(array $lines, array $new_table): array
@@ -181,6 +185,7 @@ class TableDocumentation
      * Detects the first markdown table in the text.
      *
      * @param array $lines an array of strings -- the lines of the text
+     *
      * @return array an array of strings containing the first markdown table in the text
      */
     public static function detect_first_table_in_text(array $lines): array
@@ -199,7 +204,9 @@ class TableDocumentation
     }
 
     /**
-     * Detects columns in the text by finding column descriptions. A column description contains the name of the column
+     * Detects columns in the text by finding column descriptions.
+     *
+     * A column description contains the name of the column
      * prefixed by "## " (without quotes) and surrounded by `.
      *
      * For example, for a column named something_useful, its column description would look like this:
@@ -207,6 +214,7 @@ class TableDocumentation
      * ## `something_useful`
      *
      * @param array $lines an array of strings -- the lines of the text
+     *
      * @return array an array of strings containing the column names detected in text
      */
     public static function detect_columns_in_text(array $lines): array

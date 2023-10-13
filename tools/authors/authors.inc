@@ -7,9 +7,13 @@ $months = [_('Unknown'),
     _('July'), _('August'), _('September'),
     _('October'), _('November'), _('December'), ];
 
-// Arguments: the data to be displayed. If $author_id is FALSE, no biographies will be displayed.
-// If $author_id is not FALSE, all biographies that apply to that author id will be listed
-// and a link to the xml data will be provided.
+/**
+ * Output author details
+ *
+ * If $author_id is FALSE, no biographies will be displayed.
+ * If $author_id is not FALSE, all biographies that apply to that author id
+ * will be listed and a link to the xml data will be provided.
+ */
 function echo_author($last_name, $other_names, $born, $dead, $author_id)
 {
     global $code_url;

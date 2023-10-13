@@ -285,8 +285,11 @@ if (!isset($action)) {
     }
 }
 
-// return filename or false if there is no file
-// if an exception is thrown any file will have been deleted.
+/**
+ * Return filename or false if there is no file
+ *
+ * If an exception is thrown any file will have been deleted.
+ */
 function process_file($project, $indicator, $stage, $returning_to_pool)
 {
     $temporary_path = "";
@@ -362,7 +365,10 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
 }
 
 //----------------------------------------------------------------------------
-// Rename with the next available serial number
+
+/**
+ * Rename file with the next available serial number
+ */
 function make_backup_file($file_name, $ext)
 {
     for ($serial = 1; ; $serial += 1) {

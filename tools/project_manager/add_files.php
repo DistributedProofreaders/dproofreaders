@@ -452,10 +452,11 @@ class Loader
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+    /**
+     * Check if there is any reason to exclude the file from the load and
+     * return it as a string or the empty string if not.
+     */
     public function _check_file($filename)
-    // If there is any reason to exclude the file from the load,
-    // return it as a string.
-    // Otherwise, return empty string.
     {
         if (!is_file($filename)) {
             return _('not a regular file');

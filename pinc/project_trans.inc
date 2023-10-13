@@ -3,13 +3,15 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 
+/**
+ * Move the given project to the given state, and perform any attendant processing.
+ *
+ * If there are any problems, return a string containing an error message.
+ * Otherwise, return an empty string.
+ *
+ * This function produces no output except for debugging messages.
+ */
 function project_transition($projectid, $new_state, $who, $extras = [])
-// Move the given project to the given state,
-// and perform any attendant processing.
-// If there are any problems, return a string containing an error message.
-// Otherwise, return an empty string.
-//
-// This function produces no output except for debugging messages.
 {
     global $testing;
 

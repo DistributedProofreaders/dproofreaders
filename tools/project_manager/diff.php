@@ -183,8 +183,10 @@ if ($L_text != $R_text) {
     echo $navigation_text;
 }
 
-// build up the text for the navigation bit, so we can repeat it
-// again at the bottom of the page
+/**
+ * Build up the text for the navigation bit, so we can repeat it
+ * again at the bottom of the page
+ */
 function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
                        $L_text_column_name, $R_text_column_name, $only_nonempty_diffs, $bb_diffs)
 {
@@ -279,7 +281,9 @@ function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_c
     $navigation_text .= "\n</form>\n";
 }
 
-// discover whether the user is allowed to see proofreader names for this page
+/**
+ * Discover whether the user is allowed to see proofreader names for this page
+ */
 function can_see_names_for_page($projectid, $image)
 {
     global $pguser, $Round_for_round_id_;
@@ -316,7 +320,9 @@ function can_see_names_for_page($projectid, $image)
     return $answer;
 }
 
-// discover whether the user is allowed to navigate by proofreader for this page
+/**
+ * Discover whether the user is allowed to navigate by proofreader for this page
+ */
 function can_navigate_by_proofer($projectid, $L_user)
 {
     global $pguser;
