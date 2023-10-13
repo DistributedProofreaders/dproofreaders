@@ -1,5 +1,7 @@
 # Code Style & Linting
 
+See [CODE_DOCS.md](CODE_DOCS.md) for information on code documentation.
+
 ## PHP
 
 We use [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) for PHP

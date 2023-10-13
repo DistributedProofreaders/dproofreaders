@@ -15,8 +15,9 @@ Installation and upgrading:
   activities for administrators.
 * [UPGRADE.md](UPGRADE.md) covers upgrading existing DP installs.
 
-For more information about code style and linting:
+For more information about code style, linting, and docs:
 * [CODE_STYLE.md](CODE_STYLE.md)
+* [CODE_DOCS.md](CODE_DOCS.md)
 
 For information on site styling and theming, see:
 * [Styling system](../styles/README.md)
