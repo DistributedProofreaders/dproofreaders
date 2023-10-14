@@ -42,6 +42,7 @@ if (!is_null($zip_type)) {
         escapeshellarg($list_name),
         "|",
         "zip",
+        "-q", // quiet so output doesn't go to Apache error logs
         "-@",
         "-",
     ]);
