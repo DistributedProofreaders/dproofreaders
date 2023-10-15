@@ -503,8 +503,8 @@ function get_reserve_length($project, $round)
             return 0;
         }
 
-        // Otherwise, reserve for 7 days.
-        return 7;
+        // Otherwise, reserve for 14 days.
+        return 14;
     }
 
     // Anything not covered above
