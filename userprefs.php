@@ -367,7 +367,13 @@ function save_general_tab($user)
     $input_string_fields = ["real_name", "email", "email_updates", "i_theme", "u_intlang"];
     $input_numeric_fields = ["u_align", "u_neigh", "u_privacy"];
 
-    $update_string = _create_mysql_update_string($_POST, $input_string_fields, $input_numeric_fields);
+    // pull only specific data out of $_POST
+    $data = [];
+    foreach (array_merge($input_string_fields, $input_numeric_fields) as $field) {
+        $data[$field] = $_POST[$field];
+    }
+
+    $update_string = create_mysql_update_string($data, $input_string_fields);
 
     $users_query = "
         UPDATE users
@@ -967,30 +973,4 @@ function td_pophelp($pophelp_name)
     echo "<td class='center-align'>";
     echo "<b>&nbsp;<a href=\"javascript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
     echo "</td>\n";
-}
-
-// ---------------------------------------------------------
-
-function _create_mysql_update_string($source_array, $string_fields = [], $numeric_fields = [])
-// $source_array is an array such as $_REQUEST or $_POST.
-// $string_fields
-//    is a list of keys such that $source_array[$key] should be a string.
-// $numeric_fields
-//    is a list of keys such that $source_array[$key] should be a numeric value.
-// This function checks that those expectations are satisfied, and constructs a
-// string of column=value 'assignments' that can be used in an SQL UPDATE
-// command (where each $key is assumed to be a column name). (String values
-// will be properly escaped in this string.)
-//
-// Currently this function will set default values ("" for strings, 0 for
-// numeric values) for all fields that are not within $source_array.
-{
-    $fields = array_merge($string_fields, $numeric_fields);
-
-    $data = [];
-    foreach ($fields as $field) {
-        $data[$field] = $source_array[$field];
-    }
-
-    return create_mysql_update_string($data, $string_fields);
 }
