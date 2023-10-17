@@ -356,7 +356,6 @@ function do_blurb_box($blurb)
         return;
     }
 
-//    echo "<br>";
     echo "<table class='blurb-box'>";
     echo "<tr><td class='center-align'>";
     echo $blurb;
