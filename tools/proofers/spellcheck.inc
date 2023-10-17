@@ -34,7 +34,7 @@ output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_wor
 
 function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language)
 {
-    global $word_check_messages;
+    global $code_url, $word_check_messages;
 
     $revert_text = $_POST['revert_text'] ?? $text_data;
 
