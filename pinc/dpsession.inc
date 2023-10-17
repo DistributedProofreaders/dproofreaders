@@ -15,8 +15,11 @@ include_once($relPath.'site_vars.php');
 
 // -----------------------------------------------------------------------------
 
-// Start a session. (The user has logged in.)
-// Record the session variable 'pguser' (from $userID)
+/**
+ * Start a session.
+ *
+ * Record the session variable 'pguser' (from $userID)
+ */
 function dpsession_begin($userID)
 {
     global $pguser;
@@ -29,11 +32,14 @@ function dpsession_begin($userID)
     _update_user_activity_time(true);
 }
 
-// Resume a session, if one exists.
-// If the request claimed to belong to a session, and that session is
-// valid/current/non-expired, then refresh the session, reinstate the
-// global variable ($pguser) of that session, and return TRUE.
-// Otherwise, return FALSE.
+/**
+ * Resume a session, if one exists.
+ *
+ * If the request claimed to belong to a session, and that session is
+ * valid/current/non-expired, then refresh the session, reinstate the
+ * global variable ($pguser) of that session, and return TRUE.
+ * Otherwise, return FALSE.
+ */
 function dpsession_resume()
 {
     global $pguser;
@@ -80,7 +86,9 @@ function dpsession_resume()
     return $user_is_logged_in;
 }
 
-// End a session. (The user has logged out.)
+/**
+ * End a session.
+ */
 function dpsession_end()
 {
     session_unset();

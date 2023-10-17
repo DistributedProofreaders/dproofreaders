@@ -211,8 +211,11 @@ include($relPath.'/../faq/privacy.php');
 //---------------------------------------------------------------------------
 
 
-// Validate the user input fields
-// Returns an empty string upon success and an error message upon failure
+/**
+ * Validate the user input fields for the page.
+ *
+ * Returns an empty string upon success and an error message upon failure.
+ */
 function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details)
 {
     global $testing, $general_help_email_addr;

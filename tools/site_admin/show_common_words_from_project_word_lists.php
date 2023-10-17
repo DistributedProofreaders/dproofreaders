@@ -104,19 +104,26 @@ if ($display_list) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// handle any actionable request
-// arguments:
-//        $action - action to take
-//                  one of: show, list
-//     $list_type - list type to show
-//                  one of: good, bad
-//      $language - the list language
-//        $cutoff - words that occur less than $cutoff percent are not shown
-//    $lang_match - how to match the language
-//                  one of: exact, primary, any
-// return codes:
-//   TRUE - request was handled (don't display default list)
-//   FALSE - request wasn't handled (display list)
+/**
+ * Handle an actionable page request
+ *
+ * Returns:
+ * - TRUE - request was handled (don't display default list)
+ * - FALSE - request wasn't handled (display list)
+ *
+ * @param string $action
+ *   Action to take one of: show, list
+ * @param string $list_type
+ *   List type to show one of: good, bad
+ * @param string $language
+ *   The list language
+ * @param int $cutoff
+ *   Words that occur less than $cutoff percent are not shown
+ * @param string $lang_match
+ *   How to match the language one of: exact, primary, any
+ *
+ * @return bool
+ */
 function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
 {
     $display_list = false;

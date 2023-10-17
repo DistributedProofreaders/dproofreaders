@@ -144,9 +144,13 @@ function project_add_page(
     _project_adjust_n_available_pages($projectid, +1);
 }
 
+/**
+ * Load a page from a file.
+ *
+ * This function should always be used to load page contents from a file to
+ * ensure consistency.
+ */
 function load_page_from_file($file_path, $projectid)
-// Load a page from a file. This function should always be used to load
-// page contents from a file to ensure consistency.
 {
     $text = file_get_contents($file_path);
     if ($text === false) {
@@ -166,11 +170,14 @@ function load_page_from_file($file_path, $projectid)
     return _normalize_page_text($text, $projectid);
 }
 
+/**
+ * Return an SQL expression that will yield the contents of the given file
+ * as a string or NULL if the file can't be read.
+ *
+ * @param string $file_path Absolute file path
+ * @param string $projectid Project ID
+ */
 function file_content_expr($file_path, $projectid)
-// Return an SQL expression that will yield:
-// -- the contents of the given file as a string
-// -- or NULL if the file can't be read.
-// $file_path must be absolute.
 {
     $txt = load_page_from_file($file_path, $projectid);
     if ($txt === null) {
@@ -211,8 +218,12 @@ function Page_delete($projectid, $image, $user)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Replace a page image
+ *
+ * For example, replace 001.png with 001.jpg.
+ */
 function Page_replaceImage($projectid, $image, $new_image, $user)
-// e.g., replace 001.png with 001.jpg
 {
     $setter = set_col_str("image", $new_image);
     _Page_UPDATE($projectid, $image, $setter);
@@ -528,13 +539,20 @@ function _Page_UPDATE($projectid, $image, $settings)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Normalize a page-text before we store it in the db.
+ *
+ * This does several transformations to ensure we have a UTF-8 string with
+ * codepoints allowed for the project. When updating this function, also
+ * update `get_normalize_page_text_changes()` used to report page text changes
+ * to users elsewhere.
+ *
+ * @param string $page_text UTF-8 string of page text.
+ * @param string $projectid Project ID
+ *
+ * @see get_normalize_page_text_changes()
+ */
 function _normalize_page_text($page_text, $projectid)
-// Normalize a page-text before we store it in the db. This does several
-// transformations to ensure we have a UTF-8 string with codepoints
-// allowed for the project. This function assumes that $page_text is
-// valid UTF-8.
-// When updating this function, also update get_normalize_page_text_changes()
-// used to report page text changes to users elsewhere.
 {
     // Filter characters to just the Latin-1 set
     $project = new Project($projectid);
@@ -581,10 +599,15 @@ function _normalize_page_text($page_text, $projectid)
     return preg_replace($patterns, $repls, $page_text);
 }
 
+/**
+ * Return a list of "notable" changes that a page text will undergo for
+ * user consumption.
+ *
+ * This should be updated when `_normalize_page_text()` is updated.
+ *
+ * @see _normalize_page_text()
+ */
 function get_normalize_page_text_changes($text, $projectid)
-// Return a list of "notable" changes that a page text will undergo for
-// user consumption. This should be updated when _normalize_page_text()
-// is updated.
 {
     $project = new Project($projectid);
 
@@ -663,9 +686,14 @@ function get_normalize_page_text_changes($text, $projectid)
     return $changes;
 }
 
+/**
+ * Return a list of text page changes should $filename be loaded into a project.
+ *
+ * This should be updated if `load_page_from_file()` is updated.
+ *
+ * @see load_page_from_file()
+ */
 function get_load_page_from_file_changes($filename, $projectid)
-// Return a list of text page changes should $filename be loaded into a project.
-// This should be updated if load_page_from_file() is updated.
 {
     $changes = [];
 
@@ -784,8 +812,10 @@ function _project_adjust_n_available_pages($projectid, $adjustment)
     DPDatabase::query($sql);
 }
 
+/**
+ * Calculate the project's n_pages and n_available_pages from scratch.
+ */
 function project_recalculate_page_counts($projectid)
-// Calculate the project's n_pages and n_available_pages from scratch.
 {
     validate_projectID($projectid);
     $sql = "

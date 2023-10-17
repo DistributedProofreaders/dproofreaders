@@ -693,9 +693,12 @@ function define_bad_byte_sequences()
 
 // =============================================================================
 
+/**
+ * Interpret each byte in the string as a code point.
+ *
+ * For example, interpreting it as encoded in ISO-8859-1?
+ */
 function _utf8_encode_string($seq)
-// Interpreting each byte in the string as a code point.
-// (I.e., interpreting it as encoded in ISO-8859-1?)
 {
     $result = "";
     foreach (str_split($seq) as $byte) {

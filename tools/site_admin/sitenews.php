@@ -222,10 +222,10 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Show a form to edit a news item
+ */
 function show_item_editor($news_page_id, $action, $item_id)
-// Show a form:
-// -- to edit the text of an existing item (if requested), or
-// -- to compose a new item (otherwise).
 {
     global $locale_options;
     global $status_options;

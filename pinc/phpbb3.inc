@@ -160,6 +160,17 @@ function phpbb3_add_post(
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Create a post in phpBB
+ *
+ * Use submit_post() to post to a topic.
+ *
+ * - if $poster_is_real, deduce $poster_id from $poster_name;
+ *   otherwise use Anonymous (ie: guest)
+ * - attachsig is deduced from poster's preferences;
+ * - we override $user_ip;
+ * - we disable smilies
+ */
 function _insert_post(
     $forum_id,
     $topic_id,
@@ -168,14 +179,7 @@ function _insert_post(
     $poster_name,
     $poster_is_real,
     $watch_topic = null
-)
-// Use submit_post() to post to a topic.
-// -- if $poster_is_real, deduce $poster_id from $poster_name;
-//    otherwise use Anonymous (ie: guest)
-// -- attachsig is deduced from poster's preferences;
-// -- we override $user_ip;
-// -- we disable smilies
-{
+) {
     global $charset, $forums_phpbb_table_prefix;
 
     // see: https://phpbbmodders.net/articles/3.0/create_post/
@@ -306,8 +310,10 @@ function _insert_post(
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Die with a non-zero exit code.
+ */
 function die_nz($string)
-// Like die($string), but with a non-zero exit status.
 {
     echo $string, "\n";
     exit(1);

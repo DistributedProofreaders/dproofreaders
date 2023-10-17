@@ -129,8 +129,10 @@ function api_v1_projects($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid
 
-// Return a list of updatable project fields mapped from the API names
-// to the Project object names.
+/**
+ * Return a list of updatable project fields mapped from the API names
+ * to the Project object names.
+ */
 function get_updatable_project_fields()
 {
     return [
@@ -625,11 +627,14 @@ function api_v1_projects_holdstates($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // Utility functions
 
-// Check to see if the user requested an enabled filter. This returns one of
-// three possible states:
-//   null - no enabled flag was set
-//   true - enabled flag was set to "true" or an empty string (for ?enabled)
-//   false - enabled flag was set to "false"
+/**
+ * Check to see if the user requested an enabled filter.
+ *
+ * This returns one of three possible states:
+ * - null - no enabled flag was set
+ * - true - enabled flag was set to "true" or an empty string (for ?enabled)
+ * - false - enabled flag was set to "false"
+ */
 function _get_enabled_filter($query_params)
 {
     if (!isset($query_params["enabled"])) {

@@ -826,8 +826,8 @@ function _show_credits_wanted_adhoc()
 
 // ---------------------------------------------------------
 
-function _show_credit_name_adhoc()
 // Handles 'credit_name' and 'credit_other'.
+function _show_credit_name_adhoc()
 {
     global $userSettings;
 

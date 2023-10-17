@@ -682,7 +682,9 @@ function user_may_access_all_upload_dirs()
     return user_is_a_sitemanager();
 }
 
-// Is this a subdirectory of the user's home dir?
+/**
+ * Is this a subdirectory of the user's home dir?
+ */
 function is_subdir_of_home($dir)
 {
     global $home_dirname;
@@ -698,7 +700,9 @@ function is_subdir_of_home($dir)
     return strlen($rel) !== 0;
 }
 
-// May the user move files to the specified relative directory?
+/**
+ * May the user move files to the specified relative directory?
+ */
 function is_valid_move_destination($dir)
 {
     global $commons_rel_dir, $users_rel_dir, $home_dirname;
@@ -724,10 +728,13 @@ function is_valid_move_destination($dir)
     return strpos($rel, "/") === false;
 }
 
-// Canonicalise input paths by splitting into components,
-// removing empty components, rejecting parent traversal,
-// and re-joining them. Returns False is path contains
-// invalid components.
+/**
+ * Canonicalise input paths by splitting into components,
+ * removing empty components, rejecting parent traversal,
+ * and re-joining them.
+ *
+ * Returns False is path contains invalid components.
+ */
 function canonicalize_path($relpath)
 {
     $canonical_path = [];
@@ -743,8 +750,10 @@ function canonicalize_path($relpath)
     return join('/', $canonical_path);
 }
 
+/**
+ * Ascertain the current directory, validate it, and return the relative path
+ */
 function get_current_dir_relative_path($home_dirname)
-// Ascertain the current directory, validate it, and return the relative path
 {
     global $uploads_dir, $commons_rel_dir;
     $abs_uploads_dir = realpath($uploads_dir);
@@ -971,10 +980,14 @@ function get_actions_block($item_name, $valid_actions)
     return $form;
 }
 
+/**
+ * Confirm if the specified file is local
+ *
+ * If $filename is a valid filename parameter,
+ * and names a file in the current directory, return.
+ * Otherwise, print an error message and exit.
+ */
 function confirm_is_local_file($filename)
-// If $filename is a valid filename parameter,
-// and names a file in the current directory, return.
-// Otherwise, print an error message and exit.
 {
     confirm_is_local('F', $filename);
 }
@@ -1034,7 +1047,9 @@ function fatal_error($message)
     exit();
 }
 
-// return or echo a formatted informational or error message
+/**
+ * Return or echo a formatted informational or error message
+ */
 function get_message($type, $message)
 {
     if ($type == 'error') {
@@ -1053,7 +1068,9 @@ function show_message($type, $message)
     flush();
 }
 
-// Display a return link (to the 'showdir' view)
+/**
+ * Display a return link (to the 'showdir' view)
+ */
 function show_return_link($relpath = null)
 {
     global $curr_relpath;

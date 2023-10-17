@@ -23,33 +23,47 @@ $Activity_for_id_ = [];
 
 class Activity
 {
+    /**
+     * Activity constructor
+     *
+     * @param string $id
+     *   A very short mnemonic identifier for the activity.
+     *   (Should probably conform to the rules for a PHP variable name.)
+     * @param string $name
+     *   A gettext-translated name for the activity.
+     * @param array $access_minima
+     *   A (possibly empty) array of minimum requirements that a user must satisfy
+     *   in order to be allowed to participate in this activity
+     *   (barring special permission).
+     * @param string $after_satisfying_minima
+     *   After satisfying the above minima (if any), does the user have to do
+     *   anything else to work in this activity?
+     *   ```
+     *   'IMMEDIATE'  Nope, they get immediate access.
+     *   'REQ-AUTO'   They must ask for access, but it is auto-granted.
+     *   'REQ-HUMAN'  They must ask for access, and it must be human-granted.
+     *   'NOREQ'      They don't request access (or at least, we don't supply
+     *                a link by which to request access). Instead, they just
+     *                wait until they are approved.
+     *   ```
+     * @param string $evaluation_criteria
+     *   A brief description of what the evaluation criteria are.
+     * @param string $access_change_callback
+     *   A callback function that will be called when a user's access for this
+     *   round has changed. The function will be passed a User object representing
+     *   the user with the access change in addition to the access change itself, eg:
+     *   ```
+     *   p1_access_change_callback($user, $change)
+     *   ```
+     *   where $change is one of `[ "grant", "revoke", "request", "deny_request_for" ]`
+     */
     public function __construct(
         $id,
-            // A very short mnemonic identifier for the activity.
-            // (Should probably conform to the rules for a PHP variable name.)
         $name,
-            // A gettext-translated name for the activity.
         $access_minima,
-            // A (possibly empty) array of minimum requirements that a user must satisfy
-            // in order to be allowed to participate in this activity
-            // (barring special permission).
         $after_satisfying_minima,
-            // After satisfying the above minima (if any), does the user have to do
-            // anything else to work in this activity?
-            //     'IMMEDIATE'  Nope, they get immediate access.
-            //     'REQ-AUTO'   They must ask for access, but it is auto-granted.
-            //     'REQ-HUMAN'  They must ask for access, and it must be human-granted.
-            //     'NOREQ'      They don't request access (or at least, we don't supply
-            //                  a link by which to request access). Instead, they just
-            //                  wait until they are approved.
         $evaluation_criteria,
-            // A brief description of what the evaluation criteria are.
         $access_change_callback
-            // A callback function that will be called when a user's access for this
-            // round has changed. The function will be passed a User object representing
-            // the user with the access change in addition to the access change itself
-            //     eg: p1_access_change_callback($user, $change)
-            // where $change is one of [ "grant", "revoke", "request", "deny_request_for" ]
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -86,26 +100,30 @@ class Activity
         $Activity_for_id_[$id] = & $this;
     }
 
+    /**
+     * Return a User Access object
+     *
+     * Return an object with the following properties:
+     * - can_access:
+     *         a boolean: TRUE iff the user can access this activity.
+     * - minima_table:
+     *         an array of arrays (4-tuples):
+     *         ( $criterion_str, $minimum, $user_score, $satisfied )
+     * - all_minima_satisfied:
+     *         boolean
+     * - request_status:
+     *         enumerated type: sat-unneeded, sat-granted, sat-available, sat-requested,
+     *                          sat-wait, sat-denied
+     *                          unsat-granted, unsat-requested, unsat-ungranted,
+     *                          unsat-denied
+     * - evaluation_criteria:
+     *         message to display about evaluation
+     *
+     * UNIMPLEMENTED:
+     * If $n_pages_completed is non-null, use it as the number of pages
+     * that the user has completed. Otherwise, consult the database.
+     */
     public function user_access($username, $n_pages_completed = null)
-    // Return an object with the following properties:
-    // -- can_access:
-    //         a boolean: TRUE iff the user can access this activity.
-    // -- minima_table:
-    //         an array of arrays (4-tuples):
-    //         ( $criterion_str, $minimum, $user_score, $satisfied )
-    // -- all_minima_satisfied:
-    //         boolean
-    // -- request_status:
-    //         enumerated type: sat-unneeded, sat-granted, sat-available, sat-requested,
-    //                          sat-wait, sat-denied
-    //                          unsat-granted, unsat-requested, unsat-ungranted,
-    //                          unsat-denied
-    // -- evaluation_criteria:
-    //         message to display about evaluation
-    //
-    // UNIMPLEMENTED:
-    // If $n_pages_completed is non-null, use it as the number of pages
-    // that the user has completed. Otherwise, consult the database.
     {
         if (is_null($username)) {
             $uao = new StdClass(); // user access object

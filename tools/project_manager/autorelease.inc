@@ -331,10 +331,14 @@ function maybe_release_projects(
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * ReleaseRestirctor class
+ *
+ * An object of this class is responsible for imposing various queue-independent
+ * restrictions on the auto-release of projects into a given round.
+ * (E.g., not too many by the same author, not too many with the same PM.)
+ */
 class ReleaseRestrictor
-// An object of this class is responsible for imposing various queue-independent
-// restrictions on the auto-release of projects into a given round.
-// (E.g., not too many by the same author, not too many with the same PM.)
 {
     public $this_round_authors;
     public $this_round_pms;
@@ -487,16 +491,19 @@ class ReleaseRestrictor
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Set up temporary table active_page_counts,
+ * containing a row for each project in this round.
+ *
+ * Fields:
+ * - projectid
+ * - pages = number of pages yet to receive proofreading in this round
+ *
+ * This table is similar to projects.n_available_pages
+ * but contains slightly different information.
+ * Maybe they could be merged.
+ */
 function AP_setup($round)
-// Set up temporary table active_page_counts,
-// containing a row for each project in this round.
-// fields:
-//     projectid
-//     pages = number of pages yet to receive proofreading in this round
-//
-// This table is similar to projects.n_available_pages
-// but contains slightly different information.
-// Maybe they could be merged.
 {
     // If we had one table with all page info,
     // we could set up this table with a single

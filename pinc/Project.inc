@@ -17,9 +17,13 @@ class UTF8ConversionException extends Exception
 {
 }
 
+/**
+ * Base exception that all Project exceptions should derive from.
+ *
+ * These exception codes range from 100 to 199
+ */
 class ProjectException extends Exception
 {
-    // all project errors extend from here and in range 100-199
     public function __construct($message, $code = 100)
     {
         parent::__construct($message, $code);
@@ -152,10 +156,14 @@ class Project
     // -------------------------------------------------------------------------
     // Load & Validate
 
+    /**
+     * Return a list of default fields with their values.
+     *
+     * Note that the value types given here are enforced in validate() except
+     * for nulls.
+     */
     private function _get_field_defaults()
     {
-        // Return a list of default fields with their values. Note that the
-        // value types given here are enforced in validate() except for nulls.
         return [
             "projectid" => null,
             "nameofwork" => "",
@@ -184,10 +192,13 @@ class Project
         ];
     }
 
+    /**
+     * Initialize Project with core fields and default values.
+     *
+     * These alone aren't sufficient to validate() and persist the project.
+     */
     private function _init_fields_to_defaults()
     {
-        // Initialize Project with core fields and default values.
-        // These alone aren't sufficient to validate() and persist the project.
         foreach ($this->_get_field_defaults() as $key => $value) {
             $this->$key = $value;
         }
@@ -654,8 +665,10 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    // Return an associative array of project fields with localized labels
-    // for use in the UI.
+    /**
+     * Return an associative array of project fields with localized labels
+     * for use in the UI.
+     */
     public static function get_field_labels()
     {
         return [
@@ -987,9 +1000,12 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Validate this project can be proofed by the current user
+     *
+     * Where "proofed" means "worked on in a round, right now".
+     */
     public function validate_can_be_proofed_by_current_user()
-    // (where "proofed" means "worked on in a round, right now".)
-    // Can throw Exceptions
     {
         global $pguser;
 
@@ -1129,12 +1145,15 @@ class Project
         return array_intersect($db_names, $disk_names);
     }
 
-    // Given a project image, return the file size in bytes. If the image
-    // doesn't exist on disk, return NULL.
-    // TODO: This function would be better in a ProjectPage object, but we
-    // don't have one of those.
+    /**
+     * Given a project image, return the file size in bytes.
+     *
+     * If the image doesn't exist on disk, return NULL.
+     */
     public function get_image_file_size($image)
     {
+        // TODO: This function would be better in a ProjectPage object, but we
+        // don't have one of those.
         $image_path = realpath("{$this->dir}/$image");
         if (file_exists($image_path)) {
             return filesize($image_path);
@@ -1158,9 +1177,13 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return the current credit line for a project
+     *
+     * The string will not be localized, since it should be ready
+     * to be included with the finished project.
+     */
     private function _create_credit_line()
-    // The string will not be localized, since it should be ready
-    // to be included with the finished project.
     {
         global $site_url;
 
@@ -1290,9 +1313,11 @@ class Project
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Return a string that can be included in the body of an email message,
+     * introducing this project as the focus of the message.
+     */
     public function email_introduction()
-    // Return a string that can be included in the body of an email message,
-    // introducing this project as the focus of the message.
     {
         global $site_name, $code_url;
 
@@ -1347,8 +1372,10 @@ class Project
         return $states;
     }
 
+    /**
+     * Return an array containing the states for which this project has holds.
+     */
     public function get_hold_states()
-    // Return an array containing the states for which this project has holds.
     {
         $hold_states = [];
         $sql = sprintf("
@@ -1476,7 +1503,9 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    // Given a MARCRecord, write a dc XML document for this project
+    /**
+     * Given a MARCRecord, write a dc XML document for this project
+     */
     public function create_dc_xml_oai($marc_record)
     {
         global $charset, $site_name, $code_url;
@@ -1534,7 +1563,9 @@ class Project
     // upon project creation. The updated_* columns hold updated YAZ records
     // based on edits to the project record.
 
-    // Populate the original_* columns for this project's MARC record
+    /**
+     * Populate the original_* columns for this project's MARC record
+     */
     public function init_marc_record($marc_record)
     {
         $original_marc_array = $marc_record->get_yaz_array();
@@ -1549,7 +1580,9 @@ class Project
         );
     }
 
-    // Update the updated_* columns for this project's MARC record
+    /**
+     * Update the updated_* columns for this project's MARC record
+     */
     public function save_marc_record($marc_record)
     {
         $updated_marc_array = $marc_record->get_yaz_array();
@@ -1567,7 +1600,9 @@ class Project
         $this->create_dc_xml_oai($marc_record);
     }
 
-    // Load the updated MARC record for this project
+    /**
+     * Load the updated MARC record for this project
+     */
     public function load_marc_record()
     {
         $updated_record = new MARCRecord();
@@ -1591,7 +1626,9 @@ class Project
         return $updated_record;
     }
 
-    // Update the project's MARC record from the current Project values
+    /**
+     * Update the project's MARC record from the current Project values
+     */
     public function update_marc_record()
     {
         $marc_record = $this->load_marc_record();
@@ -1617,7 +1654,9 @@ class Project
         $this->save_marc_record($marc_record);
     }
 
-    // check if project has entered a formatting round
+    /**
+     * Check if project has entered a formatting round
+     */
     public function has_entered_formatting_round()
     {
         global $PROJECT_STATES_IN_ORDER;
@@ -1631,7 +1670,9 @@ class Project
         return false;
     }
 
-    // get time for last page proofread in round
+    /**
+     * Get time for last page proofread in round
+     */
     public function get_last_proofread_time($round)
     {
         validate_projectID($this->projectid);
@@ -1661,7 +1702,13 @@ class Project
         return true;
     }
 
-    // Used for checking whether a book is currently in the Smooth Reading Pool
+    /**
+     * Returns if the project is available for smoothreading
+     *
+     * Used for checking whether a book is currently in the Smooth Reading Pool.
+     *
+     * @return bool
+     */
     public function is_available_for_smoothreading()
     {
         return $this->state == PROJ_POST_FIRST_CHECKED_OUT &&
@@ -1713,10 +1760,12 @@ function project_has_a_hold_in_state($projectid, $state)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Return the username of the user to whom the project will be
+ * automatically checked out for PPing when it reaches the PP stage,
+ * or NULL if the project will merely go into the available-for-PP state.
+ */
 function project_get_auto_PPer($projectid)
-// Return the username of the user to whom the project will be
-// automatically checked out for PPing when it reaches the PP stage,
-// or NULL if the project will merely go into the available-for-PP state.
 {
     $project = new Project($projectid);
     $checkedoutby = $project->checkedoutby;
@@ -1755,7 +1804,12 @@ function project_get_auto_PPer($projectid)
 // The following two functions don't particularly belong here, as they aren't
 // project-specific. However, nobody else uses them yet.
 
-// $activity should be one of 'cp', 'pm', 'pp', 'ip' and 'tp'.
+/**
+ * Does the user want anonymity for a given activity.
+ *
+ * @param string $login_name Username
+ * @param string $activity Should be one of 'cp', 'pm', 'pp', 'ip' and 'tp'.
+ */
 function wants_anonymity($login_name, $activity)
 {
     $settings = & Settings::get_Settings($login_name);
@@ -1764,9 +1818,12 @@ function wants_anonymity($login_name, $activity)
 
 // -----------------------------------------------------------------------------
 
-// Returns the real name OR the username OR a user-specified 'other'.
-// (If the user hasn't specified anything in the preferences, the
-// real name will be returned.
+/**
+ * Returns the real name OR the username OR a user-specified 'other'.
+ *
+ * If the user hasn't specified anything in the preferences, the
+ * real name will be returned.
+ */
 function get_credit_name($login_name)
 {
     if ($login_name == '') {
@@ -1793,10 +1850,13 @@ function get_credit_name($login_name)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Return the PP-ers' comments for a certain project.
+ *
+ * They will be HTML-encoded and with line breaks
+ * converted to `<br>`.
+ */
 function get_formatted_postcomments($projectid)
-// Return the PP-ers' comments for a certain project
-// They will be HTML-encoded and with line breaks
-// converted to <br> .
 {
     $project = new Project($projectid);
 
@@ -1805,7 +1865,9 @@ function get_formatted_postcomments($projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Determines if the project's pages table exists
+/**
+ * Determine if the project's pages table exists
+ */
 function does_project_page_table_exist($projectid)
 {
     return DPDatabase::does_table_exist($projectid);
@@ -1813,7 +1875,9 @@ function does_project_page_table_exist($projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Confirm that $projectid is a well-formed project ID or raise an exception.
+/**
+ * Confirm that $projectid is a well-formed project ID or raise an exception.
+ */
 function validate_projectID($projectid)
 {
     if (1 != preg_match('/^projectID[0-9a-f]{13}$/', $projectid)) {
@@ -1824,9 +1888,12 @@ function validate_projectID($projectid)
     }
 }
 
-// Get a projectid from an array (usually $_GET or $_POST) and validate that
-// it is well-formed. This function mirrors the other get_*() functions in
-// misc.inc.
+/**
+ * Get a projectid from an array (usually $_GET or $_POST) and validate that
+ * it is well-formed.
+ *
+ * This function mirrors the other get_*() functions in `misc.inc`.
+ */
 function get_projectID_param($arr, $key, $allownull = false)
 {
     $projectid = @$arr[$key];
@@ -1853,7 +1920,9 @@ function get_projectID_param($arr, $key, $allownull = false)
     return $projectid;
 }
 
-// Confirm that $page_name is a well-formed page filename or raise an exception.
+/**
+ * Validate that $page_name is a well-formed page filename or raise an exception.
+ */
 function validate_page_image($page_name)
 {
     if (1 != preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $page_name)) {
@@ -1864,9 +1933,12 @@ function validate_page_image($page_name)
     }
 }
 
-// Get a page name from an array (usually $_GET or $_POST) and validate that
-// it is well-formed. This function mirrors the other get_*() functions in
-// misc.inc.
+/**
+ * Get a page name from an array (usually $_GET or $_POST) and validate that
+ * it is well-formed.
+ *
+ * This function mirrors the other get_*() functions in `misc.inc`.
+ */
 function get_page_image_param($arr, $key, $allownull = false)
 {
     $page_name = @$arr[$key];
@@ -1938,7 +2010,9 @@ function load_image_sources()
     return $image_sources;
 }
 
-// Can the current user see this image source based on the source's settings
+/**
+ * Can the current user see this image source based on the source's settings
+ */
 function can_user_see_image_source($image_source)
 {
     // info page visibility

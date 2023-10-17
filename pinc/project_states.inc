@@ -289,10 +289,14 @@ foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Return SQL segment that can be used to sort project states
+ *
+ * In an SQL query, if you "ORDER BY state", it will use alphabetical order,
+ * which is not very useful. Instead, ORDER BY the result of this function,
+ * and it will use the canonical order-of-declaration for project states.
+ */
 function sql_collater_for_project_state($state_column)
-// In an SQL query, if you "ORDER BY state", it will use alphabetical order,
-// which is not very useful. Instead, ORDER BY the result of this function,
-// and it will use the canonical order-of-declaration for project states.
 {
     global $PROJECT_STATES_IN_ORDER;
     return sprintf("FIELD($state_column, %s)",
@@ -302,16 +306,22 @@ function sql_collater_for_project_state($state_column)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 $project_status_descriptors = ['posted', 'PPd', 'proofed', 'created'];
 
+/**
+ * Return an object with details about a project status
+ *
+ * Returned object has attributes that are useful for:
+ * - finding
+ * - counting or
+ * - plotting a graph of
+ * projects having that status.
+ *
+ * @param string $which
+ *   A word denoting a possible status of a project, one of:
+ *   `created`, `proofed`, `PPd`, or `posted`.
+ *
+ * @return object
+ */
 function get_project_status_descriptor($which)
-// $which is a word denoting a possible status of a project
-// (created, proofed, PPd, or posted).
-// Return an object whose attributes hold various constants that
-// are useful for:
-// -- finding,
-// -- counting, or
-// -- plotting a graph of
-// projects having that status.
-// (Somewhat ad hoc, but useful.)
 {
     $obj = new stdClass();
 

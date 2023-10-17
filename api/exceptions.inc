@@ -1,7 +1,10 @@
 <?php
 
-// Base exception that all API exceptions should derive from
-// These exception codes range from 1 to 99
+/**
+ * Base exception that all API exceptions should derive from.
+ *
+ * These exception codes range from 1 to 99
+ */
 class ApiException extends Exception
 {
     public function __construct($message = "API exception", $code = 1)

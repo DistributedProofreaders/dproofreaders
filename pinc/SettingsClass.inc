@@ -1,53 +1,10 @@
 <?php
 
-// $Id$
-
 /**
- * Settings Class.
-
-  Note: Everything marked "Implementation:" is information
-        that should remain encapsulated inside the class.
-
- This class provides access to user settings.
-
- There are three setting types:
-
-1. Boolean settings. Return value is True or False.
- Example setting: post_proofer
-     ******
-    Implementation:
-        Setting to True.
-            Will ensure that a record exists with "yes" in the value column.
-        Setting to anything other than True
-            Will ensure that the record is deleted.
-        Getting.
-            Will return True if there is a record and the value column holds "yes".
-            Will return False otherwise.
-     ******
-
-2. Value settings. Non-empty string settings.
- Example: R1order (sort order of project listing) Example value: "GenreA" (Genre Ascending)
-     ******
-    Implementation:
-        Setting:
-            Will ensure that record is deleted if the provided value is anything
-                resolving to Null in PHP (including zero-valued numbers).
-            Will ensure that a record exists with the value column set to the string
-                value provided (or its PHP auto-conversion-string if other data type.)
-        Getting:
-            Will provide exactly what's in the value column. (Note this may result
-            in something-in/something-else-out if PHP auto-conversion took place.)
-     ******
-
-3. Boolean-string-settings (for want of a better name.) These are cases where a record
-is inserted to indicate that a boolean value is True for a user for (typically) a project.
-Example setting: "taskctr_notice", value "1018"
-     ******
-    Implementation:
-        Setting and Getting: Set and get exactly what's provided.
-*/
-
-
+ * Settings Class
+ *
+ * This class provides access to user settings stored in the user_settings table.
+ */
 class Settings
 {
     // Multi-dimensional array containing all user settings. Each setting
@@ -88,7 +45,6 @@ class Settings
         mysqli_free_result($result);
     }
 
-    // whom do I describe?
     public function UserName()
     {
         return $this->username ? $this->username : "[none]";
@@ -96,26 +52,51 @@ class Settings
 
     // -------------------------------------------------------------------------
 
-    // Setting to True
+    /**
+     * Set a setting to true
+     *
+     * @param string $settingCode
+     *
+     * @return void
+     */
     public function set_true($settingCode)
     {
         $this->set_boolean($settingCode, true);
     }
 
-    // Setting to False
+    /**
+     * Set a setting to false
+     *
+     * @param string $settingCode
+     *
+     * @return void
+     */
     public function set_false($settingCode)
     {
         $this->set_boolean($settingCode, false);
     }
 
+    /**
+     * A wrapper around set_value() for boolean values.
+     *
+     * @param string $settingCode
+     * @param bool $boolval
+     *
+     * @return void
+     */
     public function set_boolean($settingCode, $boolval)
-    // A wrapper around set_value() for boolean values.
     {
         $this->set_value($settingCode, ($boolval ? 'yes' : null));
     }
 
-    // Return True iff the setting exists and its value is 'yes'.
-    // Otherwise, return False.
+    /**
+     * Return True iff the setting exists and its value is 'yes',
+     * otherwise, return False.
+     *
+     * @param string $settingCode
+     *
+     * @return bool
+     */
     public function get_boolean($settingCode)
     {
         return ($this->get_value($settingCode) === 'yes');
@@ -156,9 +137,17 @@ class Settings
         DPDatabase::query($sql);
     }
 
-    // Set a setting to a specific value. If this is a multi-valued setting
-    // this will become a single-valued setting.
-    // If $value is NULL, remove the setting.
+    /**
+     * Set a setting to a specific value.
+     *
+     * If this is a multi-valued setting this will become a single-valued setting.
+     * If $value is NULL, remove the setting.
+     *
+     * @param string $settingCode
+     * @param mixed $value
+     *
+     * @return void
+     */
     public function set_value($settingCode, $value)
     {
         if ($this->username == '') {
@@ -176,9 +165,18 @@ class Settings
         }
     }
 
-    // If no record exists, return $default.
-    // Otherwise return what's in the Value column.
-    // Note: if setting is really boolean, this will NOT return True, but 'yes' (a string).
+    /**
+     * Get the value for a setting
+     *
+     * If no record exists, return `$default`. Otherwise return what's in the
+     * Value column. Note: if setting is really boolean, this will NOT return
+     * True, but 'yes' (a string).
+     *
+     * @param string $settingCode
+     * @param mixed $default
+     *
+     * @return mixed
+     */
     public function get_value($settingCode, $default = null)
     {
         $values = $this->get_values($settingCode);
@@ -198,7 +196,14 @@ class Settings
         return $values[0];
     }
 
-    // Load a setting value into the $settings_array data structure
+    /**
+     * Load a setting value into the $settings_array data structure
+     *
+     * @param string $setting
+     * @param mixed $value
+     *
+     * @return void
+     */
     private function _load_value($setting, $value)
     {
         if (isset($this->settings_array[$setting])) {
@@ -208,15 +213,31 @@ class Settings
         }
     }
 
-    // Add a value to the setting without changing it, even if it already
-    // exists. This allows a setting to have multiple values.
+    /**
+     * Add a value to the setting without changing it, even if it already
+     * exists.
+     *
+     * This allows a setting to have multiple values.
+     *
+     * @param string $settingCode
+     * @param mixed $value
+     *
+     * @return void
+     */
     public function add_value($settingCode, $value)
     {
         $this->_load_value($settingCode, $value);
         $this->_insert_setting_value($settingCode, $value);
     }
 
-    // Remove a setting:value pair
+    /**
+     * Remove a setting:value pair
+     *
+     * @param string $settingCode
+     * @param mixed $value
+     *
+     * @return void
+     */
     public function remove_value($settingCode, $value)
     {
         if (array_key_exists($settingCode, $this->settings_array) && in_array($value, $this->settings_array[$settingCode])) {
@@ -227,7 +248,13 @@ class Settings
         }
     }
 
-    // Returns an array of values for the setting
+    /**
+     * Returns an array of values for the setting
+     *
+     * @param string $settingCode
+     *
+     * @return mixed
+     */
     public function get_values($settingCode)
     {
         if (!array_key_exists($settingCode, $this->settings_array)) {
@@ -239,26 +266,39 @@ class Settings
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Count the number of settings for this user
+     *
+     * @return int
+     */
     public function settings_count()
     {
         return count($this->settings_array);
     }
 
-    // Get an object for this $username. If such an object has
-    // already been created, return it. By using this function only
-    // and not the constructor, there will only be one object
-    // around for each user, and no problems will arise with
-    // setting/getting the same settings at various places.
-    // If the name is not set, null is returned.
-    //
-    // We use assignment-by-reference and return-by-reference (note the ampersands)
-    // to ensure that multiple returns for the same $username are references to
-    // the originally created object, rather than copies of it.
-    // (See the PHP manual under "Assignment Operators" and "References Explained".)
-    // Callers should also use assignment-by-reference, e.g.
-    //     $settings =& Settings::get_settings($username);
-    // to ensure that changes in settings are visible everywhere they should be.
-    //
+    /**
+     * Get a Settings object for a user.
+     *
+     * If such an object has already been created, return it. By using this
+     * function only and not the constructor, there will only be one object
+     * around for each user, and no problems will arise with
+     * setting/getting the same settings at various places.
+     * If the name is not set, null is returned.
+     *
+     * We use assignment-by-reference and return-by-reference (note the ampersands)
+     * to ensure that multiple returns for the same $username are references to
+     * the originally created object, rather than copies of it.
+     * (See the PHP manual under "Assignment Operators" and "References Explained".)
+     * Callers should also use assignment-by-reference, e.g.
+     * ```
+     * $settings =& Settings::get_settings($username);
+     * ```
+     * to ensure that changes in settings are visible everywhere they should be.
+     *
+     * @param string $username
+     *
+     * @return object Settings
+     */
     public static function & get_Settings($username)
     {
         static $Settings_for_ = [];
@@ -271,8 +311,15 @@ class Settings
         }
     }
 
-    // Return a list of unique usernames that have a specific setting
-    // specified (and optionally with a specific value).
+    /**
+     * Return a list of unique usernames that have a specific setting
+     * specified (and optionally with a specific value).
+     *
+     * @param string $setting
+     * @param mixed $value
+     *
+     * @return array
+     */
     public static function get_users_with_setting($setting, $value = null)
     {
         $usernames = [];

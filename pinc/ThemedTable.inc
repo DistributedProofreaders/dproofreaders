@@ -57,10 +57,12 @@ class ThemedTable
         }
     }
 
+    /**
+     * Set explicit column widths.
+     *
+     * If you don't call this method, <td> tags will be output without a 'width' attribute.
+     */
     public function set_column_widths()
-    // Set explicit column widths.
-    // (If you don't call this method, <td> tags
-    // will be output without a 'width' attribute.)
     {
         // There should be an arg (width) for each column.
         assert(func_num_args() == $this->n_cols);

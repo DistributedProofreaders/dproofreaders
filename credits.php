@@ -92,9 +92,14 @@ function load_composer_credit_details()
     return $credit_details;
 }
 
-// Ignore exceptions when iterating over the directory, such as permission
-// errors from SETUP/
-// from antennen at https://www.php.net/manual/en/class.recursivedirectoryiterator.php
+/**
+ * A permissive recursive directory iterator
+ *
+ * Ignore exceptions when iterating over the directory, such as permission
+ * errors from `SETUP/`.
+ *
+ * From antennen at https://www.php.net/manual/en/class.recursivedirectoryiterator.php
+ */
 class PermissiveRecursiveDirectoryIterator extends RecursiveDirectoryIterator
 {
     public function getChildren()
@@ -107,7 +112,11 @@ class PermissiveRecursiveDirectoryIterator extends RecursiveDirectoryIterator
     }
 }
 
-// https://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+/**
+ * Detect if an array is associative or sequential
+ *
+ * From https://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+ */
 function isAssoc(array $arr)
 {
     if ([] === $arr) {

@@ -42,41 +42,98 @@ define('WC_PROJECT', 3);
 define('WC_PAGE', 4);
 
 
-// Wrapper functions for _get_bad_words_for_project_text() that abstract if
-// the function returns FREQS or LEVELS. See that function for arguments
-// and return values.
+/**
+ * Return a list of bad words within a project's page text and
+ * its frequency in the text.
+ *
+ * Returns an array consisting of:
+ * - an array: each key is a word in the text that is deemed bad;
+ *   the corresponding value is the word's frequency in $text
+ * - an array: each value is the name of a language that was used
+ * - an array: each value is a warning/error.
+ *
+ * @param string $text
+ *   The text for which bad words are sought.
+ *   This can be a string or an array of strings. If the latter, the
+ *   strings are conceptually separated by whitespace.  (So it's never
+ *   the case that a word begins in one string and ends in the next.)
+ * @param string $projectid
+ *   ID of project, needed for project languages and to load the custom
+ *   dictionaries
+ * @param string $aux_languages
+ *   Auxiliary language to check against.
+ * @param array $adhoc_good_words
+ *   Array of words to treat as good for this invocation only.
+ *
+ * @return array
+ */
 function get_bad_word_freqs_for_project_text($text, $projectid, $aux_language = '', $adhoc_good_words = [])
 {
     return _get_bad_words_for_project_text('FREQS', $text, $projectid, $aux_language, $adhoc_good_words);
 }
 
+/**
+ * Return a list of bad words within a project's page text and
+ * the specific level at which it was deemed bad
+ *
+ * Returns an array consisting of:
+ * - an array: each key is a word in the text that is deemed bad;
+ *   the corresponding value is one of the WC_* constants,
+ *   denoting the (most specific) level at which the word was deemed bad
+ * - an array: each value is the name of a language that was used
+ * - an array: each value is a warning/error.
+ *
+ * @param string $text
+ *   The text for which bad words are sought.
+ *   This can be a string or an array of strings. If the latter, the
+ *   strings are conceptually separated by whitespace.  (So it's never
+ *   the case that a word begins in one string and ends in the next.)
+ * @param string $projectid
+ *   ID of project, needed for project languages and to load the custom
+ *   dictionaries
+ * @param string $aux_languages
+ *   Auxiliary language to check against.
+ * @param array $adhoc_good_words
+ *   Array of words to treat as good for this invocation only.
+ *
+ * @return array
+ */
 function get_bad_word_levels_for_project_text($text, $projectid, $aux_language = '', $adhoc_good_words = [])
 {
     return _get_bad_words_for_project_text('LEVELS', $text, $projectid, $aux_language, $adhoc_good_words);
 }
 
-// Arguments:
-//   which_result_values - select either the bad word FREQS or LEVELS
-//   text - the text for which bad words are sought
-//          This can be a string or an array of strings. If the latter, the
-//          strings are conceptually separated by whitespace.  (So it's never
-//          the case that a word begins in one string and ends in the next.)
-//   projectid - id of project, needed for project languages
-//               and to load the custom dictionaries
-//   aux_languages - auxiliary language to check against
-//   adhoc_good_words - array of words to treat as good for this invocation only.
-//
-// Returns an array consisting of:
-//  -- an array: each key is a word in the text that is deemed bad;
-//     the corresponding value is either:
-//      -- the word's frequency in $text
-//         (if $which_result_values is 'FREQS')
-//     or
-//      -- one of the WC_* constants, denoting the (most specific) level at which
-//         the word was deemed bad
-//         (if $which_result_values is 'LEVELS')
-//  -- an array: each value is the name of a language that was used
-//  -- an array: each value is a warning/error.
+/**
+ * Return a list of bad words within a project's page text
+ *
+ * Returns an array consisting of:
+ * - an array: each key is a word in the text that is deemed bad;
+ *   the corresponding value is either:
+ *   - the word's frequency in $text
+ *     (if $which_result_values is 'FREQS')
+ *   - one of the WC_* constants, denoting the (most specific) level at which
+ *     the word was deemed bad
+ *     (if $which_result_values is 'LEVELS')
+ * - an array: each value is the name of a language that was used
+ * - an array: each value is a warning/error.
+ *
+ * @param string $which_result_values
+ *   One of FREQS or LEVELS
+ * @param string $text
+ *   The text for which bad words are sought.
+ *   This can be a string or an array of strings. If the latter, the
+ *   strings are conceptually separated by whitespace.  (So it's never
+ *   the case that a word begins in one string and ends in the next.)
+ * @param string $projectid
+ *   ID of project, needed for project languages and to load the custom
+ *   dictionaries
+ * @param string $aux_languages
+ *   Auxiliary language to check against.
+ * @param array $adhoc_good_words
+ *   Array of words to treat as good for this invocation only.
+ *
+ * @return array
+ */
 function _get_bad_words_for_project_text($which_result_values, $text, $projectid, $aux_language, $adhoc_good_words)
 {
     $messages = [];
@@ -123,21 +180,29 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
 }
 
 
-// Returns a list of bad words from a given text using the specified
-// languages to run the spellchecker and a set of word lists
-// Arguments:
-//      text - string or array of strings
-//      languages - array of language names
-//      word_lists - array with the keys:
-//          site_good - array of site good words
-//          site_bad  - array of site bad words
-//          project_good - array of good words from project
-//          project_bad - array of bad words from project
-//          adhoc_good - array of adhoc good words
-// Returns an array that includes:
-//      - array of text words with frequency
-//      - array of bad words
-//      - array of possible warning/error messages
+/**
+ * Returns a list of bad words from a given text using the specified
+ * languages to run the spellchecker and a set of word lists.
+ *
+ * Returns an array that includes:
+ * - array of text words with frequency
+ * - array of bad words
+ * - array of possible warning/error messages
+ *
+ * @param string $text
+ *   String or array of strings containing page text
+ * @param array $languages
+ *   Array of language names to use for the dictionary
+ * @param array $word_lists
+ *   Array with the keys:
+ *   * site_good - array of site good words
+ *   * site_bad  - array of site bad words
+ *   * project_good - array of good words from project
+ *   * project_bad - array of bad words from project
+ *   * adhoc_good - array of adhoc good words
+ *
+ * @return array
+ */
 function get_bad_words_for_text($text, $languages, $word_lists = [])
 {
     $input_words_w_freq = get_distinct_words_in_text($text);
@@ -224,17 +289,23 @@ class BadWordAccumulator
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // World-Level
 
-// returns a list of 'bad' words on a page
-// this implementation passes the text to aspell
-// Arguments:
-//   input_words_w_freq - an array whose keys are the distinct words of the input text
-//   languages - array of languages, used to load aspell dictionary
-//               for those languages if available
-//
-// Returns an array consisting of:
-//       -- an array of misspelled words,
-//       -- an array of messages (errors/warnings)
-//
+/**
+ * Returns a list of 'bad' words on a page
+ *
+ * This implementation passes the text to aspell
+ *
+ * Returns an array consisting of:
+ * - an array of misspelled words,
+ * - an array of messages (errors/warnings)
+ *
+ * @param array $input_words_w_freq
+ *   An array whose keys are the distinct words of the input text
+ * @param array $langauges
+ *   Array of languages, used to load aspell dictionary
+ *   for those languages if available
+ *
+ * @return array
+ */
 function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 {
     global $aspell_temp_dir;
@@ -335,13 +406,15 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     return [$finalMisspellings, $messages];
 }
 
-// Return all words containing diacritical markup
-// Arguments:
-//   input_words_w_freq - an array whose keys are the distinct words of the input text
-//
-// Returns:
-//       -- an array of bad words
-//
+/**
+ * Return all words containing diacritical markup
+ *
+ * Returns:
+ * - an array of bad words
+ *
+ * @param array $input_words_w_freq
+ *   An array whose keys are the distinct words of the input text
+ */
 function get_bad_words_with_diacritical_markup($input_words_w_freq)
 {
     // Consider words that contain diacritical markup via []-notation.
@@ -378,14 +451,19 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Site-Level
 
-// returns a list of 'bad' words in a text based on some pattern
-// Arguments:
-//   input_words_w_freq - an array whose keys are the distinct words of the input text
-//   languages - array of languages to check against
-//
-// Returns:
-//       -- an array of bad words
-//
+/**
+ * Returns a list of 'bad' words in a text based on some pattern
+ *
+ * Returns:
+ * - an array of bad words
+ *
+ * @param array $input_words_w_freq
+ *   An array whose keys are the distinct words of the input text
+ * @param array $languages
+ *   Array of languages to check against
+ *
+ * @return array
+ */
 function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
     [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
@@ -510,8 +588,11 @@ function normalize_word_list($words)
 
 // -----------------------------------------------------------------------------
 
-// Delete any wordcheck_events for this project.
-// This is called when deleting a project.
+/**
+ * Delete any wordcheck_events for this project.
+ *
+ * This is called when deleting a project.
+ */
 function delete_project_wordcheck_events($projectid)
 {
     $sql = sprintf("
@@ -522,9 +603,11 @@ function delete_project_wordcheck_events($projectid)
     DPDatabase::query($sql);
 }
 
-// Merge the word list from the source project into the destination
-// project, and also copy the wordcheck events to the destination
-// project.
+/**
+ * Merge the word list from the source project into the destination
+ * project, and also copy the wordcheck events to the destination
+ * project.
+ */
 function merge_project_wordcheck_data($from_projectid, $to_projectid)
 {
     // good words
@@ -543,9 +626,11 @@ function merge_project_wordcheck_data($from_projectid, $to_projectid)
     copy_project_wordcheck_events($from_projectid, $to_projectid);
 }
 
-// Copy wordcheck events from one project to another project.
-// (This is used for instance when splitting or rejoining
-// project parts.)
+/**
+ * Copy wordcheck events from one project to another project.
+ *
+ * This is used for instance when splitting or rejoining project parts.
+ */
 function copy_project_wordcheck_events($from_projectid, $to_projectid)
 {
     $sql = sprintf("
@@ -585,11 +670,15 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
     DPDatabase::query($sql);
 }
 
-// Count the number of wordcheck_events for this project
-// which are more recent than $start_time, and which contain
-// suggestions. This function can be used as a faster alternative
-// to counting the result of load_wordcheck_events, when one does
-// not need the precise number of suggested words.
+/**
+ * Count the number of wordcheck_events for this project
+ * which are more recent than $start_time, and which contain
+ * suggestions.
+ *
+ * This function can be used as a faster alternative
+ * to counting the result of load_wordcheck_events, when one does
+ * not need the precise number of suggested words.
+ */
 function count_wordcheck_suggestion_events($projectid, $start_time = 0)
 {
     $sql = sprintf("
@@ -700,8 +789,10 @@ function load_site_possible_bad_words_given_project($projectid)
 
 // -----------------------------------------------------------------------------
 
-// return an associative array that maps the good/bad shorthand to
-// the filenames on disk
+/**
+ * Return an associative array that maps the good/bad shorthand to
+ * the filenames on disk
+ */
 function get_wordcheck_file_names()
 {
     return [
@@ -710,7 +801,16 @@ function get_wordcheck_file_names()
     ];
 }
 
-// $code must match one of the keys in array returned from get_wordcheck_file_names()
+/**
+ * Get a file info object for a project word list
+ *
+ * @param string $code
+ *   Must match one of the keys in array returned from `get_wordcheck_file_names()`
+ *
+ * @return object
+ *
+ * @see get_wordcheck_file_names()
+ */
 function get_project_word_file($projectid, $code)
 {
     global $projects_dir, $projects_url;
@@ -723,7 +823,14 @@ function get_project_word_file($projectid, $code)
                 "$projects_url/$projectid");
 }
 
-// $code must match one of the keys in the $filename_for_code array below.
+/**
+ * Get a file info object for a site word list
+ *
+ * @param string $code
+ *   Must match one of `good`, `bad`, `possible`
+ *
+ * @return object
+ */
 function get_site_word_file($langcode3, $code)
 {
     global $dyn_dir, $dyn_url;
@@ -740,15 +847,19 @@ function get_site_word_file($langcode3, $code)
                 "$dyn_url/words");
 }
 
-// Returns an object containing information about the specified
-// word-related file for the given project:
-// --- filename: its filename;
-// --- abs_path: its absolute path;
-// --- abs_url:  its absolute URL;
-// --- exists:   a boolean indicating whether it exists;
-// --- size:     its size in bytes;
-// --- mod_time: the time it was last modified, as a unix timestamp.
-// (size and mod_time are set to zero if the file doesn't exist.)
+/**
+ * Returns an object containing information about the specified
+ * word-related file for the given project.
+ *
+ * Attributes include:
+ * - filename: its filename
+ * - abs_path: its absolute path
+ * - abs_url:  its absolute URL
+ * - exists:   a boolean indicating whether it exists
+ * - size:     its size in bytes
+ * - mod_time: the time it was last modified, as a unix timestamp.
+ * Size and mod_time are set to zero if the file doesn't exist.
+ */
 function get_file_info_object($filename, $base_dir, $base_url)
 {
     clearstatcache();
@@ -768,10 +879,13 @@ function get_file_info_object($filename, $base_dir, $base_url)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Load a list of words (one per line) from a file.
-// Returns:
-//   on success: an array of words
-//   on error:   a string containing an error message
+/**
+ * Load a list of words (one per line) from a file.
+ *
+ * Returns:
+ * - on success: an array of words
+ * - on error:   a string containing an error message
+ */
 function load_word_list($path)
 {
     if (!is_file($path)) {
@@ -807,8 +921,11 @@ function load_word_list($path)
     return $words;
 }
 
-// Save a list of words (one per line) to a file.
-// Return a string, either "Success" or an error message.
+/**
+ * Save a list of words (one per line) to a file.
+ *
+ * Return a string, either "Success" or an error message.
+ */
 function save_word_list($path, $words)
 {
     // standardize word list
@@ -858,8 +975,9 @@ function save_word_list($path, $words)
 
 // -----------------------------------------------------------------------------
 
-// Returns an associative array of all languages for a project
-//   $array[$langcode]=$language;
+/**
+ * Returns an associative array of all languages for a project
+ */
 function get_project_languages($projectid, $aux_language = null)
 {
     $returnArray = [];
@@ -885,35 +1003,40 @@ function get_project_languages($projectid, $aux_language = null)
 }
 
 
-// Returns an associative array of site word lists
-// with their corresponding URL
-//   $array[$absolute_filename]=$url_link_to_file;
+/**
+ * Returns an associative array of site word lists
+ * with their corresponding URL
+ */
 function get_site_good_bad_word_lists()
 {
     return get_site_word_files("/^(good|bad)_words\.[a-z]{3}\.txt$/");
 }
 
-// Returns an associative array of site possible bad word lists
-// with their corresponding URL
-//   $array[$absolute_filename]=$url_link_to_file;
+/**
+ * Returns an associative array of site possible bad word lists
+ * with their corresponding URL
+ */
 function get_site_possible_bad_word_lists()
 {
     return get_site_word_files("/^possible_bad_words\.[a-z]{3}\.txt$/");
 }
 
-// Arguments:
-//   $pattern - regex that files must match to be included
-//              in the returned array. If blank all files
-//              will be returned.
-//   $urlbase - if TRUE files will be turned as a URL,
-//              if FALSE absolute filesystem paths are returned
-//
-// Returns an associative array of words ifiles in the site's words
-// with their corresponding URL
-//   $array[$absolute_filename]=$url_link_to_file;
-//
-// Note: 'empty' files (2 bytes in size or smaller) are not returned
-// regardless of the pattern specified
+/**
+ * Get site word files that match a pattern
+ *
+ * Returns an associative array of words ifiles in the site's words
+ * with their corresponding URL.
+ *
+ * Note: 'empty' files (2 bytes in size or smaller) are not returned
+ * regardless of the pattern specified
+ *
+ * @param string $pattern
+ *   Regex that files must match to be included in the returned array.
+ *   If blank all files will be returned.
+ * @param bool $urlbase
+ *   If TRUE files will be turned as a URL,
+ *   I FALSE absolute filesystem paths are returned
+ */
 function get_site_word_files($pattern = "", $urlbase = true)
 {
     global $dyn_dir;
@@ -953,12 +1076,14 @@ function get_site_word_files($pattern = "", $urlbase = true)
 
 // -----------------------------------------------------------------------------
 
-// Returns an array: each key is a distinct word in $text, and
-// the corresponding value is that word's frequency in $text.
-//
-// This function is equivalent to
-//     array_count_values(get_all_words_in_text($text));
-// but (when appropriate) avoids reifying the intermediate array.
+/**
+ * Returns an array: each key is a distinct word in $text, and
+ * the corresponding value is that word's frequency in $text.
+ *
+ * This function is equivalent to
+ * `array_count_values(get_all_words_in_text($text))`
+ * but (when appropriate) avoids reifying the intermediate array.
+ */
 function get_distinct_words_in_text($text)
 {
     // For a $text with typical-sized words, the memory consumed by the result
@@ -1016,21 +1141,25 @@ function get_distinct_words_in_text($text)
     return $input_words_w_freq;
 }
 
-// Returns an array whose values are all occurrences of all words in $text, in order
-// (i.e., with duplicates).
-//
-// $with_offsets:
-//    If false (the default), the keys are just consecutive integers.
-//    If true, then for each value, the corresponding key is the offset
-//        (in $text) of the start of that word.
-//
-//    If $text is project-sized, you should use $with_offsets=FALSE, otherwise
-//    you'll get back an array of (say) 200,000 entries with keys from about 0
-//    to (say) 1,000,000, and for some reason, PHP 4.4.2 (and maybe others) is
-//    ridiculously inefficient accessing such an array. (E.g., a simple var_dump
-//    took roughly an hour just to print the first four items in the array!)
-//    Note that it's *not* inefficient accessing an array with the same number
-//    of items, but having consecutive integers as the keys!
+/**
+ * Returns an array whose values are all occurrences of all words in $text,
+ * in order (i.e., with duplicates).
+ *
+ * @param string $text
+ *   Page text
+ * @param bool $with_offsets:
+ *   If false (the default), the keys are just consecutive integers.
+ *   If true, then for each value, the corresponding key is the offset
+ *   (in $text) of the start of that word.
+ *
+ * If $text is project-sized, you should use $with_offsets=FALSE, otherwise
+ * you'll get back an array of (say) 200,000 entries with keys from about 0
+ * to (say) 1,000,000, and for some reason, PHP 4.4.2 (and maybe others) is
+ * ridiculously inefficient accessing such an array. (E.g., a simple var_dump
+ * took roughly an hour just to print the first four items in the array!)
+ * Note that it's *not* inefficient accessing an array with the same number
+ * of items, but having consecutive integers as the keys!
+ */
 function get_all_words_in_text($text, $with_offsets = false)
 {
     global $word_pattern;
@@ -1055,7 +1184,9 @@ function get_all_words_in_text($text, $with_offsets = false)
     }
 }
 
-// given an array of words, calculate the frequency
+/**
+ * Given an array of words, calculate the frequency
+ */
 function generate_frequencies($wordList)
 {
     $wordCount = array_count_values($wordList);
@@ -1063,12 +1194,16 @@ function generate_frequencies($wordList)
     return $wordCount;
 }
 
-// Given an array of language names, return a list of valid langcode3s.
-// Arguments:
-//      languages - array of language names
-// Returns an array of:
-//      array of langcode3s
-//      array of zero or more error/warning messages
+/**
+ * Given an array of language names, return a list of valid langcode3s.
+ *
+ * Returns an array of:
+ * - array of langcode3s
+ * - array of zero or more error/warning messages
+ *
+ * @param array $languages
+ *   Array of language names
+ */
 function get_langcode3s_for_languages($languages)
 {
     $messages = [];
@@ -1085,23 +1220,29 @@ function get_langcode3s_for_languages($languages)
     return [$langcode3s, $messages];
 }
 
-// function for comparing words similar to strnatcasecmp
-// but deterministicly; without the strnatcmp() call
-// if the words are the same discounting case, the calling
-// sort function would be non-deterministic based on PHP
-// docs (see online docs for usort()) and manual confirmation
+/**
+ * Comparison function for similar to strnatcasecmp but deterministic
+ *
+ * Without the strnatcmp() call if the words are the same discounting case,
+ * the calling sort function would be non-deterministic based on PHP
+ * docs (see online docs for usort()) and manual confirmation.
+ */
 function deterministicStrnatcasecmp($a, $b)
 {
     return ($cmp = strnatcasecmp($a, $b)) != 0 ? $cmp : strnatcmp($a, $b);
 }
 
-// rtrim version to use in array_walk
+/**
+ * rtrim version to use in array_walk
+ */
 function rtrim_walk(&$item)
 {
     $item = rtrim($item);
 }
 
-// Filter words to only those of a specific script + Inherited
+/**
+ * Filter words to only those of a specific script + Inherited
+ */
 function filter_words_to_script($words, $script)
 {
     $script_words = [];
@@ -1113,14 +1254,18 @@ function filter_words_to_script($words, $script)
     return $script_words;
 }
 
-// Return a list of words where characters within a word contain "uncommon"
-// Unicode scripts.
-// Arguments:
-//   words - an array of words
-//
-// Returns:
-//       -- the array: [words[], found_scripts[]]
-//
+/**
+ * Return a list of words where characters within a word contain "uncommon"
+ * Unicode scripts.
+ *
+ * Returns:
+ * - the array: [words[], found_scripts[]]
+ *
+ * @param array $words
+ *   An array of words
+ *
+ * @return array
+ */
 function get_words_with_uncommon_scripts($words)
 {
     global $common_unicode_scripts;

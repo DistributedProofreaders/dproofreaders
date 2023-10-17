@@ -107,18 +107,25 @@ if ($display_list) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// handle any actionable request
-// arguments:
-//        $action - action to take
-//                  one of: delete, deleteconfirmed, create, edit, save,
-//                  saveconfirmed, list
-//     $list_type - list type to operate on
-//                  one of: good, bad, possible_bad
-//      $language - the list language
-//   $word_string - string of words to save
-// return codes:
-//   TRUE - request was handled (don't display default list)
-//   FALSE - request wasn't handled (display list)
+/**
+ * Handle any actionable page request
+ *
+ * Returns:
+ * - TRUE - request was handled (don't display default list)
+ * - FALSE - request wasn't handled (display list)
+ *
+ * @param string $action
+ *   Action to take, one of: delete, deleteconfirmed, create, edit, save,
+ *   saveconfirmed, list
+ * @param string $list_type
+ *   List type to operate on one of: good, bad, possible_bad
+ * @param string $language
+ *   The list language
+ * @param string $word_string
+ *   String of words to save
+ *
+ * @return bool
+ */
 function _handle_action($action, $list_type, $language, $word_string)
 {
     // look up the langcode3 for the language passed-in

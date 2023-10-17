@@ -1,9 +1,12 @@
 <?php
 
+/**
+ * Check whether $email_address is a reasonable/acceptable E-mail Address.
+ *
+ * If it is, return an empty string.
+ * If it isn't, return a string detailing the problem.
+ */
 function check_email_address($email_address)
-// Check whether $email_address is a reasonable/acceptable E-mail Address.
-// If it is, return an empty string.
-// If it isn't, return a string detailing the problem.
 {
     $email_address_max_len = 100;
     // This is the length of the 'email' field in the 'users' table.

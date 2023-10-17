@@ -15,6 +15,18 @@ $Stage_for_id_ = [];
 
 class Stage extends Activity
 {
+    /**
+     * Stage constructor
+     *
+     * @param $description
+     *   A sentence or two explaining what happens in this stage.
+     * @param $document
+     *   The path (relative to `$code_url/faq/`) of a document that tells you
+     *   everything you need to know about working in this stage.
+     *   Or NULL if there is no such document.
+     * @param $relative_url
+     *   The "home" location (relative to `$code_url/`) of the stage.
+     */
     public function __construct(
         $id,
         $name,
@@ -22,16 +34,9 @@ class Stage extends Activity
         $after_satisfying_minima,
         $evaluation_criteria,
         $access_change_callback,
-            // The above parameters have the same semantics as for Activity.
-
         $description,
-            // A sentence or two explaining what happens in this stage.
         $document,
-            // The path (relative to $code_url/faq/) of a document that tells you
-            // everything you need to know about working in this stage.
-            // Or NULL if there is no such document.
         $relative_url
-            // The "home" location (relative to $code_url/) of the stage.
     ) {
         parent::__construct(
             $id,
@@ -51,9 +56,11 @@ class Stage extends Activity
     }
 
 
+    /**
+     * Display a page-header, either an image (if available) or a textual title
+     * for this stage.
+     */
     public function page_header($title)
-    // Display a page-header, either an image (if available) or a textual title
-    // for this stage.
     {
         echo "<h1>$title</h1>\n" . get_page_header_image($this->id);
     }
@@ -119,10 +126,13 @@ function get_stages_user_can_work_in($username)
     return $accessible_stages;
 }
 
+/**
+ * Return an array of stages for which the user has access to all prereq stages.
+ *
+ * If $include_accessible_stages is true, this array also includes
+ * stages the user has access to.
+ */
 function get_stages_for_which_user_has_access_to_prereqs($username, $include_accessible_stages = false)
-// Return an array of stages for which the user has access to all prereq
-// stages. If $include_accessible_stages is true, this array also includes
-// stages the user has access to.
 {
     global $Stage_for_id_;
 

@@ -44,13 +44,17 @@ function get_news_page_last_modified_date($news_page_id)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Show the news block for the given page
+ *
+ * Output includes
+ * - a header,
+ * - all the 'current' news items,
+ * - a randomly-chosen 'recent' news item,
+ * where the news items are designated for the given page,
+ * or for every page.
+ */
 function show_news_for_page($news_page_id)
-// Show the news block for the given page, consisting of:
-// -- a header,
-// -- all the 'current' news items,
-// -- a randomly-chosen 'recent' news item,
-// where the news items are designated for the given page,
-// or for every page.
 {
     global $code_url;
 

@@ -150,9 +150,13 @@ if ($operation == 'replace') {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Handle file upload problems, if any
+ *
+ * If there's a problem, return a string containing an error message.
+ * If no problem, return the empty string.
+ */
 function handle_upload($projectid, $image, $replacement_image_info)
-// If there's a problem, return a string containing an error message.
-// If no problem, return the empty string.
 {
     global $projects_dir;
 
@@ -189,9 +193,13 @@ function handle_upload($projectid, $image, $replacement_image_info)
     }
 }
 
+/**
+ * Handle file delete problems, if any
+ *
+ * If there's a problem, return a string containing an error message.
+ * If no problem, return the empty string.
+ */
 function handle_delete($projectid, $image)
-// If there's a problem, return a string containing an error message.
-// If no problem, return the empty string.
 {
     global $projects_dir;
 
@@ -205,9 +213,13 @@ function handle_delete($projectid, $image)
     }
 }
 
+/**
+ * Handle delete all problems, if any
+ *
+ * If there's a problem, return a string containing an error message.
+ * If no problem, return the empty string.
+ */
 function handle_delete_all($projectid, $nonpage_image_names)
-// If there's a problem, return a string containing an error message.
-// If no problem, return the empty string.
 {
     global $projects_dir;
 

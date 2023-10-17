@@ -1,9 +1,11 @@
 <?php
 // A file for (UI) code that's used by both user and team stats pages.
 
+/**
+ * Return a snippet of HTML that visually conveys
+ * the change in rank between $previous_rank and $current_rank.
+ */
 function showChangeInRank($previous_rank, $current_rank)
-// Return a snippet of HTML that visually conveys
-// the change in rank between $previous_rank and $current_rank.
 {
     if (empty($current_rank) || empty($previous_rank)) {
         // Normally, this means that the rank is zero,

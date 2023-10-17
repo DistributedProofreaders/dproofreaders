@@ -42,18 +42,21 @@ assert(PHPBB_VERSION == 3, "Only phpBB version 3 is supported");
 
 
 /**
-* return a table name with the phpBB table prefix prepended to it
-*/
+ * Return a table name with the phpBB table prefix prepended to it
+ */
 function phpbb_table($table)
 {
     global $forums_phpbb_table_prefix;
     return $forums_phpbb_table_prefix . "_" . $table;
 }
 
+/**
+ * Return the language string phpbb uses for $langcode for languages
+ * installed in the forum interface.
+ *
+ * Fall back to English if $langcode is not installed on the system.
+ */
 function phpbb_lang($locale = false)
-// Return the language string phpbb uses for $langcode for languages
-// installed in the forum interface. Fall back to English if $langcode
-// is not installed on the system.
 {
     if ($locale === false) {
         $locale = get_desired_language();
@@ -84,11 +87,15 @@ function phpbb_lang($locale = false)
     }
 }
 
+/**
+ * Implement or call the hashing function used by the forum to hash
+ * the password stored in the database.
+ *
+ * This is required because we store the hashed password in the
+ * non_activated_users table and use it directly when creating the account
+ * post-activation.
+ */
 function forum_password_hash($password)
-// Implement or call the hashing function used by the forum to hash
-// the password stored in the database. This is required because we
-// store the hashed password in the non_activated_users table and use
-// it directly when creating the account post-activation.
 {
     if (PHPBB_VERSION == 3) {
         // phpBB3 hashing function is involved, so we'll call it directly
@@ -99,15 +106,20 @@ function forum_password_hash($password)
     }
 }
 
+/**
+ * Creates a forum user with the specified username, password, and email.
+ *
+ * The DP registration process already digests the password, hence the
+ * need for $password_is_digested.
+ *
+ * Returns:
+ * - TRUE  - user successfully created
+ * - !TRUE (error string) - user creation failed
+ *
+ * Note: Use a strict comparison operator (=== or !==) against TRUE
+ * to evaluate the pass/fail status of this function.
+ */
 function create_forum_user($username, $password, $email, $password_is_digested = false)
-// Creates a forum user with the specified username, password, and email.
-// The DP registration process already digests the password, hence the
-// need for $password_is_digested.
-// Returns:
-//     TRUE  - user successfully created
-//     !TRUE (error string) - user creation failed
-// Note: Use a strict comparison operator (=== or !==) against TRUE
-// to evaluate the pass/fail status of this function.
 {
     if (PHPBB_VERSION == 3) {
         // Use the phpBB3 API to create the user, but do so via phpbb3.inc
@@ -143,15 +155,18 @@ function create_forum_user($username, $password, $email, $password_is_digested =
     }
 }
 
+/**
+ * Log in the user to the forums.
+ *
+ * Returns:
+ * - [TRUE, '']  - user sucessfully logged in
+ * - [FALSE, $reason] - login failed and the reason why, valid $reasons:
+ *   - incorrect_username
+ *   - incorrect_password
+ *   - too_many_attempts
+ *   - unknown
+ */
 function login_forum_user($username, $password)
-// Log in the user to the forums.
-// Returns:
-//     [TRUE, '']  - user sucessfully logged in
-//     [FALSE, $reason] - login failed and the reason why, valid $reasons:
-//         'incorrect_username'
-//         'incorrect_password'
-//         'too_many_attempts'
-//         'unknown'
 {
     global $forums_phpbb_dir;
 
@@ -235,8 +250,10 @@ function login_forum_user($username, $password)
     }
 }
 
+/**
+ * Log out the currently-authenticated user from the forum.
+ */
 function logout_forum_user()
-// Log out the currently-authenticated user from the forum.
 {
     global $forums_phpbb_dir;
     global $pguser;
@@ -286,10 +303,13 @@ function get_reset_password_url()
     }
 }
 
+/**
+ * Given a username, return details about the user.
+ *
+ * Returns an associative array. See $interested_columns for the keys.
+ * If the user isn't found, the function returns NULL.
+ */
 function get_forum_user_details($username)
-// Given a username, return details about the user.
-// Returns an associative array. See $interested_columns for the keys.
-// If the user isn't found, the function returns NULL.
 {
     $interested_columns = [
         "id",         // forum user id
@@ -376,8 +396,10 @@ function get_forum_user_details($username)
     return $return_data;
 }
 
+/**
+ * Given a forum username, return the forum user ID.
+ */
 function get_forum_user_id($username)
-// Given a forum username, return the forum user ID.
 {
     // Use a local in-memory cache so we don't pummel the database
     // for pages that end up calling this for the same small set
@@ -409,8 +431,10 @@ function get_forum_user_id($username)
     return $row["user_id"];
 }
 
+/**
+ * Given a forum rank number, return the text title of that rank.
+ */
 function get_forum_rank_title($rank)
-// Given a forum rank number, return the text title of that rank.
 {
     $query = sprintf("
         SELECT rank_title
@@ -431,30 +455,38 @@ function get_forum_rank_title($rank)
     return $row["rank_title"];
 }
 
+/**
+ * Given a forum username, return the email address.
+ */
 function get_forum_email_address($username)
-// Given a forum username, return the email address.
 {
     $user_details = get_forum_user_details($username);
 
     return $user_details["email"] ?? "";
 }
 
+/**
+ * Return a URL to the base of the forum
+ */
 function get_url_for_forum()
-// Return a URL to the base of the forum
 {
     global $forums_phpbb_url;
     return $forums_phpbb_url;
 }
 
+/**
+ * Return a URL that a user can use to manually log in to the forums.
+ */
 function get_url_for_forum_user_login()
-// Return a URL that a user can use to manually log in to the forums.
 {
     return get_url_for_forum() . "/ucp.php?mode=login";
 }
 
+/**
+ * Given a forum username, return a URL that can be used to
+ * access a form to send the user a message.
+ */
 function get_url_to_compose_message_to_user($username)
-// Given a forum username, return a URL that can be used to
-// access a form to send the user a message.
 {
     $userid = get_forum_user_id($username);
 
@@ -463,27 +495,37 @@ function get_url_to_compose_message_to_user($username)
     }
 }
 
+/**
+ * Given a forum id, return a URL that can be used to view the forum.
+ */
 function get_url_to_view_forum($forum_id)
-// Given a forum id, return a URL that can be used to view the forum.
 {
     return get_url_for_forum() . "/viewforum.php?f=$forum_id";
 }
 
+/**
+ * Given a topic id, return a URL that can be used to view the topic.
+ */
 function get_url_to_view_topic($topic_id)
-// Given a topic id, return a URL that can be used to view the topic.
 {
     return get_url_for_forum() . "/viewtopic.php?t=$topic_id";
 }
 
+/**
+ * Given a post id, return a URL that can be used to view the post.
+ */
 function get_url_to_view_post($post_id)
-// Given a post id, return a URL that can be used to view the post.
 {
     return get_url_for_forum() . "/viewtopic.php?p=$post_id#$post_id";
 }
 
+/**
+ * Given a forum username, return a URL that can be used to load the user's
+ * avatar.
+ *
+ * If no avatar is defined, this function returns NULL.
+ */
 function get_url_for_user_avatar($username)
-// Given a forum username, return a URL that can be used to load the user's
-// avatar. If no avatar is defined, this function returns NULL.
 {
     $user_details = get_forum_user_details($username);
 
@@ -511,32 +553,40 @@ function get_url_for_user_avatar($username)
     }
 }
 
+/**
+ * Return a URL that can be used to edit the current user's profile.
+ */
 function get_url_to_edit_profile()
-// Return a URL that can be used to edit the current user's profile.
 {
     if (PHPBB_VERSION == 3) {
         return get_url_for_forum() . "/ucp.php";
     }
 }
 
+/**
+ * Return a URL that can be used to view a given user's profile.
+ */
 function get_url_to_view_profile($user_id)
-// Return a URL that can be used to view a given user's profile.
 {
     if (PHPBB_VERSION == 3) {
         return get_url_for_forum() . "/memberlist.php?mode=viewprofile&u=$user_id";
     }
 }
 
+/**
+ * Return the URL for accessing the current user's inbox.
+ */
 function get_url_for_inbox()
-// Return the URL for accessing the current user's inbox.
 {
     if (PHPBB_VERSION == 3) {
         return get_url_for_forum() . "/ucp.php?i=pm&folder=inbox";
     }
 }
 
+/**
+ * Given a forum username, return the number of unread messages.
+ */
 function get_number_of_unread_messages($username)
-// Given a forum username, return the number of unread messages.
 {
     $forum_userid = get_forum_user_id($username);
 
@@ -563,11 +613,12 @@ function get_number_of_unread_messages($username)
     return $num_messages;
 }
 
+/**
+ * Confirm a specific topic ID exists.
+ *
+ * @return bool
+ */
 function does_topic_exist($topic_id)
-// Confirm a specific topic ID exists.
-// Returns:
-//     FALSE - doesn't exist
-//     TRUE  - does exist
 {
     $query = sprintf("
         SELECT 1
@@ -585,10 +636,13 @@ function does_topic_exist($topic_id)
     return $exists;
 }
 
+/**
+ * Given a forum topic, return the time of the last post
+ * in UNIX time format (seconds since UNIX epoch).
+ *
+ * If no topic is found, function returns NULL.
+ */
 function get_last_post_time_in_topic($topic_id)
-// Given a forum topic, return the time of the last post
-// in UNIX time format (seconds since UNIX epoch).
-// If no topic is found, function returns NULL.
 {
     // Validate that $topic_id is an integer and if not, return NULL
     if (!is_numeric($topic_id)) {
@@ -613,14 +667,18 @@ function get_last_post_time_in_topic($topic_id)
     return $row["max_post_time"];
 }
 
+/**
+ * Return details about a topic
+ *
+ * Returns the following details about a topic as an associative array.
+ * - topic_id         - the ID of the topic (for completeness)
+ * - title            - the title of the topic
+ * - num_replies      - the number of replies in the topic
+ * - forum_name       - name of the forum the topic is in
+ * - forum_id         - the id of the forum the topic is in
+ * - creator_username - the username of the topic creator
+ */
 function get_topic_details($topic_id)
-// Returns the following details about a topic as an associative array.
-//     topic_id         - the ID of the topic (for completeness)
-//     title            - the title of the topic
-//     num_replies      - the number of replies in the topic
-//     forum_name       - name of the forum the topic is in
-//     forum_id         - the id of the forum the topic is in
-//     creator_username - the username of the topic creator
 {
     global $forums_phpbb_dir;
 
@@ -673,6 +731,11 @@ function get_topic_details($topic_id)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Create a topic
+ *
+ * A proxy for phpbb[2|3]_create_topic() in external phpbb3.inc
+ */
 function topic_create(
     $forum_id,
     $post_subject,
@@ -680,9 +743,7 @@ function topic_create(
     $poster_name,
     $poster_is_real,
     $make_poster_watch_topic
-)
-// A proxy for phpbb[2|3]_create_topic() in external phpbb[2|3].inc
-{
+) {
     $args = func_get_args();
     $topic_id = call_phpbb_function('create_topic', $args);
 
@@ -695,24 +756,31 @@ function topic_create(
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Create a post
+ *
+ * A proxy for phpbb[2|3]_add_post() in external phpbb3.inc
+ */
 function topic_add_post(
     $topic_id,
     $post_subject,
     $post_text,
     $poster_name,
     $poster_is_real
-)
-// A proxy for phpbb[2|3]_add_post() in external phpbb[2|3].inc
-{
+) {
     $args = func_get_args();
     call_phpbb_function('add_post', $args);
 }
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Call a phpBB function in a separate process.
+ *
+ * It's risky to combine DP and phpBB code in the same PHP context,
+ * so we run the phpBB code in a separate process.
+ */
 function call_phpbb_function($func_name, $args)
-// It's risky to combine DP and phpBB code in the same PHP context,
-// so we run the phpBB code in a separate process.
 {
     // If $DEBUG is TRUE, output some additional debugging information useful
     // for figuring out where the calls into phpbb*.inc went wrong.
@@ -759,8 +827,10 @@ function call_phpbb_function($func_name, $args)
     return $last_line;
 }
 
+/**
+ * Work-around for escapeshellarg's anomalous treatment of empty args.
+ */
 function my_escapeshellarg($arg)
-// Work-around for escapeshellarg's anomalous treatment of empty args.
 {
     $s = escapeshellarg($arg);
     if (empty($s)) {

@@ -22,9 +22,11 @@ function user_can_add_project_pages($projectid)
     }
 }
 
+/**
+ * Politely abort if the current user
+ * is not allowed to edit the specified project
+ */
 function abort_if_cant_edit_project($projectid)
-// Politely abort if the current user
-// is not allowed to edit the specified project
 {
     global $site_manager_email_addr;
 

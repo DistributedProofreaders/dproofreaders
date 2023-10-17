@@ -5,11 +5,15 @@ include_once($relPath.'misc.inc');
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Get CSS styles for the image block enhanced
+ *
+ * $block_width_pc and $block_height_pc
+ * give the dimensions of the whole image block
+ * as percentages of its container box
+ * (which is typically the "proofframe" of the proofing interface).
+ */
 function ibe_get_styles()
-// $block_width_pc and $block_height_pc
-// give the dimensions of the whole image block
-// as percentages of its container box
-// (which is typically the "proofframe" of the proofing interface).
 {
     $user = User::load_current();
 

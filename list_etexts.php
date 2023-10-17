@@ -4,8 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'list_projects.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param(), get_integer_param(),
-                                   // surround_and_join()
+include_once($relPath.'misc.inc'); // get_enumerated_param(), get_integer_param(), surround_and_join()
 
 $x = get_enumerated_param($_GET, 'x', 'g', ['g', 's', 'b']);
 $sort = get_integer_param($_GET, 'sort', 0, 0, 5);

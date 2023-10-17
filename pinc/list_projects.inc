@@ -3,9 +3,10 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'pg.inc');
 
+/**
+ * Output a list of projects giving very brief information about each
+ */
 function list_projects_tersely($where_condition, $order_clause, $limit_clause)
-// List the specified projects,
-// giving very brief information about each.
 {
     $sql = "
         SELECT nameofwork, authorsname, language, postednum
@@ -33,10 +34,12 @@ function list_projects_tersely($where_condition, $order_clause, $limit_clause)
     echo "</ul>\n";
 }
 
+/**
+ * Output a list of projects giving brief information about each.
+ *
+ * url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
+ */
 function list_projects($where_condition, $order_clause, $group_clause, $url_base, $per_page = 20, $offset = 0)
-// List the specified projects,
-// giving brief information about each.
-// url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
 {
     global $code_url;
 
@@ -167,9 +170,13 @@ function list_projects($where_condition, $order_clause, $group_clause, $url_base
     echo "</ol>";
 }
 
+/**
+ * Return number of books posted to PG
+ *
+ * This function takes into account that some books are processed as several
+ * projects.
+ */
 function total_completed_projects()
-// return number of books posted to PG
-// (takes into account that some books are processed as several projects)
 {
     $psd = get_project_status_descriptor('posted');
     $sql = "

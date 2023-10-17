@@ -54,9 +54,11 @@ function get_ELR_tallyboards()
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Add $amount to the user's page tally,
+ * and to the page tally of each team that the user currently belongs to.
+ */
 function page_tallies_add($tally_name, $username, $amount)
-// Add $amount to the user's page tally,
-// and to the page tally of each team that the user currently belongs to.
 {
     // get the user's u_id, and the teams that he/she belongs to
     $user = new User($username);
@@ -78,8 +80,9 @@ function page_tallies_add($tally_name, $username, $amount)
 
 // -----------------------------------------------------------------------------
 
-function get_daily_average($start_time, $total)
 // Not actually tally-specific, but that's all it's used for.
+
+function get_daily_average($start_time, $total)
 {
     $now = time();
     $seconds_since_start = $now - $start_time;
@@ -89,8 +92,10 @@ function get_daily_average($start_time, $total)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Return the user's page tally for the Entry-Level Round.
+ */
 function user_get_ELR_page_tally($username)
-// Return the user's page tally for the Entry-Level Round.
 {
     [$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
 
@@ -117,19 +122,22 @@ function user_get_ELR_page_tally($username)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Get the user's page tally neighborhood
+ *
+ * @param int $radius
+ *   (maximum) number of neighbors (on each side) to include in
+ *   the neighborhood. (It will include fewer that the maximum iff the target
+ *   user is within $radius of the corresponding end of the ranked list.)
+ *
+ * Return the page-tally neighborhood of $username.
+ * This is an array where keys are integers from the range [-$radius, +$radius],
+ * indicating a user's position relative to the target user (w.r.t. page tally).
+ * (So key=0 refers to the target user.)
+ * For a given key, the corresponding value is a PageTally_Neighbor object
+ * supplying various information about the page-tally neighbor.
+ */
 function user_get_page_tally_neighborhood($tally_name, $username, $radius)
-//
-// $radius is the (maximum) number of neighbors (on each side) to include in
-// the neighborhood. (It will include fewer that the maximum iff the target
-// user is within $radius of the corresponding end of the ranked list.)
-//
-// Return the page-tally neighborhood of $username.
-//    This is an array:
-//    The keys are integers from the range [-$radius, +$radius],
-//    indicating a user's position relative to the target user (w.r.t. page tally).
-//    (So key=0 refers to the target user.)
-//    For a given key, the corresponding value is a PageTally_Neighbor object
-//    supplying various information about the page-tally neighbor.
 {
     $user = new User($username);
 
@@ -212,8 +220,10 @@ class PageTally_Neighbor
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Should we anonymize information about the given user?
+ */
 function should_anonymize($username, $user_privacy_setting)
-// Should we anonymize information about the given user?
 {
     return !can_reveal_details_about($username, $user_privacy_setting);
 }
@@ -251,12 +261,16 @@ $SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an object whose attributes are various useful statistics about
+ * the site page tally.
+ *
+ * Return object attributes:
+ * - curr_day_{goal,actual}
+ * - prev_day_{goal,actual}
+ * - curr_month_{goal,actual}
+ */
 function get_site_page_tally_summary($tally_name)
-// Return an object whose attributes are various useful statistics re
-// the site page tally:
-//     curr_day_{goal,actual}
-//     prev_day_{goal,actual}
-//     curr_month_{goal,actual}
 {
     $site_stats = new StdClass();
 
@@ -319,6 +333,11 @@ function get_site_tally_goal_summed($tally_name, $date_condition)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return a string containing an SQL 'select' statement
+ * dealing with site-specific rows from the past_tallies table,
+ * and corresponding rows from the site_tally_goals table.
+ */
 function select_from_site_past_tallies_and_goals(
     $tally_name,
     $select,
@@ -326,9 +345,6 @@ function select_from_site_past_tallies_and_goals(
     $groupby,
     $orderby,
     $limit)
-// Return a string containing an SQL 'select' statement
-// dealing with site-specific rows from the past_tallies table,
-// and corresponding rows from the site_tally_goals table.
 {
     global $SECONDS_TO_YESTERDAY;
 
@@ -375,10 +391,13 @@ function select_from_site_past_tallies_and_goals(
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an array of the daily deltas in the holder's page tally for the past $days_back days,
+ * where $days_back is either the string "all" or a positive integer.
+ *
+ * In the returned array, each key is a date-string of the form "YYYY-MM-DD".
+ */
 function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id, $days_back)
-// Return an array of the daily deltas in the holder's page tally for the past $days_back days,
-// where $days_back is either the string "all" or a positive integer.
-// In the returned array, each key is a date-string of the form "YYYY-MM-DD".
 {
     global $SECONDS_TO_YESTERDAY;
 

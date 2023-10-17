@@ -70,8 +70,8 @@ function get_requested_PPage($request_params)
 
 // ---------------------------------------------------------
 
-class PPage
 // The initial 'P' is for 'Presentation' (i.e., user interface).
+class PPage
 {
     public function __construct(&$lpage, $proj_state)
     {
@@ -264,10 +264,14 @@ class PPage
 
     // -------------------------------------------------------------------------
 
+    /**
+     * Attempt to save a page as done
+     *
+     * This is only an attempt, because a daily page limit might block the save,
+     * or prevent further saves.
+     * If there's a problem, this function does not return to the caller.
+     */
     public function attempt_to_save_as_done($text_data)
-    // This is only an attempt, because a daily page limit might block the save,
-    // or prevent further saves.
-    // If there's a problem, this function does not return to the caller.
     {
         global $code_url, $pguser;
 

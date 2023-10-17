@@ -160,8 +160,10 @@ function output_project_label($nameofwork, $authorsname, $date = null)
     }
 }
 
-// For each mentorable project (in this round), show a summary (one line per mentee)
-// and then a listing (one line per page).
+/**
+ * For each mentorable project (in this round), show a summary (one line per mentee)
+ * and then a listing (one line per page).
+ */
 function output_project_details($mentored_round, $projectid, $nameofwork, $authorsname)
 {
     global $code_url;

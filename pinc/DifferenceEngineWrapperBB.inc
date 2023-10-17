@@ -4,7 +4,9 @@
 include_once($relPath."DifferenceEngineWrapper.inc");
 include_once($relPath."BBDiffFormatter.inc");
 
-// Format diffs using BB code, without HTML markup
+/**
+ * Format diffs using BB code, without HTML markup
+ */
 class DifferenceEngineWrapperBB extends DifferenceEngineWrapper
 {
     public function __construct($diffurl)
@@ -13,7 +15,9 @@ class DifferenceEngineWrapperBB extends DifferenceEngineWrapper
     }
 }
 
-// Format diffs using BB code, displayed within HTML markup
+/**
+ * Format diffs using BB code, displayed within HTML markup
+ */
 class DifferenceEngineWrapperBBHTML extends DifferenceEngineWrapper
 {
     public function __construct($diffurl)

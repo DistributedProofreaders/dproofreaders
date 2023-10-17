@@ -294,9 +294,10 @@ function users_by_country()
     ];
 }
 
+/**
+ * Return the array defined by $result[$i] = $arr[$i+1] - $arr[$i]
+ */
 function array_successive_differences($arr)
-// Return the array defined by:
-//     $result[$i] = $arr[$i+1] - $arr[$i]
 {
     $result = [];
     foreach ($arr as $key => $value) {
@@ -366,9 +367,10 @@ function curr_month_proj($which)
     ];
 }
 
+/**
+ * Return the array defined by $result[$i] = $arr[$i] - $arr[0]
+ */
 function array_subtract_first_from_each($arr)
-// Return the array defined by:
-//     $result[$i] = $arr[$i] - $arr[0]
 {
     $result = [];
     foreach ($arr as $key => $value) {
@@ -536,9 +538,10 @@ function total_pages_by_month_graph($tally_name)
     ];
 }
 
+/**
+ * Return the array defined by: $result[$i] = sum( $arr[$j] for $j up to and including $i )
+ */
 function array_accumulate($arr)
-// Return the array defined by:
-//     $result[$i] = sum( $arr[$j] for $j up to and including $i )
 {
     $result = [];
     $sum = 0;
@@ -755,9 +758,13 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
     ];
 }
 
+/**
+ * Return an SQL selector that can be used in a WHERE clause.
+ *
+ * @param string $which
+ *   A word denoting a round ID or a phase (NEW, PP, GB)
+ */
 function _get_project_state_selector($which, $desired_states = null)
-// This function returns an SQL selector that can be used in a WHERE clause.
-// $which is a word denoting a round ID or a phase (NEW, PP, GB)
 {
     global $project_state_phase_;
 
@@ -828,12 +835,14 @@ function get_round_backlog_stats($interested_phases)
 
 //--------------------------------------------------------------------------
 
-// Given a function and arguments that will generate graph data, attempt
-// to load the data from memcached first and fall back to the function and
-// cache the response.
-//
-// Note that the graph function might include _() so it's important that we
-// include the user's language in the key.
+/**
+ * Given a function and arguments that will generate graph data, attempt
+ * to load the data from memcached first and fall back to the function and
+ * cache the response.
+ *
+ * Note that the graph function might include _() so it's important that we
+ * include the user's language in the key.
+ */
 function query_graph_cache($function, $args = [], $expire_from_now = 3600)
 {
     $memcache = new Memcached();

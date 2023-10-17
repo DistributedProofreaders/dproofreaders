@@ -17,9 +17,12 @@ class BBDiffFormatter extends DiffFormatter
         $this->diffurl = $diffurl;
     }
 
-    // Outputs an edit block
-    // Leading context line is output before add/delete changes
-    // Assumes zero trailing context lines
+    /**
+     * Outputs an edit block
+     *
+     * Leading context line is output before add/delete changes
+     * Assumes zero trailing context lines
+     */
     protected function block($xbeg, $xlen, $ybeg, $ylen, &$edits)
     {
         // We don't display leading context line for change edits, so need to
@@ -56,7 +59,9 @@ class BBDiffFormatter extends DiffFormatter
         $this->endBlock();
     }
 
-    // Called at the start of a block of connected edits.
+    /**
+     * Called at the start of a block of connected edits.
+     */
     protected function startBlock($header)
     {
         $linenum = preg_replace('/^(\d+).*/', 'Line $1', $header);
@@ -65,8 +70,10 @@ class BBDiffFormatter extends DiffFormatter
         $this->writeOutput("\n----- [b]$linenum, page [url=$safeurl]${difflabel}[/url][/b] -----\n");
     }
 
-    // Writes all (optionally prefixed) lines to the output buffer, separated by newlines
-    // and enclosed in BBCode [code] markup
+    /**
+     * Writes all (optionally prefixed) lines to the output buffer, separated by newlines
+     * and enclosed in BBCode [code] markup
+     */
     protected function lines($lines, $prefix = '')
     {
         $this->writeOutput("[code]\n");
@@ -76,19 +83,25 @@ class BBDiffFormatter extends DiffFormatter
         $this->writeOutput("[/code]\n");
     }
 
-    // Output lines that were added by the diff
+    /**
+     * Output lines that were added by the diff
+     */
     protected function added($lines, $leading_context = null)
     {
         $this->added_deleted('added', $lines, $leading_context);
     }
 
-    // Output lines that were deleted by the diff
+    /**
+     * Output lines that were deleted by the diff
+     */
     protected function deleted($lines, $leading_context = null)
     {
         $this->added_deleted('deleted', $lines, $leading_context);
     }
 
-    // Output lines that were added/deleted by the diff
+    /**
+     * Output lines that were added/deleted by the diff
+     */
     private function added_deleted($adddel_string, $lines, $leading_context)
     {
         if (empty($leading_context)) {  // Must be first line of the page if no context
@@ -112,8 +125,9 @@ class BBDiffFormatter extends DiffFormatter
         }
     }
 
-    // Count blank lines in given array if they are all blank
-    //
+    /**
+     * Count blank lines in given array if they are all blank
+     */
     private function count_all_blank_lines($lines)
     {
         foreach ($lines as &$line) {
@@ -124,7 +138,9 @@ class BBDiffFormatter extends DiffFormatter
         return count($lines);
     }
 
-    // Output lines that were changed by the diff
+    /**
+     * Output lines that were changed by the diff
+     */
     protected function changed($orig, $closing)
     {
         $this->lines($orig);
@@ -132,18 +148,25 @@ class BBDiffFormatter extends DiffFormatter
         $this->lines($closing);
     }
 
-    // Make string safe for this type of output
-    // No changes needed for BBCode output
+    /**
+     * Make string safe for this type of output
+     *
+     * No changes needed for BBCode output
+     */
     protected function make_safe($string)
     {
         return $string;
     }
 }
 
-// Makes BBCode diffs suitable for displaying within HTML
+/**
+ * Makes BBCode diffs suitable for displaying within HTML
+ */
 class BBDiffFormatterHTML extends BBDiffFormatter
 {
-    // Make string safe for HTML output
+    /**
+     * Make string safe for HTML output
+     */
     protected function make_safe($string)
     {
         return html_safe($string);

@@ -264,19 +264,21 @@ $ELR_round = get_Round_for_round_number(1);
 
 // -----------------------------------------------------------------------------
 
+/*
+ * Check if the given user is allowed to get a new page
+ * of the given project in the given round
+ * (via "Start Proofreading" or "Save and Do Another"),
+ * otherwise, throw an exception explaining why not.
+ *
+ * You can assume that this function will be called only if:
+ * - the current user has general access to the round, and
+ * - the project is available in the round,
+ * so this function doesn't have to check for either of those.
+ *
+ * It also doesn't need to check whether any of the project's pages
+ * are actually available.
+ */
 function validate_user_can_get_pages_in_project($username, $project, $round)
-// Check if the given user is allowed to get a new page
-// of the given project in the given round
-// (via "Start Proofreading" or "Save and Do Another"),
-// Otherwise, throw an exception explaining why not.
-//
-// You can assume that this function will be called only if:
-// -- the current user has general access to the round, and
-// -- the project is available in the round,
-// so this function doesn't have to check for either of those.
-//
-// It also doesn't need to check whether any of the project's pages
-// are actually available.
 {
     // Projects with difficulty='beginner' are treated differently in
     // various ways.
@@ -374,11 +376,14 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
     // None of the above restrictions apply.
 }
 
+/**
+ * Should $project be temporarily reserved for inexperienced users
+ * after becoming available in $round?
+ *
+ * If so, return the length of the reserve in days.
+ * If not, return 0.
+ */
 function get_reserve_length($project, $round)
-// Should $project be temporarily reserved for inexperienced users
-// after becoming available in $round?
-// If so, return the length of the reserve in days.
-// If not, return 0.
 {
     // We only reserve-for-newbies in P1.
     if ($round->id != 'P1') {
@@ -421,23 +426,25 @@ function get_reserve_length($project, $round)
 
 // -------------------------------------------------------------------
 
+/**
+ * Return an SQL blurb that can be used to sort projects in a round.
+ *
+ * On each round page, the order of the project list can be adjusted by
+ * clicking on column headers. If you want certain criteria to take precedence
+ * over such sorts, have this function return a string expressing those criteria
+ * as one or more ordering specifications (such as would appear in an ORDER BY
+ * clause in SQL), referring to columns of the projects table.
+ *
+ * For instance, to have beginner projects always appear at the top of
+ * every round's project list, this function could return one of:
+ * - `"(difficulty = 'beginner') DESC"`
+ * - `"IF( difficulty = 'beginner', 1, 2 )"`
+ * - `"CASE difficulty WHEN 'beginner' THEN 1 ELSE 2 END"`
+ *
+ * If you don't want any criteria to take precedence over column-sorts,
+ * return NULL or the empty string.
+ */
 function round_project_listing_presort($round)
-// On each round page, the order of the project list can be adjusted by
-// clicking on column headers. If you want certain criteria to take precedence
-// over such sorts, have this function return a string expressing those criteria
-// as one or more ordering specifications (such as would appear in an ORDER BY
-// clause in SQL), referring to columns of the projects table.
-//
-// For instance, to have beginner projects always appear at the top of
-// every round's project list, this function could return
-//     "(difficulty = 'beginner') DESC"
-// or
-//     "IF( difficulty = 'beginner', 1, 2 )"
-// or
-//     "CASE difficulty WHEN 'beginner' THEN 1 ELSE 2 END"
-//
-// If you don't want any criteria to take precedence over column-sorts,
-// return NULL or the empty string.
 {
     if (is_proofreading_round($round)) {
         return "
@@ -504,14 +511,18 @@ new Pool(
     ]
 );
 
+/**
+ * Echo the post-processor comments block.
+ *
+ * If a project is checked out for PP, and the post-processor is viewing
+ * the project page, then the page will have an editable text area
+ * entitled "Post-Processor's Comments".
+ *
+ * This function is called between the title and the text area,
+ * and should give (site-specific) instructions to the post-processor
+ * on how to use (or not use) the postcomments field.
+ */
 function echo_postcomments_instructions()
-// If a project is checked out for PP,
-// and the post-processor is viewing the project page,
-// then the page will have an editable text area
-// entitled "Post-Processor's Comments".
-// This function is called between the title and the text area,
-// and should give (site-specific) instructions to the post-processor
-// on how to use (or not use) the postcomments field.
 {
     global $wiki_url;
 

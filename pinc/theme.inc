@@ -15,8 +15,10 @@ include_once($relPath.'post_processing.inc'); // count_pp_projects_past_threshol
 include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
 include_once($relPath.'faq.inc');
 
-// Emit the opening markup and theme tags, and register a callback
-// to close the page after the caller finishes output.
+/**
+ * Emit the opening markup and theme tags, and register a callback
+ * to close the page after the caller finishes output.
+ */
 function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
 {
     $user = User::load_current();
@@ -169,9 +171,11 @@ function html_logobar()
     }
 }
 
+/**
+ * Display the horizontal bar containing links to various important points
+ * within the site (and the login form if the user is not logged in).
+ */
 function html_navbar()
-// Display the horizontal bar containing links to various important points
-// within the site (and the login form if the user is not logged in).
 {
     global $code_url, $site_abbreviation, $blog_url, $wiki_url;
 
@@ -303,16 +307,19 @@ function html_navbar()
     echo "</div>\n";
 }
 
+/**
+ * Outputs entries in the navbar contained within $entries.
+ *
+ * Each $entry is an associative array containing either:
+ * - 'text' - text to display as-is without changes, can include HTML
+ * - 'url' and 'text' - a link using 'text' as the label
+ *
+ * Either one can also have a 'title' as well that will be placed in a title
+ * attribute on the <a> or <span> tag. The function also determines if the
+ * current page is one of the urls and if so it doesn't create the link but
+ * instead wraps the text in a span.currentpage tag.
+ */
 function headerbar_text_array($entries)
-// Prints out entries in the navbar contained within $entries.
-// Each $entry is an associative array containing either:
-//    'text' - text to display as-is without changes, can include HTML
-// or:
-//    'url' and 'text' - a link using 'text' as the label
-// Either one can also have a 'title' as well that will be placed in a title
-// attribute on the <a> or <span> tag. The function also determines if the
-// current page is one of the urls and if so it doesn't create the link but
-// instead wraps the text in a span.currentpage tag.
 {
     global $code_url;
 
@@ -505,9 +512,12 @@ function maybe_show_language_selector()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Return a list of round/stage links for the user
+ *
+ * The returned links are in a format usable by headerbar_text_array()
+ */
 function get_activity_links()
-// return a list of round/stage links for the user
-// the returned links are in a format usable by headerbar_text_array
 {
     global $Stage_for_id_, $ELR_round;
 
@@ -893,33 +903,43 @@ function show_key_help_links()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Calculate progress bar size and color properties
+ *
+ * A simple progress bar can be created by using the following HTML:
+ * ```
+ * <div class='progressbar $progress_bar_class' style='width: $width%;'>&nbsp;</div>
+ * ```
+ *
+ * The <div> can be placed inside another container used to control
+ * the total width. This function assists in calculating the $color and $width
+ * values used above in addition to returning the actual percentage of the
+ * goal achieved. In order for the progress bars to be themable, a class name
+ * is returned, instead of an actual color.
+ *
+ * Returns three values via a non-associative array():
+ * - progress_bar_width - percentage width of the progress bar in range [0-100]
+ * - progress_bar_class - class for color of progress bar using step-wise colors.
+ *   The classes will need to be defined in layout.less
+ *   for them to be applied to the progress bar.
+ * - percent_complete   - actual percentage complete in whole numbers
+ *
+ * @param int $actual
+ *   Actual value obtained
+ * @param int $goal
+ *   Goal for the day
+ * @param mixed $prorate_goal_for_color
+ *   if TRUE or 'day', the returned color will be calculated based
+ *   on how much of the current day has passed. If set to 'month'
+ *   the color will be based on how much of the month has passed.
+ *   This is useful so that at the beginning of a new timeframe the
+ *   bar isn't at the low color.
+ * @param array $color_thresholds
+ *   Associative array containing the class names to use for
+ *   each percentage completed range, eg:
+ *   `[100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely"]
+ */
 function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_color = true, $color_thresholds = null)
-// A simple progress bar can be created by using the following HTML:
-//   <div class='progressbar $progress_bar_class' style='width: $width%;'>&nbsp;</div>
-// The <div> can be placed inside another container used to control
-// the total width. This function assists in calculating the $color and $width
-// values used above in addition to returning the actual percentage of the
-// goal achieved. In order for the progress bars to be themable, a class name
-// is returned, instead of an actual color.
-// Arguments:
-//   actual           - actual value obtained
-//   goal             - goal
-//   prorate_goal_for_color
-//                    - if TRUE or 'day', the returned color will be calculated based
-//                      on how much of the current day has passed. If set to 'month'
-//                      the color will be based on how much of the month has passed.
-//                      This is useful so that at the beginning of a new timefram the
-//                      bar isn't at the low color.
-//   color_thresholds - associative array containing the class names to use for
-//                      each percentage completed range
-//                      eg: array(100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely");
-//
-// Returns three values via a non-associative array():
-//   progress_bar_width - percentage width of the progress bar in range [0-100]
-//   progress_bar_class - class for color of progress bar using step-wise colors.
-//                        The classes will need to be defined in layout.less
-//                        for them to be applied to the progress bar.
-//   percent_complete   - actual percentage complete in whole numbers
 {
     // Define the color classes used for the status bar graph
     if (!is_array($color_thresholds)) {
@@ -968,10 +988,13 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Given file name relative to $dyn_dir, find a matching image by testing
+ * for all web image extensions and return the full URL in $dyn_url.
+ *
+ * If no image is found for the file name, the function returns NULL.
+ */
 function get_dyn_image_url_for_file($filename)
-// Given file name relative to $dyn_dir, find a matching image by testing
-// for all web image extensions and return the full URL in $dyn_url.
-// If no image is found for the file name, the function returns NULL.
 {
     global $dyn_dir, $dyn_url;
 
@@ -988,8 +1011,9 @@ function get_dyn_image_url_for_file($filename)
     return null;
 }
 
-// Given a page basename, see if we have a header image for the page.
-// If so, return the <img>. If not, return "";
+/**
+ * Given a page basename return an <img> element for it
+ */
 function get_page_header_image($image)
 {
     // Try a locale-less image first
@@ -1009,24 +1033,34 @@ function get_page_header_image($image)
     return "";
 }
 
-// Output a tab bar of various view modes and a selected mode
-// $view_modes - a complex associative array, eg:
-//     [
-//         "mode1" => [
-//             "label" => "Tab label",
-//             "url" => "",         # optional URL
-//             "postscript" => "",  # optional postscript for after tab bar
-//         ],
-//         "mode2" => [
-//         ], ...
-//     ]
-// $selected_mode - which view mode (a key in $view_modes) is currently selected
-// $view_variable - the URL parameter to use when selecting a new mode,
-//     most commonly "show" but it can be anything
-// $url_addition - an optional string that will be appended to the URL. This can
-//     be other page parameters and/or a page anchor
-// $display_mode - one of "full" or "auto" - full will cause the bar to span the
-//     entire page while auto will only use as much horizontal space as needed.
+/**
+ * Output a tab bar of various view modes and a selected mode
+ *
+ * @param array $view_modes
+ *   A complex associative array, eg:
+ *   ```
+ *   [
+ *       "mode1" => [
+ *           "label" => "Tab label",
+ *           "url" => "",         # optional URL
+ *           "postscript" => "",  # optional postscript for after tab bar
+ *       ],
+ *       "mode2" => [
+ *       ], ...
+ *   ]
+ *   ```
+ * @param string $selected_mode
+ *   Which view mode (a key in $view_modes) is currently selected
+ * @param string $view_variable
+ *   The URL parameter to use when selecting a new mode,
+ *   most commonly "show" but it can be anything
+ * @param string $url_addition
+ *   An optional string that will be appended to the URL. This can
+ *   be other page parameters and/or a page anchor
+ * @param string $display_mode
+ *   One of "full" or "auto" - full will cause the bar to span the
+ *   entire page while auto will only use as much horizontal space as needed.
+ */
 function output_tab_bar($view_modes, $selected_mode, $view_variable, $url_addition = "", $display_mode = "full")
 {
     $div_style = $display_mode == "auto" ? "style='width: auto;'" : "";

@@ -17,23 +17,29 @@ $PROJECT_TRANSITIONS = [];
 
 class ProjectTransition
 {
+    /**
+     * Project Transition constructor
+     *
+     * A user who satisfies the $who_restriction can cause
+     * a project that satisfies $project_restriction
+     * to transit from $from_state to $to_state.
+     *
+     * @param array $options
+     *   Associative array containing the following keys
+     *   - project_restriction
+     *   - action_name
+     *   - confirmation_question
+     *   - detour
+     *   - settings_template
+     *   - collateral_actions
+     *   - disabled_during_SR
+     */
     public function __construct(
         $from_state,
         $to_state,
         $who_restriction,
         $options
-            // project_restriction
-            // action_name
-            // confirmation_question
-            // detour
-            // settings_template
-            // collateral_actions
-            // disabled_during_SR
-    )
-    // A user who satisfies the $who_restriction can cause
-    // a project that satisfies $project_restriction
-    // to transit from $from_state to $to_state.
-    {
+    ) {
         $this->from_state = $from_state;
         $this->to_state = $to_state;
         $this->who_restriction = $who_restriction;
@@ -140,15 +146,26 @@ class ProjectTransition
         die("transition has bad 'restriction' value: '$simple_who_restriction'");
     }
 
-    // Returns whether the transition is currently disabled
+    /**
+     * Returns whether the transition is currently disabled
+     */
     public function is_disabled($project)
     {
         return ($this->why_disabled($project) != '');
     }
 
-    // Returns the reason why the ProjectTransition is currently disabled
-    //
-    //   SR = Disabled during Smooth Reading
+    /**
+     * Returns the reason why the ProjectTransition is currently disabled
+     *
+     * Returns one of:
+     * - "" - no reason why it is disabled
+     * - "SR" - Disabled during Smooth Reading
+     *
+     * @param object $project
+     *   Project object
+     *
+     * @return string
+     */
     public function why_disabled($project)
     {
         if ($project->is_available_for_smoothreading() &&
@@ -163,18 +180,22 @@ class ProjectTransition
 
     // ---------------------------------------------------------------
 
+    /**
+     * Apply the transition to the given project, and perform any attendant
+     * processing.
+     *
+     * If there are any problems, return a string containing an error message.
+     * Otherwise, return an empty string.
+     *
+     * This function produces no output except for debugging messages.
+     *
+     * This function should be the only code that modifies the 'state'
+     * column of the 'projects' table.
+     *
+     * It should perhaps also be the only place that modifies these columns:
+     *     modifieddate checkedoutby postproofer postcomments
+     */
     public function do_state_change($project, $who, $extras)
-    // Apply the transition to the given project,
-    // and perform any attendant processing.
-    // If there are any problems, return a string containing an error message.
-    // Otherwise, return an empty string.
-    //
-    // This function produces no output except for debugging messages.
-    //
-    // This function should be the only code that modifies the 'state'
-    // column of the 'projects' table.
-    // It should perhaps also be the only place that modifies these columns:
-    //     modifieddate checkedoutby postproofer postcomments
     {
         global $testing;
 
@@ -332,10 +353,13 @@ class ProjectTransition
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/**
+ * Check whether the project seems ready to be released into the round.
+ *
+ * If it is, return an empty array.
+ * If it has problems, return an array of detailed error messages.
+ */
 function project_pre_release_check($project, $round)
-// Check whether the project seems ready to be released into the round.
-// If it is, return an empty array.
-// If it has problems, return an array of detailed error messages.
 {
     if (!$project->pages_table_exists) {
         return [_("There is no page-table.")];
@@ -384,9 +408,11 @@ function project_pre_release_check($project, $round)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an array of transitions that the given user
+ * can perform on the project (in its current state).
+ */
 function get_valid_transitions($project, $username)
-// Return an array of transitions that the given user
-// can perform on the project (in its current state).
 {
     global $PROJECT_TRANSITIONS;
 

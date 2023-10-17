@@ -1,11 +1,20 @@
 <?php
 include_once($relPath.'authors.inc');
 
-// Project comments can contain one kind of special markup:
-//   [biography=....]
-// This markup should always be replaced with the proper biography before the
-// project comments are displayed, zipped up for the post-processor, etc.
-//
+/**
+ * Parse (render) project comments into HTML
+ *
+ * Project comments can be either Markdown or HTML. Sanitize the HTML if its
+ * in that format otherwise render the Markdown to save HTML.
+ *
+ * Comments can also contain one kind of special markup `[biography=....]`.
+ * This markup should always be replaced with the proper biography before the
+ * project comments are displayed, zipped up for the post-processor, etc.
+ *
+ * @param object $project Project object
+ *
+ * @return string
+ */
 function parse_project_comments($project)
 {
     global $relPath;

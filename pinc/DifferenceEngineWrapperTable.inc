@@ -57,7 +57,9 @@ class DifferenceEngineWrapperTable extends DifferenceEngineWrapper
     }
 }
 
-// Override default css for DP customizations
+/**
+ * Override default css for DP customizations
+ */
 function get_DifferenceEngine_css_data()
 {
     [, $font_size, $font_family] = get_user_proofreading_font();

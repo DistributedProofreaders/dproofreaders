@@ -113,11 +113,18 @@ metarefresh(0, $url, "", "");
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// When a login failure occurs, redirect the user to login_failure.php to see
-// the error message and some tips to correct it.
-//
-// $error_code is a short URL-friendly key into an array defined in
-// login_failure.php that contains a translated, user-friendly error message.
+/**
+ * Redirect user to login_failure.php.
+ *
+ * When a login failure occurs, redirect the user to login_failure.php to see
+ * the error message and some tips to correct it.
+ *
+ * @param string $error_code
+ *   A short URL-friendly key into an array defined in login_failure.php that
+ *   contains a translated, user-friendly error message.
+ * @param string $destination
+ *   A URL where the user should be redirected back to upon a successful login.
+ */
 function login_failure($error_code, $destination)
 {
     global $code_url;

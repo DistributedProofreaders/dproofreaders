@@ -8,11 +8,26 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+/**
+ * Send an email
+ *
+ * If this is for real, send the message. If we're testing, just report what
+ * would have been sent.
+ *
+ * @param string $to
+ *   Email address of the recipient
+ * @param string $subject
+ *   Email subject
+ * @param string $message
+ *   Email body
+ * @param string $from
+ *   Optional argument for who the email is from. May either take the form
+ *   `user@example.com` or `Example User <user@example.com>`.
+ * @param string $reply_to
+ *   Optional argument for who the email is from. May either take the form
+ *   `user@example.com` or `Example User <user@example.com>`.
+ */
 function send_mail($to, $subject, $message, $from = null, $reply_to = null)
-// If this is for real, send the message.
-// If we're testing, just report what would have been sent.
-// Optional $from and $reply_to arguments may either take the form
-// "user@example.com" or "Example User <user@example.com>"
 {
     global $testing, $phpmailer_smtp_config, $auto_email_addr, $site_name, $site_url;
 
@@ -118,9 +133,12 @@ function send_mail_project_manager($project, $info, $prefix)
     return send_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
 }
 
-// Return text and HTML versions of standard email footer
-// We intentionally don't translate anything because we don't know
-// what the recipient's language is at this point.
+/**
+ * Return text and HTML versions of standard email footer
+ *
+ * We intentionally don't translate anything because we don't know
+ * what the recipient's language is at this point.
+ */
 function get_standard_email_footers()
 {
     global $site_url, $site_name;
@@ -143,9 +161,12 @@ function get_standard_email_footers()
     return [$text_footer, $html_footer];
 }
 
-// Split a string of form "user@example.com" or "Example User <user@example.com>"
-// into the name and the email address.
-// Name will be null if not specified.
+/**
+ * Split a string into an email and name.
+ *
+ * Split a string of form `user@example.com` or `Example User <user@example.com>`
+ * into the name and the email address. Name will be null if not specified.
+ */
 function get_name_address($string)
 {
     $string = rtrim($string, '>');
@@ -159,28 +180,39 @@ function get_name_address($string)
     return [$name, $address];
 }
 
-// Add linebreak to end of line for a Markdown email
-// Appends two spaces which are then rendered as <br> in HTML
+/**
+ * Add linebreak to end of line for a Markdown email
+ *
+ * Appends two spaces which are then rendered as <br> in HTML
+ */
 function mdmail_append_linebreak($line)
 {
     return $line . '  ';
 }
 
-// Return string for horizontal rule for a Markdown email
+/**
+ * Return string for horizontal rule for a Markdown email
+ */
 function mdmail_horizontal_rule()
 {
     return '---';
 }
 
-// Cause line to be indented for a Markdown email
-// Prepends 4 non-breaking spaces
+/**
+ * Cause line to be indented for a Markdown email
+ *
+ * Prepends 4 non-breaking spaces
+ */
 function mdmail_indent_line($line)
 {
     return str_repeat("\u{a0}", 4) . $line;
 }
 
-// Convert line to a heading in a Markdown email
-// Prepends number of hashes corresponding to level
+/**
+ * Convert line to a heading in a Markdown email
+ *
+ * Prepends number of hashes corresponding to level
+ */
 function mdmail_heading($level, $line)
 {
     return str_repeat('#', $level) . ' ' . $line;

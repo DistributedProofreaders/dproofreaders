@@ -884,8 +884,10 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     assert(false);
 }
 
-// Wrap a string to about 72 characters wide so it's
-// suitable for displaying in <pre>-formatted HTML email.
+/**
+ * Wrap a string to about 72 characters wide so it's
+ * suitable for displaying in <pre>-formatted HTML email.
+ */
 function ppv_report_wrap($string)
 {
     $string = wordwrap($string, 72);

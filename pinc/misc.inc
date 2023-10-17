@@ -3,8 +3,10 @@
 
 use voku\helper\UTF8;
 
+/**
+ * Return $arr[$key], or if it's not defined, $default.
+ */
 function array_get($arr, $key, $default)
-// Return $arr[$key], or if it's not defined, $default.
 {
     if (isset($arr[$key])) {
         return $arr[$key];
@@ -13,8 +15,10 @@ function array_get($arr, $key, $default)
     }
 }
 
+/**
+ * Given an array of arrays/objects, return the values of the desired field.
+ */
 function array_extract_field($array, $field)
-// Given an array of arrays/objects, return the values of the desired field.
 {
     $values = [];
     foreach ($array as $entity) {
@@ -27,12 +31,15 @@ function array_extract_field($array, $field)
     return $values;
 }
 
+/**
+ * Return an array whose values are the names of the properties
+ * whose values differ between the two objects $new and $old.
+ *
+ * If $remove_non_public is true, non-public values are not considered in
+ * the comparison and not returned.
+ * https://www.php.net/manual/en/language.types.array.php#language.types.array.casting
+ */
 function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
-// Return an array whose values are the names of the properties
-// whose values differ between the two objects $new and $old.
-// If $remove_non_public is true, non-public values are not considered in
-// the comparison and not returned.
-// https://www.php.net/manual/en/language.types.array.php#language.types.array.casting
 {
     $old_as_array = (array)$old;
     $new_as_array = (array)$new;
@@ -52,19 +59,33 @@ function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
     return $changed_fields;
 }
 
+/**
+ * Get and validate a value from an array against a known set of values
+ *
+ * If `$arr[$key]` is defined and is one of the strings in `$choices`,
+ * return that string.
+ * If it's not defined, and `$default` is non-null, return `$default`.
+ * If `$default` is null and `$allownull` is true, return null (useful for optional params).
+ *
+ * Example usages:
+ * - The direction must be asc/desc, and defaults to asc if not provided.
+ *   ```
+ *   $dir = get_enumerated_param( $_GET, 'direction', 'asc', ['asc', 'desc'] );
+ *   ```
+ * - The tally_name must be one of the rounds, but show a round menu if not specified.
+ *   ```
+ *   $round = get_enumerated_param( $_GET, 'tally_name', null, $rounds, true);
+ *   ```
+ *
+ * @param array $arr
+ * @param string $key
+ * @param mixed $default
+ * @param array $choices
+ * @param bool $allownull
+ *
+ * @throws InvalidArgumentException
+ */
 function get_enumerated_param($arr, $key, $default, $choices, $allownull = false)
-// If $arr[$key] is defined and is one of the strings in $choices,
-// return that string.
-// If it's not defined, and $default is non-null, return $default.
-// If $default is null and $allownull is true, return null (useful for optional params).
-// Otherwise throw an InvalidArgumentException with an error.
-//
-// Example usages:
-//     $dir = get_enumerated_param( $_GET, 'direction', 'asc', array('asc', 'desc') );
-// The direction must be asc/desc, and defaults to asc if not provided.
-//
-//     $round = get_enumerated_param( $_GET, 'tally_name', null, $rounds, true);
-// The tally_name must be one of the rounds, but show a round menu if not specified.
 {
     {
         // sanity checks on the args
@@ -153,37 +174,87 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
     }
 }
 
+/**
+ * Get and validate an integer from an array
+ *
+ * If `$arr[$key]` is defined and is the string-rep of an integer
+ * satisfying certain simple constraints, return that integer.
+ * If it's not defined, and `$default` is non-null, return `$default`.
+ * If it's not defined, and `$default` is null and `$allownull` is true, return null.
+ *
+ * Example usages:
+ * - If the script is not given a 'per_page' parameter via the $_GET array,
+ *   use a default value of 20. If it is supplied, ensure it's an integer
+ *   and that it's at least 1, with no upper limit.
+ *   ```
+ *   $per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL );
+ *   ```
+ * - As before, except if no limit is provided, return null, so the caller can
+ *   know to display all pages rather than some arbitrary maximum.
+ *   ```
+ *   $per_page = get_integer_param($_GET, 'per_page', null, 1, null, true);
+ *   ```
+ *
+ * @param array $arr
+ * @param string $key
+ * @param int|null $default
+ * @param int|null $min
+ * @param int|null $max
+ * @param bool $allownull
+ *
+ * @throws InvalidArgumentException
+ *
+ * @see get_float_param()
+ */
 function get_integer_param($arr, $key, $default, $min, $max, $allownull = false)
-// If $arr[$key] is defined and is the string-rep of an integer
-// satisfying certain simple constraints, return that integer.
-// If it's not defined, and $default is non-null, return $default.
-// If it's not defined, and $default is null and $allownull is true, return null.
-// Otherwise, throw an InvalidArgumentException with an error.
-//
-// Example usages:
-//     $per_page = get_integer_param($_GET, 'per_page', 20, 1, NULL );
-// If the script is not given a 'per_page' parameter via the $_GET array,
-// use a default value of 20. If it is supplied, ensure it's an integer
-// and that it's at least 1, with no upper limit.
-//
-//     $per_page = get_integer_param($_GET, 'per_page', null, 1, null, true);
-// As before, except if no limit is provided, return null, so the caller can
-// know to display all pages rather than some arbitrary maximum.
 {
     return get_numeric_param("integer", $arr, $key, $default, $min, $max, $allownull);
 }
 
+/**
+ * Get and validate a float from an array
+ *
+ * If `$arr[$key]` is defined and is the string-rep of a float
+ * satisfying certain simple constraints, return that float.
+ * If it's not defined, and `$default` is non-null, return `$default`.
+ * If it's not defined, and `$default` is null and `$allownull` is true, return null.
+ *
+ * @param array $arr
+ * @param string $key
+ * @param float|null $default
+ * @param float|null $min
+ * @param float|null $max
+ * @param bool $allownull
+ *
+ * @throws InvalidArgumentException
+ *
+ * @see get_integer_param()
+ */
 function get_float_param($arr, $key, $default, $min, $max, $allownull = false)
-// This function operates identically to get_integer_param() except for floats
 {
     return get_numeric_param("float", $arr, $key, $default, $min, $max, $allownull);
 }
 
+/**
+ * Get and validate a numeric value from an array
+ *
+ * This is the parent function of `get_integer_param()` and `get_float_param()`,
+ * use those versions instead.
+ *
+ * @param string $type - One of "integer" or "float"
+ * @param array $arr
+ * @param string $key
+ * @param int|float|null $default
+ * @param int|float|null $min
+ * @param int|float|null $max
+ * @param bool $allownull
+ *
+ * @throws InvalidArgumentException
+ *
+ * @see get_integer_param()
+ * @see get_float_param()
+ */
 function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
-// Parent function of get_integer_param() and get_float_param(), use those
-// versions instead.
-//
-// $type should be one of "integer" or "float".
 {
     {
         // sanity checks on the args
@@ -273,22 +344,33 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
     }
 }
 
+/**
+ * Get and validate a value from an array using a regex
+ *
+ * If `$arr[$key]` is defined and matches `$regex`, return it.
+ * If it's not defined, and `$default` is non-null, return `$default`.
+ * If it's not defined, and `$default` is null and `$allownull` is true, return null.
+ * Otherwise, throw an InvalidArgumentException with an error.
+ *
+ * Example usage:
+ * - Parameter 'word' is required, and its supplied value must consist entirely
+ *   of alphanumeric characters (including underscore).
+ *   ```
+ *   $word = get_param_matching_regex($_GET, 'word', NULL, '/^\w+$/')
+ *   ```
+ * @param array $arr
+ * @param string $key
+ * @param mixed $default
+ * @param string $regex
+ *   For security, $regex should almost certainly be anchored at both ends,
+ *   and should not contain:
+ *   - any complemented character classes (e.g. "[^A-Z]"), or
+ *   - (unescaped) '.' (e.g., in "/foo.+bar/").
+ * @param bool $allownull
+ *
+ * @throws InvalidArgumentException
+ */
 function get_param_matching_regex($arr, $key, $default, $regex, $allownull = false)
-// If $arr[$key] is defined and matches $regex, return it.
-// If it's not defined, and $default is non-null, return $default.
-// If it's not defined, and $default is null and $allownull is true, return null.
-// Otherwise, throw an InvalidArgumentException with an error.
-//
-// NOTE:
-// For security, $regex should almost certainly be anchored at both ends,
-// and should not contain:
-//  -- any complemented character classes (e.g. "[^A-Z]"), or
-//  -- (unescaped) '.' (e.g., in "/foo.+bar/").
-//
-// Example usage:
-//     $word = get_param_matching_regex($_GET, 'word', NULL, '/^\w+$/')
-// Parameter 'word' is required, and its supplied value must consist entirely
-// of alphanumeric characters (including underscore).
 {
     // sanity checks on args
     {
@@ -337,18 +419,22 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull = fal
 
 // -----------------------------------------------------------------------------
 
-// Return a copy of a string correctly encoded for inclusion in an HTML
-// document. This is essentially a wrapper around htmlspecialchars() but it
-// is aware of the global character set. Using this wrapper means we don't
-// have to rely on the global $charset variable being accessible everywhere
-// we need to call htmlspecialchars().
-//
-// By default this escapes all quotes with ENT_QUOTES. This can be changed
-// with the $flags argument which is passed directly into htmlspecailchars().
-//
-// If the $charset global isn't defined, use whatever the PHP default_charset
-// is. Note that using default_charset is the default behavior for
-// htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
+/**
+ * Return a copy of a string correctly encoded for inclusion in an HTML
+ * document.
+ *
+ * This is essentially a wrapper around htmlspecialchars() but it
+ * is aware of the global character set. Using this wrapper means we don't
+ * have to rely on the global $charset variable being accessible everywhere
+ * we need to call htmlspecialchars().
+ *
+ * By default this escapes all quotes with ENT_QUOTES. This can be changed
+ * with the $flags argument which is passed directly into htmlspecailchars().
+ *
+ * If the $charset global isn't defined, use whatever the PHP default_charset
+ * is. Note that using default_charset is the default behavior for
+ * htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
+ */
 function html_safe($string, $flags = ENT_QUOTES)
 {
     $charset = @$GLOBALS['charset'];
@@ -363,35 +449,33 @@ function html_safe($string, $flags = ENT_QUOTES)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return a copy of $string that has been rendered safe to send as
+ * (part of) the value of an attribute in an HTML or XML document.
+ *
+ * The result is then safe for inclusion in attribute values,
+ * whether they are delimited by single- or double-quotes. E.g.:
+ * ```
+ * $result = attr_safe("Don't!");
+ * echo "<e attr='$result'>";
+ * echo "<e attr=\"$result\">";
+ * echo '<e attr="' . $result . '">';
+ * ```
+ *
+ * It does not encode valid HTML entities. The reason for this is
+ * that one of the intended usage scenarios for this function is to
+ * handle the results of gettext-translation, and we want to allow
+ * translators to use character references in their translations.
+ * For example, a French translator might translate `Name of work`
+ * as `Nom de l'&oelig;uvre`. If we have the code:
+ * ```
+ * echo "<e attr='" . attr_safe(_('Name of Work')) . "'>";
+ * ```
+ * then `_('Name of work')` would, in a French locale, evaluate to the string
+ * value `Nom de l'&oelig;uvre` and we want `attr_safe()` to return
+ * `Nom de l&#39;&oelig;uvre` not `Nom de l&#39;&amp;oelig;uvre`.
+ */
 function attr_safe($string)
-//  Return a copy of $string that has been rendered safe to send as
-//  (part of) the value of an attribute in an HTML or XML document.
-//
-//  The result is then safe for inclusion in attribute values,
-//  whether they are delimited by single- or double-quotes. E.g.:
-//      $result = attr_safe("Don't!");
-//      echo "<e attr='$result'>";
-//      echo "<e attr=\"$result\">";
-//      echo '<e attr="' . $result . '">';
-//
-//  It does not encode valid HTML entities. The reason for this is
-//  that one of the intended usage scenarios for this function is to
-//  handle the results of gettext-translation, and we want to allow
-//  translators to use character references in their translations.
-//  For example, a French translator might translate
-//      Name of work
-//  as
-//      Nom de l'&oelig;uvre
-//  If we have the code:
-//      echo "<e attr='" . attr_safe(_('Name of Work')) . "'>";
-//  then
-//      _('Name of work')
-//  would, in a French locale, evaluate to the string value:
-//      Nom de l'&oelig;uvre
-//  and we want attr_safe(...) to return:
-//      Nom de l&#39;&oelig;uvre
-//  not:
-//      Nom de l&#39;&amp;oelig;uvre
 {
     global $charset;
     if ($string === null) {
@@ -403,36 +487,41 @@ function attr_safe($string)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return a string that is safe for inclusion in a javascript string
+ * (surrounded by either single or double quotes).
+ *
+ * Does an implied `attr_safe()`, so the output can be enclosed directly
+ * in an html attribute.
+ *
+ * Example usage:
+ * ```
+ * echo '<script>alert("' . javascript_safe($string, $charset) . '"); </script>';
+ * echo "<script>alert('" . javascript_safe($string, $charset) . "'); </script>";
+ * echo '<a ... onClick=\'confirm("' . javascript_safe($string, $charset) . '")\'>';
+ * echo "<a ... onClick=\"confirm('" . javascript_safe($string, $charset) . '")\">";
+ * ```
+ *
+ * Here are the detailed conversions applied:
+ * - single quotes and double quotes are converted to \ooo octal notation
+ *   (this makes the result safe for inclusion inside an HTML attribute)
+ * - '<' is converted to \ooo octal: this guarantees that "</script>" is not
+ *   present in the returned string
+ * - backslash will be converted to \ooo octal too. It needs to be encoded
+ *   anyway, and \ooo allows to reuse the same regexp.
+ * - also convert anything that may be control characters to \ooo octal or
+ *   \uHHHH hexadecimal. That will notably ensure that line ending
+ *   characters are not present in the returned string.
+ *   (according to the ECMA-262 specification, line ending characters can
+ *   include weird characters such as \u2028 (Line separator) and \u2029
+ *   (Paragraph separator) in addition to the plain \r and \n.)
+ *   Specifically:
+ *   - If the encoding is latin-1, \ooo octal encoded will be used for
+ *     all characters in the range [\000-\017\177-\237]
+ *   - If the encoding is utf-8, \uHHHH encoding is used for all non-ASCII
+ *     characters, and \ooo for control ASCII chars [\000-\017\177]
+ */
 function javascript_safe($str, $encoding = null)
-// Return a string that is safe for inclusion in a javascript string
-// (surrounded by either single or double quotes).
-// Does an implied attr_safe(), so the output can be enclosed directly
-// in an html attribute.
-//
-// Example usage:
-// echo '<script>alert("' . javascript_safe($string, $charset) . '"); </script>';
-// echo "<script>alert('" . javascript_safe($string, $charset) . "'); </script>";
-// echo '<a ... onClick=\'confirm("' . javascript_safe($string, $charset) . '")\'>';
-// echo "<a ... onClick=\"confirm('" . javascript_safe($string, $charset) . '")\">";
-//
-// Here are the detailed conversions applied:
-// - single quotes and double quotes are converted to \ooo octal notation
-//   (this makes the result safe for inclusion inside an HTML attribute)
-// - '<' is converted to \ooo octal: this guarantees that "</script>" is not
-//   present in the returned string
-// - backslash will be converted to \ooo octal too. It needs to be encoded
-//   anyway, and \ooo allows to reuse the same regexp.
-// - also convert anything that may be control characters to \ooo octal or
-//   \uHHHH hexadecimal. That will notably ensure that line ending
-//   characters are not present in the returned string.
-//   (according to the ECMA-262 specification, line ending characters can
-//   include weird characters such as \u2028 (Line separator) and \u2029
-//   (Paragraph separator) in addition to the plain \r and \n.)
-//   Specifically:
-//   - If the encoding is latin-1, \ooo octal encoded will be used for
-//     all characters in the range [\000-\017\177-\237]
-//   - If the encoding is utf-8, \uHHHH encoding is used for all non-ASCII
-//     characters, and \ooo for control ASCII chars [\000-\017\177]
 {
     global $charset;
     if (!$encoding) {
@@ -462,7 +551,9 @@ function javascript_safe($str, $encoding = null)
 
 // -----------------------------------------------------------------------------
 
-// Use HTMLPurifier to sanitize HTML
+/**
+ * Sanitize HTML using HTMLPurifier
+ */
 function sanitize_html($html, $parent_tag = 'div')
 {
     $config = HTMLPurifier_Config::createDefault();
@@ -478,20 +569,21 @@ function sanitize_html($html, $parent_tag = 'div')
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return a string with normalized whitespace characters.
+ *
+ * Replaces each run of whitespace characters with a single space and
+ * strips the resulting string.
+ *
+ * For example, all of the following return `William Shakespeare`:
+ * ```
+ * echo normalize_whitespace("William  Shakespeare");
+ * echo normalize_whitespace("William Shakespeare ");
+ * echo normalize_whitespace(" William Shakespeare");
+ * echo normalize_whitespace("\tWilliam\tShakespeare\t");
+ * ```
+ */
 function normalize_whitespace($str)
-// Return a string with normalized whitespace characters.
-//
-// Example usage:
-//   echo normalize_whitespace("William  Shakespeare");
-//   echo normalize_whitespace("William Shakespeare ");
-//   echo normalize_whitespace(" William Shakespeare");
-//   echo normalize_whitespace("\tWilliam\tShakespeare\t");
-//
-//   They all return "William Shakespeare".
-//
-//
-// Replaces each run of whitespace characters with a single space and
-//   strips the resulting string.
 {
     return trim(preg_replace('/\s+/u', ' ', $str));
 }
@@ -499,7 +591,9 @@ function normalize_whitespace($str)
 
 // -----------------------------------------------------------------------------
 
-// Safely encode a string for use in an XML document.
+/**
+ * Safely encode a string for use in an XML document.
+ */
 function xmlencode($string)
 {
     global $charset;
@@ -534,20 +628,26 @@ function echo_html_comment($comment_body)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return TRUE iff $subject starts with $prefix.
+ */
 function startswith($subject, $prefix)
-// Return TRUE iff $subject starts with $prefix.
 {
     return (strncmp($subject, $prefix, strlen($prefix)) == 0);
 }
 
+/**
+ * Return TRUE iff $subject starts with $prefix ignoring case.
+ */
 function startswithnocase($subject, $prefix)
-// Return TRUE iff $subject starts with $prefix ignoring case.
 {
     return (strncasecmp($subject, $prefix, strlen($prefix)) == 0);
 }
 
+/**
+ * Return TRUE iff $subject ends with $suffix.
+ */
 function endswith($subject, $suffix)
-// Return TRUE iff $subject ends with $suffix.
 {
     return (substr($subject, -strlen($suffix)) == $suffix);
 }
@@ -592,20 +692,26 @@ function set_col_num($colname, $i)
     return sprintf("%s=%d", $colname, $i);
 }
 
-// Given an associative array, return a MySQL string that can be use in an
-// INSERT or UPDATE string.
-// $source_array is an associative array where the keys are MySQL column
-//    names and the values are the desired values to set in the database
-// $string_fields
-//    is a list of keys such that $source_array[$key] should be a string,
-//    otherwise the value is assumed to be an integer
-// This function checks that those expectations are satisfied, and constructs a
-// string of column=value 'assignments' that can be used in an SQL UPDATE
-// command (where each $key is assumed to be a column name). (String values
-// will be properly escaped in this string.)
-//
-// Currently this function will set default values ("" for strings, 0 for
-// numeric values) for all fields that are not within $source_array.
+/**
+ * Generate an SQL fragment to update columns in a table.
+ *
+ * Given an associative array, return a MySQL string that can be use in an
+ * INSERT or UPDATE string.
+ *
+ * This function constructs a string of `column=value` 'assignments' that can
+ * be used in an SQL UPDATE command (where each $key is assumed to be a column
+ * name). String values will be properly escaped in this string.
+ *
+ * Currently this function will set default values ("" for strings, 0 for
+ * numeric values) for all fields that are not within $source_array.
+ *
+ * @param array $source_array
+ *   An associative array where the keys are MySQL column
+ *   names and the values are the desired values to set in the database
+ * @param array $string_fields
+ *    A list of keys such that `$source_array[$key]` should be a string,
+ *    otherwise the value is assumed to be an integer
+ */
 function create_mysql_update_string($source_array, $string_fields = [])
 {
     $update_fields = [];
@@ -620,12 +726,17 @@ function create_mysql_update_string($source_array, $string_fields = [])
     return join(", ", $update_fields);
 }
 
-// Return a list of only the files directly inside in the specified directory.
-// On error, returns False.
-//
-// $dirpath: the directory to search in. May be relative to the cwd.
-// $validext: an array of extensions to check filenames against, may inclue the '.'
-// $with_path: If true, the list of returned names has the directory prepended.
+/**
+ * Return a list of only the files directly inside in the specified directory.
+ * On error, returns False.
+ *
+ * @param string $dirpath
+ *   The directory to search in. May be relative to the cwd.
+ * @param array $validext
+ *   An array of extensions to check filenames against, may include the '.'
+ * @param bool $with_path
+ *   If true, the list of returned names has the directory prepended.
+ */
 function get_filelist($dirpath, $validext = [], $with_path = false)
 {
     $filelist = [];
@@ -658,25 +769,30 @@ function get_filelist($dirpath, $validext = [], $with_path = false)
 }
 
 
-// Flattens the contents of a directory recursively.
-//
-// For example, the following directory structure:
-//      dir1/
-//          a.txt
-//          dir2/
-//              b.txt
-//          dir3/
-//              dir4/
-//                  c.txt
-//
-// would be flattened like so:
-//      dir1/
-//          a.txt
-//          b.txt
-//          c.txt
-//
-// If the first argument is not an existing directory, an InvalidArgumentException will be thrown.
-// If it is unable to flatten the directory, it will throw a RuntimeException.
+/**
+ * Flattens the contents of a directory recursively.
+ *
+ * For example, the following directory structure:
+ * ```
+ * dir1/
+ *     a.txt
+ *     dir2/
+ *         b.txt
+ *     dir3/
+ *         dir4/
+ *             c.txt
+ * ```
+ *
+ * would be flattened like so:
+ * ```
+ * dir1/
+ *     a.txt
+ *     b.txt
+ *     c.txt
+ * ```
+ * If the first argument is not an existing directory, an InvalidArgumentException will be thrown.
+ * If it is unable to flatten the directory, it will throw a RuntimeException.
+ */
 function flatten_directory(string $directory_to_flatten)
 {
     if (!file_exists($directory_to_flatten) || !is_dir($directory_to_flatten)) {
@@ -708,16 +824,17 @@ function flatten_directory(string $directory_to_flatten)
     }
 }
 
-// -----------------------------------------------------------------------------
-// Return whether the file is a valid zip file.
-//
-// The following conditions are used to check whether the file is considered a valid zip file:
-//   * It must exist
-//   * It must have the zip file extension
-//   * It must be openable by ZipArchive
-//
-// If any of the conditions are not satisfied, it will return false, otherwise it will return true.
-// The extension check can be disabled by passing true as the second argument.
+/**
+ * Return whether the file is a valid zip file.
+ *
+ * The following conditions are used to check whether the file is considered a valid zip file:
+ * - It must exist
+ * - It must have the zip file extension
+ * - It must be openable by ZipArchive
+ *
+ * If any of the conditions are not satisfied, it will return false, otherwise it will return true.
+ * The extension check can be disabled by passing true as the second argument.
+ */
 function is_valid_zip_file(string $file_path, bool $ignore_extension_check = false): bool
 {
     if (!file_exists($file_path)) {
@@ -739,10 +856,12 @@ function is_valid_zip_file(string $file_path, bool $ignore_extension_check = fal
     return $result === true;
 }
 
-// Return an array of files contained within the zip archive.
-//
-// It uses the is_valid_zip_file function to check whether the argument is a valid zip file, if it
-// is not, an InvalidArgumentException is thrown.
+/**
+ * Return an array of files contained within the zip archive.
+ *
+ * It uses the is_valid_zip_file function to check whether the argument is a valid zip file, if it
+ * is not, an InvalidArgumentException is thrown.
+ */
 function list_files_in_zip(string $file_path): array
 {
     if (!is_valid_zip_file($file_path)) {
@@ -765,14 +884,16 @@ function list_files_in_zip(string $file_path): array
     return $files;
 }
 
-// Extracts the zip directory's contents into the output directory.
-//
-// It uses the is_valid_zip_file function to check whether the first argument is a valid zip file, if it
-// is not, an InvalidArgumentException is thrown.
-//
-// If the output directory does not exist or is not a valid directory, an InvalidArgumentException is thrown.
-//
-// Returns whether the extraction was successful.
+/**
+ * Extracts the zip directory's contents into the output directory.
+ *
+ * It uses the `is_valid_zip_file()` function to check whether the first argument is a valid zip file, if it
+ * is not, an InvalidArgumentException is thrown.
+ *
+ * If the output directory does not exist or is not a valid directory, an InvalidArgumentException is thrown.
+ *
+ * Returns whether the extraction was successful.
+ */
 function extract_zip_to(string $path_to_zip, string $output_directory): bool
 {
     if (!is_valid_zip_file($path_to_zip)) {
@@ -795,9 +916,12 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
     return $zip->extractTo($output_directory);
 }
 
-// If there is a common base directory remove it.
-// Use is_valid_zip_file() to check the zip file,
-// if it is not valid, throw an InvalidArgumentException.
+/**
+ * Remove a common base directory within a zip file if it exists
+ *
+ * Uses `is_valid_zip_file()` to check the zip file,
+ * if it is not valid, throws an InvalidArgumentException.
+ */
 function remove_common_basedir_from_zip(string $path_to_zip)
 {
     if (!is_valid_zip_file($path_to_zip)) {
@@ -848,17 +972,19 @@ function remove_common_basedir_from_zip(string $path_to_zip)
     $zip->close();
 }
 
-// Creates a zip archive containing the specified files.
-//
-// The first argument represents the files to add to the zip archive and globing is allowed.
-// If there is a directory the files from it are added with its name prefixed (only one level)
-// The second argument represents the path to the zip archive which should be created.
-//
-// Returns whether the zip file was created successfully.
-//
-// Throws a InvalidArgumentException if:
-//   1) It cannot open a ZipArchive using the second argument as the path
-//   2) It cannot add one of the files specified by the first argument to the ZipArchive
+/**
+ * Creates a zip archive containing the specified files.
+ *
+ * The first argument represents the files to add to the zip archive and globing is allowed.
+ * If there is a directory the files from it are added with its name prefixed (only one level)
+ * The second argument represents the path to the zip archive which should be created.
+ *
+ * Returns whether the zip file was created successfully.
+ *
+ * Throws a InvalidArgumentException if:
+ * - It cannot open a ZipArchive using the second argument as the path
+ * - It cannot add one of the files specified by the first argument to the ZipArchive
+ */
 function create_zip_from(array $files_to_zip, string $path_to_zip): bool
 {
     $zip = new ZipArchive();
@@ -885,10 +1011,13 @@ function create_zip_from(array $files_to_zip, string $path_to_zip): bool
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an error message appropriate to $upload_error_code.
+ *
+ * The wording is taken from "Handling File Uploads: Error Messages Explained"
+ * in the PHP online documentation.
+ */
 function get_upload_err_msg($upload_error_code)
-// Return an error message appropriate to $upload_error_code.
-// (The wording is taken from "Handling File Uploads: Error Messages Explained"
-// in the PHP online documentation.)
 {
     switch ($upload_error_code) {
         case UPLOAD_ERR_OK:
@@ -912,7 +1041,9 @@ function get_upload_err_msg($upload_error_code)
     }
 }
 
-// Represent $n bytes as a  $m KB-- $m PB string
+/**
+ * Represent bytes in the largest reasonable units
+ */
 function humanize_bytes($n)
 {
     $i = 0;
@@ -927,19 +1058,24 @@ function humanize_bytes($n)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return the most common prefix and suffix in an array of strings.
+ *
+ * Given an array of N>0 strings, return an array
+ * `[$left_common, $middles, $right_common]` where:
+ * - $left_common is the maximal common prefix of the strings;
+ * - $right_common is the maximal common suffix, subject to the constraint that it
+ *   cannot include characters covered by the common prefix; and
+ * - $middles is an array of N strings, each being that part of the corresponding
+ *   input string that is not covered by the common prefix and suffix.
+ *
+ * That is
+ * ```
+ * $strings[$i] == $left_common . $middles[$i] . $right_common
+ * ```
+ * for all $i.
+ */
 function factor_strings($strings)
-// Given an array of N>0 strings, return an array
-//     [$left_common, $middles, $right_common]
-// where
-// $left_common is the maximal common prefix of the strings;
-// $right_common is the maximal common suffix, subject to the constraint that it
-//     cannot include characters covered by the common prefix; and
-// $middles is an array of N strings, each being that part of the corresponding
-//     input string that is not covered by the common prefix and suffix.
-//
-// That is,
-//     $strings[$i] == $left_common . $middles[$i] . $right_common
-// for all $i.
 {
     assert(count($strings) > 0);
 
@@ -1059,8 +1195,10 @@ function factor_strings($strings)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Determine if page requester is from localhost
+ */
 function requester_is_localhost()
-// function to determine if page requester is from localhost
 {
     if (php_sapi_name() == "cli") {
         return true;
@@ -1074,8 +1212,10 @@ function requester_is_localhost()
     }
 }
 
+/**
+ * Validate requester is localhost or exit
+ */
 function require_localhost_request($deny_cli = false)
-// If the requester is not localhost, bail
 {
     if (!requester_is_localhost() ||
         ($deny_cli && php_sapi_name() == 'cli')) {
@@ -1085,16 +1225,23 @@ function require_localhost_request($deny_cli = false)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Determine if the specified URL is for the current page by comparing the
+ * paths and the query parameters, but not any anchors.
+ *
+ * This function, by design, will return TRUE if the URL query parameters
+ * are a subset of the current page. For example, if the current page is:
+ * ```
+ * http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1&numofpages=12
+ * ```
+ * and the URL to check is:
+ * ```
+ * http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1
+ * ```
+ * the function will return TRUE despite the provided URL not having a
+ * numofpages parameter. The converse, however, is not true.
+ */
 function is_url_for_current_page($url)
-// Determine if the specified URL is for the current page by comparing the
-// paths and the query parameters, but not any anchors.
-// This function, by design, will return TRUE if the URL query parameters
-// are a subset of the current page. For example, if the current page is:
-//    http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1&numofpages=12
-// and the URL to check is:
-//    http://www.pgdp.net/c/tools/proofers/round.php?round_id=P1
-// the function will return TRUE despite the provided URL not having a
-// numofpages parameter. The converse, however, is not true.
 {
     $url_components = parse_url($url);
 
@@ -1117,8 +1264,12 @@ function is_url_for_current_page($url)
     return true;
 }
 
+/**
+ * Given a humanized size of bytes return the number of bytes
+ *
+ * From http://php.net/manual/en/function.ini-get.php
+ */
 function return_bytes($size_str)
-// from http://php.net/manual/en/function.ini-get.php
 {
     switch (substr($size_str, -1)) {
         case 'M': case 'm': return (int)$size_str * 1048576;

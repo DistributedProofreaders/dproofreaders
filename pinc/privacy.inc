@@ -1,8 +1,10 @@
 <?php
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 
+/**
+ * Can we reveal (to the requestor) details about the given user?
+ */
 function can_reveal_details_about($username, $user_privacy_setting)
-// Can we reveal (to the requestor) details about the given user?
 {
     global $pguser; // the "requestor"
 

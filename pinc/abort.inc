@@ -76,9 +76,13 @@ function provide_escape_links()
     echo "</ul>\n";
 }
 
+/**
+ * Look through request parameters for a parameter with one of the given names
+ * and a non-empty value.
+ *
+ * Return the value, or NULL if none found.
+ */
 function get_parameter_value($possible_names)
-// Look through request parameters for a parameter with one of the given names
-// and a non-empty value. Return the value, or NULL if none found.
 {
     foreach ($possible_names as $possible_name) {
         $v = @$_GET[$possible_name];

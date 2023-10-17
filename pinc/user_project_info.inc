@@ -267,9 +267,11 @@ function notify_project_event_subscribers($project, $event, $extras = [])
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Return an array: keys are the same as array returned by get_subscribable_project_events(),
+ * each value is the number of subscriptions to that event for the given project.
+ */
 function get_n_users_subscribed_to_events_for_project($projectid)
-// Return an array: keys are the same as array returned by get_subscribable_project_events(),
-// each value is the number of subscriptions to that event for the given project.
 {
     $subscribable_project_events = get_subscribable_project_events();
     $items = [];
@@ -294,11 +296,13 @@ function get_n_users_subscribed_to_events_for_project($projectid)
     return $r;
 }
 
+/**
+ * Create a temp table named 'project_event_subscriptions_grouped_by_project'
+ * with two columns: 'projectid' and 'nouste_posted', where the latter gives the
+ * current number of users that are subscribed to the project's 'posted' event.
+ * ("nouste" = "number of users subscribed to event")
+ */
 function create_temporary_project_event_subscription_summary_table()
-// Create a temp table named 'project_event_subscriptions_grouped_by_project'
-// with two columns: 'projectid' and 'nouste_posted', where the latter gives the
-// current number of users that are subscribed to the project's 'posted' event.
-// ("nouste" = "number of users subscribed to event")
 {
     $sql = "
         CREATE TEMPORARY TABLE project_event_subscriptions_grouped_by_project

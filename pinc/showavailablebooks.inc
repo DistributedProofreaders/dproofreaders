@@ -150,6 +150,32 @@ function show_projects_for_smooth_reading()
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Output HTML to show projects in a given stage
+ *
+ * Generate a chunk of HTML consisting of:
+ * 1. an optional filter widget,
+ * 2. an optional "Special Days" color legend, and
+ * 3. a listing of projects.
+ *
+ * @param object $stage
+ *   An instance of the Stage class (or a subclass thereof).
+ *   This is used for various things, but most importantly,
+ *   $stage->id is deemed to identify this listing.
+ * @param string $initial_project_selector
+ *   SQL condition (suitable for use in a WHERE clause on the 'projects' table)
+ *   that selects all the projects that would be listed in the absence of a
+ *   user's filter.
+ * @param bool $show_filter_block
+ *   Should we show the filter widget?
+ * @param array $filter_custom_display_fields
+ *   An array naming any custom fields that should appear in the filter widget.
+ * @param bool $allow_special_colors_legend
+ *   Should we show the special colors legend?
+ *   (This can be overriden by the corresponding user preference.)
+ * @param array $columns
+ *   Which columns should appear in the listing.
+ */
 function show_projects_for_stage(
     $stage,
     $initial_project_selector,
@@ -158,29 +184,6 @@ function show_projects_for_stage(
     $allow_special_colors_legend,
     $columns,
     $optional_join_clause = "")
-// Generate a chunk of HTML consisting of:
-// (1) an optional filter widget,
-// (2) an optional "Special Days" color legend, and
-// (3) a listing of projects.
-//
-// Arguments:
-// $stage:
-//     An instance of the Stage class (or a subclass thereof).
-//     This is used for various things, but most importantly,
-//     $stage->id is deemed to identify this listing.
-// $initial_project_selector:
-//     A string containing an SQL condition (suitable for use in a
-//     WHERE clause on the 'projects' table) that selects all the
-//     projects that would be listed in the absence of a user's filter.
-// $show_filter_block:
-//     A boolean: should we show the filter widget?
-// $filter_custom_display_fields:
-//     An array naming any custom fields that should appear in the filter widget.
-// $allow_special_colors_legend:
-//     A boolean: should we show the special colors legend?
-//     (This can be overriden by the corresponding user preference.)
-// $columns:
-//     An array specifying which columns should appear in the listing.
 {
     global $pguser;
 
@@ -336,39 +339,44 @@ function show_projects_for_pool($pool, $checkedout_or_available)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// Create the sortable project listing.
+/**
+ * Output sortable project listing.
+ *
+ * @param string $filtered_project_selector
+ *   An SQL condition (on the 'projects' table) specifying
+ *   which projects to list.
+ * @param array $columns
+ *   The columns to include in the table, this is an associative
+ *   array with the key being the column name and the value
+ *   being an array consisting of:
+ *   - the column's name for the purposes of ext_sort
+ *   - the column's header-label.
+ * @param string $ext_sort_param_name
+ *   The parameter-name to use when specifying a sort order
+ *   in a URL query-string.
+ * @param string $ext_sort_setting_name
+ *   The setting name to use when saving the sort order in the db
+ * @param string $default_ext_sort
+ *   The sort to use when one isn't specified by url-parameter or db-setting.
+ * @param string $anchor
+ *   The anchor on the page to jump to
+ * @param object $stage
+ *   Stage object (Round, Pool, or Stage)
+ * @param string $optional_join_clause
+ *   If needed. Default to "", but useful/necessary for SR & PP
+ * @param $optional_select_clause
+ *   If needed. Default to "", but useful/necessary for PP
+ */
 function show_project_listing(
-
     $filtered_project_selector,
-        // an SQL condition (on the 'projects' table) specifying
-        // which projects to list.
-
     $columns,
-        // the columns to include in the table, this is an associative
-        // array with the key being the column name and the value
-        // being an array consisting of:
-        //     - the column's name for the purposes of ext_sort
-        //     - the column's header-label.
-
     $ext_sort_param_name,
-        // The parameter-name to use when specifying a sort order
-        // in a URL query-string.
     $ext_sort_setting_name,
-        // the setting name to use when saving the sort order in the db
     $default_ext_sort,
-        // The sort to use when one isn't specified by url-parameter or db-setting.
-
     $anchor,
-        // the anchor on the page to jump to
-
     $stage,
-        // stage object (Round, Pool, or Stage)
-
     $optional_join_clause = "",
-        // If needed. Default to "", but useful/necessary for SR & PP
-
     $optional_select_clause = ""
-        // If needed. Default to "", but useful/necessary for PP
 ) {
     global $code_url, $pguser, $testing;
 
@@ -597,28 +605,37 @@ function show_project_listing(
 
 // -----------------------------------------------------------------------------
 
+/**
+ * Intelligently determine the user's intent for a sort criteria.
+ *
+ * It does this by:
+ * 1. Checking $_GET for explicit sort order changes
+ * 2. If that fails pulling the previous sort order from the database
+ * 3. If that fails using a default sort order (first column)
+ *
+ * After we have a sort criteria, validate it and fall back to
+ * the default sort column in ascending order if necessary.
+ * After validation the sort criteria is written to the database.
+ *
+ * Returns the array($curr_sql_sort_col, $curr_sql_sort_dir):
+ * - $curr_sql_sort_col - name of the column to sort by
+ * - $curr_sql_sort_dir - direction to sort by (asc or desc)
+ *
+ * @param array $columns
+ *   An associative array containing the valid columns in the table
+ * @param string $ext_sort_param_name
+ *   The parameter-name to use in the URL query-string
+ * @param string $ext_sort_setting_name
+ *   The setting to use in the usersettings table. This value
+ *   is also used in determining the sort order via the URL.
+ *   Doing so allows for multiple tables to be on the same
+ *   page and sorted in different orders.
+ * @param string $default_ext_sort
+ *   The sort to use when one isn't specified by url-parameter or db-setting.
+ *
+ * @return array
+ */
 function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort)
-// This function's purpose is to intelligently determine the user's
-// intent for a sort criteria. It does this by:
-//   1. Checking $_GET for explicit sort order changes
-//   2. If that fails pulling the previous sort order from the database
-//   3. If that fails using a default sort order (first column)
-// After we have a sort criteria, validate it and fall back to
-// the default sort column in ascending order if necessary.
-// After validation the sort criteria is written to the database.
-// Arguments:
-//   $columns      - an associative array containing the valid columns in the
-//                   table
-//   $ext_sort_param_name - the parameter-name to use in the URL query-string
-//   $ext_sort_setting_name - the setting to use in the usersettings table. This value
-//                   is also used in determining the sort order via the URL.
-//                   Doing so allows for multiple tables to be on the same
-//                   page and sorted in different orders.
-//   $default_ext_sort - the sort to use when one isn't specified by
-//                   url-parameter or db-setting.
-// Returns the array($curr_sql_sort_col, $curr_sql_sort_dir):
-//   $curr_sql_sort_col - name of the column to sort by
-//   $curr_sql_sort_dir - direction to sort by (asc or desc)
 {
     global $pguser;
 

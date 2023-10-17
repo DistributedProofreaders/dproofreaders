@@ -8,12 +8,13 @@ include_once($relPath.'unicode.inc');
 
 use voku\helper\UTF8;
 
-// get_cutoff_string
-// Arguments:
-//   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
-//
-// Returns a string with javascript links to effect showing or hiding parts of
-// the word list
+/**
+ * Returns a string with javascript links to effect showing or hiding parts of
+ * the word list
+ *
+ * @param array $cutoffOptions
+ *   List of javascript cutoff options (eg: `[1,2,3,4,5]`)
+ */
 function get_cutoff_string($cutoffOptions, $labelSuffix = "")
 {
     $cutoffString = "";
@@ -24,13 +25,15 @@ function get_cutoff_string($cutoffOptions, $labelSuffix = "")
     return $cutoffString;
 }
 
-// get_cutoff_script
-// Arguments:
-//   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
-//   instances     - number of word frequency tables to support
-//                   (required for hiding/showing items of the correct table)
-//
-// Outputs the javascript used to show/hide parts of the word frequency tables
+/**
+ * Outputs the javascript used to show/hide parts of the word frequency tables
+ *
+ * @param array $cutoffOptions
+ *   List of javascript cutoff options (eg: `[1,2,3,4,5]`)
+ * @param int $instances
+ *   Number of word frequency tables to support
+ *   (required for hiding/showing items of the correct table)
+ */
 function get_cutoff_script($cutoffOptions, $instances)
 {
     $cutoffJSArray = "";
@@ -100,8 +103,10 @@ function get_cutoff_script($cutoffOptions, $instances)
         EOS;
 } // end of get_cutoff_script
 
-// given the list of cutoff options and the word count
-// make sure the initial cutoff shows something
+/**
+ * Given the list of cutoff options and the word count
+ * make sure the initial cutoff shows something
+ */
 function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
 {
     // validate the idealCutoff is in $cutoffOptions
@@ -136,25 +141,36 @@ function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
     return $nextCutoff;
 }
 
-// printTableFrequencies
-// Arguments:
-//   initialFreq   - initial cutoff frequency, anything after this is hidden
-//   cutoffOptions - list of javascript cutoff options (eg: array(1,2,3,4,5))
-//   wordCount     - a table containing the word/frequency pairs already
-//                   sorted and ready for display
-//   instance      - number uniquely identifying this instance, must be less
-//                   than the $instances passed into get_cutoff_script
-//   auxData       - array with one or more of the following:
-//                       array($word => $data)
-//   checkbox      - array containing checkbox form elements for each word
-//
-// both wordCount and auxData component arrays can contain the following
-// special keys used for formatting
-//   [[TITLE]] - title of the column
-//   [[CLASS]] - class of the td
-//   [[STYLE]] - style of the td
-//
-// Outputs the word frequency table
+/**
+ * Outputs the word frequency table
+ *
+ * @param int $initialFreq
+ *   Initial cutoff frequency, anything after this is hidden
+ * @param array $cutoffOptions
+ *   List of javascript cutoff options (eg: array(1,2,3,4,5))
+ * @param array $wordCount
+ *   A table containing the word/frequency pairs already
+ *   sorted and ready for display.
+ *   Can contain the following special keys used for formatting
+ *   ```
+ *   [[TITLE]] - title of the column
+ *   [[CLASS]] - class of the td
+ *   [[STYLE]] - style of the td
+ *   ```
+ * @param int $instance
+ *   Number uniquely identifying this instance, must be less
+ *   than the $instances passed into `get_cutoff_script()`
+ * @param array $auxData
+ *   Array with one or more of the following `[$word => $data]`
+ *   Can contain the following special keys used for formatting
+ *   ```
+ *   [[TITLE]] - title of the column
+ *   [[CLASS]] - class of the td
+ *   [[STYLE]] - style of the td
+ *   ```
+ * @param array $checkbox
+ *   Array containing checkbox form elements for each word
+ */
 function printTableFrequencies($initialFreq, $cutoffOptions, $wordCount, $instance, $auxData = null, $checkbox = null)
 {
     // check that auxData is an array of arrays
@@ -247,9 +263,13 @@ function printTableFrequencies($initialFreq, $cutoffOptions, $wordCount, $instan
     echo '</table>';
 }
 
-// arrays with numeric and string keys don't multisort correctly
-// appending a space to the end of the numeric keys forces them
-// to strings and multisort works correctly
+/**
+ * Prep array for numeric sort
+ *
+ * Arrays with numeric and string keys don't multisort correctly
+ * Appending a space to the end of the numeric keys forces them
+ * to strings and multisort works correctly
+ */
 function prep_numeric_keys_for_multisort(&$assocArray)
 {
     if (!is_array($assocArray)) {
