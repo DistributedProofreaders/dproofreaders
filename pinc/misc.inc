@@ -81,7 +81,7 @@ function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
  * @param string $key
  * @param mixed $default
  * @param array $choices
- * @param boolean $allownull
+ * @param bool $allownull
  *
  * @throws InvalidArgumentException
  */
@@ -197,10 +197,10 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
  *
  * @param array $arr
  * @param string $key
- * @param integer|null $default
- * @param integer|null $min
- * @param integer|null $max
- * @param boolean $allownull
+ * @param int|null $default
+ * @param int|null $min
+ * @param int|null $max
+ * @param bool $allownull
  *
  * @throws InvalidArgumentException
  *
@@ -224,7 +224,7 @@ function get_integer_param($arr, $key, $default, $min, $max, $allownull = false)
  * @param float|null $default
  * @param float|null $min
  * @param float|null $max
- * @param boolean $allownull
+ * @param bool $allownull
  *
  * @throws InvalidArgumentException
  *
@@ -244,10 +244,10 @@ function get_float_param($arr, $key, $default, $min, $max, $allownull = false)
  * @param string $type - One of "integer" or "float"
  * @param array $arr
  * @param string $key
- * @param integer|float|null $default
- * @param integer|float|null $min
- * @param integer|float|null $max
- * @param boolean $allownull
+ * @param int|float|null $default
+ * @param int|float|null $min
+ * @param int|float|null $max
+ * @param bool $allownull
  *
  * @throws InvalidArgumentException
  *
@@ -366,7 +366,7 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
  *   and should not contain:
  *   - any complemented character classes (e.g. "[^A-Z]"), or
  *   - (unescaped) '.' (e.g., in "/foo.+bar/").
- * @param boolean $allownull
+ * @param bool $allownull
  *
  * @throws InvalidArgumentException
  */
@@ -734,7 +734,7 @@ function create_mysql_update_string($source_array, $string_fields = [])
  *   The directory to search in. May be relative to the cwd.
  * @param array $validext
  *   An array of extensions to check filenames against, may include the '.'
- * @param boolean $with_path
+ * @param bool $with_path
  *   If true, the list of returned names has the directory prepended.
  */
 function get_filelist($dirpath, $validext = [], $with_path = false)

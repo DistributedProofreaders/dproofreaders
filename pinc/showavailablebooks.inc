@@ -166,11 +166,11 @@ function show_projects_for_smooth_reading()
  *   SQL condition (suitable for use in a WHERE clause on the 'projects' table)
  *   that selects all the projects that would be listed in the absence of a
  *   user's filter.
- * @param boolean $show_filter_block
+ * @param bool $show_filter_block
  *   Should we show the filter widget?
  * @param array $filter_custom_display_fields
  *   An array naming any custom fields that should appear in the filter widget.
- * @param boolean $allow_special_colors_legend
+ * @param bool $allow_special_colors_legend
  *   Should we show the special colors legend?
  *   (This can be overriden by the corresponding user preference.)
  * @param array $columns

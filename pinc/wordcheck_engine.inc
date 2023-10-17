@@ -1033,7 +1033,7 @@ function get_site_possible_bad_word_lists()
  * @param string $pattern
  *   Regex that files must match to be included in the returned array.
  *   If blank all files will be returned.
- * @param boolean $urlbase
+ * @param bool $urlbase
  *   If TRUE files will be turned as a URL,
  *   I FALSE absolute filesystem paths are returned
  */
@@ -1147,7 +1147,7 @@ function get_distinct_words_in_text($text)
  *
  * @param string $text
  *   Page text
- * @param boolean $with_offsets:
+ * @param bool $with_offsets:
  *   If false (the default), the keys are just consecutive integers.
  *   If true, then for each value, the corresponding key is the offset
  *   (in $text) of the start of that word.

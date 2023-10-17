@@ -924,9 +924,9 @@ function show_key_help_links()
  *   for them to be applied to the progress bar.
  * - percent_complete   - actual percentage complete in whole numbers
  *
- * @param integer $actual
+ * @param int $actual
  *   Actual value obtained
- * @param integer $goal
+ * @param int $goal
  *   Goal for the day
  * @param mixed $prorate_goal_for_color
  *   if TRUE or 'day', the returned color will be calculated based

@@ -124,7 +124,7 @@ if ($display_list) {
  * @param string $word_string
  *   String of words to save
  *
- * @return boolean
+ * @return bool
  */
 function _handle_action($action, $list_type, $language, $word_string)
 {

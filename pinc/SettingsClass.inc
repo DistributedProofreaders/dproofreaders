@@ -80,7 +80,7 @@ class Settings
      * A wrapper around set_value() for boolean values.
      *
      * @param string $settingCode
-     * @param boolean $boolval
+     * @param bool $boolval
      *
      * @return void
      */
@@ -95,7 +95,7 @@ class Settings
      *
      * @param string $settingCode
      *
-     * @return boolean
+     * @return bool
      */
     public function get_boolean($settingCode)
     {
@@ -269,7 +269,7 @@ class Settings
     /**
      * Count the number of settings for this user
      *
-     * @return integer
+     * @return int
      */
     public function settings_count()
     {

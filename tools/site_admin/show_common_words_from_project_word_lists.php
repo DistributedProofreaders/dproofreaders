@@ -117,12 +117,12 @@ if ($display_list) {
  *   List type to show one of: good, bad
  * @param string $language
  *   The list language
- * @param integer $cutoff
+ * @param int $cutoff
  *   Words that occur less than $cutoff percent are not shown
  * @param string $lang_match
  *   How to match the language one of: exact, primary, any
  *
- * @return boolean
+ * @return bool
  */
 function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
 {

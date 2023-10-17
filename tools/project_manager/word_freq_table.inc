@@ -30,7 +30,7 @@ function get_cutoff_string($cutoffOptions, $labelSuffix = "")
  *
  * @param array $cutoffOptions
  *   List of javascript cutoff options (eg: `[1,2,3,4,5]`)
- * @param integer $instances
+ * @param int $instances
  *   Number of word frequency tables to support
  *   (required for hiding/showing items of the correct table)
  */
@@ -144,7 +144,7 @@ function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
 /**
  * Outputs the word frequency table
  *
- * @param integer $initialFreq
+ * @param int $initialFreq
  *   Initial cutoff frequency, anything after this is hidden
  * @param array $cutoffOptions
  *   List of javascript cutoff options (eg: array(1,2,3,4,5))
@@ -157,7 +157,7 @@ function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
  *   [[CLASS]] - class of the td
  *   [[STYLE]] - style of the td
  *   ```
- * @param integer $instance
+ * @param int $instance
  *   Number uniquely identifying this instance, must be less
  *   than the $instances passed into `get_cutoff_script()`
  * @param array $auxData
