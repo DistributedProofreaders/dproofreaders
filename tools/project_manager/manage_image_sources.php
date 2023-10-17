@@ -246,13 +246,13 @@ class ImageSource
         echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."'> ";
         echo "<br>\n";
         switch ($this->is_active) {
-            case('-1'):
+            case '-1':
                 echo "<input type='submit' name='approve' value='".attr_safe(_('Approve'))."'> ";
                 break;
-            case('0'):
+            case '0':
                 echo "<input type='submit' name='enable' value='".attr_safe(_('Enable'))."'> ";
                 break;
-            case('1'):
+            case '1':
                 echo "<input type='submit' name='disable' value='".attr_safe(_('Disable'))."'> ";
                 break;
         }
@@ -493,18 +493,18 @@ class ImageSource
     public function _get_status_cell($status, $class = '')
     {
         switch ($status) {
-          case(1):
-              $middle = _('Enabled');
-              $open = "<td class='enabled{$class}'>";
-              break;
-          case(0):
-              $middle = _('Disabled');
-              $open = "<td class='disabled{$class}'>";
-              break;
-          case(-1):
-              $middle = _('Pending Approval');
-              $open = "<td class='pending{$class}'>";
-              break;
+            case 1:
+                $middle = _('Enabled');
+                $open = "<td class='enabled{$class}'>";
+                break;
+            case 0:
+                $middle = _('Disabled');
+                $open = "<td class='disabled{$class}'>";
+                break;
+            case -1:
+                $middle = _('Pending Approval');
+                $open = "<td class='pending{$class}'>";
+                break;
         }
 
         return $open . $middle . '</td>';
@@ -523,13 +523,17 @@ class ImageSource
     {
         global $site_abbreviation;
         switch ($show_to) {
-            case '0': $to_whom = _("Image Managers Only");
+            case '0':
+                $to_whom = _("Image Managers Only");
                 break;
-            case '1':  $to_whom = _("Project Managers");
+            case '1':
+                $to_whom = _("Project Managers");
                 break;
-            case '2':  $to_whom = sprintf(_("Any %s User"), $site_abbreviation);
+            case '2':
+                $to_whom = sprintf(_("Any %s User"), $site_abbreviation);
                 break;
-            case '3':  $to_whom = _("All Users and Visitors");
+            case '3':
+                $to_whom = _("All Users and Visitors");
                 break;
         }
         return $to_whom;

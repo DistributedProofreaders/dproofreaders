@@ -1670,25 +1670,42 @@ function RelatedPostings($tid)
 function property_get_label($property_id, $for_list_of_tasks)
 {
     switch ($property_id) {
-        case 'date_edited': return _('Date Edited');
-        case 'task_assignee': return _('Assigned To');
-        case 'task_browser': return _('Browser');
-        case 'task_category': return _('Category');
-        case 'task_id': return _('ID');
-        case 'task_os': return _('Operating System');
-        case 'task_priority': return _('Priority');
-        case 'task_severity': return _('Severity');
-        case 'task_status': return _('Status');
-        case 'task_summary': return _('Summary');
-        case 'task_type': return _('Task Type');
-        case 'votes': return _('Votes');
-        case 'additional_os': return '';
-        case 'additional_browser': return '';
-        case 'opened_composite': return _("Opened");
-        case 'edited_composite': return _("Last Edited");
-        case 'closed_composite': return _("Closed By");
-        case 'closed_reason': return _("Closed Reason");
-
+        case 'date_edited':
+            return _('Date Edited');
+        case 'task_assignee':
+            return _('Assigned To');
+        case 'task_browser':
+            return _('Browser');
+        case 'task_category':
+            return _('Category');
+        case 'task_id':
+            return _('ID');
+        case 'task_os':
+            return _('Operating System');
+        case 'task_priority':
+            return _('Priority');
+        case 'task_severity':
+            return _('Severity');
+        case 'task_status':
+            return _('Status');
+        case 'task_summary':
+            return _('Summary');
+        case 'task_type':
+            return _('Task Type');
+        case 'votes':
+            return _('Votes');
+        case 'additional_os':
+            return '';
+        case 'additional_browser':
+            return '';
+        case 'opened_composite':
+            return _("Opened");
+        case 'edited_composite':
+            return _("Last Edited");
+        case 'closed_composite':
+            return _("Closed By");
+        case 'closed_reason':
+            return _("Closed Reason");
         case 'percent_complete':
             return ($for_list_of_tasks ? _("Progress") : _("Percent Complete"));
     }
@@ -1709,22 +1726,35 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     $raw_value = array_get($task_a, $property_id, null);
     switch ($property_id) {
         // The raw value is used directly:
-        case 'task_id': $fv = $raw_value; break; // maybe wrap in <a>
+        case 'task_id':
+            $fv = $raw_value;
+            break;
 
         // The raw value is an index into an array.
-        case 'closed_reason': return array_get($tasks_close_array, $raw_value, "");
-        case 'task_browser': return $browser_array[$raw_value];
-        case 'task_category': return $categories_array[$raw_value];
-        case 'task_os': return $os_array[$raw_value];
-        case 'task_priority': return $priority_array[$raw_value];
-        case 'task_severity': return $severity_array[$raw_value];
-        case 'task_status': return $tasks_status_array[$raw_value];
-        case 'task_type': return $tasks_array[$raw_value];
+        case 'closed_reason':
+            return array_get($tasks_close_array, $raw_value, "");
+        case 'task_browser':
+            return $browser_array[$raw_value];
+        case 'task_category':
+            return $categories_array[$raw_value];
+        case 'task_os':
+            return $os_array[$raw_value];
+        case 'task_priority':
+            return $priority_array[$raw_value];
+        case 'task_severity':
+            return $severity_array[$raw_value];
+        case 'task_status':
+            return $tasks_status_array[$raw_value];
+        case 'task_type':
+            return $tasks_array[$raw_value];
 
         // The raw value is an integer denoting seconds-since-epoch.
-        case 'date_edited': return date("d-M-Y", $raw_value);
-        case 'date_opened': return date("d-M-Y", $raw_value);
-        case 'date_closed': return $raw_value ? date("d-M-Y", $raw_value) : "";
+        case 'date_edited':
+            return date("d-M-Y", $raw_value);
+        case 'date_opened':
+            return date("d-M-Y", $raw_value);
+        case 'date_closed':
+            return $raw_value ? date("d-M-Y", $raw_value) : "";
 
         // Synthetic fields
         case 'opened_composite':
@@ -1748,9 +1778,12 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                     );
 
         // The raw value is a user's u_id:
-        case 'opened_by': return $raw_value ? private_message_link_for_uid($raw_value) : "";
-        case 'edited_by': return $raw_value ? private_message_link_for_uid($raw_value) : "";
-        case 'closed_by': return $raw_value ? get_username_for_uid($raw_value) : "";
+        case 'opened_by':
+            return $raw_value ? private_message_link_for_uid($raw_value) : "";
+        case 'edited_by':
+            return $raw_value ? private_message_link_for_uid($raw_value) : "";
+        case 'closed_by':
+            return $raw_value ? get_username_for_uid($raw_value) : "";
         case 'task_assignee':
             return (
                 empty($raw_value)
@@ -1760,7 +1793,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
         // The raw value is some text typed in by a user:
         case 'task_summary':
-            $fv = html_safe($raw_value); break; // maybe wrap in <a>
+            $fv = html_safe($raw_value);
+            break;
 
         case 'task_details':
             $Parsedown = new Parsedown();

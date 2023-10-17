@@ -108,9 +108,15 @@ function dump_request_info()
 
     foreach (['_GET', '_POST'] as $array_name) {
         switch ($array_name) {
-            case '_GET':  $array = $_GET; break;
-            case '_POST': $array = $_POST; break;
-            default: $array = []; assert(false);
+            case '_GET':
+                $array = $_GET;
+                break;
+            case '_POST':
+                $array = $_POST;
+                break;
+            default:
+                $array = [];
+                assert(false);
         }
         if ($array) {
             echo "$array_name\n";

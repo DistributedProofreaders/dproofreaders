@@ -28,19 +28,19 @@ $action = get_enumerated_param($_POST, 'action', null, ['commit', 'withdraw']);
 $refresh_url = @$_POST['next_url'];
 
 switch ($action) {
-case "commit":
-    sr_commit($projectid, $pguser);
-    $title = _("Volunteer to SR");
-    $body = sprintf(_("%1\$s, you have volunteered to smoothread project %2\$s."),
-        $pguser, $projectid);
-    break;
+    case "commit":
+        sr_commit($projectid, $pguser);
+        $title = _("Volunteer to SR");
+        $body = sprintf(_("%1\$s, you have volunteered to smoothread project %2\$s."),
+            $pguser, $projectid);
+        break;
 
-case "withdraw":
-    sr_withdraw_commitment($projectid, $pguser);
-    $title = _("Withdraw from SR");
-    $body = sprintf(_("%1\$s, you have withdrawn from Smooth Reading project %2\$s."),
-        $pguser, $projectid);
-    break;
+    case "withdraw":
+        sr_withdraw_commitment($projectid, $pguser);
+        $title = _("Withdraw from SR");
+        $body = sprintf(_("%1\$s, you have withdrawn from Smooth Reading project %2\$s."),
+            $pguser, $projectid);
+        break;
 }
 
 

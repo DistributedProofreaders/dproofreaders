@@ -66,43 +66,43 @@ function user_logging_on($past, $preceding)
     $seconds_per_day = 24 * 60 * 60;
 
     switch ($past) {
-      case 'year':
-          $min_timestamp = time() - 366 * $seconds_per_day;
-          $date_format = '%Y-%m-%d';
-          break;
+        case 'year':
+            $min_timestamp = time() - 366 * $seconds_per_day;
+            $date_format = '%Y-%m-%d';
+            break;
 
-      case 'day':
-          $min_timestamp = time() - $seconds_per_day;
-          $date_format = '%H';
-          break;
+        case 'day':
+            $min_timestamp = time() - $seconds_per_day;
+            $date_format = '%H';
+            break;
 
-      default:
-          die("bad value for 'past'");
+        default:
+            die("bad value for 'past'");
     }
 
     switch ($preceding) {
-      case 'hour':
-          $title = _("Number of users newly logged in each hour");
-          $column_name = 'L_hour';
-          break;
+        case 'hour':
+            $title = _("Number of users newly logged in each hour");
+            $column_name = 'L_hour';
+            break;
 
-      case 'day':
-          $title = _('Number of users newly logged in over 24 hours');
-          $column_name = 'L_day';
-          break;
+        case 'day':
+            $title = _('Number of users newly logged in over 24 hours');
+            $column_name = 'L_day';
+            break;
 
-      case 'week':
-          $title = _("Number of users newly logged in over 7 days");
-          $column_name = 'L_week';
-          break;
+        case 'week':
+            $title = _("Number of users newly logged in over 7 days");
+            $column_name = 'L_week';
+            break;
 
-      case 'fourweek':
-          $title = _("Number of users newly logged in over 28 days");
-          $column_name = 'L_4wks';
-          break;
+        case 'fourweek':
+            $title = _("Number of users newly logged in over 28 days");
+            $column_name = 'L_4wks';
+            break;
 
-      default:
-          die("bad value for 'preceding'");
+        default:
+            die("bad value for 'preceding'");
     }
 
     ///////////////////////////////////////////////////

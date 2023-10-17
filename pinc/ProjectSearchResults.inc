@@ -155,12 +155,12 @@ class TimeColumn extends Column
             echo _("never");
         } else {
             switch ($this->time_format) {
-            case 'days':
-                echo sprintf("%.1f", (time() - $data) / 86400);
-                break;
-            default: // case 'date':
-                echo "<span class='nowrap'>" . icu_date_template("short", $data) . "</span>";
-                break;
+                case 'days':
+                    echo sprintf("%.1f", (time() - $data) / 86400);
+                    break;
+                default: // case 'date':
+                    echo "<span class='nowrap'>" . icu_date_template("short", $data) . "</span>";
+                    break;
             }
         }
     }

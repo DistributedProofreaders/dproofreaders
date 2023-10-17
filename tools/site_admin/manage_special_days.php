@@ -300,18 +300,14 @@ class SpecialDay
         foreach ($std_fields as $field) {
             switch ($field) {
                 case 'enable':
-                {
                     if (!isset($_POST[$field])) {
                         $this->$field = 0;
                     } else {
                         $this->$field = 1;
                     }
                     break;
-                }
                 default:
-                {
                     $this->$field = $_POST[$field];
-                }
             }
             $std_fields_sql[] = set_col_str($field, $this->$field);
         }
@@ -377,18 +373,18 @@ class SpecialDay
     public function _get_status_cell($status, $class = '')
     {
         switch ($status) {
-          case(1):
-              $middle = _('Enabled');
-              $open = "<td class='enabled{$class}'>";
-              break;
-          case(0):
-              $middle = _('Disabled');
-              $open = "<td class='disabled{$class}'>";
-              break;
-          default:
-              $middle = _('Invalid');
-              $open = "<td class='disabled{$class}'>";
-              break;
+            case 1:
+                $middle = _('Enabled');
+                $open = "<td class='enabled{$class}'>";
+                break;
+            case 0:
+                $middle = _('Disabled');
+                $open = "<td class='disabled{$class}'>";
+                break;
+            default:
+                $middle = _('Invalid');
+                $open = "<td class='disabled{$class}'>";
+                break;
         }
         return $open . $middle . '</td>';
     }
