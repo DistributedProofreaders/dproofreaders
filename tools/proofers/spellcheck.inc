@@ -16,69 +16,39 @@ include_once('image_block_enh.inc');
 // * $accepted_words
 // * $aux_language
 
-$revert_text = $_POST['revert_text'] ?? $text_data;
-
-$is_header_visible = array_get($_SESSION, "is_header_visible", 1);
-
-$project = new Project($ppage->projectid());
-$valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
-
-$keep_corrections = _("Keep corrections and return to proofreading this page");
-$rerun = _("Check page against an additional language");
-
-$word_check_messages = json_encode([
+$word_check_messages = [
     "disableAwLabel" => _("Word has been edited; unable to Suggest"),
     "enableAwLabel" => _("Unflag All & Suggest Word"),
     "confirmExitString" => _("Changes have been made. OK to quit without saving?"),
     "pageChangedError" => _("Cannot save page from WordCheck. Words have been modified."),
     "badCharsError" => _("There are invalid characters in the page"),
-    "keepCorrectons" => $keep_corrections,
-    "rerun" => $rerun,
-]);
-
-$user = User::load_current();
-$storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
-
-$image_data = json_encode([
-    "imageUrl" => $ppage->url_for_image(),
-    "storageKey" => $storage_key,
-    "align" => "L",
-]);
-
-$header_args = [
-    "js_files" => [
-        "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
-        "$code_url/tools/proofers/wordcheck.js",
-        "$code_url/scripts/character_test.js",
-        "$code_url/scripts/control_bar.js",
-        "$code_url/tools/proofers/proof_image.js",
-    ],
-    "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
-        get_control_bar_texts() . "
-        var imageData = $image_data;
-        var validCharacterPattern = '$valid_character_pattern';
-        var wordCheckMessages = $word_check_messages;
-    ",
-
-    "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
+    "keepCorrectons" => _("Keep corrections and return to proofreading this page"),
+    "rerun" => _("Check page against an additional language"),
 ];
 
-if ($user->profile->i_type == 1) {
-    $header_args["css_data"] = ibe_get_styles();
-}
+$user = User::load_current();
 
-slim_header(_("WordCheck"), $header_args);
+slim_header(_("WordCheck"), get_wordcheck_page_header_args($user, $ppage));
 
-// print basic image html
-if ($user->profile->i_type == 1) {
-    ibe_echo_block();
-    echo '<div id="controlframe">';
-} else {
-    echo '<div>';
-}
-?>
-<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return top.submitForm(this)">
-<?php
+output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language);
+
+function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language)
+{
+    global $word_check_messages;
+
+    $revert_text = $_POST['revert_text'] ?? $text_data;
+
+    $is_header_visible = array_get($_SESSION, "is_header_visible", 1);
+
+    // print basic image html
+    if ($user->profile->i_type == 1) {
+        ibe_echo_block();
+        echo '<div id="controlframe">';
+    } else {
+        echo '<div>';
+    }
+    echo '<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return top.submitForm(this)">';
+
     // change all EOL characters to [lf]
     $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);
 
@@ -154,16 +124,12 @@ if ($user->profile->i_type == 1) {
         echo ">$language</option>\n";
     }
     echo "</select>";
-?>
-<input
-    type="submit"
-    name="rerunauxlanguage"
-    id="rerunauxlanguage"
-    value="<?php echo attr_safe(_("Check")); ?>"
-    title="<?php echo attr_safe($rerun); ?>"
->
-<br>
-<?php
+
+    $value = attr_safe(_("Check"));
+    $title = attr_safe($word_check_messages["rerun"]);
+    echo "<input type='submit' name='rerunauxlanguage' id='rerunauxlanguage' value='$value' title='$title'>";
+    echo "<br>";
+
     // show help blurb on the UA&S icon
     echo sprintf(
         _("The %s icon accepts the word for this page and suggests it for the dictionary."),
@@ -184,57 +150,42 @@ if ($user->profile->i_type == 1) {
     echo "</div>";
     // here ends the div for the WordCheck header
 
-?>
-<table id="tbtext">
-<tr><td id="tdtop">
-<?php
+    echo '<table id="tbtext">';
+
     // print the link to the WordCheck FAQ
+    echo '<tr><td id="tdtop">';
     echo new_window_link(get_faq_url("wordcheck-faq.php"), _("WordCheck FAQ"));
-?>
-</td></tr>
-<tr>
-<td id="tdtext">
-<?php
+    echo '</td></tr>';
+
+    echo '<tr>';
+    echo '<td id="tdtext">';
     $ppage->echo_hidden_fields();
     echo $page_contents;
-?>
-</td>
-</tr>
-<tr>
-    <td id="tdtop">
-        <input
-            type="submit"
-            name="spcorrect"
-            id="spcorrect"
-            value="<?php echo attr_safe(_("Submit Corrections")); ?>"
-            title="<?php echo attr_safe($keep_corrections); ?>"
-        >
-        &nbsp;&nbsp;&nbsp;
-        <input
-            type="submit"
-            name="spexit"
-            value="<?php echo attr_safe(_("Quit WordCheck")); ?>"
-            title="<?php echo attr_safe(_("Abandon corrections and return to proofreading this page")); ?>"
-            onClick="return confirmExit();"
-        >
-        <input
-            type="submit"
-            name="spsaveandnext"
-            id="spsaveandnext"
-            value="<?php echo attr_safe(_("Save as 'Done' & Proofread Next Page")); ?>"
-            title="<?php echo attr_safe(_("Save page as done and proofread the next available page")); ?>"
-<?php
-    if ($is_changed) {
-        echo "            disabled\n";
-    }
-?>
-        >
-    </td>
-</tr>
-</table>
-</form>
-</div>
-<?php
+    echo '</td>';
+    echo '</tr>';
+
+    echo '<tr>';
+    echo '<td id="tdbottom">';
+    $value = attr_safe(_("Submit Corrections"));
+    $title = attr_safe($word_check_messages['keepCorrectons']);
+    echo "<input type='submit' name='spcorrect' id='spcorrect' value='$value' title='$title'>";
+    echo "&nbsp;&nbsp;&nbsp;";
+
+    $value = attr_safe(_("Quit WordCheck"));
+    $title = attr_safe(_("Abandon corrections and return to proofreading this page"));
+    echo "<input type='submit' name='spexit' value='$value' title='$title' onClick='return confirmExit();'>";
+
+    $value = attr_safe(_("Save as 'Done' & Proofread Next Page"));
+    $title = attr_safe(_("Save page as done and proofread the next available page"));
+    $disabled = $is_changed ? "disabled" : "";
+    echo "<input type='submit' name='spsaveandnext' id='spsaveandnext' value='$value' title='$title' $disabled>";
+    echo '</td>';
+    echo '</tr>';
+
+    echo '</table>';
+    echo '</form>';
+    echo '</div>';
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -269,4 +220,44 @@ function get_page_js($interface_type_init_value)
                     return false;
                 }
         PAGE_JS;
+}
+
+function get_wordcheck_page_header_args($user, $ppage)
+{
+    global $code_url, $word_check_messages;
+
+    $project = new Project($ppage->projectid());
+    $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
+
+    $storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
+
+    $image_data = json_encode([
+        "imageUrl" => $ppage->url_for_image(),
+        "storageKey" => $storage_key,
+        "align" => "L",
+    ]);
+
+    $header_args = [
+        "js_files" => [
+            "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
+            "$code_url/tools/proofers/wordcheck.js",
+            "$code_url/scripts/character_test.js",
+            "$code_url/scripts/control_bar.js",
+            "$code_url/tools/proofers/proof_image.js",
+        ],
+        "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) .
+            get_control_bar_texts() . "
+            var imageData = $image_data;
+            var validCharacterPattern = '$valid_character_pattern';
+            var wordCheckMessages = " . json_encode($word_check_messages) . ";
+        ",
+
+        "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',
+    ];
+
+    if ($user->profile->i_type == 1) {
+        $header_args["css_data"] = ibe_get_styles();
+    }
+
+    return $header_args;
 }
