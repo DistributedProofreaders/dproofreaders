@@ -167,8 +167,6 @@ function qp_text_contains_anticipated_error($text, $test)
             }
             break;
 
-        // -----------------------------------------------------------
-
         case "markupmissing":
             // It's an error if the text does not contain both $opentext and $closetext.
             // (A correct text will contain $opentext or $closetext [or both, really].)
@@ -209,8 +207,6 @@ function qp_text_contains_anticipated_error($text, $test)
                 return $test["error"];
             }
             break;
-
-        // -----------------------------------------------------------
 
         case "expectedlinebreaks":
             // It's an error if the portion of the text between $starttext and $stoptext
@@ -344,10 +340,9 @@ function qp_echo_error_html($message_id)
     // Challenge the quiz-taker to fix the error.
     echo "<p>";
     if (isset($message["challengetext"])) {
+        // XXX: Currently unused. Might be discontinued.
         echo $message["challengetext"];
-    }
-    // XXX: Currently unused. Might be discontinued.
-    else {
+    } else {
         echo $default_challenge;
     }
     echo "</p>\n";
