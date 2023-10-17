@@ -169,8 +169,7 @@ function show_toggles_form($username, $user_settings)
 
 function update_settings($user, $user_settings)
 {
-    global $boolean_user_settings, $value_user_settings,
-           $freeform_user_settings, $pguser;
+    global $boolean_user_settings, $value_user_settings, $freeform_user_settings, $pguser;
 
     $username = $user->username;
 
