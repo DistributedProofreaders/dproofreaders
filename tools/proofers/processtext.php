@@ -9,6 +9,7 @@ include_once($relPath.'Project.inc'); // $PROJECT_STATES_IN_ORDER
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
+include_once('spellcheck_text.inc');
 
 require_login();
 
@@ -199,7 +200,9 @@ try {
             unset($_SESSION[$wcTempCorrections]);
 
             $is_changed = 0;
-            include('spellcheck.inc');
+
+            slim_header(_("WordCheck"), get_wordcheck_page_header_args($user, $ppage));
+            output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language);
             break;
 
         case 101:
@@ -306,7 +309,9 @@ try {
             $_SESSION[$wcTempCorrections] = $corrections;
 
             $is_changed = get_integer_param($_POST, 'is_changed', 0, 0, 1);
-            include('spellcheck.inc');
+
+            slim_header(_("WordCheck"), get_wordcheck_page_header_args($user, $ppage));
+            output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language);
             break;
 
 
