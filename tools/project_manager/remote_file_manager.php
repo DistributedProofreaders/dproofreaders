@@ -164,21 +164,44 @@ if (is_null($action)) {
 $action_message = "";
 switch ($action) {
     // We always do showdir after the switch statement
-    case 'showdir':    break;
+    case 'showdir':
+        break;
     // Actions that prompt for additional information and we shouldn't showdir
-    case 'showupload': do_showupload(); exit;
-    case 'showmkdir':  do_showmkdir(); exit;
-    case 'showrename': do_showrename(); exit;
-    case 'showmove':   do_showmove(); exit;
-    case 'showdelete': do_showdelete(); exit;
+    case 'showupload':
+        do_showupload();
+        exit;
+    case 'showmkdir':
+        do_showmkdir();
+        exit;
+    case 'showrename':
+        do_showrename();
+        exit;
+    case 'showmove':
+        do_showmove();
+        exit;
+    case 'showdelete':
+        do_showdelete();
+        exit;
     // Actions that do an action and do not return an info message
-    case 'download':   do_download(); exit;
-    case 'upload':     do_upload(); exit;
+    case 'download':
+        do_download();
+        exit;
+    case 'upload':
+        do_upload();
+        exit;
     // Actions that do an action and upon success return an info message
-    case 'mkdir':      $action_message = do_mkdir(); break;
-    case 'rename':     $action_message = do_rename(); break;
-    case 'move':       $action_message = do_move(); break;
-    case 'delete':     $action_message = do_delete(); break;
+    case 'mkdir':
+        $action_message = do_mkdir();
+        break;
+    case 'rename':
+        $action_message = do_rename();
+        break;
+    case 'move':
+        $action_message = do_move();
+        break;
+    case 'delete':
+        $action_message = do_delete();
+        break;
     default:
         // no matching $action in input
         fatal_error(sprintf(_("Invalid action: '%s'"), html_safe($action)));

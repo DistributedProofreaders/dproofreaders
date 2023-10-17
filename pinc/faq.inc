@@ -117,7 +117,7 @@ function make_forum_url($type, $id, $default)
     // If $id is non-zero, return a URL to a local forum/topic/post
     if ($id) {
         switch ($type) {
-           case "f":
+            case "f":
                 return get_url_to_view_forum($id);
             case "t":
                 return get_url_to_view_topic($id);

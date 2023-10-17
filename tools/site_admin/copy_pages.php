@@ -286,11 +286,15 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         // as indicating a range.
         echo "<h3>";
         switch ($which) {
-            case 'from': echo _("Source Project:"); break;
-            case 'to':   echo _("Destination Project:"); break;
+            case 'from':
+                echo _("Source Project:");
+                break;
+            case 'to':
+                echo _("Destination Project:");
+                break;
             default:
-            // Shouldn't happen
-            break;
+                // Shouldn't happen
+                break;
         }
         echo "</h3>";
 

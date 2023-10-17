@@ -115,40 +115,28 @@ if (!$imso_code) {
         echo "<td>";
         switch ($row['ok_show_images']) {
             case 1:
-            {
                 echo _("Images can be published.");
                 break;
-            }
             case 0:
-            {
                 echo _("Images cannot be published.");
                 break;
-            }
             case -1:
             default:
-            {
                 echo _("Image publishing policy is unknown.");
                 break;
-            }
         }
         echo " "; // Space between policy statements
         switch ($row['ok_keep_images']) {
             case 1:
-            {
                 echo _("Images can be stored.");
                 break;
-            }
             case 0:
-            {
                 echo _("Images cannot be stored.");
                 break;
-            }
             case -1:
             default:
-            {
                 echo _("Image storage policy is unknown.");
                 break;
-            }
         }
         echo "</td>";
         echo "</tr>\n";
