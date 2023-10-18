@@ -165,7 +165,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo '</tr>';
 
     echo '<tr>';
-    echo '<td id="tdbottom">';
+    echo '<td id="tdtop">';
     $value = attr_safe(_("Submit Corrections"));
     $title = attr_safe($word_check_messages['keepCorrectons']);
     echo "<input type='submit' name='spcorrect' id='spcorrect' value='$value' title='$title'>";
