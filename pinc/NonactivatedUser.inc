@@ -41,14 +41,20 @@ class NonactivatedUser
     public function __set($name, $value)
     {
         if (in_array($name, $this->unsettable_fields)) {
-            throw new DomainException(sprintf(
-                _("%s is an unsettable field"), $name)
+            throw new DomainException(
+                sprintf(
+                    _("%s is an unsettable field"),
+                    $name
+                )
             );
         }
 
         if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
-            throw new DomainException(sprintf(
-                _("%s is an immutable field"), $name)
+            throw new DomainException(
+                sprintf(
+                    _("%s is an immutable field"),
+                    $name
+                )
             );
         }
 
@@ -81,14 +87,20 @@ class NonactivatedUser
         $result = DPDatabase::query($sql);
 
         if (mysqli_num_rows($result) == 0) {
-            throw new NonexistentNonactivatedUserException(sprintf(
-                _('No non_activated_user found with %1$s = %2$s'),
-                    $field, $value)
+            throw new NonexistentNonactivatedUserException(
+                sprintf(
+                    _('No non_activated_user found with %1$s = %2$s'),
+                    $field,
+                    $value
+                )
             );
         } elseif (mysqli_num_rows($result) > 1) {
-            throw new NonuniqueNonactivatedUserException(sprintf(
-                _('Multiple non_activated_users found with %1$s = %2$s'),
-                    $field, $value)
+            throw new NonuniqueNonactivatedUserException(
+                sprintf(
+                    _('Multiple non_activated_users found with %1$s = %2$s'),
+                    $field,
+                    $value
+                )
             );
         }
         $this->table_row = mysqli_fetch_assoc($result);
@@ -99,9 +111,12 @@ class NonactivatedUser
         // existing username in case and whitespace by doing a PHP string
         // compare.
         if ($strict and $field == 'username' and $this->username != $value) {
-            throw new NonexistentNonactivatedUserException(sprintf(
-                _('No non_activated_user found with %1$s = %2$s'),
-                    $field, $value)
+            throw new NonexistentNonactivatedUserException(
+                sprintf(
+                    _('No non_activated_user found with %1$s = %2$s'),
+                    $field,
+                    $value
+                )
             );
         }
 
@@ -128,7 +143,8 @@ class NonactivatedUser
         // possibility of an unlikely race condition where two simultaneous
         // registrations with the same ID would "succeed" where the second
         // request just saves over the prior one.
-        $query = sprintf("
+        $query = sprintf(
+            "
             INSERT INTO non_activated_users
             SET
                 id = '%s',
@@ -151,7 +167,8 @@ class NonactivatedUser
                 http_referrer = LEFT('%s', 256),
                 u_intlang = '%s',
                 user_password = '%s'
-        ", $this->table_row["id"],
+        ",
+            $this->table_row["id"],
             DPDatabase::escape($this->username),
             DPDatabase::escape($this->real_name),
             DPDatabase::escape($this->email),
@@ -184,7 +201,8 @@ class NonactivatedUser
             return;
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE FROM non_activated_users
             WHERE id = '%s'",
             DPDatabase::escape($this->id)

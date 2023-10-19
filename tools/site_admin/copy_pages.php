@@ -50,26 +50,51 @@ $repeat_project = get_enumerated_param($_POST, 'repeat_project', null, ['TO', 'F
 
 switch ($action) {
     case 'showform':
-        display_form($projectid_, $from_image_, $page_name_handling,
-                     $transfer_notifications, $add_deletion_reason,
-                     $merge_wordcheck_data, $repeat_project, false);
+        display_form(
+            $projectid_,
+            $from_image_,
+            $page_name_handling,
+            $transfer_notifications,
+            $add_deletion_reason,
+            $merge_wordcheck_data,
+            $repeat_project,
+            false
+        );
         break;
 
     case 'showagain':
-        display_form($projectid_, $from_image_, $page_name_handling,
-                     $transfer_notifications, $add_deletion_reason,
-                     $merge_wordcheck_data, $repeat_project, true);
+        display_form(
+            $projectid_,
+            $from_image_,
+            $page_name_handling,
+            $transfer_notifications,
+            $add_deletion_reason,
+            $merge_wordcheck_data,
+            $repeat_project,
+            true
+        );
         break;
 
     case 'check':
-        do_stuff($projectid_, $from_image_, $page_name_handling,
-                  $transfer_notifications, $add_deletion_reason,
-                  $merge_wordcheck_data, true);
+        do_stuff(
+            $projectid_,
+            $from_image_,
+            $page_name_handling,
+            $transfer_notifications,
+            $add_deletion_reason,
+            $merge_wordcheck_data,
+            true
+        );
 
         echo "<form method='post'>\n";
-        display_hiddens($projectid_, $from_image_, $page_name_handling,
-                        $transfer_notifications, $add_deletion_reason,
-                        $merge_wordcheck_data);
+        display_hiddens(
+            $projectid_,
+            $from_image_,
+            $page_name_handling,
+            $transfer_notifications,
+            $add_deletion_reason,
+            $merge_wordcheck_data
+        );
         echo "\n<input type='hidden' name='action' value='docopy'>";
         echo "\n<input type='submit' name='submit_button' value='" . attr_safe(_("Do it")) ."'>";
         echo "\n</form>";
@@ -77,9 +102,15 @@ switch ($action) {
         break;
 
     case 'docopy':
-        do_stuff($projectid_, $from_image_, $page_name_handling,
-                  $transfer_notifications, $add_deletion_reason,
-                  $merge_wordcheck_data, false);
+        do_stuff(
+            $projectid_,
+            $from_image_,
+            $page_name_handling,
+            $transfer_notifications,
+            $add_deletion_reason,
+            $merge_wordcheck_data,
+            false
+        );
 
         echo "<hr>\n";
         $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&amp;show_image_size=0";
@@ -95,9 +126,14 @@ switch ($action) {
         echo "<input type='radio' name='repeat_project' id='rp-3' value='NONE' CHECKED>";
         echo "<label for='rp-3'>" . _("Neither") . "</label>";
 
-        display_hiddens($projectid_, $from_image_, $page_name_handling,
-                        $transfer_notifications, $add_deletion_reason,
-                        $merge_wordcheck_data);
+        display_hiddens(
+            $projectid_,
+            $from_image_,
+            $page_name_handling,
+            $transfer_notifications,
+            $add_deletion_reason,
+            $merge_wordcheck_data
+        );
 
         echo "<input type='hidden' name='action' value='showagain'>\n";
         echo "<input type='submit' name='submit_button' value='" . attr_safe(_("Again!")) . "'>\n";
@@ -111,10 +147,16 @@ switch ($action) {
         break;
 }
 
-function display_form($projectid_, $from_image_, $page_name_handling,
-                      $transfer_notifications, $add_deletion_reason,
-                      $merge_wordcheck_data, $repeat_project, $repeating)
-{
+function display_form(
+    $projectid_,
+    $from_image_,
+    $page_name_handling,
+    $transfer_notifications,
+    $add_deletion_reason,
+    $merge_wordcheck_data,
+    $repeat_project,
+    $repeating
+) {
     echo "<form method='post'>\n";
     echo "<table class='copy'>\n";
 
@@ -162,12 +204,24 @@ function display_form($projectid_, $from_image_, $page_name_handling,
     echo "</fieldset>\n";
     echo "</td></tr>\n";
 
-    do_radio_button_pair(_("Transfer event notifications:"),
-        "transfer_notifications", $repeating, $transfer_notifications);
-    do_radio_button_pair(_("Add deletion reason to source project:"),
-        "add_deletion_reason", $repeating, $add_deletion_reason);
-    do_radio_button_pair(_("Merge WordCheck files and events into destination project:"),
-        "merge_wordcheck_data", $repeating, $merge_wordcheck_data);
+    do_radio_button_pair(
+        _("Transfer event notifications:"),
+        "transfer_notifications",
+        $repeating,
+        $transfer_notifications
+    );
+    do_radio_button_pair(
+        _("Add deletion reason to source project:"),
+        "add_deletion_reason",
+        $repeating,
+        $add_deletion_reason
+    );
+    do_radio_button_pair(
+        _("Merge WordCheck files and events into destination project:"),
+        "merge_wordcheck_data",
+        $repeating,
+        $merge_wordcheck_data
+    );
 
     echo "<tr><td></td><td>";
     echo "<input type='hidden' name='action' value='check'>\n";
@@ -206,10 +260,14 @@ function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checke
     echo "</td></tr>\n";
 }
 
-function display_hiddens($projectid_, $from_image_, $page_name_handling,
-                         $transfer_notifications, $add_deletion_reason,
-                         $merge_wordcheck_data)
-{
+function display_hiddens(
+    $projectid_,
+    $from_image_,
+    $page_name_handling,
+    $transfer_notifications,
+    $add_deletion_reason,
+    $merge_wordcheck_data
+) {
     echo "\n<input type='hidden' name='from_image_[lo]'        value='" . attr_safe($from_image_['lo']) . "'>";
     echo "\n<input type='hidden' name='from_image_[hi]'        value='" . attr_safe($from_image_['hi']) . "'>";
     echo "\n<input type='hidden' name='projectid_[from]'       value='" . attr_safe($projectid_['from']) . "'>";
@@ -220,11 +278,15 @@ function display_hiddens($projectid_, $from_image_, $page_name_handling,
     echo "\n<input type='hidden' name='merge_wordcheck_data'   value='" . attr_safe($merge_wordcheck_data) . "'>";
 }
 
-function do_stuff($projectid_, $from_image_, $page_name_handling,
-                   $transfer_notifications, $add_deletion_reason,
-                   $merge_wordcheck_data,
-                   $just_checking)
-{
+function do_stuff(
+    $projectid_,
+    $from_image_,
+    $page_name_handling,
+    $transfer_notifications,
+    $add_deletion_reason,
+    $merge_wordcheck_data,
+    $just_checking
+) {
     if (is_null($projectid_)) {
         error_and_die("No projectid data supplied to do_stuff()");
     }
@@ -412,7 +474,8 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             $max_dst_base = (
                 strcmp($max_dst_fileid, $max_dst_image_base) > 0
                 ? $max_dst_fileid
-                : $max_dst_image_base);
+                : $max_dst_image_base
+            );
             $c_dst_format = '%0' . strlen($max_dst_base) . 'd';
             $c_dst_start_b = 1 + intval($max_dst_base);
         }
@@ -580,14 +643,16 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
                 sprintf("'%s'", DPDatabase::escape($c_dst_image)),
                 sprintf("'%s'", DPDatabase::escape($c_dst_fileid)),
             ],
-            $items_list_template);
+            $items_list_template
+        );
 
         $insert = "
             INSERT INTO {$projectid_['to']}
             SELECT $items_list
             FROM {$projectid_['from']}
         ";
-        $query = sprintf("
+        $query = sprintf(
+            "
             %s
             WHERE image = '%s'",
             $insert,
@@ -629,7 +694,8 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
         $subscribable_project_events = get_subscribable_project_events();
         $count = 0;
         foreach ($subscribable_project_events as $event => $label) {
-            $query = sprintf("
+            $query = sprintf(
+                "
                 SELECT username FROM user_project_info
                 WHERE projectid = '%s' AND
                     iste_$event = 1",
@@ -637,9 +703,12 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
             );
             $res1 = DPDatabase::query($query);
             while ([$username] = mysqli_fetch_row($res1)) {
-                set_user_project_event_subscription($username,
-                                                     $projectid_['to'],
-                                                     $event, 1);
+                set_user_project_event_subscription(
+                    $username,
+                    $projectid_['to'],
+                    $event,
+                    1
+                );
                 $count++;
             }
         }
@@ -648,12 +717,13 @@ function do_stuff($projectid_, $from_image_, $page_name_handling,
 
     if ($add_deletion_reason) {
         echo "<p>" . _("Adding deletion reason to source project.") . "</p>\n";
-        $query = sprintf("
+        $query = sprintf(
+            "
               UPDATE projects
               SET deletion_reason = 'merged into %s'
               WHERE projectid = '%s'",
-              $projectid_['to'], // validated input
-              $projectid_['from'] // validated input
+            $projectid_['to'], // validated input
+            $projectid_['from'] // validated input
         );
         echo "<code>" . html_safe($query) . "</code>";
         if ($for_real) {

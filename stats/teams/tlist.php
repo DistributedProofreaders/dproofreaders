@@ -9,9 +9,17 @@ include_once('../includes/team.inc');
 require_login();
 
 $order = get_enumerated_param(
-        $_GET, 'order', 'teamname', ['id', 'teamname', 'member_count']);
+    $_GET,
+    'order',
+    'teamname',
+    ['id', 'teamname', 'member_count']
+);
 $direction = get_enumerated_param(
-        $_GET, 'direction', 'asc', ['asc', 'desc']);
+    $_GET,
+    'direction',
+    'asc',
+    ['asc', 'desc']
+);
 $tstart = get_integer_param($_GET, 'tstart', 0, 0, null);
 $tname = normalize_whitespace(array_get($_GET, 'tname', ''));
 $texact = array_get($_GET, 'texact', '') == 'yes';
@@ -20,8 +28,10 @@ if ($tname) {
     if ($texact) {
         $where_body = sprintf("teamname = '%s'", DPDatabase::escape($tname));
     } else {
-        $where_body = sprintf("teamname LIKE '%%%s%%'",
-            DPDatabase::escape_like_wildcards(DPDatabase::escape($tname)));
+        $where_body = sprintf(
+            "teamname LIKE '%%%s%%'",
+            DPDatabase::escape_like_wildcards(DPDatabase::escape($tname))
+        );
     }
 
     $tResult = select_from_teams($where_body, "ORDER BY $order $direction LIMIT $tstart,20");
@@ -57,20 +67,20 @@ echo "<br>";
 //Display of user teams
 echo "<table class='themed theme_striped'>\n";
 echo "<tr>";
-    echo "<th></th>";
-    if ($order == "teamname" && $direction == "asc") {
-        $newdirection = "desc";
-    } else {
-        $newdirection = "asc";
-    }
-        echo "<th><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;tstart=$tstart&amp;order=teamname&amp;direction=$newdirection'>"._("Team Name")."</a></th>";
-    if ($order == "member_count" && $direction == "desc") {
-        $newdirection = "asc";
-    } else {
-        $newdirection = "desc";
-    }
-        echo "<th class='center-align'><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;tstart=$tstart&amp;order=member_count&amp;direction=$newdirection'>"._("Total Members")."</a></th>";
-    echo "<th class='center-align'>"._("Options")."</th>";
+echo "<th></th>";
+if ($order == "teamname" && $direction == "asc") {
+    $newdirection = "desc";
+} else {
+    $newdirection = "asc";
+}
+echo "<th><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;tstart=$tstart&amp;order=teamname&amp;direction=$newdirection'>"._("Team Name")."</a></th>";
+if ($order == "member_count" && $direction == "desc") {
+    $newdirection = "asc";
+} else {
+    $newdirection = "desc";
+}
+echo "<th class='center-align'><a href='tlist.php?tname=" . attr_safe($tname) . "&amp;tstart=$tstart&amp;order=member_count&amp;direction=$newdirection'>"._("Total Members")."</a></th>";
+echo "<th class='center-align'>"._("Options")."</th>";
 echo "</tr>\n";
 
 if (!empty($tRows)) {

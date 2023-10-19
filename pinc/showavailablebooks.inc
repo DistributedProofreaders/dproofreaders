@@ -34,7 +34,8 @@ function show_projects_for_round($round, $show_filter_block = true, $allow_speci
         $show_filter_block,
         $filter_custom_display_fields,
         $allow_special_colors_legend,
-        $columns);
+        $columns
+    );
 }
 
 // -----------------------------------------------------------------------------
@@ -183,8 +184,8 @@ function show_projects_for_stage(
     $filter_custom_display_fields,
     $allow_special_colors_legend,
     $columns,
-    $optional_join_clause = "")
-{
+    $optional_join_clause = ""
+) {
     global $pguser;
 
     // SR is a special snowflake that prints its own header
@@ -686,7 +687,9 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             echo html_safe(
                 sprintf(
                     _("%1\$s supplies value '%2\$s'"),
-                    $provider_noun, $curr_ext_sort)
+                    $provider_noun,
+                    $curr_ext_sort
+                )
             );
             echo "</p>";
         }
@@ -721,7 +724,10 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             echo html_safe(
                 sprintf(
                     _("%1\$s value '%2\$s' has bad column part: '%3\$s'"),
-                    $provider_noun, $curr_ext_sort, $curr_ext_sort_col)
+                    $provider_noun,
+                    $curr_ext_sort,
+                    $curr_ext_sort_col
+                )
             );
             echo "\n</p>";
             continue;
@@ -738,7 +744,10 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
                 sprintf(
                     // TRANSLATORS: "sort direction" refers to the sort order direction (ascending vs descending)
                     _("%1\$s value '%2\$s' has bad sort direction: '%3\$s'"),
-                    $provider_noun, $curr_ext_sort, $curr_ext_sort_dir)
+                    $provider_noun,
+                    $curr_ext_sort,
+                    $curr_ext_sort_dir
+                )
             );
 
             // We could skip to the next provider via 'continue',
@@ -752,7 +761,8 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
             echo html_safe(
                 sprintf(
                     _("Using '%s' instead."),
-                    $curr_ext_sort_dir)
+                    $curr_ext_sort_dir
+                )
             );
             echo "\n</p>";
         }
@@ -775,7 +785,9 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
                 echo html_safe(
                     sprintf(
                         _("DB setting '%1\$s' receives value '%2\$s'"),
-                        $ext_sort_setting_name, $curr_ext_sort)
+                        $ext_sort_setting_name,
+                        $curr_ext_sort
+                    )
                 );
                 echo "</p>";
             }

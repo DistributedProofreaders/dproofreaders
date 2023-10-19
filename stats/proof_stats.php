@@ -29,7 +29,8 @@ $users_tallyboard = new TallyBoard($tally_name, 'U');
 // TRANSLATORS: %s is a page tally name (i.e. 'P1' or 'F2' or 'R*')
 $sql_upt_column_name = sprintf(_("%s Pages Completed"), $tally_name);
 
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT
         IF(u_privacy = %d, '%s', username) AS '%s',
         $user_page_tally_column AS '%s'
@@ -37,7 +38,8 @@ $sql = sprintf("
     WHERE $user_page_tally_column > 0
     ORDER BY 2 DESC, 1 ASC
     LIMIT 100
-", PRIVACY_ANONYMOUS,
+",
+    PRIVACY_ANONYMOUS,
     DPDatabase::escape(_("Anonymous")),
     DPDatabase::escape(_("Proofreader")),
     DPDatabase::escape($sql_upt_column_name)

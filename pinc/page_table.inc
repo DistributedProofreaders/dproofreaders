@@ -95,7 +95,8 @@ function fetch_page_table_data($project, $page_selector = null, $proofed_in_roun
         if (is_formatting_round($round)) {
             $wordcheck_query = "NULL as wordcheck_status$rn";
         } else {
-            $wordcheck_query = sprintf("
+            $wordcheck_query = sprintf(
+                "
                 (
                     SELECT count(*)
                     FROM wordcheck_events
@@ -104,8 +105,10 @@ function fetch_page_table_data($project, $page_selector = null, $proofed_in_roun
                         username = $round->user_column_name AND
                         round_id = '%s'
                 ) as wordcheck_status$rn
-            ", DPDatabase::escape($project->projectid),
-                DPDatabase::escape($round->id));
+            ",
+                DPDatabase::escape($project->projectid),
+                DPDatabase::escape($round->id)
+            );
         }
         $fields_to_get .= ",
             $prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
@@ -203,8 +206,8 @@ function echo_page_table(
     $show_image_size,
     $disable_editing = false,
     $page_selector = null,
-    $proofed_in_round = null)
-{
+    $proofed_in_round = null
+) {
     global $projects_dir, $code_url, $pguser;
 
     $can_edit = $project->can_be_managed_by_current_user;
@@ -402,7 +405,12 @@ function echo_page_table(
                 && $page_res["pagerounds"][$project_round->id]["username"] == $pguser
                 && $page_state != $project_round->page_avail_state) {
                 $url = url_for_pi_do_particular_page(
-                    $projectid, $state, $imagename, $page_state, true);
+                    $projectid,
+                    $state,
+                    $imagename,
+                    $page_state,
+                    true
+                );
                 echo "<td><a href='$url'>"._("Edit")."</a></td>\n";
             } else {
                 echo "<td></td>";
@@ -547,10 +555,13 @@ function get_rounds_with_data($projectid)
 
 // -----------------------------------------------------------------------------
 
-function echo_cells_for_round($round, $diff_round_num, // <- These are the only "real" params.
+function echo_cells_for_round(
+    $round,
+    $diff_round_num, // <- These are the only "real" params.
     $page_res,
-    $projectid, $can_see_names_for_this_page)
-{
+    $projectid,
+    $can_see_names_for_this_page
+) {
     global $pguser, $code_url;
 
     $imagename = $page_res['image'];

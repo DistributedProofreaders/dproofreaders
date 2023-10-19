@@ -105,9 +105,11 @@ function generate_project_metadata_json($project, $filename, $dry_run)
     if ($dry_run) {
         echo "    Write project metadata to $filename.\n";
     } else {
-        file_put_contents($filename, json_encode($metadata,
+        file_put_contents($filename, json_encode(
+            $metadata,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
-            JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK))
+            JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
+        ))
             or die("Error writing project metadata to $filename.");
     }
 }
@@ -122,14 +124,17 @@ function archive_ancillary_data_for_project_etc($project, $indent, $dry_run)
 
     // Check for any deleted projects that were merged into this project,
     // and archive their ancillary info too.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT projectid, modifieddate, state
         FROM projects
         WHERE state = '%s'
         AND deletion_reason = '%s'
         ORDER BY modifieddate
-    ", DPDatabase::escape(PROJ_DELETE),
-        DPDatabase::escape("merged into $project->projectid"));
+    ",
+        DPDatabase::escape(PROJ_DELETE),
+        DPDatabase::escape("merged into $project->projectid")
+    );
     $res2 = DPDatabase::query($sql);
     while ($project2 = mysqli_fetch_object($res2)) {
         archive_ancillary_data_for_project($project2, $indent, $dry_run);

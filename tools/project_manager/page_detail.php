@@ -64,12 +64,16 @@ if ($project->check_pages_table_exists($warn_message)) {
     echo "<p>";
     if (!is_null($username_for_page_selection)) {
         if (is_null($round_for_page_selection)) {
-            echo sprintf(_("Showing only the pages of user '%s'."),
-                          html_safe($username_for_page_selection));
+            echo sprintf(
+                _("Showing only the pages of user '%s'."),
+                html_safe($username_for_page_selection)
+            );
         } else {
-            echo sprintf(_("Showing only the pages of user '%1\$s' in round %2\$s."),
-                          html_safe($username_for_page_selection),
-                          html_safe($round_for_page_selection));
+            echo sprintf(
+                _("Showing only the pages of user '%1\$s' in round %2\$s."),
+                html_safe($username_for_page_selection),
+                html_safe($round_for_page_selection)
+            );
         }
         $blurb = _("Show all pages instead.");
         echo "&nbsp;&nbsp;";

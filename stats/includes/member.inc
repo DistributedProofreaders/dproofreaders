@@ -85,8 +85,10 @@ function days_to_now($timestamp)
     } elseif ($days == 1) {
         return _("Yesterday");
     } else {
-        return sprintf(ngettext(_("%s day ago"), _("%s days ago"), $days),
-            number_format($days));
+        return sprintf(
+            ngettext(_("%s day ago"), _("%s days ago"), $days),
+            number_format($days)
+        );
     }
 }
 
@@ -123,7 +125,7 @@ function showMbrDpProfile($user)
     $t->row(
         _("Stats Feed"),
         showXmlButton($user->username)
-        );
+    );
 
     $t->end();
 }
@@ -232,8 +234,8 @@ function showForumProfile($username)
     if ($bb_user["rank"] != 0) {
         $bb_title = get_forum_rank_title($bb_user["rank"]);
         $t->row(
-               '',
-               $bb_title
+            '',
+            $bb_title
         );
     }
 
@@ -432,8 +434,10 @@ function showMbrPageStats($user, $tally_name)
         }
     }
 
-    $daysInRoundString = sprintf(_("%s days"),
-        number_format($daysInRoundInteger)); // '1,234 days' (not localized)
+    $daysInRoundString = sprintf(
+        _("%s days"),
+        number_format($daysInRoundInteger)
+    ); // '1,234 days' (not localized)
 
     $bestDayTime = date("M. jS, Y", ($vitals->best_delta_timestamp - 1));
 
@@ -505,7 +509,10 @@ function showMbrNeighbors($user, $tally_name)
 
     $neighbors =
         user_get_page_tally_neighborhood(
-            $tally_name, $user->username, 4);
+            $tally_name,
+            $user->username,
+            4
+        );
     foreach ($neighbors as $rel_posn => $neighbor) {
         $rank = $neighbor->get_current_page_tally_rank();
         $pagescompleted = number_format($neighbor->get_current_page_tally());

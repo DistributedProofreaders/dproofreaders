@@ -96,10 +96,10 @@ if (isset($success_msg)) {
     if ($err_msg == '') {
         echo "<p>", $success_msg, "</p>\n";
         echo "<p>",
-            "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>",
-            _('Return to Images Index'),
-            "</a>",
-            "</p>\n";
+        "<a href='$code_url/tools/proofers/images_index.php?project=$projectid'>",
+        _('Return to Images Index'),
+        "</a>",
+        "</p>\n";
         exit;
     } else {
         echo "<p class='error'>";

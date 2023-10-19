@@ -53,7 +53,8 @@ if (!isset($user->id)) {
     } else {
         echo "<p>";
         echo sprintf(
-            _("There is no account with activation code '%s' waiting to be activated."), html_safe($reg_token)
+            _("There is no account with activation code '%s' waiting to be activated."),
+            html_safe($reg_token)
         );
         echo "</p>";
 
@@ -61,7 +62,9 @@ if (!isset($user->id)) {
         $mailto_url = "mailto:$general_help_email_addr";
         echo sprintf(
             _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
-            $mailto_url, $general_help_email_addr);
+            $mailto_url,
+            $general_help_email_addr
+        );
         echo "</p>";
     }
 
@@ -85,29 +88,34 @@ if ($create_user_status !== true) {
     $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
         _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
-        $mailto_url, $general_help_email_addr);
+        $mailto_url,
+        $general_help_email_addr
+    );
     echo "\n";
     echo sprintf(
         _("Please include the account activation code %s in your email for assistance."),
-        $reg_token);
+        $reg_token
+    );
     echo "</p>\n";
     exit;
 }
 
 // Insert into 'real' table -- users
-$query = sprintf("
+$query = sprintf(
+    "
     INSERT INTO users (reg_token, real_name, username, email, date_created,
                        email_updates, referrer, referrer_details, http_referrer, u_neigh, u_intlang)
     VALUES ('%s', '%s', '%s', '%s', $user->date_created,
             $user->email_updates, '%s', '%s', '%s', 10, '%s')
-    ", DPDatabase::escape($reg_token),
-        DPDatabase::escape($user->real_name),
-        DPDatabase::escape($user->username),
-        DPDatabase::escape($user->email),
-        DPDatabase::escape($user->referrer),
-        DPDatabase::escape($user->referrer_details),
-        DPDatabase::escape($user->http_referrer),
-        DPDatabase::escape($user->u_intlang)
+    ",
+    DPDatabase::escape($reg_token),
+    DPDatabase::escape($user->real_name),
+    DPDatabase::escape($user->username),
+    DPDatabase::escape($user->email),
+    DPDatabase::escape($user->referrer),
+    DPDatabase::escape($user->referrer_details),
+    DPDatabase::escape($user->http_referrer),
+    DPDatabase::escape($user->u_intlang)
 );
 
 $result = DPDatabase::query($query);
@@ -122,9 +130,12 @@ $profile->u_ref = $u_id;
 $profile->save();
 
 // add ref to profile
-$refString = sprintf("
+$refString = sprintf(
+    "
     UPDATE users SET u_profile=%d WHERE u_id=%d
-    ", DPDatabase::escape($profile->id), $u_id
+    ",
+    DPDatabase::escape($profile->id),
+    $u_id
 );
 DPDatabase::query($refString);
 
@@ -136,8 +147,10 @@ printf(_("User %s activated successfully."), $user->username);
 echo " ";
 
 // TRANSLATORS: %s is the site name
-printf(_("Please check the e-mail being sent to you for further information about %s."),
-        $site_name);
+printf(
+    _("Please check the e-mail being sent to you for further information about %s."),
+    $site_name
+);
 echo "</p>";
 
 echo "<p>"._("Enter your password below to sign in and start proofreading!!") . "</p>";

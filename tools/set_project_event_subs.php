@@ -31,11 +31,13 @@ slim_header(_("Event Subscriptions"));
 
 _html_ul(
     _("You are now subscribed to these events for this project:"),
-    $subs);
+    $subs
+);
 
 _html_ul(
     _("You are now unsubscribed from these events for this project:"),
-    $unsubs);
+    $unsubs
+);
 
 function _html_ul($header, $items)
 {

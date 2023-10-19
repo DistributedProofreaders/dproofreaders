@@ -325,19 +325,19 @@ if ($i_type == 0) {
     echo "<form>\n";
     echo "<dl>\n";
     foreach (
-    [
-        "Save as 'In Progress'",
-        "Save as 'Done' & Proofread Next Page",
-        "Save as 'Done'",
-        'Stop Proofreading',
-        'Switch to Vertical/Horizontal',
-        'Show All Text',
-        'Return Page to Round',
-        'Report Bad Page',
-        'WordCheck',
-        'Preview',
-    ]
-    as $name) {
+        [
+            "Save as 'In Progress'",
+            "Save as 'Done' & Proofread Next Page",
+            "Save as 'Done'",
+            'Stop Proofreading',
+            'Switch to Vertical/Horizontal',
+            'Show All Text',
+            'Return Page to Round',
+            'Report Bad Page',
+            'WordCheck',
+            'Preview',
+        ]
+        as $name) {
         echo "<dt>";
         if ($name == 'Switch to Vertical/Horizontal') {
             echo "<input type='button' value='Switch to Vertical'> / ";

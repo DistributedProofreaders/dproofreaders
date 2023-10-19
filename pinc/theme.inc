@@ -138,7 +138,8 @@ function html_logobar()
     echo "<span id='x-preserved'>";
     echo sprintf(
         _('%s titles preserved for the world!'),
-        number_format(total_completed_projects()));
+        number_format(total_completed_projects())
+    );
     echo "</span>\n";
     echo "<span id='month-preserved-summary'>";
     show_completed_projects(true);
@@ -609,8 +610,10 @@ function show_tally_specific_stats($tally_name)
     echo
         sprintf(
             _('%1$s users with at least one %2$s page'),
-            number_format($num_positive_users), $tally_name),
-        "\n";
+            number_format($num_positive_users),
+            $tally_name
+        ),
+    "\n";
 
     // ---------------------------------------------------------------------
 
@@ -622,7 +625,10 @@ function show_tally_specific_stats($tally_name)
         //Get the personal statistics array
         $neighbors =
             user_get_page_tally_neighborhood(
-                $tally_name, $user->username, $user->u_neigh);
+                $tally_name,
+                $user->username,
+                $user->u_neigh
+            );
         $usern = $neighbors[0];
 
         //get rank
@@ -635,7 +641,8 @@ function show_tally_specific_stats($tally_name)
             $round = get_Round_for_round_id($tally_name);
             if ($round) {
                 $rankname = $round->get_honorific_for_page_tally(
-                    $usern->get_current_page_tally());
+                    $usern->get_current_page_tally()
+                );
             } else {
                 $rankname = _('[unknown]');
             }
@@ -966,7 +973,7 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
     if ($prorate_goal_for_color == 'bar' || $prorate_goal_for_color === true) {
         $t_start_of_today = mktime(0, 0, 0, date('m'), date('d'), date('y'));
         $fraction_of_time_passed = (time() - $t_start_of_today) / (60 * 60 * 24);
-    // Note: Calculation assumes a 24-hour day which is true except
+        // Note: Calculation assumes a 24-hour day which is true except
         // possibly for the first and last days of daylight saving time
         // depending on how PHP calculates DST in the mktime() call.
     } elseif ($prorate_goal_for_color == 'month') {

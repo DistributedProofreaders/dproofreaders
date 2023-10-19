@@ -15,9 +15,12 @@ if (!user_is_a_sitemanager()) {
 
 $page_url = "$code_url/tools/site_admin/manage_special_days.php";
 
-$action = get_enumerated_param($_REQUEST, 'action', 'show_specials',
-              ['show_specials', 'add_special', 'update_oneshot']
-          );
+$action = get_enumerated_param(
+    $_REQUEST,
+    'action',
+    'show_specials',
+    ['show_specials', 'add_special', 'update_oneshot']
+);
 
 // Action 'update_oneshot' is used as a target for form submit buttons. The
 // desired action is based on the submit button's name. Here we do the action
@@ -57,8 +60,10 @@ if ($action == 'update_oneshot') {
         ];
         foreach ($numeric_fields as $field => $string) {
             if ($_POST[$field] == '' || !ctype_digit($_POST[$field])) {
-                $errmsgs .= sprintf(_("Field %s does not contain a valid number."),
-                                $string) . "<br>";
+                $errmsgs .= sprintf(
+                    _("Field %s does not contain a valid number."),
+                    $string
+                ) . "<br>";
             }
         }
 
@@ -127,11 +132,13 @@ class SpecialDay
         $this->enable = 0;
 
         if (!is_null($spec_code)) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 SELECT *
                 FROM special_days
                 WHERE spec_code = '%s'",
-                DPDatabase::escape($spec_code));
+                DPDatabase::escape($spec_code)
+            );
             $result = DPDatabase::query($sql);
             $source_fields = mysqli_fetch_assoc($result);
 
@@ -351,7 +358,8 @@ class SpecialDay
 
     public function _set_field($field, $value)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE special_days
             SET $field = '%s'
             WHERE spec_code = '%s'",

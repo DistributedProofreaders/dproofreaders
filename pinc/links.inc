@@ -132,9 +132,9 @@ function return_to_project_page_link($projectid, $query_param_array = null, $anc
 {
     $url = project_page_link_url($projectid, $query_param_array, $anchor_link);
     return sprintf(
-             _("Return to the <a %s>project page</a>"),
-             "href='$url' target='_top'"
-           );
+        _("Return to the <a %s>project page</a>"),
+        "href='$url' target='_top'"
+    );
 }
 
 // -----------------------------------------------------------------------------
@@ -147,10 +147,10 @@ function return_to_round_page_link($round_id)
     global $code_url;
 
     return sprintf(
-             _("Return to <a %s>round %s</a>"),
-             "href='$code_url/tools/proofers/round.php?round_id=$round_id' target='_top'",
-             $round_id
-           );
+        _("Return to <a %s>round %s</a>"),
+        "href='$code_url/tools/proofers/round.php?round_id=$round_id' target='_top'",
+        $round_id
+    );
 }
 
 // -----------------------------------------------------------------------------
@@ -163,7 +163,7 @@ function return_to_activity_hub_link()
     global $code_url;
 
     return sprintf(
-             _("Return to the <a %s>Activity Hub</a>"),
-             "href='$code_url/activity_hub.php' target='_top'"
-           );
+        _("Return to the <a %s>Activity Hub</a>"),
+        "href='$code_url/activity_hub.php' target='_top'"
+    );
 }

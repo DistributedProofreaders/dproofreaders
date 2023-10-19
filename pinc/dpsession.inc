@@ -138,7 +138,8 @@ function _session_set_handlers_and_start()
             "mysql_session_select",
             "mysql_session_write",
             "mysql_session_destroy",
-            "mysql_session_garbage_collect");
+            "mysql_session_garbage_collect"
+        );
 
         session_start();
     }
@@ -176,7 +177,8 @@ function mysql_session_write($sid, $value)
 {
     $expiration = time() + ini_get("session.cookie_lifetime");
 
-    $query = sprintf("
+    $query = sprintf(
+        "
         INSERT INTO sessions
             (sid, expiration, value)
         VALUES
@@ -188,7 +190,8 @@ function mysql_session_write($sid, $value)
         $expiration,
         DPDatabase::escape($value),
         $expiration,
-        DPDatabase::escape($value));
+        DPDatabase::escape($value)
+    );
     $result = DPDatabase::query($query);
     return $result;
 }
@@ -204,9 +207,11 @@ function mysql_session_destroy($sid)
 
 function mysql_session_garbage_collect($lifetime)
 {
-    $result = DPDatabase::query(sprintf(
-        "DELETE FROM sessions WHERE expiration < %d",
-        time() - $lifetime)
+    $result = DPDatabase::query(
+        sprintf(
+            "DELETE FROM sessions WHERE expiration < %d",
+            time() - $lifetime
+        )
     );
     return $result;
 }

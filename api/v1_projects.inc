@@ -200,8 +200,10 @@ function create_or_update_project($project)
             throw new InvalidValue("At least one Character Suite is required.");
         }
 
-        $invalid_charsuites = array_diff($updates["character_suites"],
-            array_extract_field(CharSuites::get_all(), "name"));
+        $invalid_charsuites = array_diff(
+            $updates["character_suites"],
+            array_extract_field(CharSuites::get_all(), "name")
+        );
         if ($invalid_charsuites) {
             throw new InvalidValue(sprintf("%s is/are not valid Character Suites.", join(", ", $invalid_charsuites)));
         }
@@ -434,7 +436,8 @@ function api_v1_project_page_round($method, $data, $query_params)
         $user_column = $round->user_column_name;
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT
             image,
             %s AS text,
@@ -442,7 +445,10 @@ function api_v1_project_page_round($method, $data, $query_params)
             state
         FROM %s
         WHERE image = '%s'
-    ", $text_column, $user_column, $data[":projectid"]->projectid,
+    ",
+        $text_column,
+        $user_column,
+        $data[":projectid"]->projectid,
         DPDatabase::escape($data[":pagename"])
     );
     $result = DPDatabase::query($sql);

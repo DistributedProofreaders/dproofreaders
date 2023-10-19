@@ -1,5 +1,5 @@
 <?php
- $relPath = "../pinc/";
+$relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'misc.inc'); // array_get()
 
@@ -30,7 +30,7 @@ $chunk_filename = "$staging_dir/$hashed_filename.part.$chunk_number";
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (file_exists($chunk_filename)) {
         header("HTTP/1.0 200 Ok");
-    // continue to try to reassemble
+        // continue to try to reassemble
     } else {
         header("HTTP/1.0 404 Not Found");
         exit;

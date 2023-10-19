@@ -42,8 +42,8 @@ function declare_project_state(
     $long_label,
     $forum,
     $phase,
-    $star_metal)
-{
+    $star_metal
+) {
     global $PROJECT_STATES_IN_ORDER;
     global $project_state_medium_label_;
     global $project_state_long_label_;
@@ -154,8 +154,8 @@ function declare_project_states_for_round($round_id, $round_name)
 declare_project_state(
     "PROJ_NEW",
     "project_new",
-     _("New Project"),
-     _("New Project"),
+    _("New Project"),
+    _("New Project"),
     $waiting_projects_forum_idx,
     'NEW',
     ''
@@ -299,8 +299,10 @@ foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
 function sql_collater_for_project_state($state_column)
 {
     global $PROJECT_STATES_IN_ORDER;
-    return sprintf("FIELD($state_column, %s)",
-        surround_and_join($PROJECT_STATES_IN_ORDER, "'", "'", ","));
+    return sprintf(
+        "FIELD($state_column, %s)",
+        surround_and_join($PROJECT_STATES_IN_ORDER, "'", "'", ",")
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

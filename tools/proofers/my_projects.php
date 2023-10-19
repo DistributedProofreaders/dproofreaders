@@ -31,22 +31,26 @@ $pool_sort_options = get_sort_options($pool_column_specs);
 // pull the last selected option from UserSettings.
 $userSettings = & Settings::get_Settings($pguser);
 $round_view = get_enumerated_param(
-    $_GET, "round_view",
+    $_GET,
+    "round_view",
     $userSettings->get_value("my_projects:round_view", "recent"),
     array_keys($round_view_options)
 );
 $pool_view = get_enumerated_param(
-    $_GET, "pool_view",
+    $_GET,
+    "pool_view",
     $userSettings->get_value("my_projects:pool_view", "reserved"),
     array_keys($pool_view_options)
 );
 $round_sort = get_enumerated_param(
-    $_GET, 'round_sort',
+    $_GET,
+    'round_sort',
     $userSettings->get_value("my_projects:round_sort", "timeD"),
     $round_sort_options
 );
 $pool_sort = get_enumerated_param(
-    $_GET, 'pool_sort',
+    $_GET,
+    'pool_sort',
     $userSettings->get_value("my_projects:pool_sort", "titleA"),
     $pool_sort_options
 );
@@ -112,8 +116,11 @@ if (mysqli_num_rows($res) == 0) {
         if ($row->state == PROJ_DELETE) {
             // it's been deleted. see if it's been merged into another one.
             if (str_contains($row->deletion_reason, 'merged') &&
-                (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/',
-                                 $row->deletion_reason, $matches))) {
+                (1 == preg_match(
+                    '/\b(projectID[0-9a-f]{13})\b/',
+                    $row->deletion_reason,
+                    $matches
+                ))) {
                 // get the dope from the project it was merged into
                 $project = new Project($matches[1]);
                 if ($project->archived == '1') {
@@ -574,7 +581,8 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
     }
 
     if ($round_view == "available") {
-        $avail_state_clause = sprintf("
+        $avail_state_clause = sprintf(
+            "
             AND projects.state in (%s)",
             surround_and_join($avail_states, "'", "'", ',')
         );

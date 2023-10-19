@@ -177,7 +177,8 @@ try {
         case B_RETURN_PAGE_TO_ROUND:
             $ppage->returnToRound($pguser);
             leave_proofing_interface(
-                _("Return to Round"));
+                _("Return to Round")
+            );
             break;
 
         case B_REPORT_BAD_PAGE:
@@ -224,7 +225,13 @@ try {
             // functions for returning the round ID and the page number
             // without the mess below
             save_wordcheck_event(
-                $projectid, $ppage->lpage->round->id, $page, $pguser, $accepted_words, $corrections);
+                $projectid,
+                $ppage->lpage->round->id,
+                $page,
+                $pguser,
+                $accepted_words,
+                $corrections
+            );
 
             $ppage->saveAsInProgress($correct_text, $pguser);
             leave_spellcheck_mode($ppage);
@@ -242,7 +249,13 @@ try {
             unset($_SESSION[$wcTempCorrections]);
 
             save_wordcheck_event(
-                $projectid, $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
+                $projectid,
+                $ppage->lpage->round->id,
+                $page,
+                $pguser,
+                $accepted_words,
+                []
+            );
 
             $ppage->saveAsInProgress($correct_text, $pguser);
             leave_spellcheck_mode($ppage);
@@ -272,7 +285,13 @@ try {
             unset($_SESSION[$wcTempCorrections]);
 
             save_wordcheck_event(
-                $projectid, $ppage->lpage->round->id, $page, $pguser, $accepted_words, []);
+                $projectid,
+                $ppage->lpage->round->id,
+                $page,
+                $pguser,
+                $accepted_words,
+                []
+            );
 
             // 2. Save the current page as done
             $ppage->attempt_to_save_as_done($correct_text);

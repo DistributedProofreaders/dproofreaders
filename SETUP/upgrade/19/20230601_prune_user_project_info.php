@@ -62,12 +62,15 @@ while ([$projectid] = mysqli_fetch_row($result)) {
 
     // delete the row -- because ($projectid, $username) is the primary key
     // we can delete it just based on those two fields alone
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         DELETE FROM user_project_info
         WHERE projectid = '%s'
             AND username in (%s)
-    ", DPDatabase::escape($projectid),
-    surround_and_join(array_map("DPDatabase::escape", $upi_users_to_delete), "'", "'", ","));
+    ",
+        DPDatabase::escape($projectid),
+        surround_and_join(array_map("DPDatabase::escape", $upi_users_to_delete), "'", "'", ",")
+    );
 
     mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 

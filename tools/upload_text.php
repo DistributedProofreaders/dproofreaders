@@ -141,9 +141,11 @@ if ($stage == 'post_1') {
     echo "<p>", _("The upload failed."), "</p>\n";
     echo "<p>", get_big_upload_blurb(), "</p>";
 
-    echo "<p>" . sprintf(_("Please go <a href='%s'>back</a> and try uploading
+    echo "<p>" . sprintf(
+        _("Please go <a href='%s'>back</a> and try uploading
         the original again or uploading a smaller placeholder instead."),
-        "javascript:history.back()") . "</p>";
+        "javascript:history.back()"
+    ) . "</p>";
 
     exit;
 }
@@ -256,12 +258,15 @@ if (!isset($action)) {
 
         if (($stage == "in_prog_1") || ($stage == "in_prog_2")) {
             // record postcomments in projects table
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE projects
                 SET postcomments = CONCAT(postcomments, '%s')
                 WHERE projectid = '%s'
-            ", DPDatabase::escape($postcomments),
-                DPDatabase::escape($projectid));
+            ",
+                DPDatabase::escape($postcomments),
+                DPDatabase::escape($projectid)
+            );
             DPDatabase::query($sql);
         }
 

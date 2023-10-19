@@ -80,13 +80,15 @@ if ($one_project) {
 
     $condition = "0";
     foreach ($Round_for_round_id_ as $round_id => $round) {
-        $condition .= sprintf("
+        $condition .= sprintf(
+            "
             OR state = '%s'
             OR state = '%s'
             OR state = '%s'",
-        DPDatabase::escape($round->project_available_state),
-        DPDatabase::escape($round->project_complete_state),
-        DPDatabase::escape($round->project_bad_state));
+            DPDatabase::escape($round->project_available_state),
+            DPDatabase::escape($round->project_complete_state),
+            DPDatabase::escape($round->project_bad_state)
+        );
     }
 
     insert_job_log_entry(
@@ -171,7 +173,8 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
         $n_hours_to_wait = 4;
         $max_reclaimable_time = time() - $n_hours_to_wait * 60 * 60;
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT image
             FROM $projectid
             WHERE state IN ('%s','%s')
@@ -179,7 +182,8 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
             ORDER BY image ASC",
             $round->page_out_state,
             $round->page_temp_state,
-            $max_reclaimable_time);
+            $max_reclaimable_time
+        );
         try {
             $res = DPDatabase::query($sql);
         } catch (DBQueryError $error) {
@@ -297,8 +301,11 @@ if (!$one_project) {
     insert_job_log_entry(
         'automodify.php',
         'END',
-        sprintf("post autorelease, started at %d, took %d seconds",
-            $start_time, time() - $start_time)
+        sprintf(
+            "post autorelease, started at %d, took %d seconds",
+            $start_time,
+            time() - $start_time
+        )
     );
 } else {
     insert_job_log_entry(

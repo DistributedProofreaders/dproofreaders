@@ -32,9 +32,12 @@ class SortableValue
      *   `$sqlRuleAscending`. With 'inverse', I mean that the inverse of
      * "a, b DESC, c ASC" is "a DESC, b ASC, c DESC".
      */
-    public function __construct($name, $label,
-                         $sqlRuleAscending = null, $sqlRuleDescending = null)
-    {
+    public function __construct(
+        $name,
+        $label,
+        $sqlRuleAscending = null,
+        $sqlRuleDescending = null
+    ) {
         $this->_name = $name;
         $this->_label = $label;
         if (isset($sqlRuleAscending)) {
@@ -57,11 +60,11 @@ class SortableValue
         $count = 0;
         foreach ($vars as $var) {
             $oldVar = $var;
-            if (($newVar = str_replace(' ASC', ' DESC', $var)) != $oldVar)
-        ; // ASC -> DESC
-            elseif (($newVar = str_replace(' DESC', '', $var)) != $oldVar)
-        ; // DESC -> ASC
-            else {
+            if (($newVar = str_replace(' ASC', ' DESC', $var)) != $oldVar) {
+                // ASC -> DESC
+            } elseif (($newVar = str_replace(' DESC', '', $var)) != $oldVar) {
+                // DESC -> ASC
+            } else {
                 $newVar = "$var DESC";
             } // ASC -> DESC
             $newVars[$count++] = trim($newVar);
@@ -141,7 +144,7 @@ class SortUtility
     public function _checkForUserPreferenceOnSorting()
     {
 
-    // Did the user click a sorting link (or used bookmark)?
+        // Did the user click a sorting link (or used bookmark)?
         if (isset($_GET[$this->_name.'_order'])) {
             if ($this->_parseSortingRule($_GET[$this->_name.'_order'])) {
                 // Parameter was passed and evaluated ok.

@@ -156,16 +156,20 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     public function testCreatingZipFileFromDirectory()
     {
-        $this->assertTrue(create_zip_from(['manual_web/page_compare'],
-            self::TEMPORARY_EXTRACTION_DIRECTORY . '/manual_web.zip'));
+        $this->assertTrue(create_zip_from(
+            ['manual_web/page_compare'],
+            self::TEMPORARY_EXTRACTION_DIRECTORY . '/manual_web.zip'
+        ));
 
         $this->assertTrue(is_valid_zip_file(self::TEMPORARY_EXTRACTION_DIRECTORY . '/manual_web.zip'));
     }
 
     public function testCreatingZipFile()
     {
-        $this->assertTrue(create_zip_from(['./*.php'],
-            self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'));
+        $this->assertTrue(create_zip_from(
+            ['./*.php'],
+            self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'
+        ));
 
         $this->assertTrue(is_valid_zip_file(self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'));
     }
@@ -179,7 +183,9 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
     public function testCreatingZipFileContainingNonExistingFiles()
     {
         $this->expectException(InvalidArgumentException::class);
-        create_zip_from(['this_does_not_exist'],
-            self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip');
+        create_zip_from(
+            ['this_does_not_exist'],
+            self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'
+        );
     }
 }

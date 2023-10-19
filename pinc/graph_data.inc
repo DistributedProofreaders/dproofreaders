@@ -108,12 +108,14 @@ function user_logging_on($past, $preceding)
     ///////////////////////////////////////////////////
     //query db and put results into arrays
 
-    $sql = sprintf("SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), $column_name
+    $sql = sprintf(
+        "SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), $column_name
         FROM user_active_log
         WHERE time_stamp >= %d
         ORDER BY time_stamp",
         DPDatabase::escape($date_format),
-        $min_timestamp);
+        $min_timestamp
+    );
     $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
@@ -243,12 +245,14 @@ function users_by_language()
     $y = [];
 
     while ($r = mysqli_fetch_assoc($res)) {
-        array_push($x, (
-        $r['intlang'] ?
-            dgettext("iso_639", eng_name($r['intlang'])) :
-            _("Browser default")
-        )
-    );
+        array_push(
+            $x,
+            (
+                $r['intlang'] ?
+                dgettext("iso_639", eng_name($r['intlang'])) :
+                _("Browser default")
+            )
+        );
         array_push($y, $r['num']);
     }
 
@@ -336,14 +340,16 @@ function curr_month_proj($which)
     $maxday = get_number_of_days_in_current_month();
 
     //query db and put results into arrays
-    $sql = sprintf("SELECT DAYOFMONTH(date) as day, SUM(num_projects)
+    $sql = sprintf(
+        "SELECT DAYOFMONTH(date) as day, SUM(num_projects)
         FROM project_state_stats
         WHERE MONTH(date) = %d AND YEAR(date) = %d AND (%s)
         GROUP BY DAYOFMONTH(date)
         ORDER BY date",
         DPDatabase::escape($month),
         DPDatabase::escape($year),
-        $psd->state_selector);
+        $psd->state_selector
+    );
     $result = DPDatabase::query($sql);
 
     [$datax, $y_cumulative] = dpsql_fetch_columns($result);
@@ -398,14 +404,16 @@ function cumulative_month_proj($which)
     $maxday = get_number_of_days_in_current_month();
 
     //query db and put results into arrays
-    $sql = sprintf("SELECT DAYOFMONTH(date) as day, SUM(num_projects)
+    $sql = sprintf(
+        "SELECT DAYOFMONTH(date) as day, SUM(num_projects)
         FROM project_state_stats
         WHERE MONTH(date) = %s AND YEAR(date) = %s AND (%s)
         GROUP BY DAYOFMONTH(date)
         ORDER BY date",
         DPDatabase::escape($month),
         DPDatabase::escape($year),
-        $psd->state_selector);
+        $psd->state_selector
+    );
     $result = DPDatabase::query($sql);
 
     [$datax, $y_num_projects] = dpsql_fetch_columns($result);
@@ -512,7 +520,8 @@ function total_pages_by_month_graph($tally_name)
         "",
         "GROUP BY 1",
         "ORDER BY 1",
-        ""));
+        ""
+    ));
 
     [$datax, $datay1, $datay2] = dpsql_fetch_columns($result);
 
@@ -588,7 +597,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
         default:
             die("bad 'timeframe' value: '$title_timeframe'");
-      }
+    }
 
     switch ($c_or_i) {
         case 'increments':
@@ -606,13 +615,15 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
     // -----------------------------------------------------------------------------
 
     $result = DPDatabase::query(
-      select_from_site_past_tallies_and_goals(
-          $tally_name,
-          "SELECT {date}, tally_delta, goal",
-          $where_clause,
-          "",
-          "ORDER BY timestamp",
-          ""));
+        select_from_site_past_tallies_and_goals(
+            $tally_name,
+            "SELECT {date}, tally_delta, goal",
+            $where_clause,
+            "",
+            "ORDER BY timestamp",
+            ""
+        )
+    );
 
     [$datax, $datay1, $datay2] = dpsql_fetch_columns($result);
 

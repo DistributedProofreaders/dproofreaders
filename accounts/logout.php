@@ -14,5 +14,9 @@ if ($user_is_logged_in) {
     destroy_csrf_token();
 }
 
-metarefresh(0, "../default.php", _("Logout Complete"),
-     "<a href=\"../default.php\">"._("Return to DP Home Page.")."</a>");
+metarefresh(
+    0,
+    "../default.php",
+    _("Logout Complete"),
+    "<a href=\"../default.php\">"._("Return to DP Home Page.")."</a>"
+);

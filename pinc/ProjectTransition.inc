@@ -267,7 +267,10 @@ class ProjectTransition
             }
 
             $settings_addition = preg_replace(
-                $patterns, $replacements, $this->settings_template);
+                $patterns,
+                $replacements,
+                $this->settings_template
+            );
 
             $settings .= ", $settings_addition";
         }
@@ -332,7 +335,8 @@ class ProjectTransition
             // Ensure it's in the appropriate forum for the project's new state.
             topic_change_forum(
                 $project->topic_id,
-                get_forum_id_for_project_state($this->to_state));
+                get_forum_id_for_project_state($this->to_state)
+            );
         }
 
         if ($this->collateral_actions) {
@@ -767,12 +771,14 @@ function round_release_collateral($old_project, $project, $transition, $who)
         send_mail_project_manager(
             $project,
             sprintf(_("This project has just become available for work in round %s."), $round->id),
-            _("Proofreading Started"));
+            _("Proofreading Started")
+        );
     } else {
         send_mail_project_manager(
             $project,
             sprintf(_('This project has been manually released by %1$s and has just become available in %2$s.'), $who, $round->name),
-            _("Proofreading Started (Manual Release)"));
+            _("Proofreading Started (Manual Release)")
+        );
     }
 
     configure_gettext_for_user();
@@ -878,7 +884,8 @@ function round_to_PP_avail_collateral($old_project, $project, $transition, $who)
         send_mail(
             $PPer_email_addr,
             "$site_abbreviation: Reserved book sent to PP pool",
-            $body_blurb);
+            $body_blurb
+        );
     }
 
     notify_project_event_subscribers($project, 'pp_enter');
@@ -928,7 +935,8 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
         configure_gettext_for_user($project->username);
         $body_blurb_messages[] = sprintf(
             _("This project has completed all rounds and has been checked out to the PPer who had it reserved, %s."),
-            $PPer_username);
+            $PPer_username
+        );
         $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
         $body_blurb = implode("\n\n", $body_blurb_messages);
         send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
@@ -950,7 +958,8 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
         send_mail(
             $PPer_email_addr,
             "$site_abbreviation: Reserved book available for Post-Processing",
-            $body_blurb);
+            $body_blurb
+        );
     }
 
     notify_project_event_subscribers($project, 'pp_enter');
@@ -964,7 +973,8 @@ function PP_to_PP_out_collateral($old_project, $project, $transition, $who)
     $PPer_username = $project->checkedoutby;
     $body_blurb_messages[] = sprintf(
         _("This project has been checked out to %s for post-processing."),
-        $PPer_username);
+        $PPer_username
+    );
     $body_blurb_messages[] = _("You will be notified once it has completed post-processing.");
     $body_blurb = implode("\n\n", $body_blurb_messages);
     send_mail_project_manager($project, $body_blurb, _("Post-Processing Started"));
@@ -1211,9 +1221,10 @@ new ProjectTransition(
 // From PROJ_POST_FIRST_UNAVAILABLE:
 
 $pp_unavail_to_avail_confirm_question = sprintf(
-   _("This will clear the reserved PPer if there is one.") . " " .
+    _("This will clear the reserved PPer if there is one.") . " " .
    _("Are you sure you want to change the state of this project to %s?"),
-   project_states_text(PROJ_POST_FIRST_AVAILABLE));
+    project_states_text(PROJ_POST_FIRST_AVAILABLE)
+);
 
 new ProjectTransition(
     PROJ_POST_FIRST_UNAVAILABLE,
@@ -1253,10 +1264,12 @@ function to_unavailable_collateral($old_project, $project, $transition, $who)
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
-    $body_blurb_messages[] = sprintf(_('This project has been moved from %1$s to %2$s by %3$s.'),
-            project_states_text($transition->from_state),
-            project_states_text($transition->to_state),
-            $who);
+    $body_blurb_messages[] = sprintf(
+        _('This project has been moved from %1$s to %2$s by %3$s.'),
+        project_states_text($transition->from_state),
+        project_states_text($transition->to_state),
+        $who
+    );
     $body_blurb_messages[] = _("You will be notified when it is made available again.");
     $body_blurb = implode("\n\n", $body_blurb_messages);
     send_mail_project_manager($project, $body_blurb, project_states_text($transition->to_state));

@@ -70,7 +70,8 @@ function phpbb_lang($locale = false)
         // just fall back to English (which phpBB comes with by default).
         $lang_attempts = [strtolower($locale), substr($locale, 0, 2)];
         foreach ($lang_attempts as $lang) {
-            $query = sprintf("
+            $query = sprintf(
+                "
                 SELECT *
                 FROM %s
                 WHERE lang_iso='%s'",
@@ -140,7 +141,8 @@ function create_forum_user($username, $password, $email, $password_is_digested =
 
         // if $password_is_digested we have to update the password in the DB directly
         if ($password_is_digested) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE %s
                 SET user_password='%s'
                 WHERE user_id=%d",
@@ -345,7 +347,8 @@ function get_forum_user_details($username)
     ];
 
     $return_data = [];
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT *
         FROM %s
         WHERE username='%s'",
@@ -373,7 +376,8 @@ function get_forum_user_details($username)
         "aol" => "aim",
         "location" => "from",
     ];
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT *
         FROM %s
         WHERE user_id = %d",
@@ -409,7 +413,8 @@ function get_forum_user_id($username)
     if (isset($uidCache[$username])) {
         return $uidCache[$username];
     }
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT user_id
         FROM %s
         WHERE username = '%s'",
@@ -436,7 +441,8 @@ function get_forum_user_id($username)
  */
 function get_forum_rank_title($rank)
 {
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT rank_title
         FROM %s
         WHERE rank_id = %d",
@@ -596,7 +602,8 @@ function get_number_of_unread_messages($username)
 
     if (PHPBB_VERSION == 3) {
         // from: includes/functions_privmsgs.php:get_folder($user_id)
-        $query = sprintf("
+        $query = sprintf(
+            "
             SELECT SUM(pm_unread)
             FROM %s
             WHERE user_id = %d",
@@ -620,7 +627,8 @@ function get_number_of_unread_messages($username)
  */
 function does_topic_exist($topic_id)
 {
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT 1
         FROM %s
         WHERE topic_id = %d",
@@ -648,7 +656,8 @@ function get_last_post_time_in_topic($topic_id)
     if (!is_numeric($topic_id)) {
         return null;
     }
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT MAX(post_time) as max_post_time
         FROM %s
         WHERE topic_id = %d",

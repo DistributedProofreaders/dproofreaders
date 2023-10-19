@@ -85,8 +85,9 @@ if (count($_POST)) {
 
             echo "<p>";
             echo sprintf(
-               _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),
-               html_safe($username));
+                _("User %s registered successfully. Please check the e-mail being sent to you for further information about activating your account. This extra step is taken so that no-one can register you to the site without your knowledge."),
+                html_safe($username)
+            );
             echo "</p>";
             exit();
         } catch (Exception $exception) {

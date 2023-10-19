@@ -13,7 +13,8 @@ function mentor_banner($round)
 
     // We store the name of the project's language in the 'language' column
     // in its English form, hence the use of $eng_lang_name below.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT max(round((unix_timestamp() - modifieddate)/(24 * 60 * 60)))
             FROM projects
             WHERE
@@ -45,15 +46,18 @@ function mentor_banner($round)
             break;
     }
     echo "<p class='$class'>";
-    printf(ngettext(
+    printf(
+        ngettext(
             /* TRANSLATORS: %4 is the name of the user's UI language in their language;
             %1 is a URL; %2 is the round ID; %3 is the number of days. */
             _("Oldest %4\$s <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d day old."),
             _("Oldest %4\$s <a href='%1\$s'>MENTORS ONLY</a> book in %2\$s is %3\$d days old."),
-            $oldest),
+            $oldest
+        ),
         "$code_url/tools/proofers/for_mentors.php",
         $round_id,
         $oldest,
-        $lang_name);
+        $lang_name
+    );
     echo "</p>";
 }

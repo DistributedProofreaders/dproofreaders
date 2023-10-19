@@ -134,19 +134,19 @@ foreach ($activity_ids as $activity_id) {
             echo   "<td>";
             echo     $t_latest_request_f;
             echo " <span style='white-space: nowrap'>(",
-                sprintf(_("%s days"), $t_latest_request_d), ")</span>";
+            sprintf(_("%s days"), $t_latest_request_d), ")</span>";
             echo   "</td>";
             echo   "<td>";
             echo     $t_latest_deny_f;
             if ($t_latest_deny_d >= 0) {
                 echo " <span style='white-space: nowrap'>(",
-                    sprintf(_("%s days"), $t_latest_deny_d), ")</span>";
+                sprintf(_("%s days"), $t_latest_deny_d), ")</span>";
             }
             echo   "</td>";
             echo   "<td>";
             echo     $t_last_on_site_f;
             echo " <span style='white-space: nowrap'>(",
-                sprintf(_("%s days"), $t_last_on_site_d), ")</span>";
+            sprintf(_("%s days"), $t_last_on_site_d), ")</span>";
             echo   "</td>";
             echo "</tr>";
             echo "\n";

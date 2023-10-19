@@ -35,8 +35,11 @@ class UserProfile
     public function __set($name, $value)
     {
         if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
-            throw new DomainException(sprintf(
-                _("%s is an immutable field"), $name)
+            throw new DomainException(
+                sprintf(
+                    _("%s is an immutable field"),
+                    $name
+                )
             );
         }
 
@@ -63,9 +66,11 @@ class UserProfile
 
         $result = DPDatabase::query($sql);
         if (mysqli_num_rows($result) == 0) {
-            throw new NonexistentUserProfileException(sprintf(
-                _('No user profile found with id = %s'),
-                    $id)
+            throw new NonexistentUserProfileException(
+                sprintf(
+                    _('No user profile found with id = %s'),
+                    $id
+                )
             );
         }
         $this->table_row = mysqli_fetch_assoc($result);

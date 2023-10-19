@@ -221,7 +221,9 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
         $acc->add_bad_words($external_bad_words, WC_WORLD);
 
         $acc->add_bad_words(
-            get_bad_words_with_diacritical_markup($input_words_w_freq), WC_WORLD);
+            get_bad_words_with_diacritical_markup($input_words_w_freq),
+            WC_WORLD
+        );
     }
 
     // The site
@@ -230,7 +232,9 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
         $acc->add_bad_words(array_get($word_lists, "site_bad", []), WC_SITE);
 
         $acc->add_bad_words(
-            get_bad_words_via_pattern($input_words_w_freq, $languages), WC_SITE);
+            get_bad_words_via_pattern($input_words_w_freq, $languages),
+            WC_SITE
+        );
     }
 
     // The project
@@ -344,7 +348,8 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 ]);
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // build our list of possible misspellings
-                $misspellings[$langcode] = explode("\n",
+                $misspellings[$langcode] = explode(
+                    "\n",
                     str_replace("\r", "", shell_exec($aspell_command))
                 );
 
@@ -353,7 +358,8 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                 // dictionaries like Ancient Greek that return all non-Greek
                 // words as misspelled.
                 $misspellings[$langcode] = filter_words_to_script(
-                    $misspellings[$langcode], get_script_for_langcode($langcode)
+                    $misspellings[$langcode],
+                    get_script_for_langcode($langcode)
                 );
             } else {
                 $messages[] = sprintf(_("Warning: no external dictionary installed for '%s'"), $language);
@@ -386,7 +392,8 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
             continue;
         }
         $misspellings[$lang_script] = array_intersect(
-            $misspellings[$lang_script], $words
+            $misspellings[$lang_script],
+            $words
         );
         unset($misspellings[$lang_code]);
     }
@@ -595,7 +602,8 @@ function normalize_word_list($words)
  */
 function delete_project_wordcheck_events($projectid)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         DELETE FROM wordcheck_events
         WHERE projectid='%s'",
         DPDatabase::escape($projectid)
@@ -633,7 +641,8 @@ function merge_project_wordcheck_data($from_projectid, $to_projectid)
  */
 function copy_project_wordcheck_events($from_projectid, $to_projectid)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO wordcheck_events
             (projectid, timestamp, image, round_id, username, suggestions, corrections)
         SELECT '%s', timestamp, image, round_id, username, suggestions, corrections
@@ -681,7 +690,8 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
  */
 function count_wordcheck_suggestion_events($projectid, $start_time = 0)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT count(*) AS numevents FROM wordcheck_events
         WHERE projectid='%s'
         AND timestamp>%d AND suggestions<>''",
@@ -700,7 +710,8 @@ function count_wordcheck_suggestion_events($projectid, $start_time = 0)
 
 function load_wordcheck_events($projectid, $start_time = 0)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT * FROM wordcheck_events
         WHERE projectid='%s'
         AND timestamp>%d",
@@ -818,9 +829,11 @@ function get_project_word_file($projectid, $code)
     $filename_for_code = get_wordcheck_file_names();
     assert(array_key_exists($code, $filename_for_code));
 
-    return get_file_info_object($filename_for_code[$code],
-                "$projects_dir/$projectid",
-                "$projects_url/$projectid");
+    return get_file_info_object(
+        $filename_for_code[$code],
+        "$projects_dir/$projectid",
+        "$projects_url/$projectid"
+    );
 }
 
 /**
@@ -842,9 +855,11 @@ function get_site_word_file($langcode3, $code)
     ];
     assert(array_key_exists($code, $filename_for_code));
 
-    return get_file_info_object($filename_for_code[$code],
-                "$dyn_dir/words",
-                "$dyn_url/words");
+    return get_file_info_object(
+        $filename_for_code[$code],
+        "$dyn_dir/words",
+        "$dyn_url/words"
+    );
 }
 
 /**

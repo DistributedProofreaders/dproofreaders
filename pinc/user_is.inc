@@ -201,7 +201,7 @@ function user_can_work_on_beginner_pages_in_round($round)
             || user_is_proj_facilitator()
             || $userSettings->get_boolean("see_BEGIN_R".$round_number)
             || $userSettings->get_boolean("{$round->id}_mentor.access")
-        ) {
+    ) {
         return true;
     }
 

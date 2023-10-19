@@ -153,12 +153,14 @@ final class DPDatabase
 
     public static function is_table_utf8($table_name)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT TABLE_COLLATION
             FROM information_schema.tables
             WHERE table_schema='%s' AND table_name='%s'",
             self::$_db_name,
-            self::escape($table_name));
+            self::escape($table_name)
+        );
         $result = self::query($sql);
         $row = mysqli_fetch_assoc($result);
         $table_encoding = $row['TABLE_COLLATION'];
@@ -169,12 +171,14 @@ final class DPDatabase
 
     public static function does_table_exist($table_name)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT TABLE_NAME
             FROM information_schema.tables
             WHERE table_schema='%s' AND table_name='%s'",
             self::$_db_name,
-            self::escape($table_name));
+            self::escape($table_name)
+        );
         $result = self::query($sql);
         return mysqli_fetch_assoc($result) !== null;
     }

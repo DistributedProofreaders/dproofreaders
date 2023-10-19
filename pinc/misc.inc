@@ -108,7 +108,8 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
         if (!is_string($s)) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is not a valid type"),
-                $key));
+                $key
+            ));
         }
 
         // Trim whitespace from both ends of the string.
@@ -144,13 +145,17 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
             if (!is_numeric($s)) {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not numeric"),
-                    $key, $s));
+                    $key,
+                    $s
+                ));
             }
             $s = 0 + $s;
             if (!is_int($s)) {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not an integer"),
-                    $key, $s));
+                    $key,
+                    $s
+                ));
             }
         }
 
@@ -159,7 +164,10 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
         } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is not one of %3\$s"),
-                $key, $s, implode(", ", $choices)));
+                $key,
+                $s,
+                implode(", ", $choices)
+            ));
         }
     } else {
         // parameter not set, use default
@@ -167,7 +175,8 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is required"),
-                $key));
+                $key
+            ));
         } else {
             return $default;
         }
@@ -290,7 +299,8 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
         if (!is_string($s)) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is not a valid type"),
-                $key));
+                $key
+            ));
         }
 
         // Trim whitespace from both ends of the string.
@@ -303,7 +313,9 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
             } else {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not an integer"),
-                    $key, $s));
+                    $key,
+                    $s
+                ));
             }
         } elseif ($type == 'float') {
             // We'll accept an integer or a floating point number
@@ -314,20 +326,28 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
             } else {
                 throw new InvalidArgumentException(sprintf(
                     _("Parameter '%1\$s' ('%2\$s') is not a float"),
-                    $key, $s));
+                    $key,
+                    $s
+                ));
             }
         }
 
         if (!is_null($min) && $i < $min) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is less than the minimum %3\$d"),
-                $key, $s, $min));
+                $key,
+                $s,
+                $min
+            ));
         }
 
         if (!is_null($max) && $i > $max) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is greater than the maximum %3\$d"),
-                $key, $s, $max));
+                $key,
+                $s,
+                $max
+            ));
         }
 
         return $i;
@@ -337,7 +357,8 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is required"),
-                $key));
+                $key
+            ));
         } else {
             return $default;
         }
@@ -391,7 +412,8 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull = fal
         if (!is_string($s)) {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is not a valid type"),
-                $key));
+                $key
+            ));
         }
 
         // Trim whitespace from both ends of the string.
@@ -402,7 +424,10 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull = fal
         } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') does not match the regex %3\$s"),
-                $key, $s, $regex));
+                $key,
+                $s,
+                $regex
+            ));
         }
     } else {
         // not set, use default
@@ -410,7 +435,8 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull = fal
             // There is no default. The parameter is required.
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' is required"),
-                $key));
+                $key
+            ));
         } else {
             return $default;
         }
@@ -481,8 +507,12 @@ function attr_safe($string)
     if ($string === null) {
         return "";
     }
-    return htmlspecialchars($string, ENT_QUOTES, $charset,
-                            false /* $double_encode */);
+    return htmlspecialchars(
+        $string,
+        ENT_QUOTES,
+        $charset,
+        false // $double_encode
+    );
 }
 
 // -----------------------------------------------------------------------------
@@ -529,22 +559,31 @@ function javascript_safe($str, $encoding = null)
     }
 
     if (!strcasecmp($encoding, 'UTF-8')) {
-        $str = preg_replace_callback('/([\000-\037\"\'\\\\<\177])/',
+        $str = preg_replace_callback(
+            '/([\000-\037\"\'\\\\<\177])/',
             function ($matches) {
                 return sprintf("\\%03o", ord($matches[0]));
-            }, $str);
+            },
+            $str
+        );
 
         // convert non-7bit ascii characters to \uHHHH notation
-        $str = preg_replace_callback('/([^\000-\177])/u',
+        $str = preg_replace_callback(
+            '/([^\000-\177])/u',
             function ($matches) {
                 return sprintf("\\u%04x", UTF8::ord($matches[0]) & 0xffffff);
-            }, $str);
+            },
+            $str
+        );
     } else {
         // assume Latin-1 encoding
-        $str = preg_replace_callback('/([\000-\017\\\\"\'<\177-\237])/',
+        $str = preg_replace_callback(
+            '/([\000-\017\\\\"\'<\177-\237])/',
             function ($matches) {
                 return sprintf("\\%03o", ord($matches[0]));
-            }, $str);
+            },
+            $str
+        );
     }
     return $str;
 }
@@ -798,7 +837,8 @@ function flatten_directory(string $directory_to_flatten)
     if (!file_exists($directory_to_flatten) || !is_dir($directory_to_flatten)) {
         throw new InvalidArgumentException(sprintf(
             _("Argument '%1\$s' is not a valid output directory (it does not exist)."),
-            $directory_to_flatten));
+            $directory_to_flatten
+        ));
     }
 
     $iterator = new RecursiveDirectoryIterator($directory_to_flatten, RecursiveDirectoryIterator::SKIP_DOTS);
@@ -809,16 +849,23 @@ function flatten_directory(string $directory_to_flatten)
             $result = rmdir($file->getRealPath());
 
             if (!$result) {
-                throw new RuntimeException(sprintf(_("Could not remove directory '%1\$s' while flattening '%2\$s'."),
-                    $file->getRealPath(), $directory_to_flatten));
+                throw new RuntimeException(sprintf(
+                    _("Could not remove directory '%1\$s' while flattening '%2\$s'."),
+                    $file->getRealPath(),
+                    $directory_to_flatten
+                ));
             }
         } else {
             $new_name = $directory_to_flatten . '/' . $file->getFilename();
             $result = rename($file->getRealPath(), $new_name);
 
             if (!$result) {
-                throw new RuntimeException(sprintf(_("Could not move file '%1\$s' to '%2\$s' while flattening '%3\$s'."),
-                    $file->getRealPath(), $new_name, $directory_to_flatten));
+                throw new RuntimeException(sprintf(
+                    _("Could not move file '%1\$s' to '%2\$s' while flattening '%3\$s'."),
+                    $file->getRealPath(),
+                    $new_name,
+                    $directory_to_flatten
+                ));
             }
         }
     }
@@ -867,7 +914,8 @@ function list_files_in_zip(string $file_path): array
     if (!is_valid_zip_file($file_path)) {
         throw new InvalidArgumentException(sprintf(
             _("Argument '%1\$s' is not a valid zip file."),
-            $file_path));
+            $file_path
+        ));
     }
 
     $zip = new ZipArchive();
@@ -899,13 +947,15 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
     if (!is_valid_zip_file($path_to_zip)) {
         throw new InvalidArgumentException(sprintf(
             _("Argument '%1\$s' is not a valid zip file."),
-            $path_to_zip));
+            $path_to_zip
+        ));
     }
 
     if (!file_exists($output_directory) || !is_dir($output_directory)) {
         throw new InvalidArgumentException(sprintf(
             _("Argument '%1\$s' is not a valid output directory (it does not exist)."),
-            $output_directory));
+            $output_directory
+        ));
     }
 
     $zip = new ZipArchive();
@@ -927,7 +977,8 @@ function remove_common_basedir_from_zip(string $path_to_zip)
     if (!is_valid_zip_file($path_to_zip)) {
         throw new InvalidArgumentException(sprintf(
             _("Argument '%1\$s' is not a valid zip file."),
-            $path_to_zip));
+            $path_to_zip
+        ));
     }
 
     $zip = new ZipArchive();
@@ -992,7 +1043,8 @@ function create_zip_from(array $files_to_zip, string $path_to_zip): bool
     if ($zip->open($path_to_zip, ZipArchive::CREATE) !== true) {
         throw new InvalidArgumentException(sprintf(
             _("Could not open '%1\$s' as a ZipArchive."),
-            $path_to_zip));
+            $path_to_zip
+        ));
     }
 
     foreach ($files_to_zip as $file) {

@@ -35,12 +35,14 @@ function show_query_form()
         echo "<p>";
         echo sprintf(
             _("Until you do so, click <a href='%s'>here</a> for creating a new project."),
-            'editproject.php?action=createnew');
+            'editproject.php?action=createnew'
+        );
         echo "</p>";
         echo "<p>";
         echo sprintf(
             _("If you believe you should be seeing the Create Project page please contact a <a href='%s'>Site Administrator</a>"),
-            "mailto:".$GLOBALS['site_manager_email_addr']);
+            "mailto:".$GLOBALS['site_manager_email_addr']
+        );
         echo "</p>";
     } else {
         echo "<h1>$title</h1>";
@@ -121,7 +123,9 @@ function do_search_and_show_hits()
         echo "<p>";
         $url = "editproject.php?action=createnew";
         echo sprintf(
-            _("Please try again. If the problem recurs, please create your project manually by following this <a href='%s'>link</a>."), $url);
+            _("Please try again. If the problem recurs, please create your project manually by following this <a href='%s'>link</a>."),
+            $url
+        );
         echo "</p>";
         exit();
     }
@@ -137,7 +141,8 @@ function do_search_and_show_hits()
         echo "<p>";
         echo sprintf(
             _("%d results returned. Note that some non-book results may not be displayed."),
-            yaz_hits($id));
+            yaz_hits($id)
+        );
         echo "</p>";
         echo "<p>";
         echo _("Please pick a result from below:");

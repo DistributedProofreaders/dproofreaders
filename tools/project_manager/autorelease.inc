@@ -63,12 +63,14 @@ function autorelease_for_round($round)
     echo "\n";
     echo "Starting autorelease for round {$round->id}...\n";
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM queue_defns
         WHERE round_id='%s'
         ORDER BY ordering",
-        DPDatabase::escape($round->id));
+        DPDatabase::escape($round->id)
+    );
     $q_res = DPDatabase::query($sql);
 
     if (mysqli_num_rows($q_res) == 0) {
@@ -104,12 +106,14 @@ function autorelease_for_round($round)
 
     // Release of Different types of Projects from various logical queues
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM queue_defns
         WHERE enabled AND round_id='%s'
         ORDER BY ordering",
-        DPDatabase::escape($round->id));
+        DPDatabase::escape($round->id)
+    );
     $q_res = DPDatabase::query($sql);
 
     while ($qd = mysqli_fetch_object($q_res)) {
@@ -222,7 +226,8 @@ function maybe_release_projects(
     // escaped state selector separately.
     $escaped_state = sprintf(
         "state = '%s'",
-        DPDatabase::escape($round->project_waiting_state));
+        DPDatabase::escape($round->project_waiting_state)
+    );
 
     $sql = "
         SELECT *
@@ -349,12 +354,14 @@ class ReleaseRestrictor
         // ----------------------------------------------------------
         // First, get the set of all authors with works in this round
         $this->this_round_authors = [];
-        $sql = sprintf("
+        $sql = sprintf(
+            "
                 SELECT authorsname
                 FROM projects
                 WHERE state = '%s'
                 ORDER BY authorsname",
-                DPDatabase::escape($round->project_available_state));
+            DPDatabase::escape($round->project_available_state)
+        );
         $author_res = DPDatabase::query($sql);
         while ($author_row = mysqli_fetch_assoc($author_res)) {
             $author = $author_row['authorsname'];
@@ -369,12 +376,14 @@ class ReleaseRestrictor
         // ----------------------------------------------------------
         // Next, get the set of all PMs with works in this round
         $this->this_round_pms = [];
-        $sql = sprintf("
+        $sql = sprintf(
+            "
                 SELECT username
                 FROM projects
                 WHERE state = '%s'
                 ORDER BY username",
-                DPDatabase::escape($round->project_available_state));
+            DPDatabase::escape($round->project_available_state)
+        );
         $pm_res = DPDatabase::query($sql);
         while ($pm_row = mysqli_fetch_assoc($pm_res)) {
             $pm = $pm_row['username'];
@@ -521,11 +530,13 @@ function AP_setup($round)
     DPDatabase::query($sql);
 
     // Get a list of active projects.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT projectid
         FROM projects
         WHERE state = '%s'",
-        DPDatabase::escape($round->project_available_state));
+        DPDatabase::escape($round->project_available_state)
+    );
     $projects_res = DPDatabase::query($sql);
 
     // Run through them and fill up the table.
@@ -543,13 +554,15 @@ function AP_teardown($round)
 function AP_add_project($round, $projectid)
 {
     validate_projectID($projectid);
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO active_page_counts
         SELECT
             '$projectid',
             SUM( state != '%s' ) as pages
         FROM $projectid",
-        DPDatabase::escape($round->page_save_state));
+        DPDatabase::escape($round->page_save_state)
+    );
     DPDatabase::query($sql);
 }
 
@@ -562,7 +575,8 @@ function AP_evaluate_criteria($round, $cooked_project_selector, $release_criteri
     // escaped state selector separately.
     $sum_projects = sprintf(
         "SUM(projects.state='%s')",
-        DPDatabase::escape($round->project_available_state));
+        DPDatabase::escape($round->project_available_state)
+    );
 
     $sql = "
         SELECT

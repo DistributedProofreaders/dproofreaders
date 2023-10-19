@@ -15,9 +15,12 @@ require_login();
 
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?";
 
-$action = get_enumerated_param($_REQUEST, 'action', 'show_sources',
-              ['show_sources', 'add_source', 'update_oneshot']
-          );
+$action = get_enumerated_param(
+    $_REQUEST,
+    'action',
+    'show_sources',
+    ['show_sources', 'add_source', 'update_oneshot']
+);
 
 $can_edit = user_is_image_sources_manager();
 
@@ -359,9 +362,9 @@ class ImageSource
             '3' => _('Publicly Visible'), ]
             as $val => $opt) {
             {
-            $editing .= "<option value='$val' " .
-                ($existing_value == $val ? 'selected' : '') .
-                ">$opt</option>";
+                $editing .= "<option value='$val' " .
+                    ($existing_value == $val ? 'selected' : '') .
+                    ">$opt</option>";
             }
         }
         $editing .= "</select><br>";
@@ -402,7 +405,8 @@ class ImageSource
             $this->info_page_visibility = '1' ;
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             REPLACE INTO image_sources
             SET
                 code_name = LEFT('%s', 10),
@@ -449,7 +453,9 @@ class ImageSource
         $this->_set_field('info_page_visibility', 1);
 
         $notify_users = Settings::get_users_with_setting(
-            'is_approval_notify', $this->code_name);
+            'is_approval_notify',
+            $this->code_name
+        );
 
         foreach ($notify_users as $username) {
             $user = new User($username);
@@ -470,7 +476,8 @@ class ImageSource
 
     public function _set_field($field, $value)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE image_sources
             SET $field = '%s'
             WHERE code_name = '%s'",

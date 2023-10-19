@@ -499,7 +499,8 @@ function show_user_access_chart($username)
         // "all sat?" column
         td_w_bgcolor(
             ($uao->all_minima_satisfied ? _('Yes') : _('No')),
-            $uao->all_minima_satisfied);
+            $uao->all_minima_satisfied
+        );
 
         $could_grant = false;
         $could_revoke = false;

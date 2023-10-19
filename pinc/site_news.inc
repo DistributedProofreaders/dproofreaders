@@ -66,28 +66,34 @@ function show_news_for_page($news_page_id)
 
     // Get the set of 'current' news items
     // defined for the given page.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT date_posted, header, content, item_type
         FROM news_items
         WHERE status = 'current'
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '%s')
         ORDER BY ORDERING DESC
-    ", DPDatabase::escape($news_page_id),
-        DPDatabase::escape($user_locale));
+    ",
+        DPDatabase::escape($news_page_id),
+        DPDatabase::escape($user_locale)
+    );
     $res_current = DPDatabase::query($sql);
 
     // Get a randomly selected news item from the set of
     // 'recent' news items defined for the given page.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT header, content, item_type
         FROM news_items
         WHERE status = 'recent'
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '%s')
         ORDER BY RAND() LIMIT 1
-    ", DPDatabase::escape($news_page_id),
-        DPDatabase::escape($user_locale));
+    ",
+        DPDatabase::escape($news_page_id),
+        DPDatabase::escape($user_locale)
+    );
     $res_random = DPDatabase::query($sql);
 
     // -------------------------------------------

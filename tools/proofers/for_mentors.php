@@ -87,9 +87,9 @@ if (count($other_mentoring_rounds) > 0) {
 if (!user_can_work_on_beginner_pages_in_round($mentoring_round)) {
     echo "<p class='warning'>";
     echo sprintf(
-            _("You do not have access to 'Mentors Only' projects in %s."),
-            $mentoring_round->id
-        );
+        _("You do not have access to 'Mentors Only' projects in %s."),
+        $mentoring_round->id
+    );
     echo "</p>\n";
     exit;
 }
@@ -191,7 +191,8 @@ function get_beginner_projects_in_state($state, $mentored_round)
 {
     $mentored_round_detail = $mentored_round . '.proj_done';
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT
             projects.projectid,
             projects.nameofwork,

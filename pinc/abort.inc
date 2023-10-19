@@ -45,7 +45,8 @@ function provide_escape_links()
     // link to project home
     {
         $projectid = get_parameter_value(
-            ['projectid', 'projectname', 'project']);
+            ['projectid', 'projectname', 'project']
+        );
         try {
             validate_projectID($projectid);
 
@@ -59,10 +60,12 @@ function provide_escape_links()
     // link to round
     {
         $round = get_Round_for_project_state(
-            get_parameter_value(['proj_state', 'proofstate']));
+            get_parameter_value(['proj_state', 'proofstate'])
+        );
         if (is_null($round)) {
             $round = get_Round_for_page_state(
-                get_parameter_value(['pagestate', 'page_state']));
+                get_parameter_value(['pagestate', 'page_state'])
+            );
         }
         if (!is_null($round)) {
             echo "<li>" . return_to_round_page_link($round->id) . "</li>\n";

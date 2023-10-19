@@ -292,8 +292,10 @@ function get_Round_for_text_column_name($text_column_name)
 function sql_collater_for_round_id($round_id_column)
 {
     global $Round_for_round_id_;
-    return sprintf("FIELD($round_id_column, %s)",
-        surround_and_join(array_keys($Round_for_round_id_), "'", "'", ","));
+    return sprintf(
+        "FIELD($round_id_column, %s)",
+        surround_and_join(array_keys($Round_for_round_id_), "'", "'", ",")
+    );
 }
 
 /**
@@ -306,8 +308,10 @@ function sql_collater_for_round_id($round_id_column)
 function sql_collater_for_page_state($state_column)
 {
     global $PAGE_STATES_IN_ORDER;
-    return sprintf("FIELD($state_column, %s)",
-        surround_and_join($PAGE_STATES_IN_ORDER, "'", "'", ","));
+    return sprintf(
+        "FIELD($state_column, %s)",
+        surround_and_join($PAGE_STATES_IN_ORDER, "'", "'", ",")
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

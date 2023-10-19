@@ -30,8 +30,11 @@ function merge_configuration_files($old_filename, $new_filename)
             output_config_file_with_new_values($new_filename, $config_values);
 
     if (count($new_config_parameters)) {
-        fwrite($STDERR, sprintf("The following variables are in %s but not in %s, you may want confirm they are set to the values you want:\n",
-                $new_filename, $old_filename));
+        fwrite($STDERR, sprintf(
+            "The following variables are in %s but not in %s, you may want confirm they are set to the values you want:\n",
+            $new_filename,
+            $old_filename
+        ));
         ksort($new_config_parameters);
         foreach ($new_config_parameters as $parameter => $value) {
             fwrite($STDERR, "    $parameter=$value\n");
@@ -40,8 +43,11 @@ function merge_configuration_files($old_filename, $new_filename)
     }
 
     if (count($unused_config_parameters)) {
-        fwrite($STDERR, sprintf("These values are set in %s, but were not found in %s.\n",
-                $old_filename, $new_filename));
+        fwrite($STDERR, sprintf(
+            "These values are set in %s, but were not found in %s.\n",
+            $old_filename,
+            $new_filename
+        ));
         foreach ($unused_config_parameters as $parameter => $value) {
             fwrite($STDERR, "    $parameter=$value\n");
         }

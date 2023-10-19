@@ -107,8 +107,8 @@ function project_add_page(
     $image_file_name,
     $txt_file_path,
     $user,
-    $now)
-{
+    $now
+) {
     validate_projectID($projectid);
     $txt_expr = file_content_expr($txt_file_path, $projectid);
 
@@ -258,10 +258,14 @@ function Page_modifyText($projectid, $image, $page_text, $text_column, $user)
 
 function Page_checkout($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_avail_state],
-        null, null,
-        'checkout');
+        null,
+        null,
+        'checkout'
+    );
 
     $timestamp = time();
     $setters = join(", ", [
@@ -282,10 +286,14 @@ function Page_checkout($projectid, $image, $round, $user)
 
 function Page_saveAsInProgress($projectid, $image, $round, $user, $page_text)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_out_state, $round->page_temp_state],
-        $round->user_column_name, $user,
-        'saveAsInProgress');
+        $round->user_column_name,
+        $user,
+        'saveAsInProgress'
+    );
 
     $timestamp = time();
 
@@ -308,10 +316,14 @@ function Page_saveAsInProgress($projectid, $image, $round, $user, $page_text)
 
 function Page_saveAsDone($projectid, $image, $round, $user, $page_text)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_out_state, $round->page_temp_state],
-        $round->user_column_name, $user,
-        'saveAsDone');
+        $round->user_column_name,
+        $user,
+        'saveAsDone'
+    );
 
     $timestamp = time();
 
@@ -336,10 +348,14 @@ function Page_saveAsDone($projectid, $image, $round, $user, $page_text)
 
 function Page_reopen($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_save_state, $round->page_temp_state],
-        $round->user_column_name, $user,
-        'reopen');
+        $round->user_column_name,
+        $user,
+        'reopen'
+    );
 
     $timestamp = time();
     $setters = join(", ", [
@@ -358,10 +374,14 @@ function Page_reopen($projectid, $image, $round, $user)
 
 function Page_returnToRound($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_out_state, $round->page_temp_state],
-        $round->user_column_name, $user,
-        'returnToRound');
+        $round->user_column_name,
+        $user,
+        'returnToRound'
+    );
 
     $timestamp = time();
     $setters = join(", ", [
@@ -382,10 +402,14 @@ function Page_returnToRound($projectid, $image, $round, $user)
 
 function Page_reclaim($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_out_state, $round->page_temp_state],
-        null, null,
-        'reclaim');
+        null,
+        null,
+        'reclaim'
+    );
 
     $setters = join(", ", [
         set_col_str("state", $round->page_avail_state),
@@ -402,10 +426,14 @@ function Page_reclaim($projectid, $image, $round, $user)
 
 function Page_clearRound($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_save_state],
-        null, null,
-        'clearRound');
+        null,
+        null,
+        'clearRound'
+    );
 
     $setters = join(", ", [
         set_col_str("state", $round->page_avail_state),
@@ -434,10 +462,14 @@ $PAGE_BADNESS_REASONS = [
 
 function Page_markAsBad($projectid, $image, $round, $user, $reason)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_out_state, $round->page_temp_state],
-        $round->user_column_name, $user,
-        'markAsBad');
+        $round->user_column_name,
+        $user,
+        'markAsBad'
+    );
 
     $setters = join(", ", [
         set_col_str("state", $round->page_bad_state),
@@ -454,10 +486,14 @@ function Page_markAsBad($projectid, $image, $round, $user, $reason)
 
 function Page_eraseBadMark($projectid, $image, $round, $user)
 {
-    _Page_require($projectid, $image,
+    _Page_require(
+        $projectid,
+        $image,
         [$round->page_bad_state],
-        null, null,
-        'eraseBadMark');
+        null,
+        null,
+        'eraseBadMark'
+    );
 
     $setters = join(", ", [
         set_col_str("state", $round->page_avail_state),
@@ -480,8 +516,8 @@ function _Page_require(
     $allowed_states,
     $allowed_user_colname,
     $requesting_user,
-    $op_name)
-{
+    $op_name
+) {
     validate_projectID($projectid);
     $user_item = (is_null($allowed_user_colname) ? '0' : $allowed_user_colname);
     $sql = "
@@ -496,14 +532,14 @@ function _Page_require(
             . "    "
             . sprintf(
                 _("This operation (%s) requires that the page be in one of the following states:"),
-                $op_name)
+                $op_name
+            )
             . "\n"
             . "        "
             . implode(' ', $allowed_states)
             . "\n"
             . "    "
-            . sprintf(_("But it is in %s"), $curr_page_state)
-            ;
+            . sprintf(_("But it is in %s"), $curr_page_state);
         throw new ProjectPageException($err);
     }
 
@@ -519,8 +555,8 @@ function _Page_require(
                 . "    "
                 . sprintf(
                     _("This operation (%s) can only be done by the user who has the page checked out, which you are not."),
-                    $op_name)
-                ;
+                    $op_name
+                );
             throw new ProjectPageException($err);
         }
     }
@@ -728,7 +764,8 @@ function _log_page_event($projectid, $image, $event_type, $username, $round)
         $round_id_setting = "'" . DPDatabase::escape($round->id) . "'";
     };
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO page_events
         SET
             timestamp    = UNIX_TIMESTAMP(),
@@ -751,7 +788,8 @@ function _log_page_event($projectid, $image, $event_type, $username, $round)
 
 function _project_set_t_last_page_done($projectid, $timestamp)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE projects
         SET t_last_page_done = %d
         WHERE projectid = '%s'
@@ -770,7 +808,8 @@ function _project_adjust_n_pages($projectid, $adjustment)
         $expr = "n_pages + $adjustment";
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE projects
         SET n_pages = %s
         WHERE projectid='%s'
@@ -801,7 +840,8 @@ function _project_adjust_n_available_pages($projectid, $adjustment)
         }
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE projects
         SET n_available_pages = %s
         WHERE projectid = '%s'

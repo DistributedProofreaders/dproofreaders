@@ -31,9 +31,11 @@ $today = getdate();
 foreach ($stats as $phase => $pages) {
     $tallyboard = new TallyBoard($phase, 'S');
 
-    $pages_last_week = $tallyboard->get_delta_sum($holder_id,
+    $pages_last_week = $tallyboard->get_delta_sum(
+        $holder_id,
         mktime(0, 0, 0, $today['mon'], $today['mday'] - 7, $today['year']),
-        mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year']));
+        mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year'])
+    );
 
     $avg_pages_per_day[$phase] = $pages_last_week / 7;
 

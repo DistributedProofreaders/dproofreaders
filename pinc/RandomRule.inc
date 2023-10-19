@@ -51,7 +51,8 @@ class RandomRule
      */
     public static function load_from_anchor($document, $anchor, $langcode = 'en')
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT id
             FROM rules
             WHERE
@@ -77,7 +78,8 @@ class RandomRule
      */
     public static function get_random($document, $langcode = 'en')
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT id
             FROM rules
             WHERE
@@ -102,7 +104,8 @@ class RandomRule
      */
     public static function get_rules($document, $langcode = 'en')
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT id
             FROM rules
             WHERE
@@ -155,7 +158,8 @@ class RandomRule
      */
     public static function delete_rules($document, $langcode)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE
             FROM rules
             WHERE
@@ -238,7 +242,8 @@ class RandomRule
         }
 
         // update rule URLs
-        $rule = preg_replace_callback('/<a href="([^"]*)"[^>]*/',
+        $rule = preg_replace_callback(
+            '/<a href="([^"]*)"[^>]*/',
             function ($match) use ($url) {
                 if (startswith($match[1], '#')) {
                     return '<a href="' . $url . $match[1] . '"';
@@ -259,7 +264,8 @@ class RandomRule
         $anchor = substr($anchor, 0, 255);
         $subject = substr($subject, 0, 255);
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO rules
             SET
                 document = '%s',

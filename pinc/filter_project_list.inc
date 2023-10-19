@@ -309,19 +309,19 @@ class LanguageSearchElement extends ProjectSearchElement
         // for primary only match end also
         // need to check "with" to avoid matching "French, Old" etc.
         switch (get_lang_match($this->data)) {
-        case "primary":
-            $prefix = "^";
-            $suffix = "$";
-            break;
-        case "primwith":
-            $prefix = "^";
-            $suffix = "($| with.*)";
-            break;
-        case "anywhere":
-        default:
-            $prefix = ".*";
-            $suffix = "($| with.*)";
-            break;
+            case "primary":
+                $prefix = "^";
+                $suffix = "$";
+                break;
+            case "primwith":
+                $prefix = "^";
+                $suffix = "($| with.*)";
+                break;
+            case "anywhere":
+            default:
+                $prefix = ".*";
+                $suffix = "($| with.*)";
+                break;
         }
         return " AND language REGEXP '$prefix($langstring)$suffix'";
     }
@@ -364,7 +364,8 @@ function save_display($pguser, $filter_type, $data)
 
 function save_raw_data($pguser, $data_name, $data)
 {
-    $query = sprintf("
+    $query = sprintf(
+        "
         REPLACE INTO user_filters
         (username, filtertype, value)
         VALUES ('%s', '%s', '%s')",
@@ -387,7 +388,8 @@ function get_project_filter_display($pguser, $filter_type)
 
 function get_raw_saved_data($pguser, $data_name)
 {
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT value
         FROM user_filters
         WHERE username = '%s'

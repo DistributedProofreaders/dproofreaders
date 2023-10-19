@@ -482,7 +482,8 @@ function create_task_from_form_submission($formsub)
         $task_assignee_user = User::load_from_uid($newt_assignee);
     }
 
-    $sql_query = sprintf("
+    $sql_query = sprintf(
+        "
         INSERT INTO tasks
         SET
             task_summary     = '%s',
@@ -676,7 +677,8 @@ function handle_action_on_a_specified_task()
         }
     } elseif ($action == 'reopen') {
         NotificationMail($task_id, "$pguser reopened this task.");
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE tasks
             SET
                 task_status = %d,
@@ -713,7 +715,8 @@ function handle_action_on_a_specified_task()
             $edit_browser = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
             $edit_percent = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
 
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE tasks
                 SET
                     task_summary     = '%s',
@@ -752,9 +755,12 @@ function handle_action_on_a_specified_task()
     } elseif ($action == 'close') {
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
             $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
-            NotificationMail($task_id,
-                "$pguser closed this task.\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . ".");
-            $sql = sprintf("
+            NotificationMail(
+                $task_id,
+                "$pguser closed this task.\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . "."
+            );
+            $sql = sprintf(
+                "
                 UPDATE tasks
                 SET
                     percent_complete = %d,
@@ -785,7 +791,8 @@ function handle_action_on_a_specified_task()
         $comment = trim(array_get($_POST, 'task_comment', ''));
         if ($comment) {
             NotificationMail($task_id, "$pguser commented:\n\n$comment");
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
                 VALUES (%d, %d, %d, '%s')",
                 $task_id,
@@ -795,7 +802,8 @@ function handle_action_on_a_specified_task()
             );
             DPDatabase::query($sql);
 
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE tasks
                 SET date_edited = %d, edited_by = %d
                 WHERE task_id = %d",
@@ -836,7 +844,8 @@ function handle_action_on_a_specified_task()
         // Do not insert two votes for the same user
         $meTooCount = get_me_too_count($task_id, $requester_u_id);
         if ($meTooCount == 0) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser)
                 VALUES (%d, %d, %d, %d)",
                 $task_id,
@@ -854,7 +863,8 @@ function handle_action_on_a_specified_task()
         $comment = trim(array_get($_POST, 'task_comment', ''));
         [$u_id, $comment_date] = explode('_', $comment_id, 2);
         if (($u_id === $requester_u_id && $now_sse - $comment_date <= 86400) || user_is_a_sitemanager()) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE tasks_comments SET comment='%s'
                 WHERE task_id = %d AND u_id = %d AND comment_date = %d",
                 DPDatabase::escape($comment),
@@ -945,7 +955,8 @@ function process_related_topic($pre_task, $action, $related_topic_id)
         unset($related_topics[array_search($related_topic_id, $related_topics)]);
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE tasks
         SET related_postings = '%s'
         WHERE task_id = %d",
@@ -1246,7 +1257,8 @@ function property_echo_select_tr($property_id, $current_value, $options)
 
 function load_task($tid, $is_assoc = true)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM tasks
         WHERE task_id = %d",
@@ -1373,7 +1385,8 @@ function property_echo_value_tr($property_id, $row, $show_if_empty = true)
 
 function get_me_too_count($task_id, $requester_u_id)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT count(*)
         FROM tasks_votes
         WHERE task_id = %d AND u_id = %d",
@@ -1445,7 +1458,8 @@ function create_anchor_for_comment($u_id, $comment_date)
 function TaskComments($tid, $action)
 {
     global $tasks_url, $requester_u_id, $now_sse;
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM tasks_comments
         WHERE task_id = %d
@@ -1572,7 +1586,8 @@ function RelatedTasks($tid)
 
 function load_related_tasks($task_id)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT task_id_1, task_id_2
         FROM tasks_related_tasks
         WHERE task_id_1 = %d
@@ -1602,7 +1617,8 @@ function insert_related_task($task1, $task2)
     $task_id_2 = max($task1, $task2);
 
     // See if the association already exists
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT COUNT(*) AS count
         FROM tasks_related_tasks
         WHERE task_id_1 = %d
@@ -1618,7 +1634,8 @@ function insert_related_task($task1, $task2)
     }
 
     // Now do the insertion
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO tasks_related_tasks
         SET task_id_1 = %d, task_id_2 = %d",
         $task_id_1,
@@ -1633,7 +1650,8 @@ function remove_related_task($task1, $task2)
     $task_id_2 = max($task1, $task2);
 
     // Now do the insertion
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         DELETE FROM tasks_related_tasks
         WHERE task_id_1 = %d
             AND task_id_2 = %d",
@@ -1746,7 +1764,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             $fv = $raw_value;
             break;
 
-        // The raw value is an index into an array.
+            // The raw value is an index into an array.
         case 'closed_reason':
             return array_get($tasks_close_array, $raw_value, "");
         case 'task_browser':
@@ -1764,7 +1782,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
         case 'task_type':
             return $tasks_array[$raw_value];
 
-        // The raw value is an integer denoting seconds-since-epoch.
+            // The raw value is an integer denoting seconds-since-epoch.
         case 'date_edited':
             return date("d-M-Y", $raw_value);
         case 'date_opened':
@@ -1772,28 +1790,31 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
         case 'date_closed':
             return $raw_value ? date("d-M-Y", $raw_value) : "";
 
-        // Synthetic fields
+            // Synthetic fields
         case 'opened_composite':
-            return sprintf("%s &mdash; %s",
-                        date("d-M-Y", $task_a["date_opened"]),
-                        private_message_link_for_uid($task_a['opened_by'])
-                    );
+            return sprintf(
+                "%s &mdash; %s",
+                date("d-M-Y", $task_a["date_opened"]),
+                private_message_link_for_uid($task_a['opened_by'])
+            );
         case 'edited_composite':
-            return sprintf("%s &mdash; %s",
-                        date("d-M-Y", $task_a["date_edited"]),
-                        private_message_link_for_uid($task_a['edited_by'])
-                    );
+            return sprintf(
+                "%s &mdash; %s",
+                date("d-M-Y", $task_a["date_edited"]),
+                private_message_link_for_uid($task_a['edited_by'])
+            );
         case 'closed_composite':
             if (!$task_a["date_closed"]) {
                 return "";
             }
 
-            return sprintf("%s &mdash; %s",
-                        date("d-M-Y", $task_a["date_closed"]),
-                        private_message_link_for_uid($task_a['closed_by'])
-                    );
+            return sprintf(
+                "%s &mdash; %s",
+                date("d-M-Y", $task_a["date_closed"]),
+                private_message_link_for_uid($task_a['closed_by'])
+            );
 
-        // The raw value is a user's u_id:
+            // The raw value is a user's u_id:
         case 'opened_by':
             return $raw_value ? private_message_link_for_uid($raw_value) : "";
         case 'edited_by':
@@ -1807,7 +1828,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 : private_message_link_for_uid($raw_value)
             );
 
-        // The raw value is some text typed in by a user:
+            // The raw value is some text typed in by a user:
         case 'task_summary':
             $fv = html_safe($raw_value);
             break;
@@ -1817,7 +1838,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             $Parsedown->setSafeMode(true);
             return $Parsedown->text($raw_value);
 
-        // The raw value is an integer denoting state of progress:
+            // The raw value is an integer denoting state of progress:
         case 'percent_complete':
             // Calculate the width for the container based on if this is a
             // task listing or a task details
@@ -1836,7 +1857,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
         case 'votes':
             // If this is the task listing, $raw_value will be set
             if (!isset($raw_value)) {
-                $sql = sprintf("
+                $sql = sprintf(
+                    "
                     SELECT count(*) AS count
                     FROM tasks_votes
                     WHERE task_id = %d",
@@ -1855,7 +1877,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
             // no break
         case 'additional_os':
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 SELECT DISTINCT vote_os
                 FROM tasks_votes
                 WHERE task_id = %d",
@@ -1878,7 +1901,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
             // no break
         case 'additional_browser':
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 SELECT DISTINCT vote_browser
                 FROM tasks_votes
                 WHERE task_id = %d",

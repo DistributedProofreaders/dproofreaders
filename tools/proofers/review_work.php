@@ -148,7 +148,8 @@ $time_limit = time() - $days * 24 * 60 * 60;
 // the slower evaluation query and route everyone else to the faster and more
 // performant one.
 if ($use_eval_query) {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT
             page_events.projectid,
             state,
@@ -162,11 +163,14 @@ if ($use_eval_query) {
               timestamp > %d
         GROUP BY page_events.projectid
         ORDER BY time_of_latest_save DESC
-    ", DPDatabase::escape($work_round->id),
+    ",
+        DPDatabase::escape($work_round->id),
         DPDatabase::escape($username),
-        $time_limit);
+        $time_limit
+    );
 } else {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT
             user_project_info.projectid,
             state,
@@ -178,8 +182,10 @@ if ($use_eval_query) {
               t_latest_page_event > %d
         GROUP BY user_project_info.projectid
         ORDER BY t_latest_page_event DESC
-    ", DPDatabase::escape($username),
-        $time_limit);
+    ",
+        DPDatabase::escape($username),
+        $time_limit
+    );
 }
 $res2 = DPDatabase::query($sql);
 
@@ -307,13 +313,16 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
 
     // See if the user worked on any pages in this round
     validate_projectID($projectid);
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT COUNT(*)
         FROM {$projectid}
         WHERE {$work_round->user_column_name} = '%s' AND
               {$work_round->time_column_name} > %d
-        ", DPDatabase::escape($username),
-        $time_limit);
+        ",
+        DPDatabase::escape($username),
+        $time_limit
+    );
     $work_pages_done_result = DPDatabase::query($sql);
     [$pages_worked_in_review_round] = mysqli_fetch_row($work_pages_done_result);
     mysqli_free_result($work_pages_done_result);
@@ -323,13 +332,16 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     }
 
     // see if it finished the work round
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT MAX(timestamp)
         FROM project_events
         WHERE projectid = '%s' AND
               details2 = '%s'
-       ", DPDatabase::escape($projectid),
-        DPDatabase::escape($work_round->project_complete_state));
+       ",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape($work_round->project_complete_state)
+    );
     $work_round_result = DPDatabase::query($sql);
     [$max_done_timestamp] = mysqli_fetch_row($work_round_result);
     mysqli_free_result($work_round_result);
@@ -345,15 +357,18 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     }
 
     // see if it actually went through the review round.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT COUNT(*) 
         FROM project_events
         WHERE projectid = '%s' AND
               details2 ='%s' AND
               timestamp >= %d
-       ", DPDatabase::escape($projectid),
+       ",
+        DPDatabase::escape($projectid),
         DPDatabase::escape($review_round->project_available_state),
-        $max_done_timestamp);
+        $max_done_timestamp
+    );
     $review_round_result = DPDatabase::query($sql);
     [$done_in_rround] = mysqli_fetch_row($review_round_result);
     mysqli_free_result($review_round_result);
@@ -410,7 +425,8 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     $diffLinkString = "";
     if ($sampleLimit > 0) {
         validate_projectID($projectid);
-        $query = sprintf("
+        $query = sprintf(
+            "
            SELECT image 
            FROM $projectid AS proj 
            WHERE $has_been_saved_in_review_round AND 
@@ -418,8 +434,10 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
                  {$work_round->user_column_name} = '%s'
            ORDER BY {$work_round->time_column_name} DESC, image 
            LIMIT %d
-        ", DPDatabase::escape($username),
-            $sampleLimit);
+        ",
+            DPDatabase::escape($username),
+            $sampleLimit
+        );
         $result = DPDatabase::query($query);
         $diffLinkString = "";
         while ([$image] = mysqli_fetch_row($result)) {

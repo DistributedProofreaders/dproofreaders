@@ -78,11 +78,13 @@ if ($action == 'default') {
     try {
         $user = new NonactivatedUser($username);
     } catch (NonexistentNonactivatedUserException $exception) {
-        printf(_("No user '%s' was was found in the list of non-validated users."),
-            html_safe($username));
+        printf(
+            _("No user '%s' was was found in the list of non-validated users."),
+            html_safe($username)
+        );
         echo "<p>",
-            sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"),
-            "</p>";
+        sprintf(_("Note that you can also <a href='%s'>list all user accounts awaiting activation</a>"), "?action=list_all"),
+        "</p>";
         exit;
     }
 

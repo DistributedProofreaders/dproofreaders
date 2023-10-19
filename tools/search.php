@@ -11,8 +11,12 @@ include_once($relPath.'ProjectSearchResults.inc');
 require_login();
 
 try {
-    $show_view = get_enumerated_param($_GET, 'show', 'search_form',
-        ['search_form', 'search', 'set_columns', 'config']);
+    $show_view = get_enumerated_param(
+        $_GET,
+        'show',
+        'search_form',
+        ['search_form', 'search', 'set_columns', 'config']
+    );
 } catch (Exception $e) {
     $show_view = 'search_form';
 }

@@ -166,7 +166,7 @@ switch ($action) {
     // We always do showdir after the switch statement
     case 'showdir':
         break;
-    // Actions that prompt for additional information and we shouldn't showdir
+        // Actions that prompt for additional information and we shouldn't showdir
     case 'showupload':
         do_showupload();
         exit;
@@ -182,14 +182,14 @@ switch ($action) {
     case 'showdelete':
         do_showdelete();
         exit;
-    // Actions that do an action and do not return an info message
+        // Actions that do an action and do not return an info message
     case 'download':
         do_download();
         exit;
     case 'upload':
         do_upload();
         exit;
-    // Actions that do an action and upon success return an info message
+        // Actions that do an action and upon success return an info message
     case 'mkdir':
         $action_message = do_mkdir();
         break;
@@ -634,8 +634,10 @@ function do_showdelete()
     $form_content = "<p style='margin-top: 0em;'>";
     $form_content .= _("<b>Warning:</b> Deletion is permanent and cannot be undone.") . " ";
     $form_content .= _("This script does not check that folders are empty.</p>");
-    $form_content .= "<p><b>" . sprintf($question_template,
-        "<input type='text' name='del_file' size='50' maxsize='50' value='" . attr_safe($item_name) . "' READONLY>") . "</b></p>";
+    $form_content .= "<p><b>" . sprintf(
+        $question_template,
+        "<input type='text' name='del_file' size='50' maxsize='50' value='" . attr_safe($item_name) . "' READONLY>"
+    ) . "</b></p>";
 
     show_form(
         'delete',

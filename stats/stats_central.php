@@ -61,7 +61,8 @@ show_news_for_page("STATS");
 
 function count_books_in_state($state, $clauses = "")
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT COUNT(*) AS numbooks
         FROM projects
         WHERE state = '%s'
@@ -81,76 +82,76 @@ $table = new ThemedTable(
 
 $table->set_column_alignments('left', 'right');
 
-   //get total users active in the last 7 days
-    $begin_time = time() - 604800; // in seconds
-    $users = DPDatabase::query("SELECT count(*) AS numusers FROM users
+//get total users active in the last 7 days
+$begin_time = time() - 604800; // in seconds
+$users = DPDatabase::query("SELECT count(*) AS numusers FROM users
                           WHERE t_last_activity > $begin_time");
-    $row = mysqli_fetch_assoc($users);
-    $totalusers = $row["numusers"];
+$row = mysqli_fetch_assoc($users);
+$totalusers = $row["numusers"];
 
-    $table->row(
-        _("Proofreaders active in the last 7 days:"),
-        $totalusers
-    );
+$table->row(
+    _("Proofreaders active in the last 7 days:"),
+    $totalusers
+);
 
-    //get total books posted  in the last 7 days
-    $totalbooks = count_books_in_state(PROJ_SUBMIT_PG_POSTED, "AND modifieddate >= $begin_time");
+//get total books posted  in the last 7 days
+$totalbooks = count_books_in_state(PROJ_SUBMIT_PG_POSTED, "AND modifieddate >= $begin_time");
 
-    $table->row(
-        _("Books posted in the last 7 days:"),
-        $totalbooks
-    );
+$table->row(
+    _("Books posted in the last 7 days:"),
+    $totalbooks
+);
 
 
 
-    $view_books = _("(View)");
-    //get total first round books waiting to be released
-    $totalfirstwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE);
+$view_books = _("(View)");
+//get total first round books waiting to be released
+$totalfirstwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE);
 
-    $table->row(
-        _("Books waiting to be released for first round:"),
-        $totalfirstwaiting
-    );
+$table->row(
+    _("Books waiting to be released for first round:"),
+    $totalfirstwaiting
+);
 
-    //get total non-English books waiting to be released
-    $totalnonwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE, "AND language != 'English'");
+//get total non-English books waiting to be released
+$totalnonwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE, "AND language != 'English'");
 
-    $table->row(
-        _("Non-English Books waiting to be released for first round:"),
-        $totalnonwaiting
-    );
+$table->row(
+    _("Non-English Books waiting to be released for first round:"),
+    $totalnonwaiting
+);
 
-    //get total books waiting to be post processed
-    $totalwaitingpost = count_books_in_state(PROJ_POST_FIRST_AVAILABLE);
+//get total books waiting to be post processed
+$totalwaitingpost = count_books_in_state(PROJ_POST_FIRST_AVAILABLE);
 
-    $table->row(
-        _("Books waiting for post processing:"),
-        $totalwaitingpost
-    );
+$table->row(
+    _("Books waiting for post processing:"),
+    $totalwaitingpost
+);
 
-    //get total books being post processed
-    $totalinpost = count_books_in_state(PROJ_POST_FIRST_CHECKED_OUT);
+//get total books being post processed
+$totalinpost = count_books_in_state(PROJ_POST_FIRST_CHECKED_OUT);
 
-    $table->row(
-        _("Books being post processed:"),
-        $totalinpost
-    );
+$table->row(
+    _("Books being post processed:"),
+    $totalinpost
+);
 
-    //get total books in verify
-    $totalverify = count_books_in_state(PROJ_POST_SECOND_AVAILABLE);
+//get total books in verify
+$totalverify = count_books_in_state(PROJ_POST_SECOND_AVAILABLE);
 
-    $table->row(
-        _("Books waiting to be verified:"),
-        $totalverify
-    );
+$table->row(
+    _("Books waiting to be verified:"),
+    $totalverify
+);
 
-    //get total books in verifying
-    $totalverifying = count_books_in_state(PROJ_POST_SECOND_CHECKED_OUT);
+//get total books in verifying
+$totalverifying = count_books_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 
-    $table->row(
-        _("Books being verified:"),
-        $totalverifying
-    );
+$table->row(
+    _("Books being verified:"),
+    $totalverifying
+);
 
 $table->end();
 
@@ -240,18 +241,18 @@ $table->end();
 // Miscellaneous Graphs
 
 $table = new ThemedTable(
-  2,
-  _("Miscellaneous Graphs")
+    2,
+    _("Miscellaneous Graphs")
 );
 
 $table->row(
-  "<a href='user_logon_graphs.php'>" . _("User Logon Graphs") . "</a>",
-  "<a href='pages_in_states.php'>" . _("Pages in States") . "</a>"
+    "<a href='user_logon_graphs.php'>" . _("User Logon Graphs") . "</a>",
+    "<a href='pages_in_states.php'>" . _("Pages in States") . "</a>"
 );
 
 $table->row(
-  "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
-  "<a href='misc_user_graphs.php'>" . _("User Graphs") . "</a>",
+    "<a href='equilibria.php'>" . _("Pages Saved per Day (Equilibria)") . "</a>",
+    "<a href='misc_user_graphs.php'>" . _("User Graphs") . "</a>",
 );
 
 $table->end();

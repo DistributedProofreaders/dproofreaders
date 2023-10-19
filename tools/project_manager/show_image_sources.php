@@ -194,7 +194,8 @@ if (!$imso_code) {
         echo "<p>";
         echo sprintf(
             _("See other lists of Ebooks being produced with images from %s: "),
-                $imso['full_name']);
+            $imso['full_name']
+        );
         echo $links_list;
         echo "</p>";
 

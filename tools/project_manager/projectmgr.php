@@ -20,9 +20,13 @@ $user_settings = Settings::get_Settings($user->username);
 $default_view = $user_settings->get_value("pm_view", "user_all");
 
 try {
-    $show_view = get_enumerated_param($_GET, 'show', $default_view,
+    $show_view = get_enumerated_param(
+        $_GET,
+        'show',
+        $default_view,
         ['search_form', 'search', 'user_all', 'user_active',
-            'blank', 'set_columns', 'config', ]);
+            'blank', 'set_columns', 'config', ]
+    );
 } catch (Exception $e) {
     $show_view = 'blank';
 }
