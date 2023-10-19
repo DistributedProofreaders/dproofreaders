@@ -356,8 +356,10 @@ function _test_project_for_missing_pages($projectid)
     );
 
     $test_name = _("Missing Pages");
-    $test_desc = sprintf(_("This manual test requires looking through each page of a project to see if there are missing pages. This is done by looking for missing page numbers, eg: image 100.png says it's page 80 and image 101.png says it's page 82. To perform this check, you can look at the pages online from the <a href='%s'>Page Details</a> page or download the project files from the project page and check them offline. Please check to make sure all illustration images are also loaded."),
-        "$code_url/tools/project_manager/page_detail.php?project=$projectid");
+    $test_desc = sprintf(
+        _("This manual test requires looking through each page of a project to see if there are missing pages. This is done by looking for missing page numbers, eg: image 100.png says it's page 80 and image 101.png says it's page 82. To perform this check, you can look at the pages online from the <a href='%s'>Page Details</a> page or download the project files from the project page and check them offline. Please check to make sure all illustration images are also loaded."),
+        "$code_url/tools/project_manager/page_detail.php?project=$projectid"
+    );
 
     $status = _("Manual");
     $summary = _("This is a manual test.");

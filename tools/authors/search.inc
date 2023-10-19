@@ -19,10 +19,10 @@ include_once($relPath."misc.inc"); // get_enumerated_param(), attr_safe(), html_
 function prepare_search()
 {
     global $last_name, $other_names,
-           $sql_what_to_list, $human_what_to_list, $human_order,
-           $query, $query_without_view, $sortUtility,
-           $sort_author_id, $sort_last_name, $sort_other_names,
-           $sort_born, $sort_dead;
+    $sql_what_to_list, $human_what_to_list, $human_order,
+    $query, $query_without_view, $sortUtility,
+    $sort_author_id, $sort_last_name, $sort_other_names,
+    $sort_born, $sort_dead;
 
     $view = get_enumerated_param($_REQUEST, 'view', null, ['enabled', 'disabled', 'all'], true);
 
@@ -33,11 +33,13 @@ function prepare_search()
     $sort_born = new SortableValue('born', 'Birth', 'byear,bmonth,bday,bcomments');
     $sort_dead = new SortableValue('dead', 'Death', 'dyear,dmonth,dday,dcomments');
 
-    $sortUtility->setSortableValues($sort_author_id,
-                                    $sort_last_name,
-                                    $sort_other_names,
-                                    $sort_born,
-                                    $sort_dead);
+    $sortUtility->setSortableValues(
+        $sort_author_id,
+        $sort_last_name,
+        $sort_other_names,
+        $sort_born,
+        $sort_dead
+    );
 
     // if no ordering is requested, sort by ID (ascending)
     $sortUtility->setSortingRule($sort_author_id);
@@ -150,9 +152,13 @@ function echo_search_form()
     echo "<h2>" . _("Search") . "</h2>";
     echo "<p>" . _('Case insensitive.') . " ";
     echo sprintf(
-            _('Use %1$s for partial matches or %2$s to match exactly one character.' .
+        _('Use %1$s for partial matches or %2$s to match exactly one character.' .
             '%3$s encodes start-of-string and %4$s encodes end-of-string.'),
-            '<b>*</b>', '<b>?</b>', '<b>^</b>', '<b>$</b>'); ?>
+        '<b>*</b>',
+        '<b>?</b>',
+        '<b>^</b>',
+        '<b>$</b>'
+    ); ?>
     <form method="GET">
     <table class='themed' style='width: auto;'>
     <tr><td>Last name:</td><td><input type="text" name="last_name" size="20" value="<?php echo $last_name; ?>"></td></tr>

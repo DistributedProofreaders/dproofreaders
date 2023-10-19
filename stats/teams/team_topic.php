@@ -52,12 +52,13 @@ Use this area to have a discussion with your fellow teammates! :-D
     $post_subject = $tname;
 
     $topic_id = topic_create(
-                $forum_id,
-                $post_subject,
-                $message,
-                $towner_name,
-                true,
-                false);
+        $forum_id,
+        $post_subject,
+        $message,
+        $towner_name,
+        true,
+        false
+    );
 
     //Update user_teams with topic_id so it won't be created again
     $update_team = DPDatabase::query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");

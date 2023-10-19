@@ -73,10 +73,12 @@ function format_date_from_sqlset($row, $bd)
 // $bd is 'b' or 'd'
 function format_date_from_array($row, $bd)
 {
-    return format_date($row[$bd.'year'],
-                       $row[$bd.'month'],
-                       $row[$bd.'day'],
-                       $row[$bd.'comments']);
+    return format_date(
+        $row[$bd.'year'],
+        $row[$bd.'month'],
+        $row[$bd.'day'],
+        $row[$bd.'comments']
+    );
 }
 
 function format_date($year, $month, $day, $comments)

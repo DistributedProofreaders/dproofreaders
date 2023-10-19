@@ -24,7 +24,8 @@ various places:
 function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_row = false)
 {
     if ($ensure_row) {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO user_project_info
             SET
                 username            = '%s',
@@ -38,7 +39,8 @@ function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_
             $timestamp
         );
     } else {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE user_project_info
             SET t_latest_home_visit = %d
             WHERE username = '%s' AND projectid = '%s'",
@@ -52,7 +54,8 @@ function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_
 
 function upi_set_t_latest_page_event($username, $projectid, $timestamp)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO user_project_info
         SET
             username            = '%s',
@@ -63,7 +66,8 @@ function upi_set_t_latest_page_event($username, $projectid, $timestamp)
         DPDatabase::escape($username),
         DPDatabase::escape($projectid),
         $timestamp,
-        $timestamp);
+        $timestamp
+    );
     DPDatabase::query($sql);
 }
 
@@ -116,7 +120,8 @@ function set_user_project_event_subscription($username, $projectid, $event, $bit
     // Just to ensure that $event is valid; we don't use $event_label.
 
     // Now that we're sure the row exists, we can update it.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO user_project_info
         SET
             username    = '%s',
@@ -137,7 +142,8 @@ function user_is_subscribed_to_project_event($username, $projectid, $event)
     $event_label = get_label_for_event($event);
     // Just to ensure that $event is valid; we don't use $event_label.
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT iste_$event
         FROM user_project_info
         WHERE username    = '%s'
@@ -175,7 +181,8 @@ function notify_project_event_subscribers($project, $event, $extras = [])
     $projectid = $project->projectid;
     $title = $project->nameofwork;
 
-    $sql1 = sprintf("
+    $sql1 = sprintf(
+        "
         SELECT username
         FROM user_project_info
         WHERE projectid = '%s'
@@ -254,7 +261,8 @@ function notify_project_event_subscribers($project, $event, $extras = [])
     if ($event == 'posted') {
         // Take the number of users subscribed to the event
         // and record that as the project's "interest level".
-        $sql4 = sprintf("
+        $sql4 = sprintf(
+            "
             UPDATE projects
             SET int_level = %d
             WHERE projectid = '%s'",
@@ -280,7 +288,8 @@ function get_n_users_subscribed_to_events_for_project($projectid)
     }
     $selects = implode(',', $items);
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT $selects
         FROM user_project_info
         WHERE projectid='%s'",

@@ -26,8 +26,7 @@ function url_for_pi_do_whichever_page($projectid, $proj_state, $escape_amp = fal
         . "?"
         . "projectid=$projectid"
         . $amp
-        . "proj_state=$proj_state"
-    ;
+        . "proj_state=$proj_state";
 }
 
 function url_for_pi_do_particular_page($projectid, $proj_state, $imagefile, $page_state, $escape_amp = false)
@@ -46,8 +45,7 @@ function url_for_pi_do_particular_page($projectid, $proj_state, $imagefile, $pag
         . $amp
         . "proj_state=$proj_state"
         . $amp
-        . "page_state=$page_state"
-    ;
+        . "page_state=$page_state";
 }
 
 // -----------------------------------------------------------------------------
@@ -62,7 +60,11 @@ function get_requested_PPage($request_params)
     $reverting = get_integer_param($request_params, 'reverting', 0, 0, 1);
 
     $lpage = get_indicated_LPage(
-        $projectid, $proj_state, $imagefile, $page_state, $reverting
+        $projectid,
+        $proj_state,
+        $imagefile,
+        $page_state,
+        $reverting
     );
 
     return new PPage($lpage, $proj_state);
@@ -140,7 +142,8 @@ class PPage
         } else {
             $amp = '&';
         }
-        return implode($amp,
+        return implode(
+            $amp,
             [
                 'projectid='  . $this->lpage->projectid,
                 'proj_state=' . $this->proj_state,
@@ -310,7 +313,7 @@ class PPage
             . sprintf(
                 _("You will be able to save more pages in %s after server midnight."),
                 $round->id
-              )
+            )
             . "</p>\n";
 
         echo "<ul>\n"
@@ -323,8 +326,7 @@ class PPage
             .   "<li>"
             .     return_to_activity_hub_link()
             .   "</li>\n"
-            . "</ul>\n"
-            ;
+            . "</ul>\n";
 
         // Do not return to caller.
         exit;

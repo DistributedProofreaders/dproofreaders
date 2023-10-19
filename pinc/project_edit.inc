@@ -15,7 +15,7 @@ function user_can_add_project_pages($projectid)
     // do this if the project already has some pages loaded.
     if (($state == PROJ_NEW || $state == PROJ_P1_UNAVAILABLE)
         && ($project->get_num_pages() > 0 || ! user_has_project_loads_disabled())
-        ) {
+    ) {
         return true;
     } else {
         return false;
@@ -37,8 +37,10 @@ function abort_if_cant_edit_project($projectid)
             <P>
             "._("There appears to be no such project")." ($projectid).
             <P>
-            ", sprintf(_("If this message is an error, contact a <a href='%s'>site manager</a>"),
-                "mailto:$site_manager_email_addr"), "
+            ", sprintf(
+            _("If this message is an error, contact a <a href='%s'>site manager</a>"),
+            "mailto:$site_manager_email_addr"
+        ), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         exit;
     }
@@ -48,8 +50,10 @@ function abort_if_cant_edit_project($projectid)
             <P>
             "._("You are not authorized to manage this project.")." ($projectid).
             <P>
-            ", sprintf(_("If this message is an error, contact a <a href='%s'>site manager</a>"),
-                "mailto:$site_manager_email_addr"), "
+            ", sprintf(
+            _("If this message is an error, contact a <a href='%s'>site manager</a>"),
+            "mailto:$site_manager_email_addr"
+        ), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         exit;
     }
@@ -63,9 +67,10 @@ function check_user_can_load_projects($exit_if_not)
               <div class='display-flex' style='margin-bottom:0.5em'><div class='callout'>"
             ._("You are not currently permitted to create new projects, or move projects out of the new project or unavailable states.")
             ."<br>\n"
-            .sprintf(_("If you believe you are receiving this message in error, please contact a <a href='%s'>site manager</a>."),
-                     "mailto:$site_manager_email_addr"
-                     )
+            .sprintf(
+                _("If you believe you are receiving this message in error, please contact a <a href='%s'>site manager</a>."),
+                "mailto:$site_manager_email_addr"
+            )
             ."
               </div></div>\n";
         if ($exit_if_not) {

@@ -60,7 +60,8 @@ if (isset($last_name)) {
         // insert into the database
         if ($author_id) {
             // edit existing author
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE authors
                 SET last_name='%s', other_names='%s',
                     byear=%d, bmonth=%d, bday=%d, bcomments='%s',
@@ -81,7 +82,8 @@ if (isset($last_name)) {
             $msg = _('The author was successfully updated in the database!');
         } else {
             // add new author to database
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 INSERT INTO authors
                     (last_name, other_names,
                         byear, bmonth, bday, bcomments,
@@ -335,10 +337,13 @@ $message = @$_GET['message'];
 if (isset($message)) {
     echo '<p>' . html_safe($message) . '</p>';
 } elseif (isset($_POST['Preview'])) {
-    echo_author($last_name, $other_names,
-                format_date($byear, $bmonth, $bday, $bcomments),
-                format_date($dyear, $dmonth, $dday, $dcomments),
-                 ($_POST['author_id'] ?? false));
+    echo_author(
+        $last_name,
+        $other_names,
+        format_date($byear, $bmonth, $bday, $bcomments),
+        format_date($dyear, $dmonth, $dday, $dcomments),
+        ($_POST['author_id'] ?? false)
+    );
     echo '<br>';
     if (isset($_POST['author_id'])) {
         $author_id = $_POST['author_id'];

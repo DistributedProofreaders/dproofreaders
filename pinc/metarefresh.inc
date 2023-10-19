@@ -17,7 +17,7 @@ function metarefresh($seconds, $url, $title = "", $body = "", $allow_external = 
 
     if ($testing && (headers_sent() || ob_get_length())) {
         $sec = $seconds + 15;
-    // That may not be long enough to read everything,
+        // That may not be long enough to read everything,
         // but it should be long enough to Select All + Copy.
     } else {
         $sec = $seconds;

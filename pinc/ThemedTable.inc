@@ -45,10 +45,10 @@ class ThemedTable
 
             echo "\n";
             echo "<tr>";
-                $maybe_colspan = "";
-                if ($this->n_cols > 1) {
-                    $maybe_colspan = "colspan='$this->n_cols'";
-                }
+            $maybe_colspan = "";
+            if ($this->n_cols > 1) {
+                $maybe_colspan = "colspan='$this->n_cols'";
+            }
             echo   "<th style='text-align: center;' $maybe_colspan>";
             echo     $title;
             echo     $possible_subtitle;

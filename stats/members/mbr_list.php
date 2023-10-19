@@ -12,9 +12,17 @@ include_once('../includes/member.inc');
 require_login();
 
 $order = get_enumerated_param(
-    $_GET, 'order', 'u_id', ['u_id', 'username', 'date_created']);
+    $_GET,
+    'order',
+    'u_id',
+    ['u_id', 'username', 'date_created']
+);
 $direction = get_enumerated_param(
-    $_GET, 'direction', 'asc', ['asc', 'desc']);
+    $_GET,
+    'direction',
+    'asc',
+    ['asc', 'desc']
+);
 $mstart = get_integer_param($_GET, 'mstart', 0, 0, null);
 $uname = normalize_whitespace(array_get($_GET, 'uname', ''));
 $uexact = array_get($_GET, 'uexact', '') == 'yes';
@@ -23,8 +31,10 @@ if ($uname) {
     if ($uexact) {
         $where_clause = sprintf("WHERE username = '%s'", DPDatabase::escape($uname));
     } else {
-        $where_clause = sprintf("WHERE username LIKE '%%%s%%'",
-            DPDatabase::escape_like_wildcards(DPDatabase::escape($uname)));
+        $where_clause = sprintf(
+            "WHERE username LIKE '%%%s%%'",
+            DPDatabase::escape_like_wildcards(DPDatabase::escape($uname))
+        );
     }
 
     // Not using sprintf() here because of the wildcard where_clause above.

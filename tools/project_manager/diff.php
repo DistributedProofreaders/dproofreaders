@@ -80,12 +80,14 @@ $L_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$im
 $R_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$R_round_id", $R_round_name);
 
 validate_projectID($projectid);
-$query = sprintf("
+$query = sprintf(
+    "
     SELECT $L_text_column_name, $R_text_column_name,
         $L_user_column_name, $R_user_column_name
     FROM $projectid
     WHERE image='%s'",
-    DPDatabase::escape($image));
+    DPDatabase::escape($image)
+);
 
 $res = DPDatabase::query($query);
 [$L_text, $R_text, $L_user, $R_user] = mysqli_fetch_row($res);
@@ -125,8 +127,19 @@ output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 echo "<h1>" . html_safe($project_title) . "</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
-do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
-              $L_text_column_name, $R_text_column_name, $only_nonempty_diffs, $bb_diffs);
+do_navigation(
+    $projectid,
+    $image,
+    $L_round_num,
+    $R_round_num,
+    $L_user_column_name,
+    $L_user,
+    $format,
+    $L_text_column_name,
+    $R_text_column_name,
+    $only_nonempty_diffs,
+    $bb_diffs
+);
 echo $navigation_text;
 
 echo "\n<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "\n";
@@ -187,9 +200,19 @@ if ($L_text != $R_text) {
  * Build up the text for the navigation bit, so we can repeat it
  * again at the bottom of the page
  */
-function do_navigation($projectid, $image, $L_round_num, $R_round_num, $L_user_column_name, $L_user, $format,
-                       $L_text_column_name, $R_text_column_name, $only_nonempty_diffs, $bb_diffs)
-{
+function do_navigation(
+    $projectid,
+    $image,
+    $L_round_num,
+    $R_round_num,
+    $L_user_column_name,
+    $L_user,
+    $format,
+    $L_text_column_name,
+    $R_text_column_name,
+    $only_nonempty_diffs,
+    $bb_diffs
+) {
     global $navigation_text;
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
@@ -305,9 +328,11 @@ function can_see_names_for_page($projectid, $image)
         }
 
         validate_projectID($projectid);
-        $query = sprintf("
+        $query = sprintf(
+            "
             SELECT $fields from $projectid WHERE image = '%s'",
-            DPDatabase::escape($image));
+            DPDatabase::escape($image)
+        );
         $res = DPDatabase::query($query);
         $page_res = mysqli_fetch_array($res);
         foreach ($page_res as $page_user) {

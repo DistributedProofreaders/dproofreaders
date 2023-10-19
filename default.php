@@ -57,15 +57,17 @@ echo ""
     . "<ul>\n"
     .   "<li>\n"
     .     sprintf(
-            _("<a href='%s'>Register</a> with the site as a volunteer"),
-            "$code_url/accounts/addproofer.php")
+        _("<a href='%s'>Register</a> with the site as a volunteer"),
+        "$code_url/accounts/addproofer.php"
+    )
     .     "<br>"
     .     _("and/or")
     .   "</li>\n"
     .   "<li>\n"
     .     sprintf(
-            _("<a href='%s'>Donate</a> to the Distributed Proofreaders Foundation."),
-            "http://www.pgdp.net/wiki/DPFoundation:Information_for_Donors")
+        _("<a href='%s'>Donate</a> to the Distributed Proofreaders Foundation."),
+        "http://www.pgdp.net/wiki/DPFoundation:Information_for_Donors"
+    )
     .   "</li>\n"
     . "</ul>"
     . "\n";
@@ -84,13 +86,15 @@ echo "\n"
 echo "<p>"
     . sprintf(
         _("It's easy to volunteer at Distributed Proofreaders. Simply <a href='%s'>register as a volunteer</a>. Once you've confirmed your registration by e-mail, you'll receive an introductory e-mail with basic instructions on how to log in and use the site. Then, you're ready to sign in and start learning to proofread or visit the smooth reading page to pick an e-book to read! Wherever you go, you'll find lots of information to help you get started."),
-        "$code_url/accounts/addproofer.php");
+        "$code_url/accounts/addproofer.php"
+    );
 
 $walkthrough_url = get_walkthrough_url();
 if ($walkthrough_url) {
     echo " " . sprintf(
         _("Please try our <a href='%s'>Walkthrough</a> for a preview of the steps involved when proofreading on this site."),
-        $walkthrough_url);
+        $walkthrough_url
+    );
 }
 
 echo "</p>"
@@ -152,5 +156,6 @@ echo "<hr><p class='center-align'>\n";
 echo sprintf(
     _('Questions or comments? Please contact us at <a href="%1$s">%2$s</a>.'),
     "mailto:$general_help_email_addr",
-    $general_help_email_addr);
+    $general_help_email_addr
+);
 echo "</p>\n";

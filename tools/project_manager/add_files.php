@@ -666,7 +666,7 @@ class Loader
             echo "<p>";
             echo "(", _("Usually these are illustrations."), ")\n";
             echo _("They will simply be copied into the project directory."),
-                "</p>\n";
+            "</p>\n";
             echo "<table class='basic striped'>";
             foreach ($this->non_page_files as $filename) {
                 echo "<tr><td>$filename</td></tr>\n";
@@ -777,9 +777,11 @@ class Loader
 
         // Non-page files
         foreach ($this->non_page_files as $filename) {
-            $this->_do_command(sprintf("cp %s %s",
+            $this->_do_command(sprintf(
+                "cp %s %s",
                 escapeshellarg($filename),
-                escapeshellarg($this->dest_project_dir)));
+                escapeshellarg($this->dest_project_dir)
+            ));
         }
 
         // Page files
@@ -818,7 +820,8 @@ class Loader
                             $src_image_file_name,
                             $src_text_file_path,
                             $pguser,
-                            $now);
+                            $now
+                        );
                     } catch (DBQueryError $error) {
                         echo "<p class='error'>";
                         echo "for base=$base, project_add_page raised a DB error";
@@ -826,9 +829,11 @@ class Loader
                     }
                 }
 
-                $this->_do_command(sprintf("cp %s %s",
+                $this->_do_command(sprintf(
+                    "cp %s %s",
                     escapeshellarg($src_image_file_name),
-                    escapeshellarg($this->dest_project_dir)));
+                    escapeshellarg($this->dest_project_dir)
+                ));
             } else {
                 if ($text_a == 'replace') {
                     if ($this->dry_run) {
@@ -844,7 +849,8 @@ class Loader
                             $this->projectid,
                             $db_image_file_name,
                             $src_text_file_path,
-                            $pguser);
+                            $pguser
+                        );
                     }
                 }
 
@@ -865,16 +871,20 @@ class Loader
                                 $this->projectid,
                                 $db_image_file_name,
                                 $src_image_file_name,
-                                $pguser);
+                                $pguser
+                            );
                         }
 
                         $this->_do_command("rm " . escapeshellarg(
-                            "$this->dest_project_dir/$db_image_file_name"));
+                            "$this->dest_project_dir/$db_image_file_name"
+                        ));
                     }
 
-                    $this->_do_command(sprintf("cp %s %s",
+                    $this->_do_command(sprintf(
+                        "cp %s %s",
                         escapeshellarg($src_image_file_name),
-                        escapeshellarg($this->dest_project_dir)));
+                        escapeshellarg($this->dest_project_dir)
+                    ));
                 }
             }
         }

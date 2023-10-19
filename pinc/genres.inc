@@ -111,14 +111,16 @@ function maybe_create_temporary_genre_translation_table()
         // if the create table succeeded, populate the table
         DPDatabase::query($sql, true, false);
         foreach ($genres as $key => $value) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 INSERT INTO genre_translations
                 SET
                     genre = '%s',
                     trans_genre = '%s'
                 ",
                 DPDatabase::escape($key),
-                DPDatabase::escape($value));
+                DPDatabase::escape($value)
+            );
             DPDatabase::query($sql);
         }
     } catch (DBQueryError $error) {

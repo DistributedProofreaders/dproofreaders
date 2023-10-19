@@ -16,7 +16,8 @@
 
 $this_is_top_level_cli_invocation = (
     php_sapi_name() == 'cli' &&
-    count(get_included_files()) == 1);
+    count(get_included_files()) == 1
+);
 // i.e., this file is being executed because it was the
 // script argument to a command-line invocation of php,
 // probably invoked by DP code via exec() or system().

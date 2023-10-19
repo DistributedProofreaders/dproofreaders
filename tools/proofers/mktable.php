@@ -79,7 +79,9 @@ for ($j = 0; $j < $col; $j++) {
 echo "</tr>";
 
 // Output additional rows
-$a = []; $lng = []; $tll = [];
+$a = [];
+$lng = [];
+$tll = [];
 for ($i = 0; $i < $row; $i++) {
     echo "<tr>";
 
@@ -125,7 +127,7 @@ for ($i = 0; $i < $row; $i++) {
         $cell_contents = htmlspecialchars($table_contents[$i][$j], ENT_NOQUOTES, $charset);
         echo "<td>";
         echo "<textarea style='height: 6em; width: 15em; white-space: pre;' ",
-                "name='$name'>$cell_contents</textarea>";
+        "name='$name'>$cell_contents</textarea>";
         echo "</td>";
     }
     echo "</tr>";

@@ -521,8 +521,15 @@ class ProjectInfoHolder
         $this->row(_("Image Source"), 'image_source_list', $this->project->image_source);
         $this->row(_("Image Preparer"), 'DP_user_field', $this->project->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), $site_abbreviation));
         $this->row(_("Text Preparer"), 'DP_user_field', $this->project->text_preparer, 'text_preparer', sprintf(_("%s user who prepared the text files."), $site_abbreviation));
-        $this->row(_("Extra Credits<br>(to be included in list of names--no URLs)"),
-                                               'extra_credits_field', $this->project->extra_credits, null, '', '', true);
+        $this->row(
+            _("Extra Credits<br>(to be included in list of names--no URLs)"),
+            'extra_credits_field',
+            $this->project->extra_credits,
+            null,
+            '',
+            '',
+            true
+        );
         if ($this->project->scannercredit != '') {
             $this->row(_("Scanner Credit (deprecated)"), 'text_field', $this->project->scannercredit, 'scannercredit');
         }

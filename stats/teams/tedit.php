@@ -61,7 +61,8 @@ if (isset($_GET['tid'])) {
     showTeamProfile($curTeam, /*$preview = */ true);
     echo "</div><br>";
 } elseif (isset($_POST['edMake'])) {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT id
         FROM user_teams
         WHERE id != %d
@@ -85,7 +86,8 @@ if (isset($_GET['tid'])) {
         echo "<br></div><br>";
     } else {
         if (!empty($tavatar)) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE user_teams
                 SET avatar='%s'
                 WHERE id = %d",
@@ -97,7 +99,8 @@ if (isset($_GET['tid'])) {
             uploadImages(0, $tid, "avatar");
         }
         if (!empty($ticon)) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE user_teams
                 SET icon='%s'
                 WHERE id = %d",
@@ -109,7 +112,8 @@ if (isset($_GET['tid'])) {
             uploadImages(0, $tid, "icon");
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE user_teams
             SET
                 teamname = LEFT('%s', 50),

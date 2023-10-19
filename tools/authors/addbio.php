@@ -47,12 +47,14 @@ if (isset($_GET['author_id'])) {
             $msg = _('The biography was successfully updated in the database!');
         } else {
             // add to database
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 INSERT INTO biographies
                     (author_id, bio)
                 VALUES(%d, '%s')",
                 $author_id,
-                DPDatabase::escape($bio));
+                DPDatabase::escape($bio)
+            );
             $result = DPDatabase::query($sql);
             $bio_id = mysqli_insert_id(DPDatabase::get_connection());
             $msg = _('The biography was successfully entered into the database!');

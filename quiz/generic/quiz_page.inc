@@ -624,7 +624,7 @@ function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
 
         if (isset($hint["linktext"])) {
             echo $hint["linktext"];
-        // XXX: Currently unused. Might be discontinued.
+            // XXX: Currently unused. Might be discontinued.
         } else {
             echo $default_hintlink;
         }

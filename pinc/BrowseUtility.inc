@@ -134,11 +134,18 @@ class BrowseUtility
         if ($this->_total_row_count == 0) {
             return _('No entries displayed.');
         } elseif ($this->_start == $this->_last_index) {
-            return sprintf(_('Displaying entry %1$d of %2$d.'),
-                     $this->_start + 1, $this->_total_row_count);
+            return sprintf(
+                _('Displaying entry %1$d of %2$d.'),
+                $this->_start + 1,
+                $this->_total_row_count
+            );
         } else {
-            return sprintf(_('Displaying entries %1$d-%2$d of %3$d.'),
-                     $this->_start + 1, $this->_last_index + 1, $this->_total_row_count);
+            return sprintf(
+                _('Displaying entries %1$d-%2$d of %3$d.'),
+                $this->_start + 1,
+                $this->_last_index + 1,
+                $this->_total_row_count
+            );
         }
     }
 

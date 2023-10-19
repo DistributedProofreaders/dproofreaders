@@ -80,9 +80,11 @@ if (!is_null($transition->confirmation_question) && $confirmed != 'yes') {
         <input type='hidden' name='confirmed'  value='yes'>
         <input type='hidden' name='return_uri' value='$return_uri'>"
         // TRANSLATORS: %1$s is a button labeled "confirm transition change".
-        . sprintf(_("If so, %1\$s, otherwise go back to <a href='%2\$s'>where you were</a>"),
+        . sprintf(
+            _("If so, %1\$s, otherwise go back to <a href='%2\$s'>where you were</a>"),
             "<input type='submit' value='" . attr_safe(_("confirm transition change")) . "'>",
-            $return_uri)
+            $return_uri
+        )
         . "</form>";
     exit();
 }
@@ -95,7 +97,7 @@ if (!empty($transition->detour)) {
     if (is_callable($transition->detour)) {
         $detour_function = $transition->detour;
         $detour_function($projectid);
-    // detour function will either do it's thing and return here,
+        // detour function will either do it's thing and return here,
         // or output content and exit
     } else {
         $title = _("Transferring...");
@@ -129,9 +131,9 @@ if (!empty($transition->detour)) {
     }
 }
 
-    // Return the user to the screen they were at
-    // when they requested the state change.
-    $refresh_url = $return_uri;
+// Return the user to the screen they were at
+// when they requested the state change.
+$refresh_url = $return_uri;
 
 metarefresh(2, $refresh_url, $title, $body);
 

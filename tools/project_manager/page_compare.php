@@ -58,16 +58,16 @@ class Comparator
         echo "<form action='page_compare.php' method='GET'>
             <input type='hidden' name='project' value='$this->projectid'>
             <input type='hidden' name='compare'>",
-            "<div>", _("Compare rounds:"), "</div>\n",
-            "<div class='grid-wrapper'>\n",
-            // TRANSLATORS: "Round 1" and "Round 2" are repeated below in "Pages I worked on in Round 1" etc.
-            "<div>", _("Round 1"), "</div><div>", $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options), "</div>\n",
-            "<div>", _("Round 2"), "</div><div>", $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options), "</div></div>\n",
-            "<p>", _("Show:"), "<br>\n",
-            $this->radio_string('all', _("All pages")), "<br>\n",
-            $this->radio_string('left', _("Pages I worked on in Round 1")), "<br>\n",
-            $this->radio_string('right', _("Pages I worked on in Round 2")), "</p>\n",
-            "<input type='submit' value=", attr_safe(_('Go')), "></form>\n";
+        "<div>", _("Compare rounds:"), "</div>\n",
+        "<div class='grid-wrapper'>\n",
+        // TRANSLATORS: "Round 1" and "Round 2" are repeated below in "Pages I worked on in Round 1" etc.
+        "<div>", _("Round 1"), "</div><div>", $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options), "</div>\n",
+        "<div>", _("Round 2"), "</div><div>", $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options), "</div></div>\n",
+        "<p>", _("Show:"), "<br>\n",
+        $this->radio_string('all', _("All pages")), "<br>\n",
+        $this->radio_string('left', _("Pages I worked on in Round 1")), "<br>\n",
+        $this->radio_string('right', _("Pages I worked on in Round 2")), "</p>\n",
+        "<input type='submit' value=", attr_safe(_('Go')), "></form>\n";
 
         // if this is first entry don't do anything else
         if (!$this->go_compare) {
@@ -90,12 +90,14 @@ class Comparator
             case 'right':
                 $condition = sprintf(
                     "$R_round->user_column_name = '%s'",
-                    DPDatabase::escape($username));
+                    DPDatabase::escape($username)
+                );
                 break;
             case 'left':
                 $condition = sprintf(
                     "$L_round->user_column_name = '%s'",
-                    DPDatabase::escape($username));
+                    DPDatabase::escape($username)
+                );
                 break;
             default: // all
                 $condition = "1";

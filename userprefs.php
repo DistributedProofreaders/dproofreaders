@@ -243,7 +243,9 @@ function echo_general_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Name'), 'real_name', 'name',
+        _('Name'),
+        'real_name',
+        'name',
         $user->real_name,
         'textfield',
         ['100%', 'required', '']
@@ -263,13 +265,17 @@ function echo_general_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('E-mail'), 'email', 'email',
+        _('E-mail'),
+        'email',
+        'email',
         $user->email,
         'emailfield',
         ['100%', 'required', $email_warning]
     );
     show_preference(
-        _('Interface Language'), 'u_intlang', 'intlang',
+        _('Interface Language'),
+        'u_intlang',
+        'intlang',
         $user->u_intlang,
         'dropdown',
         $u_intlang_options
@@ -278,7 +284,9 @@ function echo_general_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('E-mail Updates'), 'email_updates', 'updates',
+        _('E-mail Updates'),
+        'email_updates',
+        'updates',
         $user->email_updates,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
@@ -291,7 +299,9 @@ function echo_general_tab($user)
         $theme_options[$option_value] = $option_label;
     }
     show_preference(
-        _('Theme'), 'i_theme', 'theme',
+        _('Theme'),
+        'i_theme',
+        'theme',
         $user->i_theme,
         'dropdown',
         $theme_options
@@ -306,7 +316,9 @@ function echo_general_tab($user)
         _("Reset Password")
     );
     show_preference(
-        _('Statistics Bar Alignment'), 'u_align', 'align',
+        _('Statistics Bar Alignment'),
+        'u_align',
+        'align',
         $user->u_align,
         'radio_group',
         [1 => _("Left"), 0 => _("Right")]
@@ -315,13 +327,17 @@ function echo_general_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Statistics'), 'u_privacy', 'privacy',
+        _('Statistics'),
+        'u_privacy',
+        'privacy',
         $user->u_privacy,
         'dropdown',
         $i_stats_privacy
     );
     show_preference(
-        _('Show Rank Neighbors'), 'u_neigh', 'neighbors',
+        _('Show Rank Neighbors'),
+        'u_neigh',
+        'neighbors',
         $user->u_neigh,
         'dropdown',
         get_rank_neighbor_options()
@@ -330,7 +346,9 @@ function echo_general_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Credits Wanted'), null, 'creditswanted',
+        _('Credits Wanted'),
+        null,
+        'creditswanted',
         null,
         'credits_wanted_adhoc',
         null
@@ -339,7 +357,9 @@ function echo_general_tab($user)
     // 'show', rather than 'hide' since 'hide: no' seems double-negated (to me).
     $show_special_colors = !$userSettings->get_boolean('hide_special_colors');
     show_preference(
-        _('Show Special Colors'), 'show_special_colors', 'showspecialcolors',
+        _('Show Special Colors'),
+        'show_special_colors',
+        'showspecialcolors',
         ($show_special_colors ? 'yes' : 'no'),
         'dropdown',
         ['yes' => _('Yes'), 'no' => _('No')]
@@ -348,7 +368,9 @@ function echo_general_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Credit Name'), null, 'creditname',
+        _('Credit Name'),
+        null,
+        'creditname',
         null,
         'credit_name_adhoc',
         null
@@ -407,7 +429,9 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Profile Name'), 'profilename', 'profilename',
+        _('Profile Name'),
+        'profilename',
+        'profilename',
         $user->profile->profilename,
         'textfield',
         ['100%', 'required', '']
@@ -439,13 +463,17 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Screen Resolution'), 'i_res', 'screenres',
+        _('Screen Resolution'),
+        'i_res',
+        'screenres',
         $user->profile->i_res,
         'dropdown',
         $i_resolutions
     );
     show_preference(
-        _('Launch in New Window'), 'i_newwin', 'newwindow',
+        _('Launch in New Window'),
+        'i_newwin',
+        'newwindow',
         $user->profile->i_newwin,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
@@ -454,13 +482,17 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Interface Type'), 'i_type', 'facetype',
+        _('Interface Type'),
+        'i_type',
+        'facetype',
         $user->profile->i_type,
         'radio_group',
         [0 => _("Standard"), 1 => _("Enhanced")]
     );
     show_preference(
-        _('Show Toolbar'), 'i_toolbar', 'toolbar',
+        _('Show Toolbar'),
+        'i_toolbar',
+        'toolbar',
         $user->profile->i_toolbar,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
@@ -469,7 +501,9 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Interface Layout'), 'i_layout', 'layout',
+        _('Interface Layout'),
+        'i_layout',
+        'layout',
         $user->profile->i_layout,
         'radio_group',
         [
@@ -478,7 +512,9 @@ function echo_proofreading_tab($user)
         ]
     );
     show_preference(
-        _('Show Status Bar'), 'i_statusbar', 'statusbar',
+        _('Show Status Bar'),
+        'i_statusbar',
+        'statusbar',
         $user->profile->i_statusbar,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
@@ -486,47 +522,64 @@ function echo_proofreading_tab($user)
     echo "</tr>\n";
 
     echo "<tr>\n";
-    th_label_long(2,
-        "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences"));
+    th_label_long(
+        2,
+        "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences")
+    );
     td_pophelp('vertprefs');
-    th_label_long(2,
-        "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences"));
+    th_label_long(
+        2,
+        "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences")
+    );
     td_pophelp('horzprefs');
     echo "</tr>\n";
 
     $proofreading_font_faces = get_available_proofreading_font_faces();
     echo "<tr>\n";
     show_preference(
-        _('Font Face'), 'v_fntf', 'v_fontface',
+        _('Font Face'),
+        'v_fntf',
+        'v_fontface',
         $user->profile->v_fntf,
         'fontface_selection',
         $user->profile->v_fntf_other
     );
     show_preference(
-        _('Font Face'), 'h_fntf', 'h_fontface',
+        _('Font Face'),
+        'h_fntf',
+        'h_fontface',
         $user->profile->h_fntf,
         'fontface_selection',
         $user->profile->h_fntf_other
     );
     echo "</tr>\n";
 
-    $font_sample = wordwrap(sprintf("
+    $font_sample = wordwrap(
+        sprintf(
+            "
         The lazy brown fox was puzzled by these commonly-confused
         characters: %s",
-        "O0o l1iI BE3 RK"), 40, "<br>"
+            "O0o l1iI BE3 RK"
+        ),
+        40,
+        "<br>"
     );
 
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
     echo "<tr>\n";
     $proofreading_font_sizes[0] = BROWSER_DEFAULT_STR;
     show_preference(
-        _('Font Size'), 'v_fnts', 'v_fontsize',
+        _('Font Size'),
+        'v_fnts',
+        'v_fontsize',
         $user->profile->v_fnts,
         'dropdown',
         $proofreading_font_sizes
     );
     show_preference(
-        _('Font Size'), 'h_fnts', 'h_fontsize',
+        _('Font Size'),
+        'h_fnts',
+        'h_fontsize',
         $user->profile->h_fnts,
         'dropdown',
         $proofreading_font_sizes
@@ -547,14 +600,18 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Text Frame Size'), 'v_tframe', 'v_textsize',
+        _('Text Frame Size'),
+        'v_tframe',
+        'v_textsize',
         $user->profile->v_tframe,
         'numberfield',
         // xgettext:no-php-format
         ['5em', 'required', _("% of browser width")]
     );
     show_preference(
-        _('Text Frame Size'), 'h_tframe', 'h_textsize',
+        _('Text Frame Size'),
+        'h_tframe',
+        'h_textsize',
         $user->profile->h_tframe,
         'numberfield',
         // xgettext:no-php-format
@@ -564,13 +621,17 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Scroll Text Frame'), 'v_tscroll', 'v_scroll',
+        _('Scroll Text Frame'),
+        'v_tscroll',
+        'v_scroll',
         $user->profile->v_tscroll,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
     );
     show_preference(
-        _('Scroll Text Frame'), 'h_tscroll', 'h_scroll',
+        _('Scroll Text Frame'),
+        'h_tscroll',
+        'h_scroll',
         $user->profile->h_tscroll,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
@@ -579,13 +640,17 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Number of Text Lines'), 'v_tlines', 'v_textlines',
+        _('Number of Text Lines'),
+        'v_tlines',
+        'v_textlines',
         $user->profile->v_tlines,
         'numberfield',
         ['5em', 'required', ""]
     );
     show_preference(
-        _('Number of Text Lines'), 'h_tlines', 'h_textlines',
+        _('Number of Text Lines'),
+        'h_tlines',
+        'h_textlines',
         $user->profile->h_tlines,
         'numberfield',
         ['5em', 'required', ""]
@@ -594,13 +659,17 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Length of Text Lines'), 'v_tchars', 'v_textlength',
+        _('Length of Text Lines'),
+        'v_tchars',
+        'v_textlength',
         $user->profile->v_tchars,
         'numberfield',
         ['5em', 'required', " "._("characters")]
     );
     show_preference(
-        _('Length of Text Lines'), 'h_tchars', 'h_textlength',
+        _('Length of Text Lines'),
+        'h_tchars',
+        'h_textlength',
         $user->profile->h_tchars,
         'numberfield',
         ['5em', 'required', " "._("characters")]
@@ -609,13 +678,17 @@ function echo_proofreading_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Wrap Text'), 'v_twrap', 'v_wrap',
+        _('Wrap Text'),
+        'v_twrap',
+        'v_wrap',
         $user->profile->v_twrap,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
     );
     show_preference(
-        _('Wrap Text'), 'h_twrap', 'h_wrap',
+        _('Wrap Text'),
+        'h_twrap',
+        'h_wrap',
         $user->profile->h_twrap,
         'radio_group',
         [1 => _("Yes"), 0 => _("No")]
@@ -691,7 +764,9 @@ function echo_pm_tab($user)
     echo "<tr>\n";
     show_preference(
         // TRANSLATORS: PM = project manager
-        _('Default PM Page'), 'pm_view', 'pmdefault',
+        _('Default PM Page'),
+        'pm_view',
+        'pmdefault',
         $userSettings->get_value('pm_view', "user_all"),
         'dropdown',
         $pm_view_options
@@ -702,7 +777,9 @@ function echo_pm_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Automatically watch your project threads'), 'auto_proj_thread', 'auto_thread',
+        _('Automatically watch your project threads'),
+        'auto_proj_thread',
+        'auto_thread',
         ($auto_proj_thread ? 'yes' : 'no'),
         'dropdown',
         ['yes' => _('Yes'), 'no' => _('No')]
@@ -713,7 +790,9 @@ function echo_pm_tab($user)
 
     echo "<tr>\n";
     show_preference(
-        _('Automatically send your projects to the post-processing pool'), 'send_to_post', 'pmto_post',
+        _('Automatically send your projects to the post-processing pool'),
+        'send_to_post',
+        'pmto_post',
         ($send_to_post ? 'yes' : 'no'),
         'dropdown',
         ['yes' => _('Yes'), 'no' => _('No')]
@@ -756,11 +835,13 @@ function echo_bottom_button_row()
 // ---------------------------------------------------------
 
 function show_preference(
-    $label, $field_name, $pophelp_name,
+    $label,
+    $field_name,
+    $pophelp_name,
     $current_value,
     $type,
-    $extras)
-{
+    $extras
+) {
     th_label($label);
 
     echo "<td>";
@@ -940,8 +1021,8 @@ function show_link_as_if_preference(
     $label,
     $pophelp_name,
     $link_url,
-    $link_text)
-{
+    $link_text
+) {
     th_label($label);
     echo "<td>";
     echo "<a href='$link_url'>$link_text</a>";

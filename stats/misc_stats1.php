@@ -39,7 +39,8 @@ if (isset($start) && isset($end)) {
          AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY < $end_timestamp",
         "GROUP BY 1",
         "ORDER BY 1",
-        "");
+        ""
+    );
     $result = DPDatabase::query($sql);
     [$datax, $datay] = dpsql_fetch_columns($result);
     $graph_config = [
@@ -140,7 +141,9 @@ function show_top_days($n, $when)
             "",
             "ORDER BY 2 DESC",
             "LIMIT $n"
-        ), 1, DPSQL_SHOW_RANK
+        ),
+        1,
+        DPSQL_SHOW_RANK
     );
 
     echo "<br>\n";
@@ -190,7 +193,9 @@ function show_month_sums($which)
             "GROUP BY 1",
             "ORDER BY $order",
             $limit
-        ), 1, DPSQL_SHOW_RANK
+        ),
+        1,
+        DPSQL_SHOW_RANK
     );
 
     echo "<br>\n";
@@ -215,7 +220,9 @@ function show_months_with_most_days_over($n)
             "GROUP BY 1",
             "ORDER BY 2 DESC",
             "LIMIT 10"
-        ), 1, DPSQL_SHOW_RANK
+        ),
+        1,
+        DPSQL_SHOW_RANK
     );
 
     echo "<br>\n";

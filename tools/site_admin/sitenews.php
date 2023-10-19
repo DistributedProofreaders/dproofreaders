@@ -115,7 +115,8 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
         case 'add':
             // Save a new site news item
             $content = strip_tags($content, $allowed_tags);
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 INSERT INTO news_items
                 SET
                     id           = NULL,
@@ -126,13 +127,15 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
                     item_type    = LEFT('%s', 16),
                     header       = LEFT('%s', 256),
                     content      = '%s'
-            ", DPDatabase::escape($news_page_id),
-               time(),
-               DPDatabase::escape($item_status),
-               DPDatabase::escape($locale),
-               DPDatabase::escape($item_type),
-               DPDatabase::escape($header),
-               DPDatabase::escape($content));
+            ",
+                DPDatabase::escape($news_page_id),
+                time(),
+                DPDatabase::escape($item_status),
+                DPDatabase::escape($locale),
+                DPDatabase::escape($item_type),
+                DPDatabase::escape($header),
+                DPDatabase::escape($content)
+            );
             DPDatabase::query($sql);
             // by default, new items go at the top
             $sql = "
@@ -188,7 +191,8 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
         case 'edit_update':
             // Save an update to a specific site news item
             $content = strip_tags($content, $allowed_tags);
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE news_items
                 SET
                     status    = LEFT('%s', 8),
@@ -197,12 +201,14 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
                     header    = LEFT('%s', 256),
                     content   = '%s'
                 WHERE id = %d
-            ", DPDatabase::escape($item_status),
-               DPDatabase::escape($locale),
-               DPDatabase::escape($item_type),
-               DPDatabase::escape($header),
-               DPDatabase::escape($content),
-               $item_id);
+            ",
+                DPDatabase::escape($item_status),
+                DPDatabase::escape($locale),
+                DPDatabase::escape($item_type),
+                DPDatabase::escape($header),
+                DPDatabase::escape($content),
+                $item_id
+            );
             DPDatabase::query($sql);
 
             $sql = sprintf("
@@ -345,13 +351,16 @@ function show_all_news_items_for_page($news_page_id)
     foreach ($categories as $category) {
         $status = $category['status'];
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT *
             FROM news_items
             WHERE news_page_id = '%s' AND status = '%s'
             ORDER BY {$category['order_by']}
-        ", DPDatabase::escape($news_page_id),
-           DPDatabase::escape($status));
+        ",
+            DPDatabase::escape($news_page_id),
+            DPDatabase::escape($status)
+        );
         $result = DPDatabase::query($sql);
 
         if (mysqli_num_rows($result) == 0) {
@@ -417,11 +426,14 @@ function update_news_item_status($item_id, $status)
 
 function news_change_made($news_page_id)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         REPLACE INTO news_pages
         SET news_page_id = '%s', t_last_change = %d
-    ", DPDatabase::escape($news_page_id),
-       time());
+    ",
+        DPDatabase::escape($news_page_id),
+        time()
+    );
     DPDatabase::query($sql);
 }
 

@@ -46,8 +46,10 @@ if ($pagesproofed <= 100 && $ELR_round->id == $round_id) {
     if ($pagesproofed > 80) {
         echo "<p class='small italic'>";
         // TRANSLATORS: Simple Proofreading Rules are the strings listed in pinc/simple_proof_text.inc
-        printf(_("After you proofread a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available <a href='%s'>here</a> if you wish to refer to them later. (You can bookmark that link if you like.)"),
-            "$code_url/faq/simple_proof_rules.php");
+        printf(
+            _("After you proofread a few more pages, the following introductory Simple Proofreading Rules will be removed from this page. However, they are permanently available <a href='%s'>here</a> if you wish to refer to them later. (You can bookmark that link if you like.)"),
+            "$code_url/faq/simple_proof_rules.php"
+        );
         echo "</p>";
     }
 
@@ -65,8 +67,10 @@ if ($rule && $pagesproofed >= 10) {
 
     if ($pagesproofed < 40) {
         echo "<p class='sans-serif small italic'>";
-        printf(_("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the <a href='%s'>Guidelines</a> and displayed in this section"),
-            $round_doc_url);
+        printf(
+            _("Now that you have proofread 10 pages you can see the Random Rule. Every time this page is refreshed, a random rule is selected from the <a href='%s'>Guidelines</a> and displayed in this section"),
+            $round_doc_url
+        );
         echo "<br>";
         echo _("(This explanatory line will eventually vanish.)");
         echo "</p>";
@@ -77,9 +81,11 @@ if ($rule && $pagesproofed >= 10) {
     echo "<i>".$rule->subject."</i><br>";
     echo "<p>".$rule->rule."</p>";
     // TRANSLATORS: %1$s is the linked name of a random Guideline section.
-    printf(_("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
+    printf(
+        _("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
         "<a href='$round_doc_url#".$rule->anchor."'>".$rule->subject."</a>",
-        $round_doc_url);
+        $round_doc_url
+    );
     echo "</div>";
 }
 

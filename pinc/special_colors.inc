@@ -49,7 +49,9 @@ function load_special_days($load_common = false)
                 "color" => '#' . $row['color'],
 
                 // provide a localized option label
-                "option_label" => sprintf("%s (%s)", $row["display_name"],
+                "option_label" => sprintf(
+                    "%s (%s)",
+                    $row["display_name"],
                     date_format(
                         date_create(
                             sprintf("2000-%02d-%02d", $row["open_month"], $row["open_day"])
@@ -71,16 +73,24 @@ function sort_special_days(&$special_days, $sort_by = "display_name")
 
     if ($sort_by == "display_name") {
         array_multisort(
-            $display_name, SORT_NATURAL, SORT_ASC,
+            $display_name,
+            SORT_NATURAL,
+            SORT_ASC,
             $special_days
         );
     } elseif ($sort_by == "open_month,open_day") {
         $open_month = array_column($special_days, "open_month");
         $open_day = array_column($special_days, "open_day");
         array_multisort(
-            $open_month, SORT_NUMERIC, SORT_ASC,
-            $open_day, SORT_NUMERIC, SORT_ASC,
-            $display_name, SORT_NATURAL, SORT_ASC,
+            $open_month,
+            SORT_NUMERIC,
+            SORT_ASC,
+            $open_day,
+            SORT_NUMERIC,
+            SORT_ASC,
+            $display_name,
+            SORT_NATURAL,
+            SORT_ASC,
             $special_days
         );
     } else {

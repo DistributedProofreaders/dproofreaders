@@ -288,8 +288,12 @@ function main_form()
             } else {
                 $percent_translated = 0;
             }
-            echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
-                $translated_strings, $total_strings, $percent_translated);
+            echo sprintf(
+                _('%1$s of %2$s translated (%3$d%%)'),
+                $translated_strings,
+                $total_strings,
+                $percent_translated
+            );
             echo "</td>";
         } else {
             echo "<td></td>";
@@ -381,9 +385,12 @@ function manage_form($locale)
             . date("F d Y H:i:s", $po_file->last_modified) . ")";
 
         echo " - ";
-        echo sprintf(_('%1$s of %2$s translated (%3$d%%)'),
-            $translated_strings, $total_strings,
-            $translated_strings / $total_strings * 100);
+        echo sprintf(
+            _('%1$s of %2$s translated (%3$d%%)'),
+            $translated_strings,
+            $total_strings,
+            $translated_strings / $total_strings * 100
+        );
         echo "</p>";
 
         $pot_filename = "$dyn_locales_dir/messages.pot";
@@ -433,7 +440,8 @@ function manage_form($locale)
         echo "<input type='hidden' name='locale' value='$locale'>";
         $confirm = javascript_safe(
             _("Are you sure you want to delete this locale and its translation file?"),
-            $charset);
+            $charset
+        );
         echo "<input type='submit' onClick='return confirm(\"$confirm\");' value='"
             . attr_safe(_("Delete this locale")) . "'> ";
         echo _("Delete the locale directory, PO file and MO file.") . "<br>\n";

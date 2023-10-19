@@ -577,7 +577,7 @@ $messages["G_extrah"] = [
     "message_body" => sprintf(
         _("Vowels in Greek words can have the following diacritical marks (accents): %s When transliterating Greek, you should ignore all of these except for the first one (the 'rough breathing' mark), which is curved like a C."),
         "\n<br><img src='images/Greek_accents.png' width='200' height='33'><br>\n"
-        ),
+    ),
     "wiki_ref" => sprintf(_("See the <a href='%s#Diacritical_Marks' target='_blank'>Diacritical Marks</a> section of the wiki page for details."), $Greek_translit_url),
 ];
 $messages["G_smooth_rough"] = [

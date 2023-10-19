@@ -445,7 +445,8 @@ function stripAllString($ttext)
     return str_replace(
         ['[b]', '[B]', '[/b]', '[/B]', '[i]', '[I]', '[/i]', '[/I]', '[p]', '[P]', '[/p]', '[/P]', '[lb]', '[LB]'],
         ['<b>', '<b>', '</b>', '</b>', '<i>', '<i>', '</i>', '</i>', '<p>', '<p>', '</p>', '</p>', '<br>', '<br>'],
-        html_safe(strip_tags($ttext), ENT_NOQUOTES));
+        html_safe(strip_tags($ttext), ENT_NOQUOTES)
+    );
 }
 
 function unstripAllString($ttext)
@@ -453,7 +454,8 @@ function unstripAllString($ttext)
     return str_replace(
         ['<b>', '</b>', '<i>', '</i>', '<p>', '</p>', '<br>'],
         ['[b]', '[/b]', '[i]', '[/i]', '[p]', '[/p]', '[lb]'],
-        $ttext);
+        $ttext
+    );
 }
 
 function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)

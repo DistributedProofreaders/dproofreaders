@@ -6,7 +6,8 @@ function insert_job_log_entry($filename, $event, $comments, $tracetime = null)
         $tracetime = time();
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO job_logs (filename, tracetime, event, comments)
         VALUES ('%s', %d, '%s', '%s')
     ",

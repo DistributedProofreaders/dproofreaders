@@ -70,15 +70,18 @@ class Quiz
             $pages_required_results[$quiz_page_id] = null;
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT quiz_page, date
             FROM quiz_passes
             WHERE username = '%s'
                 AND quiz_page IN (%s)
                 AND result = 'pass'
             ORDER BY date
-        ", DPDatabase::escape($username),
-            surround_and_join(array_keys($this->pages), '"', '"', ","));
+        ",
+            DPDatabase::escape($username),
+            surround_and_join(array_keys($this->pages), '"', '"', ",")
+        );
         $result = DPDatabase::query($sql);
 
         while ($attempt = mysqli_fetch_object($result)) {
@@ -283,20 +286,24 @@ function record_quiz_attempt($username, $quiz_page_id, $result)
 
     if (mysqli_num_rows($res) > 0) {
         // The user has already passed this page; update the timestamp
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE quiz_passes
             SET date = %d
             WHERE username = '%s' AND quiz_page = '%s'
-        ", time(),
+        ",
+            time(),
             DPDatabase::escape($username),
             DPDatabase::escape($quiz_page_id)
         );
         DPDatabase::query($sql);
     } else {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO quiz_passes
             VALUES ('%s', %d, '%s', '%s')
-        ", DPDatabase::escape($username),
+        ",
+            DPDatabase::escape($username),
             time(),
             DPDatabase::escape($quiz_page_id),
             DPDatabase::escape($result)

@@ -18,11 +18,11 @@ $project = new Project($projectid);
 if (!is_null($zip_type)) {
     switch ($zip_type) {
         case "illos":
-           $files_list = $project->get_illustrations();
-           break;
+            $files_list = $project->get_illustrations();
+            break;
         case "pages":
-           $files_list = $project->get_page_names_from_db();
-           break;
+            $files_list = $project->get_page_names_from_db();
+            break;
         default:
             throw new InvalidArgumentException("Invalid image type specified");
     }

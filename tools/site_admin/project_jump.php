@@ -124,8 +124,13 @@ function do_stuff($projectid, $new_state, $just_checking)
     ", DPDatabase::escape($new_state), DPDatabase::escape($projectid));
     DPDatabase::query($sql);
     echo "    jumped to : $new_state\n";
-    $project->log_project_event($pguser, 'transition', $project->state,
-                       $new_state, 'Project jumped to correct state');
+    $project->log_project_event(
+        $pguser,
+        'transition',
+        $project->state,
+        $new_state,
+        'Project jumped to correct state'
+    );
     echo "</pre>";
 }
 

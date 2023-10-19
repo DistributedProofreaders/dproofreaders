@@ -46,7 +46,8 @@ if (!$resolution) {
     validate_projectID($projectid);
     $sql = sprintf(
         "SELECT * FROM $projectid WHERE image='%s'",
-        DPDatabase::escape($image));
+        DPDatabase::escape($image)
+    );
     $result = DPDatabase::query($sql);
     $page = mysqli_fetch_assoc($result);
     $state = $page['state'];
@@ -323,16 +324,23 @@ function update_image($projectid, $image)
             echo "<p><b>" . sprintf(_("Update of Original Image %s Complete!"), $image) . "</b></p>";
         } else {
             echo "<p class='error'>"._("Image NOT updated.<br>");
-            echo sprintf(_("The uploaded file type (%1\$s) does not match the original file type (%2\$s)."),
-                $tmp_image_ext, $org_image_ext) . "</p>";
-            echo "<p>" . sprintf(_("Click <a href='%s'>here</a> to return."),
-                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</p>";
+            echo sprintf(
+                _("The uploaded file type (%1\$s) does not match the original file type (%2\$s)."),
+                $tmp_image_ext,
+                $org_image_ext
+            ) . "</p>";
+            echo "<p>" . sprintf(
+                _("Click <a href='%s'>here</a> to return."),
+                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image"
+            ) . "</p>";
             exit;
         }
     } else {
         echo "<p class='error'>"._("The uploaded file must be a PNG or JPG file!") . "</p>";
-        echo "<p>". sprintf(_("Click <a href='%s'>here</a> to return."),
-                "handle_bad_page.php?projectid=$projectid&image=$image&modify=image") . "</p>";
+        echo "<p>". sprintf(
+            _("Click <a href='%s'>here</a> to return."),
+            "handle_bad_page.php?projectid=$projectid&image=$image&modify=image"
+        ) . "</p>";
         exit;
     }
 }

@@ -122,7 +122,8 @@ function _show_round_queues($round, $listing_view_mode)
         echo "</tr>\n";
     }
 
-    $q_sql = sprintf("
+    $q_sql = sprintf(
+        "
         SELECT *
         FROM queue_defns
         WHERE round_id='%s' AND ((%s) OR (SUBSTR(name, 1, 1) = '*'))
@@ -156,7 +157,8 @@ function _show_round_queues($round, $listing_view_mode)
             $errors[] = sprintf(
                 _('There is a syntax error in the project selector for #%1$d "%2$s"'),
                 $qd->ordering,
-                $qd->name);
+                $qd->name
+            );
             $link_cell = html_safe($qd->name);
         } else {
             $ename = urlencode($qd->name);
@@ -212,7 +214,8 @@ function _show_queue_details($round, $name, $unheld_only)
 {
     global $code_url, $user_can_see_queue_settings;
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM queue_defns
         WHERE round_id='%s' AND name='%s'",

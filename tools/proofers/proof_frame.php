@@ -101,8 +101,10 @@ if (isset($_GET['page_state'])) {
         if ($project->can_be_managed_by_user($pguser)) {
             $body = $err . "<br> " . return_to_project_page_link($projectid);
         } else {
-            $body = $err . "<br> " . sprintf(_("Return to the <a %s>project listing page</a>."),
-                "href='round.php?round_id={$round->id}' target='_top'");
+            $body = $err . "<br> " . sprintf(
+                _("Return to the <a %s>project listing page</a>."),
+                "href='round.php?round_id={$round->id}' target='_top'"
+            );
         }
         $title = _("Unable to get an available page");
         slim_header($title);

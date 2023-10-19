@@ -404,7 +404,8 @@ function do_project_info_table()
         $cooked_reason = preg_replace(
             '/\b(projectID[0-9a-f]{13})\b/',
             '<a href="project.php?id=\1">\1</a>',
-            $project->deletion_reason);
+            $project->deletion_reason
+        );
         echo_row_a(_("Reason for Deletion"), $cooked_reason);
     }
 
@@ -474,12 +475,14 @@ function do_project_info_table()
     echo_row_a(
         _("Last Edit of Project Info"),
         icu_date_template("long+time", $project->t_last_edit)
-        . $current_time_addition);
+        . $current_time_addition
+    );
 
     echo_row_a(
         _("Last State Change"),
         icu_date_template("long+time", $project->modifieddate),
-        true);
+        true
+    );
 
     if ($round) {
         $last_proofread_time = $project->get_last_proofread_time($round);
@@ -533,8 +536,11 @@ function do_project_info_table()
         echo_row_a(
             _("PG etext number"),
             $postednum . " &ndash; " .
-            sprintf(_("<a href='%s'>Read this text</a> at Project Gutenberg"),
-                 get_pg_catalog_url_for_etext($postednum)));
+            sprintf(
+                _("<a href='%s'>Read this text</a> at Project Gutenberg"),
+                get_pg_catalog_url_for_etext($postednum)
+            )
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -653,9 +659,9 @@ function do_project_info_table()
 
         if ($round) {
             $a = sprintf(
-                    _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
-                    get_faq_url($round->document)
-                );
+                _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
+                get_faq_url($round->document)
+            );
             $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
 
             $time_str = icu_date_template("long+time", $project->t_last_change_comments);
@@ -775,7 +781,12 @@ function recentlyproofed($wlist)
             $timestamp = $row[$round->time_column_name];
             $pagestate = $row["state"];
             $eURL = url_for_pi_do_particular_page(
-                $projectid, $state, $imagefile, $pagestate, true);
+                $projectid,
+                $state,
+                $imagefile,
+                $pagestate,
+                true
+            );
 
             if ($row["wordcheck_status"] == null) {
                 $wordcheck_status = '';
@@ -897,7 +908,8 @@ function do_early_uploads()
                 _('For FTP uploads, use host=%1$s account=%2$s password=%3$s'),
                 "<b>$uploads_host</b>",
                 "<b>$uploads_account</b>",
-                "<i>" . html_safe($uploads_password) . "</i>");
+                "<i>" . html_safe($uploads_password) . "</i>"
+            );
         }
 
         echo "</p>";
@@ -1141,8 +1153,8 @@ function do_history()
 
         $event_type = $event['event_type'];
         echo "<td>",
-             array_get($event_type_labels, $event_type, $event_type),
-             "</td>\n";
+        array_get($event_type_labels, $event_type, $event_type),
+        "</td>\n";
         // count columns so we can fill up space after
         $spare_cols = 3;
 

@@ -105,8 +105,10 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
         $frame1 = "../../activity_hub.php";
         $title = _("Stop Proofreading");
 
-        $body = sprintf(_("Return to the <a %s>Activity Hub</a>."),
-                                       "href='$frame1' target='_top'");
+        $body = sprintf(
+            _("Return to the <a %s>Activity Hub</a>."),
+            "href='$frame1' target='_top'"
+        );
         slim_header($title);
         echo $body;
         exit;

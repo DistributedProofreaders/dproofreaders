@@ -136,7 +136,8 @@ if (isset($_POST) && count($_POST) > 0) {
         $sql = sprintf(
             "UPDATE authors SET enabled = '%s' WHERE author_id = %d",
             DPDatabase::escape($enable_author_values[$i]),
-            $enable_author_ids[$i]);
+            $enable_author_ids[$i]
+        );
         DPDatabase::query($sql);
     }
 }

@@ -18,7 +18,8 @@ function log_access_change($subject_username, $modifier_username, $activity_id, 
 
 function get_first_granted_date($username, $stage)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT timestamp
         FROM access_log
         WHERE subject_username = '%s'
@@ -42,7 +43,8 @@ function get_first_granted_date($username, $stage)
 
 function get_latest_access_change_entry($username, $activity_id)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM access_log
         WHERE subject_username = '%s'

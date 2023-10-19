@@ -108,7 +108,8 @@ mysqli_free_result($result);
 $pp_date = "";
 
 // earliest transition from PPV.avail to PPV.checked out
-$sql = sprintf("SELECT timestamp FROM project_events
+$sql = sprintf(
+    "SELECT timestamp FROM project_events
     WHERE projectid = '%s'
       AND event_type = 'transition'
       AND details1 = '%s'
@@ -117,7 +118,8 @@ $sql = sprintf("SELECT timestamp FROM project_events
     LIMIT 1",
     DPDatabase::escape($projectid),
     DPDatabase::escape(PROJ_POST_SECOND_AVAILABLE),
-    DPDatabase::escape(PROJ_POST_SECOND_CHECKED_OUT));
+    DPDatabase::escape(PROJ_POST_SECOND_CHECKED_OUT)
+);
 $result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 mysqli_free_result($result);
@@ -125,7 +127,8 @@ if ($row) {
     $earliest_in_ppv = $row["timestamp"];
 
     // latest transition from PP.checked out to PPV.avail
-    $sql = sprintf("SELECT timestamp FROM project_events
+    $sql = sprintf(
+        "SELECT timestamp FROM project_events
         WHERE projectid = '%s'
           AND event_type = 'transition'
           AND details1 = '%s'
@@ -416,8 +419,11 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             _("Post-Processed by"),
             $project->postproofer
                 . "<br>"
-                . sprintf(_("Number of posted books post-processed by %1\$s: %2\$d"),
-                    $project->postproofer, $number_post_processed)
+                . sprintf(
+                    _("Number of posted books post-processed by %1\$s: %2\$d"),
+                    $project->postproofer,
+                    $number_post_processed
+                )
         )
         . tr_w_two_cells(
             _("Submitted by PP on"),
@@ -574,7 +580,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         } else {
             $message = sprintf(
                 _("There were problems with %d form inputs, as detailed below. Please fix them and re-submit."),
-                $n_form_problems);
+                $n_form_problems
+            );
         }
         echo "\n<p class='form_problem'>$message</p>\n";
 

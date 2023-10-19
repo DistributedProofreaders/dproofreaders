@@ -196,8 +196,8 @@ function get_indicated_LPage(
     $proj_state,
     $imagefile,
     $page_state,
-    $reverting_to_orig)
-{
+    $reverting_to_orig
+) {
     // Make sure project is still in same state.
     // can throw NonexistentProjectException
     $project = new Project($projectid);
@@ -227,7 +227,10 @@ function get_indicated_LPage(
     if ($page_state != $current_page_state) {
         $err = sprintf(
             _('Page %1$s has changed state from %2$s to %3$s, so your request is invalid.'),
-            $imagefile, $page_state, $current_page_state);
+            $imagefile,
+            $page_state,
+            $current_page_state
+        );
         throw new ProjectPageException($err);
     }
 
@@ -409,7 +412,8 @@ class LPage
         // TRANSLATORS: %s is a url
         $body_blurb_messages[] = sprintf(
             _("Please visit %s to make any needed changes and make the page available for proofreading again."),
-            "$code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}");
+            "$code_url/tools/project_manager/handle_bad_page.php?projectid={$this->projectid}&image={$this->imagefile}"
+        );
         $body_blurb_messages[] = _("Until this report has been resolved, the project will not be able to leave the current round.");
         $body_blurb_messages[] = _("If 10 pages are marked bad by at least 3 different users, the project will automatically be made unavailable.");
         $body_blurb = implode("\n\n", $body_blurb_messages);
@@ -464,7 +468,9 @@ class LPage
             if ($pguser != $current_round_user) {
                 $err = sprintf(
                     _('You (%1$s) do not have the necessary access to page %2$s'),
-                    $pguser, $this->imagefile);
+                    $pguser,
+                    $this->imagefile
+                );
                 throw new ProjectPageException($err);
             }
         }

@@ -110,8 +110,11 @@ class User
     public function __set($name, $value)
     {
         if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
-            throw new DomainException(sprintf(
-                _("%s is an immutable field"), $name)
+            throw new DomainException(
+                sprintf(
+                    _("%s is an immutable field"),
+                    $name
+                )
             );
         }
 
@@ -211,14 +214,20 @@ class User
 
         $result = DPDatabase::query($sql);
         if (mysqli_num_rows($result) == 0) {
-            throw new NonexistentUserException(sprintf(
-                _('No user found with %1$s = %2$s'),
-                    $field, $value)
+            throw new NonexistentUserException(
+                sprintf(
+                    _('No user found with %1$s = %2$s'),
+                    $field,
+                    $value
+                )
             );
         } elseif (mysqli_num_rows($result) > 1) {
-            throw new NonuniqueUserException(sprintf(
-                _('Multiple users found with %1$s = %2$s'),
-                    $field, $value)
+            throw new NonuniqueUserException(
+                sprintf(
+                    _('Multiple users found with %1$s = %2$s'),
+                    $field,
+                    $value
+                )
             );
         }
         $this->table_row = mysqli_fetch_assoc($result);
@@ -229,9 +238,12 @@ class User
         // existing username in case and whitespace by doing a PHP string
         // compare.
         if ($strict and $field == 'username' and $this->username != $value) {
-            throw new NonexistentUserException(sprintf(
-                _('No user found with %1$s = %2$s'),
-                    $field, $value)
+            throw new NonexistentUserException(
+                sprintf(
+                    _('No user found with %1$s = %2$s'),
+                    $field,
+                    $value
+                )
             );
         }
 

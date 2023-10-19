@@ -669,8 +669,11 @@ function define_bad_byte_sequences()
                 ];
                 foreach ($midways as $before => $after) {
                     if (strpos($utf8_enc, $before)) {
-                        $description_m = sprintf("double-UTF8-encoded with midway conversion of x%02x to x%02x",
-                            ord($before), ord($after));
+                        $description_m = sprintf(
+                            "double-UTF8-encoded with midway conversion of x%02x to x%02x",
+                            ord($before),
+                            ord($after)
+                        );
                         $utf8_enc_m = str_replace($before, $after, $utf8_enc);
                         $double_enc_m = _utf8_encode_string($utf8_enc_m);
                         _install_bad_sequence($double_enc_m, $code_point, $description_m);
@@ -685,8 +688,12 @@ function define_bad_byte_sequences()
     if (0) {
         foreach ($_bad_byte_sequences as $raw => $remarks) {
             [$code_point, $why_bad] = $remarks;
-            echo sprintf("%s: U+%04x %s\n",
-                string_to_hex($raw), $code_point, $why_bad);
+            echo sprintf(
+                "%s: U+%04x %s\n",
+                string_to_hex($raw),
+                $code_point,
+                $why_bad
+            );
         }
     }
 }
@@ -816,7 +823,7 @@ function find_bad_byte_sequences_in_text(&$text)
 
         if (startswith($match, '&#')) {
             @$occurrences[$match] += 1;
-        // So if a page has (say) both &#62; and &#x3e;,
+            // So if a page has (say) both &#62; and &#x3e;,
             // those will show up separately in $occurrences.
             // But that seems unlikely, and not a big deal if it does happen.
         } elseif (array_key_exists($match, $_bad_byte_sequences)) {

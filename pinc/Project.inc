@@ -206,7 +206,8 @@ class Project
 
     private function _load_from_db($projectid)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT *
             FROM projects
             WHERE projectid = '%s'",
@@ -288,8 +289,10 @@ class Project
         foreach ($user_fields as $field) {
             // only check non-empty fields
             if (!preg_match('/^\s*$/', $this->$field) && !User::is_valid_user($this->$field)) {
-                $errors[] = sprintf(_("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
-                    $labels[$field]);
+                $errors[] = sprintf(
+                    _("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
+                    $labels[$field]
+                );
             }
         }
 
@@ -355,7 +358,8 @@ class Project
             if (! preg_match('/^[1-9][0-9]*$/', $this->postednum)) {
                 $errors[] = sprintf(
                     _("Posted Number \"%s\" is not of the correct format."),
-                    $this->postednum);
+                    $this->postednum
+                );
                 // Occasionally, there will be a PG ebook that is still
                 // under U.S. copyright. This is indicated in their system
                 // by appending a 'C' to the etext number. The link to
@@ -612,7 +616,8 @@ class Project
             'Undefined property via __get(): ' . $name .
             ' in ' . $trace[0]['file'] .
             ' on line ' . $trace[0]['line'],
-            E_USER_NOTICE);
+            E_USER_NOTICE
+        );
         return null;
     }
 
@@ -764,7 +769,8 @@ class Project
     {
         $charsuite = CharSuites::resolve($charsuite);
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT projectid
             FROM project_charsuites
             WHERE charsuite_name='%s'",
@@ -825,7 +831,8 @@ class Project
                 $charsuite->title
             ));
         }
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO project_charsuites
             SET projectid='%s', charsuite_name='%s'",
             DPDatabase::escape($this->projectid),
@@ -842,7 +849,8 @@ class Project
         if (!in_array($charsuite, $existing_charsuites)) {
             return;
         }
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE FROM project_charsuites
             WHERE projectid='%s' AND charsuite_name='%s'",
             DPDatabase::escape($this->projectid),
@@ -864,7 +872,8 @@ class Project
         }
 
         // load regular character suites
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT charsuite_name
             FROM project_charsuites
             WHERE projectid='%s'",
@@ -1290,7 +1299,8 @@ class Project
             $post_body,
             $this->username,
             true,
-            $sign_PM_up);
+            $sign_PM_up
+        );
 
         // if topic_id is NULL, something went wrong when creating the topic
         if ($topic_id === null) {
@@ -1298,7 +1308,8 @@ class Project
         }
 
         // Save $topic_id in db and in $this.
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE projects
             SET topic_id=%d
             WHERE projectid='%s'",
@@ -1339,7 +1350,8 @@ class Project
     public function log_project_event($who, $event_type, $details1 = '', $details2 = '', $details3 = '')
     {
         validate_projectID($this->projectid);
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO project_events
             SET
                 timestamp  = UNIX_TIMESTAMP(),
@@ -1349,12 +1361,14 @@ class Project
                 details1   = '%s',
                 details2   = '%s',
                 details3   = '%s'
-        ", DPDatabase::escape($this->projectid),
+        ",
+            DPDatabase::escape($this->projectid),
             DPDatabase::escape($who),
             DPDatabase::escape($event_type),
             DPDatabase::escape($details1),
             DPDatabase::escape($details2),
-            DPDatabase::escape($details3));
+            DPDatabase::escape($details3)
+        );
         DPDatabase::query($sql);
     }
 
@@ -1378,7 +1392,8 @@ class Project
     public function get_hold_states()
     {
         $hold_states = [];
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT state
             FROM project_holds
             WHERE projectid='%s'",
@@ -1397,7 +1412,8 @@ class Project
 
         $values = [];
         foreach ($states as $state) {
-            $values[] = sprintf("('%s', '%s', 0)",
+            $values[] = sprintf(
+                "('%s', '%s', 0)",
                 DPDatabase::escape($this->projectid),
                 DPDatabase::escape($state)
             );
@@ -1471,7 +1487,8 @@ class Project
         send_mail_project_manager(
             $this,
             sprintf(_("This project is unable to transition out of %s because it is held. Please review the project and remove the hold. You will receive this notification only once unless you remove and re-add the hold or another page is proofread."), $state),
-            _("Project Held"));
+            _("Project Held")
+        );
         configure_gettext_for_user();
 
         $this->update_hold_state_notify_time($state);
@@ -1570,7 +1587,8 @@ class Project
     {
         $original_marc_array = $marc_record->get_yaz_array();
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO marc_records
             SET
                 projectid      = '%s',
@@ -1586,7 +1604,8 @@ class Project
     public function save_marc_record($marc_record)
     {
         $updated_marc_array = $marc_record->get_yaz_array();
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE marc_records
             SET
                 updated_array = '%s'
@@ -1606,7 +1625,8 @@ class Project
     public function load_marc_record()
     {
         $updated_record = new MARCRecord();
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT updated_array
             FROM marc_records
             WHERE projectid = '%s'",
@@ -1746,7 +1766,8 @@ class Project
 
 function project_has_a_hold_in_state($projectid, $state)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM project_holds
         WHERE projectid='%s'
@@ -1901,7 +1922,8 @@ function get_projectID_param($arr, $key, $allownull = false)
     if (isset($projectid) && !is_string($projectid)) {
         throw new InvalidArgumentException(sprintf(
             _("Parameter '%1\$s' is not a valid type"),
-            $key));
+            $key
+        ));
     }
 
     if ($projectid == null && $allownull) {
@@ -1946,7 +1968,8 @@ function get_page_image_param($arr, $key, $allownull = false)
     if (isset($page_name) && !is_string($page_name)) {
         throw new InvalidArgumentException(sprintf(
             _("Parameter '%1\$s' is not a valid type"),
-            $key));
+            $key
+        ));
     }
 
     if ($page_name == null && $allownull) {

@@ -39,7 +39,8 @@ if (isset($_POST['mkPreview'])) {
     showTeamProfile($curTeam, /* $preview= */ true);
     echo "</div><br>";
 } elseif (isset($_POST['mkMake'])) {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT id
         FROM user_teams
         WHERE teamname = '%s'",
@@ -60,7 +61,8 @@ if (isset($_POST['mkPreview'])) {
         showEdit($teamname, $text_data, $teamwebpage, 1, 0);
         echo "<br></div><br>";
     } else {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO user_teams
                 (teamname, team_info, webpage, createdby, owner, created)
             VALUES(LEFT('%s', 50), '%s', LEFT('%s', 255), '%s', %d, %d)
@@ -75,7 +77,8 @@ if (isset($_POST['mkPreview'])) {
         DPDatabase::query($sql);
         $tid = mysqli_insert_id(DPDatabase::get_connection());
         if (!empty($tavatar)) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE user_teams
                 SET avatar='%s'
                 WHERE id = %d",
@@ -87,7 +90,8 @@ if (isset($_POST['mkPreview'])) {
             uploadImages(0, $tid, "avatar");
         }
         if (!empty($ticon)) {
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE user_teams
                 SET icon='%s'
                 WHERE id = %d",

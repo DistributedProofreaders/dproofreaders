@@ -102,7 +102,8 @@ function user_get_ELR_page_tally($username)
     [$joined_with_user_ELR_page_tallies, $user_ELR_page_tally_column] =
         $users_ELR_page_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT $user_ELR_page_tally_column
         FROM users $joined_with_user_ELR_page_tallies
         WHERE username='%s'",
@@ -144,7 +145,8 @@ function user_get_page_tally_neighborhood($tally_name, $username, $radius)
     $tallyboard = new TallyBoard($tally_name, 'U');
     $nb =
         $tallyboard->get_neighborhood(
-            $user->u_id, $radius,
+            $user->u_id,
+            $radius,
             'users',
             'u_id',
             'username, u_privacy, date_created, u_id',
@@ -279,18 +281,21 @@ function get_site_page_tally_summary($tally_name)
     $site_stats->curr_day_goal =
         get_site_tally_goal_summed(
             $tally_name,
-            "date = CURRENT_DATE");
+            "date = CURRENT_DATE"
+        );
 
     $site_stats->prev_day_goal =
         get_site_tally_goal_summed(
             $tally_name,
-            "date = (CURRENT_DATE - INTERVAL 1 DAY)");
+            "date = (CURRENT_DATE - INTERVAL 1 DAY)"
+        );
 
     $site_stats->curr_month_goal =
         get_site_tally_goal_summed(
             $tally_name,
             "YEAR(date) = YEAR(CURRENT_DATE) AND
-            MONTH(date) = MONTH(CURRENT_DATE)");
+            MONTH(date) = MONTH(CURRENT_DATE)"
+        );
 
     // Actuals
 
@@ -309,9 +314,11 @@ function get_site_page_tally_summary($tally_name)
 
     $today = getdate();
     $site_stats->curr_month_actual =
-        $tallyboard->get_delta_sum($holder_id,
+        $tallyboard->get_delta_sum(
+            $holder_id,
             mktime(0, 0, 0, $today['mon'], 1, $today['year']),
-            mktime(0, 0, 0, $today['mon'] + 1, 1, $today['year']))
+            mktime(0, 0, 0, $today['mon'] + 1, 1, $today['year'])
+        )
         +
         $site_stats->curr_day_actual;
 
@@ -320,7 +327,8 @@ function get_site_page_tally_summary($tally_name)
 
 function get_site_tally_goal_summed($tally_name, $date_condition)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT SUM(goal)
         FROM site_tally_goals
         WHERE tally_name = '%s' AND ($date_condition)",
@@ -344,8 +352,8 @@ function select_from_site_past_tallies_and_goals(
     $where,
     $groupby,
     $orderby,
-    $limit)
-{
+    $limit
+) {
     global $SECONDS_TO_YESTERDAY;
 
     if (empty($where)) {

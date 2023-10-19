@@ -14,7 +14,8 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         $yaz_array_b64 = file_get_contents("./data/yaz_array.b64");
         $this->YAZ_ARRAY = unserialize(base64_decode($yaz_array_b64));
         $this->YAZ_ARRAY_STR = base64_decode(
-            file_get_contents("./data/yaz_array_str.b64"));
+            file_get_contents("./data/yaz_array_str.b64")
+        );
     }
 
     private function _load_record()

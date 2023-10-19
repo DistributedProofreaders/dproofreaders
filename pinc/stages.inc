@@ -485,18 +485,17 @@ new Pool(
     null, // access_change_callback
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
-
     PROJ_POST_FIRST_CHECKED_OUT,
     PROJ_POST_FIRST_AVAILABLE,
-
     _("Manager"),
     'username',
-
     [
         "<p>",
         "<b>" . _("First Time Here?") . "</b>",
-        sprintf(_("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
-        "$code_url/faq/post_proof.php"),
+        sprintf(
+            _("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
+            "$code_url/faq/post_proof.php"
+        ),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
         sprintf(_("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx)),
         _("If nothing interests you right now, check back later and there will be more!"),
@@ -539,7 +538,8 @@ function echo_postcomments_instructions()
         If you don't hear back from the PM within a reasonable amount of time,
         let the <a href='%s'>db-req</a> squirrels know about the issues
         so we can get the project fixed."),
-        "$wiki_url/Db-req")
+        "$wiki_url/Db-req"
+    )
         . '</p>';
     echo '<p>'
         . _("Note that your old comments will be replaced by those you enter here.")
@@ -571,25 +571,28 @@ new Pool(
     null, // access_change_callback
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
-
     PROJ_POST_SECOND_CHECKED_OUT,
     PROJ_POST_SECOND_AVAILABLE,
-
     _("Post-Processor"),
     'postproofer',
-
     [
         "<p>",
         _("In this pool, experienced volunteers verify texts that have already been Post-Processed, and mentor new Post-Processors."),
-        sprintf(_("<b>Before working in this pool</b>, please make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a>."),
-            "$code_url/faq/ppv.php"),
-        sprintf(_("The PPV reporting form is <a href='%s'>here</a>."),
-            "$code_url/tools/post_proofers/ppv_report.php"),
+        sprintf(
+            _("<b>Before working in this pool</b>, please make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a>."),
+            "$code_url/faq/ppv.php"
+        ),
+        sprintf(
+            _("The PPV reporting form is <a href='%s'>here</a>."),
+            "$code_url/tools/post_proofers/ppv_report.php"
+        ),
         "</p>",
 
         "<p>",
-        sprintf(_("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
-            get_url_to_view_forum($post_processing_forum_idx)),
+        sprintf(
+            _("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
+            get_url_to_view_forum($post_processing_forum_idx)
+        ),
         "</p>",
     ]
 );

@@ -114,26 +114,32 @@ class Settings
 
     private function _insert_setting_value($settingCode, $value)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO usersettings
                 (username, setting, value)
             VALUES ('%s', '%s', '%s')
-        ", DPDatabase::escape($this->username),
+        ",
+            DPDatabase::escape($this->username),
             DPDatabase::escape($settingCode),
-            DPDatabase::escape($value));
+            DPDatabase::escape($value)
+        );
         DPDatabase::query($sql);
     }
 
     private function _delete_setting_value($settingCode, $value)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE FROM usersettings
             WHERE username = '%s'
                 AND setting = '%s'
                 AND value = '%s'
-        ", DPDatabase::escape($this->username),
+        ",
+            DPDatabase::escape($this->username),
             DPDatabase::escape($settingCode),
-            DPDatabase::escape($value));
+            DPDatabase::escape($value)
+        );
         DPDatabase::query($sql);
     }
 
@@ -242,7 +248,9 @@ class Settings
     {
         if (array_key_exists($settingCode, $this->settings_array) && in_array($value, $this->settings_array[$settingCode])) {
             $this->settings_array[$settingCode] = array_diff(
-                $this->settings_array[$settingCode], [$value]);
+                $this->settings_array[$settingCode],
+                [$value]
+            );
 
             $this->_delete_setting_value($settingCode, $value);
         }
@@ -330,8 +338,10 @@ class Settings
         ", DPDatabase::escape($setting));
 
         if ($value) {
-            $sql .= sprintf(" AND value='%s'",
-                DPDatabase::escape($value));
+            $sql .= sprintf(
+                " AND value='%s'",
+                DPDatabase::escape($value)
+            );
         }
 
         $result = DPDatabase::query($sql);
