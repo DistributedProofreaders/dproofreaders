@@ -530,11 +530,12 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     $value = attr_safe(_("Submit Corrections"));
     $title = attr_safe($word_check_messages['keepCorrectons']);
     echo "<input type='submit' name='spcorrect' id='spcorrect' value='$value' title='$title'>";
-    echo "&nbsp;&nbsp;&nbsp;";
+    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
     $value = attr_safe(_("Quit WordCheck"));
     $title = attr_safe(_("Abandon corrections and return to proofreading this page"));
     echo "<input type='submit' name='spexit' value='$value' title='$title' onClick='return confirmExit();'>";
+    echo "&nbsp;";
 
     $value = attr_safe(_("Save as 'Done' & Proofread Next Page"));
     $title = attr_safe(_("Save page as done and proofread the next available page"));
