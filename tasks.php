@@ -1172,11 +1172,11 @@ function TaskForm($task)
     // Non-managers can only set the task status to New.
     if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         $tasks_status_array = [get_property_key("New", $tasks_status_array) => "New"];
+    } else {
+        // Don't want to permit setting status to "Closed" or "Reopened" when creating/editing a task
+        unset($tasks_status_array[get_property_key("Closed", $tasks_status_array)]);
+        unset($tasks_status_array[get_property_key("Reopened", $tasks_status_array)]);
     }
-
-    // Don't want to permit setting status to "Closed" or "Reopened" when creating/editing a task
-    unset($tasks_status_array[get_property_key("Closed", $tasks_status_array)]);
-    unset($tasks_status_array[get_property_key("Reopened", $tasks_status_array)]);
 
     $task_summary_enc = attr_safe($task->task_summary);
     $task_details_enc = html_safe($task->task_details);
