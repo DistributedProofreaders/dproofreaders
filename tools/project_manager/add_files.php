@@ -322,7 +322,8 @@ class Loader
         $sql = "
             SELECT image
             FROM $this->projectid
-            LIMIT 0";
+            LIMIT 0
+        ";
         $res = DPDatabase::query($sql);
         $field_data = mysqli_fetch_field_direct($res, 0);
         $this->image_field_len = $field_data->length;

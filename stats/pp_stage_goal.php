@@ -22,13 +22,15 @@ $site_stats = get_site_page_tally_summary($round_before_PP);
 $pp_page_goal = $site_stats->curr_month_actual + $page_offset;
 
 // Get the total pages for projects that have posted
-$page_res = DPDatabase::query(sprintf("
-    SELECT 
-    SUM(n_pages)
+$page_res = DPDatabase::query(sprintf(
+    "
+    SELECT SUM(n_pages)
     FROM projects
     WHERE state='proj_submit_pgposted'
-    AND modifieddate >= %d
-", $m_start));
+        AND modifieddate >= %d
+    ",
+    $m_start
+));
 
 $row = mysqli_fetch_row($page_res);
 $pp_pages_total = $row[0];

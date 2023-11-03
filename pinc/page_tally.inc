@@ -106,7 +106,8 @@ function user_get_ELR_page_tally($username)
         "
         SELECT $user_ELR_page_tally_column
         FROM users $joined_with_user_ELR_page_tallies
-        WHERE username='%s'",
+        WHERE username='%s'
+        ",
         DPDatabase::escape($username)
     );
     $res = DPDatabase::query($sql);
@@ -331,7 +332,8 @@ function get_site_tally_goal_summed($tally_name, $date_condition)
         "
         SELECT SUM(goal)
         FROM site_tally_goals
-        WHERE tally_name = '%s' AND ($date_condition)",
+        WHERE tally_name = '%s' AND ($date_condition)
+        ",
         DPDatabase::escape($tally_name)
     );
     $res = DPDatabase::query($sql);

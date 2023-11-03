@@ -19,7 +19,8 @@ if ($dry_run) {
     echo "This is a dry run.\n";
 }
 
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT *
     FROM projects
     WHERE
@@ -27,7 +28,9 @@ $sql = sprintf("
         AND archived = '0'
         AND state = '%s'
     ORDER BY modifieddate
-", DPDatabase::escape(PROJ_SUBMIT_PG_POSTED));
+    ",
+    DPDatabase::escape(PROJ_SUBMIT_PG_POSTED)
+);
 $result = DPDatabase::query($sql);
 
 echo "Archiving page-tables for ", mysqli_num_rows($result), " projects...\n";

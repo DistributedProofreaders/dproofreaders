@@ -36,11 +36,14 @@ class RandomRule
      */
     public function load($id)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT *
             FROM rules
             WHERE id = %d
-        ", $id);
+            ",
+            $id
+        );
 
         $result = DPDatabase::query($sql);
         $this->table_row = mysqli_fetch_assoc($result);
@@ -56,9 +59,10 @@ class RandomRule
             SELECT id
             FROM rules
             WHERE
-                document = '%s' AND
-                anchor = '%s' AND
-                langcode = '%s'",
+                document = '%s'
+                AND anchor = '%s'
+                AND langcode = '%s'
+            ",
             DPDatabase::escape($document),
             DPDatabase::escape($anchor),
             DPDatabase::escape($langcode)
@@ -83,10 +87,11 @@ class RandomRule
             SELECT id
             FROM rules
             WHERE
-                document = '%s' AND
-                langcode = '%s'
+                document = '%s'
+                AND langcode = '%s'
             ORDER BY RAND(NOW())
-            LIMIT 1",
+            LIMIT 1
+            ",
             DPDatabase::escape($document),
             DPDatabase::escape($langcode)
         );
@@ -109,9 +114,10 @@ class RandomRule
             SELECT id
             FROM rules
             WHERE
-                document = '%s' AND
-                langcode = '%s'
-            ORDER BY id",
+                document = '%s'
+                AND langcode = '%s'
+            ORDER BY id
+            ",
             DPDatabase::escape($document),
             DPDatabase::escape($langcode)
         );
@@ -163,8 +169,9 @@ class RandomRule
             DELETE
             FROM rules
             WHERE
-                document = '%s' AND
-                langcode = '%s'",
+                document = '%s'
+                AND langcode = '%s'
+            ",
             DPDatabase::escape($document),
             DPDatabase::escape($langcode)
         );
@@ -272,7 +279,8 @@ class RandomRule
                 langcode = '%s',
                 anchor = '%s',
                 subject = '%s',
-                rule = '%s'",
+                rule = '%s'
+            ",
             DPDatabase::escape($document),
             DPDatabase::escape($langcode),
             DPDatabase::escape($anchor),

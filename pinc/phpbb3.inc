@@ -65,9 +65,10 @@ function phpbb3_create_user(
 
     // get the group_id for the REGISTERED user group
     global $db;
-    $sql = "SELECT group_id
-            FROM {$forums_phpbb_table_prefix}_groups
-            WHERE group_name = 'REGISTERED'
+    $sql = "
+        SELECT group_id
+        FROM {$forums_phpbb_table_prefix}_groups
+        WHERE group_name = 'REGISTERED'
     ";
     $result = $db->sql_query($sql);
     $group_id = (int) $db->sql_fetchfield('group_id');
@@ -193,11 +194,14 @@ function _insert_post(
     } else {
         $username = "Anonymous";
     }
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM {$forums_phpbb_table_prefix}_users
         WHERE username='%s'
-    ", $db->sql_escape($username));
+        ",
+        $db->sql_escape($username)
+    );
     $result = $db->sql_query($sql);
     $row = $db->sql_fetchrow($result);
     if (!$row) {

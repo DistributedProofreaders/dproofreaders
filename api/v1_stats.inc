@@ -17,11 +17,15 @@ function api_v1_stats_site($method, $data, $query_params)
     ];
 
     foreach ([1, 7, 30] as $days_back) {
-        $res = DPDatabase::query(sprintf("
+        $sql = sprintf(
+            "
             SELECT COUNT(*)
             FROM users
             WHERE t_last_activity > UNIX_TIMESTAMP() - %d * 24*60*60
-        ", $days_back));
+            ",
+            $days_back
+        );
+        $res = DPDatabase::query($sql);
         [$num_users] = mysqli_fetch_row($res);
         $key = sprintf("active_users_%d_day", $days_back);
         $stats[$key] = (int)$num_users;

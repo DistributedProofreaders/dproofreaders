@@ -25,7 +25,8 @@ $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(D
 
 while ([$projectid] = mysqli_fetch_row($result)) {
     $project = new Project($projectid);
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT username
         FROM user_project_info
         WHERE projectid = '%s'
@@ -39,7 +40,9 @@ while ([$projectid] = mysqli_fetch_row($result)) {
             AND iste_posted = 0
             AND iste_sr_reported = 0
         ORDER BY username
-    ", DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($projectid)
+    );
 
     $upi_result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
@@ -67,7 +70,7 @@ while ([$projectid] = mysqli_fetch_row($result)) {
         DELETE FROM user_project_info
         WHERE projectid = '%s'
             AND username in (%s)
-    ",
+        ",
         DPDatabase::escape($projectid),
         surround_and_join(array_map("DPDatabase::escape", $upi_users_to_delete), "'", "'", ",")
     );

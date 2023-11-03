@@ -167,7 +167,7 @@ class NonactivatedUser
                 http_referrer = LEFT('%s', 256),
                 u_intlang = '%s',
                 user_password = '%s'
-        ",
+            ",
             $this->table_row["id"],
             DPDatabase::escape($this->username),
             DPDatabase::escape($this->real_name),
@@ -202,9 +202,7 @@ class NonactivatedUser
         }
 
         $sql = sprintf(
-            "
-            DELETE FROM non_activated_users
-            WHERE id = '%s'",
+            "DELETE FROM non_activated_users WHERE id = '%s'",
             DPDatabase::escape($this->id)
         );
         DPDatabase::query($sql);

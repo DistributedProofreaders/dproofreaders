@@ -155,7 +155,7 @@ class ImageSource
                 SELECT *
                 FROM image_sources
                 WHERE code_name = '%s'
-            ", DPDatabase::escape($code_name));
+                ", DPDatabase::escape($code_name));
             $result = DPDatabase::query($sql);
             $source_fields = mysqli_fetch_assoc($result);
 
@@ -419,7 +419,8 @@ class ImageSource
                 info_page_visibility = %d,
                 public_comment = LEFT('%s', 255),
                 internal_comment = '%s',
-                is_active = %d",
+                is_active = %d
+            ",
             DPDatabase::escape($this->code_name),
             DPDatabase::escape($this->display_name),
             DPDatabase::escape($this->full_name),
@@ -480,7 +481,8 @@ class ImageSource
             "
             UPDATE image_sources
             SET $field = '%s'
-            WHERE code_name = '%s'",
+            WHERE code_name = '%s'
+            ",
             DPDatabase::escape($value),
             DPDatabase::escape($this->code_name)
         );

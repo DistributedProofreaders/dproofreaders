@@ -2,11 +2,14 @@
 
 function get_biography($id)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT bio, bio_format
         FROM biographies
         WHERE bio_id = %d
-    ", $id);
+        ",
+        $id
+    );
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
     if (!$row) {

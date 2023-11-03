@@ -79,7 +79,8 @@ $data .= "
 
 //Team members portion of $data
 $data .= "<teammembers>";
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT username, date_created, u_id, u_privacy
     FROM users
     WHERE u_id IN (
@@ -88,7 +89,9 @@ $sql = sprintf("
         WHERE t_id = %d
     )
     ORDER BY username ASC
-", $team_id);
+    ",
+    $team_id
+);
 $mbrQuery = DPDatabase::query($sql);
 while ($curMbr = mysqli_fetch_assoc($mbrQuery)) {
     if ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {

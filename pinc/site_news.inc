@@ -26,11 +26,14 @@ function get_news_subject($news_page_id)
 
 function get_news_page_last_modified_date($news_page_id)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT t_last_change
         FROM news_pages
         WHERE news_page_id = '%s'
-    ", DPDatabase::escape($news_page_id));
+        ",
+        DPDatabase::escape($news_page_id)
+    );
     $res = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($res);
@@ -74,7 +77,7 @@ function show_news_for_page($news_page_id)
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '%s')
         ORDER BY ORDERING DESC
-    ",
+        ",
         DPDatabase::escape($news_page_id),
         DPDatabase::escape($user_locale)
     );
@@ -90,7 +93,7 @@ function show_news_for_page($news_page_id)
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '%s')
         ORDER BY RAND() LIMIT 1
-    ",
+        ",
         DPDatabase::escape($news_page_id),
         DPDatabase::escape($user_locale)
     );

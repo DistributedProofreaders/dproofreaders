@@ -69,7 +69,8 @@ class TallyBoard
                 holder_id   = %d,
                 tally_value = %d
             ON DUPLICATE KEY UPDATE
-                tally_value = tally_value + %d",
+                tally_value = tally_value + %d
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id),
@@ -120,7 +121,8 @@ class TallyBoard
                 $alias.tally_name      = '%s'
                 AND $alias.holder_type = '%s'
                 AND $alias.holder_id   = $holder_id_expr
-            )",
+            )
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type)
         );
@@ -138,7 +140,8 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND tally_value > 0",
+                AND tally_value > 0
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type)
         );
@@ -164,7 +167,8 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND holder_id   = %s",
+                AND holder_id   = %s
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id)
@@ -197,7 +201,8 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-            ORDER BY tally_value DESC",
+            ORDER BY tally_value DESC
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type)
         );
@@ -261,7 +266,8 @@ class TallyBoard
                     AND holder_id   = $holder_id_expr
                 )
             WHERE tally_value > 0 OR $holder_id_expr='$target_holder_id'
-            ORDER BY tally_value DESC, holder_id ASC",
+            ORDER BY tally_value DESC, holder_id ASC
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type)
         );
@@ -350,7 +356,8 @@ class TallyBoard
                 WHERE
                     timestamp       = $prev_ascribe_time
                     AND tally_name  = '%s'
-                    AND holder_type = '%s'",
+                    AND holder_type = '%s'
+                ",
                 DPDatabase::escape($this->tally_name),
                 DPDatabase::escape($this->holder_type)
             );
@@ -366,7 +373,8 @@ class TallyBoard
                 FROM best_tally_rank
                 WHERE
                     tally_name      = '%s'
-                    AND holder_type = '%s'",
+                    AND holder_type = '%s'
+                ",
                 DPDatabase::escape($this->tally_name),
                 DPDatabase::escape($this->holder_type)
             );
@@ -384,7 +392,8 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-            ORDER BY tally_value DESC",
+            ORDER BY tally_value DESC
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type)
         );
@@ -404,7 +413,8 @@ class TallyBoard
                     holder_type = '%s',
                     holder_id   = %d,
                     tally_delta = $tally_delta,
-                    tally_value = $current_tally",
+                    tally_value = $current_tally
+                ",
                 DPDatabase::escape($this->tally_name),
                 DPDatabase::escape($this->holder_type),
                 intval($holder_id)
@@ -426,7 +436,8 @@ class TallyBoard
                         holder_type = '%s',
                         holder_id   = %d,
                         best_rank   = $rank,
-                        best_rank_timestamp = $ascribe_time",
+                        best_rank_timestamp = $ascribe_time
+                    ",
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type),
                     intval($holder_id)
@@ -456,7 +467,8 @@ class TallyBoard
             FROM past_tallies
             WHERE
                 tally_name      = '%s'
-                AND holder_type = '%s'",
+                AND holder_type = '%s'
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type)
         );
@@ -495,7 +507,8 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
             ORDER BY timestamp DESC
-            LIMIT 1",
+            LIMIT 1
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id)
@@ -541,7 +554,8 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
             ORDER BY tally_delta DESC, timestamp ASC
-            LIMIT 1",
+            LIMIT 1
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id)
@@ -576,7 +590,8 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND holder_id   = %d",
+                AND holder_id   = %d
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id)
@@ -615,7 +630,8 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
                 AND timestamp  >= $min_timestamp
-            ORDER BY timestamp ASC",
+            ORDER BY timestamp ASC
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id)
@@ -654,7 +670,8 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
                 AND $start_timestamp < timestamp
-                AND timestamp <= $end_timestamp",
+                AND timestamp <= $end_timestamp
+            ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             intval($holder_id)

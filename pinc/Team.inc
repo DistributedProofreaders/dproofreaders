@@ -9,22 +9,29 @@ class Team
 
     public static function log_recent_join($tid, $uid)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE user_teams
             SET latestUser = %d, member_count = member_count+1
             WHERE id = %d
-        ", $uid, $tid);
+            ",
+            $uid,
+            $tid
+        );
 
         DPDatabase::query($sql);
     }
 
     public static function active_member_count($tid)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT count(*)
             FROM user_teams_membership
             WHERE t_id = %d
-        ", $tid);
+            ",
+            $tid
+        );
 
         $result = DPDatabase::query($sql);
         [$count] = mysqli_fetch_row($result);

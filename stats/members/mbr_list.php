@@ -53,12 +53,15 @@ if ($uname) {
         metarefresh(0, "mdetail.php?id=".$row["u_id"]);
     }
 } else {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT u_id, username, date_created, u_privacy
         FROM users
         ORDER BY $order $direction
         LIMIT %d,20
-    ", $mstart);
+        ",
+        $mstart
+    );
     $mResult = DPDatabase::query($sql);
     $mRows = mysqli_num_rows($mResult);
 }

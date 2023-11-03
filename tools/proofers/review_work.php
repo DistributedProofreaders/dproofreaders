@@ -163,7 +163,7 @@ if ($use_eval_query) {
               timestamp > %d
         GROUP BY page_events.projectid
         ORDER BY time_of_latest_save DESC
-    ",
+        ",
         DPDatabase::escape($work_round->id),
         DPDatabase::escape($username),
         $time_limit
@@ -182,7 +182,7 @@ if ($use_eval_query) {
               t_latest_page_event > %d
         GROUP BY user_project_info.projectid
         ORDER BY t_latest_page_event DESC
-    ",
+        ",
         DPDatabase::escape($username),
         $time_limit
     );
@@ -338,7 +338,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         FROM project_events
         WHERE projectid = '%s' AND
               details2 = '%s'
-       ",
+        ",
         DPDatabase::escape($projectid),
         DPDatabase::escape($work_round->project_complete_state)
     );
@@ -364,7 +364,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         WHERE projectid = '%s' AND
               details2 ='%s' AND
               timestamp >= %d
-       ",
+        ",
         DPDatabase::escape($projectid),
         DPDatabase::escape($review_round->project_available_state),
         $max_done_timestamp
@@ -394,7 +394,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
             IFNULL( SUM($has_been_saved_in_review_round AND $there_is_a_diff), 0 )
         FROM $projectid
         WHERE {$work_round->user_column_name} = '%s'
-    ", DPDatabase::escape($username));
+        ", DPDatabase::escape($username));
     $res3 = DPDatabase::query($query);
     [$n_saved, $n_latered, $n_with_diff] = mysqli_fetch_row($res3);
     mysqli_free_result($res3);
@@ -427,14 +427,14 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         validate_projectID($projectid);
         $query = sprintf(
             "
-           SELECT image 
-           FROM $projectid AS proj 
-           WHERE $has_been_saved_in_review_round AND 
-                 $there_is_a_diff AND
-                 {$work_round->user_column_name} = '%s'
-           ORDER BY {$work_round->time_column_name} DESC, image 
-           LIMIT %d
-        ",
+            SELECT image 
+            FROM $projectid AS proj 
+            WHERE $has_been_saved_in_review_round AND 
+                  $there_is_a_diff AND
+                  {$work_round->user_column_name} = '%s'
+            ORDER BY {$work_round->time_column_name} DESC, image 
+            LIMIT %d
+            ",
             DPDatabase::escape($username),
             $sampleLimit
         );

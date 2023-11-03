@@ -58,7 +58,8 @@ if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                         e.details1 = 'text available' AND
                         e.timestamp > UNIX_TIMESTAMP() - (30*24*60*60)
                     ORDER BY e.timestamp DESC
-                    LIMIT $limit";
+                    LIMIT $limit
+                ";
                 $desc = sprintf(_("The latest releases available at %1\$s for Smooth Reading."), $site_name);
                 $link = "$code_url/tools/post_proofers/smooth_reading.php";
                 break;
@@ -71,7 +72,8 @@ if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
                 FROM projects 
                 WHERE $condition 
                 ORDER BY modifieddate DESC 
-                LIMIT $limit";
+                LIMIT $limit
+            ";
         }
 
         $data = '';

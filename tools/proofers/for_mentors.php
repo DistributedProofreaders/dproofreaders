@@ -206,7 +206,8 @@ function get_beginner_projects_in_state($state, $mentored_round)
             AND projects.state = '%s'
         GROUP BY projects.projectid
         ORDER BY
-            project_events.timestamp ASC",
+            project_events.timestamp ASC
+        ",
         DPDatabase::escape($mentored_round_detail),
         DPDatabase::escape($state)
     );
@@ -247,7 +248,8 @@ function page_summary_sql($mentored_round, $projectid)
         FROM $projectid  AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             $joined_with_user_page_tallies
-        GROUP BY p.{$mentored_round->user_column_name}";
+        GROUP BY p.{$mentored_round->user_column_name}
+    ";
 }
 
 // -------------------------------------------------------------------
@@ -285,5 +287,6 @@ function page_list_sql($mentored_round, $projectid)
             ) AS '$wc_events'
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
-        ORDER BY $order" ;
+        ORDER BY $order
+    ";
 }

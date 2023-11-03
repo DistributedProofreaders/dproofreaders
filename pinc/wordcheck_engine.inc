@@ -605,7 +605,8 @@ function delete_project_wordcheck_events($projectid)
     $sql = sprintf(
         "
         DELETE FROM wordcheck_events
-        WHERE projectid='%s'",
+        WHERE projectid='%s'
+        ",
         DPDatabase::escape($projectid)
     );
     DPDatabase::query($sql);
@@ -647,7 +648,8 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
             (projectid, timestamp, image, round_id, username, suggestions, corrections)
         SELECT '%s', timestamp, image, round_id, username, suggestions, corrections
         FROM wordcheck_events
-        WHERE projectid = '%s'",
+        WHERE projectid = '%s'
+        ",
         DPDatabase::escape($to_projectid),
         DPDatabase::escape($from_projectid)
     );
@@ -674,8 +676,10 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
         set_col_str("suggestions", join("\n", $suggestions)),
         set_col_str("corrections", join("\n", $correction_list)),
     ]);
-    $sql = "INSERT INTO wordcheck_events
-            SET $setters";
+    $sql = "
+        INSERT INTO wordcheck_events
+            SET $setters
+    ";
     DPDatabase::query($sql);
 }
 
@@ -693,8 +697,8 @@ function count_wordcheck_suggestion_events($projectid, $start_time = 0)
     $sql = sprintf(
         "
         SELECT count(*) AS numevents FROM wordcheck_events
-        WHERE projectid='%s'
-        AND timestamp>%d AND suggestions<>''",
+        WHERE projectid='%s' AND timestamp>%d AND suggestions<>''
+        ",
         DPDatabase::escape($projectid),
         $start_time
     );
@@ -713,8 +717,8 @@ function load_wordcheck_events($projectid, $start_time = 0)
     $sql = sprintf(
         "
         SELECT * FROM wordcheck_events
-        WHERE projectid='%s'
-        AND timestamp>%d",
+        WHERE projectid='%s' AND timestamp>%d
+        ",
         DPDatabase::escape($projectid),
         $start_time
     );

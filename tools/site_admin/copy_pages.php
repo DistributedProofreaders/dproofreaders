@@ -328,7 +328,8 @@ function do_stuff(
         $sql = "
             SELECT image, fileid
             FROM {$project->projectid}
-            ORDER BY image";
+            ORDER BY image
+        ";
         $res = DPDatabase::query($sql);
 
         $n_pages = mysqli_num_rows($res);
@@ -654,7 +655,8 @@ function do_stuff(
         $query = sprintf(
             "
             %s
-            WHERE image = '%s'",
+            WHERE image = '%s'
+            ",
             $insert,
             DPDatabase::escape($c_src_image)
         );
@@ -698,7 +700,8 @@ function do_stuff(
                 "
                 SELECT username FROM user_project_info
                 WHERE projectid = '%s' AND
-                    iste_$event = 1",
+                    iste_$event = 1
+                ",
                 $projectid_['from'] // validated input
             );
             $res1 = DPDatabase::query($query);
@@ -719,9 +722,10 @@ function do_stuff(
         echo "<p>" . _("Adding deletion reason to source project.") . "</p>\n";
         $query = sprintf(
             "
-              UPDATE projects
-              SET deletion_reason = 'merged into %s'
-              WHERE projectid = '%s'",
+            UPDATE projects
+            SET deletion_reason = 'merged into %s'
+            WHERE projectid = '%s'
+            ",
             $projectid_['to'], // validated input
             $projectid_['from'] // validated input
         );

@@ -445,7 +445,7 @@ function api_v1_project_page_round($method, $data, $query_params)
             state
         FROM %s
         WHERE image = '%s'
-    ",
+        ",
         $text_column,
         $user_column,
         $data[":projectid"]->projectid,

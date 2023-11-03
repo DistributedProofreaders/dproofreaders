@@ -66,7 +66,8 @@ if (isset($_GET['tid'])) {
         SELECT id
         FROM user_teams
         WHERE id != %d
-            AND teamname = '%s'",
+            AND teamname = '%s'
+        ",
         $tid,
         DPDatabase::escape($teamname)
     );
@@ -90,7 +91,8 @@ if (isset($_GET['tid'])) {
                 "
                 UPDATE user_teams
                 SET avatar='%s'
-                WHERE id = %d",
+                WHERE id = %d
+                ",
                 $tid,
                 DPDatabase::escape($tavatar)
             );
@@ -103,7 +105,8 @@ if (isset($_GET['tid'])) {
                 "
                 UPDATE user_teams
                 SET icon='%s'
-                WHERE id = %d",
+                WHERE id = %d
+                ",
                 $tid,
                 DPDatabase::escape($ticon)
             );
@@ -119,7 +122,8 @@ if (isset($_GET['tid'])) {
                 teamname = LEFT('%s', 50),
                 team_info = '%s',
                 webpage = LEFT('%s', 255)
-            WHERE id = %d",
+            WHERE id = %d
+            ",
             DPDatabase::escape($teamname),
             DPDatabase::escape($text_data),
             DPDatabase::escape($teamwebpage),

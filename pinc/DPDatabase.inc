@@ -123,11 +123,15 @@ final class DPDatabase
 
     private static function get_db_defaults()
     {
-        $result = self::query(sprintf("
+        $sql = sprintf(
+            "
             SELECT *
             FROM information_schema.schemata
             WHERE schema_name='%s';
-        ", self::$_db_name));
+            ",
+            self::$_db_name
+        );
+        $result = self::query($sql);
 
         $row = mysqli_fetch_assoc($result);
         self::$_default_db_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
@@ -157,7 +161,8 @@ final class DPDatabase
             "
             SELECT TABLE_COLLATION
             FROM information_schema.tables
-            WHERE table_schema='%s' AND table_name='%s'",
+            WHERE table_schema='%s' AND table_name='%s'
+            ",
             self::$_db_name,
             self::escape($table_name)
         );
@@ -175,7 +180,8 @@ final class DPDatabase
             "
             SELECT TABLE_NAME
             FROM information_schema.tables
-            WHERE table_schema='%s' AND table_name='%s'",
+            WHERE table_schema='%s' AND table_name='%s'
+            ",
             self::$_db_name,
             self::escape($table_name)
         );

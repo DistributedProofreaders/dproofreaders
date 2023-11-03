@@ -210,7 +210,8 @@ class Project
             "
             SELECT *
             FROM projects
-            WHERE projectid = '%s'",
+            WHERE projectid = '%s'
+            ",
             DPDatabase::escape($projectid)
         );
         $res = DPDatabase::query($sql);
@@ -465,7 +466,8 @@ class Project
                 DPDatabase::escape($this->projectid)
             );
             $sql = "
-                UPDATE projects SET
+                UPDATE projects
+                SET
                     $project_settings
                     t_last_edit = UNIX_TIMESTAMP()
                     $where
@@ -773,7 +775,8 @@ class Project
             "
             SELECT projectid
             FROM project_charsuites
-            WHERE charsuite_name='%s'",
+            WHERE charsuite_name='%s'
+            ",
             DPDatabase::escape($charsuite->name)
         );
 
@@ -834,7 +837,8 @@ class Project
         $sql = sprintf(
             "
             INSERT INTO project_charsuites
-            SET projectid='%s', charsuite_name='%s'",
+            SET projectid='%s', charsuite_name='%s'
+            ",
             DPDatabase::escape($this->projectid),
             DPDatabase::escape($charsuite->name)
         );
@@ -852,7 +856,8 @@ class Project
         $sql = sprintf(
             "
             DELETE FROM project_charsuites
-            WHERE projectid='%s' AND charsuite_name='%s'",
+            WHERE projectid='%s' AND charsuite_name='%s'
+            ",
             DPDatabase::escape($this->projectid),
             DPDatabase::escape($charsuite->name)
         );
@@ -876,7 +881,8 @@ class Project
             "
             SELECT charsuite_name
             FROM project_charsuites
-            WHERE projectid='%s'",
+            WHERE projectid='%s'
+            ",
             DPDatabase::escape($this->projectid)
         );
         $result = DPDatabase::query($sql);
@@ -1075,11 +1081,14 @@ class Project
         $states = [];
 
         validate_projectID($this->projectid);
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT DISTINCT state
             FROM {$this->projectid}
             ORDER BY %s
-        ", sql_collater_for_page_state("state"));
+            ",
+            sql_collater_for_page_state("state")
+        );
         $res = DPDatabase::query($sql);
         while ($row = mysqli_fetch_assoc($res)) {
             $states[] = $row["state"];
@@ -1103,7 +1112,7 @@ class Project
             SELECT count($counter_sql)
             FROM {$this->projectid}
             WHERE $where
-            ";
+        ";
         $res = DPDatabase::query($sql);
         [$num_pages] = mysqli_fetch_row($res);
 
@@ -1312,7 +1321,8 @@ class Project
             "
             UPDATE projects
             SET topic_id=%d
-            WHERE projectid='%s'",
+            WHERE projectid='%s'
+            ",
             $topic_id,
             DPDatabase::escape($this->projectid)
         );
@@ -1361,7 +1371,7 @@ class Project
                 details1   = '%s',
                 details2   = '%s',
                 details3   = '%s'
-        ",
+            ",
             DPDatabase::escape($this->projectid),
             DPDatabase::escape($who),
             DPDatabase::escape($event_type),
@@ -1396,7 +1406,8 @@ class Project
             "
             SELECT state
             FROM project_holds
-            WHERE projectid='%s'",
+            WHERE projectid='%s'
+            ",
             DPDatabase::escape($this->projectid)
         );
         $res = DPDatabase::query($sql);
@@ -1456,12 +1467,16 @@ class Project
 
     public function get_hold_state_notify_time($state)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT notify_time
             FROM project_holds
             WHERE projectid = '%s'
                 AND state = '%s'
-        ", DPDatabase::escape($this->projectid), DPDatabase::escape($state));
+            ",
+            DPDatabase::escape($this->projectid),
+            DPDatabase::escape($state)
+        );
         $res = DPDatabase::query($sql);
         [$notify_time] = mysqli_fetch_row($res);
         return $notify_time;
@@ -1592,7 +1607,8 @@ class Project
             INSERT INTO marc_records
             SET
                 projectid      = '%s',
-                original_array = '%s'",
+                original_array = '%s'
+            ",
             DPDatabase::escape($this->projectid),
             base64_encode(serialize($original_marc_array))
         );
@@ -1609,7 +1625,8 @@ class Project
             UPDATE marc_records
             SET
                 updated_array = '%s'
-            WHERE projectid = '%s'",
+            WHERE projectid = '%s'
+            ",
             base64_encode(serialize($updated_marc_array)),
             DPDatabase::escape($this->projectid)
         );
@@ -1629,7 +1646,8 @@ class Project
             "
             SELECT updated_array
             FROM marc_records
-            WHERE projectid = '%s'",
+            WHERE projectid = '%s'
+            ",
             DPDatabase::escape($this->projectid)
         );
         $result = DPDatabase::query($sql);
@@ -1696,11 +1714,14 @@ class Project
     public function get_last_proofread_time($round)
     {
         validate_projectID($this->projectid);
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT max({$round->time_column_name})
             FROM $this->projectid
             WHERE state = '%s'
-        ", DPDatabase::escape($round->page_save_state));
+            ",
+            DPDatabase::escape($round->page_save_state)
+        );
         $res = DPDatabase::query($sql);
         [$last_proofread] = mysqli_fetch_row($res);
         return $last_proofread;
@@ -1771,7 +1792,8 @@ function project_has_a_hold_in_state($projectid, $state)
         SELECT *
         FROM project_holds
         WHERE projectid='%s'
-            AND state='%s'",
+            AND state='%s'
+        ",
         DPDatabase::escape($projectid),
         DPDatabase::escape($state)
     );

@@ -134,12 +134,15 @@ function that_user_is_over_PP_checked_out_limit($username)
     $actual_limit = intval($limit);
 
     // now see how many they have checked out
-    $query = sprintf("
+    $query = sprintf(
+        "
         SELECT COUNT(*)
         FROM projects
         WHERE checkedoutby LIKE '%s'
             AND state = 'proj_post_first_checked_out'
-    ", DPDatabase::escape($username));
+        ",
+        DPDatabase::escape($username)
+    );
     $result = DPDatabase::query($query);
     $row = mysqli_fetch_row($result);
     $number_out = $row[0];

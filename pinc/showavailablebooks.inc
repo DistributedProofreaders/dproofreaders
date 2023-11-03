@@ -112,7 +112,7 @@ function show_projects_for_smooth_reading()
             projectid NOT IN (
                 SELECT projectid FROM smoothread WHERE smoothread.user = '$pguser'
             )
-         ";
+        ";
     }
 
     $title = _('Projects Available for Smooth Reading');

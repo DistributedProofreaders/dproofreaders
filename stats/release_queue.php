@@ -127,7 +127,8 @@ function _show_round_queues($round, $listing_view_mode)
         SELECT *
         FROM queue_defns
         WHERE round_id='%s' AND ((%s) OR (SUBSTR(name, 1, 1) = '*'))
-        ORDER BY ordering",
+        ORDER BY ordering
+        ",
         DPDatabase::escape($round->id),
         in_array($listing_view_mode, ["enabled", "populated"]) ? "enabled = 1" : "1"
     );
@@ -218,7 +219,8 @@ function _show_queue_details($round, $name, $unheld_only)
         "
         SELECT *
         FROM queue_defns
-        WHERE round_id='%s' AND name='%s'",
+        WHERE round_id='%s' AND name='%s'
+        ",
         DPDatabase::escape($round->id),
         DPDatabase::escape($name)
     );
@@ -322,18 +324,24 @@ function _show_queue_details($round, $name, $unheld_only)
 
 function _get_num_projects_and_pages_released_in_last($name, $seconds_ago, $waiting_state)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT count(*)
         FROM project_events
         WHERE event_type = 'transition'
             AND details1 = '%s'
             AND details3 = 'via_q: %s'
             AND timestamp >= %d
-    ", DPDatabase::escape($waiting_state), DPDatabase::escape($name), $seconds_ago);
+        ",
+        DPDatabase::escape($waiting_state),
+        DPDatabase::escape($name),
+        $seconds_ago
+    );
     $result = DPDatabase::query($sql);
     $projects_released = mysqli_fetch_row($result)[0];
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT sum(n_pages)
         FROM projects
         WHERE projectid in (
@@ -344,7 +352,11 @@ function _get_num_projects_and_pages_released_in_last($name, $seconds_ago, $wait
                 AND details3 = 'via_q: %s'
                 AND timestamp >= %d
         )
-    ", DPDatabase::escape($waiting_state), DPDatabase::escape($name), $seconds_ago);
+        ",
+        DPDatabase::escape($waiting_state),
+        DPDatabase::escape($name),
+        $seconds_ago
+    );
     $result = DPDatabase::query($sql);
     $pages_released = mysqli_fetch_row($result)[0] ?? 0;
 
@@ -353,7 +365,8 @@ function _get_num_projects_and_pages_released_in_last($name, $seconds_ago, $wait
 
 function _get_num_projects_and_pages_available_from_queue($name, $seconds_ago, $waiting_state, $round)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT count(*)
         FROM projects
         WHERE projectid in (
@@ -364,11 +377,17 @@ function _get_num_projects_and_pages_available_from_queue($name, $seconds_ago, $
                 AND details3 = 'via_q: %s'
                 AND timestamp >= %d
             ) AND state = '%s'
-    ", DPDatabase::escape($waiting_state), DPDatabase::escape($name), $seconds_ago, $round->project_available_state);
+        ",
+        DPDatabase::escape($waiting_state),
+        DPDatabase::escape($name),
+        $seconds_ago,
+        $round->project_available_state
+    );
     $result = DPDatabase::query($sql);
     $projects_available = mysqli_fetch_row($result)[0] ?? 0;
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT sum(n_available_pages)
         FROM projects
         WHERE projectid in (
@@ -379,7 +398,12 @@ function _get_num_projects_and_pages_available_from_queue($name, $seconds_ago, $
                 AND details3 = 'via_q: %s'
                 AND timestamp >= %d
             ) AND state = '%s'
-    ", DPDatabase::escape($waiting_state), DPDatabase::escape($name), $seconds_ago, $round->project_available_state);
+        ",
+        DPDatabase::escape($waiting_state),
+        DPDatabase::escape($name),
+        $seconds_ago,
+        $round->project_available_state
+    );
     $result = DPDatabase::query($sql);
     $pages_available = mysqli_fetch_row($result)[0] ?? 0;
 
@@ -388,19 +412,25 @@ function _get_num_projects_and_pages_available_from_queue($name, $seconds_ago, $
 
 function _get_num_projects_and_pages_available($round)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT count(*)
         FROM projects
         WHERE state = '%s'
-    ", DPDatabase::escape($round->project_available_state));
+        ",
+        DPDatabase::escape($round->project_available_state)
+    );
     $result = DPDatabase::query($sql);
     $projects_available = mysqli_fetch_row($result)[0] ?? 0;
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT sum(n_available_pages)
         FROM projects
         WHERE state = '%s'
-    ", DPDatabase::escape($round->project_available_state));
+        ",
+        DPDatabase::escape($round->project_available_state)
+    );
     $result = DPDatabase::query($sql);
     $pages_available = mysqli_fetch_row($result)[0] ?? 0;
 

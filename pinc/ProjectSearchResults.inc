@@ -568,9 +568,7 @@ class ProjectSearchResults
             USING (projectid, state)
             WHERE $where_condition
             ORDER BY $this->sort_sql
-        " . sprintf("
-            LIMIT %d OFFSET %d
-        ", $this->page_size, $results_offset);
+            " . sprintf("LIMIT %d OFFSET %d", $this->page_size, $results_offset);
         if ($testing) {
             echo_html_comment($sql);
         }

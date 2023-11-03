@@ -133,7 +133,7 @@ function project_add_page(
             $setters,
             master_text = $txt_expr,
             $columns_for_rounds
-            ";
+    ";
 
     // echo $sql, "\n";
     DPDatabase::query($sql);
@@ -201,11 +201,7 @@ function Page_delete($projectid, $image, $user)
     $res = DPDatabase::query($sql);
     [$page_was_available] = mysqli_fetch_row($res); // either 0 or 1
 
-    $sql = "
-        DELETE
-        FROM $projectid
-        $where_image
-    ";
+    $sql = "DELETE FROM $projectid $where_image";
     DPDatabase::query($sql);
 
     _log_page_event($projectid, $image, 'delete', $user, null);
@@ -774,7 +770,7 @@ function _log_page_event($projectid, $image, $event_type, $username, $round)
             event_type   = '%s',
             username     = '%s',
             round_id     = %s
-    ",
+        ",
         DPDatabase::escape($projectid),
         DPDatabase::escape($image),
         DPDatabase::escape($event_type),
@@ -793,7 +789,7 @@ function _project_set_t_last_page_done($projectid, $timestamp)
         UPDATE projects
         SET t_last_page_done = %d
         WHERE projectid = '%s'
-    ",
+        ",
         $timestamp,
         DPDatabase::escape($projectid)
     );
@@ -813,7 +809,7 @@ function _project_adjust_n_pages($projectid, $adjustment)
         UPDATE projects
         SET n_pages = %s
         WHERE projectid='%s'
-    ",
+        ",
         $expr,
         DPDatabase::escape($projectid)
     );
@@ -845,7 +841,7 @@ function _project_adjust_n_available_pages($projectid, $adjustment)
         UPDATE projects
         SET n_available_pages = %s
         WHERE projectid = '%s'
-    ",
+        ",
         $expr,
         DPDatabase::escape($projectid)
     );

@@ -38,11 +38,15 @@ if (isset($_GET['author_id'])) {
         if (isset($_POST['bio_id'])) {
             // edit existing bio
             $bio_id = get_integer_param($_POST, 'bio_id', null, null, null, true);
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE biographies
                 SET bio = '%s'
                 WHERE bio_id = %d
-            ", DPDatabase::escape($bio), $bio_id);
+                ",
+                DPDatabase::escape($bio),
+                $bio_id
+            );
             $result = DPDatabase::query($sql);
             $msg = _('The biography was successfully updated in the database!');
         } else {
@@ -51,7 +55,8 @@ if (isset($_GET['author_id'])) {
                 "
                 INSERT INTO biographies
                     (author_id, bio)
-                VALUES(%d, '%s')",
+                VALUES(%d, '%s')
+                ",
                 $author_id,
                 DPDatabase::escape($bio)
             );

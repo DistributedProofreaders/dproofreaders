@@ -131,9 +131,7 @@ $profile->save();
 
 // add ref to profile
 $refString = sprintf(
-    "
-    UPDATE users SET u_profile=%d WHERE u_id=%d
-    ",
+    "UPDATE users SET u_profile=%d WHERE u_id=%d",
     DPDatabase::escape($profile->id),
     $u_id
 );

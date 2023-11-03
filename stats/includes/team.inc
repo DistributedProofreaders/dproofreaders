@@ -362,7 +362,8 @@ function showTeamMbrs($curTeam, $tally_name)
     [$joined_with_user_tallies, $user_tally_column] =
         $users_tallyboard->get_sql_joinery_for_current_tallies('u_id');
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *, $user_tally_column AS current_tally
         FROM users $joined_with_user_tallies
         WHERE u_id IN (
@@ -371,7 +372,9 @@ function showTeamMbrs($curTeam, $tally_name)
             WHERE t_id = %d
         )
         ORDER BY $orderby $direction
-    ", $req_team_id);
+        ",
+        $req_team_id
+    );
     $mbrQuery = DPDatabase::query($sql);
 
     $totalAnonUsers = 0;
@@ -519,12 +522,15 @@ function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)
     if ($tedit == 1 && count($user_teams) >= MAX_USER_TEAM_MEMBERSHIP) {
         echo "<tr><td style='text-align: center;' colspan='2'>"._("You must join the team to create it, which team space would you like to use?")."<br>";
         echo "<select name='otid' title='".attr_safe(_("Team List"))."'>";
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT id, teamname
             FROM user_teams
             WHERE id IN (%s)
             ORDER BY teamname
-        ", implode(",", $user_teams));
+            ",
+            implode(",", $user_teams)
+        );
         $result = DPDatabase::query($sql);
         while ([$id, $teamname] = mysqli_fetch_row($result)) {
             echo "<option value='$id'>" . html_safe($teamname) . "</option>";

@@ -731,12 +731,15 @@ function show_user_teams()
     echo "<ul>\n";
     $user_teams = $user->load_teams();
     if ($user_teams) {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT id, teamname
             FROM user_teams
             WHERE id IN (%s)
             ORDER BY teamname
-        ", implode(",", $user_teams));
+            ",
+            implode(",", $user_teams)
+        );
         $result = DPDatabase::query($sql);
         while ([$tid, $teamname] = mysqli_fetch_row($result)) {
             echo "<li>";
@@ -777,7 +780,8 @@ function show_birthdays()
     // We exclude users whose privacy preference is set to anonymous.
     // Birthdays are only shown on the activity hub which requires a login
     // so users with a privacy preference of 'private' are ok to be included.
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT username, date_created
         FROM users
         WHERE
@@ -786,8 +790,12 @@ function show_birthdays()
             AND date_created < %s
             AND u_privacy != %d
         ORDER BY date_created ASC
-    ", date("m-d"), $oldest_activity, $timestamp_at_midnight, PRIVACY_ANONYMOUS);
-
+        ",
+        date("m-d"),
+        $oldest_activity,
+        $timestamp_at_midnight,
+        PRIVACY_ANONYMOUS
+    );
     $result = DPDatabase::query($sql);
 
     if (mysqli_num_rows($result) == 0) {

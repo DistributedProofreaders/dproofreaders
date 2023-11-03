@@ -58,11 +58,14 @@ class UserProfile
 
     private function load($id)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT *
             FROM user_profiles
             WHERE id = %d
-        ", $id);
+            ",
+            $id
+        );
 
         $result = DPDatabase::query($sql);
         if (mysqli_num_rows($result) == 0) {
@@ -101,11 +104,14 @@ class UserProfile
             }
 
             $set_string = create_mysql_update_string($update_data, $this->string_fields);
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 UPDATE user_profiles
                 SET $set_string
                 WHERE id = %d
-            ", $this->id);
+                ",
+                $this->id
+            );
         }
         DPDatabase::query($sql);
 
@@ -122,22 +128,28 @@ class UserProfile
             );
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE FROM user_profiles
             WHERE id = %d
-        ", $this->id);
+            ",
+            $this->id
+        );
         DPDatabase::query($sql);
     }
 
     // static functions
     public static function load_user_profiles($u_ref)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT id
             FROM user_profiles
             WHERE u_ref = %d
             ORDER BY id
-        ", $u_ref);
+            ",
+            $u_ref
+        );
 
         $profiles = [];
         $result = DPDatabase::query($sql);

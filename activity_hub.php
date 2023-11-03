@@ -101,8 +101,8 @@ while ([$project_state, $count] = mysqli_fetch_row($result)) {
 $sql = "
     SELECT COUNT(*)
     FROM projects
-    WHERE state = '" . PROJ_POST_FIRST_CHECKED_OUT . "' AND
-        smoothread_deadline > UNIX_TIMESTAMP()
+    WHERE state = '" . PROJ_POST_FIRST_CHECKED_OUT . "'
+        AND smoothread_deadline > UNIX_TIMESTAMP()
 ";
 $result = DPDatabase::query($sql);
 [$n_projects_in_state_['SR']] = mysqli_fetch_row($result);

@@ -31,11 +31,16 @@ function cumulative_total_proj_summary_graph()
         $psd = get_project_status_descriptor($which);
 
         //query db and put results into arrays
-        $sql = sprintf("SELECT date, SUM(num_projects)
+        $sql = sprintf(
+            "
+            SELECT date, SUM(num_projects)
             FROM project_state_stats
             WHERE %s
             GROUP BY DATE
-            ORDER BY date ASC", $psd->state_selector);
+            ORDER BY date ASC
+            ",
+            $psd->state_selector
+        );
         $result = DPDatabase::query($sql);
 
         [$datax, $datay] = dpsql_fetch_columns($result);
@@ -109,10 +114,12 @@ function user_logging_on($past, $preceding)
     //query db and put results into arrays
 
     $sql = sprintf(
-        "SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), $column_name
+        "
+        SELECT DATE_FORMAT(FROM_UNIXTIME(time_stamp), '%s'), $column_name
         FROM user_active_log
         WHERE time_stamp >= %d
-        ORDER BY time_stamp",
+        ORDER BY time_stamp
+        ",
         DPDatabase::escape($date_format),
         $min_timestamp
     );
@@ -189,10 +196,15 @@ function new_users($time_interval)
     $date_format = $time_interval_options[$time_interval]['format'];
     $title = $time_interval_options[$time_interval]['title'];
 
-    $sql = sprintf("SELECT FROM_UNIXTIME(date_created, '%s'), COUNT(*)
+    $sql = sprintf(
+        "
+        SELECT FROM_UNIXTIME(date_created, '%s'), COUNT(*)
         FROM users
         GROUP BY 1
-        ORDER BY date_created", DPDatabase::escape($date_format));
+        ORDER BY date_created
+        ",
+        DPDatabase::escape($date_format)
+    );
     $res = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($res);
@@ -215,10 +227,12 @@ function average_hour_users_logging_on()
     //Numbers of users logging on in each hour of the day, since the start of stats
 
     //query db and put results into arrays
-    $sql = "SELECT hour, AVG(L_hour)
+    $sql = "
+        SELECT hour, AVG(L_hour)
         FROM user_active_log
         GROUP BY hour
-        ORDER BY hour";
+        ORDER BY hour
+    ";
     $result = DPDatabase::query($sql);
 
     [$datax, $datay] = dpsql_fetch_columns($result);
@@ -236,11 +250,12 @@ function average_hour_users_logging_on()
 
 function users_by_language()
 {
-    $res = DPDatabase::query("SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
+    $res = DPDatabase::query("
+        SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
         FROM users
         GROUP BY intlang
-        ORDER BY num DESC");
-
+        ORDER BY num DESC
+    ");
     $x = [];
     $y = [];
 
@@ -271,13 +286,13 @@ function users_by_language()
 
 function users_by_country()
 {
-    $res = DPDatabase::query("SELECT SUBSTRING_INDEX(email, '.' ,-1) AS domain,
-        COUNT(*) AS num
+    $res = DPDatabase::query("
+        SELECT SUBSTRING_INDEX(email, '.' ,-1) AS domain, COUNT(*) AS num
         FROM users
         WHERE email LIKE '%@%.%'
         GROUP BY domain
-        ORDER BY num DESC");
-
+        ORDER BY num DESC
+    ");
     $x = [];
     $y = [];
 
@@ -341,11 +356,13 @@ function curr_month_proj($which)
 
     //query db and put results into arrays
     $sql = sprintf(
-        "SELECT DAYOFMONTH(date) as day, SUM(num_projects)
+        "
+        SELECT DAYOFMONTH(date) as day, SUM(num_projects)
         FROM project_state_stats
         WHERE MONTH(date) = %d AND YEAR(date) = %d AND (%s)
         GROUP BY DAYOFMONTH(date)
-        ORDER BY date",
+        ORDER BY date
+        ",
         DPDatabase::escape($month),
         DPDatabase::escape($year),
         $psd->state_selector
@@ -405,11 +422,13 @@ function cumulative_month_proj($which)
 
     //query db and put results into arrays
     $sql = sprintf(
-        "SELECT DAYOFMONTH(date) as day, SUM(num_projects)
+        "
+        SELECT DAYOFMONTH(date) as day, SUM(num_projects)
         FROM project_state_stats
         WHERE MONTH(date) = %s AND YEAR(date) = %s AND (%s)
         GROUP BY DAYOFMONTH(date)
-        ORDER BY date",
+        ORDER BY date
+        ",
         DPDatabase::escape($month),
         DPDatabase::escape($year),
         $psd->state_selector
@@ -452,12 +471,13 @@ function total_proj_graph($which)
 
 
     //query db and put results into arrays
-    $result = DPDatabase::query("SELECT date, SUM(num_projects)
+    $result = DPDatabase::query("
+        SELECT date, SUM(num_projects)
         FROM project_state_stats
         WHERE $psd->state_selector
         GROUP BY date
-        ORDER BY date");
-
+        ORDER BY date
+    ");
     [$datax, $y_cumulative] = dpsql_fetch_columns($result);
 
     $datay1 = array_successive_differences($y_cumulative);
@@ -485,12 +505,13 @@ function cumulative_total_proj_graph($which)
     $timeframe = _('since stats began');
 
     //query db and put results into arrays
-    $result = DPDatabase::query("SELECT date, SUM(num_projects)
+    $result = DPDatabase::query("
+        SELECT date, SUM(num_projects)
         FROM project_state_stats
         WHERE $psd->state_selector
         GROUP BY date
-        ORDER BY date ASC");
-
+        ORDER BY date ASC
+    ");
     [$datax, $datay1] = dpsql_fetch_columns($result);
 
     if (empty($datay1)) {
@@ -662,20 +683,20 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         }
 
         $sql = "
-        SELECT t1.timestamp,
-            (SELECT round(sum(t2.tally_delta)/count(t2.tally_delta))
-            FROM past_tallies as t2
-            WHERE t2.holder_type = 'S'
-                AND t2.holder_id = '1'
-                AND t2.tally_name = '$tally_name'
-                AND datediff(from_unixtime(t1.timestamp), from_unixtime(t2.timestamp)) between 0 and $days_to_average )
-            as 'sma'
-        FROM past_tallies as t1
-        WHERE t1.holder_type = 'S'
-            AND t1.tally_name = '$tally_name'
-            AND t1.holder_id = '1'
-            AND t1.timestamp > $where_start_timestamp
-        ORDER BY t1.timestamp asc
+            SELECT t1.timestamp,
+                (SELECT round(sum(t2.tally_delta)/count(t2.tally_delta))
+                FROM past_tallies as t2
+                WHERE t2.holder_type = 'S'
+                    AND t2.holder_id = '1'
+                    AND t2.tally_name = '$tally_name'
+                    AND datediff(from_unixtime(t1.timestamp), from_unixtime(t2.timestamp)) between 0 and $days_to_average )
+                as 'sma'
+            FROM past_tallies as t1
+            WHERE t1.holder_type = 'S'
+                AND t1.tally_name = '$tally_name'
+                AND t1.holder_id = '1'
+                AND t1.timestamp > $where_start_timestamp
+            ORDER BY t1.timestamp asc
         ";
         $res = DPDatabase::query($sql);
 
@@ -820,9 +841,11 @@ function get_round_backlog_stats($interested_phases)
     $stats = [];
     foreach ($interested_phases as $phase) {
         $where_state = _get_project_state_selector($phase, ["available", "waiting"]);
-        $sql = "SELECT SUM(n_pages) as num_pages
-                FROM projects
-                WHERE $where_state";
+        $sql = "
+            SELECT SUM(n_pages) as num_pages
+            FROM projects
+            WHERE $where_state
+        ";
         $res = DPDatabase::query($sql);
         while ($result = mysqli_fetch_assoc($res)) {
             $stats[$phase] = $result["num_pages"];

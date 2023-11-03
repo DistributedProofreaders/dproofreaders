@@ -31,11 +31,14 @@ class Settings
 
         // Query the "usersettings" table and get all the rows for our user.
         // build an array with the settings, to use when somebody asks.
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT *
             FROM usersettings
             WHERE username = '%s'
-        ", DPDatabase::escape($this->username));
+            ",
+            DPDatabase::escape($this->username)
+        );
 
         $result = DPDatabase::query($sql);
         // To know whether we've populated fields from 'users' table yet:
@@ -106,9 +109,11 @@ class Settings
 
     private function _clear_setting($settingCode)
     {
-        $sql = "DELETE FROM usersettings 
-                WHERE username = '$this->username'
-                AND setting = '$settingCode'" ;
+        $sql = "
+            DELETE FROM usersettings 
+            WHERE username = '$this->username'
+                AND setting = '$settingCode'
+        " ;
         DPDatabase::query($sql);
     }
 
@@ -119,7 +124,7 @@ class Settings
             INSERT INTO usersettings
                 (username, setting, value)
             VALUES ('%s', '%s', '%s')
-        ",
+            ",
             DPDatabase::escape($this->username),
             DPDatabase::escape($settingCode),
             DPDatabase::escape($value)
@@ -135,7 +140,7 @@ class Settings
             WHERE username = '%s'
                 AND setting = '%s'
                 AND value = '%s'
-        ",
+            ",
             DPDatabase::escape($this->username),
             DPDatabase::escape($settingCode),
             DPDatabase::escape($value)
@@ -331,11 +336,14 @@ class Settings
     public static function get_users_with_setting($setting, $value = null)
     {
         $usernames = [];
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT DISTINCT username
             FROM usersettings
             WHERE setting = '%s'
-        ", DPDatabase::escape($setting));
+            ",
+            DPDatabase::escape($setting)
+        );
 
         if ($value) {
             $sql .= sprintf(

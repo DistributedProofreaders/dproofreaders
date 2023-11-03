@@ -20,14 +20,19 @@ if ($dry_run) {
 $from = -60 * 60;
 $to = 60 * 60;
 
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT *
     FROM projects
     WHERE
         smoothread_deadline >= (UNIX_TIMESTAMP() + %d)
         AND smoothread_deadline <= (UNIX_TIMESTAMP() + %d)
         AND state = '%s'
-", $from, $to, DPDatabase::escape(PROJ_POST_FIRST_CHECKED_OUT));
+    ",
+    $from,
+    $to,
+    DPDatabase::escape(PROJ_POST_FIRST_CHECKED_OUT)
+);
 $result = DPDatabase::query($sql);
 
 $output = "Checking " . mysqli_num_rows($result) . " projects...\n";

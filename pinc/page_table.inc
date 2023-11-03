@@ -105,7 +105,7 @@ function fetch_page_table_data($project, $page_selector = null, $proofed_in_roun
                         username = $round->user_column_name AND
                         round_id = '%s'
                 ) as wordcheck_status$rn
-            ",
+                ",
                 DPDatabase::escape($project->projectid),
                 DPDatabase::escape($round->id)
             );

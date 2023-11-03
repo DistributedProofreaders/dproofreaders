@@ -135,11 +135,15 @@ echo "<br>\n";
 
 // Show the number of users that have been active over various recent timescales.
 foreach ([1, 7, 30] as $days_back) {
-    $res = DPDatabase::query(sprintf("
+    $sql = sprintf(
+        "
         SELECT COUNT(*)
         FROM users
         WHERE t_last_activity > UNIX_TIMESTAMP() - %d * 24*60*60
-    ", $days_back));
+        ",
+        $days_back
+    );
+    $res = DPDatabase::query($sql);
     [$num_users] = mysqli_fetch_row($res);
 
     $template = (
