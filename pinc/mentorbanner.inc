@@ -16,11 +16,11 @@ function mentor_banner($round)
     $sql = sprintf(
         "
         SELECT max(round((unix_timestamp() - modifieddate)/(24 * 60 * 60)))
-            FROM projects
-            WHERE
-                difficulty = 'beginner'
-                AND state = '%s'
-                AND language = '%s'",
+        FROM projects
+        WHERE difficulty = 'beginner'
+            AND state = '%s'
+            AND language = '%s'
+        ",
         DPDatabase::escape($r_avail_state),
         DPDatabase::escape($eng_lang_name)
     );

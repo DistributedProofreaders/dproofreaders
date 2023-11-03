@@ -278,7 +278,7 @@ function _get_projects_for_pm($pm)
         FROM projects
         WHERE username='%s' AND $where
         ORDER BY $collator, nameofwork
-    ", DPDatabase::escape($pm));
+        ", DPDatabase::escape($pm));
 
     $res = DPDatabase::query($query);
     while ($ar = mysqli_fetch_array($res)) {

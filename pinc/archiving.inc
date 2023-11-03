@@ -74,11 +74,14 @@ function archive_project($project, $dry_run)
     if ($dry_run) {
         echo "    Mark project as archived.\n";
     } else {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE projects
             SET archived = '1'
             WHERE projectid = '%s'
-        ", DPDatabase::escape($projectid));
+            ",
+            DPDatabase::escape($projectid)
+        );
         DPDatabase::query($sql);
 
         $project->log_project_event('[archiver]', 'archive');
@@ -129,9 +132,9 @@ function archive_ancillary_data_for_project_etc($project, $indent, $dry_run)
         SELECT projectid, modifieddate, state
         FROM projects
         WHERE state = '%s'
-        AND deletion_reason = '%s'
+            AND deletion_reason = '%s'
         ORDER BY modifieddate
-    ",
+        ",
         DPDatabase::escape(PROJ_DELETE),
         DPDatabase::escape("merged into $project->projectid")
     );
@@ -190,12 +193,15 @@ function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_
     $watch = new Stopwatch();
     $watch->start();
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO $archive_db_name.$table_name
         SELECT *
         FROM $table_name
         WHERE projectid = '%s'
-    ", DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($projectid)
+    );
     DPDatabase::query($sql);
     $n_copied = DPDatabase::affected_rows();
     echo sprintf("%4d rows copied", $n_copied);
@@ -205,11 +211,14 @@ function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_
         return;
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         DELETE 
         FROM $table_name
         WHERE projectid = '%s'
-    ", DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($projectid)
+    );
     DPDatabase::query($sql);
     $n_deleted = DPDatabase::affected_rows();
     if ($n_deleted == $n_copied) {

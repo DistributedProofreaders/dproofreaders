@@ -53,12 +53,16 @@ function getPgFormats($input, $argv)
         return sprintf($err, "invalid etext number");
     }
 
-    $result = DPDatabase::query(sprintf("
+    $sql = sprintf(
+        "
         SELECT formats
         FROM pg_books
         WHERE etext_number = '%d'
         LIMIT 1
-    ", $etext));
+        ",
+        $etext
+    );
+    $result = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($result);
     if (!$row) {
@@ -101,12 +105,16 @@ function showProjectInfo($input, $argv, $parser)
     $err = "<strong style='color: red;'>[Error: showProjectInfo: %s]</strong>";
     $pid = $argv['id'];
 
-    $result = DPDatabase::query(sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM projects
         WHERE projectid = '%s'
         LIMIT 1
-    ", DPDatabase::escape($pid)));
+        ",
+        DPDatabase::escape($pid)
+    );
+    $result = DPDatabase::query($sql);
 
     $project = mysqli_fetch_assoc($result);
     if (!$project) {

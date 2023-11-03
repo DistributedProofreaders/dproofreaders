@@ -32,13 +32,15 @@ if ($num == 0) {
         . sprintf(_("Show All %s News"), $news_subject) . "</a>";
 }
 
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT * FROM news_items 
-    WHERE (news_page_id = '%s' OR news_page_id = 'GLOBAL') AND 
-        status = 'recent'
+    WHERE (news_page_id = '%s' OR news_page_id = 'GLOBAL') AND status = 'recent'
     ORDER BY id DESC
     $limit_clause
-", DPDatabase::escape($news_page_id));
+    ",
+    DPDatabase::escape($news_page_id)
+);
 $result = DPDatabase::query($sql);
 
 if (mysqli_num_rows($result) == 0) {

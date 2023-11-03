@@ -26,13 +26,17 @@ include_once($relPath.'user_project_info.inc'); // notify_project_event_subscrib
  */
 function sr_user_is_committed($projectid, $username)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT count(*)
         FROM smoothread
         WHERE projectid = '%s'
             AND user = '%s'
             AND committed > 0
-        ", DPDatabase::escape($projectid), DPDatabase::escape($username));
+        ",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape($username)
+    );
     $res = DPDatabase::query($sql);
     [$count] = mysqli_fetch_row($res);
 
@@ -53,12 +57,16 @@ function sr_user_is_committed($projectid, $username)
  */
 function sr_commit($projectid, $username)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         INSERT INTO smoothread
         SET projectid='%s', user='%s', committed=1
         ON DUPLICATE KEY UPDATE
             committed=1
-        ", DPDatabase::escape($projectid), DPDatabase::escape($username));
+        ",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape($username)
+    );
     DPDatabase::query($sql);
 }
 
@@ -72,11 +80,15 @@ function sr_commit($projectid, $username)
  */
 function sr_withdraw_commitment($projectid, $username)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         DELETE FROM smoothread
         WHERE projectid = '%s'
             AND user = '%s'
-        ", DPDatabase::escape($projectid), DPDatabase::escape($username));
+        ",
+        DPDatabase::escape($projectid),
+        DPDatabase::escape($username)
+    );
     DPDatabase::query($sql);
 }
 
@@ -89,13 +101,16 @@ function sr_withdraw_commitment($projectid, $username)
  */
 function sr_get_committed_users($projectid)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT user
         FROM smoothread
         WHERE projectid = '%s'
             AND committed > 0
         ORDER BY user
-        ", DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($projectid)
+    );
     $res = DPDatabase::query($sql);
 
     $list = [];
@@ -195,12 +210,16 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
         $project->log_project_event($pguser, 'smooth-reading', 'text replaced');
     }
 
-    $qstring = sprintf("
+    $qstring = sprintf(
+        "
         UPDATE projects
         SET $smoothread_deadline_sql
             postcomments = CONCAT(postcomments, '%s')
         WHERE projectid = '%s'
-    ", DPDatabase::escape($postcomments), DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($postcomments),
+        DPDatabase::escape($projectid)
+    );
     DPDatabase::query($qstring);
 
     notify_project_event_subscribers($project, 'sr_available');

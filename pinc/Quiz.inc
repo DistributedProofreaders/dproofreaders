@@ -78,7 +78,7 @@ class Quiz
                 AND quiz_page IN (%s)
                 AND result = 'pass'
             ORDER BY date
-        ",
+            ",
             DPDatabase::escape($username),
             surround_and_join(array_keys($this->pages), '"', '"', ",")
         );
@@ -277,11 +277,15 @@ function get_Quiz_containing_page($quiz_page_id)
 
 function record_quiz_attempt($username, $quiz_page_id, $result)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM quiz_passes
         WHERE username = '%s' AND quiz_page = '%s'
-    ", DPDatabase::escape($username), DPDatabase::escape($quiz_page_id));
+        ",
+        DPDatabase::escape($username),
+        DPDatabase::escape($quiz_page_id)
+    );
     $res = DPDatabase::query($sql);
 
     if (mysqli_num_rows($res) > 0) {
@@ -291,7 +295,7 @@ function record_quiz_attempt($username, $quiz_page_id, $result)
             UPDATE quiz_passes
             SET date = %d
             WHERE username = '%s' AND quiz_page = '%s'
-        ",
+            ",
             time(),
             DPDatabase::escape($username),
             DPDatabase::escape($quiz_page_id)
@@ -302,7 +306,7 @@ function record_quiz_attempt($username, $quiz_page_id, $result)
             "
             INSERT INTO quiz_passes
             VALUES ('%s', %d, '%s', '%s')
-        ",
+            ",
             DPDatabase::escape($username),
             time(),
             DPDatabase::escape($quiz_page_id),

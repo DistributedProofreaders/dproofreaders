@@ -582,8 +582,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
 
     if ($round_view == "available") {
         $avail_state_clause = sprintf(
-            "
-            AND projects.state in (%s)",
+            "AND projects.state in (%s)",
             surround_and_join($avail_states, "'", "'", ',')
         );
         $t_latest_page_event = 0;

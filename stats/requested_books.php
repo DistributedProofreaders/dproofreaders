@@ -37,7 +37,8 @@ for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
         OR state='{$round->project_available_state}'
     ";
 }
-dpsql_dump_themed_query("
+dpsql_dump_themed_query(
+    "
     SELECT
         CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
         authorsname AS '" . DPDatabase::escape(_("Author")) . "',
@@ -49,14 +50,18 @@ dpsql_dump_themed_query("
         AND ($state_condition)
     ORDER BY 5 DESC
     LIMIT 50
-", 1, DPSQL_SHOW_RANK);
+    ",
+    1,
+    DPSQL_SHOW_RANK
+);
 
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books In Post-Processing") . "</h2>\n";
 
 //        $post_url1 = DPDatabase::escape("<a href='$code_url/project.php?id=");
 
-dpsql_dump_themed_query("
+dpsql_dump_themed_query(
+    "
     SELECT
         CONCAT('$comments_url1',projects.projectid,'$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
         authorsname AS '" . DPDatabase::escape(_("Author")) . "',
@@ -68,13 +73,17 @@ dpsql_dump_themed_query("
         AND ".SQL_CONDITION_SILVER."
     ORDER BY 5 DESC
     LIMIT 50
-", 1, DPSQL_SHOW_RANK);
+    ",
+    1,
+    DPSQL_SHOW_RANK
+);
 
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2>\n";
 
 $pg_url1 = DPDatabase::escape(sprintf("<a href='%s", get_pg_catalog_url_for_etext('')));
-dpsql_dump_themed_query("
+dpsql_dump_themed_query(
+    "
     SELECT
         CONCAT('$pg_url1', postednum, '$comments_url2', nameofwork, '$comments_url3') AS '" . DPDatabase::escape(_("Title")) . "',
         authorsname AS '" . DPDatabase::escape(_("Author")) . "',
@@ -86,4 +95,7 @@ dpsql_dump_themed_query("
         AND int_level !=0
     ORDER BY 5 DESC
     LIMIT 50
-", 1, DPSQL_SHOW_RANK);
+    ",
+    1,
+    DPSQL_SHOW_RANK
+);

@@ -84,7 +84,8 @@ if ($one_project) {
             "
             OR state = '%s'
             OR state = '%s'
-            OR state = '%s'",
+            OR state = '%s'
+            ",
             DPDatabase::escape($round->project_available_state),
             DPDatabase::escape($round->project_complete_state),
             DPDatabase::escape($round->project_bad_state)
@@ -101,7 +102,8 @@ $sql = "
     SELECT projectid
     FROM projects
     WHERE $condition
-    ORDER BY projectid";
+    ORDER BY projectid
+";
 $allprojects = DPDatabase::query($sql);
 // The "ORDER BY" ensures consistency of order.
 
@@ -179,7 +181,8 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
             FROM $projectid
             WHERE state IN ('%s','%s')
                 AND $round->time_column_name <= %d
-            ORDER BY image ASC",
+            ORDER BY image ASC
+            ",
             $round->page_out_state,
             $round->page_temp_state,
             $max_reclaimable_time

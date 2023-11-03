@@ -38,7 +38,7 @@ $sql = sprintf(
     WHERE $user_page_tally_column > 0
     ORDER BY 2 DESC, 1 ASC
     LIMIT 100
-",
+    ",
     PRIVACY_ANONYMOUS,
     DPDatabase::escape(_("Anonymous")),
     DPDatabase::escape(_("Proofreader")),

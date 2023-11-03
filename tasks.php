@@ -501,7 +501,8 @@ function create_task_from_form_submission($formsub)
             date_edited      = %d,
             edited_by        = %d,
             percent_complete = 0,
-            related_postings = '%s'",
+            related_postings = '%s'
+        ",
         DPDatabase::escape($task_summary),
         $newt_type,
         $newt_category,
@@ -687,7 +688,8 @@ function handle_action_on_a_specified_task()
                 date_closed = 0,
                 closed_by = 0,
                 closed_reason = 0
-            WHERE task_id = %d",
+            WHERE task_id = %d
+            ",
             get_property_key("Reopened", $tasks_status_array),
             $requester_u_id,
             $now_sse,
@@ -733,7 +735,7 @@ function handle_action_on_a_specified_task()
                     edited_by        = %d,
                     percent_complete = %d
                 WHERE task_id = %d
-            ",
+                ",
                 DPDatabase::escape($task_summary),
                 $edit_type,
                 $edit_category,
@@ -771,7 +773,7 @@ function handle_action_on_a_specified_task()
                     date_edited = %d,
                     edited_by = %d
                 WHERE task_id = %d
-            ",
+                ",
                 get_property_key("100%", $percent_complete_array),
                 get_property_key("Closed", $tasks_status_array),
                 $now_sse,
@@ -794,7 +796,8 @@ function handle_action_on_a_specified_task()
             $sql = sprintf(
                 "
                 INSERT INTO tasks_comments (task_id, u_id, comment_date, comment)
-                VALUES (%d, %d, %d, '%s')",
+                VALUES (%d, %d, %d, '%s')
+                ",
                 $task_id,
                 $requester_u_id,
                 $now_sse,
@@ -806,7 +809,8 @@ function handle_action_on_a_specified_task()
                 "
                 UPDATE tasks
                 SET date_edited = %d, edited_by = %d
-                WHERE task_id = %d",
+                WHERE task_id = %d
+                ",
                 $now_sse,
                 $requester_u_id,
                 $task_id
@@ -847,7 +851,8 @@ function handle_action_on_a_specified_task()
             $sql = sprintf(
                 "
                 INSERT INTO tasks_votes (task_id, u_id, vote_os, vote_browser)
-                VALUES (%d, %d, %d, %d)",
+                VALUES (%d, %d, %d, %d)
+                ",
                 $task_id,
                 $requester_u_id,
                 $vote_os,
@@ -866,7 +871,8 @@ function handle_action_on_a_specified_task()
             $sql = sprintf(
                 "
                 UPDATE tasks_comments SET comment='%s'
-                WHERE task_id = %d AND u_id = %d AND comment_date = %d",
+                WHERE task_id = %d AND u_id = %d AND comment_date = %d
+                ",
                 DPDatabase::escape($comment),
                 $task_id,
                 $u_id,
@@ -959,7 +965,8 @@ function process_related_topic($pre_task, $action, $related_topic_id)
         "
         UPDATE tasks
         SET related_postings = '%s'
-        WHERE task_id = %d",
+        WHERE task_id = %d
+        ",
         DPDatabase::escape(encode_array($related_topics)),
         $pre_task_id
     );
@@ -1261,7 +1268,8 @@ function load_task($tid, $is_assoc = true)
         "
         SELECT *
         FROM tasks
-        WHERE task_id = %d",
+        WHERE task_id = %d
+        ",
         $tid
     );
     $result = DPDatabase::query($sql);
@@ -1389,7 +1397,8 @@ function get_me_too_count($task_id, $requester_u_id)
         "
         SELECT count(*)
         FROM tasks_votes
-        WHERE task_id = %d AND u_id = %d",
+        WHERE task_id = %d AND u_id = %d
+        ",
         $task_id,
         $requester_u_id
     );
@@ -1463,7 +1472,8 @@ function TaskComments($tid, $action)
         SELECT *
         FROM tasks_comments
         WHERE task_id = %d
-        ORDER BY comment_date ASC",
+        ORDER BY comment_date ASC
+        ",
         $tid
     );
     $result = DPDatabase::query($sql);
@@ -1591,7 +1601,8 @@ function load_related_tasks($task_id)
         SELECT task_id_1, task_id_2
         FROM tasks_related_tasks
         WHERE task_id_1 = %d
-            OR task_id_2 = %d",
+            OR task_id_2 = %d
+        ",
         $task_id,
         $task_id
     );
@@ -1622,7 +1633,8 @@ function insert_related_task($task1, $task2)
         SELECT COUNT(*) AS count
         FROM tasks_related_tasks
         WHERE task_id_1 = %d
-            AND task_id_2 = %d",
+            AND task_id_2 = %d
+        ",
         $task_id_1,
         $task_id_2
     );
@@ -1637,7 +1649,8 @@ function insert_related_task($task1, $task2)
     $sql = sprintf(
         "
         INSERT INTO tasks_related_tasks
-        SET task_id_1 = %d, task_id_2 = %d",
+        SET task_id_1 = %d, task_id_2 = %d
+        ",
         $task_id_1,
         $task_id_2
     );
@@ -1654,7 +1667,8 @@ function remove_related_task($task1, $task2)
         "
         DELETE FROM tasks_related_tasks
         WHERE task_id_1 = %d
-            AND task_id_2 = %d",
+            AND task_id_2 = %d
+        ",
         $task_id_1,
         $task_id_2
     );
@@ -1861,7 +1875,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                     "
                     SELECT count(*) AS count
                     FROM tasks_votes
-                    WHERE task_id = %d",
+                    WHERE task_id = %d
+                    ",
                     $task_a['task_id']
                 );
                 $result = DPDatabase::query($sql);
@@ -1881,7 +1896,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 "
                 SELECT DISTINCT vote_os
                 FROM tasks_votes
-                WHERE task_id = %d",
+                WHERE task_id = %d
+                ",
                 $task_a['task_id']
             );
             $result = DPDatabase::query($sql);
@@ -1905,7 +1921,8 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 "
                 SELECT DISTINCT vote_browser
                 FROM tasks_votes
-                WHERE task_id = %d",
+                WHERE task_id = %d
+                ",
                 $task_a['task_id']
             );
             $result = DPDatabase::query($sql);

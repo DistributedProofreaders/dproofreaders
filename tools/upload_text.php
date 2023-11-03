@@ -263,7 +263,7 @@ if (!isset($action)) {
                 UPDATE projects
                 SET postcomments = CONCAT(postcomments, '%s')
                 WHERE projectid = '%s'
-            ",
+                ",
                 DPDatabase::escape($postcomments),
                 DPDatabase::escape($projectid)
             );

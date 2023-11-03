@@ -93,7 +93,8 @@ if ($action == 'show_specials') {
     $sql = "
         SELECT spec_code
         FROM special_days
-        ORDER BY open_month, open_day";
+        ORDER BY open_month, open_day
+    ";
     $result = DPDatabase::query($sql);
     echo "<br>\n\n";
     echo "<table class='list_special_days'>\n";
@@ -136,7 +137,8 @@ class SpecialDay
                 "
                 SELECT *
                 FROM special_days
-                WHERE spec_code = '%s'",
+                WHERE spec_code = '%s'
+                ",
                 DPDatabase::escape($spec_code)
             );
             $result = DPDatabase::query($sql);
@@ -362,7 +364,8 @@ class SpecialDay
             "
             UPDATE special_days
             SET $field = '%s'
-            WHERE spec_code = '%s'",
+            WHERE spec_code = '%s'
+            ",
             DPDatabase::escape($value),
             DPDatabase::escape($this->spec_code)
         );

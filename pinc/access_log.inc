@@ -12,7 +12,8 @@ function log_access_change($subject_username, $modifier_username, $activity_id, 
     ]);
     $sql = "
         INSERT INTO access_log
-        SET $setters";
+        SET $setters
+    ";
     return DPDatabase::query($sql);
 }
 
@@ -26,7 +27,8 @@ function get_first_granted_date($username, $stage)
             AND activity = '%s'
             AND action = 'grant'
         ORDER BY timestamp ASC
-        LIMIT 1",
+        LIMIT 1
+        ",
         DPDatabase::escape($username),
         DPDatabase::escape($stage)
     );
@@ -50,7 +52,8 @@ function get_latest_access_change_entry($username, $activity_id)
         WHERE subject_username = '%s'
             AND activity = '%s'
         ORDER BY timestamp DESC
-        LIMIT 1",
+        LIMIT 1
+        ",
         DPDatabase::escape($username),
         DPDatabase::escape($activity_id)
     );

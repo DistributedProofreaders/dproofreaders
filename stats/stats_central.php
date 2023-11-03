@@ -66,7 +66,8 @@ function count_books_in_state($state, $clauses = "")
         SELECT COUNT(*) AS numbooks
         FROM projects
         WHERE state = '%s'
-        %s",
+            %s
+        ",
         DPDatabase::escape($state),
         $clauses
     );
@@ -84,8 +85,10 @@ $table->set_column_alignments('left', 'right');
 
 //get total users active in the last 7 days
 $begin_time = time() - 604800; // in seconds
-$users = DPDatabase::query("SELECT count(*) AS numusers FROM users
-                          WHERE t_last_activity > $begin_time");
+$users = DPDatabase::query("
+    SELECT count(*) AS numusers FROM users
+    WHERE t_last_activity > $begin_time
+");
 $row = mysqli_fetch_assoc($users);
 $totalusers = $row["numusers"];
 

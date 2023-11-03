@@ -13,10 +13,14 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         create_test_user($this->TEST_USERNAME);
 
         // Now create the usersettings record
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO usersettings
             SET username='%s', setting = '%ssetting', value = 'blah'
-        ", $this->TEST_USERNAME, $this->PREFIX);
+            ",
+            $this->TEST_USERNAME,
+            $this->PREFIX
+        );
         $result = DPDatabase::query($sql);
         if (!$result) {
             throw new Exception("Unable to create test usersetting");
@@ -25,10 +29,14 @@ class SettingsTest extends PHPUnit\Framework\TestCase
 
     protected function tearDown(): void
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE FROM usersettings
             WHERE username='%s' AND setting like '%s%%'
-        ", $this->TEST_USERNAME, $this->PREFIX);
+            ",
+            $this->TEST_USERNAME,
+            $this->PREFIX
+        );
         DPDatabase::query($sql);
 
         delete_test_user($this->TEST_USERNAME);

@@ -68,7 +68,8 @@ function autorelease_for_round($round)
         SELECT *
         FROM queue_defns
         WHERE round_id='%s'
-        ORDER BY ordering",
+        ORDER BY ordering
+        ",
         DPDatabase::escape($round->id)
     );
     $q_res = DPDatabase::query($sql);
@@ -111,7 +112,8 @@ function autorelease_for_round($round)
         SELECT *
         FROM queue_defns
         WHERE enabled AND round_id='%s'
-        ORDER BY ordering",
+        ORDER BY ordering
+        ",
         DPDatabase::escape($round->id)
     );
     $q_res = DPDatabase::query($sql);
@@ -356,10 +358,11 @@ class ReleaseRestrictor
         $this->this_round_authors = [];
         $sql = sprintf(
             "
-                SELECT authorsname
-                FROM projects
-                WHERE state = '%s'
-                ORDER BY authorsname",
+            SELECT authorsname
+            FROM projects
+            WHERE state = '%s'
+            ORDER BY authorsname
+            ",
             DPDatabase::escape($round->project_available_state)
         );
         $author_res = DPDatabase::query($sql);
@@ -378,10 +381,11 @@ class ReleaseRestrictor
         $this->this_round_pms = [];
         $sql = sprintf(
             "
-                SELECT username
-                FROM projects
-                WHERE state = '%s'
-                ORDER BY username",
+            SELECT username
+            FROM projects
+            WHERE state = '%s'
+            ORDER BY username
+            ",
             DPDatabase::escape($round->project_available_state)
         );
         $pm_res = DPDatabase::query($sql);
@@ -534,7 +538,8 @@ function AP_setup($round)
         "
         SELECT projectid
         FROM projects
-        WHERE state = '%s'",
+        WHERE state = '%s'
+        ",
         DPDatabase::escape($round->project_available_state)
     );
     $projects_res = DPDatabase::query($sql);
@@ -560,7 +565,8 @@ function AP_add_project($round, $projectid)
         SELECT
             '$projectid',
             SUM( state != '%s' ) as pages
-        FROM $projectid",
+        FROM $projectid
+        ",
         DPDatabase::escape($round->page_save_state)
     );
     DPDatabase::query($sql);

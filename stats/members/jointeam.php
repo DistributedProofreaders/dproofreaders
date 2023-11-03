@@ -33,12 +33,15 @@ if (count($user_teams) >= MAX_USER_TEAM_MEMBERSHIP) {
     echo "<h1>" . html_safe($title) . "</h1>\n";
     echo "<p>" . sprintf(_("You have already joined the maximum of %d teams. Which team would you like to replace?"), MAX_USER_TEAM_MEMBERSHIP) . "</p>";
     echo "<ul>";
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT id, teamname
         FROM user_teams
         WHERE id IN (%s)
         ORDER BY teamname
-    ", implode(",", $user_teams));
+        ",
+        implode(",", $user_teams)
+    );
     $result = DPDatabase::query($sql);
     while ([$old_team_id, $teamname] = mysqli_fetch_row($result)) {
         echo "<li><a href='jointeam.php?tid=$tid&otid=$old_team_id'>" . html_safe($teamname) . "</a></li>";

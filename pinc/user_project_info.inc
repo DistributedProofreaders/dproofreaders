@@ -32,7 +32,8 @@ function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_
                 projectid           = '%s',
                 t_latest_home_visit = %d
             ON DUPLICATE KEY UPDATE
-                t_latest_home_visit = %d",
+                t_latest_home_visit = %d
+            ",
             DPDatabase::escape($username),
             DPDatabase::escape($projectid),
             $timestamp,
@@ -43,7 +44,8 @@ function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_
             "
             UPDATE user_project_info
             SET t_latest_home_visit = %d
-            WHERE username = '%s' AND projectid = '%s'",
+            WHERE username = '%s' AND projectid = '%s'
+            ",
             $timestamp,
             DPDatabase::escape($username),
             DPDatabase::escape($projectid)
@@ -62,7 +64,8 @@ function upi_set_t_latest_page_event($username, $projectid, $timestamp)
             projectid           = '%s',
             t_latest_page_event = %d
         ON DUPLICATE KEY UPDATE
-            t_latest_page_event = %d",
+            t_latest_page_event = %d
+        ",
         DPDatabase::escape($username),
         DPDatabase::escape($projectid),
         $timestamp,
@@ -128,7 +131,8 @@ function set_user_project_event_subscription($username, $projectid, $event, $bit
             projectid   = '%s',
             iste_$event = %d
         ON DUPLICATE KEY UPDATE
-            iste_$event = %d",
+            iste_$event = %d
+        ",
         DPDatabase::escape($username),
         DPDatabase::escape($projectid),
         $bit,
@@ -147,7 +151,8 @@ function user_is_subscribed_to_project_event($username, $projectid, $event)
         SELECT iste_$event
         FROM user_project_info
         WHERE username    = '%s'
-            AND projectid = '%s'",
+            AND projectid = '%s'
+        ",
         DPDatabase::escape($username),
         DPDatabase::escape($projectid)
     );
@@ -186,7 +191,8 @@ function notify_project_event_subscribers($project, $event, $extras = [])
         SELECT username
         FROM user_project_info
         WHERE projectid = '%s'
-            AND iste_$event = 1",
+            AND iste_$event = 1
+        ",
         DPDatabase::escape($projectid)
     );
     $res1 = DPDatabase::query($sql1);
@@ -265,7 +271,8 @@ function notify_project_event_subscribers($project, $event, $extras = [])
             "
             UPDATE projects
             SET int_level = %d
-            WHERE projectid = '%s'",
+            WHERE projectid = '%s'
+            ",
             $n_subscribers,
             DPDatabase::escape($projectid)
         );
@@ -292,7 +299,8 @@ function get_n_users_subscribed_to_events_for_project($projectid)
         "
         SELECT $selects
         FROM user_project_info
-        WHERE projectid='%s'",
+        WHERE projectid='%s'
+        ",
         DPDatabase::escape($projectid)
     );
     $res = DPDatabase::query($sql);

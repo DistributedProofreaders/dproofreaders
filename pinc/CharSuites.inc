@@ -165,12 +165,15 @@ class CharSuites
         // Validate we have a valid charsuite
         $charsuite = CharSuites::get($name);
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO charsuites
             SET name='%s', enabled=1
             ON DUPLICATE KEY UPDATE
                 enabled=1
-        ", DPDatabase::escape($name));
+            ",
+            DPDatabase::escape($name)
+        );
 
         DPDatabase::query($sql);
     }
@@ -179,11 +182,14 @@ class CharSuites
     {
         // We don't validate the charsuite is installed in case it was
         // uninstalled before being disabled.
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE charsuites
             SET enabled=0
             WHERE name='%s'
-        ", DPDatabase::escape($name));
+            ",
+            DPDatabase::escape($name)
+        );
 
         DPDatabase::query($sql);
     }

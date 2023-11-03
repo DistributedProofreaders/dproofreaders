@@ -86,7 +86,8 @@ class GenreElement extends ProjectFilterElement
         $query = "
             SELECT distinct projects.genre, genre_translations.trans_genre
             FROM projects NATURAL JOIN genre_translations
-            WHERE ($this->state_sql) ORDER BY trans_genre";
+            WHERE ($this->state_sql) ORDER BY trans_genre
+        ";
         $options = [];
         $result = DPDatabase::query($query);
         while ($cols = mysqli_fetch_row($result)) {
@@ -103,7 +104,9 @@ class SpecialDayElement extends ProjectFilterElement
         $query = "
             SELECT DISTINCT special_code, display_name
             FROM projects, special_days
-            WHERE projects.special_code = special_days.spec_code AND ($this->state_sql) ORDER BY display_name";
+            WHERE projects.special_code = special_days.spec_code AND ($this->state_sql)
+            ORDER BY display_name
+        ";
         $options = [];
         $result = DPDatabase::query($query);
         while ($cols = mysqli_fetch_row($result)) {
@@ -368,7 +371,8 @@ function save_raw_data($pguser, $data_name, $data)
         "
         REPLACE INTO user_filters
         (username, filtertype, value)
-        VALUES ('%s', '%s', '%s')",
+        VALUES ('%s', '%s', '%s')
+        ",
         DPDatabase::escape($pguser),
         DPDatabase::escape($data_name),
         DPDatabase::escape($data)
@@ -393,7 +397,8 @@ function get_raw_saved_data($pguser, $data_name)
         SELECT value
         FROM user_filters
         WHERE username = '%s'
-            AND filtertype = '%s'",
+            AND filtertype = '%s'
+        ",
         DPDatabase::escape($pguser),
         DPDatabase::escape($data_name)
     );

@@ -81,12 +81,16 @@ $subdate = date('jS \o\f F, Y');
 
 // number of already-posted books post-processed by this PPer.
 $psd = get_project_status_descriptor('posted');
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT COUNT(*) AS num_post_processed
     FROM projects
     WHERE %s
-    AND postproofer = LEFT('%s', 25)
-", $psd->state_selector, DPDatabase::escape($project->postproofer));
+        AND postproofer = LEFT('%s', 25)
+    ",
+    $psd->state_selector,
+    DPDatabase::escape($project->postproofer)
+);
 $result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
 $number_post_processed = $row["num_post_processed"];
@@ -109,13 +113,15 @@ $pp_date = "";
 
 // earliest transition from PPV.avail to PPV.checked out
 $sql = sprintf(
-    "SELECT timestamp FROM project_events
+    "
+    SELECT timestamp FROM project_events
     WHERE projectid = '%s'
       AND event_type = 'transition'
       AND details1 = '%s'
       AND details2 = '%s'
     ORDER BY timestamp ASC
-    LIMIT 1",
+    LIMIT 1
+    ",
     DPDatabase::escape($projectid),
     DPDatabase::escape(PROJ_POST_SECOND_AVAILABLE),
     DPDatabase::escape(PROJ_POST_SECOND_CHECKED_OUT)
@@ -128,14 +134,16 @@ if ($row) {
 
     // latest transition from PP.checked out to PPV.avail
     $sql = sprintf(
-        "SELECT timestamp FROM project_events
+        "
+        SELECT timestamp FROM project_events
         WHERE projectid = '%s'
           AND event_type = 'transition'
           AND details1 = '%s'
           AND details2 = '%s'
           AND timestamp < %d
         ORDER BY timestamp DESC
-        LIMIT 1",
+        LIMIT 1
+        ",
         DPDatabase::escape($projectid),
         DPDatabase::escape(PROJ_POST_FIRST_CHECKED_OUT),
         DPDatabase::escape(PROJ_POST_SECOND_AVAILABLE),

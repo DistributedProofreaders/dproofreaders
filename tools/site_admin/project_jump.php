@@ -117,11 +117,15 @@ function do_stuff($projectid, $new_state, $just_checking)
 
     // ----------------------------------------------------
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE projects
         SET state = '%s', modifieddate = UNIX_TIMESTAMP()
         WHERE projectid = '%s'
-    ", DPDatabase::escape($new_state), DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($new_state),
+        DPDatabase::escape($projectid)
+    );
     DPDatabase::query($sql);
     echo "    jumped to : $new_state\n";
     $project->log_project_event(

@@ -74,7 +74,8 @@ function phpbb_lang($locale = false)
                 "
                 SELECT *
                 FROM %s
-                WHERE lang_iso='%s'",
+                WHERE lang_iso='%s'
+                ",
                 phpbb_table("lang"),
                 DPDatabase::escape($lang)
             );
@@ -145,7 +146,8 @@ function create_forum_user($username, $password, $email, $password_is_digested =
                 "
                 UPDATE %s
                 SET user_password='%s'
-                WHERE user_id=%d",
+                WHERE user_id=%d
+                ",
                 phpbb_table("users"),
                 DPDatabase::escape($password),
                 $user_id
@@ -351,7 +353,8 @@ function get_forum_user_details($username)
         "
         SELECT *
         FROM %s
-        WHERE username='%s'",
+        WHERE username='%s'
+        ",
         phpbb_table("users"),
         DPDatabase::escape($username)
     );
@@ -380,7 +383,8 @@ function get_forum_user_details($username)
         "
         SELECT *
         FROM %s
-        WHERE user_id = %d",
+        WHERE user_id = %d
+        ",
         phpbb_table("profile_fields_data"),
         $row["user_id"]
     );
@@ -417,7 +421,8 @@ function get_forum_user_id($username)
         "
         SELECT user_id
         FROM %s
-        WHERE username = '%s'",
+        WHERE username = '%s'
+        ",
         phpbb_table("users"),
         DPDatabase::escape($username)
     );
@@ -445,7 +450,8 @@ function get_forum_rank_title($rank)
         "
         SELECT rank_title
         FROM %s
-        WHERE rank_id = %d",
+        WHERE rank_id = %d
+        ",
         phpbb_table("ranks"),
         $rank
     );
@@ -606,7 +612,8 @@ function get_number_of_unread_messages($username)
             "
             SELECT SUM(pm_unread)
             FROM %s
-            WHERE user_id = %d",
+            WHERE user_id = %d
+            ",
             phpbb_table("privmsgs_to"),
             $forum_userid
         );
@@ -631,7 +638,8 @@ function does_topic_exist($topic_id)
         "
         SELECT 1
         FROM %s
-        WHERE topic_id = %d",
+        WHERE topic_id = %d
+        ",
         phpbb_table("topics"),
         $topic_id
     );
@@ -660,7 +668,8 @@ function get_last_post_time_in_topic($topic_id)
         "
         SELECT MAX(post_time) as max_post_time
         FROM %s
-        WHERE topic_id = %d",
+        WHERE topic_id = %d
+        ",
         phpbb_table("posts"),
         $topic_id
     );

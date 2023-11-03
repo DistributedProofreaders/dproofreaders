@@ -58,9 +58,7 @@ if (!$success) {
 
 // Look for user in 'users' table.
 $q = sprintf(
-    "
-    SELECT * FROM users WHERE username='%s'
-    ",
+    "SELECT * FROM users WHERE username='%s'",
     DPDatabase::escape($userNM)
 );
 $u_res = DPDatabase::query($q);

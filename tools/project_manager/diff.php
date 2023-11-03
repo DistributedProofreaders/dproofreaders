@@ -85,7 +85,8 @@ $query = sprintf(
     SELECT $L_text_column_name, $R_text_column_name,
         $L_user_column_name, $R_user_column_name
     FROM $projectid
-    WHERE image='%s'",
+    WHERE image='%s'
+    ",
     DPDatabase::escape($image)
 );
 
@@ -233,7 +234,8 @@ function do_navigation(
             $L_user_column_name,
             ($L_text_column_name = $R_text_column_name) AS is_empty_diff
         FROM $projectid
-        ORDER BY image ASC";
+        ORDER BY image ASC
+    ";
     $res = DPDatabase::query($query);
     $prev_image = "";
     $next_image = "";
@@ -329,8 +331,7 @@ function can_see_names_for_page($projectid, $image)
 
         validate_projectID($projectid);
         $query = sprintf(
-            "
-            SELECT $fields from $projectid WHERE image = '%s'",
+            "SELECT $fields from $projectid WHERE image = '%s'",
             DPDatabase::escape($image)
         );
         $res = DPDatabase::query($query);

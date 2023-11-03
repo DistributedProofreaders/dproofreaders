@@ -18,11 +18,15 @@ if (! $project->PPer_is_current_user || $project->state != PROJ_POST_FIRST_CHECK
     exit;
 }
 
-$sql = sprintf("
-  UPDATE projects
-  SET postcomments = '%s'
-  WHERE projectid = '%s'
-", DPDatabase::escape($postcomments), DPDatabase::escape($projectid));
+$sql = sprintf(
+    "
+    UPDATE projects
+    SET postcomments = '%s'
+    WHERE projectid = '%s'
+    ",
+    DPDatabase::escape($postcomments),
+    DPDatabase::escape($projectid)
+);
 $qry = DPDatabase::query($sql);
 
 $msg = _("Comments added.");

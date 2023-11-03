@@ -130,11 +130,15 @@ class User
                 $this->current_profile = $value;
 
                 // persist the current profile ID to the database
-                $sql = sprintf("
+                $sql = sprintf(
+                    "
                     UPDATE users
                     SET u_profile = %d
                     WHERE u_id = %d
-                ", $this->current_profile->id, $this->u_id);
+                    ",
+                    $this->current_profile->id,
+                    $this->u_id
+                );
                 DPDatabase::query($sql);
 
                 // now set the profile cookie if this is for the current user
@@ -257,11 +261,14 @@ class User
 
     public function load_teams()
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT t_id
             FROM user_teams_membership
             WHERE u_id = %d
-        ", $this->u_id);
+            ",
+            $this->u_id
+        );
         $result = DPDatabase::query($sql);
         $teams = [];
         while ($row = mysqli_fetch_assoc($result)) {
@@ -277,10 +284,14 @@ class User
             return;
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             INSERT INTO user_teams_membership
             SET u_id = %d, t_id = %d
-        ", $this->u_id, $team_id);
+            ",
+            $this->u_id,
+            $team_id
+        );
         DPDatabase::query($sql);
 
         Team::log_recent_join($team_id, $this->u_id);
@@ -288,10 +299,14 @@ class User
 
     public function remove_team($team_id)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             DELETE FROM user_teams_membership
             WHERE u_id = %d AND t_id = %d
-        ", $this->u_id, $team_id);
+            ",
+            $this->u_id,
+            $team_id
+        );
         DPDatabase::query($sql);
     }
 
@@ -460,11 +475,14 @@ class User
      */
     public static function is_valid_user($username, $strict = true)
     {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT username
             FROM users
             WHERE username='%s'
-        ", DPDatabase::escape($username));
+            ",
+            DPDatabase::escape($username)
+        );
         $result = DPDatabase::query($sql);
         if (mysqli_num_rows($result) == 0) {
             $is_valid = false;

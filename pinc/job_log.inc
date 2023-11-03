@@ -10,7 +10,7 @@ function insert_job_log_entry($filename, $event, $comments, $tracetime = null)
         "
         INSERT INTO job_logs (filename, tracetime, event, comments)
         VALUES ('%s', %d, '%s', '%s')
-    ",
+        ",
         DPDatabase::escape($filename),
         $tracetime,
         DPDatabase::escape($event),

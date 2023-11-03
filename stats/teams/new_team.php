@@ -43,7 +43,8 @@ if (isset($_POST['mkPreview'])) {
         "
         SELECT id
         FROM user_teams
-        WHERE teamname = '%s'",
+        WHERE teamname = '%s'
+        ",
         DPDatabase::escape($teamname)
     );
     $result = DPDatabase::query($sql);
@@ -81,7 +82,8 @@ if (isset($_POST['mkPreview'])) {
                 "
                 UPDATE user_teams
                 SET avatar='%s'
-                WHERE id = %d",
+                WHERE id = %d
+                ",
                 DPDatabase::escape($tavatar),
                 $tid
             );
@@ -94,7 +96,8 @@ if (isset($_POST['mkPreview'])) {
                 "
                 UPDATE user_teams
                 SET icon='%s'
-                WHERE id = %d",
+                WHERE id = %d
+                ",
                 DPDatabase::escape($ticon),
                 $tid
             );

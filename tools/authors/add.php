@@ -66,7 +66,8 @@ if (isset($last_name)) {
                 SET last_name='%s', other_names='%s',
                     byear=%d, bmonth=%d, bday=%d, bcomments='%s',
                     dyear=%d, dmonth=%d, dday=%d, dcomments='%s'
-                WHERE author_id = $author_id",
+                WHERE author_id = $author_id
+                ",
                 DPDatabase::escape($last_name),
                 DPDatabase::escape($other_names),
                 $byear,
@@ -91,7 +92,8 @@ if (isset($last_name)) {
                 VALUES
                     ('%s', '%s',
                         %d, %d, %d, '%s',
-                        %d, %d, %d, '%s', 'yes')",
+                        %d, %d, %d, '%s', 'yes')
+                ",
                 DPDatabase::escape($last_name),
                 DPDatabase::escape($other_names),
                 $byear,

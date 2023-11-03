@@ -31,11 +31,15 @@ while ([$projectid, $comments] = mysqli_fetch_row($result)) {
 
     echo "Updating $projectid...\n";
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE projects
         SET comments = '%s'
         WHERE projectid = '%s'
-    ", DPDatabase::escape($comments), DPDatabase::escape($projectid));
+        ",
+        DPDatabase::escape($comments),
+        DPDatabase::escape($projectid)
+    );
 
     mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 }

@@ -9,7 +9,8 @@ require_localhost_request();
 
 $old_date = time() - 7776000; // 90 days
 
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT id, teamname
     FROM user_teams
     WHERE
@@ -19,7 +20,9 @@ $sql = sprintf("
             FROM user_teams_membership
             WHERE t_id = user_teams.id
         ) = 0
-", $old_date);
+    ",
+    $old_date
+);
 $result = DPDatabase::query($sql);
 
 while ([$id, $teamname] = mysqli_fetch_row($result)) {

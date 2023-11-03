@@ -127,7 +127,7 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
                     item_type    = LEFT('%s', 16),
                     header       = LEFT('%s', 256),
                     content      = '%s'
-            ",
+                ",
                 DPDatabase::escape($news_page_id),
                 time(),
                 DPDatabase::escape($item_status),
@@ -139,7 +139,9 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
             DPDatabase::query($sql);
             // by default, new items go at the top
             $sql = "
-                UPDATE news_items SET ordering = id WHERE id = LAST_INSERT_ID()
+                UPDATE news_items
+                SET ordering = id
+                WHERE id = LAST_INSERT_ID()
             ";
             DPDatabase::query($sql);
             news_change_made($news_page_id);
@@ -147,10 +149,10 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
 
         case 'delete':
             // Delete a specific site news item
-            $sql = sprintf("
-                DELETE FROM news_items
-                WHERE id = %d
-            ", $item_id);
+            $sql = sprintf(
+                "DELETE FROM news_items WHERE id = %d",
+                $item_id
+            );
             DPDatabase::query($sql);
             break;
 
@@ -201,7 +203,7 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
                     header    = LEFT('%s', 256),
                     content   = '%s'
                 WHERE id = %d
-            ",
+                ",
                 DPDatabase::escape($item_status),
                 DPDatabase::escape($locale),
                 DPDatabase::escape($item_type),
@@ -211,11 +213,14 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
             );
             DPDatabase::query($sql);
 
-            $sql = sprintf("
+            $sql = sprintf(
+                "
                 SELECT status
                 FROM news_items
                 WHERE id = %d
-            ", $item_id);
+                ",
+                $item_id
+            );
             $result = DPDatabase::query($sql);
             $row = mysqli_fetch_assoc($result);
             $visible_change_made = ($row['status'] == 'current');
@@ -238,11 +243,14 @@ function show_item_editor($news_page_id, $action, $item_id)
     global $item_type_options;
 
     if (isset($action) && $action == "edit") {
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             SELECT header, content, status, locale, item_type
             FROM news_items
             WHERE id = %d
-        ", $item_id);
+            ",
+            $item_id
+        );
         $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
         $header = $row["header"];
@@ -357,7 +365,7 @@ function show_all_news_items_for_page($news_page_id)
             FROM news_items
             WHERE news_page_id = '%s' AND status = '%s'
             ORDER BY {$category['order_by']}
-        ",
+            ",
             DPDatabase::escape($news_page_id),
             DPDatabase::escape($status)
         );
@@ -414,11 +422,15 @@ function show_all_news_items_for_page($news_page_id)
 
 function update_news_item_status($item_id, $status)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE news_items
         SET status = '%s'
         WHERE id = %d
-    ", DPDatabase::escape($status), $item_id);
+        ",
+        DPDatabase::escape($status),
+        $item_id
+    );
     DPDatabase::query($sql);
 }
 
@@ -430,7 +442,7 @@ function news_change_made($news_page_id)
         "
         REPLACE INTO news_pages
         SET news_page_id = '%s', t_last_change = %d
-    ",
+        ",
         DPDatabase::escape($news_page_id),
         time()
     );
@@ -441,22 +453,29 @@ function news_change_made($news_page_id)
 
 function move_news_item($news_page_id, $id_of_item_to_move, $direction)
 {
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT *
         FROM news_items
         WHERE news_page_id = '%s' AND status = 'current'
         ORDER BY ordering
-    ", DPDatabase::escape($news_page_id));
+        ",
+        DPDatabase::escape($news_page_id)
+    );
     $result = DPDatabase::query($sql);
 
     $i = 1 ;
     while ($news_item = mysqli_fetch_assoc($result)) {
         $curr_id = $news_item['id'];
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE news_items
             SET ordering = %d
             WHERE id = %d
-        ", $i, $curr_id);
+            ",
+            $i,
+            $curr_id
+        );
         DPDatabase::query($sql);
         if (intval($curr_id) == intval($id_of_item_to_move)) {
             $old_pos = $i;
@@ -471,18 +490,27 @@ function move_news_item($news_page_id, $id_of_item_to_move, $direction)
             $new_pos = $old_pos - 1;
         }
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE news_items
             SET ordering = %d
             WHERE news_page_id = '%s' AND status = 'current' AND ordering = $new_pos
-        ", $old_pos, DPDatabase::escape($news_page_id), $new_pos);
+            ",
+            $old_pos,
+            DPDatabase::escape($news_page_id),
+            $new_pos
+        );
         DPDatabase::query($sql);
 
-        $sql = sprintf("
+        $sql = sprintf(
+            "
             UPDATE news_items
             SET ordering = %d
             WHERE id = %d
-        ", $new_pos, $id_of_item_to_move);
+            ",
+            $new_pos,
+            $id_of_item_to_move
+        );
         DPDatabase::query($sql);
     }
 }

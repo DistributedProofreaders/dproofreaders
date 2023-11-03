@@ -17,11 +17,14 @@ if (is_null($current_max_date)) {
     exit;
 }
 
-$sql = sprintf("
+$sql = sprintf(
+    "
     SELECT tally_name, goal
     FROM site_tally_goals
     WHERE date='%s'
-", DPDatabase::escape($current_max_date));
+    ",
+    DPDatabase::escape($current_max_date)
+);
 $res2 = DPDatabase::query($sql);
 
 $values_list = '';

@@ -15,7 +15,8 @@ function page_del($projectid, $image)
         "
         SELECT image
         FROM $projectid
-        WHERE image = '%s'",
+        WHERE image = '%s'
+        ",
         DPDatabase::escape($image)
     );
     $result = DPDatabase::query($sql);
@@ -54,7 +55,8 @@ function page_clear($projectid, $image)
         "
         SELECT state, %s
         FROM $projectid
-        WHERE image = '%s'",
+        WHERE image = '%s'
+        ",
         $round->user_column_name,
         DPDatabase::escape($image)
     );

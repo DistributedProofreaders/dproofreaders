@@ -119,11 +119,14 @@ function _update_user_activity_time($update_login_time_too)
         $additional_where = "";
     }
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         UPDATE users
         SET $settings
         WHERE username='%s' $additional_where
-    ", DPDatabase::escape($pguser));
+        ",
+        DPDatabase::escape($pguser)
+    );
     DPDatabase::query($sql);
 }
 
@@ -185,7 +188,8 @@ function mysql_session_write($sid, $value)
             ('%s', %d, '%s')
         ON DUPLICATE KEY UPDATE
             expiration = %d,
-            value = '%s'",
+            value = '%s'
+        ",
         substr(DPDatabase::escape($sid), 0, 32), // truncate to column size
         $expiration,
         DPDatabase::escape($value),

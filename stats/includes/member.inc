@@ -561,12 +561,15 @@ function showMbrTeams($user)
         _("Active Members")
     );
 
-    $sql = sprintf("
+    $sql = sprintf(
+        "
         SELECT id, teamname
         FROM user_teams
         WHERE id IN (%s)
         ORDER BY teamname
-    ", implode(",", $user_teams));
+        ",
+        implode(",", $user_teams)
+    );
     $result = DPDatabase::query($sql);
 
     while ([$tid, $teamname] = mysqli_fetch_row($result)) {
