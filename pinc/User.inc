@@ -2,6 +2,7 @@
 include_once($relPath.'misc.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'../api/exceptions.inc');
 
 class NonexistentUserException extends Exception
 {
@@ -16,7 +17,7 @@ class NonuniqueUserException extends Exception
  *
  * These exception codes range from 300 to 399
  */
-class UserAccessException extends Exception
+class UserAccessException extends BadRequest
 {
     public function __construct($message = "", $code = 300)
     {
@@ -67,6 +68,30 @@ class NoAccessToMentorsOnlyException extends UserAccessException
 class ReservedForNewProofreadersException extends UserAccessException
 {
     public function __construct($message = "", $code = 306)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class PageNotOwnedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 307)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class DailyLimitExceededException extends UserAccessException
+{
+    public function __construct($message = "", $code = 308)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class DailyLimitReachedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 309)
     {
         parent::__construct($message, $code);
     }

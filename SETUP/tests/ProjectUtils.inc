@@ -19,6 +19,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
     ];
     protected $created_projectids = [];
     protected $TEST_TEXT = "This is a test file";
+    protected $TEST_MODIFIED_TEXT = "This is a modified test file";
 
     protected function setUp(): void
     {
@@ -29,6 +30,11 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         $settings->set_boolean("manager", true);
 
         create_test_user($this->TEST_USERNAME);
+        // give access to P1 in production
+        // see comment in SettingsClass.inc about calling by reference
+        $settings =& Settings::get_settings($this->TEST_USERNAME);
+        $settings->set_boolean("P1.access", true);
+
 
         // create an old user (new users $days_on_site_threshold = 21)
         create_test_user($this->TEST_OLDUSERNAME, 22);
@@ -92,6 +98,13 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         $this->quiet_project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
+    }
+
+    protected function advance_to_round3($projectid)
+    {
+        $this->quiet_project_transition($projectid, PROJ_P2_COMPLETE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P3_WAITING_FOR_RELEASE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P3_AVAILABLE, PT_AUTO);
     }
 
     protected function _create_project_with_pages($npage = 1)

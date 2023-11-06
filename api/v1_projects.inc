@@ -656,3 +656,74 @@ function _get_enabled_filter($query_params)
         return $bool;
     }
 }
+
+//---------------------------------------------------------------------------
+// Proofreading functions
+
+// checkout some pages
+function api_v1_project_checkout($method, $data, array $query_params)
+{
+    $proof_project = new ProofProject($data[":projectid"], $query_params);
+    $requested_pages = get_integer_param($query_params, "npage", 1, null, null);
+    return $proof_project->checkout_pages($requested_pages);
+}
+
+function api_v1_project_mentorcheckout($method, $data, array $query_params)
+{
+    $proof_project = new ProofProject($data[":projectid"], $query_params);
+    $proof_project->mentor_checkout();
+}
+
+function api_v1_project_returnpages($method, $data, array $query_params)
+{
+    $proof_project = new ProofProject($data[":projectid"], $query_params);
+    $proof_project->return_pages();
+}
+
+function api_v1_project_nextpage($method, $data, array $query_params)
+{
+    $proof_project = new ProofProject($data[":projectid"], $query_params);
+    return $proof_project->get_outpage();
+}
+
+function api_v1_project_proofdata($method, $data, $query_params)
+{
+    $proof_project = new ProofProject($data[":projectid"], $query_params);
+    return $proof_project->get_data();
+}
+
+function api_v1_project_page_resume($method, $data, $query_params)
+{
+    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
+    return $proof_project_page->resume_page();
+}
+
+function api_v1_project_page_saveasdone($method, $data, $query_params)
+{
+    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
+    return $proof_project_page->attempt_save_as_done();
+}
+
+function api_v1_project_page_savetemp($method, $data, $query_params)
+{
+    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
+    return $proof_project_page->save_as_in_progress("current");
+}
+
+function api_v1_project_page_saverevert($method, $data, $query_params)
+{
+    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
+    return $proof_project_page->save_as_in_progress("original");
+}
+
+function api_v1_project_page_return($method, $data, $query_params)
+{
+    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
+    return $proof_project_page->return_to_round();
+}
+
+function api_v1_project_page_text($method, $data, $query_params)
+{
+    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
+    return $proof_project_page->render_page_text("current");
+}

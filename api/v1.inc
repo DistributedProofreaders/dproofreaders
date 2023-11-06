@@ -37,6 +37,18 @@ $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages"
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");
 
+$router->add_route("PUT", "v1/projects/:projectid/checkout", "api_v1_project_checkout");
+$router->add_route("PUT", "v1/projects/:projectid/mentorcheckout", "api_v1_project_mentorcheckout");
+$router->add_route("PUT", "v1/projects/:projectid/returnpages", "api_v1_project_returnpages");
+$router->add_route("GET", "v1/projects/:projectid/nextpage", "api_v1_project_nextpage");
+$router->add_route("GET", "v1/projects/:projectid/proofdata", "api_v1_project_proofdata");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/resumepage", "api_v1_project_page_resume");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/saveasdone", "api_v1_project_page_saveasdone");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/savetemp", "api_v1_project_page_savetemp");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/saverevert", "api_v1_project_page_saverevert");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/return", "api_v1_project_page_return");
+$router->add_route("GET", "v1/projects/:projectid/pages/:pagename/text", "api_v1_project_page_text");
+
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");
 $router->add_route("GET", "v1/stats/site/rounds/:roundid", "api_v1_stats_site_round");

@@ -678,6 +678,315 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/checkout:
+    put:
+      tags:
+      - project
+      description: Check out some pages for proofreading
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - name: npage
+        in: query
+        description: number of pages to checkout
+        required: false
+        schema:
+          type: integer
+          default: 1
+      responses:
+        200:
+          description: result status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkout_status'
+              example:
+                status: 303
+                reason: You have reached your quota of pages from 'Beginners Only' projects in this round.
+                npages: 2
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/mentorcheckout:
+    put:
+      tags:
+      - project
+      description: Finds the 'oldest' mentee and checks out all his/her pages.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      responses:
+        200:
+          description: no content
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/returnpages:
+    put:
+      tags:
+      - project
+      description: Returns all the user's checked out pages to the round.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      responses:
+        200:
+          description: no content
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/nextpage:
+    get:
+      tags:
+      - project
+      description: Gets data for the next checked out page.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      responses:
+        200:
+          description: page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page_data'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/proofdata:
+    get:
+      tags:
+      - project
+      description: Gets project data for proofreading.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      responses:
+        200:
+          description: mentor mode and number of checked out pages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_data'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/resumepage:
+    put:
+      tags:
+      - project
+      description: If the page is saved-as-done 'unsaves' it, gets data for the given page.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      responses:
+        200:
+          description: page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page_data'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/saveasdone:
+    put:
+      tags:
+      - project
+      description: Checks the page for invalid characters and if good, saves it as done. Else returns data indicating the bad characters.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      requestBody:
+        $ref: '#/components/requestBodies/TextBody'
+      responses:
+        200:
+          description: page data
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/good_page_saved'
+                  - $ref: '#/components/schemas/bad_page'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/savetemp:
+    put:
+      tags:
+      - project
+      description: Checks the page for invalid characters and if good, saves it as in progress, returns page text and state. Else returns data indicating the bad characters.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      requestBody:
+        $ref: '#/components/requestBodies/TextBody'
+      responses:
+        200:
+          description: page data
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/bad_page'
+                  - $ref: '#/components/schemas/good_page_temp'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/saverevert:
+    put:
+      tags:
+      - project
+      description: Checks the page for invalid characters and if good, saves it as in progress, returns original page text and current state.  Else returns data indicating the bad characters.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      requestBody:
+        $ref: '#/components/requestBodies/TextBody'
+      responses:
+        200:
+          description: page data
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/good_page_temp'
+                  - $ref: '#/components/schemas/bad_page'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/return:
+    put:
+      tags:
+      - project
+      description: Returns the page to the round.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      responses:
+        200:
+          description: no content
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/text:
+    get:
+      tags:
+      - project
+      description: Gets the current (last saved) page text
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      responses:
+        200:
+          description: page text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page_text'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -732,6 +1041,51 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY
+
+  parameters:
+    projectid:
+      name: projectid
+      in: path
+      description: ID of project
+      required: true
+      schema:
+        type: string
+
+    projectstate:
+      name: projstate
+      in: query
+      description: Project state
+      required: true
+      schema:
+        type: string
+
+    pagename:
+      name: pagename
+      in: path
+      description: name of page
+      required: true
+      schema:
+        type: string
+
+    pagestate:
+      name: pagestate
+      in: query
+      description: page state
+      required: true
+      schema:
+        type: string
+
+  requestBodies:
+    TextBody:
+      description: Text to save
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
 
   schemas:
     project:
@@ -1019,6 +1373,99 @@ components:
       type: array
       items:
         type: string
+
+    checkout_status:
+      description: npages is the number of pages actually checked out. status is 0 if the required number of pages is checked out, Otherwise the status code for the reason why fewer pages are available. If no pages are available throws an Error with the code and reason. In either case reasons are "No more pages are available", "Beginners Quota Reached", "Beginners Project Quota Reached".
+      type: object
+      properties:
+        status:
+          type: integer
+        reason:
+          type: string
+        npages:
+          type: integer
+
+    proof_page_text:
+      type: object
+      properties:
+        text:
+          description: the page text from current round.
+          type: string
+
+    proof_page_data:
+      type: object
+      properties:
+        text:
+          description: the page text. If page state is 'out' from OCR or previous round, else from current round
+          type: string
+        pagestate:
+          description: the page state, for checking continuity. Either out or temp
+          type: string
+        saved:
+          description: true if the page state is 'temp'
+          type: boolean
+        pagename:
+          description: the filename of the page with extension
+          type: string
+        image_url:
+          description: url of the image of the page
+          type: string
+        pageNum:
+          description: page "number" without extension
+          type: string
+        roundInfoArray:
+          description: array of names of proofreaders in earlier rounds
+          type: array
+          items:
+            type: string
+
+    proof_data:
+      type: object
+      properties:
+        outpages:
+          description: the number of pages checked out to the user.
+          type: integer
+        mentormode:
+          description: is a beginner's project in a mentor round.
+          type: boolean
+
+    good_page_saved:
+      type: object
+      properties:
+        good:
+          type: boolean
+          enum: [true]
+
+    good_page_temp:
+      type: object
+      properties:
+        good:
+          type: boolean
+          enum: [true]
+        text:
+          type: string
+        pagestate:
+          description: the page state, it is now temp
+          type: string
+        saved:
+          description: now true
+          type: boolean
+          enum: [true]
+
+    bad_page:
+      type: object
+      properties:
+        good:
+          type: boolean
+          enum: [false]
+        mark_array:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
 
     Error:
       required:

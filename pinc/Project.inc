@@ -12,6 +12,7 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'wordcheck_engine.inc'); // delete_project_wordcheck_events()
 include_once($relPath.'DPage.inc'); // project_allow_pages()
 include_once($relPath.'send_mail.inc');
+include_once($relPath.'../api/exceptions.inc');
 
 class UTF8ConversionException extends Exception
 {
@@ -22,7 +23,7 @@ class UTF8ConversionException extends Exception
  *
  * These exception codes range from 100 to 199
  */
-class ProjectException extends Exception
+class ProjectException extends BadRequest
 {
     public function __construct($message, $code = 100)
     {
@@ -118,7 +119,88 @@ class ProjectNotAvailableException extends ProjectException
 
 class ProjectNoMorePagesException extends ProjectException
 {
-    public function __construct($message, $code = 113)
+    public function __construct($message = null, $code = 113)
+    {
+        $message ??= _("The project has no more pages available for proofreading");
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectPageStateException extends ProjectException
+{
+    public function __construct($message, $code = 115)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNoMoreOutPagesException extends ProjectException
+{
+    public function __construct($message, $code = 116)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectThereAreOutPagesException extends ProjectException
+{
+    public function __construct($message, $code = 117)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectTooManyPagesRequested extends ProjectException
+{
+    public function __construct($message, $code = 118)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectPageInconsistentStateException extends ProjectException
+{
+    public function __construct($message, $code = 119)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNotInRequiredStateException extends ProjectException
+{
+    public function __construct($message, $code = 120)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectInvalidStateException extends ProjectException
+{
+    public function __construct($message, $code = 121)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNoStateGivenException extends ProjectException
+{
+    public function __construct($message, $code = 122)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectInvalidPageStateException extends ProjectException
+{
+    public function __construct($message, $code = 123)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNoPageStateGivenException extends ProjectException
+{
+    public function __construct($message, $code = 124)
     {
         parent::__construct($message, $code);
     }
