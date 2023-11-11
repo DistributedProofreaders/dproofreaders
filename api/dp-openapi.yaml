@@ -684,24 +684,15 @@ paths:
       - project
       description: Check out some pages for proofreading
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
       - name: npage
         in: query
-        description: number of pages to checkout, defaults to one
+        description: number of pages to checkout
         required: false
         schema:
           type: integer
+          default: 1
       responses:
         200:
           description: result status
@@ -726,18 +717,8 @@ paths:
       - project
       description: Finds the 'oldest' mentee and checks out all his/her pages.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
       responses:
         200:
           description: no content
@@ -758,18 +739,8 @@ paths:
       - project
       description: Returns all the user's checked out pages to the round.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
       responses:
         200:
           description: no content
@@ -790,18 +761,8 @@ paths:
       - project
       description: Gets data for the next checked out page.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
       responses:
         200:
           description: page data
@@ -826,18 +787,8 @@ paths:
       - project
       description: Gets project data for proofreading.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
       responses:
         200:
           description: mentor mode and number of checked out pages
@@ -862,30 +813,10 @@ paths:
       - project
       description: If the page is saved-as-done 'unsaves' it, gets data for the given page.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
-      - name: pagename
-        in: path
-        description: name of page
-        required: true
-        schema:
-          type: string
-      - name: pagestate
-        in: query
-        description: page state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
       responses:
         200:
           description: page data
@@ -908,32 +839,14 @@ paths:
     put:
       tags:
       - project
-      description: Checks the page for invalid characters and if good, saves it as done.
+      description: Checks the page for invalid characters and if good, saves it as done. Else returns data indicating the bad characters.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
-      - name: pagename
-        in: path
-        description: name of page
-        required: true
-        schema:
-          type: string
-      - name: pagestate
-        in: query
-        description: page state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      requestBody:
+        $ref: '#/components/requestBodies/TextBody'
       responses:
         200:
           description: page data
@@ -958,32 +871,14 @@ paths:
     put:
       tags:
       - project
-      description: Checks the page for invalid characters and if good, saves it as in progress, returns page text and state
+      description: Checks the page for invalid characters and if good, saves it as in progress, returns page text and state. Else returns data indicating the bad characters.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
-      - name: pagename
-        in: path
-        description: name of page
-        required: true
-        schema:
-          type: string
-      - name: pagestate
-        in: query
-        description: page state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      requestBody:
+        $ref: '#/components/requestBodies/TextBody'
       responses:
         200:
           description: page data
@@ -1008,32 +903,14 @@ paths:
     put:
       tags:
       - project
-      description: Checks the page for invalid characters and if good, saves it as in progress, returns original page text and current state
+      description: Checks the page for invalid characters and if good, saves it as in progress, returns original page text and current state.  Else returns data indicating the bad characters.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
-      - name: pagename
-        in: path
-        description: name of page
-        required: true
-        schema:
-          type: string
-      - name: pagestate
-        in: query
-        description: page state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
+      requestBody:
+        $ref: '#/components/requestBodies/TextBody'
       responses:
         200:
           description: page data
@@ -1060,30 +937,10 @@ paths:
       - project
       description: Returns the page to the round.
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
-      - name: pagename
-        in: path
-        description: name of page
-        required: true
-        schema:
-          type: string
-      - name: pagestate
-        in: query
-        description: page state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
       responses:
         200:
           description: no content
@@ -1104,30 +961,10 @@ paths:
       - project
       description: Gets the current (last saved) page text
       parameters:
-      - name: projectid
-        in: path
-        description: ID of project
-        required: true
-        schema:
-          type: string
-      - name: projstate
-        in: query
-        description: Project state
-        required: true
-        schema:
-          type: string
-      - name: pagename
-        in: path
-        description: name of page
-        required: true
-        schema:
-          type: string
-      - name: pagestate
-        in: query
-        description: page state
-        required: true
-        schema:
-          type: string
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/projectstate'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate'
       responses:
         200:
           description: page text
@@ -1200,6 +1037,51 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY
+
+  parameters:
+    projectid:
+      name: projectid
+      in: path
+      description: ID of project
+      required: true
+      schema:
+        type: string
+
+    projectstate:
+      name: projstate
+      in: query
+      description: Project state
+      required: true
+      schema:
+        type: string
+
+    pagename:
+      name: pagename
+      in: path
+      description: name of page
+      required: true
+      schema:
+        type: string
+
+    pagestate:
+      name: pagestate
+      in: query
+      description: page state
+      required: true
+      schema:
+        type: string
+
+  requestBodies:
+    TextBody:
+      description: Text to save
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
 
   schemas:
     project:
