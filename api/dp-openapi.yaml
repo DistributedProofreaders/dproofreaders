@@ -700,6 +700,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/checkout_status'
+              example:
+                status: 303
+                reason: You have reached your quota of pages from 'Beginners Only' projects in this round.
+                npages: 2
         '400':
           $ref: '#/components/responses/InvalidValue'
         '401':
