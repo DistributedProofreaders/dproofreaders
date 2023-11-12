@@ -110,7 +110,8 @@ function list_images($project, $image_names, $these_are_page_images)
     echo "<h4 class='center-align'>$header</h4>";
 
     $show_replace_links = $project->can_be_managed_by_current_user;
-    $show_delete_links = $project->can_be_managed_by_current_user && !$these_are_page_images && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE);
+    // If user is allowed to delete nonpage images, show links
+    $show_delete_links = $project->user_can_delete_nonpage_images && !$these_are_page_images;
 
     echo "<table>\n";
 
@@ -196,7 +197,7 @@ function show_delete_all_link($project, $image_names)
 {
     global $code_url;
 
-    if ($project->can_be_managed_by_current_user && ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE) && !empty($image_names)) {
+    if ($project->user_can_delete_nonpage_images && !empty($image_names)) {
         $form_target = "$code_url/tools/project_manager/update_illos.php";
         $submit_label = _("Delete Illustrations");
         echo "<form action='$form_target' method='POST' style='display: inline'>\n";

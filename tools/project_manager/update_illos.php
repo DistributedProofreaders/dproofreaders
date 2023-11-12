@@ -62,7 +62,9 @@ if (!$project->can_be_managed_by_current_user) {
     exit;
 }
 
-if (($is_delete_all_operation || $operation == 'delete') && $project->state != PROJ_NEW && $project->state != PROJ_P1_UNAVAILABLE) {
+if (($is_delete_all_operation || $operation == 'delete') && !$project->user_can_delete_nonpage_images) {
+    // Allow squirrels to delete illustrations in any stage
+    // and PMs to do so in project_new or P1.proj_unavail
     echo "<p>", _('You can only delete illustrations for a project in the new or P1 unavailable states.'), "</p>\n";
     provide_escape_links();
     exit;

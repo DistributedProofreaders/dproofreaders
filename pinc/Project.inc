@@ -600,6 +600,8 @@ class Project
                 return $this->image_source_name;
             case "can_be_managed_by_current_user":
                 return $this->can_be_managed_by_user($pguser);
+            case "user_can_delete_nonpage_images":
+                return $this->user_can_delete_nonpage_images($pguser);
             case "names_can_be_seen_by_current_user":
                 return $this->names_can_be_seen_by_user($pguser);
             case "PPer":
@@ -977,6 +979,27 @@ class Project
             ($username == $this->username
             || that_user_is_a_sitemanager($username)
             || that_user_is_proj_facilitator($username));
+    }
+
+    public function user_can_delete_nonpage_images($username)
+    {
+        if (is_null($username)) {
+            return false;
+        }
+        // SAs can always delete nonpage images
+        if (that_user_is_a_sitemanager($username)) {
+            return true;
+        }
+
+        // PMs/PFs can only delete nonpage images in New
+        // or P1 Unavailable stages
+        if ($this->can_be_managed_by_user($username)) {
+            return $this->state == PROJ_NEW || $this->state == PROJ_P1_UNAVAILABLE;
+        } else {
+            return false;
+        }
+        // Nobody else can delete images
+        return false;
     }
 
     // -------------------------------------------------------------------------
