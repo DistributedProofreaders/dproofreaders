@@ -32,7 +32,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         create_test_user($this->TEST_USERNAME);
         // give access to P1 in production
         // see comment in SettingsClass.inc about calling by reference
-        $settings =& Settings::get_settings($this->TEST_USERNAME);
+        $settings = & Settings::get_settings($this->TEST_USERNAME);
         $settings->set_boolean("P1.access", true);
 
 
