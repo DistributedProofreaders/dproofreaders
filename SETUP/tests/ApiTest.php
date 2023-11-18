@@ -41,7 +41,7 @@ class ApiTest extends ProjectUtils
 
     protected function resume(string $projectid, string $project_state, string $page_name, string $page_state): array
     {
-        return $this->api_project_page($projectid, $project_state, $page_name, $page_state, [], "resumepage");
+        return $this->api_project_page($projectid, $project_state, $page_name, $page_state, [], "resume");
     }
 
     protected function return_to_round(string $projectid, string $project_state, string $page_name, string $page_state): void
@@ -67,7 +67,7 @@ class ApiTest extends ProjectUtils
     protected function get_text(string $projectid, string $project_state, string $page_name, string $page_state): array
     {
         $_SERVER["REQUEST_METHOD"] = "GET";
-        $path = "v1/projects/$projectid/pages/$page_name/text";
+        $path = "v1/projects/$projectid/pages/$page_name";
         $router = ApiRouter::get_router();
         return $router->route($path, ['projstate' => $project_state, 'pagestate' => $page_state]);
     }
@@ -78,9 +78,9 @@ class ApiTest extends ProjectUtils
 
         $_SERVER["REQUEST_METHOD"] = "PUT";
         $request_body = $request_array;
-        $path = "v1/projects/$projectid/pages/$page_name/$action";
+        $path = "v1/projects/$projectid/pages/$page_name";
         $router = ApiRouter::get_router();
-        return $router->route($path, ['projstate' => $project_state, 'pagestate' => $page_state]);
+        return $router->route($path, ['projstate' => $project_state, 'pagestate' => $page_state, 'pagefunction' => $action]);
     }
 
     //---------------------------------------------------------------------------
@@ -446,9 +446,43 @@ class ApiTest extends ProjectUtils
         $this->expectExceptionCode(124);
 
         $_SERVER["REQUEST_METHOD"] = "PUT";
-        $path = "v1/projects/$project->projectid/pages/001.png/return";
+        $path = "v1/projects/$project->projectid/pages/001.png";
         $router = ApiRouter::get_router();
-        $router->route($path, ['projstate' => "P1.proj_avail"]);
+        $router->route($path, ['projstate' => "P1.proj_avail", 'pagefunction' => "return"]);
+    }
+
+    public function test_no_page_function()
+    {
+        global $pguser;
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
+        $this->expectExceptionCode(2);
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/projects/$project->projectid/pages/001.png";
+        $router = ApiRouter::get_router();
+        $router->route($path, ['projstate' => "P1.proj_avail", 'pagestate' => "P1.page_out"]);
+    }
+
+    public function test_invalid_page_function()
+    {
+        global $pguser;
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
+        $this->expectExceptionCode(2);
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/projects/$project->projectid/pages/001.png";
+        $router = ApiRouter::get_router();
+        $router->route($path, ['projstate' => "P1.proj_avail", 'pagestate' => "P1.page_out", 'pagefunction' => "revoke"]);
     }
 
     public function test_return_non_existent_page()

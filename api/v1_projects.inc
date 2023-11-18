@@ -692,38 +692,30 @@ function api_v1_project_proofdata($method, $data, $query_params)
     return $proof_project->get_data();
 }
 
-function api_v1_project_page_resume($method, $data, $query_params)
+function api_v1_project_page($method, $data, $query_params)
 {
     $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
-    return $proof_project_page->resume_page();
-}
-
-function api_v1_project_page_saveasdone($method, $data, $query_params)
-{
-    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
-    return $proof_project_page->attempt_save_as_done();
-}
-
-function api_v1_project_page_savetemp($method, $data, $query_params)
-{
-    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
-    return $proof_project_page->save_as_in_progress("current");
-}
-
-function api_v1_project_page_saverevert($method, $data, $query_params)
-{
-    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
-    return $proof_project_page->save_as_in_progress("original");
-}
-
-function api_v1_project_page_return($method, $data, $query_params)
-{
-    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
-    return $proof_project_page->return_to_round();
-}
-
-function api_v1_project_page_text($method, $data, $query_params)
-{
-    $proof_project_page = new ProofProjectPage($data[":projectid"], $data[":pagename"], $query_params);
-    return $proof_project_page->render_page_text("current");
+    if ($method == "GET") {
+        return $proof_project_page->render_page_text("current");
+    }
+    // must be PUT
+    $page_function = $query_params['pagefunction'] ?? null;
+    if (null === $page_function) {
+        throw new BadRequest("No page function found in request.");
+    }
+    switch($page_function) {
+        case 'resume':
+            return $proof_project_page->resume_page();
+        case 'saveasdone':
+            return $proof_project_page->attempt_save_as_done();
+        case 'savetemp':
+            return $proof_project_page->save_as_in_progress("current");
+        case 'saverevert':
+            return $proof_project_page->save_as_in_progress("original");
+        case 'return':
+            return $proof_project_page->return_to_round();
+        default:
+            throw new BadRequest("$page_function is not a valid page function.");
+            break;
+    }
 }

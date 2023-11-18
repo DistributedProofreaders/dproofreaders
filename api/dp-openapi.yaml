@@ -811,46 +811,21 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
-  /projects/{projectid}/pages/{pagename}/resumepage:
+  /projects/{projectid}/pages/{pagename}:
     put:
       tags:
       - project
-      description: If the page is saved-as-done 'unsaves' it, gets data for the given page.
+      description: various operations on the page as determined by the 'pagefunction' parameter.<br><br>
+        resume If the page is saved-as-done 'unsaves' it, gets data for the given page.<br><br>
+        saveasdone Checks the page for invalid characters and if good, saves it as done. Else returns data indicating the bad characters.<br><br>
+        savetemp Checks the page for invalid characters and if good, saves it as in progress, returns page text and state. Else returns data indicating the bad characters.<br><br>
+        saverevert Checks the page for invalid characters and if good, saves it as in progress, returns original page text and current state.  Else returns data indicating the bad characters.<br><br>
+        return Returns the page to the round.
       parameters:
       - $ref: '#/components/parameters/projectid'
       - $ref: '#/components/parameters/projectstate'
       - $ref: '#/components/parameters/pagename'
       - $ref: '#/components/parameters/pagestate'
-      responses:
-        200:
-          description: page data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/proof_page_data'
-        '400':
-          $ref: '#/components/responses/InvalidValue'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '429':
-          $ref: '#/components/responses/RateLimitExceeded'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
-
-  /projects/{projectid}/pages/{pagename}/saveasdone:
-    put:
-      tags:
-      - project
-      description: Checks the page for invalid characters and if good, saves it as done. Else returns data indicating the bad characters.
-      parameters:
-      - $ref: '#/components/parameters/projectid'
-      - $ref: '#/components/parameters/projectstate'
-      - $ref: '#/components/parameters/pagename'
-      - $ref: '#/components/parameters/pagestate'
-      requestBody:
-        $ref: '#/components/requestBodies/TextBody'
       responses:
         200:
           description: page data
@@ -858,39 +833,9 @@ paths:
             application/json:
               schema:
                 oneOf:
+                  - $ref: '#/components/schemas/proof_page_data'
                   - $ref: '#/components/schemas/good_page_saved'
                   - $ref: '#/components/schemas/bad_page'
-        '400':
-          $ref: '#/components/responses/InvalidValue'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '429':
-          $ref: '#/components/responses/RateLimitExceeded'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
-
-  /projects/{projectid}/pages/{pagename}/savetemp:
-    put:
-      tags:
-      - project
-      description: Checks the page for invalid characters and if good, saves it as in progress, returns page text and state. Else returns data indicating the bad characters.
-      parameters:
-      - $ref: '#/components/parameters/projectid'
-      - $ref: '#/components/parameters/projectstate'
-      - $ref: '#/components/parameters/pagename'
-      - $ref: '#/components/parameters/pagestate'
-      requestBody:
-        $ref: '#/components/requestBodies/TextBody'
-      responses:
-        200:
-          description: page data
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/bad_page'
                   - $ref: '#/components/schemas/good_page_temp'
         '400':
           $ref: '#/components/responses/InvalidValue'
@@ -902,64 +847,6 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
           $ref: '#/components/responses/UnexpectedError'
-
-  /projects/{projectid}/pages/{pagename}/saverevert:
-    put:
-      tags:
-      - project
-      description: Checks the page for invalid characters and if good, saves it as in progress, returns original page text and current state.  Else returns data indicating the bad characters.
-      parameters:
-      - $ref: '#/components/parameters/projectid'
-      - $ref: '#/components/parameters/projectstate'
-      - $ref: '#/components/parameters/pagename'
-      - $ref: '#/components/parameters/pagestate'
-      requestBody:
-        $ref: '#/components/requestBodies/TextBody'
-      responses:
-        200:
-          description: page data
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/good_page_temp'
-                  - $ref: '#/components/schemas/bad_page'
-        '400':
-          $ref: '#/components/responses/InvalidValue'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '429':
-          $ref: '#/components/responses/RateLimitExceeded'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
-
-  /projects/{projectid}/pages/{pagename}/return:
-    put:
-      tags:
-      - project
-      description: Returns the page to the round.
-      parameters:
-      - $ref: '#/components/parameters/projectid'
-      - $ref: '#/components/parameters/projectstate'
-      - $ref: '#/components/parameters/pagename'
-      - $ref: '#/components/parameters/pagestate'
-      responses:
-        200:
-          description: no content
-        '400':
-          $ref: '#/components/responses/InvalidValue'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '429':
-          $ref: '#/components/responses/RateLimitExceeded'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
-
-  /projects/{projectid}/pages/{pagename}/text:
     get:
       tags:
       - project
