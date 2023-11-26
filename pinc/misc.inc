@@ -882,14 +882,30 @@ function flatten_directory(string $directory_to_flatten)
  * If any of the conditions are not satisfied, it will return false, otherwise it will return true.
  * The extension check can be disabled by passing true as the second argument.
  */
+
+class ZipException extends Exception
+{
+}
+
 function is_valid_zip_file(string $file_path, bool $ignore_extension_check = false): bool
 {
-    if (!file_exists($file_path)) {
+    try {
+        validate_zip_file($file_path, $ignore_extension_check);
+    } catch (ZipException $exception) {
+        error_log("is_valid_zip_file: " . $exception->getMessage());
         return false;
+    }
+    return true;
+}
+
+function validate_zip_file(string $file_path, bool $ignore_extension_check = false): void
+{
+    if (!file_exists($file_path)) {
+        throw new ZipException("no file");
     }
 
     if (!$ignore_extension_check && !endswith($file_path, '.zip')) {
-        return false;
+        throw new ZipException("wrong extension");
     }
 
     $zip = new ZipArchive();
@@ -898,9 +914,21 @@ function is_valid_zip_file(string $file_path, bool $ignore_extension_check = fal
 
     if ($result === true) {
         $zip->close();
+    } else {
+        $zip_results = [
+            ZipArchive::ER_EXISTS => "File already exists.",
+            ZipArchive::ER_INCONS => "Zip archive inconsistent.",
+            ZipArchive::ER_INVAL => "Invalid argument.",
+            ZipArchive::ER_MEMORY => "Malloc failure.",
+            ZipArchive::ER_NOENT => "No such file.",
+            ZipArchive::ER_NOZIP => "Not a zip archive.",
+            ZipArchive::ER_OPEN => "Can't open file.",
+            ZipArchive::ER_READ => "Read error.",
+            ZipArchive::ER_SEEK => "Seek error.",
+        ];
+        $error = $zip_results[$result];
+        throw new ZipException("ZipArchive::open() returned '$error'");
     }
-
-    return $result === true;
 }
 
 /**
