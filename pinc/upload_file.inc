@@ -235,7 +235,10 @@ function zip_check($original_name, $file_path)
     // ensure that it's a valid zip. The extension was already checked and the
     // file is not properly named (it has some temporary name), so we should
     // disable the extension check.
-    if (!is_valid_zip_file($file_path, true)) {
+    try {
+        validate_zip_file($file_path, true);
+    } catch (ZipException $exception) {
+        error_log("upload_file.inc - zip error: " . $exception->getMessage());
         throw new FileUploadException(sprintf(_("%s is not a valid zip file"), $original_name));
     }
 }
