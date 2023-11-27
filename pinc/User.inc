@@ -71,6 +71,22 @@ class ReservedForNewProofreadersException extends UserAccessException
     }
 }
 
+class PageNotOwnedException extends UserAccessException
+{
+    public function __construct($message = "", $code = 307)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class DailyLimitExceededException extends UserAccessException
+{
+    public function __construct($message = "", $code = 308)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 /**
  * @property-read string $reg_token;
  * @property string $real_name;

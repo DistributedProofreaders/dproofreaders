@@ -4,6 +4,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
+include_once($relPath.'ProofProject.inc');
 include_once("exceptions.inc");
 include_once("api_common.inc");
 
@@ -548,7 +549,7 @@ function api_v1_project_page_round($method, $data, $query_params)
         $user_column,
         implode(",", $user_cols),
         $project->projectid,
-        DPDatabase::escape($data[":pagename"])
+        DPDatabase::escape($data[":pagename"]->page_name)
     );
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
@@ -769,4 +770,117 @@ function api_v1_projects_holdstates($method, $data, $query_params)
 function _get_enabled_filter($query_params)
 {
     return get_flag_value($query_params, "enabled");
+}
+
+//---------------------------------------------------------------------------
+// Proofreading functions
+
+// checkout a page
+function api_v1_project_checkout($method, array $data, array $query_params)
+{
+    try {
+        $proof_project = create_proof_project($data, $query_params);
+        return $proof_project->checkout();
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function api_v1_project_validatetext($method, $data, array $query_params)
+{
+    $text_checker = new TextChecker();
+    return $text_checker->analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
+}
+
+function api_v1_project_page(string $method, array $data, array $query_params)
+{
+    global $pguser;
+
+    try {
+        $proof_project = create_proof_project($data, $query_params);
+        $project_page = $data[":pagename"];
+        $page_state = $query_params['pagestate'] ?? null;
+
+        if (null === $page_state) {
+            throw new InvalidValue("No page state found in request.");
+        }
+        if (!in_array($page_state, Rounds::get_page_states())) {
+            throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
+        }
+        if ($page_state != $project_page->page_state) {
+            $err = sprintf(
+                _('Warning: Page  "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+                $project_page->page_name,
+                $page_state,
+                $project_page->page_state
+            );
+            throw new ProjectPageInconsistentStateException($err);
+        }
+
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+        if ($method == "GET") {
+            return $proof_project_page->render_page_text();
+        }
+        // must be PUT
+        $page_action = $query_params['pageaction'] ?? null;
+        if (null === $page_action) {
+            throw new BadRequest("No page action found in request.");
+        }
+        switch ($page_action) {
+            case 'resume':
+                return $proof_project_page->pp_resume_page();
+            case 'checkin':
+                return $proof_project_page->attempt_checkin(receive_project_text_from_request_body('text'));
+            case 'save':
+                return $proof_project_page->save(receive_project_text_from_request_body('text'));
+            case 'revert':
+                return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
+            case 'abandon':
+                return $proof_project_page->returnToRound($pguser);
+            default:
+                throw new BadRequest("$page_action is not a valid page action.");
+        }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function create_proof_project(array $data, array $query_params)
+{
+    $project = $data[":projectid"];
+    $state = $query_params["state"] ?? null;
+    try {
+        if (null === $state) {
+            throw new InvalidValue("No project state found in request.");
+        }
+        if (!in_array($state, ProjectStates::get_states())) {
+            throw new InvalidValue("Invalid project state");
+        }
+        if ($state != $project->state) {
+            $err = sprintf(
+                _('Warning: Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+                $project->nameofwork,
+                project_states_text($state),
+                project_states_text($project->state)
+            );
+            throw new ProjectNotInRequiredStateException($err);
+        }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
+    return new ProofProject($project);
+}
+
+function receive_project_text_from_request_body($field): string
+{
+    $request_data = api_get_request_body();
+    $page_text = $request_data[$field] ?? null;
+    if (null === $page_text) {
+        throw new InvalidValue("There is no text");
+    }
+    return $page_text;
 }
