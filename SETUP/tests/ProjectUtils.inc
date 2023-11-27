@@ -19,6 +19,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
     ];
     protected $created_projectids = [];
     protected $TEST_TEXT = "This is a test file";
+    protected $TEST_MODIFIED_TEXT = "This is a modified test file";
 
     protected function setUp(): void
     {
@@ -92,6 +93,13 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         $this->quiet_project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
+    }
+
+    protected function advance_to_round3($projectid)
+    {
+        $this->quiet_project_transition($projectid, PROJ_P2_COMPLETE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P3_WAITING_FOR_RELEASE, PT_AUTO);
+        $this->quiet_project_transition($projectid, PROJ_P3_AVAILABLE, PT_AUTO);
     }
 
     protected function _create_project_with_pages($npage = 1)

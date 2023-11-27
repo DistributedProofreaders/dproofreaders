@@ -81,6 +81,19 @@ class InvalidValue extends ApiException
     }
 }
 
+class ForbiddenError extends ApiException
+{
+    public function __construct($message = "Forbidden", $code = 7)
+    {
+        parent::__construct($message, $code);
+    }
+
+    public function getStatusCode()
+    {
+        return 403;
+    }
+}
+
 //---------------------------------------------------------------------------
 // Exceptions that shouldn't happen unless someone is futzing with something
 // they shouldn't be, or there's an unexpected problem.

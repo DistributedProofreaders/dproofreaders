@@ -121,6 +121,87 @@ class ProjectNoMorePagesException extends ProjectException
     }
 }
 
+class ProjectPageStateException extends ProjectException
+{
+    public function __construct($message, $code = 115)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectPageInconsistentStateException extends ProjectException
+{
+    public function __construct($message, $code = 119)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNotInRequiredStateException extends ProjectException
+{
+    public function __construct($message, $code = 120)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectInvalidStateException extends ProjectException
+{
+    public function __construct($message, $code = 121)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNoStateGivenException extends ProjectException
+{
+    public function __construct($message, $code = 122)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectInvalidPageStateException extends ProjectException
+{
+    public function __construct($message, $code = 123)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNoPageStateGivenException extends ProjectException
+{
+    public function __construct($message, $code = 124)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectInvalidTextException extends ProjectException
+{
+    public function __construct($message, $code = 125)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNoTextException extends ProjectException
+{
+    public function __construct($message, $code = 126)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectPage
+{
+    public function __construct($pagename, $pagestate)
+    {
+        $this->page_name = $pagename;
+        $this->page_state = $pagestate;
+    }
+}
+
 class Project
 {
     use CharSuiteSet;
@@ -1798,6 +1879,23 @@ class Project
         if (file_exists($this->dir) && file_exists($dir)) {
             $this->delete_file($dir);
         }
+    }
+
+    public function get_project_page($pagename)
+    {
+        $sql = "
+            SELECT state
+            FROM $this->projectid
+            WHERE image='$pagename'
+        ";
+        $res = DPDatabase::query($sql);
+        $row = mysqli_fetch_row($res);
+        if (!$row) {
+            throw new NonexistentPageException("No such page in project");
+        }
+        [$pagestate] = $row;
+
+        return new ProjectPage($pagename, $pagestate);
     }
 }
 

@@ -4,6 +4,7 @@ include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
+include_once($relPath.'ProofProject.inc');
 include_once("exceptions.inc");
 include_once("api_common.inc");
 
@@ -712,4 +713,84 @@ function api_v1_projects_holdstates($method, $data, $query_params)
 function _get_enabled_filter($query_params)
 {
     return get_flag_value($query_params, "enabled");
+}
+
+//---------------------------------------------------------------------------
+// Proofreading functions
+
+// checkout a page
+function api_v1_project_checkout($method, array $data, array $query_params)
+{
+    try {
+        $proof_project = create_proof_project($data, $query_params);
+        return $proof_project->checkout();
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function api_v1_project_validatetext($method, $data, array $query_params)
+{
+    return TextChecker::analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
+}
+
+function api_v1_project_page(string $method, array $data, array $query_params)
+{
+    global $pguser;
+
+    try {
+        $proof_project = create_proof_project($data, $query_params);
+        $project_page = $data[":pagename"];
+        $page_state = $query_params['pagestate'] ?? null;
+        validate_page_state($page_state, $project_page);
+
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+        if ($method == "GET") {
+            return $proof_project_page->render_page_text();
+        }
+        // must be PUT
+        $page_action = $query_params['pageaction'] ?? null;
+        if (null === $page_action) {
+            throw new BadRequest("No page action found in request.");
+        }
+        switch($page_action) {
+            case 'resume':
+                return $proof_project_page->resume_page();
+            case 'checkin':
+                return $proof_project_page->attempt_save_as_done(receive_project_text_from_request_body('text'));
+            case 'save':
+                return $proof_project_page->save_as_in_progress(receive_project_text_from_request_body('text'));
+            case 'revert':
+                return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
+            case 'abandon':
+                return $proof_project_page->returnToRound($pguser);
+            default:
+                throw new BadRequest("$page_action is not a valid page action.");
+                break;
+        }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function create_proof_project(array $data, array $query_params)
+{
+    $project = $data[":projectid"];
+    $state = $query_params["state"] ?? null;
+    validate_project_state($state, $project);
+    return new ProofProject($project);
+}
+
+function receive_project_text_from_request_body($field): string
+{
+    $request_data = api_get_request_body();
+    $page_text = $request_data[$field] ?? null;
+    if(null === $page_text) {
+        throw new ProjectNoTextException("There is no text");
+    }
+    return $page_text;
 }

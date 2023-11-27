@@ -338,7 +338,7 @@ try {
         default:
             die("unexpected tbutton value: '$tbutton'");
     }
-} catch (ProjectPageException $exception) {
+} catch (ProjectPageException | ProjectPageStateException | PageNotOwnedException $exception) {
     abort($exception->getMessage());
 }
 

@@ -39,11 +39,7 @@ function validate_wordlist($wordlist, $data)
 function validate_page_name($pagename, $data)
 {
     try {
-        $pages = $data[":projectid"]->get_page_names_from_db();
-        if (!in_array($pagename, $pages)) {
-            throw new NonexistentPageException("No such page in project");
-        }
-        return $pagename;
+        return $data[":projectid"]->get_project_page($pagename);
     } catch (NonexistentPageException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
@@ -70,4 +66,55 @@ function validate_release_queue($queueid, $data)
         throw new NotFoundError("queue {$queueid} not found");
     }
     return $queue_data;
+}
+
+function validate_project_state($state, $project)
+{
+    global $PROJECT_STATES_IN_ORDER;
+
+    try {
+        if (null === $state) {
+            throw new ProjectNoStateGivenException("No project state found in request.");
+        }
+        if (!in_array($state, $PROJECT_STATES_IN_ORDER)) {
+            throw new ProjectInvalidStateException("Invalid project state");
+        }
+        if ($state != $project->state) {
+            $err = sprintf(
+                _('Warning: Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+                $project->nameofwork,
+                project_states_text($state),
+                project_states_text($project->state)
+            );
+            throw new ProjectNotInRequiredStateException($err);
+        }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function validate_page_state($page_state, $project_page)
+{
+    global $PAGE_STATES_IN_ORDER;
+
+    try {
+        if (null === $page_state) {
+            throw new ProjectNoPageStateGivenException("No page state found in request.");
+        }
+        if (!in_array($page_state, $PAGE_STATES_IN_ORDER)) {
+            throw new ProjectInvalidPageStateException(sprintf("%s is not a valid page state", $page_state));
+        }
+        if ($page_state != $project_page->page_state) {
+            $err = sprintf(
+                _('Warning: Page  "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+                $project_page->page_name,
+                $page_state,
+                $project_page->page_state
+            );
+            throw new ProjectPageInconsistentStateException($err);
+        }
+
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
 }
