@@ -121,6 +121,47 @@ class ProjectNoMorePagesException extends ProjectException
     }
 }
 
+class ProjectPageStateException extends ProjectException
+{
+    public function __construct($message, $code = 115)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectPageInconsistentStateException extends ProjectException
+{
+    public function __construct($message, $code = 119)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectNotInRequiredStateException extends ProjectException
+{
+    public function __construct($message, $code = 120)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectInvalidTextException extends ProjectException
+{
+    public function __construct($message, $code = 125)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
+class ProjectPage
+{
+    public function __construct($pagename, $pagestate)
+    {
+        $this->page_name = $pagename;
+        $this->page_state = $pagestate;
+    }
+}
+
 /**
  * @property-read string $url
  * @property-read string $dir
@@ -1853,6 +1894,26 @@ class Project
         if (file_exists($this->dir) && file_exists($dir)) {
             $this->delete_file($dir);
         }
+    }
+
+    public function get_project_page($pagename)
+    {
+        $sql = sprintf(
+            "
+            SELECT state
+            FROM $this->projectid
+            WHERE image='%s'
+            ",
+            DPDatabase::escape($pagename)
+        );
+        $res = DPDatabase::query($sql);
+        $row = mysqli_fetch_row($res);
+        if (!$row) {
+            throw new NonexistentPageException("No such page in project");
+        }
+        [$pagestate] = $row;
+
+        return new ProjectPage($pagename, $pagestate);
     }
 }
 

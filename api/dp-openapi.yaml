@@ -924,6 +924,138 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/checkout:
+    put:
+      tags:
+      - project
+      description: Check out a page for proofreading.
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/state_query'
+      responses:
+        200:
+          description: page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/validatetext:
+    put:
+      tags:
+      - project
+      description: Checks the given text for invalid characters, returns data indicating them
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      requestBody:
+        $ref: '#/components/requestBodies/page_text'
+      responses:
+        200:
+          description: analysis data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/text_analysis'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}:
+    put:
+      tags:
+      - project
+      description: Various operations on the page as determined by the 'pageaction_query' parameter
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/state_query'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate_query'
+      - name: pageaction_query
+        in: query
+        description: Action to perform on the page.
+            <br><br>
+            resume - If the page is saved-as-done 'unsaves' it. Response:- proof_page object.
+            <br><br>
+            checkin - Checks the page for invalid characters and if valid, saves it as done. Response:- checkin_response object.
+            <br><br>
+            save - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
+            <br><br>
+            revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
+            <br><br>
+            abandon - Returns the page to the round, response:- none.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/page_text'
+      responses:
+        200:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/checkin_response'
+                  - $ref: '#/components/schemas/proof_page'
+                  - $ref: '#/components/schemas/page_text_state'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+      - project
+      description: Gets the current (last saved) page text
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/state_query'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate_query'
+      responses:
+        200:
+          description: Page text
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proof_page_text'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -1008,6 +1140,50 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY
+
+  parameters:
+    projectid:
+      name: projectid
+      in: path
+      description: ID of project
+      required: true
+      schema:
+        type: string
+
+    state_query:
+      name: state
+      in: query
+      description: Project state
+      required: true
+      schema:
+        type: string
+
+    pagename:
+      name: pagename
+      in: path
+      description: Name of page
+      required: true
+      schema:
+        type: string
+
+    pagestate_query:
+      name: pagestate
+      in: query
+      description: Page state
+      required: true
+      schema:
+        type: string
+
+  requestBodies:
+    page_text:
+      description: Text to save or analyse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
 
   schemas:
     project:
@@ -1370,6 +1546,82 @@ components:
       items:
         type: string
 
+    proof_page_text:
+      type: object
+      properties:
+        text:
+          description: The page text from current round.
+          type: string
+
+    proof_page:
+      type: object
+      properties:
+        text:
+          description: The page text. If page state is 'out' from OCR or previous round, else from current round
+          type: string
+        pagestate:
+          description: The page state, for checking continuity. Either out or temp
+          type: string
+        saved:
+          description: True if the page state is 'temp'
+          type: boolean
+        pagename:
+          description: The filename of the page with extension
+          type: string
+        image_url:
+          description: URL of the image of the page
+          type: string
+        language_direction:
+          description: left-to-right or right-to-left
+          type: string
+          enum: [RTL, LTR]
+        pagenum:
+          description: Page "number" without extension
+          type: string
+        round_info_array:
+          description: Array of names of proofreaders in earlier rounds
+          type: array
+          items:
+            type: string
+
+    checkin_response:
+      type: object
+      properties:
+        message:
+          description: message if reached limit, else empty string.
+          type: string
+        status:
+          description: 1 if limit reached, else 0
+          type: integer
+
+    page_text_state:
+      type: object
+      properties:
+        text:
+          description: The page text, current or original.
+          type: string
+        pagestate:
+          description: The page state, it is now in a 'temp' state since this is returned by save-as-in-progress or save-and-revert-to-original
+          type: string
+        saved:
+          description: Now true (since page has been saved)
+          type: boolean
+          enum: [true]
+
+    text_analysis:
+      type: object
+      properties:
+        valid:
+          type: boolean
+        mark_array:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+
     Error:
       required:
       - message
@@ -1390,6 +1642,12 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
