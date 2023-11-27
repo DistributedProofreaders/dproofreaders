@@ -925,7 +925,7 @@ function validate_zip_file(string $file_path, bool $ignore_extension_check = fal
             ZipArchive::ER_READ => "Read error.",
             ZipArchive::ER_SEEK => "Seek error.",
         ];
-        $error = $zip_results[$result];
+        $error = $zip_results[$result] ?? "Error code $result";
         throw new ZipException("ZipArchive::open() returned '$error'");
     }
 }
