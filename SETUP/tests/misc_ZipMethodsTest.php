@@ -70,6 +70,74 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(is_valid_zip_file('./data/wrong.extension', true));
     }
 
+    // Testing validate_zip_file
+
+    public function testValidateNonExistingFile()
+    {
+        $this->expectExceptionMessage("no file");
+        validate_zip_file('nonexisting_file.zip');
+    }
+
+    public function testValidateValidZipFile()
+    {
+        validate_zip_file('./data/valid.zip');
+        $this->assertTrue(true);
+    }
+
+    public function testValidateValidEmptyZipFile()
+    {
+        validate_zip_file('./data/empty.zip');
+        $this->assertTrue(true);
+    }
+
+    public function testValidateCorruptedZipFile()
+    {
+        $this->expectExceptionMessage("ZipArchive::open() returned 'Zip archive inconsistent.'");
+        validate_zip_file('./data/corrupted.zip');
+    }
+
+    public function testValidateValidZipFileWithInvalidExtension()
+    {
+        $this->expectExceptionMessage("wrong extension");
+        validate_zip_file('./data/wrong.extension');
+    }
+
+    public function testValidateNonExistingFileWithDisabledExtensionCheck()
+    {
+        $this->expectExceptionMessage("no file");
+        validate_zip_file('nonexisting_file.zip', true);
+    }
+
+    public function testValidateValidZipFileWithDisabledExtensionCheck()
+    {
+        validate_zip_file('./data/valid.zip', true);
+        $this->assertTrue(true);
+    }
+
+    public function testValidateValidEmptyZipFileWithDisabledExtensionCheck()
+    {
+        validate_zip_file('./data/empty.zip', true);
+        $this->assertTrue(true);
+    }
+
+    public function testValidateCorruptedZipFileWithDisabledExtensionCheck()
+    {
+        $this->expectExceptionMessage("ZipArchive::open() returned 'Zip archive inconsistent.'");
+        validate_zip_file('./data/corrupted.zip', true);
+    }
+
+    public function testValidateValidZipFileWithInvalidExtensionWithDisabledExtensionCheck()
+    {
+        validate_zip_file('./data/wrong.extension', true);
+        $this->assertTrue(true);
+    }
+
+    public function testValidateNonZipFile()
+    {
+        $this->expectExceptionMessage("ZipArchive::open() returned 'Not a zip archive.'");
+        validate_zip_file('./data/not_zip.zip');
+    }
+
     // Testing list_files_in_zip
 
     public function testListingContentsOfNonExistingFile()
