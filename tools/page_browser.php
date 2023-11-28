@@ -14,6 +14,8 @@ $mentorMode = user_can_mentor_in_any_round() ? "true" : "false";
 $js_files = [
     "$code_url/scripts/splitControl.js",
     "$code_url/scripts/control_bar.js",
+    "$code_url/scripts/view_splitter.js",
+    "$code_url/scripts/text_view.js",
     "$code_url/scripts/page_browse.js",
     "$code_url/tools/page_browser.js",
 ];
