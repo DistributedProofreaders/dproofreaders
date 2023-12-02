@@ -38,7 +38,9 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
                         });
                 }
             })
-            .catch(reject);
+            .catch(function() {
+                reject({error: "Network error", code: 997});
+            });
     });
 }
 

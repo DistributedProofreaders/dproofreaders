@@ -57,6 +57,17 @@ QUnit.module("Ajax test", function() {
             });
     });
 
+    QUnit.test("Network error", function (assert) {
+        function fetchPromise() {
+            return Promise.reject();
+        }
+
+        return ajax("GET", "myUrl", {}, {}, fetchPromise)
+            .then(function() {}, function(data) {
+                assert.strictEqual(data.error, "Network error");
+            });
+    });
+
     QUnit.test("Check sent data", function (assert) {
         function fetchPromise(url, options) {
             assert.strictEqual(url.href, "https://www.dummy.org/api/index.php?url=myUrl&querykey=queryvalue");
