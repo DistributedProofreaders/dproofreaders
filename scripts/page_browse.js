@@ -1,4 +1,4 @@
-/*global $ proofIntData ajax makeImageWidget makeTextWidget viewSplitter */
+/*global $ proofIntData ajax ajaxAlert makeImageWidget makeTextWidget viewSplitter */
 /* exported pageBrowse */
 
 function makePageControl(pages, selectedImageFileName, changePage) {
@@ -124,8 +124,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                         });
                         resolve();
                     })
-                    .catch(function(error) {
-                        alert(error);
+                    .catch(function(data) {
+                        ajaxAlert(data);
                         reject();
                     });
             }
@@ -167,7 +167,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                     ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`)
                         .then(function(data) {
                             textWidget.setText(data.text);
-                        }, alert);
+                        }, ajaxAlert);
                 }
                 replaceUrl();
             }
@@ -330,7 +330,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
 
     function getPages() {
         ajax("GET", `v1/projects/${projectId}/pages`)
-            .then(displayPages, alert);
+            .then(displayPages, ajaxAlert);
     }
 
     function showProjectInfo(projectData) {
@@ -348,8 +348,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
 
     getProjectData = function() {
         ajax("GET", `v1/projects/${projectId}`)
-            .then(showProjectInfo, function(error) {
-                alert(error);
+            .then(showProjectInfo, function(data) {
+                ajaxAlert(data);
                 selectAProject();
             });
     };

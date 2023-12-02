@@ -1,5 +1,5 @@
 /*global codeUrl */
-/* exported ajax */
+/* exported ajax ajaxAlert */
 
 function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
     let url = new URL(codeUrl + "/api/index.php");
@@ -31,14 +31,17 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
                 } else {
                     response.json()
                         .then(function(data) {
-                            let message = data.error;
-                            if(!message) {
-                                message = "Unknown error";
+                            if(!data) {
+                                data = {error: "Unknown error", code: 999};
                             }
-                            reject(message);
+                            reject(data);
                         });
                 }
             })
             .catch(reject);
     });
+}
+
+function ajaxAlert(data) {
+    alert(data.error);
 }

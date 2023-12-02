@@ -40,7 +40,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.strictEqual(data, "not found");
+                assert.strictEqual(data.error, "not found");
             });
     });
 
@@ -53,7 +53,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.strictEqual(data, "Unknown error");
+                assert.strictEqual(data.error, "Unknown error");
             });
     });
 
