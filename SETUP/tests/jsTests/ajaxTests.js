@@ -27,7 +27,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.strictEqual(data.error, "Incorrect response type");
+                assert.deepEqual(data, {error: "Incorrect response type", code: 998});
             });
     });
 
@@ -53,7 +53,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.strictEqual(data.error, "Unknown error");
+                assert.deepEqual(data, {error: "Unknown error", code: 999});
             });
     });
 
@@ -64,7 +64,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.strictEqual(data.error, "Network error");
+                assert.deepEqual(data, {error: "Network error", code: 997});
             });
     });
 
