@@ -27,7 +27,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.strictEqual(data, "Incorrect response type");
+                assert.strictEqual(data.error, "Incorrect response type");
             });
     });
 

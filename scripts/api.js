@@ -25,7 +25,7 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
             .then(function(response) {
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
-                    reject("Incorrect response type");
+                    reject({error: "Incorrect response type", code: 998});
                 } else if(response.ok) {
                     resolve(response.json());
                 } else {
