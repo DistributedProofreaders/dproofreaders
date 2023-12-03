@@ -1,5 +1,9 @@
 /*global codeUrl */
-/* exported ajax ajaxAlert */
+/* exported ajax ajaxAlert unknownError incorrectResponseType networkError */
+
+const unknownError = 999;
+const incorrectResponseType = 998;
+const networkError = 997;
 
 function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
     let url = new URL(codeUrl + "/api/index.php");
@@ -25,21 +29,21 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
             .then(function(response) {
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
-                    reject({error: "Incorrect response type", code: 998});
+                    reject({error: "Incorrect response type", code: incorrectResponseType});
                 } else if(response.ok) {
                     resolve(response.json());
                 } else {
                     response.json()
                         .then(function(data) {
                             if(!data) {
-                                data = {error: "Unknown error", code: 999};
+                                data = {error: "Unknown error", code: unknownError};
                             }
                             reject(data);
                         });
                 }
             })
             .catch(function() {
-                reject({error: "Network error", code: 997});
+                reject({error: "Network error", code: networkError});
             });
     });
 }

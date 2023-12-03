@@ -1,4 +1,4 @@
-/* global QUnit ajax */
+/* global QUnit ajax unknownError incorrectResponseType networkError */
 /* exported codeUrl */
 
 let codeUrl = "https://www.dummy.org";
@@ -27,7 +27,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.deepEqual(data, {error: "Incorrect response type", code: 998});
+                assert.deepEqual(data, {error: "Incorrect response type", code: incorrectResponseType});
             });
     });
 
@@ -53,7 +53,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.deepEqual(data, {error: "Unknown error", code: 999});
+                assert.deepEqual(data, {error: "Unknown error", code: unknownError});
             });
     });
 
@@ -64,7 +64,7 @@ QUnit.module("Ajax test", function() {
 
         return ajax("GET", "myUrl", {}, {}, fetchPromise)
             .then(function() {}, function(data) {
-                assert.deepEqual(data, {error: "Network error", code: 997});
+                assert.deepEqual(data, {error: "Network error", code: networkError});
             });
     });
 
