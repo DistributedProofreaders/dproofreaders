@@ -1692,22 +1692,31 @@ function RelatedPostings($tid)
     echo "<table class='themed theme_striped'>\n";
     $related_postings = decode_array($related_postings);
     asort($related_postings);
-    foreach ($related_postings as $val) {
-        $row = get_topic_details($val);
-        $forum_url = get_url_to_view_forum($row["forum_id"]);
-        $topic_url = get_url_to_view_topic($row["topic_id"]);
+    foreach ($related_postings as $topic_id) {
 
         echo "<tr><td>";
-        echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
-        echo "&nbsp;&raquo;&nbsp;";
-        echo "<a href='$topic_url'>" . $row['title'] . "</a>";
-        echo " (" . sprintf(_('Posted by: %1$s - %2$d replies'), $row['creator_username'], $row['num_replies']) . ")\n";
+
+        if (does_topic_exist($topic_id)) {
+            $row = get_topic_details($topic_id);
+            $forum_url = get_url_to_view_forum($row["forum_id"]);
+            $topic_url = get_url_to_view_topic($row["topic_id"]);
+            echo "<a href='$forum_url'>" . $row['forum_name'] . "</a>";
+            echo "&nbsp;&raquo;&nbsp;";
+            echo "<a href='$topic_url'>" . $row['title'] . "</a>";
+            echo " (" . sprintf(_('Posted by: %1$s - %2$d replies'), $row['creator_username'], $row['num_replies']) . ")\n";
+        } else {
+            // If the topic doesn't exist, most likely because it was merged
+            // into another topic, we should log an error and still give the
+            // user a way to remove it.
+            error_log("tasks.php - task $tid is linked to non-existent topic $topic_id");
+            echo sprintf(_("Topic %d is linked but no longer exists"), $topic_id);
+        }
 
         echo " ";
         echo "<form action='$tasks_url' method='post' style='display: inline;'>";
         echo "<input type='hidden' name='action' value='remove_related_topic'>";
         echo "<input type='hidden' name='task_id' value='$tid'>";
-        echo "<input type='hidden' name='related_posting' value='$val'>";
+        echo "<input type='hidden' name='related_posting' value='$topic_id'>";
         echo "<input type='submit' value='" . attr_safe(_("Remove")) . "'>\n";
         echo "</form>";
         echo "</td></tr>";
