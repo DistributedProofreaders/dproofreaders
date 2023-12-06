@@ -110,19 +110,14 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
 
     protected function add_page($project, $base)
     {
-        $source_project_dir = sys_get_temp_dir();
         $txt_file_name = "$base.txt";
-        $txt_file_path = "$source_project_dir/$txt_file_name";
-        $fp = fopen($txt_file_path, 'w');
-        fwrite($fp, $this->TEST_TEXT);
-        fclose($fp);
+        $txt_file_path = "$project->dir/$txt_file_name";
+        file_put_contents($txt_file_path, $this->TEST_TEXT);
 
         $image_file_name = "$base.png";
-        $img_file_path = "{$project->dir}/$image_file_name";
-        $fp = fopen($img_file_path, 'w');
+        $img_file_path = "$project->dir/$image_file_name";
         // write some data so file is not too short
-        fwrite($fp, str_repeat("This is a test image file", 10));
-        fclose($fp);
+        file_put_contents($img_file_path, str_repeat("This is a test image file", 10));
 
         project_add_page($project->projectid, $base, $image_file_name, $txt_file_path, $this->TEST_USERNAME_PM, time());
     }
