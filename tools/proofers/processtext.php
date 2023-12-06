@@ -208,7 +208,6 @@ try {
 
         case 101:
             // Return from spellchecker via "Submit Corrections" button.
-            include_once('spellcheck_text.inc');
             [$correct_text, $corrections] = spellcheck_apply_corrections();
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
@@ -239,7 +238,6 @@ try {
 
         case 102:
             // Return from spellchecker via "Quit Spell Check" button.
-            include_once('spellcheck_text.inc');
             $correct_text = spellcheck_quit();
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
@@ -267,7 +265,6 @@ try {
             // 1. Quitting the current wordcheck
             // 2. Saving the current page as done
             // 3. Redirecting to the next available page
-            include_once('spellcheck_text.inc');
             $correct_text = spellcheck_quit();
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
@@ -314,7 +311,6 @@ try {
             // User wants to run the page through spellcheck for an another language
             // Apply current corrections to text (but don't save the progress)
             // and rerun through the spellcheck
-            include_once('spellcheck_text.inc');
             $aux_language = $_POST["aux_language"];
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
