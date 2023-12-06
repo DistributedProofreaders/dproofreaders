@@ -704,24 +704,10 @@ function get_topic_details($topic_id)
     $phpbb_forums = phpbb_table("forums");
     $phpbb_users = phpbb_table("users");
 
-    // The database column used to get the total number of posts in a topic
-    // changed between 3.0 and 3.1. We try to determine this automatically
-    // by checking for a directory that only exists in 3.1 and later.
-    if (PHPBB_VERSION == 3 && is_dir("$forums_phpbb_dir/phpbb")) {
-        // 3.1 and later
-        // topic_posts_approved includes the initial post in addition
-        // to the replies so we need to subtract 1 to get the number of
-        // replies
-        $phpbb_topic_replies = "$phpbb_topics.topic_posts_approved - 1";
-    } else {
-        // 2.x and 3.0
-        $phpbb_topic_replies = "$phpbb_topics.topic_replies";
-    }
-
     $query = "
         SELECT $phpbb_topics.topic_id AS topic_id,
             $phpbb_topics.topic_title AS title,
-            $phpbb_topic_replies AS num_replies,
+            IF($phpbb_topics.topic_posts_approved > 0, $phpbb_topics.topic_posts_approved - 1, 0) AS num_replies,
             $phpbb_forums.forum_name AS forum_name,
             $phpbb_forums.forum_id AS forum_id,
             $phpbb_users.username AS creator_username
