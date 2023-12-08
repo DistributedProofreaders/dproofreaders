@@ -49,6 +49,11 @@ window.addEventListener("DOMContentLoaded", function() {
     // Before we start the upload, prevent the user from hitting upload again.
     document.getElementById("old_submit").addEventListener("click", function(ev) {
         let file = document.getElementById("old_browse").files[0];
+        if(!file) {
+            alert(uploadMessages.noFile);
+            ev.preventDefault();
+            return false;
+        }
         if(file.size >= maxNormSize) {
             alert(uploadMessages.fileTooBig);
             ev.preventDefault();
