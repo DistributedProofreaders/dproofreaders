@@ -191,7 +191,7 @@ try {
             }
             // save what we have so far, just in case the spellchecker barfs
             $ppage->saveAsInProgress($text_data, $pguser);
-            $aux_language = '';
+            $languages = get_project_languages($projectid);
             $accepted_words = [];
             $text_data = $_POST["text_data"];
 
@@ -203,7 +203,7 @@ try {
             $is_changed = 0;
 
             slim_header(_("WordCheck"), get_wordcheck_page_header_args($user, $ppage));
-            output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language);
+            output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $languages);
             break;
 
         case 101:
@@ -311,7 +311,7 @@ try {
             // User wants to run the page through spellcheck for an another language
             // Apply current corrections to text (but don't save the progress)
             // and rerun through the spellcheck
-            $aux_language = $_POST["aux_language"];
+            $languages = get_project_languages($projectid, [$_POST["aux_language"]]);
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
             [$text_data, $corrections] = spellcheck_apply_corrections();
@@ -326,7 +326,7 @@ try {
             $is_changed = get_integer_param($_POST, 'is_changed', 0, 0, 1);
 
             slim_header(_("WordCheck"), get_wordcheck_page_header_args($user, $ppage));
-            output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language);
+            output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $languages);
             break;
 
 

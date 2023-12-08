@@ -24,14 +24,14 @@ use voku\helper\UTF8;
  *   Id of projected, needed for temp filename and to load the custom dictionaries
  * @param text $imagefile
  *   Image filename, needed for temp filename
- * @param text $aux_language
- *   Auxiliary language to check against
+ * @param array $languages
+ *   Languages to check against
  * @param array $accepted_words
  *   Array of words that should not be considered misspelled
  *
  * @return array
  */
-function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $accepted_words)
+function spellcheck_text($orig_text, $projectid, $imagefile, $languages, $accepted_words)
 {
     global $puncCharacters;
 
@@ -51,13 +51,8 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $aux_language, $acc
     // prepare the text for checking, in this case change all EOLs to spaces
     $orig_text = str_replace('[lf]', ' ', $orig_text);
 
-    // Handle a UI-ism so that func only needs to handle ''.
-    if ($aux_language == _("Language")) {
-        $aux_language = '';
-    }
-
     [$badWordHash, $languages, $messages] =
-        get_bad_word_levels_for_project_text($orig_text, $projectid, $aux_language, $accepted_words);
+        get_bad_word_levels_for_project_text($orig_text, $projectid, $languages, $accepted_words);
 
     [$uncommonScriptWords, $uncommonScripts] =
         get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($orig_text)));
@@ -393,7 +388,7 @@ $word_check_messages = [
     "rerun" => _("Check page against an additional language"),
 ];
 
-function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $aux_language)
+function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $languages)
 {
     global $code_url, $word_check_messages;
 
@@ -421,7 +416,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
     [$page_contents, $languages, $messages, $highlights] =
-        spellcheck_text($text_data, $ppage->projectid(), $ppage->imagefile(), $aux_language, $accepted_words);
+        spellcheck_text($text_data, $ppage->projectid(), $ppage->imagefile(), $languages, $accepted_words);
 
     // start the div containing the link to show/hide the WordCheck header
     echo "<div>";
@@ -450,9 +445,10 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
 
     // start the first line of the WordCheck header
     // printing any dictionaries used
+    $project_languages = get_project_languages($ppage->projectid());
     echo "<p>";
-    if (count($languages) > 0) {
-        echo sprintf(_("Dictionaries used: <b>%s</b>."), implode(', ', $languages));
+    if (count($project_languages) > 0) {
+        echo sprintf(_("Dictionaries used: <b>%s</b>."), implode(', ', $project_languages));
     } else {
         echo "<b>" . _("No check against a dictionary has been made.") . "</b>";
     }
@@ -471,15 +467,16 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo "<option value=''>" . _("Language") . "</option>\n";
 
     // get a list of languages with dictionaries installed on the system
+    $aux_languages = array_diff($languages, $project_languages);
     $dict_list = get_languages_with_dictionaries();
     asort($dict_list);
     foreach ($dict_list as $langcode => $language) {
-        // skip the languages that we just used.
-        if (in_array($language, $languages)) {
+        // skip the project-specific languages that we just used.
+        if (in_array($language, $project_languages)) {
             continue;
         }
         echo "<option value='" .  attr_safe($language) . "'";
-        if (strcmp($language, $aux_language) == 0) {
+        if (in_array($language, $aux_languages)) {
             echo " selected";
         }
         echo ">$language</option>\n";
