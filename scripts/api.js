@@ -1,9 +1,11 @@
 /*global codeUrl */
-/* exported ajax ajaxAlert unknownError incorrectResponseType networkError */
+/* exported ajax ajaxAlert AJAX_ERROR_CODES */
 
-const unknownError = 999;
-const incorrectResponseType = 998;
-const networkError = 997;
+const AJAX_ERROR_CODES = {
+    UNKNOWN_ERROR: 999,
+    INCORRECT_RESPONSE_TYPE: 998,
+    NETWORK_ERROR: 997,
+};
 
 function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
     let url = new URL(codeUrl + "/api/index.php");
@@ -29,21 +31,21 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
             .then(function(response) {
                 const contentType = response.headers.get('content-type');
                 if (!contentType || !contentType.includes('application/json')) {
-                    reject({error: "Incorrect response type", code: incorrectResponseType});
+                    reject({error: "Incorrect response type", code: AJAX_ERROR_CODES.INCORRECT_RESPONSE_TYPE});
                 } else if(response.ok) {
                     resolve(response.json());
                 } else {
                     response.json()
                         .then(function(data) {
                             if(!data) {
-                                data = {error: "Unknown error", code: unknownError};
+                                data = {error: "Unknown error", code: AJAX_ERROR_CODES.UNKNOWN_ERROR};
                             }
                             reject(data);
                         });
                 }
             })
             .catch(function() {
-                reject({error: "Network error", code: networkError});
+                reject({error: "Network error", code: AJAX_ERROR_CODES.NETWORK_ERROR});
             });
     });
 }
