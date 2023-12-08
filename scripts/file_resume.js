@@ -57,7 +57,6 @@ window.addEventListener("DOMContentLoaded", function() {
         if(validate(file.name)) {
             // won't work if we disable browse button so hide it
             document.getElementById("old_browse").style.display = "none";
-            document.getElementById("old_browse").disabled = true;
             showProgress(uploadMessages.working);
         } else {
             ev.preventDefault();
