@@ -123,15 +123,13 @@ function show_upload_form($form_content, $submit_label)
         <span id='resumable_browse' class='button'>", _("Choose File"), "</span>
         <span id='resumable_submit' class='button'>", html_safe($submit_label), "</span></p>
     ";
-
-    echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
-
     echo "<p>", sprintf(
         _("Your browser supports uploading large files (up to %s) via javascript. If the upload fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."),
         humanize_bytes(RESUMABLE_UPLOAD_SIZE)
     ), "</p>";
     echo "</div>";
 
+    echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
     echo "</form>\n";
 }
 
