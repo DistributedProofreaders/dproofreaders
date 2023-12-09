@@ -308,7 +308,7 @@ try {
             break;
 
         case 104:
-            // User wants to run the page through spellcheck for an another language
+            // User wants to run the page through spellcheck for another language
             // Apply current corrections to text (but don't save the progress)
             // and rerun through the spellcheck
             $languages = get_project_languages($projectid, [$_POST["aux_language"]]);
