@@ -445,10 +445,9 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
 
     // start the first line of the WordCheck header
     // printing any dictionaries used
-    $project_languages = get_project_languages($ppage->projectid());
     echo "<p>";
-    if (count($project_languages) > 0) {
-        echo sprintf(_("Dictionaries used: <b>%s</b>."), implode(', ', $project_languages));
+    if (count($languages) > 0) {
+        echo sprintf(_("Dictionaries used: <b>%s</b>."), implode(', ', $languages));
     } else {
         echo "<b>" . _("No check against a dictionary has been made.") . "</b>";
     }
@@ -467,19 +466,16 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo "<option value=''>" . _("Language") . "</option>\n";
 
     // get a list of languages with dictionaries installed on the system
-    $aux_languages = array_diff($languages, $project_languages);
     $dict_list = get_languages_with_dictionaries();
     asort($dict_list);
     foreach ($dict_list as $langcode => $language) {
-        // skip the project-specific languages that we just used.
-        if (in_array($language, $project_languages)) {
+        // skip the languages that we just used.
+        if (in_array($language, $languages)) {
             continue;
         }
-        echo "<option value='" .  attr_safe($language) . "'";
-        if (in_array($language, $aux_languages)) {
-            echo " selected";
-        }
-        echo ">$language</option>\n";
+        echo "<option value='" .  attr_safe($language) . "'>";
+        echo html_safe($language);
+        echo "</option>\n";
     }
     echo "</select>";
 
