@@ -209,14 +209,39 @@
 
     #wc_header {
         input, select {
-            background-color: white;
-            color: black;
-            .solid-border;
+            .page-interface .text-pane;
         }
         button, input[type=submit], input[type=button] {
             .button;
         }
+        .dict-selection {
+            margin: 5px;
+            .dict-section {
+                margin: 5px;
+                .dict-section-title {
+                    padding: 3px 4px;
+                    display: inline;
+                }
+                .remove-language {
+                    .page-interface .text-pane;
+                    .solid-border;
+                    border-radius: 5px;
+                    font-size: 0.9em;
+                    display: inline;
+                    padding: 3px 4px 3px 0;
+                    margin: 2px;
+                    input {
+                        border: none;
+                        background: none;
+                        outline: none;
+                        box-shadow: none;
+                        color: red;
+                    }
+                }
+            }
+        }
     }
+
 }
 
 .preWC {

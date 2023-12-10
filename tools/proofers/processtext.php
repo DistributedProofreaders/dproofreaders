@@ -84,7 +84,7 @@ if (isset($_POST['spsaveandnext'])) {
     $tbutton = 103;
 }
 // Spellcheck against another language
-if (isset($_POST['rerunauxlanguage'])) {
+if (isset($_POST['rerunauxlanguage']) || isset($_POST["remove_language"])) {
     $tbutton = 104;
 }
 
@@ -311,7 +311,13 @@ try {
             // User wants to run the page through spellcheck for another language
             // Apply current corrections to text (but don't save the progress)
             // and rerun through the spellcheck
-            $languages = get_project_languages($projectid, [$_POST["aux_language"]]);
+            $languages = $_POST["languages"] ?? [];
+            if ($_POST["aux_language"] ?? null) {
+                $languages[] = $_POST["aux_language"];
+            }
+            if (isset($_POST["remove_language"])) {
+                $languages = array_diff($languages, array_keys($_POST["remove_language"] ?? []));
+            }
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
             [$text_data, $corrections] = spellcheck_apply_corrections();

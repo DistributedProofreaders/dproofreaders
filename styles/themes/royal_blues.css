@@ -547,9 +547,8 @@
 }
 #wordcheck_interface #wc_header input,
 #wordcheck_interface #wc_header select {
-  background-color: white;
+  background-color: #FFF8DC;
   color: black;
-  border: thin solid #000000;
 }
 #wordcheck_interface #wc_header button,
 #wordcheck_interface #wc_header input[type=submit],
@@ -564,6 +563,33 @@
   cursor: default;
   font-family: Verdana, Helvetica, sans-serif;
   border: thin solid #000000;
+}
+#wordcheck_interface #wc_header .dict-selection {
+  margin: 5px;
+}
+#wordcheck_interface #wc_header .dict-selection .dict-section {
+  margin: 5px;
+}
+#wordcheck_interface #wc_header .dict-selection .dict-section .dict-section-title {
+  padding: 3px 4px;
+  display: inline;
+}
+#wordcheck_interface #wc_header .dict-selection .dict-section .remove-language {
+  background-color: #FFF8DC;
+  color: black;
+  border: thin solid #000000;
+  border-radius: 5px;
+  font-size: 0.9em;
+  display: inline;
+  padding: 3px 4px 3px 0;
+  margin: 2px;
+}
+#wordcheck_interface #wc_header .dict-selection .dict-section .remove-language input {
+  border: none;
+  background: none;
+  outline: none;
+  box-shadow: none;
+  color: red;
 }
 .preWC {
   background-color: #c2c2c2;
