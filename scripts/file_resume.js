@@ -60,8 +60,11 @@ window.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         if(validate(file.name)) {
-            // won't work if we disable browse button so hide it
+            // won't work if we disable the buttons so hide them
+            // and show the file name instead
             document.getElementById("old_browse").style.display = "none";
+            document.getElementById("old_submit").style.display = "none";
+            document.getElementById("file_name").innerText = file.name;
             showProgress(uploadMessages.working);
         } else {
             ev.preventDefault();
