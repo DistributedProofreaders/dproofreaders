@@ -36,7 +36,7 @@ mysqli_free_result($pages_res);
 
 // now run it through WordCheck
 [$bad_words_w_freq, $languages, $messages] =
-    get_bad_word_freqs_for_project_text($page_texts, $projectid);
+    get_bad_word_freqs_for_project_text($page_texts, $projectid, get_project_languages($projectid));
 
 // see how many of the words are on the site and project bad word list
 $total["proj_bad_words"] = 0;
