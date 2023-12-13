@@ -471,8 +471,6 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     }
 
     // limit the total number of dictionaries to 5
-    // Note: if a user de-selects the project languages, and then adds 5
-    // this code will allow them to select the project languages too for >5.
     if (count($languages) < 5) {
         // output the code allowing the user to select another language
         echo "<select name='aux_language'>";
