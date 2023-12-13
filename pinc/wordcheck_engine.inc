@@ -60,16 +60,16 @@ define('WC_PAGE', 4);
  * @param string $projectid
  *   ID of project, needed for project languages and to load the custom
  *   dictionaries
- * @param string $aux_languages
- *   Auxiliary language to check against.
+ * @param array $languages
+ *   Languages to check against.
  * @param array $adhoc_good_words
  *   Array of words to treat as good for this invocation only.
  *
  * @return array
  */
-function get_bad_word_freqs_for_project_text($text, $projectid, $aux_language = '', $adhoc_good_words = [])
+function get_bad_word_freqs_for_project_text($text, $projectid, $languages, $adhoc_good_words = [])
 {
-    return _get_bad_words_for_project_text('FREQS', $text, $projectid, $aux_language, $adhoc_good_words);
+    return _get_bad_words_for_project_text('FREQS', $text, $projectid, $languages, $adhoc_good_words);
 }
 
 /**
@@ -91,16 +91,16 @@ function get_bad_word_freqs_for_project_text($text, $projectid, $aux_language = 
  * @param string $projectid
  *   ID of project, needed for project languages and to load the custom
  *   dictionaries
- * @param string $aux_languages
- *   Auxiliary language to check against.
+ * @param array $languages
+ *   Languages to check against.
  * @param array $adhoc_good_words
  *   Array of words to treat as good for this invocation only.
  *
  * @return array
  */
-function get_bad_word_levels_for_project_text($text, $projectid, $aux_language = '', $adhoc_good_words = [])
+function get_bad_word_levels_for_project_text($text, $projectid, $languages, $adhoc_good_words = [])
 {
-    return _get_bad_words_for_project_text('LEVELS', $text, $projectid, $aux_language, $adhoc_good_words);
+    return _get_bad_words_for_project_text('LEVELS', $text, $projectid, $languages, $adhoc_good_words);
 }
 
 /**
@@ -127,20 +127,16 @@ function get_bad_word_levels_for_project_text($text, $projectid, $aux_language =
  * @param string $projectid
  *   ID of project, needed for project languages and to load the custom
  *   dictionaries
- * @param string $aux_languages
- *   Auxiliary language to check against.
+ * @param array $languages
+ *   Languages to check against.
  * @param array $adhoc_good_words
  *   Array of words to treat as good for this invocation only.
  *
  * @return array
  */
-function _get_bad_words_for_project_text($which_result_values, $text, $projectid, $aux_language, $adhoc_good_words)
+function _get_bad_words_for_project_text($which_result_values, $text, $projectid, $languages, $adhoc_good_words)
 {
     $messages = [];
-
-    // Get the list of languages that we'll use. This also ensures that
-    // $aux_language is a valid language and if not discards it.
-    $languages = array_values(get_project_languages($projectid, $aux_language));
 
     // And the langcode3s for those languages
     [$langcode3s, $new_messages] = get_langcode3s_for_languages($languages);
@@ -783,21 +779,21 @@ function load_project_good_word_suggestions($projectid, $start_time = 0)
 
 function load_site_good_words_given_project($projectid)
 {
-    $languages = array_values(get_project_languages($projectid));
+    $languages = get_project_languages($projectid);
     [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
     return load_site_good_words($langcode3s);
 }
 
 function load_site_bad_words_given_project($projectid)
 {
-    $languages = array_values(get_project_languages($projectid));
+    $languages = get_project_languages($projectid);
     [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
     return load_site_bad_words($langcode3s);
 }
 
 function load_site_possible_bad_words_given_project($projectid)
 {
-    $languages = array_values(get_project_languages($projectid));
+    $languages = get_project_languages($projectid);
     [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
     return load_site_possible_bad_words($langcode3s);
 }
@@ -995,9 +991,17 @@ function save_word_list($path, $words)
 // -----------------------------------------------------------------------------
 
 /**
- * Returns an associative array of all languages for a project
+ * Returns an array of all languages for a project
+ *
+ * @param string $projectid
+ *   ID of project
+ * @param array $aux_languages
+ *   Any additional languages to append to the list of project languages.
+ *   This function will silently filter out any invalid values.
+ *
+ * @return array
  */
-function get_project_languages($projectid, $aux_language = null)
+function get_project_languages($projectid, $aux_languages = [])
 {
     $returnArray = [];
 
@@ -1006,15 +1010,13 @@ function get_project_languages($projectid, $aux_language = null)
     } catch (NonexistentProjectException $exception) {
         return $returnArray;
     }
-    $languages = $project->languages;
-    if ($aux_language) {
-        $languages[] = $aux_language;
-    }
 
+    // filter out unknown languages by removing those without langcode2s
+    $languages = array_merge($project->languages, $aux_languages);
     foreach ($languages as $language) {
         $langcode = langcode2_for_langname($language);
         if ($langcode) {
-            $returnArray[$langcode] = $language;
+            $returnArray[] = $language;
         }
     }
 
