@@ -64,7 +64,16 @@ function get_preview_js_vars()
         "hlt" => _("Poss. Issues"),
     ];
 
-    $demo_string = "{$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}} <b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>";
+    $demo_string = "{$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}} <b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>
+
+/#
+Block quote
+
+/*
+No wrap in block quote
+*/
+#/
+";
 
     $preview_strings = json_encode([
         "background" => _("Background"),
@@ -152,7 +161,7 @@ function output_preview_div()
 
     // draw the configuration panel
     echo "<div id='id_config_panel' class='no_display'>
-<div id='color_test'></div>\n";
+<pre id='color_test'></pre>\n";
 
     echo "<fieldset><legend>$choose_colors</legend>\n<table id='color_table'></table>\n</fieldset>\n";
 
