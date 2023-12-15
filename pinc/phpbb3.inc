@@ -187,7 +187,7 @@ function _insert_post(
     // see: https://phpbbmodders.net/articles/3.0/create_post/
     global $db, $user, $auth;
 
-
+    // Populate $user and determine $auth & $poster_id from that
     if ($poster_is_real) {
         $username = $poster_name;
         $poster_name = '';
@@ -223,6 +223,24 @@ function _insert_post(
         $attach_sig = false;
     }
 
+    // Get the forum name for the email
+    $sql = sprintf(
+        "
+        SELECT forum_name
+        FROM {$forums_phpbb_table_prefix}_forums
+        WHERE forum_id=%d
+        ",
+        $forum_id
+    );
+    $result = $db->sql_query($sql);
+    $row = $db->sql_fetchrow($result);
+    if (!$row or !$row["forum_name"]) {
+        die_nz("no forum with id '$forum_id'");
+    }
+    $db->sql_freeresult($result);
+    $forum_name = $row["forum_name"];
+
+    // Build other data variables
     $post_subject = utf8_recode($post_subject, $charset);
     $post_text = utf8_recode($post_text, $charset);
 
@@ -271,7 +289,7 @@ function _insert_post(
 
         // Email Notification Settings
         'post_time' => 0,        // Set a specific time, use 0 to let submit_post() take care of getting the proper time (int)
-        'forum_name' => '',       // For identifying the name of the forum in a notification email. (string)
+        'forum_name' => $forum_name,   // For identifying the name of the forum in a notification email. (string)
 
         // Indexing
         'enable_indexing' => true,    // Allow indexing the post? (bool)
