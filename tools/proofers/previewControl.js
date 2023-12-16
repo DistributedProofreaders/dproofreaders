@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define, camelcase */
 /* exported previewControl, initPrev */
 /* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings
-previewMessages defaultStyles */
+previewMessages */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has diplay:none; which means it is not displayed and the page
@@ -36,7 +36,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
     let colorTable = $("#color_table");
     let fontSelector = document.getElementById("id_font_sel");
-    let previewStyles = defaultStyles;
 
     var suppCheckBox = [];
 
@@ -45,6 +44,32 @@ window.addEventListener("DOMContentLoaded", () => {
 
     var tempStyle = {}; // used during configure
 
+    // these are the default values. If the user changes anything the new
+    // styles are saved in local storage and reloaded next time.
+    // the foreground and background colours for plain text, italic, bold,
+    // gesperrt, smallcaps, font change, other tags, highlighting issues
+    // and possible issues.
+    // An empty color string means use default color
+    var previewStyles = {
+        t: {bg: "#fffcf4", fg: "#000000"},
+        i: {bg: "", fg: "#0000ff"},
+        b: {bg: "", fg: "#c55a1b"},
+        g: {bg: "", fg: "#8a2be2"},
+        sc: {bg: "", fg: "#009700"},
+        f: {bg: "", fg: "#ff0000"},
+        u: {bg: "", fg: ""},
+        etc: {bg: "#ffcaaf", fg: ""},
+        err: {bg: "#ff0000", fg: ""},
+        hlt: {bg: "#ceff09", fg: ""},
+        blockquote: {bg: "#fecafe", fg: ""},
+        nowrap: {bg: "#d1fcff", fg: ""},
+        color: true, // colour the markup or not
+        allowUnderline: false,
+        defFontIndex: 0,
+        suppress: {},
+        initialViewMode: "no_tags",
+        allowMathPreview: false
+    };
     supp_set.forEach(function (msg, i) {
         previewStyles.suppress[msg] = false;
         suppCheckBox[i] = document.getElementById(msg);
@@ -121,9 +146,10 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function initStyle() {
+        var style0;
         if (localStorage.getItem('preview_data')) {
-            let localStyle = JSON.parse(localStorage.preview_data);
-            previewStyles = deepCopy(previewStyles, localStyle, true);
+            style0 = JSON.parse(localStorage.preview_data);
+            previewStyles = deepCopy(previewStyles, style0, true);
         }
     }
 
