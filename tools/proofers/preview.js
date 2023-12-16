@@ -1,4 +1,4 @@
-/* exported makePreview analyse processExMath */
+/* exported makePreview analyse processExMath defaultStyles */
 /* global XRegExp */
 
 // The formatting rules are applied as if proofers' notes were
@@ -13,9 +13,32 @@
 // The final text should not contain any invalid html which would cause the
 // browser to leave it out.
 
-var makePreview;
-var analyse;
-var getILTags;
+// these are the default values. If the user changes anything the new
+// styles are saved in local storage and reloaded next time.
+// the foreground and background colours for plain text, italic, bold,
+// gesperrt, smallcaps, font change, other tags, highlighting issues
+// and possible issues.
+// An empty color string means use default color
+var defaultStyles = {
+    t: {bg: "#fffcf4", fg: "#000000"},
+    i: {bg: "", fg: "#0000ff"},
+    b: {bg: "", fg: "#c55a1b"},
+    g: {bg: "", fg: "#8a2be2"},
+    sc: {bg: "", fg: "#009700"},
+    f: {bg: "", fg: "#ff0000"},
+    u: {bg: "", fg: ""},
+    etc: {bg: "#ffcaaf", fg: ""},
+    err: {bg: "#ff0000", fg: ""},
+    hlt: {bg: "#ceff09", fg: ""},
+    blockquote: {bg: "#fecafe", fg: ""},
+    nowrap: {bg: "#d1fcff", fg: ""},
+    color: true, // colour the markup or not
+    allowUnderline: false,
+    defFontIndex: 0,
+    suppress: {},
+    initialViewMode: "no_tags",
+    allowMathPreview: false
+};
 
 // processes the text by textFunction but in math mode only outside math markup
 // define this at top level so we can test it
@@ -64,7 +87,15 @@ function removeTrail(txt) {
     return txt;
 }
 
-analyse = function (txt, config) {
+const getILTags = function(configuration) {
+    let ILTags = "[ibfg]|sc";
+    if (configuration.allowUnderline) {
+        ILTags += "|u";
+    }
+    return ILTags;
+};
+
+const analyse = function (txt, config) {
 // the default issue types, can be over-ridden
 // 1 means a definite issue, 0 a possible issue
     const ILTags = getILTags(config);
@@ -852,14 +883,6 @@ analyse = function (txt, config) {
     };
 }; // end of analyse
 
-getILTags = function(configuration) {
-    let ILTags = "[ibfg]|sc";
-    if (configuration.allowUnderline) {
-        ILTags += "|u";
-    }
-    return ILTags;
-};
-
 /*
 This function checks the text for formatting issues and adds the markup
 for colouring and issue highlighting.
@@ -870,7 +893,7 @@ viewMode determines if the inline tags are to be shown or hidden
 wrapMode whether to re-wrap the text.
 styler is an object containing colour and font options.
 */
-makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
+const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     const ILTags = getILTags(styler);
     const endSpan = "</span>";
 
