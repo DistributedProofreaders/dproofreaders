@@ -975,13 +975,15 @@ window.addEventListener('DOMContentLoaded', function() {
             // for out-of-line tags, tb, sub- and super-scripts
             let colorString = makeColourStyle('etc');
 
-            function oolReplacer(match) {
-                return `<span${colorString}>${boxHtml(match)}</span>`;
+            function colorReplace(regex, colorString) {
+                txt = txt.replace(regex, function replacer(match) {
+                    return `<span${colorString}>${boxHtml(match)}</span>`;
+                });
             }
 
             // out of line tags and <tb>
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                txt = txt.replace(/\/\*|\*\/|\/#|#\/|┌tb┐/g, oolReplacer);
+                colorReplace(/\/\*|\*\/|\/#|#\/|┌tb┐/g, colorString);
             }
 
             // encode any unrecognised tags
