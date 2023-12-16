@@ -62,6 +62,8 @@ function get_preview_js_vars()
         "etc" => _("Other tags"),
         "err" => _("Issues"),
         "hlt" => _("Poss. Issues"),
+        "blockquote" => _("Block quote"),
+        "nowrap" => _("No wrap"),
     ];
 
     $demo_string = "{$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}} <b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>

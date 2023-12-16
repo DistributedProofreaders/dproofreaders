@@ -983,7 +983,9 @@ window.addEventListener('DOMContentLoaded', function() {
 
             // out of line tags and <tb>
             if (!wrapMode && styler.color) {    // not re-wrap and colouring
-                colorReplace(/\/\*|\*\/|\/#|#\/|┌tb┐/g, colorString);
+                colorReplace(/┌tb┐/g, colorString);
+                colorReplace(/\/#|#\//g, makeColourStyle('blockquote'));
+                colorReplace(/\/\*|\*\//g, makeColourStyle('nowrap'));
             }
 
             // encode any unrecognised tags

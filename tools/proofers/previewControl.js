@@ -61,6 +61,8 @@ window.addEventListener("DOMContentLoaded", () => {
         etc: {bg: "#ffcaaf", fg: ""},
         err: {bg: "#ff0000", fg: ""},
         hlt: {bg: "#ceff09", fg: ""},
+        blockquote: {bg: "#fecafe", fg: ""},
+        nowrap: {bg: "#d1fcff", fg: ""},
         color: true, // colour the markup or not
         allowUnderline: false,
         defFontIndex: 0,
