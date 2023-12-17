@@ -19,7 +19,7 @@
 // gesperrt, smallcaps, font change, other tags, highlighting issues
 // and possible issues.
 // An empty color string means use default color
-var defaultStyles = {
+const defaultStyles = {
     t: {bg: "#fffcf4", fg: "#000000"},
     i: {bg: "", fg: "#0000ff"},
     b: {bg: "", fg: "#c55a1b"},
