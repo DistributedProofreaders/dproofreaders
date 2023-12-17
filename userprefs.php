@@ -166,16 +166,13 @@ $theme_extra_args["js_data"] =
     // font_sample when they change.
     window.addEventListener('DOMContentLoaded', () => {
         for (const orientation of ['v', 'h']) {
-            let radios = document.querySelectorAll('input[name=\"' + orientation + '_fntf\"]');
-            if(radios) {
-                radios.forEach(radio => {
-                    radio.addEventListener('change', function () {
-                        do_font_sample_update(this.value, null, orientation);
-                    });
+            document.querySelectorAll('input[name=\"' + orientation + '_fntf\"]').forEach(radio => {
+                radio.addEventListener('change', function () {
+                    do_font_sample_update(this.value, null, orientation);
                 });
-            }
+            });
             let otherInput = document.querySelector('input[name=\"' + orientation + '_fntf_other\"]');
-            if(otherInput) {
+            if (otherInput) {
                 otherInput.addEventListener('input', function() {
                     const otherRadio = document.querySelector('input[name=\"' + orientation + '_fntf\"][value=\"1\"]')
                     otherRadio.checked = true;
@@ -183,7 +180,7 @@ $theme_extra_args["js_data"] =
                 });
             }
             let fontSizeSelector = document.getElementById(orientation + '_fnts');
-            if(fontSizeSelector) {
+            if (fontSizeSelector) {
                 fontSizeSelector.addEventListener('change', function() {
                     do_font_sample_update(null, this.value, orientation);
                 });
