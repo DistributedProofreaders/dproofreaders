@@ -520,7 +520,7 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 1);
-        assert.strictEqual(preview.txtout, "<span style=\"background-color:#ceff09;\"title='unRecTag'>&lt;</span>i&amp;&gt;");
+        assert.strictEqual(preview.txtout, "<span class='hlt_color' title='unRecTag'>&lt;</span>i&amp;&gt;");
     });
 
     QUnit.test("Check html entity is encoded", function (assert) {
@@ -538,7 +538,7 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\">Ab</span>");
+        assert.strictEqual(preview.txtout, "<span class='sc_color sc'>Ab</span>");
     });
 
     QUnit.test("Small cap markup with all upper case", function (assert) {
@@ -547,7 +547,7 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\"><span class=\"tt\">AB</span></span>");
+        assert.strictEqual(preview.txtout, "<span class='sc_color sc'><span class=\"tt\">AB</span></span>");
     });
 
     QUnit.test("Small cap markup with all upper case with &", function (assert) {
@@ -556,7 +556,7 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<span class='sc'  style=\"color:#009700;\"><span class=\"tt\">A&amp;B</span></span>");
+        assert.strictEqual(preview.txtout, "<span class='sc_color sc'><span class=\"tt\">A&amp;B</span></span>");
     });
 
     QUnit.test("Rewrap continuation paragraph", function (assert) {

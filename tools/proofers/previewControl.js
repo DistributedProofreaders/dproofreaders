@@ -13,6 +13,7 @@ The configuration screen is handled in the same way.
 previewStrings are translated strings in header args
 */
 var previewControl;
+var previewColorStyle;
 
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
@@ -38,6 +39,9 @@ window.addEventListener("DOMContentLoaded", () => {
     let fontSelector = document.getElementById("id_font_sel");
     let previewStyles = defaultStyles;
 
+    previewColorStyle = document.createElement('style');
+    document.head.appendChild(previewColorStyle);
+
     var suppCheckBox = [];
 
     var viewMode;
@@ -56,6 +60,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function getMessage(index) {
         return previewMessages[index];
+    }
+
+    function makeColorStyles(config) {
+        let styleString = '';
+        Object.keys(tagNames).forEach(function(tag) {
+            let tagStyle = config[tag];
+            let innerString = "";
+            if (tagStyle.fg !== "") {
+                innerString = `color:${tagStyle.fg};`;
+            }
+            if (tagStyle.bg !== "") {
+                innerString += `background-color:${tagStyle.bg};`;
+            }
+            styleString += `.${tag}_color {${innerString}} `;
+        });
+        previewColorStyle.innerHTML = styleString;
     }
 
     function writePreviewText() {
@@ -120,12 +140,15 @@ window.addEventListener("DOMContentLoaded", () => {
         return dest;
     }
 
+
+
     function initStyle() {
         var style0;
         if (localStorage.getItem('preview_data')) {
             style0 = JSON.parse(localStorage.preview_data);
             previewStyles = deepCopy(previewStyles, style0, true);
         }
+        makeColorStyles(previewStyles);
     }
 
     function setSelectedFont() {
@@ -219,6 +242,7 @@ window.addEventListener("DOMContentLoaded", () => {
     function testDraw() {
         testDiv.style.backgroundColor = tempStyle.t.bg;
         testDiv.style.color = tempStyle.t.fg;
+        makeColorStyles(tempStyle);
         preview = makePreview(previewStrings.previewDemo, 'no_tags', false, tempStyle, getMessage);
         testDiv.innerHTML = preview.txtout;
     }
@@ -353,7 +377,9 @@ window.addEventListener("DOMContentLoaded", () => {
             });
         },
 
-        cancelConfig: function () { // don't change anything
+        cancelConfig: function () {
+            // restore color style css
+            makeColorStyles(previewStyles);
             hideConfig();
         },
     };
