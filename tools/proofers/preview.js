@@ -897,28 +897,6 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     const ILTags = getILTags(styler);
     const endSpan = "</span>";
 
-    function makeColourStyle(s) {
-        var style = styler[s];
-        var haveStyle = false;
-        var str = "";
-        // style issues always even if coloring turned off
-        if (!styler.color && (s !== "err") && (s !== "hlt")) {
-            return str;
-        }
-        if (style.fg !== "") {
-            haveStyle = true;
-            str = 'color:' + style.fg + ';';
-        }
-        if (style.bg !== "") {
-            haveStyle = true;
-            str += ('background-color:' + style.bg + ';');
-        }
-        if (haveStyle) {
-            str = ' style="' + str + '"';
-        }
-        return str;
-    }
-
     function htmlEncode(s) {
         return s.replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
@@ -949,6 +927,17 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
             }
         }
 
+        function decideClass(colorClass, formatClass) {
+            let classes = [];
+            if (styler.color) {
+                classes.push(`${colorClass}_color`);
+            }
+            if (viewMode !== "flat") {
+                classes.push(formatClass);
+            }
+            return (classes.length > 0) ? ` class='${classes.join(" ")}'` : '';
+        }
+
         function spanStyle(match, p1, p2) {
         // p1 is "/" or "", p2 is the tag id
             var tagMap = {
@@ -974,14 +963,8 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
             if (p1 === '/') {   // end tag
                 return tagMark + endSpan;
             }
-            // if flat do not apply style (some change the width)
-            var styleClass;
-            if (viewMode === "flat") {
-                styleClass = " ";
-            } else {
-                styleClass = " class='" + p2 + "' ";
-            }
-            return "<span" + styleClass + makeColourStyle(p2) + '>' + tagMark;
+            let styleClass = decideClass(p2, p2);
+            return `<span${styleClass}>${tagMark}`;
         }
 
         // inline tags
@@ -994,42 +977,32 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         var reTag = new RegExp("┌(\\/?)(" + ILTags + ")┐", "g");
         txt = txt.replace(reTag, spanStyle);
 
-        // for out-of-line tags, tb, sub- and super-scripts
-        let colorString = makeColourStyle('etc');
-
-        function colorReplace(regex, colorString) {
-            txt = txt.replace(regex, function replacer(match) {
-                return `<span${colorString}>${boxHtml(match)}</span>`;
-            });
-        }
-
         // out of line tags and <tb>
         if (!wrapMode && styler.color) {    // not re-wrap and colouring
-            colorReplace(/┌tb┐/g, colorString);
-            colorReplace(/\/#|#\//g, makeColourStyle('blockquote'));
-            colorReplace(/\/\*|\*\//g, makeColourStyle('nowrap'));
+            txt = txt.replace(/┌tb┐/g, function replacer(match) {
+                return `<span class="etc_color">${boxHtml(match)}</span>`;
+            });
+            txt = txt.replace(/\/#|#\//g, "<span class='blockquote_color'>$&</span>");
+            txt = txt.replace(/\/\*|\*\//g, "<span class='nowrap_color'>$&</span>");
         }
 
         // encode any unrecognised tags
         txt = boxHtml(txt);
 
         // show sub- and super-scripts
-        let tagText = (viewMode === "no_tags") ? "$1" : "$&";
         function showSubSuper(text) {
-            let subClass, superClass;
-            if (viewMode !== "flat") {
-                subClass = ' class="sub"';
-                superClass = ' class="sup"';
-            } else {
-                subClass = '';
-                superClass = '';
+            function ssReplace(regex, ssClass) {
+                let styleClass = decideClass("etc", ssClass);
+                let tagText = (viewMode === "no_tags") ? "$1" : "$&";
+                text = text.replace(regex, `<span${styleClass}>${tagText}</span>`);
             }
-            let textOut = text.replace(/_\{(.+?)\}/g, '<span' + subClass + colorString + ">" + tagText + "</span>");
-            textOut = textOut.replace(/\^\{(.+?)\}/g, '<span' + superClass + colorString + ">" + tagText + "</span>");
+            ssReplace(/_\{(.+?)\}/g, "sub");
+            ssReplace(/\^\{(.+?)\}/g, "sup");
             // single char superscript -  any char except {
             // do not allow < as a single char superscript
             // incase it's a tag which would give overlapping markup
-            return textOut.replace(/\^([^{<])/g, '<span' + superClass + colorString + ">" + tagText + "</span>");
+            ssReplace(/\^([^{<])/g, "sup");
+            return text;
         }
 
         // do not process sub- and super-scripts inside math markup
@@ -1209,10 +1182,9 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     let issueStarts = [];
     let issueEnds = [];
     issArray.forEach(function(issue) {
-        let issueStyle = (issue.type === 0) ? "hlt" : "err";
-        let colorStyle = makeColourStyle(issueStyle);
+        let issueStyle = (issue.type === 0) ? "hlt_color" : "err_color";
         let message = getMessage(issue.code).replace("%s", issue.subText);
-        issueStarts.push({start: issue.start, text: `<span${colorStyle}title='${message}'>`});
+        issueStarts.push({start: issue.start, text: `<span class='${issueStyle}' title='${message}'>`});
         issueEnds.push({start: issue.start + issue.len, text: endSpan});
     });
 
