@@ -418,6 +418,10 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     [$page_contents, $languages, $messages, $highlights] =
         spellcheck_text($text_data, $ppage->projectid(), $ppage->imagefile(), $languages, $accepted_words);
 
+    if (!$languages) {
+        $messages[] = _("No check against a dictionary has been made.");
+    }
+
     // start the div containing the link to show/hide the WordCheck header
     echo "<div>";
     echo "<a id='wc_header_link' href='#' onClick='return toggleWCHeader();'>";
@@ -443,48 +447,57 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
         echo "</p>";
     }
 
-    // start the first line of the WordCheck header
-    // printing any dictionaries used
-    echo "<p>";
-    if (count($languages) > 0) {
-        echo sprintf(_("Dictionaries used: <b>%s</b>."), implode(', ', $languages));
-    } else {
-        echo "<b>" . _("No check against a dictionary has been made.") . "</b>";
+    // for the vertical layout, use line breaks between pieces
+    // for the horizontal one, use two spaces instead
+    $spacer = $user->profile->i_layout == 1 ? "<br>" : "&nbsp; ";
+
+    // Handle dictionary selection
+    echo "<div class='dict-selection'>";
+    $project_languages = get_project_languages($ppage->projectid());
+    $used_project_languages = array_intersect($languages, $project_languages);
+    if (count($used_project_languages) > 0) {
+        echo "<div class='dict-section'>";
+        echo "<div class='dict-section-title'>" . _("Project-based dictionaries:") . "</div>$spacer";
+        output_wordcheck_language_buttons($used_project_languages);
+        echo "</div>";
     }
 
-    // for the vertical layout, stick in a line break
-    // for the horizontal one, stick in a space
-    if ($user->profile->i_layout == 1) {
-        echo "<br>";
-    } else {
-        echo " ";
+    $aux_languages = array_diff($languages, $project_languages);
+    if (count($aux_languages) > 0) {
+        echo "<div class='dict-section'>";
+        echo "<div class='dict-section-title'>" . _("Additional dictionaries: ") . "</div>$spacer";
+        output_wordcheck_language_buttons($aux_languages);
+        echo "</div>";
     }
 
-    // output the code allowing the user to select another language
-    echo _("Use additional: ");
-    echo "<select name='aux_language'>";
-    echo "<option value=''>" . _("Language") . "</option>\n";
+    // limit the total number of dictionaries to 5
+    if (count($languages) < 5) {
+        // output the code allowing the user to select another language
+        echo "<select name='aux_language'>";
+        echo "<option value=''>" . _("Select additional language...") . "</option>\n";
 
-    // get a list of languages with dictionaries installed on the system
-    $dict_list = get_languages_with_dictionaries();
-    asort($dict_list);
-    foreach ($dict_list as $langcode => $language) {
-        // skip the languages that we just used.
-        if (in_array($language, $languages)) {
-            continue;
+        // get a list of languages with dictionaries installed on the system
+        $dict_list = get_languages_with_dictionaries();
+        asort($dict_list);
+        foreach ($dict_list as $langcode => $language) {
+            // skip the languages that we just used.
+            if (in_array($language, $languages)) {
+                continue;
+            }
+            echo "<option value='" .  attr_safe($language) . "'>";
+            echo html_safe($language);
+            echo "</option>\n";
         }
-        echo "<option value='" .  attr_safe($language) . "'>";
-        echo html_safe($language);
-        echo "</option>\n";
-    }
-    echo "</select>";
+        echo "</select>";
 
-    $value = attr_safe(_("Check"));
-    $title = attr_safe($word_check_messages["rerun"]);
-    echo "<input type='submit' name='rerunauxlanguage' id='rerunauxlanguage' value='$value' title='$title'>";
-    echo "<br>";
+        $value = attr_safe(_("Check"));
+        $title = attr_safe($word_check_messages["rerun"]);
+        echo "<input type='submit' name='rerunauxlanguage' id='rerunauxlanguage' value='$value' title='$title'>";
+    }
+    echo "</div>";
 
     // show help blurb on the UA&S icon
+    echo "<p>";
     echo sprintf(
         _("The %s icon accepts the word for this page and suggests it for the dictionary."),
         "<img src=\"$code_url/graphics/Book-Plus-Small.gif\" border=\"0\">"
@@ -494,9 +507,9 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     // text highlight legend
     if ($highlights) {
         echo "<p>";
-        echo _("The following highlights have been used:") . "<br>";
+        echo _("The following highlights have been used:") . $spacer;
         foreach ($highlights as $hl_class => $message) {
-            echo "<span class='$hl_class'>$message</span><br>";
+            echo "<span class='$hl_class'>$message</span>" . $spacer;
         }
         echo "</p>";
     }
@@ -540,6 +553,19 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo '</table>';
     echo '</form>';
     echo '</div>';
+}
+
+function output_wordcheck_language_buttons($languages)
+{
+    foreach ($languages as $language) {
+        $name = attr_safe("remove_language[$language]");
+        $alt = attr_safe(_("Remove language"));
+        $value = attr_safe($language);
+        echo "<div class='remove-language'>";
+        echo "<input type='hidden' name='languages[]' value='$value'>";
+        echo "<input type='submit' name='$name' value='☒' title='$alt'>" . html_safe($language);
+        echo "</div>";
+    }
 }
 
 function get_page_js($interface_type_init_value)
