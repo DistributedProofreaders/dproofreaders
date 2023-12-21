@@ -982,8 +982,9 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
             txt = txt.replace(/┌tb┐/g, function replacer(match) {
                 return `<span class="etc_color">${boxHtml(match)}</span>`;
             });
-            txt = txt.replace(/\/#|#\//g, "<span class='blockquote_color'>$&</span>");
-            txt = txt.replace(/\/\*|\*\//g, "<span class='nowrap_color'>$&</span>");
+            txt = txt.replace(/\/#/g, "<span class='blockquote_color'>$&");
+            txt = txt.replace(/\/\*/g, "<span class='nowrap_color'>$&");
+            txt = txt.replace(/#\/|\*\//g, "$&</span>");
         }
 
         // encode any unrecognised tags
@@ -1057,6 +1058,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         let indent = 0;
         let blockType = CONT;
         let blockQuote = false;
+        const noWrapColor = styler.color ? ' nowrap_color' : '';
 
         function terminate() {
             if(inBlock) {
@@ -1103,7 +1105,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
                     indent -= 1;
                 } else if("/*" === line) {
                     // no wrap
-                    txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; white-space: pre;">`;
+                    txtOut += `<div style='margin-left: ${indent}em;' class='no-wrap${noWrapColor}'>`;
                     for(;;) {
                         line = getNextLine();
                         if(processTB()) {
@@ -1120,6 +1122,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
                     continue;
                 } else {
                     // text line
+                    const paraColor = (styler.color && blockQuote) ? ' blockquote_color' : '';
                     if(!inBlock) {
                         inBlock = true;
                         switch(blockType) {
@@ -1129,16 +1132,16 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
                         case HEAD2:
                             if(blockQuote) {
                                 // use paragraph style
-                                txtOut += '<div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">';
+                                txtOut += `<div style='margin-left: 1em;' class='para${paraColor}'>`;
                             } else {
                                 txtOut += '<div class="head2">';
                             }
                             break;
                         case PARA:
-                            txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em; text-indent: 1em;">`;
+                            txtOut += `<div style='margin-left: ${indent}em;' class='para${paraColor}'>`;
                             break;
                         case CONT:
-                            txtOut += `<div style="margin-bottom: 0.4em; margin-left: ${indent}em;">`;
+                            txtOut += `<div style='margin-left: ${indent}em;' class='cont-para${paraColor}'>`;
                             break;
                         }
                     }

@@ -108,3 +108,18 @@
     font-weight: bold;
     text-align: center;
 }
+/* paragraph and block quote*/
+.para {
+    margin-bottom: 0.4em;
+    text-indent: 1em;
+}
+/* continuation paragraph */
+.cont-para {
+    margin-bottom: 0.4em;
+}
+/* no-wrap block */
+.no-wrap {
+    margin-bottom: 0.4em;
+    white-space: pre;
+    display: inline-block;
+}
