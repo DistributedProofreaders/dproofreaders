@@ -259,6 +259,7 @@ function html_navbar()
         $links[] = ['text' => $activities_string];
 
         $links[] = ['text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php"];
+        $links[] = ['text' => _("My Suggestions"), 'url' => "tools/proofers/my_suggestions.php"];
 
         $links[] = ['text' => _("Project Search"), 'url' => "tools/search.php"];
 

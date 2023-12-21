@@ -322,6 +322,7 @@ function output_link_box($username)
         echo "<hr>";
     }
     $links = [
+        "my_suggestions.php" => _("My Suggestions"),
         "review_work.php" => _("Review Work"),
     ];
     echo "<h2>" . _("Links") . "</h2>";
