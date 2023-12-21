@@ -79,7 +79,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
         // them to that page.
         if ($page_id != $ELR_round->id) {
             echo "<p>";
-            echo sprintf(_('To start proofreading, see the list of projects on the <a href="%1$s">%2$s</a> round page.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
+            echo sprintf(_('To start proofreading, see the list of projects on the <a href="%1$s">My Suggestions</a> page or the <a href="%2$s">%3$s</a> round page.'), "$code_url/tools/proofers/my_suggestions.php", "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
             echo "</p>";
         }
         // If they are on the entry level round page, let them know that here
