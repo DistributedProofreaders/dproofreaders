@@ -566,7 +566,7 @@ QUnit.module("Format preview test", function() {
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em;\">abcd\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='cont-para'>abcd\n</div>");
     });
 
     QUnit.test("Rewrap new paragraph", function (assert) {
@@ -577,7 +577,7 @@ abcd`;
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; text-indent: 1em;\">abcd\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='para'>abcd\n</div>");
     });
 
     QUnit.test("Rewrap no-wrap block with 4 blank lines", function (assert) {
@@ -593,7 +593,7 @@ EDIBLE FIGS
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">\n\n\n\nEDIBLE FIGS\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='no-wrap nowrap_color'>\n\n\n\nEDIBLE FIGS\n</div>");
     });
 
     QUnit.test("Rewrap no-wrap block preceeded by 4 blank lines", function (assert) {
@@ -611,7 +611,7 @@ abc
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 0em; white-space: pre;\">FIG CULTURE.\n\nabc\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='no-wrap nowrap_color'>FIG CULTURE.\n\nabc\n</div>");
     });
 
     QUnit.test("Rewrap continuation block quote", function (assert) {
@@ -623,7 +623,7 @@ abc
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 1em;\">abc\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 1em;' class='cont-para blockquote_color'>abc\n</div>");
     });
 
     QUnit.test("Rewrap continuation block quote with new paragraph", function (assert) {
@@ -636,7 +636,7 @@ abc
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;\">abc\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 1em;' class='para blockquote_color'>abc\n</div>");
     });
 
     QUnit.test("Rewrap new block quote with paragraph", function (assert) {
@@ -649,7 +649,7 @@ abc
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style=\"margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;\">abc\n</div>");
+        assert.strictEqual(preview.txtout, "<div style='margin-left: 1em;' class='para blockquote_color'>abc\n</div>");
     });
 
     QUnit.test("Rewrap no-wrap in block quote with no blank line before no-wrap", function (assert) {
@@ -667,8 +667,8 @@ bq
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
         assert.strictEqual(preview.txtout,
-            `<div style="margin-bottom: 0.4em; margin-left: 1em; white-space: pre;">bqnw
-</div><div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">bq
+            `<div style='margin-left: 1em;' class='no-wrap nowrap_color'>bqnw
+</div><div style='margin-left: 1em;' class='para blockquote_color'>bq
 </div>`);
     });
 
@@ -688,8 +688,28 @@ bq
         assert.strictEqual(preview.issues, 0);
         assert.strictEqual(preview.possIss, 0);
         assert.strictEqual(preview.txtout,
-            `<div style="margin-bottom: 0.4em; margin-left: 1em; white-space: pre;">bqnw
-</div><div style="margin-bottom: 0.4em; margin-left: 1em; text-indent: 1em;">bq
+            `<div style='margin-left: 1em;' class='no-wrap nowrap_color'>bqnw
+</div><div style='margin-left: 1em;' class='para blockquote_color'>bq
+</div>`);
+    });
+
+    QUnit.test("Rewrap block quote in block quote", function (assert) {
+        let text =
+`
+/#
+bq
+
+/#
+bqbq
+#/
+#/`;
+        let preview = makePreview(text, false, true, defaultStyles, getMessage);
+        assert.strictEqual(preview.ok, true);
+        assert.strictEqual(preview.issues, 0);
+        assert.strictEqual(preview.possIss, 0);
+        assert.strictEqual(preview.txtout,
+            `<div style='margin-left: 1em;' class='para blockquote_color'>bq
+</div><div style='margin-left: 2em;' class='para blockquote_color'>bqbq
 </div>`);
     });
 });

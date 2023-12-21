@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, camelcase */
-/* exported previewControl, initPrev */
+/* exported previewControl */
 /* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings
 previewMessages defaultStyles */
 /*
@@ -13,7 +13,6 @@ The configuration screen is handled in the same way.
 previewStrings are translated strings in header args
 */
 var previewControl;
-var previewColorStyle;
 
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
@@ -39,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let fontSelector = document.getElementById("id_font_sel");
     let previewStyles = defaultStyles;
 
-    previewColorStyle = document.createElement('style');
+    const previewColorStyle = document.createElement('style');
     document.head.appendChild(previewColorStyle);
 
     var suppCheckBox = [];
