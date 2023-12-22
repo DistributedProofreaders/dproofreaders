@@ -2524,7 +2524,8 @@ li.spaced {
 /* ------------------------------------------------------------------------ */
 /* Review Work */
 td.has-diff {
-  background-color: #ccffcc;
+  /* we use !important so this overrides the bg color in striped tables */
+  background-color: #ccffcc !important;
 }
 /* ------------------------------------------------------------------------ */
 /* CharSuite Explorer */
