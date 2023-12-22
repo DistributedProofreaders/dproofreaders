@@ -1540,7 +1540,8 @@ li.spaced {
 /* Review Work */
 
 td.has-diff {
-    background-color: @table-cell-ok-lowc;
+    /* we use !important so this overrides the bg color in striped tables */
+    background-color: @table-cell-ok-lowc !important;
 }
 
 /* ------------------------------------------------------------------------ */
