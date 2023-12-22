@@ -194,14 +194,24 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
     $projectid = $project->projectid;
 
     if ($days) { // will be 0 if parameter not supplied when only replacing text
-        $seconds = $days * 60 * 60 * 24;
         if ($extend) {
             // extend deadline if not yet passed
-            $deadline = $project->smoothread_deadline + $seconds;
+            $start_time = $project->smoothread_deadline;
         } else {
             // if starting sr with deadline=0, or if sr ended
-            $deadline = time() + $seconds;
+            $start_time = time();
         }
+
+        // Extend the deadline to the next whole hour after $days
+        $datetime = new DateTime("@$start_time");
+        // Add our days
+        $datetime->modify("+{$days} day");
+        // round up to the next hour
+        $datetime = $datetime->modify("next hour");
+        // replace the time with just the hour
+        $datetime->modify($datetime->format('H:00:00'));
+        $deadline = $datetime->format('U');
+
         $details1 = $extend ? "deadline extended" : "text available";
         $smoothread_deadline_sql = "smoothread_deadline = $deadline, ";
         $project->log_project_event($pguser, 'smooth-reading', $details1, $deadline);
