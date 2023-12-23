@@ -229,7 +229,7 @@ function decide_blurbs()
     }
 
     try {
-        validate_user_can_get_pages_in_project($pguser, $project, $round);
+        validate_user_can_get_pages_in_project(new User($pguser), $project, $round);
     } catch (UserAccessException $exception) {
         $blurb = $exception->getMessage();
         return [$blurb, $blurb];

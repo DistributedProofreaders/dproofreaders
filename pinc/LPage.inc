@@ -164,7 +164,7 @@ function get_available_proof_page_array($project, $round, $pguser)
 {
     global $preceding_proofer_restriction;
 
-    validate_user_can_get_pages_in_project($pguser, $project, $round);
+    validate_user_can_get_pages_in_project(new User($pguser), $project, $round);
 
     // If the global setting is to not serve the immediately preceding page,
     // first see if we can serve them a page they haven't at all seen before,

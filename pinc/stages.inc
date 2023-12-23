@@ -278,7 +278,7 @@ $ELR_round = get_Round_for_round_number(1);
  * It also doesn't need to check whether any of the project's pages
  * are actually available.
  */
-function validate_user_can_get_pages_in_project($username, $project, $round)
+function validate_user_can_get_pages_in_project($user, $project, $round)
 {
     // Projects with difficulty='beginner' are treated differently in
     // various ways.
@@ -300,11 +300,15 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
                 // Then we reduced it to 6 for English beginner projects.)
                 $max_n_pages_per_project = ($project->language == 'English' ? 6 : 11);
 
-                $result = DPDatabase::query("
+                $sql = sprintf(
+                    "
                     SELECT COUNT(*) as pagesdone
                     FROM {$project->projectid}
-                    WHERE {$round->user_column_name} = '$username'
-                ");
+                    WHERE {$round->user_column_name} = '%s'
+                    ",
+                    DPDatabase::escape($user->username)
+                );
+                $result = DPDatabase::query($sql);
                 $row = mysqli_fetch_assoc($result);
                 if ($row["pagesdone"] >= $max_n_pages_per_project) {
                     throw new BeginnersProjectQuotaReachedException(_("You have reached your quota of pages from this 'Beginners Only' project,
@@ -320,6 +324,13 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
         }
     }
 
+    validate_user_against_project_reserve($user, $project, $round);
+
+    // None of the above restrictions apply.
+}
+
+function validate_user_against_project_reserve($user, $project, $round)
+{
     // Allow projects to be reserved for newcomers based on
     // criteria defined in get_reserve_length().
     $n_days_of_reserve = get_reserve_length($project, $round);
@@ -339,20 +350,19 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
             // The project is still in its "reserved" period.
             // It is available only to inexperienced users plus a few others.
 
-            if ($project->can_be_managed_by_user($username)) {
+            if ($project->can_be_managed_by_user($user->username)) {
                 // The current user is an SA, PF, or the project's PM,
                 // and is not subject to this restriction.
             } else {
                 // Is this user an inexperienced user?
 
-                $user = new User($username);
                 $days_on_site = ($t_now - $user->date_created) / 86400;
                 // echo "days_on_site = $days_on_site<br>\n";
 
-                $P1_page_tally = user_get_ELR_page_tally($username);
-                // echo "P1_page_tally = $P1_page_tally<br>\n";
+                $ELR_page_tally = user_get_ELR_page_tally($user->username);
+                // echo "ELR_page_tally = $ELR_page_tally<br>\n";
 
-                if ($days_on_site < $days_on_site_threshold or $P1_page_tally < $page_tally_threshold) {
+                if ($days_on_site < $days_on_site_threshold or $ELR_page_tally < $page_tally_threshold) {
                     // Yes, inexperienced.
                     // So not subject to this restriction
                     // (and so, allowed to proofread, unless there's some other problem).
@@ -360,9 +370,10 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
                     // No, experienced.
                     // So cannot proofread this project yet.
                     $message = sprintf(
-                        _('This project is currently reserved for proofreaders who joined less than %1$d days ago or have done less than %2$s P1 pages. It will become generally available %3$s.'),
+                        _('This project is currently reserved for proofreaders who joined less than %1$d days ago or have done less than %2$s %3$s pages. It will become generally available %4$s.'),
                         $days_on_site_threshold,
                         $page_tally_threshold,
+                        $round->id,
                         icu_date_template("long+time", $t_generally_available)
                     );
                     throw new ReservedForNewProofreadersException($message);
@@ -373,6 +384,7 @@ function validate_user_can_get_pages_in_project($username, $project, $round)
             // It is available to all (subject to other restrictions).
         }
     }
+
     // None of the above restrictions apply.
 }
 
