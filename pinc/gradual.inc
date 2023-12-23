@@ -18,25 +18,31 @@ include_once($relPath.'misc.inc'); // get_integer_param()
  * to pretend to have a different number of pages,
  * as long as it's less than their actual number.
  */
-function get_pages_proofed_maybe_simulated()
+function get_pages_proofed_maybe_simulated($username = null)
 {
-    global $pguser;
+    if ($username === null) {
+        $username = User::current_username();
+    }
 
-    $pagesproofed = user_get_ELR_page_tally($pguser);
+    $pagesproofed = user_get_ELR_page_tally($username);
     $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $pagesproofed);
 
     return $pagesproofed;
 }
 
-function welcome_see_beginner_forum($pagesproofed, $page_id)
+function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
 {
     global $code_url, $ELR_round, $beginners_site_forum_idx;
 
+    if ($username === null) {
+        $username = User::current_username();
+    }
+
     // If the ELR_round requires access and the user doesn't currently
     // have it, show them what they need to do.
-    $accessable_stages = get_stages_user_can_work_in(User::current_username());
+    $accessable_stages = get_stages_user_can_work_in($username);
     if (!isset($accessable_stages[$ELR_round->id])) {
-        $uao = $ELR_round->user_access(User::current_username());
+        $uao = $ELR_round->user_access($username);
 
         // If the user has been denied access, just return and don't show anything
         if ($uao->request_status == 'sat-denied' ||
@@ -61,6 +67,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id)
 
         echo "<p>";
         echo sprintf(_('After that you will be able to work in <a href="%1$s">%2$s</a>, the first proofreading round.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
+        echo "</p>";
         echo "</div>";
     } elseif ($pagesproofed <= 100) {
         echo "<div class='callout'>";
