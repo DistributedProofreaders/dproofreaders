@@ -284,12 +284,13 @@ function validate_user_can_get_pages_in_project($user, $project, $round)
     // various ways.
     if ($project->difficulty == 'beginner') {
         if ($round->is_a_mentee_round()) {
-            if (!user_can_work_on_beginner_pages_in_round($round)) {
+            if (!that_user_can_work_on_beginner_pages_in_round($user->username, $round)) {
                 throw new BeginnersQuotaReachedException(_("You have reached your quota of pages from 'Beginners Only' projects in this round.
                     Perhaps you could try working on an EASY project."));
             }
 
-            if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
+            if (that_user_is_a_sitemanager($user->username) ||
+                that_user_is_proj_facilitator($user->username)) {
                 // User is exempt from N-pages-per-beginner-project restriction.
             } else {
                 // When a beginner project is in a mentored round,
@@ -316,7 +317,7 @@ function validate_user_can_get_pages_in_project($user, $project, $round)
                 }
             }
         } elseif ($round->is_a_mentor_round()) {
-            if (!user_can_work_on_beginner_pages_in_round($round)) {
+            if (!that_user_can_work_on_beginner_pages_in_round($user->username, $round)) {
                 throw new NoAccessToMentorsOnlyException(_("You do not have access to difficulty='beginner' (Mentors Only) projects in this round."));
             }
         } else {

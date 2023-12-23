@@ -196,20 +196,19 @@ function user_can_mentor_in_round($round)
             || $userSettings->get_boolean("{$round->id}_mentor.access");
 }
 
-function user_can_work_on_beginner_pages_in_round($round)
+function that_user_can_work_on_beginner_pages_in_round($username, $round)
 {
+    $userSettings = & Settings::get_settings($username);
     $round_number = $round->round_number;
-    $userSettings = & get_pguser_settings();
-    if (user_is_a_sitemanager()
-            || user_is_proj_facilitator()
+    if (that_user_is_a_sitemanager($username)
+            || that_user_is_proj_facilitator($username)
             || $userSettings->get_boolean("see_BEGIN_R".$round_number)
             || $userSettings->get_boolean("{$round->id}_mentor.access")
     ) {
         return true;
     }
 
-    global $pguser;
-    $n_pages = user_get_ELR_page_tally($pguser);
+    $n_pages = user_get_ELR_page_tally($username);
     if ($round_number == 1) {
         return $n_pages <= 40;
     } elseif ($round_number == 2) {
@@ -219,6 +218,12 @@ function user_can_work_on_beginner_pages_in_round($round)
         return true;
     }
     // The round-restriction is sufficient.
+}
+
+function user_can_work_on_beginner_pages_in_round($round)
+{
+    global $pguser;
+    return that_user_can_work_on_beginner_pages_in_round($pguser, $round);
 }
 
 function user_is_authors_db_manager()
