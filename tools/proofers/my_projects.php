@@ -434,8 +434,6 @@ function get_sort_options($colspecs)
 // to make sure that some projects are displayed, iterate over the view order
 function get_view_options($username)
 {
-    global $ELR_round, $code_url;
-
     $round_view_options = [
         "recent" => [
             "label" => _("Recent"),
@@ -530,7 +528,7 @@ function get_sort_col_and_dir($sort)
 
 function show_headings($colspecs, $sorting, $username, $sort_name, $anchor)
 {
-    global $pguser, $code_url;
+    global $pguser;
 
     [$order_col, $order_dir] = get_sort_col_and_dir($sorting);
 
