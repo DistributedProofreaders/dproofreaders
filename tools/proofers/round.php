@@ -38,6 +38,8 @@ if (!$uao->can_access) {
     show_user_access_object($uao, true /* will_autogrant */);
 }
 
+encourage_highest_round($pguser, $round->id);
+
 show_news_for_page($round_id);
 
 

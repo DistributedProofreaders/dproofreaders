@@ -3,6 +3,7 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
+include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
 
 // This file deals with the gradual revelation of site features,
 // based on the number of pages proofread by the user.
@@ -55,7 +56,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
         echo "</div>";
 
         echo "<p>";
-        echo sprintf(_('Before you can begin proofreading, you must:'));
+        echo sprintf(_('Before you can begin proofreading, you must have:'));
         echo "<ul>";
         foreach ($uao->minima_table as $row) {
             [$criterion_str, $minimum, $user_score, $satisfied] = $row;
@@ -231,5 +232,146 @@ function maybe_output_new_proofer_project_message($project)
         echo _("After a period of time, this message will no longer appear.");
         echo "</small></p>";
         echo "</div>";
+    }
+}
+
+/*
+ * Output a callout and encourage the user to work in the round with the
+ * highest backlog that they can work in.
+ */
+function encourage_highest_round($username, $round_id = null)
+{
+    global $code_url, $Round_for_round_id_, $ELR_round, $ACCESS_CRITERIA;
+
+    // This URL fragment gets used a lot in this file
+    $round_url = "$code_url/tools/proofers/round.php?round_id=";
+
+    // get the backlog stats for all rounds sorted largest first
+    $backlog_stats = get_round_backlog_stats(array_keys($Round_for_round_id_));
+    arsort($backlog_stats);
+
+    // get all the rounds a user can work
+    $rounds_can_work_in = array_keys(get_stages_user_can_work_in($username));
+
+    // loop through the needs, highest to lowest, and point them to the
+    // one where they can make the most impact with their current access
+    foreach (array_keys($backlog_stats) as $round_target) {
+        $round = get_Round_for_round_id($round_target);
+
+        // don't encourage people towards $ELR_round, as that isn't really
+        // helpful for most sites
+        if ($round->id == $ELR_round->id) {
+            continue;
+        }
+
+        // if $round_id is the current one, ignore $round_id because that means
+        // we're on that round's page already
+        if ($round_target == $round_id) {
+            return;
+        }
+
+        // prepare the common wordings between the callouts
+        $please_move_up = sprintf(
+            _("Please consider proofreading a project in $round_target. Having eligible users working in <a href='%s'>%s</a> helps significantly with our backlog."),
+            "$round_url$round_target",
+            $round_target
+        );
+
+        // They can work in the target round, encourage them to do so.
+        if (in_array($round_target, $rounds_can_work_in)) {
+            echo "<div class='callout'>";
+            echo "<div class='calloutheader'>";
+            echo sprintf(_("Consider working on projects in %s!"), $round_target);
+            echo "</div>";
+
+            echo "<p>$please_move_up</p>";
+            echo "</div>";
+            return;
+        }
+
+        // They're already eligible but have not requested access, tell them.
+        $uao = $round->user_access($username);
+        if ($uao->all_minima_satisfied) {
+            echo "<div class='callout'>";
+            echo "<div class='calloutheader'>";
+            echo sprintf(_("You are eligible to work in %s!"), $round_target);
+            echo "</div>";
+
+            echo "<p>";
+            echo _("You are eligible to work on projects in $round_target!") . " ";
+            if ($round->after_satisfying_minima == 'REQ-AUTO') {
+                echo sprintf(
+                    _("Simply go to the <a href='%s'>%s</a> page to be automatically granted access, find a project that interests you, and start proofreading."),
+                    "$round_url$round_target",
+                    $round_target
+                );
+            } else {
+                echo sprintf(
+                    _("View the round's <a href='%s'>entrance requirements</a> for further details."),
+                    "$round_url$round_target#Entrance_Requirements",
+                    $round_target
+                );
+            }
+            echo "</p>";
+            echo "<p>$please_move_up</p>";
+            echo "</div>";
+            return;
+        }
+
+        // They aren't yet eligible, but if they've satisfied all the criteria
+        // except the quizzes (eg number of days and pages done), nudge them along.
+        $ready_ignoring_quizzes = true;
+        $quiz_requirements = [];
+        $uao = $round->user_access($username);
+        foreach ($uao->minima_table as $criterion_code => $tuple) {
+            // skip checking any quiz criteria for pass
+            if (startswith($criterion_code, 'quiz/')) {
+                $quiz_requirements[] = $criterion_code;
+                continue;
+            }
+            // 4th entry in the tuple is a boolean for if the criteria is satisfied
+            if ($tuple[3] == false) {
+                $ready_ignoring_quizzes = false;
+            }
+        }
+        if ($ready_ignoring_quizzes && $quiz_requirements) {
+            echo "<div class='callout'>";
+            echo "<div class='calloutheader'>";
+            echo sprintf(
+                _("You are just a few quiz pages away from %s!"),
+                $round_target
+            );
+            echo "</div>";
+
+            echo "<p>";
+            echo sprintf(
+                _("You are almost eligible to work in the %s round! The only thing left is to have:"),
+                $round_target,
+            );
+            echo "</p>";
+            echo "<ul>";
+            foreach ($quiz_requirements as $quiz_type) {
+                echo "<li>" . $ACCESS_CRITERIA[$quiz_type] . "</li>";
+            }
+            echo "</ul>";
+            echo "<p>";
+            if ($round->after_satisfying_minima == 'REQ-AUTO') {
+                echo sprintf(
+                    _("After you pass them you can go to the <a href='%s'>%s</a> page to be automatically granted access, find a project that interests you, and start proofreading."),
+                    "$round_url$round_target",
+                    $round_target
+                );
+            } else {
+                echo sprintf(
+                    _("After you pass them, view the round's <a href='%s'>entrance requirements</a> for further details."),
+                    "$round_url$round_target#Entrance_Requirements",
+                    $round_target
+                );
+            }
+            echo "</p>";
+            echo "<p>$please_move_up</p>";
+            echo "</div>";
+            return;
+        }
     }
 }
