@@ -104,6 +104,7 @@ function show_upload_form($form_content, $submit_label)
     echo $form_content;
 
     echo "<p>$standard_blurb</p>";
+    echo "<input type='hidden' name='hash_code' id='hash_code' value=''>";
     // these are the form elements for non-resumable upload
     echo "<div id='old_uploader'>
     <p class='warning'>", sprintf(_('Maximum file size is %s.'), humanize_bytes(get_max_upload_size())), "</p>
@@ -209,6 +210,13 @@ function validate_uploaded_file($verbose)
         if (!is_valid_filename($file_info["name"])) {
             throw new FileUploadException(_("Invalid filename"));
         }
+
+        $hash_code = $_POST["hash_code"] ?? "no_hash";
+        $up_hash_code = hash('sha256', file_get_contents($file_path));
+        if(0 != strcmp($hash_code, $up_hash_code)) {
+            throw new FileUploadException(_("The file is corrupted"));
+        }
+        show_upload_message($verbose, _("Checksum validated"));
 
         virus_check($file_path, $verbose);
     } catch (FileUploadException $e) {

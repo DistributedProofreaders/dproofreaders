@@ -23,6 +23,42 @@ window.addEventListener("DOMContentLoaded", function() {
         return true;
     }
 
+    // polyfill for file.arrayBuffer()
+    function fileToArrayBuffer(file) {
+        if ('arrayBuffer' in file) {
+            return file.arrayBuffer();
+        }
+        return new Promise (function (resolve, reject) {
+            const reader = new FileReader();
+            reader.addEventListener("loadend", function() {
+                resolve(reader.result);
+            });
+            reader.addEventListener("error", function() {
+                reject();
+            });
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    // polyfill for String.padStart(2, "0")
+    function pad2(s) {
+        return (s.length < 2) ? `0${s}` : s;
+    }
+
+    function fileHash(file) {
+        return fileToArrayBuffer(file)
+            .then(function (arrayBuffer) {
+                return crypto.subtle.digest("SHA-256", arrayBuffer);
+            })
+            .then(function(hashAsArrayBuffer) {
+                const uint8ViewOfHash = new Uint8Array(hashAsArrayBuffer);
+                const hashAsString = Array.from(uint8ViewOfHash)
+                    .map((b) => pad2(b.toString(16)))
+                    .join("");
+                return hashAsString;
+            });
+    }
+
     var resumable = new Resumable({
         target: uploadTarget,
         testTarget: uploadTarget,
@@ -94,7 +130,14 @@ window.addEventListener("DOMContentLoaded", function() {
         document.querySelector('input[name="resumable_identifier"]').value = file.uniqueIdentifier;
         document.querySelector('input[name="mode"]').value = "resumable";
         showProgress(uploadMessages.finalizingUpload);
-        document.getElementById("upload_form").submit();
+        fileHash(file.file)
+            .then(function (hashString) {
+                document.getElementById("hash_code").value = hashString;
+                document.getElementById("upload_form").submit();
+            })
+            .catch( function () {
+                alert("Failed to create checksum");
+            });
     });
 
     // If an error occurred, re-enable the upload form and show a message
