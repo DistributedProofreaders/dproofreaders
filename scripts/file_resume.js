@@ -72,6 +72,11 @@ window.addEventListener("DOMContentLoaded", function() {
         document.getElementById("upload_progress").innerHTML = text;
     }
 
+    function submitWithHash(hashString) {
+        document.getElementById("hash_code").value = hashString;
+        document.getElementById("upload_form").submit();
+    }
+
     if(resumable.support) {
         resumable.assignBrowse([document.getElementById("resumable_browse")]);
         resumable.assignDrop([document.getElementById("upload_form")]);
@@ -91,10 +96,13 @@ window.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         if(validate(file.name)) {
-            // won't work if we disable browse button so hide it
+            // won't work if we disable the buttons so hide them
             document.getElementById("old_browse").style.display = "none";
-            document.getElementById("old_browse").disabled = true;
+            document.getElementById("old_submit").style.display = "none";
             showProgress(uploadMessages.working);
+            ev.preventDefault();
+            fileHash(file)
+                .then(submitWithHash);
         } else {
             ev.preventDefault();
         }
@@ -131,13 +139,7 @@ window.addEventListener("DOMContentLoaded", function() {
         document.querySelector('input[name="mode"]').value = "resumable";
         showProgress(uploadMessages.finalizingUpload);
         fileHash(file.file)
-            .then(function (hashString) {
-                document.getElementById("hash_code").value = hashString;
-                document.getElementById("upload_form").submit();
-            })
-            .catch( function () {
-                alert("Failed to create checksum");
-            });
+            .then(submitWithHash);
     });
 
     // If an error occurred, re-enable the upload form and show a message
