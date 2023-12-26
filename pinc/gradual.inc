@@ -279,13 +279,45 @@ function encourage_highest_round($username, $round_id = null)
 
         // They can work in the target round, encourage them to do so.
         if (in_array($round_target, $rounds_can_work_in)) {
-            echo "<div class='callout'>";
-            echo "<div class='calloutheader'>";
-            echo sprintf(_("Consider working on projects in %s!"), $round_target);
-            echo "</div>";
+            // To encourage, but not annoy, users we allow them to mute the
+            // message for this round for some number of days.
+            $mute_query_param = "mute-encourage";
+            $mute_days = 90;
 
-            echo "<p>$please_move_up</p>";
-            echo "</div>";
+            // check if they've muted the callout for this round
+            $user_settings = new Settings($username);
+            $mute_setting_key = "mute-encourage-$round_target-expire";
+            $mute_expire = $user_settings->get_value($mute_setting_key);
+
+            // if user has requested muting for this round, set the expire time
+            if (array_get($_GET, $mute_query_param, "") == $round_target) {
+                $mute_expire = time() + 60 * 60 * 24 * $mute_days;
+                $user_settings->set_value($mute_setting_key, $mute_expire);
+            }
+
+            // user does not have round muted
+            if ($mute_expire === null || $mute_expire < time()) {
+                if ($mute_expire) {
+                    $user_settings->remove_value($mute_setting_key, $mute_expire);
+                }
+                echo "<div class='callout'>";
+                echo "<div class='calloutheader'>";
+                echo sprintf(_("Consider working on projects in %s!"), $round_target);
+                echo "</div>";
+
+                echo "<p>$please_move_up</p>";
+
+                // build the URL to refer back to the same page
+                $url = "?$mute_query_param=$round_target";
+                if ($_SERVER["QUERY_STRING"]) {
+                    $url .= "&" . $_SERVER["QUERY_STRING"];
+                }
+                echo "<p><small><a href='" . attr_safe($url) . "'>";
+                echo sprintf(_("Mute this message for %s days."), $mute_days);
+                echo "</a></small></p>";
+
+                echo "</div>";
+            }
             return;
         }
 
