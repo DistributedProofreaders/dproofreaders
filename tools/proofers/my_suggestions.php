@@ -390,17 +390,21 @@ function get_suggestions($round_view, $username, $selection_criteria)
             $weighted_accessible_backlog[0]
         );
 
-        $sql = "
+        $sql = sprintf(
+            "
             SELECT
                 user_project_info.projectid,
                 $project_select_fields
             FROM user_project_info LEFT OUTER JOIN projects USING (projectid)
             WHERE
                 user_project_info.t_latest_page_event > 0
-                AND user_project_info.username='$username'
+                AND user_project_info.username='%s'
                 AND $avail_state_clause
                 AND $beginner_clause
-        ";
+            ",
+            DPDatabase::escape($username)
+        );
+
     } elseif ($round_view == "style") {
         // if we don't have any genre data, bail
         if (!$user_weights["genre"]) {
@@ -441,7 +445,8 @@ function get_suggestions($round_view, $username, $selection_criteria)
             $genre_not_clause = "1";
         }
 
-        $sql = "
+        $sql = sprintf(
+            "
             SELECT
                 $project_select_fields
             FROM projects
@@ -451,11 +456,13 @@ function get_suggestions($round_view, $username, $selection_criteria)
                     FROM user_project_info
                     WHERE
                         t_latest_page_event > 0
-                        AND username='$username'
+                        AND username='%s'
                     )
                 AND $genre_not_clause
                 AND $beginner_clause
-        ";
+            ",
+            DPDatabase::escape($username)
+        );
     } elseif ($round_view == "getting-started") {
         $explain_why = _("The following projects are good ones to get started in. Click one to open up the project page, read the project comments, and then click 'Start Proofreading'.");
 
