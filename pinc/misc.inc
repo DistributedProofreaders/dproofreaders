@@ -1272,6 +1272,38 @@ function factor_strings($strings)
     return [$left_common, $middles, $right_common];
 }
 
+//--------------------------------------------------------------------------
+
+/**
+ * Given a function and arguments that will generate data, attempt
+ * to load the data from memcached first and fall back to the function and
+ * cache the response. If memcache is not running, this will call the requested
+ * function and return its data without generating a notice/warning/error.
+ *
+ * If the requested function returns data that has localized strings, it's
+ * important that $key_salt = get_desired_language();
+ */
+function memoize_function($function, $args = [], $expire_from_now = 3600, $key_salt = "")
+{
+    $memcache = new Memcached();
+    $memcache->addServer('localhost', 11211);
+
+    $key = hash("sha256", $function . serialize($args) . $key_salt);
+
+    // if the key exists, just return the data uncompressed
+    $data = $memcache->get($key);
+    if ($data !== false) {
+        return unserialize(gzuncompress($data));
+    }
+
+    // if not, call the function to return the data
+    $data = call_user_func_array($function, $args);
+
+    $memcache->set($key, gzcompress(serialize($data)), time() + $expire_from_now);
+
+    return $data;
+}
+
 // -----------------------------------------------------------------------------
 
 /**
