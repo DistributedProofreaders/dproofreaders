@@ -16,36 +16,46 @@ include_once($relPath.'slim_header.inc');
 $width = 300;
 $height = 200;
 
-// Pull all interested phases, primarily all the rounds and PP
-$interested_phases = array_keys($Round_for_round_id_);
+function _get_round_backlog_days_data()
+{
+    global $Round_for_round_id_;
 
-// Pull the stats data out of the database
-$stats = get_round_backlog_stats($interested_phases);
+    // Pull all interested phases, primarily all the rounds and PP
+    $interested_phases = array_keys($Round_for_round_id_);
+
+    // Pull the stats data out of the database
+    $stats = get_round_backlog_stats($interested_phases);
+
+    // Get page saveAsDone trend information
+    $holder_id = 1;
+    $today = getdate();
+    foreach ($stats as $phase => $pages) {
+        $tallyboard = new TallyBoard($phase, 'S');
+
+        $pages_last_week = $tallyboard->get_delta_sum(
+            $holder_id,
+            mktime(0, 0, 0, $today['mon'], $today['mday'] - 7, $today['year']),
+            mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year'])
+        );
+
+        $avg_pages_per_day[$phase] = $pages_last_week / 7;
+
+        // calculate the number of days to complete at the current rate
+        if ($avg_pages_per_day[$phase]) {
+            $stats[$phase] = $pages / $avg_pages_per_day[$phase];
+        } else {
+            $stats[$phase] = 0;
+        }
+    }
+
+    return $stats;
+}
+
+// cache backlog data for 1 day
+$stats = query_graph_cache("_get_round_backlog_days_data", [], 60 * 60 * 24);
 
 // get the total of all phases
 $stats_total = array_sum($stats);
-
-// Get page saveAsDone trend information
-$holder_id = 1;
-$today = getdate();
-foreach ($stats as $phase => $pages) {
-    $tallyboard = new TallyBoard($phase, 'S');
-
-    $pages_last_week = $tallyboard->get_delta_sum(
-        $holder_id,
-        mktime(0, 0, 0, $today['mon'], $today['mday'] - 7, $today['year']),
-        mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year'])
-    );
-
-    $avg_pages_per_day[$phase] = $pages_last_week / 7;
-
-    // calculate the number of days to complete at the current rate
-    if ($avg_pages_per_day[$phase]) {
-        $stats[$phase] = $pages / $avg_pages_per_day[$phase];
-    } else {
-        $stats[$phase] = 0;
-    }
-}
 
 // calculate the goal percent as 100 / number_of_phases
 $goal_percent = ceil(100 / count($stats));

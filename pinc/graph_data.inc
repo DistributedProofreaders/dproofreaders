@@ -3,6 +3,7 @@
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'page_tally.inc');
+include_once($relPath.'misc.inc'); // memoize_function()
 
 function get_graph_js_files()
 {
@@ -871,29 +872,12 @@ function get_round_backlog_stats($interested_phases)
 
 /**
  * Given a function and arguments that will generate graph data, attempt
- * to load the data from memcached first and fall back to the function and
- * cache the response.
+ * to cache the value.
  *
  * Note that the graph function might include _() so it's important that we
  * include the user's language in the key.
  */
 function query_graph_cache($function, $args = [], $expire_from_now = 3600)
 {
-    $memcache = new Memcached();
-    $memcache->addServer('localhost', 11211);
-
-    $key = md5($function . join($args) . get_desired_language());
-
-    // if the key exists, just return the data uncompressed
-    $data = $memcache->get($key);
-    if ($data !== false) {
-        return json_decode(gzuncompress($data));
-    }
-
-    // if not, call the function to return the data
-    $data = call_user_func_array($function, $args);
-
-    $memcache->set($key, gzcompress(json_encode($data)), time() + $expire_from_now);
-
-    return $data;
+    return memoize_function($function, $args, $expire_from_now, get_desired_language());
 }

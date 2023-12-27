@@ -18,12 +18,20 @@ include_once($relPath.'slim_header.inc');
 $width = 300;
 $height = 200;
 
-// Pull all interested phases, primarily all the rounds and PP
-$interested_phases = array_keys($Round_for_round_id_);
-$interested_phases[] = "PP";
+function _get_round_backlog_data()
+{
+    global $Round_for_round_id_;
 
-// Pull the stats data out of the database
-$stats = get_round_backlog_stats($interested_phases);
+    // Pull all interested phases, primarily all the rounds and PP
+    $interested_phases = array_keys($Round_for_round_id_);
+    $interested_phases[] = "PP";
+
+    // Pull the stats data out of the database
+    return get_round_backlog_stats($interested_phases);
+}
+
+// cache backlog data for 1 day
+$stats = query_graph_cache("_get_round_backlog_data", [], 60 * 60 * 24);
 
 // get the total of all phases
 $stats_total = array_sum($stats);
