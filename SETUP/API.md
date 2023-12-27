@@ -54,8 +54,10 @@ ensure that 3rd parties don't obtain API keys from the requests.
 ## Rate Limiting
 
 API requests can be rate limited to help prevent the site from being
-overwhelemed. To use Rate Limiting, you must have the PHP memcached module
+overwhelmed. To use Rate Limiting, you must have the PHP memcached module
 installed and a local memcached process running and accessible via localhost.
+If rate limiting is enabled and memcached is not accessible, API requests will
+fail and an error will be logged to `php_errors`.
 
 Three settings in `configuration.sh` control limiting:
 
