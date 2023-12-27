@@ -40,11 +40,6 @@ window.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // polyfill for String.padStart(2, "0")
-    function pad2(s) {
-        return (s.length < 2) ? `0${s}` : s;
-    }
-
     function fileHash(file) {
         return fileToArrayBuffer(file)
             .then(function (arrayBuffer) {
@@ -53,7 +48,7 @@ window.addEventListener("DOMContentLoaded", function() {
             .then(function(hashAsArrayBuffer) {
                 const uint8ViewOfHash = new Uint8Array(hashAsArrayBuffer);
                 const hashAsString = Array.from(uint8ViewOfHash)
-                    .map((b) => pad2(b.toString(16)))
+                    .map((b) => b.toString(16).padStart(2, "0"))
                     .join("");
                 return hashAsString;
             });
