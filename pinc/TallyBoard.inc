@@ -259,8 +259,7 @@ class TallyBoard
             ORDER BY tally_value DESC, u_id ASC
             ",
             DPDatabase::escape($this->tally_name),
-            DPDatabase::escape($this->holder_type),
-            $target_holder_id
+            DPDatabase::escape($this->holder_type)
         );
         $result = DPDatabase::query($sql);
         // Note that for the purposes of this function,
