@@ -621,38 +621,21 @@ function show_tally_specific_stats($tally_name)
         // The requestor is a logged-in user.
         // Show the user's personal statistics
 
-        //Get the personal statistics array
-        $neighbors =
-            user_get_page_tally_neighborhood(
-                $tally_name,
-                $user->username,
-                $user->u_neigh
-            );
-        $usern = $neighbors[0];
+        $current_tally = $tallyboard->get_current_tally($user->u_id);
+        $current_rank = $tallyboard->get_rank($user->u_id);
 
         //get rank
-        global $testing;
-        if ($testing) {
-            // Don't let people discover the honorifics by
-            // playing with inflated pagecounts at test-site.
-            $rankname = _('Valued Tester');
+        $round = get_Round_for_round_id($tally_name);
+        if ($round) {
+            $rankname = $round->get_honorific_for_page_tally($current_tally);
         } else {
-            $round = get_Round_for_round_id($tally_name);
-            if ($round) {
-                $rankname = $round->get_honorific_for_page_tally(
-                    $usern->get_current_page_tally()
-                );
-            } else {
-                $rankname = _('[unknown]');
-            }
+            $rankname = _('[unknown]');
         }
-
-        $user = User::load_current();
 
         // get yesterday's and today's page count
         $snapshot_info = $tallyboard->get_info_from_latest_snapshot($user->u_id);
         $yesterday_page_delta = $snapshot_info['tally_delta'];
-        $today_page_delta = $usern->get_current_page_tally() - $snapshot_info['tally_value'];
+        $today_page_delta = $current_tally - $snapshot_info['tally_value'];
 
         $valid_tally_names = array_keys(get_page_tally_names());
         $site_total = 0;
@@ -670,9 +653,9 @@ function show_tally_specific_stats($tally_name)
         echo sprintf(_("%s Pages Today"), $tally_name) . ": ";
         echo number_format($today_page_delta)."<br>\n";
         echo sprintf(_("%s Pages Total"), $tally_name) . ": ";
-        echo number_format($usern->get_current_page_tally())."<br>\n";
+        echo number_format($current_tally)."<br>\n";
         echo sprintf(_("%s Current Position"), $tally_name) . ": ";
-        echo number_format($usern->get_current_page_tally_rank())."<br>\n";
+        echo number_format($current_rank)."<br>\n";
         echo sprintf(_("%s Current Rank"), $tally_name) . ": ";
         echo "$rankname<br>\n";
         echo "</p>\n";
@@ -680,11 +663,16 @@ function show_tally_specific_stats($tally_name)
 
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
-        $user = User::load_current();
         if ($user->u_neigh) {
             echo "<h2>" . sprintf(_("Your %s Neighborhood"), $tally_name) . "</h2>\n";
             echo "<p>\n";
 
+            $neighbors =
+                user_get_page_tally_neighborhood(
+                    $tally_name,
+                    $user->username,
+                    $user->u_neigh
+                );
             foreach ($neighbors as $rel_posn => $neighbor) {
                 if ($rel_posn == 0) {
                     echo "<span class='this-user'>";
