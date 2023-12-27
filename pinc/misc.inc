@@ -1285,8 +1285,12 @@ function factor_strings($strings)
  */
 function memoize_function($function, $args = [], $expire_from_now = 3600, $key_salt = "")
 {
-    $memcache = new Memcached();
-    $memcache->addServer('localhost', 11211);
+    // cache this connection for possible re-use during this page load
+    static $memcache = null;
+    if (!$memcache) {
+        $memcache = new Memcached();
+        $memcache->addServer('localhost', 11211);
+    }
 
     $key = hash("sha256", $function . serialize($args) . $key_salt);
 
