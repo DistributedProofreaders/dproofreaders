@@ -23,7 +23,7 @@ The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
 * Internationalization - php-intl
 * mbstring - php-mbstring
-* memcached - php-memcached (to enable API rate limiting)
+* memcached - php-memcached (for API rate limiting and stats caching)
 * MySQL - php-mysql
 * xml - php-xml (used by packages installed with composer)
 * zip - php-zip
@@ -124,6 +124,18 @@ aspell 0.60 or later is required.
 ### Install optional components
 
 The following components are optional and provide additional functionality.
+
+#### Memcached
+If a memcached instance is available on localhost, the code can use it in
+two ways:
+* Implementing API rate limiting (enabled with `_API_RATE_LIMIT` in
+  `configuration.sh`). If `_API_RATE_LIMIT` is set to `TRUE` and memcached
+  is not available, API calls will fail and an error will be logged.
+* Caching some statistics data (automatic, no configuration necessary). If
+  memcached is not available everything still functions but no caching is done.
+
+The default memcached memory limit of 64MB is more than adequate for all
+current memcached uses in the code.
 
 #### Anti-Virus Scanner (ClamAV)
 If an anti-virus scanner is installed and configured, the code will use it to
