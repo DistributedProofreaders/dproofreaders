@@ -67,9 +67,19 @@ window.addEventListener("DOMContentLoaded", function() {
         document.getElementById("upload_progress").innerHTML = text;
     }
 
-    function submitWithHash(hashString) {
-        document.getElementById("hash_code").value = hashString;
-        document.getElementById("upload_form").submit();
+    function submitWithHash(file) {
+        const hashInput = document.getElementById("hash_code");
+        const uploadForm = document.getElementById("upload_form");
+        fileHash(file)
+            .then (function (hashString) {
+                hashInput.value = hashString;
+                uploadForm.submit();
+            })
+            .catch( function () {
+                // send an empty string
+                hashInput.value = "";
+                uploadForm.submit();
+            });
     }
 
     if(resumable.support) {
@@ -96,8 +106,7 @@ window.addEventListener("DOMContentLoaded", function() {
             document.getElementById("old_submit").style.display = "none";
             showProgress(uploadMessages.working);
             ev.preventDefault();
-            fileHash(file)
-                .then(submitWithHash);
+            submitWithHash(file);
         } else {
             ev.preventDefault();
         }
@@ -133,8 +142,7 @@ window.addEventListener("DOMContentLoaded", function() {
         document.querySelector('input[name="resumable_identifier"]').value = file.uniqueIdentifier;
         document.querySelector('input[name="mode"]').value = "resumable";
         showProgress(uploadMessages.finalizingUpload);
-        fileHash(file.file)
-            .then(submitWithHash);
+        submitWithHash(file.file);
     });
 
     // If an error occurred, re-enable the upload form and show a message

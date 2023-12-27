@@ -211,12 +211,15 @@ function validate_uploaded_file($verbose)
         }
 
         $hash_code = $_POST["hash_code"] ?? "no_hash";
-        $up_hash_code = hash('sha256', file_get_contents($file_path));
-        if(0 != strcmp($hash_code, $up_hash_code)) {
-            throw new FileUploadException(_("The file is corrupted"));
+        if($hash_code === "") {
+            show_upload_message($verbose, _("No checksum provided"));
+        } else {
+            $up_hash_code = hash('sha256', file_get_contents($file_path));
+            if(0 != strcmp($hash_code, $up_hash_code)) {
+                throw new FileUploadException(_("The file is corrupted"));
+            }
+            show_upload_message($verbose, _("Checksum validated"));
         }
-        show_upload_message($verbose, _("Checksum validated"));
-
         virus_check($file_path, $verbose);
     } catch (FileUploadException $e) {
         if (is_file($file_path)) {
