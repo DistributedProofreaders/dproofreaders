@@ -240,60 +240,53 @@ class TallyBoard
      * Parameters after `$radius` are an optimization for extracting
      * other info from the database at the same time.
      */
-    public function get_neighborhood(
-        $target_holder_id,
-        $radius,
-        $other_table,
-        $holder_id_expr,
-        $other_select_exprs,
-        $tally_alias,
-        $rank_alias
-    ) {
+    public function get_neighborhood($target_holder_id, $radius)
+    {
         assert($radius >= 0);
 
         $sql = sprintf(
             "
             SELECT
-                $holder_id_expr AS _holder_id,
-                IFNULL(tally_value,0) AS $tally_alias,
-                $other_select_exprs
+                IFNULL(tally_value, 0) AS current_tally,
+                u_id, username, u_privacy, date_created
             FROM
-                $other_table
-                LEFT OUTER JOIN current_tallies
-                ON (
-                    tally_name      = '%s'
-                    AND holder_type = '%s'
-                    AND holder_id   = $holder_id_expr
-                )
-            WHERE tally_value > 0 OR $holder_id_expr='$target_holder_id'
-            ORDER BY tally_value DESC, holder_id ASC
+                current_tallies
+                RIGHT OUTER JOIN users ON u_id = holder_id
+            WHERE
+                tally_name = '%s'
+                AND holder_type = '%s'
+                AND tally_value > 0
+            ORDER BY tally_value DESC, u_id ASC
             ",
             DPDatabase::escape($this->tally_name),
-            DPDatabase::escape($this->holder_type)
+            DPDatabase::escape($this->holder_type),
+            $target_holder_id
         );
         $result = DPDatabase::query($sql);
         // Note that for the purposes of this function,
-        // we pretend that holders with tally_value <= 0 don't exist,
-        // with the possible exception of the target holder.
+        // we pretend that holders with tally_value <= 0 don't exist.
 
         // First, run through the results,
         // looking for the row that contains the target holder.
         $target_holder_r = null;
         $r = 1;
         while ($row = mysqli_fetch_assoc($result)) {
-            if ($row['_holder_id'] == $target_holder_id) {
+            if ($row['u_id'] == $target_holder_id) {
                 $target_holder_r = $r;
                 break;
             }
             $r += 1;
         }
 
+        // if the user wasn't in the results, they have a de facto
+        // current_tally of 0; fill in the neighbors above them and then
+        // populate their row
         if (is_null($target_holder_r)) {
-            die("Holder '$target_holder_id' does not appear in $other_table.$holder_id_expr.");
+            $target_holder_r = $r;
+            $fill_zero_entry = true;
+        } else {
+            $fill_zero_entry = false;
         }
-        // Note that it's *not* a problem if $target_holder_id doesn't appear
-        // in current_tallies.holder_id. That's handled by the LEFT OUTER JOIN
-        // and the IFNULL(tally_value,0).
 
         // Now, go through the results again (calculating rank as you go),
         // and when you're in the neighborhood of the target holder,
@@ -305,17 +298,39 @@ class TallyBoard
         $r = 1;
         $ranker = new Ranker(false);
         while ($row = mysqli_fetch_assoc($result)) {
-            $rank = $ranker->next($row[$tally_alias]);
+            $rank = $ranker->next($row["current_tally"]);
 
             $rel_posn = $r - $target_holder_r;
             if (abs($rel_posn) <= $radius) {
                 // We're in the neighborhood of the target holder.
 
-                $row[$rank_alias] = $rank;
+                $row["current_rank"] = $rank;
                 $neighbors[$rel_posn] = $row;
             }
 
             $r++;
+        }
+        mysqli_free_result($result);
+
+        // we need to pull the same data from the users table but with a
+        // current_tally of 0 to populate $neighbors
+        if ($fill_zero_entry) {
+            $sql = sprintf(
+                "
+                SELECT
+                    0 AS current_tally,
+                    u_id, username, u_privacy, date_created
+                FROM users
+                WHERE u_id = %d
+                ",
+                $target_holder_id
+            );
+            $result = DPDatabase::query($sql);
+            $row = mysqli_fetch_assoc($result);
+            mysqli_free_result($result);
+            $rank = $ranker->next($row["current_tally"]);
+            $row["current_rank"] = $rank;
+            $neighbors[0] = $row;
         }
 
         return $neighbors;
