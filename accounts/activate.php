@@ -105,7 +105,7 @@ $query = sprintf(
     INSERT INTO users (reg_token, real_name, username, email, date_created,
                        email_updates, referrer, referrer_details, http_referrer, u_neigh, u_intlang)
     VALUES ('%s', '%s', '%s', '%s', $user->date_created,
-            $user->email_updates, '%s', '%s', '%s', 10, '%s')
+            $user->email_updates, '%s', '%s', '%s', 0, '%s')
     ",
     DPDatabase::escape($reg_token),
     DPDatabase::escape($user->real_name),
