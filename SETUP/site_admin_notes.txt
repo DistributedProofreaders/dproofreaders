@@ -12,7 +12,7 @@ creating any real projects), you can edit the file to set things up the way
 you want them for your site.
 
 For documentation on the parameters for the Stage(), Round(), and Pool()
-constructors, see pinc/Stage.inc, pinc/RoundDescriptor.inc, and pinc/Pool.inc.
+constructors, see pinc/Stage.inc, pinc/Round.inc, and pinc/Pool.inc.
 
 Currently, database fields containing round-ids are declared as CHAR(2)
 because that's all we need at www.pgdp.net. If you want to have a longer

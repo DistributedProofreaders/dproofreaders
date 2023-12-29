@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'project_states.inc');
 include_once($relPath.'filter_project_list.inc');
-include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'Settings.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address get_url_to_compose_message_to_user
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager

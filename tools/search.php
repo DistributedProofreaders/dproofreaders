@@ -2,7 +2,7 @@
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'Settings.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'gradual.inc'); // maybe_output_new_proofer_message()
 include_once($relPath.'ProjectSearchForm.inc');

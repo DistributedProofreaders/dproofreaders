@@ -1,6 +1,6 @@
 <?php
 include_once($relPath.'access_log.inc');
-include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'Settings.inc');
 
 class NonexistentUserException extends Exception
 {

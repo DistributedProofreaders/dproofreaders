@@ -4,7 +4,7 @@
 // This file provides settings (mostly permissions) for the logged-on user.
 
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'Settings.inc');
 
 // This function returns the Settings object for $pguser.
 // It should work properly (by returning appropriate null-type values) if

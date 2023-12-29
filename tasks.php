@@ -6,7 +6,7 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'SettingsClass.inc');
+include_once($relPath.'Settings.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'metarefresh.inc');

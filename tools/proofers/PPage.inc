@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');         // $PROJECT_STATES_IN_ORDER
-include_once($relPath.'RoundDescriptor.inc'); // $PAGE_STATES_IN_ORDER
+include_once($relPath.'Round.inc'); // $PAGE_STATES_IN_ORDER
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
