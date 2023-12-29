@@ -2045,3 +2045,39 @@ function do_page_table()
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+/**
+ * Echo the post-processor comments block.
+ *
+ * If a project is checked out for PP, and the post-processor is viewing
+ * the project page, then the page will have an editable text area
+ * entitled "Post-Processor's Comments".
+ *
+ * This function is called between the title and the text area,
+ * and should give (site-specific) instructions to the post-processor
+ * on how to use (or not use) the postcomments field.
+ */
+function echo_postcomments_instructions()
+{
+    global $wiki_url;
+
+    echo '<p>' .
+        _("You can use this text area to enter comments on how you're
+        doing with the post-processing, both to keep track for yourself
+        and so that we will know that there's still work in progress.")
+        . '</p>';
+    echo '<p>' . sprintf(
+        // TRANSLATORS: PM = project manager
+        _("If you find that some proofing images are missing or unreadable,
+        or that illustration images are missing or inadequate,
+        first let the PM know what you've found (or not found).
+        If you don't hear back from the PM within a reasonable amount of time,
+        let the <a href='%s'>db-req</a> squirrels know about the issues
+        so we can get the project fixed."),
+        "$wiki_url/Db-req"
+    )
+        . '</p>';
+    echo '<p>'
+        . _("Note that your old comments will be replaced by those you enter here.")
+        . '</p>';
+}
