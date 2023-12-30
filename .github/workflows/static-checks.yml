@@ -94,3 +94,5 @@ jobs:
         run: cd SETUP && make lint_charsuites && cd ..
       - name: Run less/CSS checks
         run: cd SETUP && make lint_css && cd ..
+      - name: Run best practice checks
+        run: cd SETUP && make best_practice_checks && cd ..
