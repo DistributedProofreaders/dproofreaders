@@ -6,7 +6,6 @@ include_once($relPath.'send_mail.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'Stage.inc'); //user_can_work_in_stage()
 include_once($relPath.'User.inc');
-include_once($relPath.'project_states.inc'); // get_project_status_descriptor()
 include_once($relPath.'faq.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'links.inc');

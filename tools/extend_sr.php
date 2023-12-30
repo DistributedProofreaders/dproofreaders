@@ -3,7 +3,6 @@ $relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'links.inc');

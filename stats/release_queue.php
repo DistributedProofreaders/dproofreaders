@@ -2,8 +2,6 @@
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'project_states.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'release_queue.inc');

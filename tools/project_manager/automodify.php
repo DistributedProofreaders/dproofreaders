@@ -9,10 +9,8 @@
 //     it will release projects waiting to be released (autorelease())
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'project_trans.inc');
 include_once($relPath.'DPage.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'Project.inc'); // project_get_auto_PPer
 include_once($relPath.'job_log.inc');
 include_once('autorelease.inc');

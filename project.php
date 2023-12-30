@@ -1,10 +1,8 @@
 <?php
 $relPath = './pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc'); // get_valid_transitions()
-include_once($relPath.'project_states.inc');
 include_once($relPath.'comment_inclusions.inc'); // parse_project_comments()
 include_once($relPath.'page_table.inc'); // echo_page_table
 include_once($relPath.'user_is.inc');

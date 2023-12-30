@@ -3,12 +3,9 @@
 // Declarations for all stages.
 // (Construction of all Stage objects.)
 
-include_once($relPath.'site_vars.php');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'Stage.inc');
 include_once($relPath.'Round.inc');
 include_once($relPath.'Pool.inc');
-include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

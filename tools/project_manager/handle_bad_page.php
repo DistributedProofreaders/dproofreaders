@@ -1,11 +1,9 @@
 <?php
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'DPage.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'codepoint_validator.inc');
 include_once($relPath.'page_table.inc');  // page_state_is_a_bad_state()

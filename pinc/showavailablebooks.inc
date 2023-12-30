@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'project_states.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'Settings.inc');
 include_once($relPath.'special_colors.inc');

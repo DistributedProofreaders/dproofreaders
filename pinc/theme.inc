@@ -1,10 +1,7 @@
 <?php
-include_once($relPath.'site_vars.php');
 include_once($relPath.'html_page_common.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
 include_once($relPath.'pg.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'list_projects.inc');

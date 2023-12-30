@@ -2,7 +2,6 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'metarefresh.inc');

@@ -1,6 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');
-include_once($relPath.'stages.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'forum_interface.inc');
 

@@ -2,10 +2,8 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'js_newwin.inc'); // get_js_for_links_to_project_pages(),  get_onclick_attr_for_link_to_project_page()
 include_once($relPath.'gradual.inc'); // get_pages_proofed_maybe_simulated()
 include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()

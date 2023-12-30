@@ -1,6 +1,7 @@
 <?php
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
+include_once($relPath.'pg.inc');
 
 $content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
 // Time in seconds for how often the feeds get refreshed
@@ -19,10 +20,6 @@ if (isset($_GET['type'])) {
 
 // If the file does not exist or is stale, let's (re)create it
 if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
-    $relPath = "./../pinc/";
-    include_once($relPath.'pg.inc');
-    include_once($relPath.'project_states.inc');
-
     $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
     $absolute_url .= $_SERVER['HTTP_HOST'];
     $absolute_url .= $_SERVER['REQUEST_URI'];

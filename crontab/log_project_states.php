@@ -1,7 +1,6 @@
 <?php
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'project_states.inc');
 
 require_localhost_request();
 

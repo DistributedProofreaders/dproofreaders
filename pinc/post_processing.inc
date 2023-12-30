@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."project_states.inc"); // PROJ_POST_FIRST_CHECKED_OUT
 
 // Global variable that specifies when we alert PPers about their
 // outstanding projects. Time is calculated as this many days prior

@@ -2,7 +2,6 @@
 $relPath = "./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'list_projects.inc');
 
 $x = get_enumerated_param($_GET, 'x', 'g', ['g', 's', 'b']);

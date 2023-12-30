@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'stages.inc'); // For PROJECT_STATES_IN_ORDER
 
 require_login();
 

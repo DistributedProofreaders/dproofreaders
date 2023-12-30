@@ -2,7 +2,6 @@
 include_once($relPath.'html_page_common.inc'); // output_html_header()
 include_once($relPath.'theme.inc'); // headerbar_text_array()
 include_once($relPath.'faq.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_id_param get_Quiz_with_id
 
 function output_small_header($quiz)
 {

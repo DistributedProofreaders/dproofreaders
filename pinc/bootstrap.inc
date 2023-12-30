@@ -63,6 +63,9 @@ include_once($relPath.'dpsession.inc');
 // the pages use in some way.
 include_once($relPath.'misc.inc');
 
+// Load the site structure
+include_once($relPath.'site_structure.inc');
+
 //----------------------------------------------------------------------------
 
 // Autoloading functions for DP classes in pinc/
