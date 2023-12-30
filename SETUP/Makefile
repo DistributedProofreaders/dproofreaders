@@ -1,14 +1,19 @@
-.PHONY: all less security_checks lint_charsuites lint_css lint_code lint tests
+.PHONY: all less security_checks best_practice_checks lint_charsuites lint_css lint_code lint tests
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-all: less security_checks lint
+all: less security_checks best_practice_checks lint
 
 #----------------------------------------------------------------------------
 # Security checks
 security_checks:
 	$(SELF_DIR)check_security.sh $(SELF_DIR)..
 	$(SELF_DIR)check_require_login.php
+
+#----------------------------------------------------------------------------
+# Best Practice checks
+best_practice_checks:
+	$(SELF_DIR)check_includes_base.php
 
 #----------------------------------------------------------------------------
 # File linting
