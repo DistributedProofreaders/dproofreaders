@@ -17,7 +17,6 @@
 // and see if they need updating in the DifferenceEngineWrapper class.
 //
 // See 3rdparty/mediawiki/README.md for which MediaWiki version this maps to.
-include_once($relPath."misc.inc"); // html_safe() in following includes
 include_once($relPath."3rdparty/mediawiki/ComplexityException.php");
 include_once($relPath."3rdparty/mediawiki/WordAccumulator.php");
 include_once($relPath."3rdparty/mediawiki/DairikiDiff.php");

@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'access_log.inc');
 
 require_login();

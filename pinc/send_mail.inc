@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'site_vars.php');
-include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
 

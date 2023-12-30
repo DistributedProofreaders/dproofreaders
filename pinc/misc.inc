@@ -1,5 +1,12 @@
 <?php
-// Miscellaneous little (non-DP-specific) functions
+/*
+ * Miscellaneous little (non-DP-specific) functions
+ *
+ * This file is included in bootstrap.inc and is therefore available to all
+ * DP .php and .inc pages without being explicitly included.
+ *
+ * This file MUST NOT include any other files or define any global variables.
+ */
 
 use voku\helper\UTF8;
 

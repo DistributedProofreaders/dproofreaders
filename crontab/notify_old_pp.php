@@ -3,7 +3,6 @@ $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'send_mail.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'post_processing.inc'); // get_pp_projects_past_threshold
 

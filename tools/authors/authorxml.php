@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // xmlencode()
 
 require_login();
 

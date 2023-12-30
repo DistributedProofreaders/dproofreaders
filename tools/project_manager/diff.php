@@ -5,7 +5,6 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
-include_once($relPath.'misc.inc'); // get_integer_param(), attr_safe()
 include_once($relPath."DifferenceEngineWrapperTable.inc");
 include_once($relPath."DifferenceEngineWrapperBB.inc");
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()

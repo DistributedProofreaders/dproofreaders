@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // xmlencode()
 
 $content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
 // Time in seconds for how often the feeds get refreshed

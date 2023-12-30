@@ -6,10 +6,8 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

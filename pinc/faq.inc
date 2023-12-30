@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'metarefresh.inc');
 
 // This include holds information about DP people in charge of various things,

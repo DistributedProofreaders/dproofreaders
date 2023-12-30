@@ -1,6 +1,5 @@
 <?php
 $relPath = "./../../pinc/";
-include_once($relPath.'misc.inc');
 
 function get_preview_messages()
 {

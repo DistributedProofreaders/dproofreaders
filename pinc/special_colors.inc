@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc');
 
 /**
  * Return a set of hard-coded special days keyed by spec_code

@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc'); // attr_safe()
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'Project.inc'); // get_project_difficulties()
 

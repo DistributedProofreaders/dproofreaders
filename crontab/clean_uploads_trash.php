@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // requester_is_localhost()
 
 require_localhost_request();
 

@@ -4,7 +4,6 @@ include_once($relPath.'genres.inc'); // load_genre_translation_array
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), endswith()
 include_once($relPath.'special_colors.inc'); // load_special_days()
 include_once($relPath.'User.inc');
 include_once($relPath.'CharSuites.inc');

@@ -3,7 +3,6 @@ $relPath = "./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'misc.inc'); // get_integer_param()
 
 require_login();
 

@@ -2,7 +2,6 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // html_safe()
 include_once('authors.inc');
 include_once($relPath.'SortUtility.inc');
 include_once($relPath.'BrowseUtility.inc');

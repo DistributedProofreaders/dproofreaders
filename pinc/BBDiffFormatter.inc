@@ -3,7 +3,6 @@
 // MediaWiki difference formatter base class
 //
 // See 3rdparty/mediawiki/README.md for which MediaWiki version this maps to.
-include_once($relPath."misc.inc"); // html_safe()
 include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
 
 class BBDiffFormatter extends DiffFormatter

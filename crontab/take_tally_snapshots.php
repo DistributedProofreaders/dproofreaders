@@ -5,7 +5,6 @@
 
 $relPath = './../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'TallyBoard.inc');
 include_once($relPath.'job_log.inc');
 

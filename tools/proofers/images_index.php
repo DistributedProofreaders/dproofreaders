@@ -3,7 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 include_once($relPath.'project_states.inc'); // PROJ_NEW, PROJ_P1_UNAVAILABLE
 include_once($relPath.'links.inc');
 

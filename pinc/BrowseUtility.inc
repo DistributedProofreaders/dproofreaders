@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc'); // attr_safe()
 
 // Handles HTTP-arguments 'start' and 'count'
 // specifying where in a db-query-result to start and

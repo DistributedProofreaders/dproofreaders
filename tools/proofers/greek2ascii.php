@@ -3,7 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'faq.inc');
-include_once($relPath.'misc.inc'); // attr_safe()
 
 require_login();
 

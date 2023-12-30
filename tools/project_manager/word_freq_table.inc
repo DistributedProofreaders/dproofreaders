@@ -2,7 +2,6 @@
 include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
 include_once($relPath.'unicode.inc');
 

@@ -13,7 +13,6 @@ include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'project_states.inc'); // for PROJ_ declarations
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 

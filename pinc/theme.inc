@@ -12,7 +12,6 @@ include_once($relPath.'gradual.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
 include_once($relPath.'post_processing.inc'); // count_pp_projects_past_threshold()
-include_once($relPath.'misc.inc'); // endswith(), get_enumerated_param(), attr_safe(), endswith()
 include_once($relPath.'faq.inc');
 
 /**

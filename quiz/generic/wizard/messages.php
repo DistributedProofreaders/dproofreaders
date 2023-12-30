@@ -2,7 +2,6 @@
 $relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // html_safe()
 include_once('../quiz_defaults.inc'); // $default_*
 
 require_login();

@@ -2,7 +2,6 @@
 $relPath = './../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
 include_once($relPath.'graph_data.inc');
 
 require_login();

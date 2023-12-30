@@ -1,6 +1,4 @@
 <?php
-include_once($relPath.'misc.inc'); // get_upload_err_msg(), attr_safe(), return_bytes(), endswith()
-
 // This contains functions for uploading files using a resumable process if
 // supported by the browser. The process takes place in two stages: Showing
 // an upload form, then processing the uploaded data.

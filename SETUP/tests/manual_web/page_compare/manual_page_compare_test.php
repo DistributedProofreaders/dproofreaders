@@ -1,7 +1,6 @@
 <?php
 $relPath = "../../../../pinc/";
 include_once($relPath.'base.inc'); // require_login()
-include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'theme.inc'); // output_header()
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 

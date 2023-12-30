@@ -10,7 +10,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'../stats/includes/common.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'SettingsClass.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), get_integer_param()
 include_once($relPath.'graph_data.inc');
 
 function showMbrInformation($user, $tally_name)

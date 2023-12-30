@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'privacy.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');

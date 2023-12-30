@@ -3,7 +3,6 @@ include_once($relPath.'site_vars.php');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // get_integer_param()
 
 // This file deals with the gradual revelation of site features,
 // based on the number of pages proofread by the user.

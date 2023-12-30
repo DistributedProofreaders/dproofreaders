@@ -5,7 +5,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc'); // get_upload_err_msg, get_enumerated_param, attr_safe
 include_once($relPath.'project_states.inc'); // PROJ_NEW
 include_once($relPath.'abort.inc'); // provide_escape_links
 

@@ -9,7 +9,6 @@
 // and a specialization of the concept of 'Activity'.
 
 include_once($relPath.'Activity.inc');
-include_once($relPath.'misc.inc'); // attr_safe
 
 $Stage_for_id_ = [];
 

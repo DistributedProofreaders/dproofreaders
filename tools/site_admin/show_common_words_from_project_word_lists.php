@@ -5,7 +5,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'links.inc');
-include_once($relPath.'misc.inc'); // array_get()
 
 require_login();
 

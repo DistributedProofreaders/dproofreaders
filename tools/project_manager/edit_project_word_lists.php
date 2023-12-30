@@ -7,7 +7,6 @@ include_once('edit_common.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc');  // attr_safe(), html_safe()
 include_once($relPath.'faq.inc');
 
 require_login();

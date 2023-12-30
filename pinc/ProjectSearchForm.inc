@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'iso_lang_list.inc');
-include_once($relPath."misc.inc"); // attr_safe, array_get
 include_once($relPath.'genres.inc'); // load_genre_translation_array
 
 class ProjectSearchWidget

@@ -3,7 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc'); // array_get()
 include_once($relPath.'abort.inc');
 include_once($relPath.'Project.inc'); // $PROJECT_STATES_IN_ORDER
 include_once('PPage.inc');
