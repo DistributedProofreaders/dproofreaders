@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."misc.inc"); // html_safe()
 
 $months = [_('Unknown'),
     _('January'), _('February'), _('March'),

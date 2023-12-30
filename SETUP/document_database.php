@@ -3,7 +3,6 @@
 
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'TableDocumentation.inc');
 include_once($relPath.'DPage.inc'); // project_allow_pages()
 

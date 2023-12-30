@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc');
 include_once($relPath.'access_log.inc');
 include_once($relPath.'SettingsClass.inc');
 

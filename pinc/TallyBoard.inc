@@ -16,8 +16,6 @@
 
 // -----------------------------------------------------------------------------
 
-include_once($relPath.'misc.inc');
-
 // A TallyBoard maintains all tally data (past and present)
 // for a particular combination of tally_name and holder_type.
 

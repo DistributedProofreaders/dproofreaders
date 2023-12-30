@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."misc.inc"); // array_get()
 
 define('BROWSER_DEFAULT_STR', _("Browser default"));
 

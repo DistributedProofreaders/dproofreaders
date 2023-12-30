@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."misc.inc"); // startswith()
 include_once("exceptions.inc");
 
 // Raise exceptions on assert failures

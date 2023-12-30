@@ -11,7 +11,6 @@
 // (2) Include this file.
 // (3) Call functions that it declares.
 
-include_once($relPath.'misc.inc'); // html_safe()
 include_once($relPath.'faq.inc');
 include_once($relPath.'Quiz.inc');
 include_once('./quiz_defaults.inc');

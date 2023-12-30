@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc'); // array_get, html_safe()
 include_once($relPath.'site_vars.php');
 
 /*

@@ -57,6 +57,10 @@ try {
 // the start/resume.
 include_once($relPath.'dpsession.inc');
 
+// Include misc.inc which contains useful functions that almost 90% of
+// the pages use in some way.
+include_once($relPath.'misc.inc');
+
 //----------------------------------------------------------------------------
 
 // Autoloading functions for DP classes in pinc/

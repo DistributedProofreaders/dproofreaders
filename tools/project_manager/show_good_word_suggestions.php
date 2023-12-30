@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 include_once('./post_files.inc');
 include_once("./word_freq_table.inc");
 

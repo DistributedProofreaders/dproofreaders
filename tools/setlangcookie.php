@@ -1,7 +1,6 @@
 <?php
 $relPath = "../pinc/";
 include_once($relPath."base.inc");
-include_once($relPath."misc.inc");
 include_once($relPath."metarefresh.inc");
 
 // These should always be set if the user got here correctly.

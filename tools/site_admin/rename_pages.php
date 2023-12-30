@@ -3,7 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 
 require_login();

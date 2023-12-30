@@ -4,7 +4,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create & get_url_to_view_topic
-include_once($relPath.'misc.inc'); // get_integer_param()
 
 require_login();
 

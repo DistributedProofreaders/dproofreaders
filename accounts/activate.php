@@ -5,7 +5,6 @@ include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'User.inc');
 
 // The current param value is "reg_token" but the prior value was "id"

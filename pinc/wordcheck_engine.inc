@@ -2,7 +2,6 @@
 include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname, langcode2_for_langname
-include_once($relPath.'misc.inc'); // str_contains, array_get
 include_once($relPath.'unicode.inc');
 
 use voku\helper\UTF8;

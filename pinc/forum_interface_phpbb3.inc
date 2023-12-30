@@ -1,5 +1,4 @@
 <?php
-include_once($relPath."misc.inc"); // array_get()
 
 // forum_interface_phpbb3.inc
 

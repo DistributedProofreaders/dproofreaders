@@ -10,7 +10,6 @@ include_once($relPath.'RoundDescriptor.inc');
 include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
-include_once($relPath.'misc.inc'); // str_contains startswith
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

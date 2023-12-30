@@ -8,9 +8,7 @@ include_once($relPath.'languages.inc'); // bilingual_name()
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'SettingsClass.inc');
-include_once($relPath.'misc.inc'); // startswith(...), attr_safe(), html_safe()
 include_once($relPath.'js_newpophelp.inc');
-include_once($relPath.'misc.inc'); // get_integer_param()
 include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
 include_once($relPath.'User.inc');
 

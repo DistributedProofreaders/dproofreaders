@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'misc.inc');  // attr_safe()
 include_once($relPath.'page_table.inc');
 include_once('page_operations.inc');
 

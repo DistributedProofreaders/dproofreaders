@@ -6,8 +6,6 @@
 //     string_to_hex()
 // Other globally-declared identifiers are prefixed with an underscore.
 
-include_once($relPath.'misc.inc'); // startswith
-
 use voku\helper\UTF8;
 
 $_character_data = [

@@ -5,7 +5,6 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'ProjectSearchResultsConfig.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic()
-include_once($relPath.'misc.inc'); // array_get(), html_safe()
 include_once($relPath.'pg.inc'); // get_pg_catalog_url_for_etext
 include_once($relPath.'genres.inc');  // maybe_create_temporary_genre_translation_table()
 

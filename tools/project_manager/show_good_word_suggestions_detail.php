@@ -7,9 +7,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'misc.inc'); // array_get(), attr_safe(), html_safe()
 include_once($relPath.'Stopwatch.inc');
-include_once($relPath.'misc.inc'); // get_integer_param(), get_enumerated_param()
 include_once($relPath.'page_controls.inc');
 include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('./post_files.inc');

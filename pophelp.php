@@ -1,7 +1,6 @@
 <?php
 $relPath = "./pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'slim_header.inc');
 include_once('faq/pophelp/prefs/prefs_pophelp.inc');
 include_once('faq/pophelp/teams/teams_pophelp.inc');

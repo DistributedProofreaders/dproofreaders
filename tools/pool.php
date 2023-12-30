@@ -7,7 +7,6 @@ include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
-include_once($relPath.'misc.inc'); // get_enumerated_param()
 
 require_login();
 

@@ -19,7 +19,6 @@ include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
 include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
-include_once($relPath.'misc.inc'); // html_safe(), get_enumerated_param(), get_integer_param(), array_get(), humanize_bytes()
 include_once($relPath.'faq.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 include_once($relPath.'special_colors.inc'); // load_special_days

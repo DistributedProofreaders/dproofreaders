@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'faq.inc'); // get_faq_url()
 include_once($relPath.'CharacterSelector.inc');
 

@@ -1,6 +1,4 @@
 <?php
-include_once($relPath."misc.inc"); // get_enumerated_param(), attr_safe(), html_safe()
-
 // Functions to search authors, display search fields.
 
 // At creation, used by listing.php and manage.php .

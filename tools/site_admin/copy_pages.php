@@ -1,10 +1,8 @@
 <?php
 $relPath = './../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'DPage.inc'); // project_recalculate_page_counts
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_project_info.inc');

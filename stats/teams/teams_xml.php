@@ -2,10 +2,8 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc');
-include_once($relPath.'misc.inc'); // xmlencode()
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic
-include_once($relPath.'misc.inc'); // get_integer_param()
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 

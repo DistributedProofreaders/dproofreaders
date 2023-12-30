@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc');
 
 function log_access_change($subject_username, $modifier_username, $activity_id, $action_type)
 {

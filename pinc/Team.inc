@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'misc.inc');
 
 // This is an incomplete abstration around the Teams
 

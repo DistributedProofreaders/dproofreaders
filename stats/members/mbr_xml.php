@@ -2,7 +2,6 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'prefs_options.inc'); // PRIVACY_*
-include_once($relPath.'misc.inc'); // xmlencode()
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'User.inc');

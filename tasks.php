@@ -6,11 +6,9 @@ include_once($relPath.'project_states.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), array_get()
 include_once($relPath.'SettingsClass.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
-include_once($relPath.'misc.inc'); // get_enumerated_param(), str_contains(), echo_html_comment()
 include_once($relPath.'metarefresh.inc');
 
 require_login();

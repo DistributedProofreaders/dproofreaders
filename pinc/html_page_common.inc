@@ -1,6 +1,5 @@
 <?php
 include_once($relPath."languages.inc"); // html_lang_header();
-include_once($relPath."misc.inc"); // html_safe(), ends_with()
 
 define('NO_STATSBAR', false);
 define('SHOW_STATSBAR', true);

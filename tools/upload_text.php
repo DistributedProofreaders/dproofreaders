@@ -8,7 +8,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
-include_once($relPath.'misc.inc'); // html_safe(), extract_zip_to(), return_bytes(), remove_common_basedir_from_zip()
 include_once($relPath.'smoothread.inc'); // handle_smooth_reading_change()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file, zip_check()
 include_once($relPath.'links.inc');

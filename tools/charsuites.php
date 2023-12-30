@@ -6,7 +6,6 @@ include_once($relPath."unicode.inc");
 include_once($relPath."CharSuites.inc");
 include_once($relPath."prefs_options.inc");
 include_once($relPath."Project.inc"); // get_projectID_param()
-include_once($relPath."misc.inc"); // array_get()
 
 require_login();
 

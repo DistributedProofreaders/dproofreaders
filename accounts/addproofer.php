@@ -7,7 +7,6 @@ include_once($relPath.'email_address.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'misc.inc'); // attr_safe()
 
 $real_name = array_get($_POST, 'real_name', '');
 $username = array_get($_POST, 'userNM', '');

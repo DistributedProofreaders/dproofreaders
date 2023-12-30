@@ -1,7 +1,6 @@
 <?php
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'pg.inc');
 

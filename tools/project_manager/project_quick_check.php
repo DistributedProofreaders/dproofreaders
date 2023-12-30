@@ -4,7 +4,6 @@
 $relPath = "../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'misc.inc'); // array_get(), get_enumerated_param(), html_safe()
 include_once($relPath.'Project.inc'); // Project::Project
 include_once($relPath.'project_quick_check.inc');
 

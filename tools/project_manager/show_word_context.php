@@ -4,11 +4,9 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'project_states.inc');
 include_once($relPath.'stages.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'misc.inc'); // array_get(), get_integer_param()
 include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
 include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('./post_files.inc'); // page_info_query()

@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'user_is.inc');
-include_once($relPath.'misc.inc'); // attr_safe(), html_safe(), startswith()
 include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_large(), validate_uploaded_file()
 include_once($relPath.'slim_header.inc');
 

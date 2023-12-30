@@ -8,7 +8,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'project_quick_check.inc'); // needed for gate_on_pqc() callable
-include_once($relPath.'misc.inc'); // get_enumerated_param(), html_safe()
 
 require_login();
 

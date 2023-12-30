@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'DPage.inc');
