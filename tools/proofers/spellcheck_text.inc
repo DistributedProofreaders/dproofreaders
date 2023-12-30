@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'unicode.inc');

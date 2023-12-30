@@ -12,7 +12,6 @@
 // This file is for code dealing with page tallies.
 
 include_once($relPath.'TallyBoard.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'privacy.inc');
 include_once($relPath.'User.inc');
 

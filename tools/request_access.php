@@ -2,7 +2,6 @@
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'send_mail.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'User.inc');

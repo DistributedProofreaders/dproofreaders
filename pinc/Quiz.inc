@@ -1,6 +1,5 @@
 <?php
 include_once($relPath."Stage.inc");
-include_once($relPath."stages.inc");
 include_once($relPath.'CharSuites.inc'); // CharSuiteSet
 
 // for groups of quizzes that go together

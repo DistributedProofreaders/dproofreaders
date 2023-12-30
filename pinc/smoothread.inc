@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');
 include_once($relPath.'user_project_info.inc'); // notify_project_event_subscribers()
 
 /***************************************************************************************

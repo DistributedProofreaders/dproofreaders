@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');
 
 /*
   States:

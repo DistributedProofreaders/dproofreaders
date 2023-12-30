@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
 include_once($relPath.'metarefresh.inc');

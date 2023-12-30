@@ -1,7 +1,6 @@
 <?php
 $relPath = './../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');

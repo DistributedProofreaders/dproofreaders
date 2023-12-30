@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'release_queue.inc');
 

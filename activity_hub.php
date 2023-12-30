@@ -10,9 +10,7 @@
 
 $relPath = "./pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'mentorbanner.inc');

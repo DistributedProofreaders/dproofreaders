@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'stages.inc');
 
 $NEWS_PAGES = [
     'GLOBAL' => _('Global'),

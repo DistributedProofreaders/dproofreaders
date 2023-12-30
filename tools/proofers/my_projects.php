@@ -2,10 +2,8 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'js_newwin.inc'); // get_js_for_links_to_project_pages(),  get_onclick_attr_for_link_to_project_page()
 include_once($relPath.'Settings.inc');
 include_once($relPath.'pg.inc'); // get_pg_catalog_link_for_etext()

@@ -2,7 +2,6 @@
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'quizzes.inc'); // get_quiz_page_id_param
 
 require_login();
 

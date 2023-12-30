@@ -1,7 +1,6 @@
 <?php
 
 include_once($relPath.'dpsql.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'page_tally.inc');
 
 function get_graph_js_files()

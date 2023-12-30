@@ -1,5 +1,4 @@
 <?php
-include_once($relPath.'site_vars.php');  // $charset for javascript_safe()
 
 define('CHANGE_LAYOUT', 'A');
 define('QUIT', 'B');

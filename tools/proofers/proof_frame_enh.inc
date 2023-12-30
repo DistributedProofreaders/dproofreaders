@@ -1,6 +1,5 @@
 <?php
 include_once($relPath.'http_headers.inc');
-include_once($relPath.'site_vars.php');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'codepoint_validator.inc');
 include_once($relPath.'button_defs.inc');

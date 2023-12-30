@@ -1,7 +1,5 @@
 <?php
-include_once($relPath.'site_vars.php');
 include_once($relPath.'comment_inclusions.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'wordcheck_engine.inc');
 

@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'graph_data.inc');
 include_once($relPath.'slim_header.inc');
 

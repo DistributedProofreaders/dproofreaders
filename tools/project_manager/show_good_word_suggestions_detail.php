@@ -2,8 +2,6 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
-include_once($relPath.'project_states.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');

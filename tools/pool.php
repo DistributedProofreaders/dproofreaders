@@ -1,7 +1,6 @@
 <?php
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
-include_once($relPath.'stages.inc');
 include_once($relPath.'Settings.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'theme.inc');

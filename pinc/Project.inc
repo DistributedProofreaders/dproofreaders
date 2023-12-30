@@ -1,11 +1,9 @@
 <?php
 include_once($relPath.'user_is.inc');
-include_once($relPath.'project_states.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create
 include_once($relPath.'Settings.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'MARCRecord.inc');
-include_once($relPath.'stages.inc'); // is_formatting_round()
 include_once($relPath.'CharSuites.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'wordcheck_engine.inc'); // delete_project_wordcheck_events()
