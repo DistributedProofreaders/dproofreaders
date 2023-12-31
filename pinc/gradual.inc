@@ -329,6 +329,12 @@ function encourage_highest_round($username, $round_id = null)
             return;
         }
 
+        // pgdp-production: don't encourage proofreaders to apply to P3 or F2
+        // just yet, as we want to add checks against access_log first
+        if (in_array($round->id, ["P3", "F2"])) {
+            continue;
+        }
+
         // They're already eligible but have not requested access, tell them.
         $uao = $round->user_access($username);
         if ($uao->all_minima_satisfied) {
