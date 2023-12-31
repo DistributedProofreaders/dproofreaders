@@ -145,15 +145,7 @@ function user_get_page_tally_neighborhood($tally_name, $username, $radius)
 
     $tallyboard = new TallyBoard($tally_name, 'U');
     $nb =
-        $tallyboard->get_neighborhood(
-            $user->u_id,
-            $radius,
-            'users',
-            'u_id',
-            'username, u_privacy, date_created, u_id',
-            'current_tally',
-            'current_rank'
-        );
+        $tallyboard->get_neighborhood($user->u_id, $radius);
 
     $neighbors = [];
     foreach ($nb as $rel_posn => $row) {
