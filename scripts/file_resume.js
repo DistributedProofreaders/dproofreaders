@@ -23,6 +23,37 @@ window.addEventListener("DOMContentLoaded", function() {
         return true;
     }
 
+    // polyfill for file.arrayBuffer()
+    function fileToArrayBuffer(file) {
+        if ('arrayBuffer' in file) {
+            return file.arrayBuffer();
+        }
+        return new Promise (function (resolve, reject) {
+            const reader = new FileReader();
+            reader.addEventListener("loadend", function() {
+                resolve(reader.result);
+            });
+            reader.addEventListener("error", function() {
+                reject();
+            });
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    function fileHash(file) {
+        return fileToArrayBuffer(file)
+            .then(function (arrayBuffer) {
+                return crypto.subtle.digest("SHA-256", arrayBuffer);
+            })
+            .then(function(hashAsArrayBuffer) {
+                const uint8ViewOfHash = new Uint8Array(hashAsArrayBuffer);
+                const hashAsString = Array.from(uint8ViewOfHash)
+                    .map((b) => b.toString(16).padStart(2, "0"))
+                    .join("");
+                return hashAsString;
+            });
+    }
+
     var resumable = new Resumable({
         target: uploadTarget,
         testTarget: uploadTarget,
@@ -34,6 +65,21 @@ window.addEventListener("DOMContentLoaded", function() {
 
     function showProgress(text) {
         document.getElementById("upload_progress").innerHTML = text;
+    }
+
+    function submitWithHash(file) {
+        const hashInput = document.getElementById("hash_code");
+        const uploadForm = document.getElementById("upload_form");
+        fileHash(file)
+            .then (function (hashString) {
+                hashInput.value = hashString;
+                uploadForm.submit();
+            })
+            .catch( function () {
+                // send an empty string
+                hashInput.value = "";
+                uploadForm.submit();
+            });
     }
 
     if(resumable.support) {
@@ -55,10 +101,12 @@ window.addEventListener("DOMContentLoaded", function() {
             return false;
         }
         if(validate(file.name)) {
-            // won't work if we disable browse button so hide it
+            // won't work if we disable the buttons so hide them
             document.getElementById("old_browse").style.display = "none";
-            document.getElementById("old_browse").disabled = true;
+            document.getElementById("old_submit").style.display = "none";
             showProgress(uploadMessages.working);
+            ev.preventDefault();
+            submitWithHash(file);
         } else {
             ev.preventDefault();
         }
@@ -94,7 +142,7 @@ window.addEventListener("DOMContentLoaded", function() {
         document.querySelector('input[name="resumable_identifier"]').value = file.uniqueIdentifier;
         document.querySelector('input[name="mode"]').value = "resumable";
         showProgress(uploadMessages.finalizingUpload);
-        document.getElementById("upload_form").submit();
+        submitWithHash(file.file);
     });
 
     // If an error occurred, re-enable the upload form and show a message

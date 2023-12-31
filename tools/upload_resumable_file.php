@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header("HTTP/1.0 200 Ok");
         // continue to try to reassemble
     } else {
-        header("HTTP/1.0 404 Not Found");
+        header("HTTP/1.0 204 No Content");
         exit;
     }
 }

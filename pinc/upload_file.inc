@@ -102,6 +102,7 @@ function show_upload_form($form_content, $submit_label)
     echo $form_content;
 
     echo "<p>$standard_blurb</p>";
+    echo "<input type='hidden' name='hash_code' id='hash_code' value=''>";
     // these are the form elements for non-resumable upload
     echo "<div id='old_uploader'>
     <p class='warning'>", sprintf(_('Maximum file size is %s.'), humanize_bytes(get_max_upload_size())), "</p>
@@ -122,14 +123,13 @@ function show_upload_form($form_content, $submit_label)
         <span id='resumable_submit' class='button'>", html_safe($submit_label), "</span></p>
     ";
 
-    echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
-
     echo "<p>", sprintf(
         _("Your browser supports uploading large files (up to %s) via javascript. If the upload fails, or you navigate away from this page before it finishes, uploading the file again will pick up where it left off."),
         humanize_bytes(RESUMABLE_UPLOAD_SIZE)
     ), "</p>";
     echo "</div>";
 
+    echo "<p>", _("Upload progress"), ":&nbsp;<span id='upload_progress'></span></p>";
     echo "</form>\n";
 }
 
@@ -208,6 +208,16 @@ function validate_uploaded_file($verbose)
             throw new FileUploadException(_("Invalid filename"));
         }
 
+        $hash_code = $_POST["hash_code"] ?? "no_hash";
+        if($hash_code === "") {
+            show_upload_message($verbose, _("No checksum provided"));
+        } else {
+            $up_hash_code = hash('sha256', file_get_contents($file_path));
+            if(0 != strcmp($hash_code, $up_hash_code)) {
+                throw new FileUploadException(_("The file is corrupted"));
+            }
+            show_upload_message($verbose, _("Checksum validated"));
+        }
         virus_check($file_path, $verbose);
     } catch (FileUploadException $e) {
         if (is_file($file_path)) {
