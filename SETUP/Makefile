@@ -13,7 +13,7 @@ security_checks:
 #----------------------------------------------------------------------------
 # Best Practice checks
 best_practice_checks:
-	$(SELF_DIR)check_includes_base.php
+	$(SELF_DIR)check_includes.php
 
 #----------------------------------------------------------------------------
 # File linting
