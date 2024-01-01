@@ -16,7 +16,7 @@ output_header($title);
 
 echo "<h1>$title</h1>\n";
 
-foreach ($Activity_for_id_ as $activity) {
+foreach (Activities::get_all() as $activity) {
     if ($activity->after_satisfying_minima == 'REQ-HUMAN') {
         $activity_ids[] = $activity->id;
     }

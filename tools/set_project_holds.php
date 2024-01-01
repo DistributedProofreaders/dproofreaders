@@ -35,7 +35,7 @@ $delta_ = [
 
 $old_hold_states = $project->get_hold_states();
 
-foreach ($Round_for_round_id_ as $round) {
+foreach (Rounds::get_all() as $round) {
     foreach (['project_waiting_state', 'project_available_state'] as $s) {
         $state = $round->$s;
 

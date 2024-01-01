@@ -287,11 +287,9 @@ function _get_projects_for_pm($pm)
 
 function _get_project_states_in_order()
 {
-    global $Round_for_round_id_;
-
     $projectStates = [];
 
-    foreach ($Round_for_round_id_ as $round_id => $round) {
+    foreach (Rounds::get_all() as $round) {
         array_push($projectStates, $round->project_unavailable_state);
         array_push($projectStates, $round->project_waiting_state);
         array_push($projectStates, $round->project_bad_state);

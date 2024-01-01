@@ -78,7 +78,7 @@ if ($one_project) {
     $verbose = 1;
 
     $condition = "0";
-    foreach ($Round_for_round_id_ as $round_id => $round) {
+    foreach (Rounds::get_all() as $round) {
         $condition .= sprintf(
             "
             OR state = '%s'
