@@ -538,6 +538,11 @@ function get_suggestions($round_view, $username, $selection_criteria)
         // fields used here, and in dependent functions, be populated in the row.
         $project = new Project($project_row);
 
+        // pgdp-production: skip self-evaluation projects
+        if (stripos($project->nameofwork, "self-evaluation") !== false) {
+            continue;
+        }
+
         try {
             $round = $Round_for_project_state_[$project->state];
             validate_user_against_project_reserve($user, $project, $round);
