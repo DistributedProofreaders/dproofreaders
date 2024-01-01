@@ -395,6 +395,11 @@ class UserSuggestions
             // fields used here, and in dependent functions, be populated in the row.
             $project = new ProjectSuggestion($project_row);
 
+            // pgdp-production: skip self-evaluation projects
+            if (stripos($project->nameofwork, "self-evaluation") !== false) {
+                continue;
+            }
+
             try {
                 $round = Rounds::get_by_project_state($project->state);
                 validate_user_against_project_reserve($user, $project, $round);
