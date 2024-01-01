@@ -47,7 +47,7 @@ foreach ($_POST as $name => $value) {
         die("Error: bad parameter name '$name'");
     }
 
-    @$activity = $Activity_for_id_[$activity_id];
+    $activity = Activities::get_by_id($activity_id);
     if (is_null($activity)) {
         die("Error: no activity named '$activity_id'");
     }

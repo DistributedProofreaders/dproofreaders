@@ -39,7 +39,7 @@ echo "</ul>";
     <th class='label'><?php echo _("Page"); ?></th>
     <th class='label'><?php echo pgettext("page state", "State"); ?></th>
 <?php
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         echo "<th class='label'>$round->id</td>";
     }
 ?>
@@ -53,7 +53,7 @@ echo "</ul>";
 
 // build the SQL to return the fields and WordCheck status for each round
 $round_fields_select = "";
-foreach ($Round_for_round_id_ as $round) {
+foreach (Rounds::get_all() as $round) {
     $rn = $round->round_number;
     $round_fields_select .= "
         $round->user_column_name,
@@ -88,7 +88,7 @@ while ($result = mysqli_fetch_assoc($res)) {
     $currentRound = get_Round_for_page_state($result["state"]);
 
     // foreach round print out the available info
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         $roundID = $round->id;
         $rn = $round->round_number;
 

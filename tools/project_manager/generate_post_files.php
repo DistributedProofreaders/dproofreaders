@@ -9,7 +9,7 @@ include_once('./post_files.inc');
 
 require_login();
 
-$valid_round_ids = array_keys($Round_for_round_id_);
+$valid_round_ids = Rounds::get_ids();
 array_unshift($valid_round_ids, '[OCR]');
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');

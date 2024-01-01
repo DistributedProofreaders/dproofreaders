@@ -154,7 +154,7 @@ if (!$resolution) {
     }
 } else {
     //Get variables passed from form
-    $state = get_enumerated_param($_POST, 'state', null, $PAGE_STATES_IN_ORDER);
+    $state = get_enumerated_param($_POST, 'state', null, Rounds::get_page_states());
 
     //If the PM fixed the problem or stated the report was invalid update the database to reflect
     if (($resolution == "fixed") || ($resolution == "invalid")) {
@@ -180,7 +180,7 @@ function get_round_name($round_number)
 
 function show_resolution_form($projectid, $image, $state, $project_round, $is_a_bad_page, $b_user, $b_code)
 {
-    global $code_url, $PAGE_BADNESS_REASONS, $Round_for_round_id_;
+    global $code_url, $PAGE_BADNESS_REASONS;
 
     if ($is_a_bad_page) {
         echo "<h2>" . _("Resolve bad page") . "</h2>";
@@ -212,9 +212,9 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         echo "<input type='hidden' name='state' value='$state'>";
         echo "<select name='text_column'>";
         echo "<option value='master_text'>" . _("OCR") . "</option>";
-        foreach ($Round_for_round_id_ as $round_id => $round) {
+        foreach (Rounds::get_all() as $round) {
             echo "<option value='$round->text_column_name'";
-            if ($project_round->id == $round_id) {
+            if ($project_round->id == $round->id) {
                 echo "SELECTED";
             }
             echo ">$round_id</option>";
@@ -246,13 +246,11 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
 
 function show_text_update_form($projectid, $image, $prev_text, $text_column, $modify = 'current_text')
 {
-    global $Round_for_round_id_;
-
     echo "<h2>" . _("Update page text") . "</h2>";
 
     // look up the round_id from the $text_column
     $round_id = _("OCR");
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         if ($round->text_column_name == $text_column) {
             $round_id = $round->id;
         }

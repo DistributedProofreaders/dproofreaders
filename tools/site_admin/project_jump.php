@@ -15,7 +15,7 @@ if (!user_is_a_sitemanager()) {
 $action = get_enumerated_param($_POST, 'action', 'showform', ['showform', 'check', 'dojump']);
 $projectid = get_projectID_param($_POST, 'projectid', true);
 $valid_new_states = [];
-foreach ($Round_for_round_id_ as $id => $round) {
+foreach (Rounds::get_all() as $round) {
     $valid_new_states[] = $round->project_unavailable_state;
 }
 $new_state = get_enumerated_param($_POST, 'new_state', null, $valid_new_states, true);
@@ -46,8 +46,6 @@ switch ($action) {
 
 function display_form($action, $projectid, $new_state)
 {
-    global $Round_for_round_id_;
-
     echo "<form method='post'>\n";
     echo "<table>\n";
     if ($action == "showform") {
@@ -59,7 +57,7 @@ function display_form($action, $projectid, $new_state)
         echo "<tr>";
         echo "<th>" . _("State") . ":</th>\n";
         echo "<td><select name='new_state'>";
-        foreach ($Round_for_round_id_ as $id => $round) {
+        foreach (Rounds::get_all() as $round) {
             echo "<option value='{$round->project_unavailable_state}'>{$round->project_unavailable_state}</option>";
         }
         echo "</select></td>\n";
