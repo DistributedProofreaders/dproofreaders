@@ -563,3 +563,60 @@ function is_formatting_round($round)
 {
     return startswith($round->id, 'F');
 }
+
+/**
+ * From an array & key, get a Round object matching the ID
+ *
+ * @param array $arr
+ * @param string $key
+ * @param mixed $default
+ * @param bool $allownull
+ *
+ * @throws InvalidArgumentException
+ */
+function get_round_param($arr, $key, $default = null, $allownull = false)
+{
+    global $Round_for_round_id_;
+    // sanity checks on the args
+    assert(is_array($arr));
+    assert(!is_array($key));
+    assert(is_null($default) || is_string($default));
+    if (!is_null($default)) {
+        assert(!$allownull);
+    }
+    if (isset($arr[$key])) {
+        $s = $arr[$key];
+        if (!is_string($s)) {
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' is not a valid type"),
+                $key
+            ));
+        }
+        // Trim whitespace from both ends of the string.
+        $s = trim($s);
+        $round = $Round_for_round_id_[$s] ?? null;
+        if ($round) {
+            return $round;
+        }
+        if ($round === null && $allownull) {
+            return null;
+        } else {
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' ('%2\$s') is not a valid round ID"),
+                $key,
+                $s
+            ));
+        }
+    } else {
+        // parameter not set, use default
+        if (is_null($default) && !$allownull) {
+            // There is no default. The parameter is required.
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' is required"),
+                $key
+            ));
+        } else {
+            return $default;
+        }
+    }
+}

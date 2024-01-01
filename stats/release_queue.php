@@ -25,7 +25,7 @@ $listing_view_modes = [
     ],
 ];
 
-$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
+$round = get_round_param($_GET, 'round_id', null, true);
 $name = @$_GET['name'];
 $listing_view_mode = get_enumerated_param($_GET, "show", "populated", array_keys($listing_view_modes));
 $unheld_only = get_integer_param($_GET, 'unheld_only', 0, 0, 1);
@@ -34,11 +34,9 @@ $title = _("Release Queues");
 output_header($title, NO_STATSBAR);
 echo "<h1>" . html_safe($title) . "</h1>\n";
 
-if (is_null($round_id)) {
+if (is_null($round)) {
     _show_available_rounds();
 } else {
-    $round = get_Round_for_round_id($round_id);
-
     if (isset($name)) {
         _show_queue_details($round, $name, $unheld_only);
     } else {

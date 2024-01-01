@@ -6,8 +6,7 @@ include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc'); // validate_projectID()
 include_once($relPath.'ProofreadingToolbox.inc');
 
-$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_));
-$round = get_Round_for_round_id($round_id);
+$round = get_round_param($_GET, 'round_id');
 // if this is used in a quiz there will not be a real projectid, 'quiz' will be
 // used for the MRU local storage prefix and the character selector will
 // provide the quiz pickers

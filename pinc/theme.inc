@@ -382,7 +382,6 @@ function headerbar_text_array($entries)
 function html_statsbar($nameofpage)
 {
     global $code_url, $PG_home_url;
-    global $Round_for_round_id_;
     maybe_show_language_selector();
 
     // For logged-in users, show links to key help documents:
@@ -401,8 +400,8 @@ function html_statsbar($nameofpage)
 
     // If tally_name is unspecfied, try to see if round_id is set.
     if (!isset($tally_name)) {
-        $rounds = array_keys($Round_for_round_id_);
-        $tally_name = get_enumerated_param($_REQUEST, 'round_id', null, $rounds, true);
+        $round = get_round_param($_REQUEST, 'round_id', null, true);
+        $tally_name = $round->id ?? null;
     }
 
     if (!isset($tally_name)) {
