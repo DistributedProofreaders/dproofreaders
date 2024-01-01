@@ -1,7 +1,6 @@
 <?php
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'misc.inc'); // array_get(), surround_and_join(), html_safe()
 include_once($relPath.'theme.inc');
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
