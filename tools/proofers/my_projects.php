@@ -609,8 +609,10 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         unset($round_column_specs['postednum']);
     }
 
-    $sql = sprintf(
-        "
+    // We escape the username here rather than sprintf() the SQL because
+    // $avail_state_clause can contain %s
+    $escaped_username = DPDatabase::escape($username);
+    $sql = "
         SELECT
             user_project_info.projectid,
             user_project_info.t_latest_page_event AS max_timestamp,
@@ -623,13 +625,11 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
             1 - (projects.n_available_pages / projects.n_pages) AS percent_done,
             (unix_timestamp() - projects.modifieddate)/(24 * 60 * 60) AS days_checkedout
         FROM user_project_info LEFT OUTER JOIN projects USING (projectid)
-        WHERE user_project_info.username='%s'
+        WHERE user_project_info.username='$escaped_username'
             AND user_project_info.t_latest_page_event > $t_latest_page_event
             $avail_state_clause
         ORDER BY $sql_order
-        ",
-        DPDatabase::escape($username)
-    );
+    ";
     return [DPDatabase::query($sql), $round_column_specs];
 }
 
@@ -655,58 +655,58 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
     $deleted_states_selector = "state IN (" .  surround_and_join($deleted_states, "'", "'", ",") . ")";
 
     if ($pool_view == "reserved") {
-        $where_clause = sprintf(
-            "
+        // We escape the username here rather than sprintf() the SQL because
+        // the state selectors can contain %s
+        $escaped_username = DPDatabase::escape($username);
+        $where_clause = "
             WHERE
-                checkedoutby='%s'
+                checkedoutby='$escaped_username'
                 AND $created->state_selector
                 AND NOT $proofed->state_selector
-            ",
-            DPDatabase::escape($username)
-        );
+        ";
         unset($pool_column_specs['checkedoutby']);
         unset($pool_column_specs['postproofer']);
         unset($pool_column_specs['ppverifier']);
         unset($pool_column_specs['days_checkedout']);
         unset($pool_column_specs['postednum']);
     } elseif ($pool_view == "active") {
-        $where_clause = sprintf(
-            "
+        // We escape the username here rather than sprintf() the SQL because
+        // the state selectors can contain %s
+        $escaped_username = DPDatabase::escape($username);
+        $where_clause = "
             WHERE
                 (
-                    postproofer='%1\$s'
+                    postproofer='$escaped_username'
                     OR (
                         (postproofer = '' OR postproofer IS NULL)
-                        AND checkedoutby='%1\$s'
+                        AND checkedoutby='$escaped_username'
                         AND $pp_states_selector
                     )
                     OR
-                    ppverifier='%1\$s'
+                    ppverifier='$escaped_username'
                     OR (
                         (ppverifier = '' OR ppverifier IS NULL)
-                        AND checkedoutby='%1\$s'
+                        AND checkedoutby='$escaped_username'
                         AND $ppv_states_selector
                     )
                 )
                 AND NOT $deleted_states_selector
                 AND NOT $posted->state_selector
-            ",
-            DPDatabase::escape($username)
-        );
+        ";
         unset($pool_column_specs['postednum']);
     } elseif ($pool_view == "posted") {
-        $where_clause = sprintf(
-            "
+        // We escape the username here rather than sprintf() the SQL because
+        // the state selectors can contain %s
+        $escaped_username = DPDatabase::escape($username);
+        $where_clause = "
             WHERE
                 (
-                    postproofer='%1\$s'
-                    OR ppverifier='%1\$s'
-                    OR checkedoutby='%1\$s'
+                    postproofer='$escaped_username'
+                    OR ppverifier='$escaped_username'
+                    OR checkedoutby='$escaped_username'
                 )
                 AND $posted->state_selector
-            ",
-            DPDatabase::escape($username)
-        );
+        ";
         unset($pool_column_specs['checkedoutby']);
         unset($pool_column_specs['days_checkedout']);
         unset($pool_column_specs['state']);
