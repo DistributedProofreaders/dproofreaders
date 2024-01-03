@@ -11,23 +11,32 @@ include_once('../includes/member.inc');
 
 require_login();
 
-$id = get_integer_param($_GET, 'id', null, 0, null);
-$user = User::load_from_uid($id);
+$id = get_integer_param($_GET, 'id', null, 0, null, true);
+if ($id === null) {
+    $user = User::load_current();
+} else {
+    $user = User::load_from_uid($id);
+}
 
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names, true);
 
 $can_reveal = can_reveal_details_about($user->username, $user->u_privacy);
-if ($can_reveal) {
-    $user_referent = "'" . $user->username . "'";
+if ($user == User::load_current()) {
+    $desc = _("Your user details");
 } else {
-    $user_referent = "#" . $user->u_id;
-    // Note that this doesn't reveal anything;
-    // the requestor already knows the subject's u_id,
-    // because it was included in the request.
+    if ($can_reveal) {
+        $user_referent = "'" . $user->username . "'";
+    } else {
+        $user_referent = "#" . $user->u_id;
+        // Note that this doesn't reveal anything;
+        // the requestor already knows the subject's u_id,
+        // because it was included in the request.
+    }
+
+    $desc = sprintf(_("Details for user %s"), $user_referent);
 }
 
-$desc = sprintf(_("Details for user %s"), $user_referent);
 output_header($desc, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
 ]);
