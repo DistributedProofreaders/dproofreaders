@@ -594,12 +594,13 @@ function get_round_param($arr, $key, $default = null, $allownull = false)
         }
         // Trim whitespace from both ends of the string.
         $s = trim($s);
+        if ($s == '' && $allownull) {
+            return null;
+        }
+
         $round = $Round_for_round_id_[$s] ?? null;
         if ($round) {
             return $round;
-        }
-        if ($round === null && $allownull) {
-            return null;
         } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is not a valid round ID"),
