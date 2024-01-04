@@ -73,7 +73,7 @@ function get_rounds_to_display($project)
  * }
  * ```
  */
-function fetch_page_table_data($project, $page_selector = null, $proofed_in_round = null)
+function fetch_page_table_data($project, $page_selector = null, $work_round = null)
 {
     if (!$project->pages_table_exists) {
         throw new NoProjectPageTable(_("Project page table does not exist."));
@@ -133,8 +133,7 @@ function fetch_page_table_data($project, $page_selector = null, $proofed_in_roun
         $username_for_selecting_pages = $page_selector;
 
         $where_condition = "0";
-        $work_round = get_Round_for_round_id($proofed_in_round);
-        if (is_null($proofed_in_round) || is_null($work_round)) {
+        if (is_null($work_round)) {
             // want pages that the specified user did in any round
             foreach ($rounds_to_display as $round) {
                 $where_condition .= sprintf("

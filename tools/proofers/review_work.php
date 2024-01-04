@@ -18,8 +18,8 @@ $rounds = array_keys($Round_for_round_id_);
 
 // load any data passed into the page
 $username = array_get($_GET, "username", $pguser);
-$work_round_id = get_enumerated_param($_GET, "work_round_id", null, $rounds, true);
-$review_round_id = get_enumerated_param($_GET, "review_round_id", null, $rounds, true);
+$work_round = get_round_param($_GET, "work_round_id", null, true);
+$review_round = get_round_param($_GET, "review_round_id", null, true);
 $sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, null);
 $days = get_integer_param($_GET, "days", 100, 0, null);
 $use_eval_query = get_integer_param($_GET, "use_eval_query", 1, 0, 1);
@@ -67,13 +67,13 @@ if ($user_can_review_others) {
 echo  "<tr>";
 echo   "<th>" . _("Work Round") . "</th>";
 echo   "<td><select name='work_round_id'>";
-_echo_round_select($rounds, $work_round_id);
+_echo_round_select($rounds, $work_round);
 echo    "</select>";
 echo  "</tr>";
 echo  "<tr>";
 echo   "<th>" . _("Review Round") . "</th>";
 echo   "<td><select name='review_round_id'>";
-_echo_round_select(array_slice($rounds, 1), $review_round_id);
+_echo_round_select(array_slice($rounds, 1), $review_round);
 echo     "</select>";
 echo  "</tr>";
 echo  "<tr>";
@@ -100,11 +100,11 @@ function _echo_eval_query_select($selected)
     }
 }
 
-function _echo_round_select($rounds, $selected)
+function _echo_round_select($rounds, $selected_round)
 {
     foreach ($rounds as $round) {
         echo "<option value='" . attr_safe($round) . "'";
-        if ($round == $selected) {
+        if ($selected_round && $round == $selected_round->id) {
             echo " selected";
         }
         echo ">$round</option>";
@@ -114,8 +114,8 @@ function _echo_round_select($rounds, $selected)
 // if not all the required values are set (ie: not passed into the script)
 // stop the page here
 if (empty($username) ||
-   empty($work_round_id) ||
-   empty($review_round_id)) {
+   $work_round == null ||
+   $review_round == null) {
     exit;
 }
 
@@ -124,8 +124,8 @@ if (!User::is_valid_user($username)) {
     exit;
 }
 
-// confirm the review_round_id is later than work_round_id
-if (array_search($review_round_id, $rounds) <= array_search($work_round_id, $rounds)) {
+// confirm the review_round is later than work_round
+if ($review_round->round_number <= $work_round->round_number) {
     echo "<p class='error'>" . _("Review Round should be a round later than Work Round.") . "</p>";
     exit;
 }
@@ -134,8 +134,6 @@ if (array_search($review_round_id, $rounds) <= array_search($work_round_id, $rou
 echo "<hr>";
 
 // we should have valid information at this point
-$work_round = get_Round_for_round_id($work_round_id);
-$review_round = get_Round_for_round_id($review_round_id);
 $time_limit = time() - $days * 24 * 60 * 60;
 
 // Queries against the page_events table perform poorly and put a lot of load
@@ -257,7 +255,7 @@ $projects_done = []; // the projects that we've done rows for
 // to the page_events table
 while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save] = mysqli_fetch_row($res2)) {
     // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
-    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
+    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=" . $work_round->id;
 
     // if the project has been deleted, find out whether it was merged into another one
     // and if so, operate on the one it was merged into
@@ -271,7 +269,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $deletion_reason, $matches))) {
         $deleted_projectid = $projectid;
         $projectid = $matches[0];
-        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=$work_round_id";
+        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=" . $work_round->id;
         $deleted_state = $state;
         $deleted_nameofwork = $nameofwork;
         $deleted_url = "$code_url/tools/project_manager/project.php?id=$deleted_projectid";
@@ -349,7 +347,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         $messages[] = [
             "<a href='$url'>" . html_safe($nameofwork) . "</a>",
             $state,
-            sprintf(_("Has not finished %s"), $work_round_id),
+            sprintf(_("Has not finished %s"), $work_round->id),
             MESSAGE_INFO,
         ];
         continue;
@@ -376,7 +374,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         $messages[] = [
             "<a href='$url'>" . html_safe($nameofwork) . "</a>",
             $state,
-            sprintf(_('Has not been proofread in %1$s (%2$d pages worked on)'), $review_round_id, $pages_worked_in_review_round),
+            sprintf(_('Has not been proofread in %1$s (%2$d pages worked on)'), $review_round->id, $pages_worked_in_review_round),
             MESSAGE_INFO,
         ];
         continue;
@@ -413,7 +411,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         // $messages[] = [
         //     "<a href='$url'>" . html_safe($nameofwork) . "</a>",
         //     $state,
-        //     sprintf(_("Has not been proofread in %s"), $review_round_id),
+        //     sprintf(_("Has not been proofread in %s"), $review_round->id),
         //     MESSAGE_INFO,
         // ];
         continue;

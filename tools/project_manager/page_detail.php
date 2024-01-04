@@ -9,7 +9,7 @@ require_login();
 
 $projectid = get_projectID_param($_GET, 'project');
 $show_image_size = get_integer_param($_GET, 'show_image_size', 0, 0, 1);
-$round_for_page_selection = get_enumerated_param($_GET, 'select_by_round', null, array_keys($Round_for_round_id_), true);
+$round_for_page_selection = get_round_param($_GET, 'select_by_round', null, true);
 
 // select_by_user can have three possible values:
 //    NULL = show all users
@@ -71,7 +71,7 @@ if ($project->check_pages_table_exists($warn_message)) {
             echo sprintf(
                 _("Showing only the pages of user '%1\$s' in round %2\$s."),
                 html_safe($username_for_page_selection),
-                html_safe($round_for_page_selection)
+                html_safe($round_for_page_selection->id)
             );
         }
         $blurb = _("Show all pages instead.");

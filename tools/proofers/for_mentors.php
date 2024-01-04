@@ -26,10 +26,8 @@ echo "<h1>$title</h1>";
 
 // Decide which mentoring-round we're dealing with.
 
-$round_id = get_enumerated_param($_GET, 'round_id', null, array_keys($Round_for_round_id_), true);
-if ($round_id != '') {
-    $mentoring_round = get_Round_for_round_id($round_id);
-} else {
+$mentoring_round = get_round_param($_GET, 'round_id', null, true);
+if (!$mentoring_round) {
     // Consider the page they came from.
     $referer = @$_SERVER['HTTP_REFERER'];
 
