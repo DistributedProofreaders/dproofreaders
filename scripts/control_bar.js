@@ -346,8 +346,6 @@ function makeImageWidget(container, align = "C") {
         image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${-yOffset})`;
     }
 
-    image.addEventListener("load", setImageStyle);
-
     function initScroll() {
         // assuming width is 2*contentWidth
         if(align == "C") {
@@ -359,6 +357,13 @@ function makeImageWidget(container, align = "C") {
         }
         content.scrollTop = 0;
     }
+
+    function initAll() {
+        setImageStyle();
+        initScroll();
+    }
+
+    image.addEventListener("load", initAll);
 
     function setZoom() {
         if(percent < minPercent) {
@@ -434,16 +439,14 @@ function makeImageWidget(container, align = "C") {
         .append($("<i>", {class: 'fas fa-redo-alt'}))
         .click( function () {
             [sine, cosine] = [-cosine, sine];
-            setImageStyle();
-            initScroll();
+            initAll();
         });
 
     const counterclockRotateInput = $("<button>", {title: texts.counterclockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             [sine, cosine] = [cosine, -sine];
-            setImageStyle();
-            initScroll();
+            initAll();
         });
 
     const controls = [
@@ -461,8 +464,7 @@ function makeImageWidget(container, align = "C") {
     const controlDiv = makeControlDiv(container, $(content), controls);
     // content width can change when moving controls
     controlDiv.onChange.add(function () {
-        setImageStyle();
-        initScroll();
+        initAll();
     });
 
     return {
@@ -483,7 +485,6 @@ function makeImageWidget(container, align = "C") {
             sine = 0;
             cosine = 1;
             image.src = src;
-            initScroll();
         },
 
         reScroll: reScroll,
