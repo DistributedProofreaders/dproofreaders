@@ -5,10 +5,18 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
 
-// This file deals with the gradual revelation of site features,
-// based on the number of pages proofread by the user.
-// (So far, it only has the code that is shared between multiple files.
-// Maybe it should include unshared stuff too, for completeness.)
+/*
+ * This file deals with the gradual revelation of site features,
+ * based on the number of pages proofread by the user.
+ * (So far, it only has the code that is shared between multiple files.
+ * Maybe it should include unshared stuff too, for completeness.)
+ *
+ * The following are common thresholds used in this and other files
+ * based on the number of pages proofread:
+ *   <  20 - newbie user, gets simplified information
+ *   < 100 - proofreader is guided through the site
+ *   < 300 - final guidance
+ */
 
 
 /**
@@ -69,7 +77,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
         echo sprintf(_('After that you will be able to work in <a href="%1$s">%2$s</a>, the first proofreading round.'), "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
         echo "</p>";
         echo "</div>";
-    } elseif ($pagesproofed <= 100) {
+    } elseif ($pagesproofed < 100) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");
@@ -109,7 +117,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
 
 function thoughts_re_mentor_feedback($pagesproofed)
 {
-    if ($pagesproofed >= 15 && $pagesproofed < 200) {
+    if ($pagesproofed >= 20 && $pagesproofed < 300) {
         echo "<p>";
         echo sprintf(_("New Proofreaders: <a href='%s'>What did you think of the Mentor feedback you received?</a>"), get_url_to_view_topic(6651));
         echo "</p>";

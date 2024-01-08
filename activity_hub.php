@@ -128,7 +128,7 @@ $show_filtering_links = true;
 
 // Proofreaders with fewer than 21 pages can't see the filter box on the Round
 // pages so prevent those users from selecting the filtered option.
-if ($pagesproofed <= 20) {
+if ($pagesproofed < 20) {
     $show_filtered_projects = false;
     $show_filtering_links = false;
 }

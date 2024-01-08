@@ -43,7 +43,7 @@ encourage_highest_round($pguser, $round->id);
 show_news_for_page($round_id);
 
 
-if ($pagesproofed <= 100 && $ELR_round->id == $round_id) {
+if ($pagesproofed < 100 && $ELR_round->id == $round_id) {
     if ($pagesproofed > 80) {
         echo "<p class='small italic'>";
         // TRANSLATORS: Simple Proofreading Rules are the strings listed in pinc/simple_proof_text.inc
@@ -98,7 +98,7 @@ if ($round->is_a_mentor_round()) {
     }
 }
 
-if ($pagesproofed > 20) {
+if ($pagesproofed >= 20) {
     // Link to queues.
     echo "<h2>", _('Release Queues'), "</h2>";
     $res = DPDatabase::query("
@@ -124,6 +124,6 @@ if ($pagesproofed > 20) {
 }
 
 // Don't display the filter block to newbies.
-$show_filter_block = ($pagesproofed > 20);
+$show_filter_block = ($pagesproofed >= 20);
 
 show_projects_for_round($round, $show_filter_block);
