@@ -84,7 +84,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
         echo "</div>";
 
         // If the user is not on the entry level round page, direct
-        // them to that page.
+        // them to My Suggestions or that round's page.
         if ($page_id != $ELR_round->id) {
             echo "<p>";
             echo sprintf(_('To start proofreading, see the list of projects on the <a href="%1$s">My Suggestions</a> page or the <a href="%2$s">%3$s</a> round page.'), "$code_url/tools/proofers/my_suggestions.php", "$code_url/{$ELR_round->relative_url}", $ELR_round->id);
@@ -160,7 +160,7 @@ function maybe_output_new_proofer_message()
         echo _("Looking for projects to proofread?");
         echo "</div>";
 
-        echo "<p>" . sprintf(_("If you're looking for projects to proofread, consider using the list on the <a href='%1\$s'>%2\$s</a> round page."), "$code_url/{$ELR_round->relative_url}#{$ELR_round->id}", $ELR_round->id) . "</p>";
+        echo "<p>" . sprintf(_('If you\'re looking for projects to proofread, see the list of projects on the <a href="%1$s">My Suggestions</a> page or the <a href="%2$s">%3$s</a> round page.'), "$code_url/tools/proofers/my_suggestions.php", "$code_url/{$ELR_round->relative_url}", $ELR_round->id) . "</p>";
 
         echo "<p><small>";
         echo _("After a period of time, this message will no longer appear.");
