@@ -143,14 +143,25 @@ class Quiz
                 // if the user can't currently access it but they have satisfied
                 // all of the requirements to do so, point them in the right direction
                 if (!$uao->can_access && $uao->all_minima_satisfied) {
+                    // first see if we can auto-grant them access
+                    grant_user_access_if_sat($uao);
+                    if (!$uao->can_access) {
+                        // must be some other manual step required so point
+                        // them to the Entrance Requirements on the round page
+                        $next_steps = sprintf(_("Continue to the <a href='%1\$s'>%2\$s page</a> to learn about other access requirements."), "$code_url/$stage->relative_url#Entrance_Requirements", $stage_id);
+                    } else {
+                        // point them to the My Suggestions and stage page
+                        $next_steps = sprintf(_('To start proofreading in this round, see the list of projects on the <a href="%1$s">My Suggestions</a> page or the <a href="%2$s">%3$s</a> round page.'), "$code_url/tools/proofers/my_suggestions.php", "$code_url/{$stage->relative_url}", $stage_id);
+                    }
                     echo "<div class='callout'>";
+                    echo "<div class='calloutheader'>";
+                    echo _("Congratulations!");
+                    echo "</div>";
                     echo "<p>";
                     echo sprintf(_("You've completed the quiz requirements to work in %s!"), $stage_id);
-
-                    echo " ";
-
-                    echo sprintf(_("Continue to the <a href='%1\$s'>%2\$s page</a>."), "$code_url/$stage->relative_url#Entrance_Requirements", $stage_id);
                     echo "</p>";
+
+                    echo "<p>$next_steps</p>";
                     echo "</div>";
                     echo "<br>";
                 }
