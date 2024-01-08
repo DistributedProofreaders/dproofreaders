@@ -316,22 +316,26 @@ function makeImageWidget(container, align = "C") {
     let cosine = 1;
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
-    let contentWidth, imageWidth;
+    let contentWidth, imageWidth, imDivWidth, vertOffset;
 
     function setImageStyle() {
-        // To allow scrolling beyond edges make imageDiv bigger.
-        // half left to half right: 2 * contentWidth
-        // to get .8 of way up: contentHeight + .8 * imageHeight
+        // To allow scrolling when image does not overflow the window
+        // make imageDiv bigger than image, different options are:
+        // windowWidth: no extra scrolling,
+        // (2 * windowWidth - imageWidth): scroll to edges,
+        // (2 * windowWidth): half left to half right, (using this)
+        // (2 * windowWidth + imageWidth): scroll to far edges,
+        // similarly for vertical
         contentWidth = parseFloat(getComputedStyle(content).width);
         const contentHeight = parseFloat(getComputedStyle(content).height);
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
-        let imageHeight, xOffset, yOffset;
+        let imageHeight, xOffset, yOffset, imDivHeight;
         if(sine != 0) {
             // rotated 90 or 270 degrees
             imageWidth = image.height;
             imageHeight = image.width;
-            yOffset = (image.height - image.width) / 2;
+            yOffset = - (image.height - image.width) / 2;
         } else {
             // rotated 0 or 180 degrees
             imageWidth = image.width;
@@ -340,22 +344,27 @@ function makeImageWidget(container, align = "C") {
         }
         // center aligned so:
         xOffset = 0;
-        imageDiv.style.width = `${2 * contentWidth}px`;
-        imageDiv.style.height = `${contentHeight + 0.8 * imageHeight}px`;
+        imDivWidth = Math.max(2 * contentWidth, imageWidth);
+        imageDiv.style.width = `${imDivWidth}px`;
+        imDivHeight = Math.max(2 * contentHeight, imageHeight);
+        imageDiv.style.height = `${imDivHeight}px`;
+        // adjust yOffset to be able to scroll downwards
+        vertOffset = Math.max(0.5 * (imDivHeight - imageHeight), 0);
+        yOffset += vertOffset;
         // image rotates about centre. Offset moves it to correct position
-        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${-yOffset})`;
+        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`;
     }
 
     function initScroll() {
-        // assuming width is 2*contentWidth
         if(align == "C") {
             // centre horizontally
-            content.scrollLeft = 0.5 * contentWidth;
+            content.scrollLeft = 0.5 * (imDivWidth - contentWidth);
         } else {
             // align left
-            content.scrollLeft = contentWidth - 0.5 * imageWidth;
+            content.scrollLeft = 0.5 * (imDivWidth - imageWidth);
         }
-        content.scrollTop = 0;
+        // top of image at top of window
+        content.scrollTop = vertOffset;
     }
 
     function initAll() {
