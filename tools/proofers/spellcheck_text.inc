@@ -441,7 +441,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
         // warnings or errors were raised, print them out
         echo "<p class='warning'>" . _("The following warnings/errors were raised:") . "<br>\n";
         foreach ($messages as $message) {
-            echo "$message<br>\n";
+            echo html_safe($message) . "<br>\n";
         }
         echo "</p>";
     }
