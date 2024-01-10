@@ -41,6 +41,7 @@ function listHospitalProjects($input, $argv)
 {
     global $relPath, $code_url;
     include_once($relPath.'site_vars.php');
+    include_once($relPath.'misc.inc'); // needed for project_states.inc
     include_once($relPath.'DPDatabase.inc');
     include_once($relPath.'project_states.inc');
 
