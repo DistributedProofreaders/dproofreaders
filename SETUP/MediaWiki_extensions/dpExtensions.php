@@ -97,6 +97,7 @@ function showProjectInfo($input, $argv, $parser)
 {
     global $relPath, $code_url;
     include($relPath.'site_vars.php');
+    include_once($relPath.'misc.inc'); // needed for project_states.inc
     include_once($relPath.'DPDatabase.inc');
     include_once($relPath.'project_states.inc');
 
