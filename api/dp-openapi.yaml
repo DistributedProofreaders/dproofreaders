@@ -620,6 +620,13 @@ paths:
         required: true
         schema:
           type: string
+      - name: pageroundid
+        in: query
+        description: Page round IDs to return, if not set all page rounds are
+          returned. To request multiple page rounds, append with [] and pass
+          one per desired page round (e.g. pageroundid[]=OCR&pageroundid[]=P3).
+        schema:
+          type: string
       responses:
         200:
           description: Page details
