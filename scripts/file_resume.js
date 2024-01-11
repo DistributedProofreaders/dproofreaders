@@ -57,7 +57,7 @@ window.addEventListener("DOMContentLoaded", function() {
     var resumable = new Resumable({
         target: uploadTarget,
         testTarget: uploadTarget,
-        forceChunkSize: true,
+        forceChunkSize: false,
         maxFiles: 1,
         fileType: ['zip'], // use extension not mime type since zips have many
         maxFileSize: maxResumeSize,
