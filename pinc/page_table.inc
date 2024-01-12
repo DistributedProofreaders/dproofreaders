@@ -102,7 +102,7 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         $rounds_to_display = get_rounds_to_display($project);
         $include_ocr = true;
     } else {
-        $rounds_to_display = array_diff($only_rounds, ["OCR"]);
+        $rounds_to_display = array_unique(array_diff($only_rounds, ["OCR"]));
         $include_ocr = in_array("OCR", $only_rounds);
     }
 
