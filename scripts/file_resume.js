@@ -59,6 +59,7 @@ window.addEventListener("DOMContentLoaded", function() {
         testTarget: uploadTarget,
         forceChunkSize: false,
         maxFiles: 1,
+        maxChunkRetries: 10,
         fileType: ['zip'], // use extension not mime type since zips have many
         maxFileSize: maxResumeSize,
     });

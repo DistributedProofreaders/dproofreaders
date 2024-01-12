@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($_FILES as $file) {
         if ($file["error"] != UPLOAD_ERR_OK) {
-            report_error(get_upload_err_msg($file['error']), false);
+            report_error(get_upload_err_msg($file['error']));
             exit;
         }
 
@@ -119,19 +119,24 @@ function reassemble()
             }
             flock($fp, LOCK_UN); // release the lock
         } else {
-            report_error("Unable to lock $root_staging_dir/$hashed_filename");
+            report_error("Unable to lock $root_staging_dir/$hashed_filename", 500);
         }
         fclose($fp);
     } else {
-        report_error("Unable to create $root_staging_dir/$hashed_filename");
+        report_error("Unable to create $root_staging_dir/$hashed_filename", 500);
     }
 }
 
-function report_error($error, $log_error = true)
+function report_error($error, $response_code = 204)
 {
-    http_response_code(500);
-    echo $error;
-    if ($log_error) {
+    global $testing;
+
+    // by default return a 204 which will cause the resumable upload
+    // to retry the chunk upload
+    http_response_code($response_code);
+
+    // log on non-retry errors or if we're testing
+    if ($response_code != 204 || $testing) {
         error_log("upload_resumable_file.php - $error");
     }
 }
