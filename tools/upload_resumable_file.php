@@ -58,8 +58,9 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!move_uploaded_file($file['tmp_name'], $chunk_filename)) {
             report_error("Error saving chunk $chunk_filename for $filename");
             exit;
-        } elseif (filesize($chunk_filename) < $chunk_size) {
-            // if the filesizes don't match, unlink the file and report an error
+        } elseif (filesize($chunk_filename) < $chunk_size && $total_size > $chunk_size) {
+            // if the filesize is smaller than expected, unlink the file
+            // and report an error
             report_error("Error saving chunk $chunk_filename for $filename, uploaded size did not match $chunk_size");
             unlink($chunk_filename);
             exit;
