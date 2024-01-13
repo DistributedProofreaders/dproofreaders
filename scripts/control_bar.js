@@ -323,7 +323,7 @@ function makeImageWidget(container, align = "C") {
         // make imageDiv bigger than image, different options are:
         // windowWidth: no extra scrolling,
         // (2 * windowWidth - imageWidth): scroll to edges,
-        // (2 * windowWidth): half left to half right, (using this)
+        // (2 * windowWidth): half left to half right,
         // (2 * windowWidth + imageWidth): scroll to far edges,
         // similarly for vertical
         contentWidth = parseFloat(getComputedStyle(content).width);
@@ -344,9 +344,9 @@ function makeImageWidget(container, align = "C") {
         }
         // center aligned so:
         xOffset = 0;
-        imDivWidth = Math.max(2 * contentWidth, imageWidth);
+        imDivWidth = Math.max(2 * (contentWidth - 60) + imageWidth, imageWidth);
         imageDiv.style.width = `${imDivWidth}px`;
-        imDivHeight = Math.max(2 * contentHeight, imageHeight);
+        imDivHeight = Math.max(2 * (contentHeight - 60) + imageHeight, imageHeight);
         imageDiv.style.height = `${imDivHeight}px`;
         // adjust yOffset to be able to scroll downwards
         vertOffset = Math.max(0.5 * (imDivHeight - imageHeight), 0);
