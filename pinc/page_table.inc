@@ -106,6 +106,35 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         $include_ocr = in_array("OCR", $only_rounds);
     }
 
+    // load wordcheck_event counts for this table for lookup in building the
+    // page table later, this is faster than doing subqueries in single SQL
+    $round_ids_to_load_wordcheck_events = [];
+    foreach ($rounds_to_display as $round) {
+        if (!is_formatting_round($round)) {
+            $round_ids_to_load_wordcheck_events[] = $round->id;
+        }
+    }
+    if ($round_ids_to_load_wordcheck_events) {
+        $sql = sprintf(
+            "
+            SELECT image, username, round_id, count(*)
+            FROM wordcheck_events
+            WHERE projectid = '%s' and round_id in (%s)
+            GROUP BY image, username, round_id
+            ",
+            DPDatabase::escape($project->projectid),
+            surround_and_join($round_ids_to_load_wordcheck_events, "'", "'", ",")
+        );
+        $res = DPDatabase::query($sql);
+
+        $wordcheck_events = [];
+        while ([$image, $username, $round_id, $count] = mysqli_fetch_row($res)) {
+            $wordcheck_events["$image$username$round_id"] = 1;
+        }
+    } else {
+        $wordcheck_events = [];
+    }
+
     $rounds_with_data = get_rounds_with_data($project->projectid);
 
     $fields_to_get = "{$project->projectid}.image AS image, length(master_text), state";
@@ -127,31 +156,12 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         [$joined_with_user_page_tallies, $user_page_tally_column] =
             $tallyboard->get_sql_joinery_for_current_tallies("users$rn.u_id");
 
-        if (is_formatting_round($round)) {
-            $wordcheck_query = "NULL as wordcheck_status$rn";
-        } else {
-            $wordcheck_query = sprintf(
-                "
-                (
-                    SELECT count(*)
-                    FROM wordcheck_events
-                    WHERE projectid = '%s' AND
-                        image = {$project->projectid}.image AND
-                        username = $round->user_column_name AND
-                        round_id = '%s'
-                ) as wordcheck_status$rn
-                ",
-                DPDatabase::escape($project->projectid),
-                DPDatabase::escape($round->id)
-            );
-        }
         $fields_to_get .= ",
             STRCMP($prev_text_column_name, $round->text_column_name) AS {$rn}_compare,
             $round->time_column_name,
             $round->user_column_name,
             $user_page_tally_column AS `$rn.user_page_tally`,
-            length($round->text_column_name),
-            $wordcheck_query
+            length($round->text_column_name)
         ";
         $tables .= "
             LEFT OUTER JOIN users AS users$rn
@@ -216,11 +226,10 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         foreach ($rounds_to_display as $round) {
             $rn = $round->round_number;
 
-            $wordcheck_status = $row["wordcheck_status$rn"];
-            if ($wordcheck_status == null) {
+            if (is_formatting_round($round)) {
                 $wordcheck_ran = null;
             } else {
-                $wordcheck_ran = $wordcheck_status > 0;
+                $wordcheck_ran = $wordcheck_events[$row['image'] . $row[$round->user_column_name] . $round->id] ?? 0;
             }
 
             $pagerounds[$round->id] = [
