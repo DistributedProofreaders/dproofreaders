@@ -110,7 +110,7 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
             );
         }
         $fields_to_get .= ",
-            $prev_text_column_name = BINARY $round->text_column_name AS $round->textdiff_column_name,
+            STRCMP($prev_text_column_name, $round->text_column_name) AS {$rn}_compare,
             $round->time_column_name,
             $round->user_column_name,
             $user_page_tally_column AS `$rn.user_page_tally`,
@@ -187,7 +187,7 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
 
             $pagerounds[$round->id] = [
                 "page_size" => (int)$row["length($round->text_column_name)"],
-                "is_diff" => $row[$round->textdiff_column_name] == 1,
+                "is_diff" => $row["{$rn}_compare"] != 0,
                 "username" => $row[$round->user_column_name],
                 "user_page_tally" => (int)$row["$rn.user_page_tally"],
                 "wordcheck_ran" => $wordcheck_ran,
@@ -597,9 +597,9 @@ function echo_cells_for_round(
     echo "<td>";
     if ($page_state != $round->page_avail_state) {
         if ($round_data["is_diff"]) {
-            echo _("No diff");
-        } else {
             echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round_num=$diff_round_num&amp;R_round_num=$round_num'>"._("Diff")."</a>";
+        } else {
+            echo _("No diff");
         }
     }
     echo "</td>\n";
