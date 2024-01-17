@@ -34,6 +34,10 @@
 }
 
 /* configure divs */
+pre {
+    margin: 0;
+}
+
 .box2 {
     margin: 20px 10px 20px 10px;
 }
