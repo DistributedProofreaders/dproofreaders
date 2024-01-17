@@ -65,17 +65,18 @@ function get_preview_js_vars()
         "nowrap" => _("No wrap"),
     ];
 
-    $demo_string = "{$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}}
-<b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>
+    $demo_string = <<<DEMO
+        {$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}}
+        <b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>
 
-/#
-This is a block quote
-#/
+        /#
+        This is a block quote
+        #/
 
-/*
-This is no-wrap text
-*/
-";
+        /*
+        This is no-wrap text
+        */
+        DEMO;
 
     $preview_strings = json_encode([
         "background" => _("Background"),
