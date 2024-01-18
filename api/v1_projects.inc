@@ -403,8 +403,26 @@ function api_v1_project_pages($method, $data, $query_params)
 
 function api_v1_project_pagedetails($method, $data, $query_params)
 {
+    // optional page round IDs (one or more) to filter down to
+    $only_rounds = null;
+    $pageroundids = array_get($query_params, "pageroundid", null);
+    if ($pageroundids) {
+        $only_rounds = [];
+        if (!is_array($pageroundids)) {
+            $pageroundids = [$pageroundids];
+        }
+        foreach ($pageroundids as $pageroundid) {
+            validate_page_round($pageroundid, null);
+            if ($pageroundid === "OCR") {
+                $only_rounds[] = "OCR";
+            } else {
+                $only_rounds[] = get_Round_for_round_id($pageroundid);
+            }
+        }
+    }
+
     $return_data = [];
-    foreach (fetch_page_table_data($data[":projectid"]) as $image) {
+    foreach (fetch_page_table_data($data[":projectid"], null, null, $only_rounds) as $image) {
         $page_rounds_data = [];
         // Remove proofer names and adjust timestamp format
         foreach ($image["pagerounds"] as $round_id => $round_data) {

@@ -72,20 +72,56 @@ function get_rounds_to_display($project)
  *     }
  * }
  * ```
+ *
+ * @param string $projectid
+ *   ID of project
+ * @param string|array $page_selector
+ *   Select which pages to return in the query, possible values are:
+ *   * null - all pages are returned
+ *   * string - this user's pages from all rounds are returned
+ *   * array - array of specific image names
+ * @param object $work_round
+ *   Round to limit a user's pages -- must be used with $page_selector set
+ *   to a username.
+ * @param array $only_rounds
+ *   Only return page details for a specific round, possible values are:
+ *   * null - all rounds with data are returned
+ *   * array of round objects and/or "OCR" - only these rounds are returned
+ *
+ * @return array
  */
-function fetch_page_table_data($project, $page_selector = null, $work_round = null)
+function fetch_page_table_data($project, $page_selector = null, $work_round = null, $only_rounds = null)
 {
     if (!$project->pages_table_exists) {
         throw new NoProjectPageTable(_("Project page table does not exist."));
     }
 
-    $rounds_to_display = get_rounds_to_display($project);
+    // If $only_rounds is set, only return that round's data -- regardless
+    // if that round would be returned from get_rounds_to_display() or not.
+    if ($only_rounds === null) {
+        $rounds_to_display = get_rounds_to_display($project);
+        $include_ocr = true;
+    } else {
+        $rounds_to_display = array_unique(array_diff($only_rounds, ["OCR"]));
+        $include_ocr = in_array("OCR", $only_rounds);
+    }
+
+    $rounds_with_data = get_rounds_with_data($project->projectid);
 
     $fields_to_get = "{$project->projectid}.image AS image, length(master_text), state";
     $tables = $project->projectid;
-    $prev_text_column_name = 'master_text';
     foreach ($rounds_to_display as $round) {
         $rn = $round->round_number;
+
+        // find the previous round with data to use as the diff column
+        $rounds_with_data_index = array_search($round, $rounds_with_data);
+        if ($rounds_with_data_index === 0 || $rn == 1) {
+            $prev_text_column_name = 'master_text';
+        } elseif ($rounds_with_data_index === false) {
+            $prev_text_column_name = get_Round_for_round_number($rn - 1)->text_column_name;
+        } else {
+            $prev_text_column_name = $rounds_with_data[$rounds_with_data_index - 1]->text_column_name;
+        }
 
         $tallyboard = new TallyBoard($round->id, 'U');
         [$joined_with_user_page_tallies, $user_page_tally_column] =
@@ -169,11 +205,13 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
             "state" => $row['state'],
         ];
 
-        $pagerounds = [
-            "OCR" => [
+        $pagerounds = [];
+
+        if ($include_ocr) {
+            $pagerounds["OCR"] = [
                 "page_size" => (int)$row["length(master_text)"],
-            ],
-        ];
+            ];
+        }
 
         foreach ($rounds_to_display as $round) {
             $rn = $round->round_number;

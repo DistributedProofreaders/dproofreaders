@@ -99,6 +99,11 @@ class Activity
         $Activity_for_id_[$id] = & $this;
     }
 
+    public function __toString()
+    {
+        return $this->id;
+    }
+
     /**
      * Return a User Access object
      *
