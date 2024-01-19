@@ -5,7 +5,7 @@ include_once($relPath.'Settings.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'User.inc');
 
-// $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
+// $ACCESS_CRITERIA are extended as activities are defined.
 
 global $ACCESS_CRITERIA;
 $ACCESS_CRITERIA = [
@@ -17,8 +17,6 @@ $ACCESS_CRITERIA = [
 ];
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-$Activity_for_id_ = [];
 
 class Activity
 {
@@ -84,19 +82,12 @@ class Activity
                 }
             }
         }
+    }
 
-        // This is kludgey, since Activity shouldn't have to know about Round.
-        // But the alternative is that Round know about $ACCESS_CRITERIA,
-        // which seems worse.
-        // TODO: We should probably have a function for declaring criteria.
-        global $ACCESS_CRITERIA;
-        if (is_a($this, 'Round')) {
-            $ACCESS_CRITERIA[$this->id] =
-                sprintf(_("'%s' pages completed"), $this->id);
-        }
-
-        global $Activity_for_id_;
-        $Activity_for_id_[$id] = & $this;
+    // overridden by activities that define access criteria
+    public function get_access_criteria()
+    {
+        return [];
     }
 
     public function __toString()

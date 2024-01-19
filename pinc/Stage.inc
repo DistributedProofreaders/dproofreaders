@@ -49,9 +49,6 @@ class Stage extends Activity
         $this->description = $description;
         $this->document = $document;
         $this->relative_url = $relative_url;
-
-        global $Stage_for_id_;
-        $Stage_for_id_[$id] = & $this;
     }
 
 
@@ -84,18 +81,6 @@ class Stage extends Activity
         echo ":</b><br>";
         echo $this->description;
         echo "</p>\n";
-    }
-}
-
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function & get_Stage_for_id($id)
-{
-    global $Stage_for_id_;
-    if (array_key_exists($id, $Stage_for_id_)) {
-        return $Stage_for_id_[$id];
-    } else {
-        die("There is no stage with id='$id'.");
     }
 }
 
