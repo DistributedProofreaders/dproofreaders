@@ -21,6 +21,15 @@ class RoundTest extends ProjectUtils
         $this->assertEquals('P1.proj_unavail', $p1->project_unavailable_state);
     }
 
+    public function test_pools()
+    {
+        $this->assertEquals("PP", get_Pool_for_id("PP")->id);
+        $this->assertEquals("PPV", get_Pool_for_id("PPV")->id);
+        $this->assertEquals("PP", get_Pool_for_state(PROJ_POST_FIRST_AVAILABLE)->id);
+        $this->assertEquals("PP", get_Pool_for_state(PROJ_POST_FIRST_CHECKED_OUT)->id);
+        $this->assertEquals("PPV", get_Pool_for_state(PROJ_POST_SECOND_CHECKED_OUT)->id);
+    }
+
     public function test_project_states()
     {
         global $projects_forum_idx, $waiting_projects_forum_idx, $PROJECT_STATES_IN_ORDER;

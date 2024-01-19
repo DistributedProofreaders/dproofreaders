@@ -4,6 +4,7 @@ include_once($relPath.'Stage.inc');
 
 // -----------------------------------------------------------------------------
 
+global $Pool_for_id_, $Pool_for_state_;
 $Pool_for_id_ = [];
 $Pool_for_state_ = [];
 
