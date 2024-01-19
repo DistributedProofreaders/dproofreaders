@@ -391,7 +391,7 @@ function makeImageWidget(container, align = "C") {
 
     function reScroll () {
         // keep same scroll proportion when contentWidth changes
-        let oldScroll = content.scrollLeft / contentWidth;
+        let oldScroll = (contentWidth > 20) ? content.scrollLeft / contentWidth : 0.5;
         setImageStyle();
         content.scrollLeft = oldScroll * contentWidth;
     }
