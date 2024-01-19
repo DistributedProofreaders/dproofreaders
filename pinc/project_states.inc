@@ -22,6 +22,8 @@ include_once($relPath.'site_vars.php');
 
   (Actually, the naming convention is in transition.)
 */
+global $PROJECT_STATES_IN_ORDER, $project_state_medium_label_, $project_state_long_label_;
+global $project_state_phase_, $project_states_for_star_metal_;
 
 $PROJECT_STATES_IN_ORDER = [];
 $project_state_medium_label_ = [];
