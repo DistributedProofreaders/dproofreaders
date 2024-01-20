@@ -35,7 +35,8 @@ class Pool extends Stage
         $access_change_callback,
         $description,
         $document,
-        $ordinal,
+        $project_available_state,
+        $project_checkedout_state,
         $available_short_label,
         $available_long_label,
         $checked_out_short_label,
@@ -56,7 +57,8 @@ class Pool extends Stage
             "tools/pool.php?pool_id=$id"
         );
 
-        $this->ordinal = $ordinal;
+        $this->project_available_state = $project_available_state;
+        $this->project_checkedout_state = $project_checkedout_state;
         $this->available_short_label = $available_short_label;
         $this->available_long_label = $available_long_label;
         $this->checked_out_short_label = $checked_out_short_label;
@@ -66,7 +68,11 @@ class Pool extends Stage
         $this->blather = $blather;
 
         global $Pool_for_id_;
-        $Pool_for_id_[$this->id] = & $this;
+        $Pool_for_id_[$id] = $this;
+
+        global $Pool_for_state_;
+        $Pool_for_state_[$project_available_state] = $this;
+        $Pool_for_state_[$project_checkedout_state] = $this;
     }
 }
 

@@ -96,13 +96,9 @@ function define_project_states($rounds, $pools)
     );
 
     foreach($pools as $pool) {
-        $upper_ordinal = strtoupper($pool->ordinal);
-        $project_available_state = "proj_post_{$pool->ordinal}_available";
-        $project_checkedout_state = "proj_post_{$pool->ordinal}_checked_out";
-
         declare_project_state(
-            "PROJ_POST_{$upper_ordinal}_AVAILABLE",
-            $project_available_state,
+            strtoupper($pool->project_available_state),
+            $pool->project_available_state,
             $pool->available_short_label,
             $pool->available_long_label,
             $pp_projects_forum_idx,
@@ -111,18 +107,14 @@ function define_project_states($rounds, $pools)
         );
 
         declare_project_state(
-            "PROJ_POST_{$upper_ordinal}_CHECKED_OUT",
-            $project_checkedout_state,
+            strtoupper($pool->project_checkedout_state),
+            $pool->project_checkedout_state,
             $pool->checked_out_short_label,
             $pool->checked_out_long_label,
             $pp_projects_forum_idx,
             'PP',
             'SILVER'
         );
-
-        global $Pool_for_state_;
-        $Pool_for_state_[$project_available_state] = $pool;
-        $Pool_for_state_[$project_checkedout_state] = $pool;
     }
 
     declare_project_state(
