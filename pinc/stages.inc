@@ -13,20 +13,17 @@ include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// first define rounds
-define_rounds();
+// first define activities
+define_activities();
 
-// then define project states using defined rounds
-define_project_states($Round_for_round_id_);
+// then define project states using defined rounds and pools
+define_project_states($Round_for_round_id_, $Pool_for_id_);
 
 // After creating all rounds:
 define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
 assert($n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS);
 
 declare_mentoring_pair('P1', 'P2');
-
-// other activities depend on constants from define_project_states()
-define_other_activities();
 
 // -----------------------------------------------------------------------------
 
@@ -47,7 +44,7 @@ $ELR_round = get_Round_for_round_number(1);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function define_rounds()
+function define_activities()
 {
     // $pi_tools_for_P and $pi_tools_for_F are handy helper variables that define
     // what proofreading tools are shown in the toolbox in the proofreading
@@ -268,10 +265,7 @@ function define_rounds()
             150000 => _('Preserver of Texts'),
         ]
     );
-}
 
-function define_other_activities()
-{
     global $code_url, $post_processing_forum_idx, $post_processing_forum_idx;
 
     new Pool(
@@ -283,8 +277,11 @@ function define_other_activities()
         null, // access_change_callback
         _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
         'post_proof.php',
-        PROJ_POST_FIRST_CHECKED_OUT,
-        PROJ_POST_FIRST_AVAILABLE,
+        "first",
+        _("Available for PP"),
+        _("Available for Post-Processing"),
+        _("In PP"),
+        _("In Post-Processing"),
         _("Manager"),
         'username',
         [
@@ -333,8 +330,11 @@ function define_other_activities()
         null, // access_change_callback
         _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
         'ppv.php',
-        PROJ_POST_SECOND_CHECKED_OUT,
-        PROJ_POST_SECOND_AVAILABLE,
+        'second',
+        _("Available for PPV"),
+        _("Available for Verifying Post-Processing"),
+        _("In PPV"),
+        _("Verifying Post-Processing"),
         _("Post-Processor"),
         'postproofer',
         [

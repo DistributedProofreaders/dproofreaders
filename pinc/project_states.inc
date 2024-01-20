@@ -25,7 +25,7 @@ include_once($relPath.'site_vars.php');
 global $PROJECT_STATES_IN_ORDER, $project_state_medium_label_, $project_state_long_label_,
 $project_state_phase_, $project_states_for_star_metal_;
 
-function define_project_states($rounds)
+function define_project_states($rounds, $pools)
 {
     global $waiting_projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
     $projects_forum_idx, $completed_projects_forum_idx, $deleted_projects_forum_idx,
@@ -94,45 +94,36 @@ function define_project_states($rounds)
         'PP',
         'SILVER'
     );
-    declare_project_state(
-        "PROJ_POST_FIRST_AVAILABLE",
-        "proj_post_first_available",
-        _("Available for PP"),
-        _("Available for Post-Processing"),
-        $pp_projects_forum_idx,
-        'PP',
-        'SILVER'
-    );
 
-    declare_project_state(
-        "PROJ_POST_FIRST_CHECKED_OUT",
-        "proj_post_first_checked_out",
-        _("In PP"),
-        _("In Post-Processing"),
-        $pp_projects_forum_idx,
-        'PP',
-        'SILVER'
-    );
+    foreach($pools as $pool) {
+        $upper_ordinal = strtoupper($pool->ordinal);
+        $project_available_state = "proj_post_{$pool->ordinal}_available";
+        $project_checkedout_state = "proj_post_{$pool->ordinal}_checked_out";
 
-    declare_project_state(
-        "PROJ_POST_SECOND_AVAILABLE",
-        "proj_post_second_available",
-        _("Available for PPV"),
-        _("Available for Verifying Post-Processing"),
-        $pp_projects_forum_idx,
-        'PP',
-        'SILVER'
-    );
+        declare_project_state(
+            "PROJ_POST_{$upper_ordinal}_AVAILABLE",
+            $project_available_state,
+            $pool->available_short_label,
+            $pool->available_long_label,
+            $pp_projects_forum_idx,
+            'PP',
+            'SILVER'
+        );
 
-    declare_project_state(
-        "PROJ_POST_SECOND_CHECKED_OUT",
-        "proj_post_second_checked_out",
-        _("In PPV"),
-        _("Verifying Post-Processing"),
-        $pp_projects_forum_idx,
-        'PP',
-        'SILVER'
-    );
+        declare_project_state(
+            "PROJ_POST_{$upper_ordinal}_CHECKED_OUT",
+            $project_checkedout_state,
+            $pool->checked_out_short_label,
+            $pool->checked_out_long_label,
+            $pp_projects_forum_idx,
+            'PP',
+            'SILVER'
+        );
+
+        global $Pool_for_state_;
+        $Pool_for_state_[$project_available_state] = $pool;
+        $Pool_for_state_[$project_checkedout_state] = $pool;
+    }
 
     declare_project_state(
         "PROJ_POST_COMPLETE",
