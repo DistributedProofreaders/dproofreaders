@@ -42,14 +42,6 @@ function define_project_states($rounds, $pools)
         'GOLD' => [],
     ];
 
-    $project_round_states = [
-        ["BAD_PROJECT", "bad", "bad", _("Bad Project"), _("Bad Project")],
-        ["UNAVAILABLE", "unavail", "unavailable", _("Unavailable"), _("Unavailable")],
-        ["WAITING_FOR_RELEASE", "waiting", "waiting", _("Waiting"), _("Waiting for Release")],
-        ["AVAILABLE", "avail", "available", _("Available"), _("Available")],
-        ["COMPLETE", "done", "complete", _("Completed"), _("Completed")],
-    ];
-
     // Note that the order in which these project states are declared
     // is the order in which they will be displayed in various contexts
     // (via $PROJECT_STATES_IN_ORDER).
@@ -66,22 +58,7 @@ function define_project_states($rounds, $pools)
     );
 
     foreach($rounds as $round) {
-        foreach($project_round_states as [$const, $state, $long_state, $short_label, $long_label]) {
-            $project_state = "{$round->id}.proj_$state";
-            $round_project_state = "project_{$long_state}_state";
-            $round->$round_project_state = $project_state;
-            $Round_for_project_state_[$project_state] = $round;
-
-            declare_project_state(
-                "PROJ_{$round->id}_{$const}",
-                $project_state,
-                "$round->id: $short_label",
-                "$round->name: $long_label",
-                (($round->id == 'P1') && (($state == "unavail") || ($state == "waiting"))) ? $waiting_projects_forum_idx : $projects_forum_idx,
-                'PAGE_EDITING',
-                ''
-            );
-        }
+        declare_project_states_for_round($round);
     }
 
     // POST
@@ -178,6 +155,59 @@ function define_project_states($rounds, $pools)
 
         define($sql_constant_name, $sql_condition);
     }
+}
+
+function declare_project_states_for_round($round)
+{
+    global $projects_forum_idx;
+    global $waiting_projects_forum_idx;
+
+    declare_project_state(
+        "PROJ_{$round->id}_BAD_PROJECT",
+        $round->project_bad_state,
+        "$round->id: " .  _("Bad Project"),
+        "$round->name: " . _("Bad Project"),
+        $projects_forum_idx,
+        'PAGE_EDITING',
+        ''
+    );
+
+    declare_project_state(
+        "PROJ_{$round->id}_UNAVAILABLE",
+        $round->project_unavailable_state,
+        "$round->id: " . _("Unavailable"),
+        "$round->name: " . _("Unavailable"),
+        ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
+        'PAGE_EDITING',
+        ''
+    );
+    declare_project_state(
+        "PROJ_{$round->id}_WAITING_FOR_RELEASE",
+        $round->project_waiting_state,
+        "$round->id: " . _("Waiting"),
+        "$round->name: " . _("Waiting for Release"),
+        ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
+        'PAGE_EDITING',
+        ''
+    );
+    declare_project_state(
+        "PROJ_{$round->id}_AVAILABLE",
+        $round->project_available_state,
+        "$round->id: " . _("Available"),
+        "$round->name: " . _("Available"),
+        $projects_forum_idx,
+        'PAGE_EDITING',
+        'BRONZE'
+    );
+    declare_project_state(
+        "PROJ_{$round->id}_COMPLETE",
+        $round->project_complete_state,
+        "$round->id: " . _("Completed"),
+        "$round->name: " . _("Completed"),
+        $projects_forum_idx,
+        'PAGE_EDITING',
+        ''
+    );
 }
 
 function declare_project_state(

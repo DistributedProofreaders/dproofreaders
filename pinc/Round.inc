@@ -99,6 +99,12 @@ class Round extends Stage
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
 
+        $this->project_bad_state = "$round_id.proj_bad";
+        $this->project_unavailable_state = "$round_id.proj_unavail";
+        $this->project_waiting_state = "$round_id.proj_waiting";
+        $this->project_available_state = "$round_id.proj_avail";
+        $this->project_complete_state = "$round_id.proj_done";
+
         $this->page_avail_state = "{$round_id}.page_avail";
         $this->page_out_state = "{$round_id}.page_out";
         $this->page_temp_state = "{$round_id}.page_temp";
@@ -146,6 +152,13 @@ class Round extends Stage
 
         global $Round_for_round_number_;
         $Round_for_round_number_[$this->round_number] = & $this;
+
+        global $Round_for_project_state_;
+        $Round_for_project_state_[$this->project_unavailable_state] = & $this;
+        $Round_for_project_state_[$this->project_waiting_state] = & $this;
+        $Round_for_project_state_[$this->project_bad_state] = & $this;
+        $Round_for_project_state_[$this->project_available_state] = & $this;
+        $Round_for_project_state_[$this->project_complete_state] = & $this;
 
         global $Round_for_page_state_;
         $Round_for_page_state_[$this->page_avail_state] = & $this;
