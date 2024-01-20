@@ -46,6 +46,8 @@ $ELR_round = get_Round_for_round_number(1);
 
 function define_activities()
 {
+    global $code_url, $post_processing_forum_idx;
+
     // $pi_tools_for_P and $pi_tools_for_F are handy helper variables that define
     // what proofreading tools are shown in the toolbox in the proofreading
     // interface for the proofreading (P) and the formatting (F) rounds. These are
@@ -265,8 +267,6 @@ function define_activities()
             150000 => _('Preserver of Texts'),
         ]
     );
-
-    global $code_url, $post_processing_forum_idx, $post_processing_forum_idx;
 
     new Pool(
         'PP',
