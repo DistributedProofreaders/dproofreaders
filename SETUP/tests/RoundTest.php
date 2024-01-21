@@ -37,6 +37,8 @@ class RoundTest extends ProjectUtils
         $this->assertTrue(PROJ_P1_UNAVAILABLE === "P1.proj_unavail");
         $this->assertEquals("F1.proj_bad", $PROJECT_STATES_IN_ORDER[16]);
         $this->assertEquals("P2: Waiting", get_medium_label_for_project_state("P2.proj_waiting"));
+        $this->assertEquals("PP: Available", get_medium_label_for_project_state("proj_post_first_available"));
+        $this->assertEquals("Post-Processing: Available", project_states_text("proj_post_first_available"));
         $this->assertEquals("Proofreading Round 2: Waiting for Release", project_states_text("P2.proj_waiting"));
         // $this->assertEquals($projects_forum_idx, get_forum_id_for_project_state("P2.proj_unavail"));
         // $this->assertEquals($waiting_projects_forum_idx, get_forum_id_for_project_state("P1.proj_unavail"));
