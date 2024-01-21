@@ -58,6 +58,19 @@ function define_project_states($rounds, $pools)
     );
 
     foreach($rounds as $round) {
+        $round->project_bad_state = "{$round->id}.proj_bad";
+        $round->project_unavailable_state = "{$round->id}.proj_unavail";
+        $round->project_waiting_state = "{$round->id}.proj_waiting";
+        $round->project_available_state = "{$round->id}.proj_avail";
+        $round->project_complete_state = "{$round->id}.proj_done";
+
+        global $Round_for_project_state_;
+        $Round_for_project_state_[$round->project_unavailable_state] = $round;
+        $Round_for_project_state_[$round->project_waiting_state] = $round;
+        $Round_for_project_state_[$round->project_bad_state] = $round;
+        $Round_for_project_state_[$round->project_available_state] = $round;
+        $Round_for_project_state_[$round->project_complete_state] = $round;
+
         declare_project_state(
             "PROJ_{$round->id}_BAD_PROJECT",
             $round->project_bad_state,
@@ -118,11 +131,26 @@ function define_project_states($rounds, $pools)
     );
 
     foreach($pools as $pool) {
+        switch ($pool->id) {
+            case "PP":
+                $pool->project_available_state = "proj_post_first_available";
+                $pool->project_checkedout_state = "proj_post_first_checked_out";
+                break;
+            case "PPV":
+                $pool->project_available_state = "proj_post_second_available";
+                $pool->project_checkedout_state = "proj_post_second_checked_out";
+                break;
+        }
+
+        global $Pool_for_state_;
+        $Pool_for_state_[$pool->project_available_state] = $pool;
+        $Pool_for_state_[$pool->project_checkedout_state] = $pool;
+
         declare_project_state(
             strtoupper($pool->project_available_state),
             $pool->project_available_state,
-            $pool->available_short_label,
-            $pool->available_long_label,
+            "$pool->id: " . _("Available"),
+            "$pool->name: " . _("Available"),
             $pp_projects_forum_idx,
             'PP',
             'SILVER'
@@ -131,8 +159,8 @@ function define_project_states($rounds, $pools)
         declare_project_state(
             strtoupper($pool->project_checkedout_state),
             $pool->project_checkedout_state,
-            $pool->checked_out_short_label,
-            $pool->checked_out_long_label,
+            "$pool->id: " . _("Checked out"),
+            "$pool->name: " . _("Checked out"),
             $pp_projects_forum_idx,
             'PP',
             'SILVER'

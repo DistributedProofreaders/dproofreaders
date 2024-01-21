@@ -277,12 +277,6 @@ function define_activities()
         null, // access_change_callback
         _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
         'post_proof.php',
-        "proj_post_first_available",
-        "proj_post_first_checked_out",
-        _("Available for PP"),
-        _("Available for Post-Processing"),
-        _("In PP"),
-        _("In Post-Processing"),
         _("Manager"),
         'username',
         [
@@ -331,12 +325,6 @@ function define_activities()
         null, // access_change_callback
         _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
         'ppv.php',
-        "proj_post_second_available",
-        "proj_post_second_checked_out",
-        _("Available for PPV"),
-        _("Available for Verifying Post-Processing"),
-        _("In PPV"),
-        _("Verifying Post-Processing"),
         _("Post-Processor"),
         'postproofer',
         [
