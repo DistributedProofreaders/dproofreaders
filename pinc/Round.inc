@@ -7,12 +7,11 @@ include_once($relPath.'Stage.inc');
 // -----------------------------------------------------------------------------
 
 global $n_rounds, $Round_for_round_id_, $Round_for_round_number_;
-global $Round_for_project_state_, $Round_for_page_state_, $PAGE_STATES_IN_ORDER;
+global $Round_for_page_state_, $PAGE_STATES_IN_ORDER;
 
 $n_rounds = 0;
 $Round_for_round_id_ = [];
 $Round_for_round_number_ = [];
-$Round_for_project_state_ = [];
 $Round_for_page_state_ = [];
 $PAGE_STATES_IN_ORDER = [];
 
@@ -234,14 +233,6 @@ function get_Round_for_round_number($round_number)
 {
     global $Round_for_round_number_;
     return array_get($Round_for_round_number_, $round_number, null);
-}
-
-// ---------------------------
-
-function get_Round_for_project_state($project_state)
-{
-    global $Round_for_project_state_;
-    return array_get($Round_for_project_state_, $project_state, null);
 }
 
 // ---------------------------

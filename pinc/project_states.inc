@@ -257,6 +257,20 @@ function declare_project_state(
     }
 }
 
+function get_Round_for_project_state($project_state)
+{
+    global $Round_for_project_state_;
+    return array_get($Round_for_project_state_, $project_state, null);
+}
+
+function get_Pool_for_state($state)
+{
+    global $Pool_for_state_;
+    return array_get($Pool_for_state_, $state, null);
+}
+
+// ---------------------------
+
 function get_medium_label_for_project_state($state)
 {
     global $project_state_medium_label_;

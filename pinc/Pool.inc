@@ -4,9 +4,8 @@ include_once($relPath.'Stage.inc');
 
 // -----------------------------------------------------------------------------
 
-global $Pool_for_id_, $Pool_for_state_;
+global $Pool_for_id_;
 $Pool_for_id_ = [];
-$Pool_for_state_ = [];
 
 class Pool extends Stage
 {
@@ -66,12 +65,6 @@ function get_Pool_for_id($pool_id)
 {
     global $Pool_for_id_;
     return array_get($Pool_for_id_, $pool_id, null);
-}
-
-function get_Pool_for_state($state)
-{
-    global $Pool_for_state_;
-    return array_get($Pool_for_state_, $state, null);
 }
 
 // ---------------------------
