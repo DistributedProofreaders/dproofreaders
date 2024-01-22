@@ -133,6 +133,11 @@ class Round extends Stage
         $this->mentee_round = null;
     }
 
+    public function get_access_criteria()
+    {
+        return [$this->id => sprintf(_("'%s' pages completed"), $this->id)];
+    }
+
     public function is_a_mentee_round()
     {
         return !is_null($this->mentor_round);
@@ -230,8 +235,8 @@ function sql_collater_for_page_state($state_column)
  */
 function declare_mentoring_pair($mentee_round_id, $mentor_round_id)
 {
-    $mentee_round = & get_Stage_for_id($mentee_round_id);
-    $mentor_round = & get_Stage_for_id($mentor_round_id);
+    $mentee_round = get_Stage_for_id($mentee_round_id);
+    $mentor_round = get_Stage_for_id($mentor_round_id);
     assert(is_a($mentee_round, 'Round'));
     assert(is_a($mentor_round, 'Round'));
 

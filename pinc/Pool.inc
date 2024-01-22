@@ -4,9 +4,6 @@ include_once($relPath.'Stage.inc');
 
 // -----------------------------------------------------------------------------
 
-global $Pool_for_id_;
-$Pool_for_id_ = [];
-
 class Pool extends Stage
 {
     /**
@@ -53,18 +50,5 @@ class Pool extends Stage
         $this->foo_Header = $foo_Header;
         $this->foo_field_name = $foo_field_name;
         $this->blather = $blather;
-
-        global $Pool_for_id_;
-        $Pool_for_id_[$id] = $this;
     }
 }
-
-// ---------------------------
-
-function get_Pool_for_id($pool_id)
-{
-    global $Pool_for_id_;
-    return array_get($Pool_for_id_, $pool_id, null);
-}
-
-// ---------------------------

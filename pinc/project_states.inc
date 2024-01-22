@@ -22,27 +22,13 @@ include_once($relPath.'site_vars.php');
 
   (Actually, the naming convention is in transition.)
 */
-global $PROJECT_STATES_IN_ORDER, $project_state_medium_label_, $project_state_long_label_,
-$project_state_phase_, $project_states_for_star_metal_;
-
-    $PROJECT_STATES_IN_ORDER = [];
-    $project_state_medium_label_ = [];
-    $project_state_long_label_ = [];
-    $project_state_forum_ = [];
-    $project_state_phase_ = [];
-    $project_states_for_star_metal_ = [
-        'BRONZE' => [],
-        'SILVER' => [],
-        'GOLD' => [],
-    ];
 
 class ProjectStates
 {
     public function __construct($rounds, $pools)
     {
         global $waiting_projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
-        $projects_forum_idx, $completed_projects_forum_idx, $deleted_projects_forum_idx,
-        $project_states_for_star_metal_;
+        $projects_forum_idx, $completed_projects_forum_idx, $deleted_projects_forum_idx;
 
         // Note that the order in which these project states are declared
         // is the order in which they will be displayed in various contexts
@@ -66,11 +52,11 @@ class ProjectStates
             $round->project_available_state = "{$round->id}.proj_avail";
             $round->project_complete_state = "{$round->id}.proj_done";
 
-            $this->round_for_project_state_[$round->project_unavailable_state] = $round;
-            $this->round_for_project_state_[$round->project_waiting_state] = $round;
-            $this->round_for_project_state_[$round->project_bad_state] = $round;
-            $this->round_for_project_state_[$round->project_available_state] = $round;
-            $this->round_for_project_state_[$round->project_complete_state] = $round;
+            $this->round_for_project_state[$round->project_unavailable_state] = $round;
+            $this->round_for_project_state[$round->project_waiting_state] = $round;
+            $this->round_for_project_state[$round->project_bad_state] = $round;
+            $this->round_for_project_state[$round->project_available_state] = $round;
+            $this->round_for_project_state[$round->project_complete_state] = $round;
 
             $this->declare_project_state(
                 "PROJ_{$round->id}_BAD_PROJECT",
@@ -143,9 +129,8 @@ class ProjectStates
                     break;
             }
 
-            global $Pool_for_state_;
-            $Pool_for_state_[$pool->project_available_state] = $pool;
-            $Pool_for_state_[$pool->project_checkedout_state] = $pool;
+            $this->pool_for_state[$pool->project_available_state] = $pool;
+            $this->pool_for_state[$pool->project_checkedout_state] = $pool;
 
             $this->declare_project_state(
                 strtoupper($pool->project_available_state),
@@ -211,12 +196,37 @@ class ProjectStates
             ''
         );
 
-        // Define constants for use in SQL queries:
-        // SQL_CONDITION_BRONZE
-        // SQL_CONDITION_SILVER
-        // SQL_CONDITION_GOLD
+        $this->define_metal_sql();
+    }
 
-        foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
+    private function declare_project_state(
+        $constant_name,
+        $constant_value,
+        $medium_label,
+        $long_label,
+        $forum,
+        $phase,
+        $star_metal
+    ) {
+        define($constant_name, $constant_value);
+        $this->states[] = $constant_value;
+        $this->medium_labels[$constant_value] = $medium_label;
+        $this->long_labels[$constant_value] = $long_label;
+        $this->project_state_forum[$constant_value] = $forum;
+        $this->project_state_phase[$constant_value] = $phase;
+        if ($star_metal) {
+            // don't define anything for empty string
+            $this->project_states_for_star_metal[$star_metal][] = $constant_value;
+        }
+    }
+
+    // Define constants for use in SQL queries:
+    // SQL_CONDITION_BRONZE
+    // SQL_CONDITION_SILVER
+    // SQL_CONDITION_GOLD
+    private function define_metal_sql()
+    {
+        foreach ($this->project_states_for_star_metal as $star_metal => $project_states) {
             $sql_constant_name = "SQL_CONDITION_$star_metal";
             $sql_condition = '(';
             foreach ($project_states as $project_state) {
@@ -230,71 +240,42 @@ class ProjectStates
             define($sql_constant_name, $sql_condition);
         }
     }
-
-    private function declare_project_state(
-        $constant_name,
-        $constant_value,
-        $medium_label,
-        $long_label,
-        $forum,
-        $phase,
-        $star_metal
-    ) {
-        global $PROJECT_STATES_IN_ORDER;
-        global $project_state_medium_label_;
-        global $project_state_long_label_;
-        global $project_state_forum_;
-        global $project_state_phase_;
-        global $project_states_for_star_metal_;
-
-        define($constant_name, $constant_value);
-        $PROJECT_STATES_IN_ORDER[] = $constant_value;
-        $project_state_medium_label_[$constant_value] = $medium_label;
-        $project_state_long_label_[$constant_value] = $long_label;
-        $project_state_forum_[$constant_value] = $forum;
-        $project_state_phase_[$constant_value] = $phase;
-        if ($star_metal) {
-            $project_states_for_star_metal_[$star_metal][] = $constant_value;
-        }
-    }
 }
 
 function get_Round_for_project_state($project_state)
 {
-    global $Round_for_project_state_;
-    return array_get($Round_for_project_state_, $project_state, null);
+    global $project_states;
+    return $project_states->round_for_project_state[$project_state] ?? null;
 }
 
 function get_Pool_for_state($state)
 {
-    global $Pool_for_state_;
-    return array_get($Pool_for_state_, $state, null);
+    global $project_states;
+    return $project_states->pool_for_state[$state] ?? null;
 }
-
-// ---------------------------
 
 function get_medium_label_for_project_state($state)
 {
-    global $project_state_medium_label_;
-    return array_get($project_state_medium_label_, $state, '');
+    global $project_states;
+    return $project_states->medium_labels[$state] ?? '';
 }
 
 function project_states_text($state)
 {
-    global $project_state_long_label_;
-    return array_get($project_state_long_label_, $state, '');
+    global $project_states;
+    return $project_states->long_labels[$state] ?? '';
 }
 
 function get_forum_id_for_project_state($state)
 {
-    global $project_state_forum_;
-    return array_get($project_state_forum_, $state, -1);
+    global $project_states;
+    return $project_states->project_state_forum[$state] ?? -1;
 }
 
 function get_phase_containing_project_state($state)
 {
-    global $project_state_phase_;
-    return array_get($project_state_phase_, $state, 'NONE');
+    global $project_states;
+    return $project_states->project_state_phase[$state] ?? 'NONE';
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
