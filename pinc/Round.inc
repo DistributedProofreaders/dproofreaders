@@ -61,6 +61,7 @@ class Round extends Stage
      *   (Needn't be in a particular order.)
      */
     public function __construct(
+        $round_number,
         $id,
         $name,
         $access_minima,
@@ -88,21 +89,12 @@ class Round extends Stage
             "tools/proofers/round.php?round_id=$round_id"
         );
 
-        global $n_rounds;
-        $n_rounds++;
-        $this->round_number = $n_rounds;
-
+        $this->round_number = $round_number;
         $this->pi_tools = $pi_tools;
         $this->daily_page_limit = $daily_page_limit;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
-
-        $this->page_avail_state = "{$round_id}.page_avail";
-        $this->page_out_state = "{$round_id}.page_out";
-        $this->page_temp_state = "{$round_id}.page_temp";
-        $this->page_save_state = "{$round_id}.page_saved";
-        $this->page_bad_state = "{$round_id}.page_bad";
 
         $this->time_column_name = "round{$this->round_number}_time";
         $this->text_column_name = "round{$this->round_number}_text";
@@ -139,26 +131,6 @@ class Round extends Stage
         // These can be changed by calling declare_mentoring_pair():
         $this->mentor_round = null;
         $this->mentee_round = null;
-
-        global $Round_for_round_id_;
-        $Round_for_round_id_[$this->id] = & $this;
-
-        global $Round_for_round_number_;
-        $Round_for_round_number_[$this->round_number] = & $this;
-
-        global $Round_for_page_state_;
-        $Round_for_page_state_[$this->page_avail_state] = & $this;
-        $Round_for_page_state_[$this->page_out_state] = & $this;
-        $Round_for_page_state_[$this->page_temp_state] = & $this;
-        $Round_for_page_state_[$this->page_save_state] = & $this;
-        $Round_for_page_state_[$this->page_bad_state] = & $this;
-
-        global $PAGE_STATES_IN_ORDER;
-        $PAGE_STATES_IN_ORDER[] = $this->page_avail_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_out_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_temp_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_save_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
     }
 
     public function is_a_mentee_round()
@@ -211,49 +183,6 @@ class Round extends Stage
             throw new UserNotQualifiedForRoundException($message);
         }
     }
-}
-
-// ---------------------------
-
-function get_Round_for_round_id($round_id)
-{
-    global $Round_for_round_id_;
-    return array_get($Round_for_round_id_, $round_id, null);
-}
-
-// ---------------------------
-
-/**
- * Get a round object given a round number
- *
- * If `$round_number` is a valid proofreading-round number,
- * return the appropriate Round instance. Otherwise, return NULL.
- */
-function get_Round_for_round_number($round_number)
-{
-    global $Round_for_round_number_;
-    return array_get($Round_for_round_number_, $round_number, null);
-}
-
-// ---------------------------
-
-function get_Round_for_page_state($page_state)
-{
-    global $Round_for_page_state_;
-    return array_get($Round_for_page_state_, $page_state, null);
-}
-
-// ---------------------------
-
-function get_Round_for_text_column_name($text_column_name)
-{
-    global $Round_for_round_id_;
-    foreach ($Round_for_round_id_ as $round_id => $round) {
-        if ($round->text_column_name == $text_column_name) {
-            return $round;
-        }
-    }
-    return null;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
