@@ -11,6 +11,7 @@ class RoundTest extends ProjectUtils
         $this->assertEquals("P3", get_Round_for_round_id("P3")->id);
         $this->assertEquals("P2", get_Round_for_project_state("P2.proj_waiting")->id);
         $this->assertEquals("F1", get_Round_for_text_column_name("round4_text")->id);
+        $this->assertEquals("F2", get_Round_for_text_column_name("round5_text")->id);
 
         global $activities;
         $this->assertEquals("'P2' pages completed", $activities->access_criteria["P2"]);
