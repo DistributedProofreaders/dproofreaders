@@ -34,6 +34,7 @@ class Activities
     {
         global $code_url, $post_processing_forum_idx;
 
+        // access_criteria are extended as activities are defined.
         $this->access_criteria = [
             'days since reg' => _('Days since registration'),
             'quiz/p_basic' => sprintf(_('Up-to-date completion of the <a href="%1$s">Basic Proofreading Quiz</a>'), "$code_url/quiz/start.php?show_level=P_BASIC"),
@@ -360,6 +361,10 @@ class Activities
     function add_activity($activity)
     {
         $this->activity_for_id[$activity->id] = $activity;
+
+        foreach($activity->get_access_criteria() as $key => $value) {
+            $this->access_criteria[$key] = $value;
+        }
     }
 
     function add_stage($stage)
@@ -395,13 +400,8 @@ $activities = new Activities();
 
 $project_states = new ProjectStates($activities->round_for_id, $activities->pool_for_id);
 
-// add any additional access criteria
-foreach($activities->activity_for_id as $activity) {
-    foreach($activity->get_access_criteria() as $key => $value) {
-        $activities->access_criteria[$key] = $value;
-    }
-}
-
+// these can next be made member functions of $activities
+// used as $activities->get_Round_for_page_state($state) etc.
 function get_Round_for_page_state($page_state)
 {
     global $activities;
