@@ -279,12 +279,6 @@ function get_phase_containing_project_state($state)
     return $project_states->project_state_phase[$state] ?? 'NONE';
 }
 
-// aliases for compatibility with existing code
-global $PROJECT_STATES_IN_ORDER, $project_state_phase_;
-
-$PROJECT_STATES_IN_ORDER = $project_states->states_in_order;
-$project_state_phase_ = $project_states->project_state_phase;
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 /**

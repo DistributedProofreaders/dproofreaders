@@ -11,7 +11,7 @@ include_once($relPath.'Pool.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 
-class Activities
+class Rounds
 {
     // pi_tools_for_P and pi_tools_for_F are handy helper variables that define
     // what proofreading tools are shown in the toolbox in the proofreading
@@ -32,19 +32,8 @@ class Activities
 
     public function __construct()
     {
-        global $code_url, $post_processing_forum_idx;
-
-        // access_criteria are extended as activities are defined.
-        $this->access_criteria = [
-            'days since reg' => _('Days since registration'),
-            'quiz/p_basic' => sprintf(_('Up-to-date completion of the <a href="%1$s">Basic Proofreading Quiz</a>'), "$code_url/quiz/start.php?show_level=P_BASIC"),
-            'quiz/p_mod1' => sprintf(_('Up-to-date completion of the <a href="%1$s">Moderate Proofreading Quiz, Part %2$d</a>'), "$code_url/quiz/start.php?show_level=P_MOD", 1),
-            'quiz/p_mod2' => sprintf(_('Up-to-date completion of the <a href="%1$s">Moderate Proofreading Quiz, Part %2$d</a>'), "$code_url/quiz/start.php?show_level=P_MOD", 2),
-            'quiz/f_only' => sprintf(_("Up-to-date completion of the <a href='%s'>Formatting Quiz</a>"), "$code_url/quiz/start.php?show_only=format"),
-        ];
-
         $this->round_number = 0;
-        $this->add_round(new Round(
+        $this->add(new Round(
             ++$this->round_number,
             'P1',
             _('Proofreading Round 1'),
@@ -86,7 +75,7 @@ class Activities
 
         // -----------------------------------------------------------------------------
 
-        $this->add_round(new Round(
+        $this->add(new Round(
             ++$this->round_number,
             'P2',
             _('Proofreading Round 2'),
@@ -128,7 +117,7 @@ class Activities
 
         // -----------------------------------------------------------------------------
 
-        $this->add_round(new Round(
+        $this->add(new Round(
             ++$this->round_number,
             'P3',
             _('Proofreading Round 3'),
@@ -170,7 +159,7 @@ class Activities
 
         // -----------------------------------------------------------------------------
 
-        $this->add_round(new Round(
+        $this->add(new Round(
             ++$this->round_number,
             'F1',
             _('Formatting Round 1'),
@@ -212,7 +201,7 @@ class Activities
 
         // -----------------------------------------------------------------------------
 
-        $this->add_round(new Round(
+        $this->add(new Round(
             ++$this->round_number,
             'F2',
             _('Formatting Round 2'),
@@ -251,12 +240,63 @@ class Activities
                 150000 => _('Preserver of Texts'),
             ]
         ));
+    }
 
-        // After creating all rounds:
-        define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
-        assert($this->round_number == MAX_NUM_PAGE_EDITING_ROUNDS);
+    public function add($round)
+    {
+        $this->round_for_id[$round->id] = $round;
+        $this->round_for_number[$round->round_number] = $round;
 
-        $this->add_pool(new Pool(
+        foreach($round->get_page_states() as $page_state) {
+            // e.g. $activities->round_for_page_state["P1.page_avail"] = $P1;
+            $this->round_for_page_state[$page_state] = $round;
+
+            // e.g. $activities->page_states[0] = "P1.page_avail"
+            $this->page_states[] = $page_state;
+        }
+    }
+
+    public function get_all()
+    {
+        return $this->round_for_id;
+    }
+}
+
+class Stages
+{
+    public function __construct()
+    {
+        $this->add(new Stage(
+            'SR',
+            _('Smooth Reading'),
+            [],
+            'IMMEDIATE',
+            '',
+            null, // access_change_callback
+            _('Before a final e-text is posted to PG, it can be optionally uploaded for Smooth Reading. Anyone can volunteer to Smooth Read a text, which involves reading through the text for smoothness, marking possible errors and returning it to the PPer.'),
+            null,
+            "tools/post_proofers/smooth_reading.php"
+        ));
+    }
+
+    public function add($stage)
+    {
+        $this->stage_for_id[$stage->id] = $stage;
+    }
+
+    public function get_all()
+    {
+        return $this->stage_for_id;
+    }
+}
+
+class Pools
+{
+    public function __construct()
+    {
+        global $code_url, $post_processing_forum_idx;
+
+        $this->add(new Pool(
             'PP',
             _('Post-Processing'),
             ['F1' => 400],
@@ -288,23 +328,7 @@ class Activities
             ]
         ));
 
-        // -----------------------------------------------------------------------------
-
-        $this->add_stage(new Stage(
-            'SR',
-            _('Smooth Reading'),
-            [],
-            'IMMEDIATE',
-            '',
-            null, // access_change_callback
-            _('Before a final e-text is posted to PG, it can be optionally uploaded for Smooth Reading. Anyone can volunteer to Smooth Read a text, which involves reading through the text for smoothness, marking possible errors and returning it to the PPer.'),
-            null,
-            "tools/post_proofers/smooth_reading.php"
-        ));
-
-        // -----------------------------------------------------------------------------
-
-        $this->add_pool(new Pool(
+        $this->add(new Pool(
             'PPV',
             _('Post-Processing Verification'),
             [],
@@ -336,10 +360,35 @@ class Activities
                 "</p>",
             ]
         ));
+    }
 
-        // -----------------------------------------------------------------------------
+    public function add($pool)
+    {
+        $this->pool_for_id[$pool->id] = $pool;
+    }
 
-        $this->add_activity(new Activity(
+    public function get_all()
+    {
+        return $this->pool_for_id;
+    }
+}
+
+class Activities
+{
+    public function __construct()
+    {
+        global $code_url;
+
+        // access_criteria are extended as activities are defined.
+        $this->access_criteria = [
+            'days since reg' => _('Days since registration'),
+            'quiz/p_basic' => sprintf(_('Up-to-date completion of the <a href="%1$s">Basic Proofreading Quiz</a>'), "$code_url/quiz/start.php?show_level=P_BASIC"),
+            'quiz/p_mod1' => sprintf(_('Up-to-date completion of the <a href="%1$s">Moderate Proofreading Quiz, Part %2$d</a>'), "$code_url/quiz/start.php?show_level=P_MOD", 1),
+            'quiz/p_mod2' => sprintf(_('Up-to-date completion of the <a href="%1$s">Moderate Proofreading Quiz, Part %2$d</a>'), "$code_url/quiz/start.php?show_level=P_MOD", 2),
+            'quiz/f_only' => sprintf(_("Up-to-date completion of the <a href='%s'>Formatting Quiz</a>"), "$code_url/quiz/start.php?show_only=format"),
+        ];
+
+        $this->add(new Activity(
             'DU',
             _('Uploading to Project Gutenberg'),
             [],
@@ -348,7 +397,7 @@ class Activities
             null // access_change_callback
         ));
 
-        $this->add_activity(new Activity(
+        $this->add(new Activity(
             "P2_mentor",
             sprintf(_("Mentoring in round %s"), 'P2'),
             [],
@@ -358,72 +407,70 @@ class Activities
         ));
     }
 
-    function add_activity($activity)
+    public function add($activity)
     {
         $this->activity_for_id[$activity->id] = $activity;
-
-        foreach($activity->get_access_criteria() as $key => $value) {
-            $this->access_criteria[$key] = $value;
-        }
     }
 
-    function add_stage($stage)
+    public function get_all()
     {
-        $this->stage_for_id[$stage->id] = $stage;
-        $this->add_activity($stage);
-    }
-
-    function add_round($round)
-    {
-        $this->round_for_id[$round->id] = $round;
-        $this->round_for_number[$round->round_number] = $round;
-        $this->add_stage($round);
-
-        foreach($round->get_page_states() as $page_state) {
-            // e.g. $activities->round_for_page_state["P1.page_avail"] = $P1;
-            $this->round_for_page_state[$page_state] = $round;
-
-            // e.g. $activities->page_states[0] = "P1.page_avail"
-            $this->page_states[] = $page_state;
-        }
-    }
-
-    function add_pool($pool)
-    {
-        $this->pool_for_id[$pool->id] = $pool;
-        $this->add_stage($pool);
+        return $this->activity_for_id;
     }
 }
 
-global $activities, $project_states;
+global $rounds, $stages, $activities, $pools, $project_states;
+$rounds = new Rounds();
+// After creating all rounds:
+define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
+assert($rounds->round_number == MAX_NUM_PAGE_EDITING_ROUNDS);
+
+$pools = new Pools();
+
+$stages = new Stages();
+foreach($rounds->get_all() as $round) {
+    $stages->add($round);
+}
+foreach($pools->get_all() as $pool) {
+    $stages->add($pool);
+}
+
 $activities = new Activities();
+foreach($stages->get_all() as $stage) {
+    $activities->add($stage);
+}
 
-$project_states = new ProjectStates($activities->round_for_id, $activities->pool_for_id);
+foreach($activities->get_all() as $activity) {
+    foreach($activity->get_access_criteria() as $key => $value) {
+        $activities->access_criteria[$key] = $value;
+    }
+}
 
-// these can next be made member functions of $activities
-// used as $activities->get_Round_for_page_state($state) etc.
+$project_states = new ProjectStates($rounds->get_all(), $pools->get_all());
+
+// these can next be made member functions
+// used as $rounds->get_Round_for_page_state($state) etc.
 function get_Round_for_page_state($page_state)
 {
-    global $activities;
-    return $activities->round_for_page_state[$page_state] ?? null;
+    global $rounds;
+    return $rounds->round_for_page_state[$page_state] ?? null;
 }
 
 function get_Round_for_round_number($round_number)
 {
-    global $activities;
-    return $activities->round_for_number[$round_number] ?? null;
+    global $rounds;
+    return $rounds->round_for_number[$round_number] ?? null;
 }
 
 function get_Round_for_round_id($round_id)
 {
-    global $activities;
-    return $activities->round_for_id[$round_id] ?? null;
+    global $rounds;
+    return $rounds->round_for_id[$round_id] ?? null;
 }
 
 function get_Round_for_text_column_name($text_column_name)
 {
-    global $activities;
-    foreach ($activities->round_for_id as $round_id => $round) {
+    global $rounds;
+    foreach ($rounds->round_for_id as $round_id => $round) {
         if ($round->text_column_name == $text_column_name) {
             return $round;
         }
@@ -433,8 +480,8 @@ function get_Round_for_text_column_name($text_column_name)
 
 function get_Stage_for_id($id)
 {
-    global $activities;
-    $stage = $activities->stage_for_id[$id] ?? null;
+    global $stages;
+    $stage = $stages->stage_for_id[$id] ?? null;
     if (null !== $stage) {
         return $stage;
     } else {
@@ -444,24 +491,31 @@ function get_Stage_for_id($id)
 
 function get_Pool_for_id($id)
 {
-    global $activities;
-    return $activities->pool_for_id[$id] ?? null;
+    global $pools;
+    return $pools->pool_for_id[$id] ?? null;
 }
 
 // aliases for compatibility with existing code
 global $PAGE_STATES_IN_ORDER, $Round_for_round_id_, $Round_for_round_number_, $Round_for_page_state_,
 $Activity_for_id_, $Pool_for_id_, $ACCESS_CRITERIA, $Stage_for_id_;
-$PAGE_STATES_IN_ORDER = $activities->page_states;
-$Round_for_round_id_ = $activities->round_for_id;
-$Round_for_round_number_ = $activities->round_for_number;
-$Round_for_page_state_ = $activities->round_for_page_state;
+$PAGE_STATES_IN_ORDER = $rounds->page_states;
+$Round_for_round_id_ = $rounds->round_for_id;
+$Round_for_round_number_ = $rounds->round_for_number;
+$Round_for_page_state_ = $rounds->round_for_page_state;
 $Activity_for_id_ = $activities->activity_for_id;
-$Stage_for_id_ = $activities->stage_for_id;
-$Pool_for_id_ = $activities->pool_for_id;
+$Stage_for_id_ = $stages->stage_for_id;
+$Pool_for_id_ = $pools->pool_for_id;
 $ACCESS_CRITERIA = $activities->access_criteria;
 // alias for compatibility with noncvs
 global $n_rounds;
-$n_rounds = $activities->round_number;
+$n_rounds = $rounds->round_number;
+
+// aliases for compatibility with existing code
+global $PROJECT_STATES_IN_ORDER, $project_state_phase_, $project_states;
+
+$PROJECT_STATES_IN_ORDER = $project_states->states_in_order;
+$project_state_phase_ = $project_states->project_state_phase;
+
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
