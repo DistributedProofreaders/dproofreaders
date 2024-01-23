@@ -105,7 +105,6 @@ class Round extends Stage
         $this->time_column_name = "round{$this->round_number}_time";
         $this->text_column_name = "round{$this->round_number}_text";
         $this->user_column_name = "round{$this->round_number}_user";
-        $this->textdiff_column_name = "round{$this->round_number}_diff"; // a computed column
 
         // prevtext_column_name
         //
