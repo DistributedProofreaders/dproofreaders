@@ -96,9 +96,16 @@ class Round extends Stage
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
 
+        $this->page_avail_state = "{$round_id}.page_avail";
+        $this->page_out_state = "{$round_id}.page_out";
+        $this->page_temp_state = "{$round_id}.page_temp";
+        $this->page_save_state = "{$round_id}.page_saved";
+        $this->page_bad_state = "{$round_id}.page_bad";
+
         $this->time_column_name = "round{$this->round_number}_time";
         $this->text_column_name = "round{$this->round_number}_text";
         $this->user_column_name = "round{$this->round_number}_user";
+        $this->textdiff_column_name = "round{$this->round_number}_diff"; // a computed column
 
         // prevtext_column_name
         //
@@ -131,6 +138,17 @@ class Round extends Stage
         // These can be changed by calling declare_mentoring_pair():
         $this->mentor_round = null;
         $this->mentee_round = null;
+    }
+
+    public function get_page_states()
+    {
+        return [
+            $this->page_avail_state,
+            $this->page_out_state,
+            $this->page_temp_state,
+            $this->page_save_state,
+            $this->page_bad_state,
+        ];
     }
 
     public function get_access_criteria()

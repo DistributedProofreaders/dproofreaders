@@ -46,6 +46,7 @@ class ProjectStates
         );
 
         foreach($rounds as $round) {
+            // these are for the 'state' column in the projects table
             $round->project_bad_state = "{$round->id}.proj_bad";
             $round->project_unavailable_state = "{$round->id}.proj_unavail";
             $round->project_waiting_state = "{$round->id}.proj_waiting";

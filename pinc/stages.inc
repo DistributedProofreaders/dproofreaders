@@ -30,14 +30,6 @@ class Activities
         'tool_links' => 'ALL',
     ];
 
-    private const page_state_codes = [
-        "page_avail_state" => "avail",
-        "page_out_state" => "out",
-        "page_temp_state" => "temp",
-        "page_save_state" => "saved",
-        "page_bad_state" => "bad",
-    ];
-
     public function __construct()
     {
         global $code_url, $post_processing_forum_idx;
@@ -380,20 +372,15 @@ class Activities
     {
         $this->round_for_id[$round->id] = $round;
         $this->round_for_number[$round->round_number] = $round;
+        $this->add_stage($round);
 
-        foreach(self::page_state_codes as $page_state => $state_code) {
-
-            // e.g. $P1->page_avail_state = "P1.page_avail"
-            $round->$page_state = "{$round->id}.page_$state_code";
-
+        foreach($round->get_page_states() as $page_state) {
             // e.g. $activities->round_for_page_state["P1.page_avail"] = $P1;
-            $this->round_for_page_state[$round->$page_state] = $round;
+            $this->round_for_page_state[$page_state] = $round;
 
             // e.g. $activities->page_states[0] = "P1.page_avail"
-            $this->page_states[] = $round->$page_state;
+            $this->page_states[] = $page_state;
         }
-
-        $this->add_stage($round);
     }
 
     function add_pool($pool)
