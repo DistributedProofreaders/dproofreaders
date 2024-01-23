@@ -210,7 +210,7 @@ class ProjectStates
         $star_metal
     ) {
         define($constant_name, $constant_value);
-        $this->states[] = $constant_value;
+        $this->states_in_order[] = $constant_value;
         $this->medium_labels[$constant_value] = $medium_label;
         $this->long_labels[$constant_value] = $long_label;
         $this->project_state_forum[$constant_value] = $forum;
@@ -278,6 +278,12 @@ function get_phase_containing_project_state($state)
     global $project_states;
     return $project_states->project_state_phase[$state] ?? 'NONE';
 }
+
+// aliases for compatibility with existing code
+global $PROJECT_STATES_IN_ORDER, $project_state_phase_;
+
+$PROJECT_STATES_IN_ORDER = $project_states->states_in_order;
+$project_state_phase_ = $project_states->project_state_phase;
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

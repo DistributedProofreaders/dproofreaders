@@ -463,17 +463,6 @@ $ACCESS_CRITERIA = $activities->access_criteria;
 global $n_rounds;
 $n_rounds = $activities->round_number;
 
-global $PROJECT_STATES_IN_ORDER, $project_state_medium_label_, $project_state_long_label_,
-$project_state_phase_, $project_states_for_star_metal_;
-
-$PROJECT_STATES_IN_ORDER = $project_states->states;
-$project_state_medium_label_ = $project_states->medium_labels;
-$project_state_long_label_ = $project_states->long_labels;
-$project_state_forum_ = $project_states->project_state_forum;
-$project_state_phase_ = $project_states->project_state_phase;
-$project_states_for_star_metal_ = $project_states->project_states_for_star_metal;
-
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 declare_mentoring_pair('P1', 'P2');
