@@ -209,7 +209,7 @@ function maybe_output_new_proofer_project_message($project)
         echo "</div>";
 
         echo "<p>";
-        echo sprintf(_('Before you can begin proofreading, you must:'));
+        echo sprintf(_('Before you can begin proofreading, you must have:'));
         echo "<ul>";
         foreach ($uao->minima_table as $row) {
             [$criterion_str, $minimum, $user_score, $satisfied] = $row;

@@ -62,7 +62,7 @@ class Comparator
         // TRANSLATORS: "Round 1" and "Round 2" are repeated below in "Pages I worked on in Round 1" etc.
         "<div>", _("Round 1"), "</div><div>", $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options), "</div>\n",
         "<div>", _("Round 2"), "</div><div>", $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options), "</div></div>\n",
-        "<p>", _("Show:"), "<br>\n",
+        "<p>", _("Show"), ":<br>\n",
         $this->radio_string('all', _("All pages")), "<br>\n",
         $this->radio_string('left', _("Pages I worked on in Round 1")), "<br>\n",
         $this->radio_string('right', _("Pages I worked on in Round 2")), "</p>\n",

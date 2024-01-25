@@ -44,7 +44,7 @@ $other_names = $row["other_names"];
 $name = $last_name . ($other_names != '' ? ", $other_names" : '');
 
 // Start outputting
-output_header(_('Biography:') . " $name");
+output_header(_('Biography') . ": $name");
 
 echo '<h1>' . _('Biography') . '</h1>';
 

@@ -66,7 +66,7 @@ if ($display_list) {
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td>" . _("Word list type:") . "</td>";
+    echo "<td>" . _("Word list type") . ":</td>";
     echo "<td><select name='list_type'>";
     echo "<option value='good'>" . _("Good") . "</option>";
     echo "<option value='bad'>" . _("Bad") . "</option>";

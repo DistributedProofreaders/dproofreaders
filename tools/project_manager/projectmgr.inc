@@ -49,7 +49,7 @@ function echo_manager_links()
     echo "<li>"._("Image Sources").": ";
     echo "<a href='$code_url/tools/project_manager/show_image_sources.php'>"._("Info")."</a>";
     if (user_is_image_sources_manager()) {
-        echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage ")."</a>\n";
+        echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=show_sources'>"._("Manage")."</a>\n";
     } elseif (user_is_PM()) {
         echo " | <a href='$code_url/tools/project_manager/manage_image_sources.php?action=add_source'>"._("Propose")."</a>";
     }

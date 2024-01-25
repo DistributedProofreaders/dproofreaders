@@ -74,7 +74,7 @@ if (isset($_GET['author_id'])) {
             }
         } else {
             // failure!
-            output_header(_('An error occurred'));
+            output_header(_('Error'));
             echo _('It was not possible to save the biography.');
         }
         exit;
@@ -83,7 +83,7 @@ if (isset($_GET['author_id'])) {
     }
 } else {
     // someone's trying to display this page outside of the workflow.
-    output_header(_('An error occurred'));
+    output_header(_('Error'));
     echo _('Some information is missing and this page can not be displayed. This has most likely occurred ' .
                  'because you have entered the URL manually. Please enter this page by following links from other pages.');
     exit;
