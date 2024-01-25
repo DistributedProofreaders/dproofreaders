@@ -974,10 +974,6 @@ function show_social_media_links()
             "url" => "https://universeodon.com/@DProofreaders",
             "rel" => "me",
         ],
-        "Twitter" => [
-            "class" => "fab fa-twitter fa-2x",
-            "url" => "https://twitter.com/DProofreaders",
-        ],
         "Facebook" => [
             "class" => "fab fa-facebook-f fa-2x",
             "url" => "https://www.facebook.com/distributed.proofreaders/",
