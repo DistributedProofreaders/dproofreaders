@@ -76,6 +76,11 @@ paths:
         in: query
         schema:
           type: string
+      - name: in_smoothreading
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: field
         description: Field to return, if not set all fields are returned.
           To request multiple fields, append with [] and pass one per desired
@@ -822,6 +827,10 @@ components:
           format: dateTime
           readOnly: true
         last_edit_time:
+          type: string
+          format: dateTime
+          readOnly: true
+        smoothread_deadline:
           type: string
           format: dateTime
           readOnly: true
