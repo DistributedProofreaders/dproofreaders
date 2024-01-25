@@ -28,7 +28,7 @@ construct_activities();
 
 function construct_activities()
 {
-    global $rounds, $stages, $activities, $pools, $project_states, $ACCESS_CRITERIA, $code_url, $post_processing_forum_idx;
+    global $rounds, $stages, $activities, $pools, $project_states, $ACCESS_CRITERIA, $code_url, $post_processing_forum_idx, $ELR_round;
 
     // this is used in noncvs
     global $n_rounds;
