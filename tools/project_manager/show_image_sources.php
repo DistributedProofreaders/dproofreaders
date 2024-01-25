@@ -199,7 +199,7 @@ if (!$imso_code) {
         echo "</p>";
 
         echo "<p><a href='show_image_sources.php'>"
-            . _("Back to the full listing of all Image Sources")
+            . _("Back to the full listing of Image Sources")
             . "</a></p>";
 
         echo "<table class='image_source'>\n";

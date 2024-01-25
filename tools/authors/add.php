@@ -432,12 +432,10 @@ echo_date_fields('d');
 echo '<p>' . _('Are you looking for birth- and death-data for an author? These links are good and trustable sources of information in our experience:');
 echo '<ul>';
 
-echo '<li><a href="http://www.newadvent.org/cathen/" target="_blank">' . _('Catholic Encyclopedia') . '</a></li>';
-echo '<li><a href="http://www.bartleby.com/65/" target="_blank">' . _('Columbia Encyclopedia') . '</a></li>';
-echo '<li><a href="http://www.copac.ac.uk/copac/" target="_blank">COPAC</a> (' .
-         _('24 major university research libraries in the UK and Ireland searchable at one place') . ')</li>';
-echo '<li><a href="http://www.britannica.com/" target="_blank">' . _('Encyclop&aelig;dia Britannica') . '</a> (' .
+echo '<li><a href="http://www.newadvent.org/cathen/" target="_blank">Catholic Encyclopedia</a></li>';
+echo '<li><a href="https://discover.libraryhub.jisc.ac.uk/" target="_blank">Library Hub</a></li>';
+echo '<li><a href="http://www.britannica.com/" target="_blank">Encyclopædia Britannica</a> (' .
          _('birth- and death-dates can be accessed without registering') . ')</li>';
-echo '<li><a href="http://authorities.loc.gov/" target="_blank">' . _('The Library of Congress') . '</a></li>';
+echo '<li><a href="http://authorities.loc.gov/" target="_blank">The Library of Congress</a></li>';
 
 echo '</ul>';

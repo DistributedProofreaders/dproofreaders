@@ -43,7 +43,7 @@ if (!user_can_work_in_stage($pguser, 'PPV')) {
 // and re-invokes this script with it.
 
 if (!isset($_REQUEST['project'])) {
-    $prompt = _("Please enter a project ID:");
+    $prompt = _("Please enter a project ID") . ":";
     echo "
         <form method='get'>
         $prompt <input type='text' name='project' required>

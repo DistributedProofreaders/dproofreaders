@@ -61,7 +61,7 @@ $messages["commascanno"] = [
     "message_body" => _("There is still a scanno: a subscripted letter in the text where there is a comma (<kbd>,</kbd>) in the image."),
 ];
 $messages["bltext"] = [
-    "message_title" => _("Blackletter font"),
+    "message_title" => _("Blackletter"),
     "message_body" => sprintf(_("There seems to be a problem in the blackletter text. If you are having trouble reading it, see <a href='%s' target='_blank'>this page</a> for help."), $blackletter_url),
 ];
 

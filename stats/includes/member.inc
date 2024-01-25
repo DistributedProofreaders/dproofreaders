@@ -67,7 +67,7 @@ function showMbrProfile($user)
 }
 
 /**
- * Return a string like "Today!", or "Yesterday", or "2 days ago" depending on
+ * Return a string like "Today", or "Yesterday", or "2 days ago" depending on
  * a timestamp
  */
 function days_to_now($timestamp)
@@ -80,7 +80,7 @@ function days_to_now($timestamp)
 
     $days = floor(($now - $timestamp) / 86400);
     if ($days == 0) {
-        return _("Today!");
+        return _("Today");
     } elseif ($days == 1) {
         return _("Yesterday");
     } else {

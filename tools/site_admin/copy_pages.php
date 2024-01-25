@@ -160,7 +160,7 @@ function display_form(
 
     // always leave the page numbers blank
     echo "<tr>\n";
-    echo "<th>" . _("Copy Page(s):") . "</th>\n";
+    echo "<th>" . _("Copy Pages") . ":</th>\n";
     echo "<td><input type='text' name='from_image_[lo]' size='12'>";
     echo " &ndash; <input type='text' name='from_image_[hi]' size='12'>";
     echo " " . _("(leave these fields blank to copy all pages)");

@@ -38,7 +38,7 @@ if (($stage == 'post_1' || $stage == 'return_1') &&
 }
 
 // default comment box title, set to null for no comment box
-$comment_title = _("(optional) Leave comments for the next person who checks out this project:");
+$comment_title = _("(optional) Leave comments for the next person who checks out this project");
 
 $error_messages = [];
 if ($stage == 'post_1') {
@@ -71,7 +71,7 @@ if ($stage == 'post_1') {
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = project_page_link_url($projectid, ["expected_state=$new_state"]);
     $back_blurb = _("project page");
-    $comment_title = _("Comments:");
+    $comment_title = _("Comments");
 } elseif ($stage == 'return_1') {
     $title = _("Return project to the post-processing pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing pool. You can optionally upload a partially post-processed file for another post-processor to pick up and use.");
@@ -93,7 +93,7 @@ if ($stage == 'post_1') {
     $new_state = PROJ_POST_SECOND_CHECKED_OUT;
     $back_url = project_page_link_url($projectid, ["expected_state=$new_state"]);
     $back_blurb = _("project page");
-    $comment_title = _("Comments:");
+    $comment_title = _("Comments");
 } elseif ($stage == 'return_2') {
     $title = _("Return project to the post-processing verification pool");
     $intro_blurb = _("This page allows you to return the project to the post-processing verification pool. You can optionally upload a partially verified file for another verifier to pick up and use.");
@@ -115,7 +115,7 @@ if ($stage == 'post_1') {
     $new_state = PROJ_POST_FIRST_CHECKED_OUT;
     $back_url = project_page_link_url($projectid, ["expected_state=$new_state"], "smooth_start");
     $back_blurb = _("project page");
-    $comment_title = _("Leave instructions for smooth readers:");
+    $comment_title = _("Leave instructions for smooth readers");
 } elseif ($stage == 'smooth_done') {
     $title = _("Upload a Smooth Read report");
     $intro_blurb = _("This page allows you to upload a smooth read report for the project. One version per user per project is allowed: additional uploads by the same user will overwrite their previous upload.");
@@ -184,7 +184,7 @@ if (!isset($action)) {
             <input type='hidden' name='days' value='$days'>
             <input type='hidden' name='action' value='1'>";
         if ($comment_title) {
-            $form_content .= $comment_title;
+            $form_content .= "$comment_title:";
             $form_content .= "<br><textarea style='margin-bottom: 1em;' name='postcomments' cols='75' rows='5'></textarea>\n";
 
             if ($returning_to_pool) {

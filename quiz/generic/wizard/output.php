@@ -209,7 +209,7 @@ function make_output()
     return html_safe($out);
 }
 
-echo "<h2>" . _("Done!") . "</h2>\n";
+echo "<h2>" . _("Done") . "</h2>\n";
 echo "<p>" . _("Below you will find some prepared php code. Choose a unique name for your quiz page (&lt;pagename&gt;), if you did not already do so.  Copy the code into an editor and save it under the name qd_&lt;pagename&gt;.inc. Save the image you've prepared under the name qi_&lt;pagename&gt;.png. For testing the quiz it is highly recommended to contact a developer with a sandbox on the DP test server (www.pgdp.org). The inc file has to be placed in /quiz/generic/data and the image in /quiz/generic/images.  If you are creating a complete new quiz, the code you generated earlier will need to be inserted into /pinc/quizzes.inc and the quiz will have to be added to one of the quiz levels/categories.  If you are adding a new page to an existing quiz, the page will need to be added to the listing in that same file.") . "</p>";
 echo "<p>" . _("When that has happened your quiz should appear in the listing of available quizzes in that developer's sandbox.  If you want to create a tutorial, copy the contents of the appropriate guidelines (or other instructional page) and save it under /quiz/tuts/tut_&lt;pagename&gt;.php.") . "</p>";
 

@@ -11,7 +11,7 @@ require_login();
 
 if (empty($_GET["id"])) {
     include_once($relPath.'theme.inc');
-    output_header(_("Error!"));
+    output_header(_("Error"));
     echo "<p class='error'>";
     echo sprintf(_("A team id must specified in the following format: %s"), "$code_url/stats/teams/teams_xml.php?id=*****");
     echo "</p>";
