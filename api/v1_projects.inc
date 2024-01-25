@@ -29,6 +29,12 @@ function api_v1_projects($method, $data, $query_params)
         "pages_total" => "n_pages",
     ];
 
+    // parameters in the query where the value can be "false", "true" or absent (==true)
+    // When true, a WHERE clause is added to the SQL query.
+    $valid_flags = [
+        "in_smoothreading" => "smoothread_deadline > UNIX_TIMESTAMP()",
+    ];
+
     // Allow SAs and PFs to search on clearance. We can't allow PMs to do so
     // without opening up the ability for value-fishing as PMs can only see
     // clearances for their own projects.
@@ -55,6 +61,12 @@ function api_v1_projects($method, $data, $query_params)
         } else {
             $values_list = surround_and_join($values, "'", "'", ",");
             $where .= " AND $column_name IN ($values_list)";
+        }
+    }
+
+    foreach (array_intersect(array_keys($valid_flags), array_keys($query_params)) as $flag) {
+        if (_get_flag_value($query_params, $flag)) {
+            $where .= " AND " . $valid_flags[$flag];
         }
     }
 
@@ -294,6 +306,7 @@ function render_project_json($project, $return_fields = null)
             "last_state_change_time" => date(DATE_ATOM, $project->modifieddate),
             "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
             "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
+            "smoothread_deadline" => date(DATE_ATOM, $project->smoothread_deadline),
         ]
     );
 
@@ -652,6 +665,30 @@ function api_v1_projects_holdstates($method, $data, $query_params)
 // Utility functions
 
 /**
+ * Check to see if the user requested a flag parameter.
+ *
+ * This returns one of three possible states:
+ * - null - no parameter with this key was set
+ * - true - parameter was set to "true" or an empty string (for ?flagname)
+ * - false - parameter was set to "false"
+ */
+function _get_flag_value($query_params, $flagname)
+{
+    if (!isset($query_params[$flagname])) {
+        return null;
+    } elseif ($query_params[$flagname] == "") {
+        // make '?flagname' work as if '?flagname=true'
+        return true;
+    } else {
+        $bool = filter_var($query_params[$flagname], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if ($bool === null) {
+            throw new ValueError("Invalid value for '$flagname'");
+        }
+        return $bool;
+    }
+}
+
+/**
  * Check to see if the user requested an enabled filter.
  *
  * This returns one of three possible states:
@@ -661,16 +698,5 @@ function api_v1_projects_holdstates($method, $data, $query_params)
  */
 function _get_enabled_filter($query_params)
 {
-    if (!isset($query_params["enabled"])) {
-        return null;
-    } elseif ($query_params["enabled"] == "") {
-        // make '?enabled' work as if '?enabled=true'
-        return true;
-    } else {
-        $bool = filter_var($query_params["enabled"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if ($bool === null) {
-            throw new ValueError("Invalid value for 'enabled'");
-        }
-        return $bool;
-    }
+    return _get_flag_value($query_params, "enabled");
 }
