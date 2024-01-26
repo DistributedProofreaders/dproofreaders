@@ -522,7 +522,6 @@ class User
             "school" => _("School / College / University"),
             "work" => _("Work"),
             "news" => _("News Article"),
-            "twitter" => _("Twitter"),
             "facebook" => _("Facebook"),
             "other" => _("Other"),
         ];
