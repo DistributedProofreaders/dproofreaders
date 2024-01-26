@@ -1,4 +1,5 @@
 #!/bin/bash
+set -uo pipefail
 
 if [ $# != 2 ]; then
     echo 'usage: configure <path-to-site-config-file> <path-to-code-dir>'
