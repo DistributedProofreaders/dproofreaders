@@ -51,7 +51,8 @@ class Activities
 
 class Pools
 {
-    use StatObj, ProjObj;
+    use StatObj;
+    use ProjObj;
 }
 
 class Stages
@@ -61,7 +62,8 @@ class Stages
 
 class Rounds
 {
-    use StatObj, ProjObj;
+    use StatObj;
+    use ProjObj;
 
     private static $round_for_number = [];
     public static function set_for_number($object)
