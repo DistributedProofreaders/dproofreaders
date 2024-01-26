@@ -1290,7 +1290,7 @@ function factor_strings($strings)
  * If the requested function returns data that has localized strings, it's
  * important that $key_salt = get_desired_language();
  */
-function memoize_function($function, $args = [], $expire_from_now = 3600, $key_salt = "")
+function memoize_function($function, $args = [], $expiration = 3600, $key_salt = "")
 {
     // cache this connection for possible re-use during this page load
     static $memcache = null;
@@ -1310,7 +1310,7 @@ function memoize_function($function, $args = [], $expire_from_now = 3600, $key_s
     // if not, call the function to return the data
     $data = call_user_func_array($function, $args);
 
-    $memcache->set($key, gzcompress(serialize($data)), time() + $expire_from_now);
+    $memcache->set($key, gzcompress(serialize($data)), $expiration);
 
     return $data;
 }
