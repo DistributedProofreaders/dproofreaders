@@ -1,20 +1,6 @@
 <?php
 
-// $Id$
-
 include_once($relPath.'Stage.inc');
-
-// -----------------------------------------------------------------------------
-
-global $n_rounds, $Round_for_round_id_, $Round_for_round_number_;
-global $Round_for_project_state_, $Round_for_page_state_, $PAGE_STATES_IN_ORDER;
-
-$n_rounds = 0;
-$Round_for_round_id_ = [];
-$Round_for_round_number_ = [];
-$Round_for_project_state_ = [];
-$Round_for_page_state_ = [];
-$PAGE_STATES_IN_ORDER = [];
 
 // A container for various constants relating to a particular round of proofreading.
 class Round extends Stage
@@ -62,6 +48,7 @@ class Round extends Stage
      *   (Needn't be in a particular order.)
      */
     public function __construct(
+        $round_number,
         $id,
         $name,
         $access_minima,
@@ -89,21 +76,12 @@ class Round extends Stage
             "tools/proofers/round.php?round_id=$round_id"
         );
 
-        global $n_rounds;
-        $n_rounds++;
-        $this->round_number = $n_rounds;
-
+        $this->round_number = $round_number;
         $this->pi_tools = $pi_tools;
         $this->daily_page_limit = $daily_page_limit;
         $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
-
-        $this->project_unavailable_state = constant("PROJ_{$round_id}_UNAVAILABLE");
-        $this->project_waiting_state = constant("PROJ_{$round_id}_WAITING_FOR_RELEASE");
-        $this->project_bad_state = constant("PROJ_{$round_id}_BAD_PROJECT");
-        $this->project_available_state = constant("PROJ_{$round_id}_AVAILABLE");
-        $this->project_complete_state = constant("PROJ_{$round_id}_COMPLETE");
 
         $this->page_avail_state = "{$round_id}.page_avail";
         $this->page_out_state = "{$round_id}.page_out";
@@ -146,33 +124,22 @@ class Round extends Stage
         // These can be changed by calling declare_mentoring_pair():
         $this->mentor_round = null;
         $this->mentee_round = null;
+    }
 
-        global $Round_for_round_id_;
-        $Round_for_round_id_[$this->id] = & $this;
+    public function get_page_states()
+    {
+        return [
+            $this->page_avail_state,
+            $this->page_out_state,
+            $this->page_temp_state,
+            $this->page_save_state,
+            $this->page_bad_state,
+        ];
+    }
 
-        global $Round_for_round_number_;
-        $Round_for_round_number_[$this->round_number] = & $this;
-
-        global $Round_for_project_state_;
-        $Round_for_project_state_[$this->project_unavailable_state] = & $this;
-        $Round_for_project_state_[$this->project_waiting_state] = & $this;
-        $Round_for_project_state_[$this->project_bad_state] = & $this;
-        $Round_for_project_state_[$this->project_available_state] = & $this;
-        $Round_for_project_state_[$this->project_complete_state] = & $this;
-
-        global $Round_for_page_state_;
-        $Round_for_page_state_[$this->page_avail_state] = & $this;
-        $Round_for_page_state_[$this->page_out_state] = & $this;
-        $Round_for_page_state_[$this->page_temp_state] = & $this;
-        $Round_for_page_state_[$this->page_save_state] = & $this;
-        $Round_for_page_state_[$this->page_bad_state] = & $this;
-
-        global $PAGE_STATES_IN_ORDER;
-        $PAGE_STATES_IN_ORDER[] = $this->page_avail_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_out_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_temp_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_save_state;
-        $PAGE_STATES_IN_ORDER[] = $this->page_bad_state;
+    public function get_access_criteria()
+    {
+        return [$this->id => sprintf(_("'%s' pages completed"), $this->id)];
     }
 
     public function is_a_mentee_round()
@@ -227,57 +194,6 @@ class Round extends Stage
     }
 }
 
-// ---------------------------
-
-function get_Round_for_round_id($round_id)
-{
-    global $Round_for_round_id_;
-    return array_get($Round_for_round_id_, $round_id, null);
-}
-
-// ---------------------------
-
-/**
- * Get a round object given a round number
- *
- * If `$round_number` is a valid proofreading-round number,
- * return the appropriate Round instance. Otherwise, return NULL.
- */
-function get_Round_for_round_number($round_number)
-{
-    global $Round_for_round_number_;
-    return array_get($Round_for_round_number_, $round_number, null);
-}
-
-// ---------------------------
-
-function get_Round_for_project_state($project_state)
-{
-    global $Round_for_project_state_;
-    return array_get($Round_for_project_state_, $project_state, null);
-}
-
-// ---------------------------
-
-function get_Round_for_page_state($page_state)
-{
-    global $Round_for_page_state_;
-    return array_get($Round_for_page_state_, $page_state, null);
-}
-
-// ---------------------------
-
-function get_Round_for_text_column_name($text_column_name)
-{
-    global $Round_for_round_id_;
-    foreach ($Round_for_round_id_ as $round_id => $round) {
-        if ($round->text_column_name == $text_column_name) {
-            return $round;
-        }
-    }
-    return null;
-}
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 /**
@@ -323,8 +239,8 @@ function sql_collater_for_page_state($state_column)
  */
 function declare_mentoring_pair($mentee_round_id, $mentor_round_id)
 {
-    $mentee_round = & get_Stage_for_id($mentee_round_id);
-    $mentor_round = & get_Stage_for_id($mentor_round_id);
+    $mentee_round = get_Stage_for_id($mentee_round_id);
+    $mentor_round = get_Stage_for_id($mentor_round_id);
     assert(is_a($mentee_round, 'Round'));
     assert(is_a($mentor_round, 'Round'));
 

@@ -92,7 +92,7 @@ maybe_output_new_proofer_message();
 
 // prep an array of available states
 $avail_states = [];
-foreach ($Round_for_round_number_ as $round) {
+foreach (Rounds::get_all() as $round) {
     $avail_states[] = $round->project_available_state;
 }
 

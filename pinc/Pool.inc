@@ -4,9 +4,6 @@ include_once($relPath.'Stage.inc');
 
 // -----------------------------------------------------------------------------
 
-$Pool_for_id_ = [];
-$Pool_for_state_ = [];
-
 class Pool extends Stage
 {
     /**
@@ -34,8 +31,6 @@ class Pool extends Stage
         $access_change_callback,
         $description,
         $document,
-        $project_checkedout_state,
-        $project_available_state,
         $foo_Header,
         $foo_field_name,
         $blather
@@ -52,33 +47,8 @@ class Pool extends Stage
             "tools/pool.php?pool_id=$id"
         );
 
-        $this->project_checkedout_state = $project_checkedout_state;
-        $this->project_available_state = $project_available_state;
         $this->foo_Header = $foo_Header;
         $this->foo_field_name = $foo_field_name;
         $this->blather = $blather;
-
-        global $Pool_for_id_;
-        $Pool_for_id_[$this->id] = & $this;
-
-        global $Pool_for_state_;
-        $Pool_for_state_[$this->project_checkedout_state] = & $this;
-        $Pool_for_state_[$this->project_available_state] = & $this;
     }
 }
-
-// ---------------------------
-
-function get_Pool_for_id($pool_id)
-{
-    global $Pool_for_id_;
-    return array_get($Pool_for_id_, $pool_id, null);
-}
-
-function get_Pool_for_state($state)
-{
-    global $Pool_for_state_;
-    return array_get($Pool_for_state_, $state, null);
-}
-
-// ---------------------------
