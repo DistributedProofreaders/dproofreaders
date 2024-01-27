@@ -12,7 +12,7 @@ $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names
 // cache the graphs for as long as is reasonable
 $now = new DateTimeImmutable("now");
 $tomorrow_midnight = new DateTimeImmutable("tomorrow");
-$first_next_month = new DateTimeImmutable("first day of next month");
+$first_next_month = new DateTimeImmutable("midnight first day of next month");
 $first_next_week = new DateTimeImmutable("next Sunday");
 
 $title = sprintf(_('Graphs for Pages Saved-as-Done in Round %s'), $tally_name);
