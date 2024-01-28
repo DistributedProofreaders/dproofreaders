@@ -41,6 +41,7 @@ slim_header("", $header_args);
 ?>
 <form action="./returnfeed.php?quiz_page_id=<?php echo $quiz_page_id; ?>" target="right" method="post" name="editform" id="editform">
 <textarea rows="12" cols="60" name="text_data" id="text_data" wrap="off"
+    autocorrect="off" autocomplete="off" autocapitalize="off"
     style="width:100%; <?php echo $font_settings; ?>">
 <?php echo qp_initial_page_text(); ?>
 </textarea> <p>
