@@ -1,4 +1,4 @@
-/*global moment serverTimezone*/
+/*global serverTimezone*/
 
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
@@ -7,9 +7,9 @@ window.addEventListener("DOMContentLoaded", () => {
     const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
         dateStyle: 'medium',
         timeStyle: 'short',
-        timeZone: 'UTC',
+        timeZone: serverTimezone,
         hourCycle: 'h24',
-      });
+    });
 
     function showTime() {
         timeSpan.textContent = dateTimeFormat.format(Date.now());
