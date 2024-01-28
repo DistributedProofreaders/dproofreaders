@@ -3,10 +3,16 @@
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
-    var timeSpan = document.getElementById("server-time");
+    const timeSpan = document.getElementById("server-time");
+    const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+        timeZone: 'UTC',
+        hourCycle: 'h24',
+      });
 
     function showTime() {
-        timeSpan.textContent = moment.tz(serverTimezone).format("ddd HH:mm");
+        timeSpan.textContent = dateTimeFormat.format(Date.now());
     }
 
     setInterval(showTime, 60000);
