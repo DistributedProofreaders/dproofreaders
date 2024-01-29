@@ -5,6 +5,7 @@ include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
 include_once("exceptions.inc");
+include_once("api_common.inc");
 
 // DP API v1 -- Projects
 
@@ -65,7 +66,7 @@ function api_v1_projects($method, $data, $query_params)
     }
 
     foreach (array_intersect(array_keys($valid_flags), array_keys($query_params)) as $flag) {
-        if (_get_flag_value($query_params, $flag)) {
+        if (get_flag_value($query_params, $flag)) {
             $where .= " AND " . $valid_flags[$flag];
         }
     }
@@ -656,30 +657,6 @@ function api_v1_projects_holdstates($method, $data, $query_params)
 
 //---------------------------------------------------------------------------
 // Utility functions
-
-/**
- * Check to see if the user requested a flag parameter.
- *
- * This returns one of three possible states:
- * - null - no parameter with this key was set
- * - true - parameter was set to "true" or an empty string (for ?flagname)
- * - false - parameter was set to "false"
- */
-function _get_flag_value($query_params, $flagname)
-{
-    if (!isset($query_params[$flagname])) {
-        return null;
-    } elseif ($query_params[$flagname] == "") {
-        // make '?flagname' work as if '?flagname=true'
-        return true;
-    } else {
-        $bool = filter_var($query_params[$flagname], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if ($bool === null) {
-            throw new ValueError("Invalid value for '$flagname'");
-        }
-        return $bool;
-    }
-}
 
 /**
  * Check to see if the user requested an enabled filter.
