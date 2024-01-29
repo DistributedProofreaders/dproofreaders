@@ -1,12 +1,19 @@
-/*global moment serverTimezone*/
+/*global serverTimezone userLanguage*/
 
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
-    var timeSpan = document.getElementById("server-time");
+    const timeSpan = document.getElementById("server-time");
+    const dateTimeFormat = new Intl.DateTimeFormat(userLanguage, {
+        timeZone: serverTimezone,
+        hourCycle: 'h23',
+        hour: '2-digit',
+        minute: '2-digit',
+        weekday: 'short'
+    });
 
     function showTime() {
-        timeSpan.textContent = moment.tz(serverTimezone).format("ddd HH:mm");
+        timeSpan.textContent = dateTimeFormat.format(Date.now());
     }
 
     setInterval(showTime, 60000);
