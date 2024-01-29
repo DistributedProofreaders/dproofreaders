@@ -248,3 +248,10 @@ function user_has_DU_access()
     $userSettings = & get_pguser_settings();
     return $userSettings->get_boolean("DU.access") || $userSettings->get_boolean("PPV.access");
 }
+
+function user_can_see_queue_settings()
+{
+    global $ordinary_users_can_see_queue_settings;
+    return $ordinary_users_can_see_queue_settings ||
+        user_is_a_sitemanager() || user_is_proj_facilitator();
+}
