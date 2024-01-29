@@ -124,10 +124,7 @@ function api_v1_projects($method, $data, $query_params)
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);
 
     // restrict to list of desired fields, if set
-    $return_fields = array_get($query_params, "field", null);
-    if ($return_fields && !is_array($return_fields)) {
-        $return_fields = [$return_fields];
-    }
+    $return_fields = array_get_as_array($query_params, "field", null);
 
     $output = [];
     while ($row = mysqli_fetch_assoc($result)) {
@@ -311,11 +308,7 @@ function render_project_json($project, $return_fields = null)
     );
 
     // remove any fields that weren't requested
-    if ($return_fields) {
-        foreach (array_diff(array_keys($return_array), $return_fields) as $field) {
-            unset($return_array[$field]);
-        }
-    }
+    array_remove_invalid_fields($return_array, $return_fields);
 
     return $return_array;
 }
