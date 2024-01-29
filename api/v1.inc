@@ -4,6 +4,7 @@ include_once("ApiRouter.inc");
 // DP API v1
 include_once("v1_validators.inc");
 include_once("v1_projects.inc");
+include_once("v1_queues.inc");
 include_once("v1_stats.inc");
 
 $router = ApiRouter::get_router();
@@ -14,6 +15,7 @@ $router->add_validator(":projectid", "validate_project");
 $router->add_validator(":roundid", "validate_round");
 $router->add_validator(":pagename", "validate_page_name");
 $router->add_validator(":pageroundid", "validate_page_round");
+$router->add_validator(":queueid", "validate_release_queue");
 
 // Add routes
 $router->add_route("GET", "v1/projects", "api_v1_projects");
@@ -36,6 +38,12 @@ $router->add_route("PUT", "v1/projects/:projectid/wordlists/:wordlist_type", "ap
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");
+
+$router->add_route("GET", "v1/queues", "api_v1_queues");
+$router->add_route("GET", "v1/queues/:queueid", "api_v1_queue");
+$router->add_route("GET", "v1/queues/:queueid/stats", "api_v1_queue_stats");
+$router->add_route("GET", "v1/queues/:queueid/projects", "api_v1_queue_projects");
+
 
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");

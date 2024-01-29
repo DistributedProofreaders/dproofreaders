@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'stages.inc');
 include_once($relPath.'Project.inc');
+include_once($relPath.'release_queue.inc');
 
 //===========================================================================
 // Validators
@@ -64,4 +65,13 @@ function validate_page_round($pageround, $data)
     } catch (InvalidPageRoundException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
+}
+
+function validate_release_queue($queueid, $data)
+{
+    $queue_data = fetch_queue_data($queueid);
+    if (is_null($queue_data)) {
+        throw new NotFoundError("queue {$queueid} not found");
+    }
+    return $queue_data;
 }

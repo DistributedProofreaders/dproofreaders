@@ -751,8 +751,8 @@ function surround_and_join($strings, $L, $R, $joiner)
 /**
  * Return true if a non-null `$haystack` contains any of the `$needles` as a substring.
  *
- * @param string $haystack
- *   The string to search
+ * @param null|string $haystack
+ *   The string to search. A null haystack can never contain a needle
  * @param null|string|array $needles
  *   Search term. If:
  *   * null - Returns true for any non-null haystack.

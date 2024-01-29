@@ -58,6 +58,8 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  * For rows that represent queues, the returned format looks like:
  * ```
  * {
+ *     "id": 161,
+ *     "round_id": "P1",
  *     "is_group": false,
  *     "group": "PM Queues (experimental)",
  *     "ordering": 3999,
@@ -71,14 +73,14 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  * }
  * ```
  *
- * @param Round $round
- *   Return the queues for the specified round.
+ * @param null|Round $round
+ *   Return the queues for the specified round, or all rounds if null.
  * @param string $show
  *   Select which queues to return:
  *   * all - Don't filter out any queues
  *   * enabled - Filter out queues which aren't enabled
  *   * populated - Filter out queues which aren't enabled *OR* contain no projects
- * * @param null|string|array $name_selector
+ * @param null|string|array $name_selector
  *   Select which queues to return in the query where:
  *   * null - Don't filter out any queues
  *   * string - Filter out queues whose name does not contain string
@@ -95,9 +97,15 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  */
 function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $group_selector = null)
 {
+    global $Round_for_round_id_;
+
     // Building the WHERE clause is rather ad-hoc, mostly because
     // a bunch of the output fields don't come directly from the DB result.
-    $proj_where = set_col_str("round_id", $round->id);
+    if (!is_null($round)) {
+        $proj_where = set_col_str("round_id", $round->id);
+    } else {
+        $proj_where = "1";
+    }
     $clauses = [];
     if (in_array($show, ["enabled", "populated"])) {
         $clauses[] = "enabled = 1";
@@ -119,7 +127,7 @@ function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $
         SELECT *
         FROM queue_defns
         WHERE $where
-        ORDER BY ordering
+        ORDER BY round_id, ordering
     ";
 
     // Because queues are ordered, there is a convention to break them up
@@ -127,8 +135,15 @@ function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $
     // indicating the section's name. These queue names start with "***"
     // and we identify them here and treat them differently.
     $group = null; // the most recently seen row defining a group
+    $round = null; // the most recently seen round.
     $res = DPDatabase::query($sql);
     while ($row = mysqli_fetch_assoc($res)) {
+        // If we've gone from (eg) round F2 in the previous loop iteration, to P1
+        // in this iteration, then reset the group
+        if (!$round || $round->id != $row["round_id"]) {
+            $round = $Round_for_round_id_[$row["round_id"]];
+            $group = null;
+        }
         if (startswith($row["name"], "***")) {
             $group = str_replace("***", "", $row["name"]);
             // Check for group
@@ -141,8 +156,7 @@ function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $
             continue;
         }
 
-        // Check for project in group.
-        if (!str_contains_any_of($group, $group_selector)) {
+        if (!is_null($group_selector) && !str_contains_any_of($group, $group_selector)) {
             continue;
         }
 
