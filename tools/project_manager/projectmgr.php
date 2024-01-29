@@ -52,7 +52,7 @@ $js_files = [
 $header_args = [
     "js_files" => $js_files,
     "js_data" =>
-        "var serverTimezone = '$server_timezone';",
+        "var serverTimezone = '$server_timezone';var userLanguage = '" . str_replace("_", "-", get_user_language()) . "';",
 ];
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);
