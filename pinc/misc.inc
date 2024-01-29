@@ -39,6 +39,39 @@ function array_extract_field($array, $field)
 }
 
 /**
+ * Return $array[$key], or $default.
+ * If the result is non-null and not an array, wrap it up as a single value array
+ *
+ * null             -> null
+ * []               -> []
+ * "foo"            -> ["foo"]
+ * ["bar"]          -> ["bar"]
+ * ["foo" => "bar"] -> ["foo" => "bar"]
+ */
+function array_get_as_array($array, $key, $default)
+{
+    $value = array_get($array, $key, $default);
+    if (!is_null($value) && !is_array($value)) {
+        $value = [$value];
+    }
+    return $value;
+}
+
+/**
+ * Remove fields from the associative array `$array` that aren't in the valid list.
+ *
+ * Note: This is an in-place operation that mutates `$array`!
+ **/
+function array_remove_invalid_fields(&$array, $valid_fields)
+{
+    if ($valid_fields) {
+        foreach (array_diff(array_keys($array), $valid_fields) as $field) {
+            unset($array[$field]);
+        }
+    }
+}
+
+/**
  * Return an array whose values are the names of the properties
  * whose values differ between the two objects $new and $old.
  *
