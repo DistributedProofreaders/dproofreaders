@@ -690,6 +690,202 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /queues:
+    get:
+      tags:
+      - queues
+      description: Gets the release queues for a round (or all rounds)
+      parameters:
+      - name: roundid
+        in: query
+        description: Round ID for queues (all rounds if not provided)
+        schema:
+          type: string
+      - name: field
+        description: Queue field to return, if not set all fields are returned.
+          <br><br>
+          To request multiple fields, append with [] and pass one per desired
+          field (e.g. field[]=projectid&field[]=author).
+        in: query
+        schema:
+          type: string
+      - name: show
+        description: Which queues to show.
+          <dl>
+          <dt>all</dt> <dd>all queues</dd>
+          <dt>enabled</dt> <dd>queues that are enabled</dd>
+          <dt>populated</dt> <dd>queues that are enabled and have projects to release</dd>
+          </dl>
+        in: query
+        schema:
+          type: string
+          enum: [all, enabled, populated]
+      - name: name
+        description: Release queue name substring to match. If not set, all queues are returned.
+          <br><br>
+          To request multiple possible queue names (results ORed together), append with []
+          and pass one per desired name (e.g. name[]=Klingon&name[]=Shakespeare).
+        in: query
+        schema:
+          type: string
+      - name: group
+        description: Release queue group name substring to match. If not set all groups are
+          returned (as well as all matching queues in those groups).
+          <br><br>
+          To match multiple possible group names (results ORed together), append with []
+          and pass one per desired name (e.g. group[]=PM&group[]=Math).
+        in: query
+        schema:
+          type: string
+
+      responses:
+        200:
+          description: Requested release queue list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/release_queue_detail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /queues/{queueid}/stats:
+    get:
+      tags:
+      - queues
+      description: Get release queue stats
+      parameters:
+      - name: queueid
+        in: path
+        description: Queue ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Release queue stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    days_ago:
+                      type: integer
+                    projects_released:
+                      type: integer
+                    pages_released:
+                      type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /queues/{queueid}/projects:
+    get:
+      tags:
+      - queues
+      description: Get projects in release queue
+      parameters:
+      - name: queueid
+        in: path
+        description: Queue ID
+        required: true
+        schema:
+          type: integer
+      - name: unheld_only
+        in: query
+        schema:
+          type: boolean
+      - name: field
+        description: Project field to return, if not set all fields are returned.
+          <br><br>
+          To request multiple fields, append with [] and pass one per desired
+          field (e.g. field[]=title&field[]=author).
+        in: query
+        schema:
+          type: string
+
+      responses:
+        200:
+          description: Release queue projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    projectid:
+                      type: string
+                    title:
+                      type: string
+                    author:
+                      type: string
+                    languages:
+                      type: array
+                      items:
+                        type: string
+                      minItems: 1
+                      maxItems: 2
+                    genre:
+                      type: string
+                    difficulty:
+                      type: string
+                    last_state_change_time:
+                      type: string
+                      format: dateTime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /queues/{queueid}:
+    get:
+      tags:
+      - queues
+      description: Get release queue information
+      parameters:
+      - name: queueid
+        in: path
+        description: Queue ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Release queue information
+          content:
+            application/json:
+              schema:
+
+                type: object
+                $ref: '#/components/schemas/release_queue_detail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -914,6 +1110,31 @@ components:
         text:
           type: string
         state:
+          type: string
+
+    release_queue_detail:
+      properties:
+        id:
+          type: integer
+        round_id:
+          type: string
+        ordering:
+          type: integer
+        name:
+          type: string
+        enabled:
+          type: boolean
+        populated:
+          type: boolean
+        length:
+          type: integer
+        unheld_length:
+          type: integer
+        comment:
+          type: string
+        project_selector:
+          type: string
+        release_criterion:
           type: string
 
     charsuite:
