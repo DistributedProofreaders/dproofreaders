@@ -716,6 +716,38 @@ function surround_and_join($strings, $L, $R, $joiner)
 }
 
 /**
+ * Return true if a non-null `$haystack` contains any of the `$needles` as a substring.
+ *
+ * @param string $haystack
+ *   The string to search
+ * @param null|string|array $needles
+ *   Search term. If:
+ *   * null - Returns true for any non-null haystack.
+ *   * string - Returns true if haystack contains the needle.
+ *   * array - Returns true if haystack contains any of the needles (false if array is empty).
+ *
+ * * @return boolean
+ */
+function str_contains_any_of($haystack, $needles)
+{
+    if (is_null($haystack)) {
+        return false;
+    }
+    if (is_null($needles)) {
+        return true;
+    }
+    if (is_string($needles)) {
+        return str_contains($haystack, $needles);
+    }
+    foreach($needles as $n) {
+        if (str_contains($haystack, $n)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Return a SQL "colname='value'" clause, where `$colname` is
  * not escaped, and `$s` is an escaped and quoted string.
  */
