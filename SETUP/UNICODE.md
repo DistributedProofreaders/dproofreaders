@@ -118,7 +118,7 @@ the following line after the `<?php` tag and before `base.inc` to bypass the
 maintenance check:
 
 ```php
-$maintenance_override = TRUE;
+$maintenance_override = true;
 ```
 
 Upgrade scripts related to the Unicode conversion:

@@ -296,15 +296,15 @@ _PRECEDING_PROOFER_RESTRICTION=not_immediately_preceding
 
 # ----------------------------------------------------------------------
 
-_PUBLIC_PAGE_DETAILS=FALSE
+_PUBLIC_PAGE_DETAILS=false
 
 # When a user proofs a page, the site records their username, and can
 # display this in various places, including the page details table and
 # concatenated text files.  This setting controls the visibility of
 # those names.
-# If TRUE, all logged-in users can see all names for all pages in all
+# If `true`, all logged-in users can see all names for all pages in all
 #     projects.
-# If FALSE, the proofreader names for a given page in a given project
+# If `false`, the proofreader names for a given page in a given project
 #     are visible only to:
 #     --- Site Administrators and Project Facilitators;
 #     --- the project's PM, PPer, and PPVer; and
@@ -367,8 +367,8 @@ _ARCHIVE_PROJECTS_DIR=$base_dir/archive
 # Note: Some UI features, such as the Page Browser, require the API.
 #       Disabling it will break these features.
 
-_API_ENABLED=TRUE
-_API_RATE_LIMIT=FALSE
+_API_ENABLED=true
+_API_RATE_LIMIT=false
 _API_RATE_LIMIT_REQUESTS_PER_WINDOW=3600
 _API_RATE_LIMIT_SECONDS_IN_WINDOW=3600
 
@@ -425,8 +425,8 @@ _FORUMS_POST_PROCESSORS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # These forums aren't involved in the operation of the site,
 # they just show up in various links.
 
-_AUTO_POST_TO_PROJECT_TOPIC=FALSE
-# If you set this to TRUE, the code will automatically add a post to a
+_AUTO_POST_TO_PROJECT_TOPIC=false
+# If you set this to `true`, the code will automatically add a post to a
 # project's discussion topic when the project undergoes certain events.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -434,12 +434,12 @@ _AUTO_POST_TO_PROJECT_TOPIC=FALSE
 # Miscellaneous
 # -------------
 
-_USE_SECURE_COOKIES=FALSE
-# If set to TRUE, browsers are instructed to only send the cookie over secure
+_USE_SECURE_COOKIES=false
+# If set to `true`, browsers are instructed to only send the cookie over secure
 # connections. Your _CODE_URL *must* be using https:// for this to work!
 
-_TESTING=FALSE
-# So far, the effects of setting this to TRUE are:
+_TESTING=false
+# So far, the effects of setting this to `true` are:
 # (1) It prevents email messages from being sent. Instead, the site shows a
 #     copy of the message that would have been sent. See pinc/maybe_mail.inc.
 # (2) metarefresh delays by 15 seconds.
@@ -449,8 +449,8 @@ _ALERT_MESSAGE=
 # This can contain links and other HTML, but do not include block-level
 # tags like <p>.
 
-_MAINTENANCE=FALSE
-# Setting this to TRUE prevents pages from loading for anyone but already-
+_MAINTENANCE=false
+# Setting this to `true` prevents pages from loading for anyone but already-
 # authenticated site admins and shows a "site down for maintenance" message.
 
 _MAINTENANCE_MESSAGE=
@@ -459,10 +459,10 @@ _MAINTENANCE_MESSAGE=
 # or some other site giving status on the maintenance) but must not contain
 # single quotes (').
 
-_ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=TRUE
-# Setting this to TRUE means that all users can see the project_selector,
+_ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=true
+# Setting this to `true` means that all users can see the project_selector,
 # release_criterion, and comments columns on the Release Queue pages.
-# Setting it to FALSE means that only site admins and project facilitators
+# Setting it to `false` means that only site admins and project facilitators
 # can see those columns. (This was the hard-coded behavior in R200609 and
 # earlier.)
 

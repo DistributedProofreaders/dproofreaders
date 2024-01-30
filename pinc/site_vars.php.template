@@ -24,7 +24,7 @@ $alert_message = '<<ALERT_MESSAGE>>';
 //---------------------------------------------------------------------------
 
 $code_dir = '<<CODE_DIR>>';
-$code_url='<<CODE_URL>>';
+$code_url = '<<CODE_URL>>';
 
 $projects_dir = '<<PROJECTS_DIR>>';
 $projects_url = '<<PROJECTS_URL>>';
@@ -52,18 +52,18 @@ $forums_phpbb_url = '<<PHPBB_URL>>';
 $forums_json_users = '<<JSON_USERS>>';
 $forums_json_posts = '<<JSON_POSTS>>';
 
-$general_forum_idx                = '<<FORUMS_GENERAL_IDX>>';
-$beginners_site_forum_idx         = '<<FORUMS_BEGIN_SITE_IDX>>';
-$beginners_proofing_forum_idx     = '<<FORUMS_BEGIN_PROOF_IDX>>';
-$waiting_projects_forum_idx       = '<<FORUMS_PROJECT_WAITING_IDX>>';
-$projects_forum_idx               = '<<FORUMS_PROJECT_AVAIL_IDX>>';
-$pp_projects_forum_idx            = '<<FORUMS_PROJECT_PP_IDX>>';
-$posted_projects_forum_idx        = '<<FORUMS_PROJECT_POSTED_IDX>>';
-$deleted_projects_forum_idx       = '<<FORUMS_PROJECT_DELETED_IDX>>';
-$completed_projects_forum_idx     = '<<FORUMS_PROJECT_COMPLETED_IDX>>';
-$content_providing_forum_idx      = '<<FORUMS_CONTENT_PROVIDERS_IDX>>';
-$post_processing_forum_idx        = '<<FORUMS_POST_PROCESSORS_IDX>>';
-$teams_forum_idx                  = '<<FORUMS_TEAMS_IDX>>';
+$general_forum_idx = '<<FORUMS_GENERAL_IDX>>';
+$beginners_site_forum_idx = '<<FORUMS_BEGIN_SITE_IDX>>';
+$beginners_proofing_forum_idx = '<<FORUMS_BEGIN_PROOF_IDX>>';
+$waiting_projects_forum_idx = '<<FORUMS_PROJECT_WAITING_IDX>>';
+$projects_forum_idx = '<<FORUMS_PROJECT_AVAIL_IDX>>';
+$pp_projects_forum_idx = '<<FORUMS_PROJECT_PP_IDX>>';
+$posted_projects_forum_idx = '<<FORUMS_PROJECT_POSTED_IDX>>';
+$deleted_projects_forum_idx = '<<FORUMS_PROJECT_DELETED_IDX>>';
+$completed_projects_forum_idx = '<<FORUMS_PROJECT_COMPLETED_IDX>>';
+$content_providing_forum_idx = '<<FORUMS_CONTENT_PROVIDERS_IDX>>';
+$post_processing_forum_idx = '<<FORUMS_POST_PROCESSORS_IDX>>';
+$teams_forum_idx = '<<FORUMS_TEAMS_IDX>>';
 
 // -----------------------------------------------------------------------------
 
