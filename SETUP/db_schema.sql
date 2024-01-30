@@ -408,6 +408,7 @@ CREATE TABLE `projects` (
 #
 
 CREATE TABLE `queue_defns` (
+  `id` int(4) NOT NULL auto_increment,
   `round_id` char(2) NOT NULL default '',
   `ordering` mediumint(5) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
@@ -415,6 +416,7 @@ CREATE TABLE `queue_defns` (
   `project_selector` text NOT NULL,
   `release_criterion` text NOT NULL,
   `comment` text,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `ordering` (`round_id`,`ordering`),
   UNIQUE KEY `name` (`round_id`,`name`)
 );
