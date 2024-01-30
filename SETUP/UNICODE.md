@@ -54,6 +54,7 @@ The code currently ships with the following character suites:
 * Semitic and Indic transcriptions - Romanized forms of Arabic, Hebrew, Sanskrit
 * Symbols collection - Astronomical, Music, Zodiac and Apothecary symbols
 * Math symbols - Commonly used mathematical symbols not in Basic Latin
+* Basic Cyrillic
 
 All character suites can be viewed using the [All Character Suites](../tools/charsuites.php)
 page.
