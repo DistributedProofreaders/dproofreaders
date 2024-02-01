@@ -46,5 +46,7 @@ $router->add_route("GET", "v1/queues/:queueid/projects", "api_v1_queue_projects"
 
 
 $router->add_route("GET", "v1/stats/site", "api_v1_stats_site");
+$router->add_route("GET", "v1/stats/site/projects/stages", "api_v1_stats_site_projects_stages");
+$router->add_route("GET", "v1/stats/site/projects/states", "api_v1_stats_site_projects_states");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");
 $router->add_route("GET", "v1/stats/site/rounds/:roundid", "api_v1_stats_site_round");
