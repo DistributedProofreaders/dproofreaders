@@ -703,6 +703,36 @@ paths:
               schema:
                 $ref: '#/components/schemas/site_stats'
 
+  /stats/site/projects/stages:
+    get:
+      tags:
+      - stats
+      description: Gets site statistics for the number of projects in all stages
+      responses:
+        200:
+          description: Requested project statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/project_stats'
+
+  /stats/site/projects/states:
+    get:
+      tags:
+      - stats
+      description: Gets site statistics for the number of projects in all states
+      responses:
+        200:
+          description: Requested project statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/project_stats'
+
   /stats/site/rounds:
     get:
       tags:
@@ -1004,6 +1034,13 @@ components:
           description: Day of the month the special day closes
         enabled:
           type: boolean
+
+    project_stats:
+      type: object
+      additionalProperties:
+        type: integer
+      description: Project statistics by state/stage
+        Keys are state/stage ID, values are the number of projects in that state
 
     round_stats:
       type: object
