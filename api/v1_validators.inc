@@ -10,7 +10,7 @@ function validate_round($roundid, $data)
     global $Round_for_round_id_;
 
     try {
-        if (!in_array($roundid, array_keys($Round_for_round_id_))) {
+        if (!array_key_exists($roundid, $Round_for_round_id_)) {
             throw new InvalidRoundException("Invalid round");
         }
         return $Round_for_round_id_[$roundid];

@@ -313,7 +313,7 @@ class Project
             }
         }
 
-        if ($this->genre && !in_array($this->genre, array_keys(load_genre_translation_array()))) {
+        if ($this->genre && !array_key_exists($this->genre, load_genre_translation_array())) {
             $errors[] = sprintf(_("%s is not a valid genre."), $this->genre);
         }
 
@@ -321,7 +321,7 @@ class Project
             $errors[] = sprintf(_("%s is not a valid image source."), $this->image_source);
         }
 
-        if ($this->difficulty && !in_array($this->difficulty, array_keys(get_project_difficulties()))) {
+        if ($this->difficulty && !array_key_exists($this->difficulty, get_project_difficulties())) {
             $errors[] = sprintf(_("%s is not a valid difficulty."), $this->difficulty);
         }
 
@@ -337,7 +337,7 @@ class Project
                     $errors[] = _("Month and Day are required for Birthday or Otherday Specials.");
                 }
             } else {
-                if (!in_array($this->special_code, array_keys(load_special_days()))) {
+                if (!array_key_exists($this->special_code, load_special_days())) {
                     $errors[] = sprintf(_("%s is not a valid special day."), $this->special_code);
                 }
             }
