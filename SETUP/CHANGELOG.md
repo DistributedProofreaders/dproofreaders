@@ -7,10 +7,66 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R......
+## R202403
+Scripts supporting this upgrade are in `SETUP/upgrade/20`
 
+### Notices & Deprecations
+This is the last release to explicitly support MySQL 5.7. Future releases may
+continue to work with this version but only 8.x will be tested in the future.
+
+This is the last release to include most `faq/*` content. These documents have
+not been maintained for quite some time as pgdp.net has moved them to their wiki.
+
+This is the last release where `dc.xml` files will be generated for each
+project and the MARC records retained in the database.
+
+The following globals are deprecated and will be removed in the next release:
+* `$Activity_for_id_`
+* `$Pool_for_id_`
+* `$Stage_for_id_`
+* `$Round_for_round_id_`
+* `$Round_for_round_number_`
+* `$Round_for_project_state_`
+* `$Round_for_page_state_`
+* `$PAGE_STATES_IN_ORDER`
+* `$project_state_medium_label_`
+* `$project_state_long_label_`
+* `$project_state_forum_`
+* `$project_state_phase_`
+* `$project_states_for_star_metal_`
+* `PROJECT_STATES_IN_ORDER`
+* `$project_status_descriptors`
+
+The following constant is deprecated and will be removed in the next release:
+* `MAX_NUM_PAGE_EDITING_ROUNDS`
+
+### Changes
 * Session management by cookie has been removed in lieu of PHP-based sessions
   which have been the DP code default since before 2004 (cpeel)
+* New My Suggestions page (cpeel)
+* New `Cyrillic` character suite (srjfoo)
+* Smart quotes converted to straight quotes at point of entry
+  in the proofreading interface (chrismiceli)
+* Highlight non-Latin Unicode scripts in WordCheck (cpeel)
+* SAs allowed to delete illustrations at any stage (srjfoo)
+* Improvements for file uploads and validation (70ray, cpeel)
+* Smoothreading notification improvements (70ray)
+* Format Preview updates (70ray)
+* Updated French & German message localization files (srjfoo via olive & mcbax)
+* Several new APIs (bpfoley) -- see [`dp-openapi.yaml`](../api/dp-openapi.yaml)
+  for complete spec
+  * `v1/projects/:projectid/transitions`
+  * `v1/queues`
+  * `v1/queues/:queueid`
+  * `v1/queues/:queueid/stats`
+  * `v1/queues/:queueid/projects`
+  * `v1/stats/site/projects/stages`
+  * `v1/stats/site/projects/states`
+* Remove moment.js, and thus CloudFlare CDN, dependency (chrismiceli)
+* Release queue page & backend improvements (cpeel, jmdyck)
+* Fix inconsistencies in bronze/silver/gold categories (windymilla)
+* Page load & SQL performance improvements (cpeel)
+* Numerous code quality and robustness improvements (bpfoley)
 
 ## R202309
 Scripts supporting this upgrade are in `SETUP/upgrade/19`
