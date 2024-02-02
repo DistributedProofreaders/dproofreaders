@@ -499,6 +499,33 @@ function render_project_page_json($row)
 }
 
 //---------------------------------------------------------------------------
+// projects/:projectid/transitions
+
+function api_v1_project_transitions($method, $data, $query_params)
+{
+    $sql = sprintf(
+        "
+        SELECT *
+        FROM project_events
+        WHERE projectid = '%s'
+        AND event_type in ('creation', 'transition', 'archive')
+        ORDER BY timestamp
+        ",
+        $data[":projectid"]->projectid
+    );
+    $result = DPDatabase::query($sql);
+    $return_data = [];
+    while($row = mysqli_fetch_assoc($result)) {
+        $return_data[] = [
+            "timestamp" => date(DATE_ATOM, (int)$row["timestamp"]),
+            "event_type" => $row["event_type"],
+            "details" => [$row["details1"], $row["details2"], $row["details3"]],
+        ];
+    }
+    return $return_data;
+}
+
+//---------------------------------------------------------------------------
 // projects/difficulties
 
 function api_v1_projects_difficulties($method, $data, $query_params)
