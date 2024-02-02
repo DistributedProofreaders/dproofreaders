@@ -38,6 +38,7 @@ $router->add_route("PUT", "v1/projects/:projectid/wordlists/:wordlist_type", "ap
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_pagedetails");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");
+$router->add_route("GET", "v1/projects/:projectid/transitions", "api_v1_project_transitions");
 
 $router->add_route("GET", "v1/queues", "api_v1_queues");
 $router->add_route("GET", "v1/queues/:queueid", "api_v1_queue");
