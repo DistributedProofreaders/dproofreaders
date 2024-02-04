@@ -9,7 +9,7 @@ maybe_redirect_to_external_faq("en");
 
 $theme_args["css_data"] = "p.backtotop {text-align:right; font-size:75%;margin-right:-5%;}";
 
-output_header('Formatting Guidelines', 'header', NO_STATSBAR, $theme_args);
+output_header('Formatting Guidelines', NO_STATSBAR, $theme_args);
 
 ?>
 
