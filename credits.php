@@ -55,8 +55,11 @@ function output_credit_details($credit_details)
 function load_bundled_credit_details($code_dir)
 {
     $credit_details = [];
-    $dir_iter = new PermissiveRecursiveDirectoryIterator($code_dir);
-    $files = new RecursiveIteratorIterator($dir_iter);
+    $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($code_dir),
+        RecursiveIteratorIterator::SELF_FIRST,
+        RecursiveIteratorIterator::CATCH_GET_CHILD
+    );
     foreach ($files as $file_info) {
         $file = $file_info->getPathname();
         if (basename($file) != "details.json") {
@@ -90,26 +93,6 @@ function load_composer_credit_details()
 
     uksort($credit_details, "strcasecmp");
     return $credit_details;
-}
-
-/**
- * A permissive recursive directory iterator
- *
- * Ignore exceptions when iterating over the directory, such as permission
- * errors from `SETUP/`.
- *
- * From antennen at https://www.php.net/manual/en/class.recursivedirectoryiterator.php
- */
-class PermissiveRecursiveDirectoryIterator extends RecursiveDirectoryIterator
-{
-    public function getChildren()
-    {
-        try {
-            return new PermissiveRecursiveDirectoryIterator($this->getPathname());
-        } catch (UnexpectedValueException $e) {
-            return new RecursiveArrayIterator([]);
-        }
-    }
 }
 
 /**
