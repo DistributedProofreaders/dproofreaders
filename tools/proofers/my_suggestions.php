@@ -602,7 +602,7 @@ function get_user_suggestion_criteria($username, $flush_cache = false)
     // proofread in the language the UI is in and fall back to English
     if (!$user_languages) {
         $user_languages = [
-            lang_name(short_lang_code(get_desired_language($username))) => 5,
+            lang_name(short_lang_code(get_user_language($username))) => 5,
         ];
         $user_languages["English"] = 1;
     }
