@@ -10,7 +10,13 @@
 
 include_once($relPath.'Activity.inc');
 
-$Stage_for_id_ = [];
+/*
+ * A singleton container class for accessing Stage objects.
+ * See the Activities class definition for more information.
+ */
+class Stages extends Activities
+{
+}
 
 class Stage extends Activity
 {
@@ -49,9 +55,6 @@ class Stage extends Activity
         $this->description = $description;
         $this->document = $document;
         $this->relative_url = $relative_url;
-
-        global $Stage_for_id_;
-        $Stage_for_id_[$id] = & $this;
     }
 
 
@@ -89,14 +92,9 @@ class Stage extends Activity
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function & get_Stage_for_id($id)
+function get_Stage_for_id($id)
 {
-    global $Stage_for_id_;
-    if (array_key_exists($id, $Stage_for_id_)) {
-        return $Stage_for_id_[$id];
-    } else {
-        die("There is no stage with id='$id'.");
-    }
+    return Stages::get_by_id($id);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -112,10 +110,8 @@ function user_can_work_in_stage($username, $stage_id)
 
 function get_stages_user_can_work_in($username)
 {
-    global $Stage_for_id_;
-
     $accessible_stages = [];
-    foreach ($Stage_for_id_ as $stage) {
+    foreach (Stages::get_all() as $stage) {
         $uao = $stage->user_access($username);
         if ($uao->can_access) {
             $accessible_stages[$stage->id] = $stage;
@@ -133,8 +129,6 @@ function get_stages_user_can_work_in($username)
  */
 function get_stages_for_which_user_has_access_to_prereqs($username, $include_accessible_stages = false)
 {
-    global $Stage_for_id_;
-
     $satisfied_prereq_stages = [];
 
     // get stages that the user can currently access
@@ -146,7 +140,7 @@ function get_stages_for_which_user_has_access_to_prereqs($username, $include_acc
         $satisfied_prereq_stages = $accessible_stages;
     }
 
-    foreach ($Stage_for_id_ as $stage) {
+    foreach (Stages::get_all() as $stage) {
         // skip stages for which the user already has access
         if (isset($accessible_stages[$stage->id])) {
             continue;
@@ -170,7 +164,7 @@ function get_stages_for_which_user_has_access_to_prereqs($username, $include_acc
             foreach ($prereq_criteria as $prereq_criterion) {
                 // check that the criterion in question is a stage
                 // and that the user can access it
-                if (@$Stage_for_id_[$prereq_criterion] && !isset($accessible_stages[$prereq_criterion])) {
+                if (Stages::get_by_id($prereq_criterion) && !isset($accessible_stages[$prereq_criterion])) {
                     $has_access_to_all_prereq_stages = false;
                     break;
                 }
