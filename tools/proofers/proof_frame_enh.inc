@@ -147,20 +147,20 @@ function echo_button_menu($ppage)
     if ($ppage->can_be_reverted_to_last_save()) {
         echo_button(REVERT_TO_LAST_SAVE, 'a');
     } else {
-        echo_img(REVERT_TO_LAST_SAVE_DISABLED, 'a');
+        echo_img(REVERT_TO_LAST_SAVE_DISABLED);
     }
 
     echo "<a href='#'' onclick='top.showNW()'>";
-    echo_img(SHOW_ALL_TEXT, 'a');
+    echo_img(SHOW_ALL_TEXT);
     echo "</a>";
 
     echo "<a href='#' onclick='previewControl.show()'>";
-    echo_img(PREVIEW, 'a');
+    echo_img(PREVIEW);
     echo  "</a>";
 
     $url = $ppage->url_for_project_comments(true);
     echo "<a href='$url' TARGET='viewcomments'>";
-    echo_img(PROJECT_COMMENTS, 'a');
+    echo_img(PROJECT_COMMENTS);
     echo "</a>";
 
     echo_button(SPELL_CHECK, 'a');
