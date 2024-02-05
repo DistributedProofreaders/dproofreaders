@@ -569,9 +569,7 @@ function api_v1_projects_states($method, $data, $query_params)
 
 function api_v1_projects_pagerounds($method, $data, $query_params)
 {
-    global $Round_for_round_id_;
-
-    return array_merge(["OCR"], array_keys($Round_for_round_id_));
+    return array_merge(["OCR"], Rounds::get_ids());
 }
 
 //---------------------------------------------------------------------------

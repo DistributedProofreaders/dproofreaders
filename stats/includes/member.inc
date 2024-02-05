@@ -148,8 +148,7 @@ function showMbrRoles($user)
         $roles[] = ['pm', _("Project Manager"), 50];
     }
 
-    global $Round_for_round_id_;
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         if ($round->is_a_mentor_round()) {
             $access_id = $round->id . "_mentor.access";
             if ($settings->get_boolean($access_id)) {

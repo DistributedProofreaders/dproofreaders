@@ -37,7 +37,7 @@ $waiting_n_pages[] = 0;
 $available_n_pages[] = 0;
 $progordone_n_pages[] = 0;
 
-foreach ($Round_for_round_id_ as $round) {
+foreach (Rounds::get_all() as $round) {
     $stage_labels[] = $round->id;
     $unavail_n_pages[] = @$n_pages_[$round->project_unavailable_state] + @$n_pages_[$round->project_bad_state];
     $waiting_n_pages[] = @$n_pages_[$round->project_waiting_state];

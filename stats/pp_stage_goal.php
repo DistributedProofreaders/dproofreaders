@@ -12,7 +12,7 @@ $m_start = mktime(0, 0, 0, date('m'), 1, date('Y'));
 // We want the "PP pages goal" to be equal to the current month's last round before PP (F2) actuals
 $page_offset = 0;
 $round_before_PP = null;
-foreach ($Round_for_round_id_ as $id => $round) {
+foreach (Rounds::get_all() as $round) {
     if ($round->id == "PP") {
         break;
     }
