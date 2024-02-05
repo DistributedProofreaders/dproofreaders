@@ -1915,7 +1915,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 }
                 $list[] = $os_array[$row['vote_os']];
             }
-            array_unique($list);
+            $list = array_unique($list);
             if ($list) {
                 return implode(", ", $list);
             } else {
@@ -1940,7 +1940,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
                 }
                 $list[] = $browser_array[$row['vote_browser']];
             }
-            array_unique($list);
+            $list = array_unique($list);
             if ($list) {
                 return implode(", ", $list);
             } else {
