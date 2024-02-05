@@ -207,7 +207,7 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
         // Decide whether the project is finished its current round.
         if ($state == $round->project_available_state) {
             $num_done_pages = $project->get_num_pages_in_state($round->page_save_state);
-            $num_total_pages = $project->get_num_pages($projectid);
+            $num_total_pages = $project->get_num_pages();
 
             if ($num_done_pages != $num_total_pages) {
                 if ($verbose) {
