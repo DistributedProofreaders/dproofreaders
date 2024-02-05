@@ -8,13 +8,12 @@ include_once($relPath.'release_queue.inc');
 
 function validate_round($roundid, $data)
 {
-    global $Round_for_round_id_;
-
     try {
-        if (!array_key_exists($roundid, $Round_for_round_id_)) {
+        $round = Rounds::get_by_id($roundid);
+        if (!$round) {
             throw new InvalidRoundException("Invalid round");
         }
-        return $Round_for_round_id_[$roundid];
+        return $round;
     } catch (InvalidRoundException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
@@ -53,10 +52,8 @@ function validate_page_name($pagename, $data)
 
 function validate_page_round($pageround, $data)
 {
-    global $Round_for_round_id_;
-
     try {
-        $pagerounds = array_merge(["OCR"], array_keys($Round_for_round_id_));
+        $pagerounds = array_merge(["OCR"], Rounds::get_ids());
 
         if (!in_array($pageround, $pagerounds)) {
             throw new InvalidPageRoundException("Invalid page round");

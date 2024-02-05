@@ -45,12 +45,10 @@ if (is_null($round)) {
 
 function _show_available_rounds()
 {
-    global $Round_for_round_id_;
-
     echo html_safe(_("Each round has its own set of release queues.")), "\n";
     echo html_safe(_("Please select the round that you're interested in:")), "\n";
     echo "<ul>\n";
-    foreach (array_keys($Round_for_round_id_) as $round_id) {
+    foreach (Rounds::get_ids() as $round_id) {
         echo "<li><a href='?round_id=$round_id'>$round_id</a></li>\n";
     }
     echo "</ul>\n";

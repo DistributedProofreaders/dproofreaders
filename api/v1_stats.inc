@@ -77,13 +77,9 @@ function api_v1_stats_site_projects_states($method, $data, $query_params)
 
 function api_v1_stats_site_projects_stages($method, $data, $query_params)
 {
-    global $Stage_for_id_;
-    global $Round_for_project_state_;
-    global $Pool_for_state_;
-
     // Make sure all project stage statistics are provided.
     $output = [];
-    foreach ($Stage_for_id_ as $s) {
+    foreach (Stages::get_all() as $s) {
         $output[$s->id] = 0;
     }
 
@@ -95,13 +91,13 @@ function api_v1_stats_site_projects_stages($method, $data, $query_params)
     $result = DPDatabase::query($sql);
     while ([$project_state, $count] = mysqli_fetch_row($result)) {
         // If the stage is in a round, add it to the round's count
-        $r = array_get($Round_for_project_state_, $project_state, null);
+        $r = Rounds::get_by_project_state($project_state);
         if ($r) {
             $output[$r->id] += (int)$count;
             continue;
         }
         // If the stage is in a pool, add it to the pool's count
-        $p = array_get($Pool_for_state_, $project_state, null);
+        $p = Pools::get_by_state($project_state);
         if ($p) {
             $output[$p->id] += (int)$count;
             continue;
@@ -143,10 +139,8 @@ function render_round_stats($round_id)
 
 function api_v1_stats_site_rounds($method, $data, $query_params)
 {
-    global $Round_for_round_id_;
-
     $return = [];
-    foreach (array_keys($Round_for_round_id_) as $round_id) {
+    foreach (Rounds::get_ids() as $round_id) {
         $return[$round_id] = render_round_stats($round_id);
     }
 
