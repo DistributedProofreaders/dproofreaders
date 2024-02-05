@@ -11,8 +11,8 @@ $NEWS_PAGES = [
     'SR_PREV' => _('Smooth Reading Preview'),
     'PM' => _('Project Management'),
 ];
-foreach ($Stage_for_id_ as $stage_id => $stage) {
-    $NEWS_PAGES[$stage_id] = $stage->name;
+foreach (Stages::get_all() as $stage) {
+    $NEWS_PAGES[$stage->id] = $stage->name;
 }
 
 function get_news_subject($news_page_id)

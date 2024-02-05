@@ -1406,10 +1406,8 @@ class Project
 
     public static function get_holdable_states()
     {
-        global $Round_for_round_id_;
-
         $states = [];
-        foreach ($Round_for_round_id_ as $round) {
+        foreach (Rounds::get_all() as $round) {
             foreach (['project_waiting_state', 'project_available_state'] as $s) {
                 $states[] = $round->$s;
             }

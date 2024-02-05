@@ -1462,10 +1462,10 @@ function do_post_files()
     // this to people allowed to work in PP? If so, we should definitely
     // include the PM of this project.
 
-    global $Round_for_round_id_, $code_url;
+    global $code_url;
 
     $sums = [];
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         $sums[] = "SUM( $round->text_column_name != '' ) AS $round->id";
     }
     $sums = join(", ", $sums);
@@ -1476,7 +1476,7 @@ function do_post_files()
     $res = DPDatabase::query($sql);
     $sums = mysqli_fetch_assoc($res);
 
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         if (intval($sums[$round->id]) != 0) {
             $highest_round_id = $round->id;
         }
@@ -1493,7 +1493,7 @@ function do_post_files()
 
     if (isset($highest_round_id)) {
         echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
-        foreach ($Round_for_round_id_ as $round) {
+        foreach (Rounds::get_all() as $round) {
             $checked = ($round->id == $highest_round_id ? 'CHECKED' : '');
             echo "<input type='radio' name='round_id' value='$round->id' $checked>$round->id&nbsp;\n";
             if ($round->id == $highest_round_id) {

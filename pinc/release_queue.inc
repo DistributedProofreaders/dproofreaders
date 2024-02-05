@@ -97,8 +97,6 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  */
 function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $group_selector = null)
 {
-    global $Round_for_round_id_;
-
     // Building the WHERE clause is rather ad-hoc, mostly because
     // a bunch of the output fields don't come directly from the DB result.
     if (!is_null($round)) {
@@ -141,7 +139,7 @@ function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $
         // If we've gone from (eg) round F2 in the previous loop iteration, to P1
         // in this iteration, then reset the group
         if (!$round || $round->id != $row["round_id"]) {
-            $round = $Round_for_round_id_[$row["round_id"]];
+            $round = Rounds::get_by_id($row["round_id"]);
             $group = null;
         }
         if (startswith($row["name"], "***")) {
@@ -226,8 +224,7 @@ function fetch_queue_data($queueid)
 
 function _queue_data($row, $length = null, $unheld_length = null)
 {
-    global $Round_for_round_id_;
-    $round = $Round_for_round_id_[$row["round_id"]];
+    $round = Rounds::get_by_id($row["round_id"]);
     if (is_null($length) || is_null($unheld_length)) {
         [$length, $unheld_length] = _get_queue_length($row["project_selector"], $round->project_waiting_state);
     }

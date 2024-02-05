@@ -569,11 +569,9 @@ function get_rounds_with_data($projectid)
     // So a column of empty users is the best indication of a skipped round.
     // (And also works for a not-yet-reached round.)
 
-    global $Round_for_round_id_;
-
     $sums = [];
-    foreach ($Round_for_round_id_ as $round_id => $round) {
-        $sums[] = "SUM({$round->user_column_name} != '') AS $round_id";
+    foreach (Rounds::get_all() as $round) {
+        $sums[] = "SUM({$round->user_column_name} != '') AS " . $round->id;
     }
     $body = join(',', $sums);
 
@@ -585,8 +583,8 @@ function get_rounds_with_data($projectid)
     $res = DPDatabase::query($sql);
     $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
-    foreach ($Round_for_round_id_ as $round_id => $round) {
-        if ($num_filled_user_fields_for_round_[$round_id] == 0) {
+    foreach (Rounds::get_all() as $round) {
+        if ($num_filled_user_fields_for_round_[$round->id] == 0) {
             // no real info in this slot
             // (skipped round or not-yet-reached round)
         } else {
