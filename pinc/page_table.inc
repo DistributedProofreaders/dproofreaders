@@ -73,8 +73,8 @@ function get_rounds_to_display($project)
  * }
  * ```
  *
- * @param string $projectid
- *   ID of project
+ * @param Project $project
+ *   Project to get round data for
  * @param string|array $page_selector
  *   Select which pages to return in the query, possible values are:
  *   * null - all pages are returned
@@ -88,7 +88,7 @@ function get_rounds_to_display($project)
  *   * null - all rounds with data are returned
  *   * array of round objects and/or "OCR" - only these rounds are returned
  *
- * @return array
+ * @return Generator<array>
  */
 function fetch_page_table_data($project, $page_selector = null, $work_round = null, $only_rounds = null)
 {
