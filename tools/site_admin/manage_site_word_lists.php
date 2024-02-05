@@ -218,7 +218,7 @@ function _handle_action($action, $list_type, $language, $word_string)
             // save the list if requested
             $fileObject = get_site_word_file($langcode3, $list_type);
             $words = explode("\n", $word_string);
-            save_word_list($fileObject->abs_path, $words, "\n");
+            save_word_list($fileObject->abs_path, $words);
             echo "<p>" . sprintf(_('The <b>%1$s</b> list for language <b>%2$s</b> has been saved.'), $list_type, $language) . "</p>";
             $display_list = true;
             break;
