@@ -25,7 +25,7 @@ echo "<h2>" . _("Dependencies"). "</h2>";
 
 echo "<p>" . _("The following open source dependencies are used by the dproofreaders code.") . "</p>";
 
-$credit_details = load_composer_credit_details($code_dir);
+$credit_details = load_composer_credit_details();
 output_credit_details($credit_details);
 
 //----------------------------------------------------------------------------
