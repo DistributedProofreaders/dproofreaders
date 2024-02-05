@@ -90,10 +90,10 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  *   * null - Don't filter out any groups/queues.
  *   * string - Filter out queues/groups whose group name does not contain string
  *   * array - Filter out queues/groups whose group name contains none of the strings
- * @param boolean show_groups
+ * @param boolean $show_groups
  *   If true, return dummy group objects as well as queues
  *
- * @return generator
+ * @return Generator<array>
  */
 function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $group_selector = null)
 {
@@ -253,10 +253,10 @@ function _queue_data($row, $length = null, $unheld_length = null)
  *   The queue the round is in.
  * @param string $project_selector
  *   The `queue_defns.project_selector` field for the queue
- * @param bool unheld_only
+ * @param boolean $unheld_only
  *   Only return projects that aren't in the hold state.
  *
- * @return generator
+ * @return Generator<array>
  **/
 function fetch_queue_projects_data($round, $project_selector, $unheld_only)
 {
