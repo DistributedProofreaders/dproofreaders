@@ -411,7 +411,7 @@ function do_showrename()
     echo "<h1>$page_title</h1>\n";
 
     $item_name = @$_POST['item_name'];
-    confirm_is_local('FD', $item_name, true);
+    confirm_is_local('FD', $item_name);
 
     $form_content = "<input type='hidden' name='item_name' value='" . attr_safe($item_name) . "'>\n";
     $form_content .= sprintf(
