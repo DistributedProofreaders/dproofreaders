@@ -1289,7 +1289,7 @@ function TaskDetails($tid, $action)
     $task = load_task($tid);
 
     if (!$task) {
-        ShowError(sprintf(_("Task #%d was not found.", $tid)));
+        ShowError(sprintf(_("Task #%d was not found."), $tid));
         return;
     }
 
