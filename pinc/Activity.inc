@@ -5,7 +5,7 @@ include_once($relPath.'Settings.inc');
 include_once($relPath.'quizzes.inc'); // get_Quiz_with_id
 include_once($relPath.'User.inc');
 
-// $ACCESS_CRITERIA and $Activity_for_id_ are extended as activities are defined.
+// $ACCESS_CRITERIA are extended as activities are defined.
 
 global $ACCESS_CRITERIA;
 $ACCESS_CRITERIA = [
@@ -18,7 +18,80 @@ $ACCESS_CRITERIA = [
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-$Activity_for_id_ = [];
+/*
+ * A singleton container class for accessing Activity and inherited objects
+ * (Stages, Rounds, Pools).
+ *
+ * The Activity constructor adds the constructed object to this class and
+ * because Stage, Round, and Pool classes inherit from the Activity class,
+ * those objects are accessible from this class too. For code readability,
+ * those classes have accessor classes of their own (Stages, Rounds, Pools)
+ * that derive from Activities and specify which objects to access.
+ */
+class Activities
+{
+    private static $_activities = [];
+
+    // This maps the static container class names to the class types
+    // they contain. This makes the functions in this base class return the
+    // correct subset of items when called from the child classes.
+    private static $container_to_class_mapping = [
+        "Activities" => "Activity",
+        "Rounds" => "Round",
+        "Stages" => "Stage",
+        "Pools" => "Pool",
+    ];
+
+    private static function _get_class_mapping()
+    {
+        return self::$container_to_class_mapping[static::class];
+    }
+
+    public static function add(&$activity)
+    {
+        foreach (array_merge([get_class($activity)], class_parents($activity)) as $class) {
+            assert(!isset(self::$_activities[$class][$activity->id]), "Duplicate activity ID; IDs must be unique");
+            self::$_activities[$class][$activity->id] = $activity;
+        }
+    }
+
+    public static function get_all()
+    {
+        return self::$_activities[self::_get_class_mapping()];
+    }
+
+    public static function get_ids()
+    {
+        // get_all() will ensure they are the right object types
+        return array_keys(self::get_all());
+    }
+
+    protected static function _get($attribute, $value)
+    {
+        // fast-track lookup by ID
+        if ($attribute == "id") {
+            return self::$_activities[self::_get_class_mapping()][$value] ?? null;
+        }
+
+        // loop through all objects looking for a match
+        foreach (self::get_all() as $activity) {
+            if (!property_exists($activity, $attribute)) {
+                continue;
+            }
+            if (is_array($activity->$attribute) && in_array($value, $activity->$attribute)) {
+                return $activity;
+            } elseif ($activity->$attribute == $value) {
+                return $activity;
+            }
+        }
+        return null;
+    }
+
+    public static function get_by_id($id)
+    {
+        return self::$_activities[self::_get_class_mapping()][$id] ?? null;
+    }
+}
 
 class Activity
 {
@@ -95,8 +168,7 @@ class Activity
                 sprintf(_("'%s' pages completed"), $this->id);
         }
 
-        global $Activity_for_id_;
-        $Activity_for_id_[$id] = & $this;
+        Activities::add($this);
     }
 
     public function __toString()
@@ -375,8 +447,7 @@ function show_user_access_object($uao, $will_autogrant = false)
             break;
 
         case 'unsat-ungranted':
-            global $Activity_for_id_;
-            $activity = $Activity_for_id_[$uao->activity_id];
+            $activity = Activities::get_by_id($uao->activity_id);
 
             if ($activity->after_satisfying_minima == 'REQ-AUTO' && $will_autogrant) {
                 $request_status_string = _('After you have satisfied the requirements, you will be automatically granted access.');
@@ -404,9 +475,7 @@ function show_user_access_object($uao, $will_autogrant = false)
 
 function grant_user_access_if_sat(&$uao)
 {
-    global $Activity_for_id_;
-
-    $activity = $Activity_for_id_[$uao->activity_id];
+    $activity = Activities::get_by_id($uao->activity_id);
     if ($uao->request_status == 'sat-available' &&
         $activity->after_satisfying_minima == 'REQ-AUTO') {
         $user = new User($uao->username);
@@ -482,8 +551,7 @@ function show_user_access_chart($username)
         echo "</tr>\n";
     }
 
-    global $Activity_for_id_;
-    foreach ($Activity_for_id_ as $activity) {
+    foreach (Activities::get_all() as $activity) {
         $uao = $activity->user_access($username);
 
         echo "<tr>";

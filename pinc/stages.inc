@@ -237,8 +237,7 @@ new Round(
 
 // After creating all rounds:
 
-define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
-assert($n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS);
+define('MAX_NUM_PAGE_EDITING_ROUNDS', count(Rounds::get_all()));
 
 // ---------------------------
 

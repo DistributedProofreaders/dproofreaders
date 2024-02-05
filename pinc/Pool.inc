@@ -1,11 +1,17 @@
 <?php
-
 include_once($relPath.'Stage.inc');
 
-// -----------------------------------------------------------------------------
-
-$Pool_for_id_ = [];
-$Pool_for_state_ = [];
+/*
+ * A singleton container class for accessing Pool objects.
+ * See the Activities class definition for more information.
+ */
+class Pools extends Stages
+{
+    public static function get_by_state($state)
+    {
+        return self::_get("states", $state);
+    }
+}
 
 class Pool extends Stage
 {
@@ -58,12 +64,10 @@ class Pool extends Stage
         $this->foo_field_name = $foo_field_name;
         $this->blather = $blather;
 
-        global $Pool_for_id_;
-        $Pool_for_id_[$this->id] = & $this;
-
-        global $Pool_for_state_;
-        $Pool_for_state_[$this->project_checkedout_state] = & $this;
-        $Pool_for_state_[$this->project_available_state] = & $this;
+        $this->states = [
+            $this->project_checkedout_state,
+            $this->project_available_state,
+        ];
     }
 }
 
@@ -71,14 +75,10 @@ class Pool extends Stage
 
 function get_Pool_for_id($pool_id)
 {
-    global $Pool_for_id_;
-    return array_get($Pool_for_id_, $pool_id, null);
+    return Pools::get_by_id($pool_id);
 }
 
 function get_Pool_for_state($state)
 {
-    global $Pool_for_state_;
-    return array_get($Pool_for_state_, $state, null);
+    return Pools::get_by_state($state);
 }
-
-// ---------------------------
