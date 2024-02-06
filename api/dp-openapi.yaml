@@ -1219,8 +1219,10 @@ components:
           type: string
         project_selector:
           type: string
-        release_criterion:
-          type: string
+        projects_target:
+          type: integer
+        pages_target:
+          type: integer
 
     charsuite:
       required:

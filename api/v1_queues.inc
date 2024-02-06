@@ -35,7 +35,7 @@ function api_v1_queues($method, $data, $query_params)
     ];
 
     if (user_can_see_queue_settings()) {
-        array_push($valid_return_fields, "project_selector", "release_criterion");
+        array_push($valid_return_fields, "project_selector", "projects_target", "pages_target");
     }
 
     // restrict to list of desired fields, if set

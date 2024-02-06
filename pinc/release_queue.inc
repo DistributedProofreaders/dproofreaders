@@ -69,7 +69,8 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  *     "length": 1,
  *     "unheld_length": 0,
  *     "comment": "Always have EASY English in P1",
- *     "release_criterion": "pages < 120 or projects < 4"
+ *     "projects_target": 4,
+ *     "pages_target": 120
  * }
  * ```
  *
@@ -242,7 +243,8 @@ function _queue_data($row, $length = null, $unheld_length = null)
         "unheld_length" => (int)$unheld_length,
         "comment" => $row["comment"],
         "project_selector" => $row["project_selector"],
-        "release_criterion" => $row["release_criterion"],
+        "projects_target" => $row["projects_target"],
+        "pages_target" => $row["pages_target"],
     ];
 }
 
