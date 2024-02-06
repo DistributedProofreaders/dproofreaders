@@ -89,7 +89,8 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
         case 'clone':
             $page_title = _("Clone a Project");
-            $fatal_error = $pih->set_from_clone();
+            $projectid = get_projectID_param($_GET, 'project');
+            $fatal_error = $pih->set_from_clone($projectid);
             break;
 
         case 'create_from_marc_record':
@@ -154,9 +155,10 @@ class ProjectInfoHolder
 
     // -------------------------------------------------------------------------
 
-    public function set_from_clone()
+    public function set_from_clone($projectid)
     {
-        $projectid = $_GET['project'];
+        // initialize the project from $projectid but record that it's a
+        // clone as we'll use this later
         $this->project = new Project($projectid);
         $this->clone_projectid = $this->project->projectid;
 
@@ -230,10 +232,9 @@ class ProjectInfoHolder
                 return _("You are not authorized to manage this project.").": '$this->projectid'";
             }
         } elseif (isset($_POST['clone_projectid'])) {
-            // we're creating a clone
+            // we're creating a clone; initialize our object with the original
+            // project, then override with edits from $_POST (below)
             $clone_projectid = get_projectID_param($_POST, 'clone_projectid');
-            $this->clone_projectid = $clone_projectid;
-
             $this->set_from_clone($clone_projectid);
         } else {
             $this->project = new Project();
