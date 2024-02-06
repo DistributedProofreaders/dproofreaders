@@ -406,6 +406,21 @@ function project_pre_release_check($project, $round)
 
 // -----------------------------------------------------------------------------
 
+class ProjectTransitions
+{
+    private static $_project_transitions = [];
+
+    public static function get_all()
+    {
+        if(!self::$_project_transitions) {
+            self::$_project_transitions = create_project_transitions();
+        }
+        return self::$_project_transitions;
+    }
+}
+
+// -----------------------------------------------------------------------------
+
 /**
  * Return an array of transitions that the given user
  * can perform on the project (in its current state).
@@ -420,7 +435,7 @@ function get_valid_transitions($project, $username)
     static $viable_transitions_from = [];
     if (!isset($viable_transitions_from[$project->state])) {
         $viable_transitions_from[$project->state] = [];
-        foreach (create_all_transitions() as $transition) {
+        foreach (ProjectTransitions::get_all() as $transition) {
             if ($transition->from_state == $project->state) {
                 $viable_transitions_from[$project->state][] = $transition;
             }
@@ -441,7 +456,7 @@ function get_valid_transitions($project, $username)
 
 function get_transition($from_state, $to_state)
 {
-    foreach (create_all_transitions() as $transition) {
+    foreach (ProjectTransitions::get_all() as $transition) {
         if ($transition->from_state == $from_state &&
              $transition->to_state == $to_state) {
             return $transition;
@@ -453,14 +468,9 @@ function get_transition($from_state, $to_state)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function create_all_transitions()
+function create_project_transitions()
 {
     global $code_url, $PROJECT_STATES_IN_ORDER;
-
-    static $project_transitions = null;
-    if($project_transitions) {
-        return $project_transitions;
-    }
 
     $project_transitions[] = new ProjectTransition(
         PROJ_NEW,
