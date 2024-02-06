@@ -9,8 +9,8 @@ header('Content-type: text/plain');
 echo "Adding projects_target and pages_target to queue_defns...\n";
 $sql = "
     ALTER TABLE queue_defns
-    ADD COLUMN projects_target SMALLINT NOT NULL AFTER release_criterion,
-    ADD COLUMN pages_target MEDIUMINT NOT NULL AFTER projects_target
+    ADD COLUMN projects_target SMALLINT UNSIGNED NOT NULL AFTER release_criterion,
+    ADD COLUMN pages_target MEDIUMINT UNSIGNED NOT NULL AFTER projects_target
 ";
 mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
