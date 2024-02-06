@@ -2,6 +2,9 @@
 // A place for shared functions dealing with release queues.
 include_once($relPath.'Project.inc');
 
+define('MAX_PROJECTS_TARGET', 65535); // max unsigned smallint
+define('MAX_PAGES_TARGET', 16777215); // max unsigned mediumint
+
 $today_MMDD = date('md', strtotime('today'));
 $tomorrow_MMDD = date('md', strtotime('tomorrow'));
 

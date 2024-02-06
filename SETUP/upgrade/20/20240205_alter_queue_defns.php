@@ -1,6 +1,7 @@
 <?php
 $relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
+include_once($relPath.'release_queue.inc'); // MAX_PROJECTS_TARGET
 
 header('Content-type: text/plain');
 
@@ -80,7 +81,7 @@ function convert($rc, $queue_ident)
         // The release_criterion is always True.
         // That is, the queue always releases.
         // Set a ridiculously high limit for projects.
-        return ['projects' => '1000'];
+        return ['projects' => MAX_PROJECTS_TARGET];
 
     } elseif (preg_match('/^(pages|projects) *< *(\d+)$/', $rc, $matches)) {
         return [$matches[1] => $matches[2]];
