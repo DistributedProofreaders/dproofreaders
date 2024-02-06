@@ -1195,6 +1195,11 @@ function create_project_transitions()
     return $project_transitions;
 }
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// The functions below are used as callbacks for ProjectTransitions, either
+// as the project_restriction or the collateral_actions.
+
 function round_release_collateral($old_project, $project, $transition, $who)
 {
     $round = get_Round_for_project_state($transition->to_state);
