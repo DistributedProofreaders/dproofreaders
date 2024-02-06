@@ -72,6 +72,8 @@ function convert($rc, $queue_ident)
 {
     global $n_conversion_errors;
 
+    $rc = trim($rc);
+
     if (preg_match('/^(1 *= *0|FALSE)$/', $rc)) {
         // The release_criterion is always False.
         // That is, the queue never releases.
