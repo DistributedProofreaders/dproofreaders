@@ -246,8 +246,8 @@ function _queue_data($row, $length = null, $unheld_length = null)
         "unheld_length" => (int)$unheld_length,
         "comment" => $row["comment"],
         "project_selector" => $row["project_selector"],
-        "projects_target" => $row["projects_target"],
-        "pages_target" => $row["pages_target"],
+        "projects_target" => (int)$row["projects_target"],
+        "pages_target" => (int)$row["pages_target"],
     ];
 }
 
