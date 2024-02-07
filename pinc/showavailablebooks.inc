@@ -469,7 +469,7 @@ function show_project_listing(
         [$ext_sort_col, $label] = $col_info;
 
         $style_attribute = "";
-        if (@$column_styles[$col_id]) {
+        if ($column_styles[$col_id] ?? false) {
             $style_attribute = "style='{$column_styles[$col_id]}'";
         }
 
