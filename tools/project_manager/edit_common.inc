@@ -106,7 +106,7 @@ function charsuite_list($charsuites, $project_charsuites)
     ksort($all_charsuites);
     foreach ($all_charsuites as $k => $v) {
         echo "<label><input type='checkbox' name='charsuites[]' value='".attr_safe($k)."'";
-        if (@$existing_charsuites[$k]) {
+        if (array_key_exists($k, $existing_charsuites)) {
             echo " checked";
         }
         echo ">" . html_safe($v) . "</label><br>";

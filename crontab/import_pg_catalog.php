@@ -223,7 +223,7 @@ foreach (scandir($local_catalog_dir) as $filename) {
             }
             $display_format = $sub_type;
         } else {
-            $display_format = @$display_mapping[$mime_type];
+            $display_format = $display_mapping[$mime_type] ?? null;
             if (empty($display_format)) {
                 @$mime_types_not_in_display_mapping[$mime_type] += 1;
                 $display_format = $mime_type;

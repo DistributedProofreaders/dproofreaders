@@ -252,7 +252,7 @@ if (!$imso_code) {
             // For In Progress, suppress final column since it conveys no info
             if ($which != "INPROG") {
                 echo "<td class='center-align'>";
-                if (!is_null($row['postednum'])) {
+                if (!is_null($row['postednum'] ?? null)) {
                     echo get_pg_catalog_link_for_etext($row['postednum'], $row['postednum']);
                 } else {
                     echo _("In Progress");
