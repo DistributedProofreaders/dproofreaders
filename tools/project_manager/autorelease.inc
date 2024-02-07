@@ -138,11 +138,13 @@ function autorelease_for_round($round)
         // Release available projects of a given type (defined by $qd->project_selector)
         // as long as the condition implied by the targets is true for projects of that type.
 
+        $release_criterion = format_queue_targets_as_condition($qd->projects_target, $qd->pages_target);
+
         echo "\n";
         echo "Considering {$qd->name} projects...\n";
         echo "\n";
         echo "    For projects matching: {$qd->cooked_project_selector}\n";
-        echo "    release if: projects < {$qd->projects_target} or pages < {$qd->pages_target}\n";
+        echo "    release if: $release_criterion\n";
 
         // Do the targets allow us to release any projects?
         if (! AP_evaluate_criteria($round, $qd->cooked_project_selector, $qd->projects_target, $qd->pages_target)) {
@@ -580,6 +582,8 @@ function AP_add_project($round, $projectid)
 
 function AP_evaluate_criteria($round, $cooked_project_selector, $projects_target, $pages_target)
 {
+    $release_criterion = format_queue_targets_as_condition($projects_target, $pages_target);
+
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
 
@@ -604,7 +608,7 @@ function AP_evaluate_criteria($round, $cooked_project_selector, $projects_target
     $result_as_truefalse = ($result ? "true" : "false");
 
     echo "\n";
-    echo "    projects={$env['projects']} and pages={$env['pages']}, so 'projects < $projects_target or pages < $pages_target' is $result_as_truefalse\n";
+    echo "    projects={$env['projects']} and pages={$env['pages']}, so '$release_criterion' is $result_as_truefalse\n";
 
     return $result;
 }
