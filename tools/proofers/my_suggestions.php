@@ -507,7 +507,7 @@ function get_suggestions($round_view, $username, $selection_criteria)
 
                 // get the field weight from the user weights if one exists,
                 // otherwise try the site weights
-                if(isset($user_weights[$field][$normalized_field_value])) {
+                if (isset($user_weights[$field][$normalized_field_value])) {
                     $field_weight = $user_weights[$field][$normalized_field_value];
                 } elseif (isset($site_weights[$field][$normalized_field_value])) {
                     $field_weight = $site_weights[$field][$normalized_field_value];
@@ -542,7 +542,7 @@ function get_suggestions($round_view, $username, $selection_criteria)
             $round = $Round_for_project_state_[$project->state];
             validate_user_against_project_reserve($user, $project, $round);
             $return_projects[] = $project_row;
-        } catch(Exception $exception) {
+        } catch (Exception $exception) {
             continue;
         }
     }

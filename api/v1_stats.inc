@@ -58,7 +58,7 @@ function api_v1_stats_site_projects_states($method, $data, $query_params)
     // Make sure all project state statistics are provided.
     $output = [];
     global $PROJECT_STATES_IN_ORDER;
-    foreach($PROJECT_STATES_IN_ORDER as $s) {
+    foreach ($PROJECT_STATES_IN_ORDER as $s) {
         $output[$s] = 0;
     }
 
@@ -69,7 +69,7 @@ function api_v1_stats_site_projects_states($method, $data, $query_params)
         GROUP BY state
     ";
     $result = DPDatabase::query($sql);
-    while([$project_state, $count] = mysqli_fetch_row($result)) {
+    while ([$project_state, $count] = mysqli_fetch_row($result)) {
         $output[$project_state] = (int)$count;
     }
     return $output;
@@ -83,7 +83,7 @@ function api_v1_stats_site_projects_stages($method, $data, $query_params)
 
     // Make sure all project stage statistics are provided.
     $output = [];
-    foreach($Stage_for_id_ as $s) {
+    foreach ($Stage_for_id_ as $s) {
         $output[$s->id] = 0;
     }
 
@@ -93,7 +93,7 @@ function api_v1_stats_site_projects_stages($method, $data, $query_params)
         GROUP BY state
     ";
     $result = DPDatabase::query($sql);
-    while([$project_state, $count] = mysqli_fetch_row($result)) {
+    while ([$project_state, $count] = mysqli_fetch_row($result)) {
         // If the stage is in a round, add it to the round's count
         $r = array_get($Round_for_project_state_, $project_state, null);
         if ($r) {

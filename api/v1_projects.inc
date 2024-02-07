@@ -515,7 +515,7 @@ function api_v1_project_transitions($method, $data, $query_params)
     );
     $result = DPDatabase::query($sql);
     $return_data = [];
-    while($row = mysqli_fetch_assoc($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $return_data[] = [
             "timestamp" => date(DATE_ATOM, (int)$row["timestamp"]),
             "event_type" => $row["event_type"],

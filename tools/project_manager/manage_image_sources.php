@@ -357,8 +357,7 @@ class ImageSource
             '1' => _('Also PMs'),
             // TRANSLATORS: %s is the site abbreviation
             '2' => sprintf(_("All %s Users"), $site_abbreviation),
-            '3' => _('Publicly Visible'), ]
-            as $val => $opt) {
+            '3' => _('Publicly Visible'), ] as $val => $opt) {
             {
                 $editing .= "<option value='$val' " .
                     ($existing_value == $val ? 'selected' : '') .

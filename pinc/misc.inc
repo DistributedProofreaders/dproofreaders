@@ -772,7 +772,7 @@ function str_contains_any_of($haystack, $needles)
     if (is_string($needles)) {
         return str_contains($haystack, $needles);
     }
-    foreach($needles as $n) {
+    foreach ($needles as $n) {
         if (str_contains($haystack, $n)) {
             return true;
         }

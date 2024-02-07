@@ -246,7 +246,7 @@ function _show_queue_details($round, $name, $unheld_only)
     echo "<tr>\n";
     echo surround_and_join(array_map("html_safe", $headers), "<th>", "</th>\n", "");
     echo "</tr>\n";
-    foreach(fetch_queue_projects_data($round, $queue["project_selector"], $unheld_only) as $p) {
+    foreach (fetch_queue_projects_data($round, $queue["project_selector"], $unheld_only) as $p) {
         echo "<tr>\n";
         echo "<td><a href='$code_url/project.php?id=", attr_safe($p["projectid"]), "'>", html_safe($p["title"]), "</a></td>\n";
         echo "<td>", html_safe($p["author"]), "</td>\n";
