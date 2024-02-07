@@ -461,7 +461,7 @@ _MAINTENANCE_MESSAGE=
 
 _ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS=true
 # Setting this to `true` means that all users can see the project_selector,
-# release_criterion, and comments columns on the Release Queue pages.
+# projects_target, pages_target, and comments columns on the Release Queue pages.
 # Setting it to `false` means that only site admins and project facilitators
 # can see those columns. (This was the hard-coded behavior in R200609 and
 # earlier.)

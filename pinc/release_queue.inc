@@ -2,6 +2,35 @@
 // A place for shared functions dealing with release queues.
 include_once($relPath.'Project.inc');
 
+define('MAX_PROJECTS_TARGET', 65535); // max unsigned smallint
+define('MAX_PAGES_TARGET', 16777215); // max unsigned mediumint
+
+/**
+ * Format a queue's targets as a release condition.
+ *
+ * @param int $projects_target
+ * @param int $pages_target
+ *
+ * @return string
+ */
+function format_queue_targets_as_condition($projects_target, $pages_target)
+{
+    if ($projects_target == MAX_PROJECTS_TARGET || $pages_target == MAX_PAGES_TARGET) {
+        // The queue always releases (assuming that the actual number of relevant
+        // projects/pages is always less than the corresponding target's maximum).
+        return "TRUE";
+    } elseif ($projects_target == 0 && $pages_target == 0) {
+        return "FALSE";
+    } elseif ($projects_target > 0 && $pages_target == 0) {
+        return "projects < $projects_target";
+    } elseif ($projects_target == 0 && $pages_target > 0) {
+        return "pages < $pages_target";
+    } else {
+        return "projects < $projects_target or pages < $pages_target";
+    }
+}
+
+
 $today_MMDD = date('md', strtotime('today'));
 $tomorrow_MMDD = date('md', strtotime('tomorrow'));
 
@@ -69,7 +98,8 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  *     "length": 1,
  *     "unheld_length": 0,
  *     "comment": "Always have EASY English in P1",
- *     "release_criterion": "pages < 120 or projects < 4"
+ *     "projects_target": 4,
+ *     "pages_target": 120
  * }
  * ```
  *
@@ -239,7 +269,8 @@ function _queue_data($row, $length = null, $unheld_length = null)
         "unheld_length" => (int)$unheld_length,
         "comment" => $row["comment"],
         "project_selector" => $row["project_selector"],
-        "release_criterion" => $row["release_criterion"],
+        "projects_target" => (int)$row["projects_target"],
+        "pages_target" => (int)$row["pages_target"],
     ];
 }
 

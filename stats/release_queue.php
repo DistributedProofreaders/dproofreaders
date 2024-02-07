@@ -150,7 +150,12 @@ function _show_round_queues($round, $listing_view_mode)
         echo "<td>$length</td>\n";
         echo "<td>$unheld_length</td>\n";
         if (user_can_see_queue_settings()) {
-            echo "<td>", html_safe($queue_data["release_criterion"]), "</td>\n";
+            $release_criterion =
+                format_queue_targets_as_condition(
+                    $queue_data["projects_target"],
+                    $queue_data["pages_target"]
+                );
+            echo "<td>$release_criterion</td>\n";
         }
         echo "<td>", html_safe($queue_data["comment"]), "</td>\n";
         echo "</tr>\n";
@@ -190,7 +195,11 @@ function _show_queue_details($round, $name, $unheld_only)
         if ($cooked_project_selector != $queue["project_selector"]) {
             $fields[_("Filled-in")] = $cooked_project_selector;
         }
-        $fields[_("Release Criterion")] = $queue["release_criterion"];
+        $fields[_("Release Criterion")] =
+            format_queue_targets_as_condition(
+                $queue["projects_target"],
+                $queue["pages_target"]
+            );
     }
 
     echo "<p>";

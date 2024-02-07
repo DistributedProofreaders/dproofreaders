@@ -126,27 +126,28 @@ function autorelease_for_round($round)
         //     An SQL condition that defines the kind of project
         //     that can be released by this queue.
         //
-        // $qd->release_criterion
-        //     A PHP condition that specifies the circumstances under which
+        // $qd->projects_target
+        // $qd->pages_target
+        //     Integers that specify the circumstances under which
         //     this queue can release a project.
-        //     It can reference 'projects' and 'pages', which denote (respectively)
-        //      -- the number of projects matching this queue's project_selector
-        //         that are currently available in the round, and
-        //      -- their total number of pages in any state other than 'saved'.
+        //
+        // For more details, see SETUP/site_admin_notes.txt under "Defining queues".
 
         $qd->cooked_project_selector = cook_project_selector($qd->project_selector);
 
         // Release available projects of a given type (defined by $qd->project_selector)
-        // as long as the $qd->release_criterion is true for projects of that type.
+        // as long as the condition implied by the targets is true for projects of that type.
+
+        $release_criterion = format_queue_targets_as_condition($qd->projects_target, $qd->pages_target);
 
         echo "\n";
         echo "Considering {$qd->name} projects...\n";
         echo "\n";
         echo "    For projects matching: {$qd->cooked_project_selector}\n";
-        echo "    release if: {$qd->release_criterion}\n";
+        echo "    release if: $release_criterion\n";
 
-        // Does the $qd->release_criterion allow us to release any projects?
-        if (! AP_evaluate_criteria($round, $qd->cooked_project_selector, $qd->release_criterion)) {
+        // Do the targets allow us to release any projects?
+        if (! AP_evaluate_criteria($round, $qd->cooked_project_selector, $qd->projects_target, $qd->pages_target)) {
             echo "    The release criterion fails, so no projects released in this category.\n";
             continue;
         }
@@ -168,7 +169,7 @@ function autorelease_for_round($round)
 
         if ($n_projects->released == 0) {
             // At this point, we know that:
-            // the queue's release_criterion succeeded
+            // the queue's release condition succeeded
             // (so it wants to release some projects),
             // and there are projects in this queue
             // (wanting to be released),
@@ -182,7 +183,14 @@ function autorelease_for_round($round)
             // via this queue, as a sort of "emergency valve",
             // even though this will mean violating the release restrictions.
 
-            if (AP_evaluate_criteria($round, $qd->cooked_project_selector, 'pages == 0')) {
+            // In this call to AP_evaluate_criteria,
+            // we want to check whether `pages == 0`,
+            // so we pass $projects_target = 0, $pages_target = 1.
+            // I.e., we're testing `projects < 0 or pages < 1`.
+            // `projects < 0` is always false, and pages is never negative,
+            // so this reduces to `pages == 0`.
+
+            if (AP_evaluate_criteria($round, $qd->cooked_project_selector, 0, 1)) {
                 echo "    Attempting an emergency valve release: no pages available, queue non-empty\n\n";
 
                 $n_projects = maybe_release_projects(
@@ -310,10 +318,10 @@ function maybe_release_projects(
             break;
         } else {
             if ($qd) {
-                // Keep releasing projects until the queue's release_criterion fails,
+                // Keep releasing projects until the queue's release condition fails,
                 // or we run out of projects.
 
-                if (! AP_evaluate_criteria($round, $qd->cooked_project_selector, $qd->release_criterion)) {
+                if (! AP_evaluate_criteria($round, $qd->cooked_project_selector, $qd->projects_target, $qd->pages_target)) {
                     echo "    The release criterion now fails, so no further projects released in this category.\n";
                     break;
                 }
@@ -572,8 +580,10 @@ function AP_add_project($round, $projectid)
     DPDatabase::query($sql);
 }
 
-function AP_evaluate_criteria($round, $cooked_project_selector, $release_criterion)
+function AP_evaluate_criteria($round, $cooked_project_selector, $projects_target, $pages_target)
 {
+    $release_criterion = format_queue_targets_as_condition($projects_target, $pages_target);
+
     // Get the criterion-evaluation environment
     // (values for 'projects', 'pages')
 
@@ -586,37 +596,19 @@ function AP_evaluate_criteria($round, $cooked_project_selector, $release_criteri
 
     $sql = "
         SELECT
-            $sum_projects as projects,
-            SUM(active_page_counts.pages) as pages
+            IFNULL($sum_projects, 0) as projects,
+            IFNULL(SUM(active_page_counts.pages), 0) as pages
         FROM projects NATURAL JOIN active_page_counts
         WHERE $cooked_project_selector";
     $res = DPDatabase::query($sql);
     $env = mysqli_fetch_assoc($res);
     // print_r($env);
 
-    return evaluate_expression($release_criterion, $env);
-}
+    $result = $env['projects'] < $projects_target || $env['pages'] < $pages_target;
+    $result_as_truefalse = ($result ? "true" : "false");
 
-function evaluate_expression($expression, $env)
-{
-    $expr = $expression;
-    foreach ($env as $id => $value) {
-        if (is_null($value)) {
-            $value = 0;
-        }
-        $expr = str_replace($id, $value, $expr);
-    }
-    // should check $expr for traps
-    $result = eval("return ($expr);");
-
-    if (true) {
-        echo "\n";
-        echo "    Evaluate '$expression' wrt {";
-        foreach ($env as $id => $value) {
-            echo " $id => $value,";
-        }
-        echo "} = '$expr' = $result\n";
-    }
+    echo "\n";
+    echo "    projects={$env['projects']} and pages={$env['pages']}, so '$release_criterion' is $result_as_truefalse\n";
 
     return $result;
 }
