@@ -57,4 +57,24 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         global $ACCESS_CRITERIA;
         $this->assertEquals("'P2' pages completed", $ACCESS_CRITERIA["P2"]);
     }
+
+    public function test_project_state_functions()
+    {
+        global $PROJECT_STATES_IN_ORDER;
+        $this->assertEquals("P3.proj_bad", $PROJECT_STATES_IN_ORDER[11]);
+        $this->assertEquals("project_delete", $PROJECT_STATES_IN_ORDER[34]);
+        $this->assertEquals("(state='proj_submit_pgposted')", SQL_CONDITION_GOLD);
+        $this->assertEquals("(state='P1.proj_avail' OR state='P2.proj_avail' OR state='P3.proj_avail' OR state='F1.proj_avail' OR state='F2.proj_avail')", SQL_CONDITION_BRONZE);
+
+        $this->assertEquals("P1: Waiting", get_medium_label_for_project_state(PROJ_P1_WAITING_FOR_RELEASE));
+        $this->assertEquals("Proofreading Round 1: Waiting for Release", project_states_text(PROJ_P1_WAITING_FOR_RELEASE));
+        $this->assertEquals('PAGE_EDITING', get_phase_containing_project_state(PROJ_P1_WAITING_FOR_RELEASE));
+
+        $this->assertEquals("PP: Available", get_medium_label_for_project_state(PROJ_POST_FIRST_AVAILABLE));
+        $this->assertEquals("PP: Checked out", get_medium_label_for_project_state(PROJ_POST_FIRST_CHECKED_OUT));
+        $this->assertEquals("Post-Processing: Available", project_states_text(PROJ_POST_FIRST_AVAILABLE));
+
+        $this->assertEquals("PPV: Available", get_medium_label_for_project_state(PROJ_POST_SECOND_AVAILABLE));
+        $this->assertEquals("Post-Processing Verification: Available", project_states_text(PROJ_POST_SECOND_AVAILABLE));
+    }
 }
