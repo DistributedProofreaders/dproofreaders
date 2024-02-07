@@ -5,6 +5,32 @@ include_once($relPath.'Project.inc');
 define('MAX_PROJECTS_TARGET', 65535); // max unsigned smallint
 define('MAX_PAGES_TARGET', 16777215); // max unsigned mediumint
 
+/**
+ * Format a queue's targets as a release condition.
+ *
+ * @param int $projects_target
+ * @param int $pages_target
+ *
+ * @return string
+ */
+function format_queue_targets_as_condition($projects_target, $pages_target)
+{
+    if ($projects_target == MAX_PROJECTS_TARGET || $pages_target == MAX_PAGES_TARGET) {
+        // The queue always releases (assuming that the actual number of relevant
+        // projects/pages is always less than the corresponding target's maximum).
+        return "TRUE";
+    } elseif ($projects_target == 0 && $pages_target == 0) {
+        return "FALSE";
+    } elseif ($projects_target > 0 && $pages_target == 0) {
+        return "projects < $projects_target";
+    } elseif ($projects_target == 0 && $pages_target > 0) {
+        return "pages < $pages_target";
+    } else {
+        return "projects < $projects_target or pages < $pages_target";
+    }
+}
+
+
 $today_MMDD = date('md', strtotime('today'));
 $tomorrow_MMDD = date('md', strtotime('tomorrow'));
 

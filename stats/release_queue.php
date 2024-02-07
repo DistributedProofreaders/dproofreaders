@@ -109,9 +109,8 @@ function _show_round_queues($round, $listing_view_mode)
         echo "<th>", html_safe(_("Current length")), "</th>\n";
         echo "<th>", html_safe(_("Length without holds")), "</th>\n";
         if (user_can_see_queue_settings()) {
-            echo "<th>", html_safe(_("Projects target")), "</th>\n";
-            echo "<th>", html_safe(_("Pages target")), "</th>\n";
-            $columns += 2;
+            echo "<th>", html_safe(_("Release criterion")), "</th>\n";
+            $columns += 1;
         }
         echo "<th>", html_safe(_("Comment")), "</th>\n";
         echo "</tr>\n";
@@ -151,8 +150,12 @@ function _show_round_queues($round, $listing_view_mode)
         echo "<td>$length</td>\n";
         echo "<td>$unheld_length</td>\n";
         if (user_can_see_queue_settings()) {
-            echo "<td>", $queue_data["projects_target"], "</td>\n";
-            echo "<td>", $queue_data["pages_target"], "</td>\n";
+            $release_criterion =
+                format_queue_targets_as_condition(
+                    $queue_data["projects_target"],
+                    $queue_data["pages_target"]
+                );
+            echo "<td>$release_criterion</td>\n";
         }
         echo "<td>", html_safe($queue_data["comment"]), "</td>\n";
         echo "</tr>\n";
@@ -192,8 +195,11 @@ function _show_queue_details($round, $name, $unheld_only)
         if ($cooked_project_selector != $queue["project_selector"]) {
             $fields[_("Filled-in")] = $cooked_project_selector;
         }
-        $fields[_("Projects Target")] = $queue["projects_target"];
-        $fields[_("Pages Target")] = $queue["pages_target"];
+        $fields[_("Release Criterion")] =
+            format_queue_targets_as_condition(
+                $queue["projects_target"],
+                $queue["pages_target"]
+            );
     }
 
     echo "<p>";
