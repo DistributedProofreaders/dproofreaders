@@ -256,7 +256,7 @@ function array_pad_internal($input, $pad_size, $pad_type)
 
 function table_pad($table, $rows, $columns, $value = "")
 {
-    for ($i = 0; $i < $rows; $i ++) {
+    for ($i = 0; $i < $rows; $i++) {
         if (!isset($table[$i])) {
             $table[$i] = [];
         }

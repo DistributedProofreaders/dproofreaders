@@ -221,7 +221,7 @@ class SpecialDay
         echo "<th class='right'>" . _("Comments") . ":</th><td colspan='7'>" . html_safe($this->comment) . "</td>";
         echo "</tr>\n";
 
-        return($this->open_month);
+        return ($this->open_month);
     }
 
     public function show_buttons()

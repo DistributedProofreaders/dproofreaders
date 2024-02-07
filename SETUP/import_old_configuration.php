@@ -76,7 +76,7 @@ function load_config_file_values($filename)
 
     fclose($fh);
 
-    return($config_values);
+    return ($config_values);
 }
 
 function output_config_file_with_new_values($filename, $config_values)
@@ -107,7 +107,7 @@ function output_config_file_with_new_values($filename, $config_values)
 
     fclose($fh);
 
-    return([$new_config_parameters, $unused_config_parameters]);
+    return ([$new_config_parameters, $unused_config_parameters]);
 }
 
 // ---------------------------------------------------------------------------

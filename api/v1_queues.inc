@@ -98,7 +98,7 @@ function api_v1_queue_projects($method, $data, $query_params)
     $round = validate_round($queue["round_id"], null);
 
     $output = [];
-    foreach(fetch_queue_projects_data($round, $queue["project_selector"], $unheld_only) as $proj_data) {
+    foreach (fetch_queue_projects_data($round, $queue["project_selector"], $unheld_only) as $proj_data) {
         array_remove_invalid_fields($proj_data, $return_fields);
         if (isset($proj_data["last_state_change_time"])) {
             $proj_data["last_state_change_time"] = date(DATE_ATOM, $proj_data["last_state_change_time"]);

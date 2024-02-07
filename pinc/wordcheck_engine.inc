@@ -446,7 +446,7 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq)
         }
     }
 
-    return($bad_words);
+    return ($bad_words);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

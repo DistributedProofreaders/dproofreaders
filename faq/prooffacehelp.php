@@ -336,8 +336,7 @@ if ($i_type == 0) {
             'Report Bad Page',
             'WordCheck',
             'Preview',
-        ]
-        as $name) {
+        ] as $name) {
         echo "<dt>";
         if ($name == 'Switch to Vertical/Horizontal') {
             echo "<input type='button' value='Switch to Vertical'> / ";
