@@ -617,7 +617,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
             break;
 
         default:
-            die("bad 'timeframe' value: '$title_timeframe'");
+            die("bad 'timeframe' value: '$timeframe'");
     }
 
     switch ($c_or_i) {
