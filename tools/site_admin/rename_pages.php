@@ -347,7 +347,7 @@ switch ($submit_button) {
                     WHERE fileid='$old_fileid' AND image='$old_image'
                 ";
                 echo $query;
-                if ($for_real) {
+                if ($for_real) { /** @phpstan-ignore-line */
                     DPDatabase::query($query);
                     $n = DPDatabase::affected_rows();
                     echo "
@@ -366,7 +366,7 @@ switch ($submit_button) {
                 echo "
                     mv $old_image $new_image
                 ";
-                if ($for_real) {
+                if ($for_real) { /** @phpstan-ignore-line */
                     $success = rename($old_image, $new_image);
                     $s = ($success ? 'succeeded' : 'FAILED');
                     echo "

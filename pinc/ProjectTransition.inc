@@ -712,7 +712,7 @@ function create_project_transitions()
             );
         }
 
-        if (1) {
+        {
             // Transitions to skip rounds
 
             $from_states = [

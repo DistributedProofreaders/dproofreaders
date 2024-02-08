@@ -24,7 +24,7 @@ function abort($error_message)
     echo "<pre>\n";
     dump_request_info();
 
-    if (0) {
+    if (0) {  /** @phpstan-ignore-line */
         echo "\n";
         echo "<hr>\n";
         echo "\n";

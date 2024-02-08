@@ -67,7 +67,7 @@ $local_catalog_dir = "$dyn_dir/pg/catalog";
 
 $trace = true;
 
-if ($trace) {
+if ($trace) { /** @phpstan-ignore-line */
     $watch = new Stopwatch();
     $watch->start();
 }
@@ -84,7 +84,7 @@ function trace($msg)
 
 // -------------------------------
 
-if ($start_from_scratch) {
+if ($start_from_scratch) { /** @phpstan-ignore-line */
     trace("Downloading $remote_catalog_url to $local_compressed_file...");
     copy($remote_catalog_url, $local_compressed_file) or
         die("Unable to download $remote_catalog_url to $local_compressed_file");
@@ -242,12 +242,12 @@ foreach (scandir($local_catalog_dir) as $filename) {
     }
     $etexts[$etext_number] = $display_formats;
     $n_rdf_files_processed += 1;
-    if ($trace && $n_rdf_files_processed % 1000 == 0) {
+    if ($trace && $n_rdf_files_processed % 1000 == 0) { /** @phpstan-ignore-line */
         echo ".";
     }
 }
 
-if ($trace) {
+if ($trace) { /** @phpstan-ignore-line */
     echo "\n";
 }
 trace("Finished processing $n_rdf_files_processed RDF files.");

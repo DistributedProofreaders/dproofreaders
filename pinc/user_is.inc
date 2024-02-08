@@ -81,7 +81,7 @@ function user_can_modify_access_of($subject_username)
     }
 
     global $testing, $pguser;
-    if ($testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser) {
+    if ($testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser) { /** @phpstan-ignore-line */
         static $shown = false;
         if (!$shown) {
             echo "<p class='test_warning'>";

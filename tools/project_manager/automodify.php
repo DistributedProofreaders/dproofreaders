@@ -111,7 +111,7 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
     $state = $project->state;
     $nameofwork = $project->nameofwork;
 
-    if ($trace) {
+    if ($trace) { /** @phpstan-ignore-line */
         ensure_project_blurb($project);
     }
 
@@ -128,14 +128,14 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
             if ($project->is_bad_from_pages($round)) {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
-                if ($trace) {
+                if ($trace) { /** @phpstan-ignore-line */
                     echo "project looks bad.\n";
                 }
                 $appropriate_state = $round->project_bad_state;
             } else {
                 // Pages don't indicate that the project is bad.
                 // (Although it could be bad for some other reason. Hmmm.)
-                if ($trace) {
+                if ($trace) { /** @phpstan-ignore-line */
                     echo "project looks okay.\n";
                 }
                 $appropriate_state = $round->project_available_state;
@@ -146,7 +146,7 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
                     ensure_project_blurb($project);
                     echo "    Re badness, changing state to $appropriate_state\n";
                 }
-                if ($trace) {
+                if ($trace) { /** @phpstan-ignore-line */
                     echo "changing its state to $appropriate_state\n";
                 }
                 $error_msg = project_transition($projectid, $appropriate_state, PT_AUTO);
@@ -279,7 +279,7 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
     }
 }
 
-if ($trace) {
+if ($trace) { /** @phpstan-ignore-line */
     echo "\n";
 }
 

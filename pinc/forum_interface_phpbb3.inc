@@ -756,7 +756,7 @@ function call_phpbb_function($func_name, $args)
     // for figuring out where the calls into phpbb*.inc went wrong.
     $DEBUG = false;
 
-    if ($DEBUG) {
+    if ($DEBUG) { /** @phpstan-ignore-line */
         echo "call_phpbb_function( $func_name, ", print_r($args, true), ")<br>\n";
     }
 
@@ -773,14 +773,14 @@ function call_phpbb_function($func_name, $args)
     global $code_dir, $php_cli_executable;
     $phpbb_include_file = "phpbb3.inc";
     $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
-    if ($DEBUG) {
+    if ($DEBUG) { /** @phpstan-ignore-line */
         echo "command: $command<br>\n";
     }
 
     $output = [];
     $last_line = exec($command, $output, $exit_status);
 
-    if ($exit_status != 0 || $DEBUG) {
+    if ($exit_status != 0 || $DEBUG) { /** @phpstan-ignore-line */
         echo "<pre>\n";
         echo "$func_name command exited with status=$exit_status\n";
         if (count($output) > 0) {

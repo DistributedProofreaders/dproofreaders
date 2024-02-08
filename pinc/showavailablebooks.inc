@@ -682,7 +682,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
         }
 
         [$provider_noun, $curr_ext_sort] = $ext_sort_provider;
-        if ($local_trace) {
+        if ($local_trace) { /** @phpstan-ignore-line */
             echo "\n<p>";
             echo html_safe(
                 sprintf(
@@ -780,7 +780,7 @@ function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setti
 
         // If sort order has changed, save it to database.
         if ($curr_ext_sort != $saved_ext_sort) {
-            if ($local_trace) {
+            if ($local_trace) { /** @phpstan-ignore-line */
                 echo "\n<p>";
                 echo html_safe(
                     sprintf(
