@@ -311,8 +311,8 @@ class ImageSource
     {
         global $site_abbreviation;
         $cols = [
-            ['field' => 'ok_keep_images', 'label' => _('Images may be stored'), 'allow_unknown' => true],
-            ['field' => 'ok_show_images', 'label' => _('Images may be published'), 'allow_unknown' => true],
+            ['field' => 'ok_keep_images', 'label' => _('Images may be stored')],
+            ['field' => 'ok_show_images', 'label' => _('Images may be published')],
 
         ];
 
@@ -327,11 +327,9 @@ class ImageSource
             $editing .= "$col[label]: ";
             $editing .= "<select name='$col[field]'>";
             foreach (['1' => _('Yes'), '0' => _('No'), '-1' => _('Unknown')] as $val => $opt) {
-                if (! (!$col['allow_unknown'] && $val == -1)) {
-                    $editing .= "<option value='$val' " .
+                $editing .= "<option value='$val' " .
                     ($existing_value == $val ? 'selected' : '') .
                     ">$opt</option>";
-                }
             }
             $editing .= "</select><br>";
         }
