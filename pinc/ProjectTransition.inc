@@ -412,7 +412,7 @@ class ProjectTransitions
 
     public static function get_all()
     {
-        if(!self::$_project_transitions) {
+        if (!self::$_project_transitions) {
             self::$_project_transitions = create_project_transitions();
         }
         return self::$_project_transitions;
