@@ -90,9 +90,7 @@ if (!$user_is_logged_in) {
 
     echo "<br>\n";
     return;
-}
-
-if ($user_is_logged_in) {
+} else { // $user_is_logged_in
     upi_set_t_latest_home_visit(
         $pguser,
         $project->projectid,
