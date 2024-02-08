@@ -992,11 +992,11 @@ class Project
 
         // PMs/PFs can only delete nonpage images in New
         // or P1 Unavailable stages
-        if ($this->can_be_managed_by_user($username)) {
-            return $this->state == PROJ_NEW || $this->state == PROJ_P1_UNAVAILABLE;
-        } else {
-            return false;
+        if ($this->can_be_managed_by_user($username) &&
+            in_array($this->state, [PROJ_NEW, PROJ_P1_UNAVAILABLE])) {
+            return true;
         }
+
         // Nobody else can delete images
         return false;
     }
