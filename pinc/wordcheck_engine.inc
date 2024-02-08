@@ -729,17 +729,8 @@ function load_wordcheck_events($projectid, $start_time = 0)
         $words = $resultSet["suggestions"];
         $corrections = $resultSet["corrections"];
 
-        if ($words != "") {
-            $words = explode("\n", $words);
-        } else {
-            $words = [];
-        }
-
-        if ($corrections != "") {
-            $corrections = explode("\n", $corrections);
-        } else {
-            $corrections = [];
-        }
+        $words = _explode_no_empty("\n", $words);
+        $corrections = _explode_no_empty("\n", $corrections);
 
         $eventArray[] = [$time, $round, $page, $proofer, $words, $corrections];
     }
@@ -924,16 +915,24 @@ function load_word_list($path)
 
     // remove any trailing spaces, although there shouldn't be any for
     // lists saved with save_word_list(), and \r
-    $file_contents = preg_replace("/\s*\r*\n/", "\n", $file_contents);
-    $words = explode("\n", $file_contents);
+    $file_contents = rtrim(preg_replace("/\s*\r*\n/", "\n", $file_contents));
 
-    // remove the last "empty" word caused by the last newline
-    if (count($words) && $words[count($words) - 1] == "") {
-        array_pop($words);
-    }
-
-    return $words;
+    return _explode_no_empty("\n", $file_contents);
 }
+
+/**
+  * @param string $sep
+  *     The separator between substrings
+  * @param string $string
+  *     The input string to split
+  *
+  * @return array<string>
+  */
+function _explode_no_empty($sep, $string)
+{
+    return empty($string) ? [] : explode($sep, $string);
+}
+
 
 /**
  * Save a list of words (one per line) to a file.
