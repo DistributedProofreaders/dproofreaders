@@ -310,7 +310,7 @@ function do_navigation(
  */
 function can_see_names_for_page($projectid, $image)
 {
-    global $pguser, $Round_for_round_id_;
+    global $pguser;
 
     // If requester isn't logged in, they can't see any names.
     if ($pguser == '') {
@@ -321,7 +321,7 @@ function can_see_names_for_page($projectid, $image)
     $answer = $project->names_can_be_seen_by_current_user; // can see for all pages
     if (! $answer) {
         $fields = "";
-        foreach ($Round_for_round_id_ as $round_id => $round) {
+        foreach (Rounds::get_all() as $round) {
             if ($fields != "") {
                 $fields .= ", ";
             }
