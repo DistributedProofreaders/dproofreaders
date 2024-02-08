@@ -1228,7 +1228,7 @@ function do_history()
                     // which isn't necessarily consistent (or logical).
                     // However, I'm not sure it's worth doing anything about that.
 
-                    if (count($labels) == 0) {
+                    if (count($labels) == 0) { /** @phpstan-ignore-line Fixed in https://github.com/phpstan/phpstan/issues/9403 */
                         // This shouldn't happen.
                         // TRANSLATORS: i.e. no fields changed
                         $list_of_changed_fields = pgettext("no fields", "none");
