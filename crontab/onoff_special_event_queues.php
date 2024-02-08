@@ -40,8 +40,8 @@ We assume that this script is run daily at about noon GMT.
 
 echo "Script starts at " . gmdate('Y-m-d H:i:s') . " GMT\n";
 
-$today_month = gmdate('m');
-$today_day = gmdate('d');
+$today_month = (int)gmdate('m');
+$today_day = (int)gmdate('d');
 
 $tomorrow = gmmktime(0, 0, 0, $today_month, $today_day + 1);
 

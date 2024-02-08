@@ -348,7 +348,7 @@ function spellcheck_apply_corrections()
 
                 // hidden values line|offset|word length
                 [$orig_line_i, $orig_word_offset, $orig_word_length] =
-                    explode('|', $_POST['posit'.$i]);
+                    array_map('intval', explode('|', $_POST['posit'.$i]));
 
                 // get the modified word, strip off any trailing spaces
                 $correct_word = rtrim($_POST['sp'.$i]);

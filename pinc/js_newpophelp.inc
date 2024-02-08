@@ -8,8 +8,8 @@ function get_newHelpWin_javascript($popHelpDir)
     $user = User::load_current();
 
     $wSize = explode("x", $i_resolutions[$user->profile->i_res]);
-    $top = ($wSize[1] - 300) / 2;
-    $left = ($wSize[0] - 400) / 2;
+    $top = ((int)$wSize[1] - 300) / 2;
+    $left = ((int)$wSize[0] - 400) / 2;
 
     return "
     function newHelpWin(wFile)

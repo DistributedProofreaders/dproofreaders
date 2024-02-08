@@ -13,8 +13,8 @@ function get_js_for_links_to_project_pages()
     $user = User::load_current();
 
     $wSize = explode("x", $i_resolutions[$user->profile->i_res * 1]);
-    $window_width = $wSize[0] - 20;
-    $window_height = $wSize[1] - 80;
+    $window_width = (int)$wSize[0] - 20;
+    $window_height = (int)$wSize[1] - 80;
 
     return "
         function newProofWin(winURL)
