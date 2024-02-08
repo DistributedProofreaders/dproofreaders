@@ -1314,8 +1314,6 @@ function factor_strings($strings)
     $middles = [];
 
     foreach ($strings as $string) {
-        assert($left_match_length >= 0);
-        assert($right_match_length >= 0);
         assert($left_match_length + $right_match_length <= strlen($string));
 
         if ($left_match_length == strlen($string)) {
