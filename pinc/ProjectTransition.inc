@@ -254,7 +254,6 @@ class ProjectTransition
 
                     default:
                         return "in settings_template, bad braced_thing $braced_thing";
-                        break;
                 }
                 $patterns[] = "/$braced_thing/";
                 $replacements[] = $replacement;
