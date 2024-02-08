@@ -287,12 +287,9 @@ function echo_page_table(
 
     echo "<table class='themed theme_striped pagedetail' id='page_table'>\n";
 
-    $n_cols_per_round = 3; // Diff, Date, Text
+    $n_cols_per_round = 4; // Diff, Date, Text, User
     // Even if the user can't see names for all pages, they can see names
     // for the pages they've worked on, so we always include the User column.
-    if (true) {
-        $n_cols_per_round += 1;
-    } // User
 
     // Top header row
     {
@@ -337,9 +334,7 @@ function echo_page_table(
         foreach ($rounds_to_display as $round) {
             echo "{$td_start}"._("Diff")."{$td_end}";
             echo "{$td_start}"._("Date")."{$td_end}";
-            if (true) {
-                echo "{$td_start}"._("User")."{$td_end}";
-            }
+            echo "{$td_start}"._("User")."{$td_end}";
             echo "{$td_start}"._("Text")."{$td_end}";
         }
 
