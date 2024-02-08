@@ -13,7 +13,8 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "phpunit/phpunit": "^9.5.0"
+        "phpunit/phpunit": "^9.5.0",
+        "phpstan/phpstan": "^1.10"
     },
     "replace": {
         "symfony/polyfill-php54": "*",
