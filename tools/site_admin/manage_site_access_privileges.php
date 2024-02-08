@@ -204,8 +204,7 @@ function update_settings($user, $user_settings)
         $disposition[$which][] = $setting_name;
     }
 
-    foreach (array_merge($value_user_settings, $freeform_user_settings) as
-        $setting_name => $options) {
+    foreach (array_merge($value_user_settings, $freeform_user_settings) as $setting_name => $options) {
         if (isset($_POST[$setting_name])) {
             if ($user_settings->get_value($setting_name) == $_POST[$setting_name]) {
                 continue;

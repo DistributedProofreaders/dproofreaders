@@ -198,6 +198,7 @@ final class DPDatabase
     }
     public function __sleep()
     {
+        return [];
     }
     public function __wakeup()
     {

@@ -82,7 +82,7 @@ you want to run and add the following line immediately after the opening
 `<?php` tag before `base.inc` is included.
 
 ```php
-$maintenance_override = TRUE;
+$maintenance_override = true;
 ```
 
 ### Upgrading from a release before R202009

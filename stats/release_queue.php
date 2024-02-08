@@ -10,9 +10,6 @@ include_once($relPath.'release_queue.inc');
 
 require_login();
 
-$user_can_see_queue_settings = $ordinary_users_can_see_queue_settings ||
-    user_is_a_sitemanager() || user_is_proj_facilitator();
-
 $listing_view_modes = [
     "populated" => [
         "label" => _("Enabled & populated queues"),
@@ -48,12 +45,10 @@ if (is_null($round)) {
 
 function _show_available_rounds()
 {
-    global $Round_for_round_id_;
-
     echo html_safe(_("Each round has its own set of release queues.")), "\n";
     echo html_safe(_("Please select the round that you're interested in:")), "\n";
     echo "<ul>\n";
-    foreach (array_keys($Round_for_round_id_) as $round_id) {
+    foreach (Rounds::get_ids() as $round_id) {
         echo "<li><a href='?round_id=$round_id'>$round_id</a></li>\n";
     }
     echo "</ul>\n";
@@ -61,7 +56,7 @@ function _show_available_rounds()
 
 function _show_round_queues($round, $listing_view_mode)
 {
-    global $code_url, $listing_view_modes, $user_can_see_queue_settings;
+    global $code_url, $listing_view_modes;
 
     echo "<p>";
     echo "<a href='?'>" . html_safe(_("Back to queue round selection")) ."</a> | ";
@@ -111,7 +106,7 @@ function _show_round_queues($round, $listing_view_mode)
         echo "<th>", html_safe(_("Name")), "</th>\n";
         echo "<th>", html_safe(_("Current length")), "</th>\n";
         echo "<th>", html_safe(_("Length without holds")), "</th>\n";
-        if ($user_can_see_queue_settings) {
+        if (user_can_see_queue_settings()) {
             echo "<th>", html_safe(_("Release criterion")), "</th>\n";
             $columns += 1;
         }
@@ -119,63 +114,48 @@ function _show_round_queues($round, $listing_view_mode)
         echo "</tr>\n";
     }
 
-    $q_sql = sprintf(
-        "
-        SELECT *
-        FROM queue_defns
-        WHERE round_id='%s' AND ((%s) OR (SUBSTR(name, 1, 1) = '*'))
-        ORDER BY ordering
-        ",
-        DPDatabase::escape($round->id),
-        in_array($listing_view_mode, ["enabled", "populated"]) ? "enabled = 1" : "1"
-    );
-    $q_res = DPDatabase::query($q_sql);
-
-    while ($qd = mysqli_fetch_object($q_res)) {
+    foreach (fetch_queues_data($round, $listing_view_mode, true, null, null) as $queue_data) {
         // Because queues are ordered, there is a convention to break them up
-        // into sections with a disabled queue at the start of the section
-        // indicating the section's name. These queue names start with "***"
-        // and we identify them here and treat them differently.
-        if (startswith($qd->name, "***")) {
+        // into sections with a 'group queue' at the start of the section.
+        if ($queue_data["is_group"]) {
             echo "<tr>";
-            echo "<td colspan='$columns' class='bold'>" . html_safe(str_replace("***", "", $qd->name)) . "</td>";
+            echo "<td colspan='$columns' class='bold'>" . html_safe($queue_data["group"]) . "</td>";
             echo "</tr>";
             continue;
         }
-
-        [$current_length, $current_unheld_length] = _get_queue_length($qd->project_selector, $round->project_waiting_state);
-        if ($listing_view_mode == "populated" && $current_length == 0) {
-            continue;
-        }
-
-        if ($current_length === null) {
-            $current_length = '???';
-            $current_unheld_length = '???';
-            $holds = '???';
+        $length = $queue_data["length"];
+        $unheld_length = $queue_data["unheld_length"];
+        if ($length === null) {
+            $length = '???';
+            $unheld_length = '???';
             $errors[] = sprintf(
                 _('There is a syntax error in the project selector for #%1$d "%2$s"'),
-                $qd->ordering,
-                $qd->name
+                $queue_data["ordering"],
+                $queue_data["name"],
             );
-            $link_cell = html_safe($qd->name);
+            $link_cell = html_safe($queue_data["name"]);
         } else {
-            $ename = urlencode($qd->name);
-            $link_cell = "<a href='?round_id=$round->id&amp;name=$ename'>" . html_safe($qd->name) . "</a>";
-            $holds = $current_length - $current_unheld_length;
+            $ename = urlencode($queue_data["name"]);
+            $link_cell = "<a href='?round_id=$round->id&amp;name=$ename'>" . html_safe($queue_data["name"]) . "</a>";
         }
 
         echo "<tr>";
-        echo "<td>$qd->ordering</td>\n";
+        echo "<td>", $queue_data["ordering"], "</td>\n";
         if (!in_array($listing_view_mode, ["enabled", "populated"])) {
-            echo "<td>" . html_safe($qd->enabled ? _("Yes") : "") . "</td>";
+            echo "<td>" . html_safe($queue_data["enabled"] ? _("Yes") : "") . "</td>";
         }
         echo "<td>$link_cell</td>\n";
-        echo "<td>$current_length</td>\n";
-        echo "<td>$current_unheld_length</td>\n";
-        if ($user_can_see_queue_settings) {
-            echo "<td>", html_safe($qd->release_criterion), "</td>\n";
+        echo "<td>$length</td>\n";
+        echo "<td>$unheld_length</td>\n";
+        if (user_can_see_queue_settings()) {
+            $release_criterion =
+                format_queue_targets_as_condition(
+                    $queue_data["projects_target"],
+                    $queue_data["pages_target"]
+                );
+            echo "<td>$release_criterion</td>\n";
         }
-        echo "<td>", html_safe($qd->comment), "</td>\n";
+        echo "<td>", html_safe($queue_data["comment"]), "</td>\n";
         echo "</tr>\n";
     }
     echo "</table>\n";
@@ -185,44 +165,11 @@ function _show_round_queues($round, $listing_view_mode)
     }
 }
 
-function _get_queue_length($cooked_project_selector, $project_waiting_state)
-{
-    $state_clause = sprintf(
-        "state='%s'",
-        DPDatabase::escape($project_waiting_state)
-    );
-    $c_sql = "
-        SELECT count(*) as total, SUM(CASE WHEN project_holds.state is NULL THEN 1 ELSE 0 END) as unheld
-        FROM projects
-            LEFT OUTER JOIN project_holds USING (projectid, state)
-        WHERE ($cooked_project_selector)
-            AND $state_clause
-    ";
-
-    try {
-        $c_res = DPDatabase::query($c_sql);
-        $row = mysqli_fetch_row($c_res);
-        return [$row[0], $row[1] ?? 0];
-    } catch (DBQueryError $error) {
-        return [null, null];
-    }
-}
-
 function _show_queue_details($round, $name, $unheld_only)
 {
-    global $code_url, $user_can_see_queue_settings;
-
-    $sql = sprintf(
-        "
-        SELECT *
-        FROM queue_defns
-        WHERE round_id='%s' AND name='%s'
-        ",
-        DPDatabase::escape($round->id),
-        DPDatabase::escape($name)
-    );
-    $qd = mysqli_fetch_object(DPDatabase::query($sql));
-    if (!$qd) {
+    global $code_url;
+    $queue = fetch_queue_data_by_name($round, $name);
+    if (is_null($queue)) {
         die(html_safe("No such release queue '$name' in $round->id."));
     }
 
@@ -231,23 +178,26 @@ function _show_queue_details($round, $name, $unheld_only)
     // TRANSLATORS: %s is the name of this release queue.
     echo "<h2>" . html_safe(sprintf(_('%1$s release queue: %2$s'), $round->id, $name)) . "</h2>";
 
-    $cooked_project_selector = cook_project_selector($qd->project_selector);
-
-    [$length, $length_unheld] = _get_queue_length($cooked_project_selector, $round->project_waiting_state);
-
     $fields = [
-        _("Comment") => $qd->comment,
-        _("Status") => $qd->enabled ? _("enabled") : _("disabled"),
-        _("Current length") => $length,
-        _("Length without holds") => $length_unheld,
+        _("Id") => $queue["id"],
+        _("Comment") => $queue["comment"],
+        _("Status") => $queue["enabled"] ? _("enabled") : _("disabled"),
+        _("Current length") => $queue["length"],
+        _("Length without holds") => $queue["unheld_length"],
     ];
 
-    if ($user_can_see_queue_settings) {
-        $fields[_("Selector")] = $qd->project_selector;
-        if ($cooked_project_selector != $qd->project_selector) {
+    $cooked_project_selector = cook_project_selector($queue["project_selector"]);
+
+    if (user_can_see_queue_settings()) {
+        $fields[_("Selector")] = $queue["project_selector"];
+        if ($cooked_project_selector != $queue["project_selector"]) {
             $fields[_("Filled-in")] = $cooked_project_selector;
         }
-        $fields[_("Release Criterion")] = $qd->release_criterion;
+        $fields[_("Release Criterion")] =
+            format_queue_targets_as_condition(
+                $queue["projects_target"],
+                $queue["pages_target"]
+            );
     }
 
     echo "<p>";
@@ -267,20 +217,18 @@ function _show_queue_details($round, $name, $unheld_only)
     echo "<th>" . html_safe(_("Pages")) . "</th>";
     echo "</tr>";
 
-    foreach ([1, 7, 28, 84] as $days_ago) {
-        $seconds_ago = time() - 60 * 60 * 24 * $days_ago;
-        [$projects_released, $pages_released] = _get_num_projects_and_pages_released_in_last($name, $seconds_ago, $round->project_waiting_state);
+    foreach (fetch_queue_stats_data($round, $name) as $stats) {
         echo "<tr>";
-        echo "<td class='right-align'>$days_ago</td>";
-        echo "<td class='right-align'>$projects_released</td>";
-        echo "<td class='right-align'>$pages_released</td>";
+        echo "<td class='right-align'>", $stats["days_ago"], "</td>";
+        echo "<td class='right-align'>", $stats["projects_released"], "</td>";
+        echo "<td class='right-align'>", $stats["pages_released"], "</td>";
         echo "</tr>";
     }
     echo "</table>";
 
     echo "<h3>" . html_safe(_("Projects currently in queue")) . "</h3>";
 
-    $ename = urlencode($qd->name);
+    $ename = urlencode($queue["name"]);
     echo "<p>";
     if ($unheld_only) {
         echo "<a href='?round_id=$round->id&amp;name=$ename&amp;unheld_only=0'>" . html_safe("Show all projects") . "</a> | ";
@@ -291,120 +239,33 @@ function _show_queue_details($round, $name, $unheld_only)
     }
     echo "</p>";
 
-
-    $comments_url1 = DPDatabase::escape("<a href='$code_url/project.php?id=");
-    $comments_url2 = DPDatabase::escape("'>");
-    $comments_url3 = DPDatabase::escape("</a>");
-
-    $unheld_only_sql = $unheld_only ? "project_holds.state is NULL" : "1";
-    dpsql_dump_themed_query("
-        SELECT
-
-            concat('$comments_url1',projectID,'$comments_url2', nameofwork, '$comments_url3') as '"
-                . DPDatabase::escape(_("Title")) . "',
-            authorsname as '" . DPDatabase::escape(_("Author")) . "',
-            language    as '" . DPDatabase::escape(_("Language")) . "',
-            genre       as '" . DPDatabase::escape(_("Genre")) . "',
-            difficulty  as '" . DPDatabase::escape(_("Difficulty")) . "',
-            username    as '" . DPDatabase::escape(_("Project Manager")) . "',
-            FROM_UNIXTIME(modifieddate) as '"
-                . DPDatabase::escape(_("Date Last Modified")) . "',
-            IF(ISNULL(project_holds.state),'&nbsp;','Y') AS '" . DPDatabase::escape(_("Hold?")) . "'
-        FROM projects
-            LEFT OUTER JOIN project_holds USING (projectid, state)
-        WHERE ($cooked_project_selector)
-            AND state='{$round->project_waiting_state}'
-            AND $unheld_only_sql
-        ORDER BY modifieddate, nameofwork
-    ");
-}
-
-function _get_num_projects_and_pages_released_in_last($name, $seconds_ago, $waiting_state)
-{
-    $sql = sprintf(
-        "
-        SELECT count(*)
-        FROM project_events
-        WHERE event_type = 'transition'
-            AND details1 = '%s'
-            AND details3 = 'via_q: %s'
-            AND timestamp >= %d
-        ",
-        DPDatabase::escape($waiting_state),
-        DPDatabase::escape($name),
-        $seconds_ago
-    );
-    $result = DPDatabase::query($sql);
-    $projects_released = mysqli_fetch_row($result)[0];
-
-    $sql = sprintf(
-        "
-        SELECT sum(n_pages)
-        FROM projects
-        WHERE projectid in (
-            SELECT projectid
-            FROM project_events
-            WHERE event_type = 'transition'
-                AND details1 = '%s'
-                AND details3 = 'via_q: %s'
-                AND timestamp >= %d
-        )
-        ",
-        DPDatabase::escape($waiting_state),
-        DPDatabase::escape($name),
-        $seconds_ago
-    );
-    $result = DPDatabase::query($sql);
-    $pages_released = mysqli_fetch_row($result)[0] ?? 0;
-
-    return [$projects_released, $pages_released];
-}
-
-function _get_num_projects_and_pages_available_from_queue($name, $seconds_ago, $waiting_state, $round)
-{
-    $sql = sprintf(
-        "
-        SELECT count(*)
-        FROM projects
-        WHERE projectid in (
-            SELECT projectid
-            FROM project_events
-            WHERE event_type = 'transition'
-                AND details1 = '%s'
-                AND details3 = 'via_q: %s'
-                AND timestamp >= %d
-            ) AND state = '%s'
-        ",
-        DPDatabase::escape($waiting_state),
-        DPDatabase::escape($name),
-        $seconds_ago,
-        $round->project_available_state
-    );
-    $result = DPDatabase::query($sql);
-    $projects_available = mysqli_fetch_row($result)[0] ?? 0;
-
-    $sql = sprintf(
-        "
-        SELECT sum(n_available_pages)
-        FROM projects
-        WHERE projectid in (
-            SELECT projectid
-            FROM project_events
-            WHERE event_type = 'transition'
-                AND details1 = '%s'
-                AND details3 = 'via_q: %s'
-                AND timestamp >= %d
-            ) AND state = '%s'
-        ",
-        DPDatabase::escape($waiting_state),
-        DPDatabase::escape($name),
-        $seconds_ago,
-        $round->project_available_state
-    );
-    $result = DPDatabase::query($sql);
-    $pages_available = mysqli_fetch_row($result)[0] ?? 0;
-
-    return [$projects_available, $pages_available];
+    $headers = [
+        _("Title"),
+        _("Author"),
+        _("Languages"),
+        _("Genre"),
+        _("Difficulty"),
+        _("Project Manager"),
+        _("Date Last Modified"),
+        _("Hold?"),
+    ];
+    echo "<table class='themed theme_striped stats' style='width: 100%; table-layout: fixed'>\n";
+    echo "<tr>\n";
+    echo surround_and_join(array_map("html_safe", $headers), "<th>", "</th>\n", "");
+    echo "</tr>\n";
+    foreach (fetch_queue_projects_data($round, $queue["project_selector"], $unheld_only) as $p) {
+        echo "<tr>\n";
+        echo "<td><a href='$code_url/project.php?id=", attr_safe($p["projectid"]), "'>", html_safe($p["title"]), "</a></td>\n";
+        echo "<td>", html_safe($p["author"]), "</td>\n";
+        echo "<td>", html_safe(Project::encode_languages($p["languages"])), "</td>\n";
+        echo "<td>", html_safe($p["genre"]), "</td>\n";
+        echo "<td>", html_safe($p["difficulty"]), "</td>\n";
+        echo "<td>", html_safe($p["username"]), "</td>\n";
+        echo "<td>", date("Y-m-d H:i:s", $p["last_state_change_time"]), "</td>\n";
+        echo "<td>", is_null($p["holds_state"]) ? "&nbsp;" : "Y", "</td>\n";
+        echo "</tr>";
+    }
+    echo "</table>";
 }
 
 function _get_num_projects_and_pages_available($round)

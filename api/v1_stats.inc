@@ -34,6 +34,92 @@ function api_v1_stats_site($method, $data, $query_params)
 }
 
 //---------------------------------------------------------------------------
+// stats/site/projects_states
+// Produces output like
+// ```
+// {
+//    "project_new": 224,
+//    "project_bad": 0,
+//    "F1.proj_avail": 11,
+//    "F2.proj_avail": 7,
+//    "F2.proj_unavail": 2,
+//    "F2.proj_waiting": 1,
+//    ...
+//    "P3.proj_unavail": 1,
+//    "proj_post_first_available": 4,
+//    "proj_post_first_checked_out": 24,
+//    "proj_post_first_unavailable": 3,
+//    "proj_post_second_available": 4,
+//    "proj_post_second_checked_out": 2,
+//    "proj_delete": 46,
+// }```
+function api_v1_stats_site_projects_states($method, $data, $query_params)
+{
+    // Make sure all project state statistics are provided.
+    $output = [];
+    global $PROJECT_STATES_IN_ORDER;
+    foreach ($PROJECT_STATES_IN_ORDER as $s) {
+        $output[$s] = 0;
+    }
+
+    // Fill in the populated project states from the DB
+    $sql = "
+        SELECT state, COUNT(*)
+        FROM projects
+        GROUP BY state
+    ";
+    $result = DPDatabase::query($sql);
+    while ([$project_state, $count] = mysqli_fetch_row($result)) {
+        $output[$project_state] = (int)$count;
+    }
+    return $output;
+}
+
+function api_v1_stats_site_projects_stages($method, $data, $query_params)
+{
+    // Make sure all project stage statistics are provided.
+    $output = [];
+    foreach (Stages::get_all() as $s) {
+        $output[$s->id] = 0;
+    }
+
+    $sql = "
+        SELECT state, COUNT(*)
+        FROM projects
+        GROUP BY state
+    ";
+    $result = DPDatabase::query($sql);
+    while ([$project_state, $count] = mysqli_fetch_row($result)) {
+        // If the stage is in a round, add it to the round's count
+        $r = Rounds::get_by_project_state($project_state);
+        if ($r) {
+            $output[$r->id] += (int)$count;
+            continue;
+        }
+        // If the stage is in a pool, add it to the pool's count
+        $p = Pools::get_by_state($project_state);
+        if ($p) {
+            $output[$p->id] += (int)$count;
+            continue;
+        }
+
+    }
+
+    // Handle SR separately. It's a special pool.
+    $sql = "
+        SELECT COUNT(*)
+        FROM projects
+        WHERE state = '" . PROJ_POST_FIRST_CHECKED_OUT . "'
+            AND smoothread_deadline > UNIX_TIMESTAMP()
+    ";
+    $result = DPDatabase::query($sql);
+    [$count] = mysqli_fetch_row($result);
+    $output['SR'] = (int)$count;
+
+    return $output;
+}
+
+//---------------------------------------------------------------------------
 // stats/site/rounds
 
 function render_round_stats($round_id)
@@ -53,10 +139,8 @@ function render_round_stats($round_id)
 
 function api_v1_stats_site_rounds($method, $data, $query_params)
 {
-    global $Round_for_round_id_;
-
     $return = [];
-    foreach (array_keys($Round_for_round_id_) as $round_id) {
+    foreach (Rounds::get_ids() as $round_id) {
         $return[$round_id] = render_round_stats($round_id);
     }
 

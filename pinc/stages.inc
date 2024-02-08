@@ -237,8 +237,7 @@ new Round(
 
 // After creating all rounds:
 
-define('MAX_NUM_PAGE_EDITING_ROUNDS', 5);
-assert($n_rounds == MAX_NUM_PAGE_EDITING_ROUNDS);
+define('MAX_NUM_PAGE_EDITING_ROUNDS', count(Rounds::get_all()));
 
 // ---------------------------
 
@@ -368,3 +367,38 @@ new Activity(
     '',
     null // access_change_callback
 );
+
+// -----------------------------------------------------------------------------
+
+// recreate globals until they are replaced in the codebase
+
+function _globals_builder($objects, $field)
+{
+    $return = [];
+    foreach ($objects as $object) {
+        $return[$object->$field] = $object;
+    }
+    return $return;
+}
+
+global $Activity_for_id_, $Stage_for_id_, $Pool_for_id_;
+global $Round_for_round_id_, $Round_for_round_number_, $Round_for_project_state_;
+global $Round_for_page_state_, $PAGE_STATES_IN_ORDER;
+
+$Activity_for_id_ = _globals_builder(Activities::get_all(), "id");
+$Pool_for_id_ = _globals_builder(Pools::get_all(), "id");
+$Stage_for_id_ = _globals_builder(Stages::get_all(), "id");
+$Round_for_round_id_ = _globals_builder(Rounds::get_all(), "id");
+$Round_for_round_number_ = _globals_builder(Rounds::get_all(), "round_number");
+$Round_for_project_state_ = [];
+$Round_for_page_state_ = [];
+$PAGE_STATES_IN_ORDER = [];
+foreach (Rounds::get_all() as $round) {
+    foreach ($round->project_states as $project_state) {
+        $Round_for_project_state_[$project_state] = $round;
+    }
+    foreach ($round->page_states as $page_state) {
+        $Round_for_page_state_[$page_state] = $round;
+        $PAGE_STATES_IN_ORDER[] = $page_state;
+    }
+}

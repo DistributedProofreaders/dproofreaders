@@ -519,7 +519,7 @@ function maybe_show_language_selector()
  */
 function get_activity_links()
 {
-    global $Stage_for_id_, $ELR_round;
+    global $ELR_round;
 
     $user = User::load_current();
 
@@ -541,9 +541,8 @@ function get_activity_links()
     // Always allow users to see the ELR
     $stages_user_can_see[$ELR_round->id] = $ELR_round;
 
-    // we still need to loop through $Stage_for_id_ to output the stages
-    // in order
-    foreach ($Stage_for_id_ as $stage) {
+    // we still need to loop through all stages to output them in order
+    foreach (Stages::get_all() as $stage) {
         if (isset($stages_user_can_see[$stage->id])) {
             $text = $stage->id;
 

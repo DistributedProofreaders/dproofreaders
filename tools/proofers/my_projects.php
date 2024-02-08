@@ -713,7 +713,7 @@ function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $user
     }
 
     [$order_col, $order_dir] = get_sort_col_and_dir($pool_sort);
-    if (!in_array($order_col, array_keys($pool_column_specs))) {
+    if (!array_key_exists($order_col, $pool_column_specs)) {
         $order_col = 'title';
         $order_dir = 'A';
     }

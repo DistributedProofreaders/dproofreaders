@@ -5,6 +5,7 @@ include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
 include_once("exceptions.inc");
+include_once("api_common.inc");
 
 // DP API v1 -- Projects
 
@@ -27,6 +28,12 @@ function api_v1_projects($method, $data, $query_params)
         "pg_ebook_number" => "postednum",
         "pages_available" => "n_pages_available",
         "pages_total" => "n_pages",
+    ];
+
+    // parameters in the query where the value can be "false", "true" or absent (==true)
+    // When true, a WHERE clause is added to the SQL query.
+    $valid_flags = [
+        "in_smoothreading" => "smoothread_deadline > UNIX_TIMESTAMP()",
     ];
 
     // Allow SAs and PFs to search on clearance. We can't allow PMs to do so
@@ -55,6 +62,12 @@ function api_v1_projects($method, $data, $query_params)
         } else {
             $values_list = surround_and_join($values, "'", "'", ",");
             $where .= " AND $column_name IN ($values_list)";
+        }
+    }
+
+    foreach (array_intersect(array_keys($valid_flags), array_keys($query_params)) as $flag) {
+        if (get_flag_value($query_params, $flag)) {
+            $where .= " AND " . $valid_flags[$flag];
         }
     }
 
@@ -112,10 +125,7 @@ function api_v1_projects($method, $data, $query_params)
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);
 
     // restrict to list of desired fields, if set
-    $return_fields = array_get($query_params, "field", null);
-    if ($return_fields && !is_array($return_fields)) {
-        $return_fields = [$return_fields];
-    }
+    $return_fields = array_get_as_array($query_params, "field", null);
 
     $output = [];
     while ($row = mysqli_fetch_assoc($result)) {
@@ -294,15 +304,12 @@ function render_project_json($project, $return_fields = null)
             "last_state_change_time" => date(DATE_ATOM, $project->modifieddate),
             "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
             "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
+            "smoothread_deadline" => date(DATE_ATOM, $project->smoothread_deadline),
         ]
     );
 
     // remove any fields that weren't requested
-    if ($return_fields) {
-        foreach (array_diff(array_keys($return_array), $return_fields) as $field) {
-            unset($return_array[$field]);
-        }
-    }
+    array_remove_invalid_fields($return_array, $return_fields);
 
     return $return_array;
 }
@@ -492,6 +499,33 @@ function render_project_page_json($row)
 }
 
 //---------------------------------------------------------------------------
+// projects/:projectid/transitions
+
+function api_v1_project_transitions($method, $data, $query_params)
+{
+    $sql = sprintf(
+        "
+        SELECT *
+        FROM project_events
+        WHERE projectid = '%s'
+        AND event_type in ('creation', 'transition', 'archive')
+        ORDER BY timestamp
+        ",
+        $data[":projectid"]->projectid
+    );
+    $result = DPDatabase::query($sql);
+    $return_data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $return_data[] = [
+            "timestamp" => date(DATE_ATOM, (int)$row["timestamp"]),
+            "event_type" => $row["event_type"],
+            "details" => [$row["details1"], $row["details2"], $row["details3"]],
+        ];
+    }
+    return $return_data;
+}
+
+//---------------------------------------------------------------------------
 // projects/difficulties
 
 function api_v1_projects_difficulties($method, $data, $query_params)
@@ -535,9 +569,7 @@ function api_v1_projects_states($method, $data, $query_params)
 
 function api_v1_projects_pagerounds($method, $data, $query_params)
 {
-    global $Round_for_round_id_;
-
-    return array_merge(["OCR"], array_keys($Round_for_round_id_));
+    return array_merge(["OCR"], Rounds::get_ids());
 }
 
 //---------------------------------------------------------------------------
@@ -661,16 +693,5 @@ function api_v1_projects_holdstates($method, $data, $query_params)
  */
 function _get_enabled_filter($query_params)
 {
-    if (!isset($query_params["enabled"])) {
-        return null;
-    } elseif ($query_params["enabled"] == "") {
-        // make '?enabled' work as if '?enabled=true'
-        return true;
-    } else {
-        $bool = filter_var($query_params["enabled"], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if ($bool === null) {
-            throw new ValueError("Invalid value for 'enabled'");
-        }
-        return $bool;
-    }
+    return _get_flag_value($query_params, "enabled");
 }

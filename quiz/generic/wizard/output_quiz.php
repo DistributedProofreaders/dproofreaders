@@ -26,7 +26,7 @@ function sdbsn($x)
 
 function make_output()
 {
-    $out .= '$' . ssqs($_SESSION['quiz_data']['quiz_id']) . " = new Quiz(\n";
+    $out = '$' . ssqs($_SESSION['quiz_data']['quiz_id']) . " = new Quiz(\n";
     $out .= ' "' . ssqs($_SESSION['quiz_data']['quiz_id']) . "\",\n";
     $out .= ' _("' . ssqs($_SESSION['quiz_data']['quiz_name']) . "\"),\n";
     $out .= ' _("' . ssqs($_SESSION['quiz_data']['short_quiz_name']) . "\"),\n";

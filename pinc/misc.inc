@@ -39,6 +39,39 @@ function array_extract_field($array, $field)
 }
 
 /**
+ * Return $array[$key], or $default.
+ * If the result is non-null and not an array, wrap it up as a single value array
+ *
+ * null             -> null
+ * []               -> []
+ * "foo"            -> ["foo"]
+ * ["bar"]          -> ["bar"]
+ * ["foo" => "bar"] -> ["foo" => "bar"]
+ */
+function array_get_as_array($array, $key, $default)
+{
+    $value = array_get($array, $key, $default);
+    if (!is_null($value) && !is_array($value)) {
+        $value = [$value];
+    }
+    return $value;
+}
+
+/**
+ * Remove fields from the associative array `$array` that aren't in the valid list.
+ *
+ * Note: This is an in-place operation that mutates `$array`!
+ **/
+function array_remove_invalid_fields(&$array, $valid_fields)
+{
+    if ($valid_fields) {
+        foreach (array_diff(array_keys($array), $valid_fields) as $field) {
+            unset($array[$field]);
+        }
+    }
+}
+
+/**
  * Return an array whose values are the names of the properties
  * whose values differ between the two objects $new and $old.
  *
@@ -716,6 +749,38 @@ function surround_and_join($strings, $L, $R, $joiner)
 }
 
 /**
+ * Return true if a non-null `$haystack` contains any of the `$needles` as a substring.
+ *
+ * @param null|string $haystack
+ *   The string to search. A null haystack can never contain a needle
+ * @param null|string|array $needles
+ *   Search term. If:
+ *   * null - Returns true for any non-null haystack.
+ *   * string - Returns true if haystack contains the needle.
+ *   * array - Returns true if haystack contains any of the needles (false if array is empty).
+ *
+ * * @return boolean
+ */
+function str_contains_any_of($haystack, $needles)
+{
+    if (is_null($haystack)) {
+        return false;
+    }
+    if (is_null($needles)) {
+        return true;
+    }
+    if (is_string($needles)) {
+        return str_contains($haystack, $needles);
+    }
+    foreach ($needles as $n) {
+        if (str_contains($haystack, $n)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
  * Return a SQL "colname='value'" clause, where `$colname` is
  * not escaped, and `$s` is an escaped and quoted string.
  */
@@ -1290,7 +1355,7 @@ function factor_strings($strings)
  * If the requested function returns data that has localized strings, it's
  * important that $key_salt = get_desired_language();
  */
-function memoize_function($function, $args = [], $expire_from_now = 3600, $key_salt = "")
+function memoize_function($function, $args = [], $expiration = 3600, $key_salt = "")
 {
     // cache this connection for possible re-use during this page load
     static $memcache = null;
@@ -1310,7 +1375,7 @@ function memoize_function($function, $args = [], $expire_from_now = 3600, $key_s
     // if not, call the function to return the data
     $data = call_user_func_array($function, $args);
 
-    $memcache->set($key, gzcompress(serialize($data)), time() + $expire_from_now);
+    $memcache->set($key, gzcompress(serialize($data)), $expiration);
 
     return $data;
 }

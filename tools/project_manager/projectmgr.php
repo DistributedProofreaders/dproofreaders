@@ -44,22 +44,15 @@ if (!user_is_PM()) {
 handle_set_cols($show_view, "PM");
 
 $server_timezone = date_default_timezone_get();
-$lang_code = short_lang_code();
 $js_files = [
     "$code_url/tools/dropdown.js",
     "$code_url/tools/project_manager/projectmgr.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js",
-    "https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.23/moment-timezone-with-data.js",
 ];
-
-if ($lang_code != "en") {
-    $js_files[] = "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/{$lang_code}.js";
-}
 
 $header_args = [
     "js_files" => $js_files,
     "js_data" =>
-        "var serverTimezone = '$server_timezone';",
+        "var serverTimezone = '$server_timezone';var userLanguage = '" . str_replace("_", "-", get_user_language()) . "';",
 ];
 
 output_header(_("Project Management"), NO_STATSBAR, $header_args);

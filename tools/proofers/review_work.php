@@ -381,7 +381,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     }
 
     // OK, we are definitely interested in this project
-    $total_valid_projects ++;
+    $total_valid_projects++;
 
     validate_projectID($projectid);
     $query = sprintf("

@@ -72,7 +72,7 @@ class CharSuite
             $this->_pickerset = $value;
             $this->_pickerset->name = $this->name;
         } else {
-            // If we don't recognize the property, raise a notice and return null
+            // If we don't recognize the property, raise a notice
             $trace = debug_backtrace();
             trigger_error(
                 'Undefined property via __get(): ' . $name .
@@ -80,7 +80,6 @@ class CharSuite
                 ' on line ' . $trace[0]['line'],
                 E_USER_NOTICE
             );
-            return null;
         }
     }
 

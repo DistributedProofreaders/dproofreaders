@@ -53,7 +53,7 @@ thoughts_re_mentor_feedback($pagesproofed);
 show_news_for_page("HUB");
 
 // Show any mentor banners.
-foreach ($Round_for_round_id_ as $round) {
+foreach (Rounds::get_all() as $round) {
     if ($round->is_a_mentor_round() &&
         user_can_work_on_beginner_pages_in_round($round)) {
         mentor_banner($round);
@@ -160,8 +160,6 @@ activity_descriptions();
  */
 function progress_snapshot_table($show_filtered_projects, $show_filtering_links, $show_beginner_help)
 {
-    global $Stage_for_id_;
-
     // start the table
     echo "<h2 id='progress_snapshot'>" . _("Site Progress Snapshot") . "</h2>";
 
@@ -209,14 +207,10 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "</tr>\n";
 
     // Round rows
-    foreach ($Stage_for_id_ as $stage) {
-        if (!is_a($stage, 'Round')) {
-            continue;
-        }
+    foreach (Rounds::get_all() as $round) {
+        $desired_states = [$round->project_waiting_state, $round->project_available_state, $round->project_complete_state];
 
-        $desired_states = [$stage->project_waiting_state, $stage->project_available_state, $stage->project_complete_state];
-
-        summarize_stage($stage, $desired_states, $show_filtered_projects, $stage->id);
+        summarize_stage($round, $desired_states, $show_filtered_projects, $round->id);
     }
 
     // Pool and Stage headers
@@ -247,18 +241,14 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
     echo "</tr>\n";
 
     // Pool rows
-    foreach ($Stage_for_id_ as $stage) {
-        if (!is_a($stage, 'Pool')) {
-            continue;
-        }
+    foreach (Pools::get_all() as $pool) {
+        $desired_states = [$pool->project_available_state, $pool->project_checkedout_state];
 
-        $desired_states = [$stage->project_available_state, $stage->project_checkedout_state];
-
-        summarize_stage($stage, $desired_states, $show_filtered_projects, "{$stage->id}_av");
+        summarize_stage($pool, $desired_states, $show_filtered_projects, "{$pool->id}_av");
     }
 
     // Stage rows
-    foreach ($Stage_for_id_ as $stage) {
+    foreach (Stages::get_all() as $stage) {
         if (is_a($stage, 'Pool') || is_a($stage, 'Round')) {
             continue;
         }
@@ -504,7 +494,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
  */
 function activity_descriptions()
 {
-    global $Stage_for_id_, $code_url;
+    global $code_url;
 
     echo "<h2>" . _("Activity descriptions") . "</h2>";
     echo "<div id='stagedescriptions'>";
@@ -520,7 +510,7 @@ function activity_descriptions()
         echo "</dd>\n";
     }
 
-    foreach ($Stage_for_id_ as $stage) {
+    foreach (Stages::get_all() as $stage) {
         echo "<dt><b>$stage->id</b>: <a href='$code_url/{$stage->relative_url}'>{$stage->name}</a></dt>";
         echo "<dd>{$stage->description}";
         if (($stage->id == "PP") || ($stage->id == "SR")) {

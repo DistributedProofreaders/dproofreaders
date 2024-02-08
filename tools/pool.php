@@ -10,7 +10,7 @@ include_once($relPath.'showavailablebooks.inc');
 
 require_login();
 
-$pool_id = get_enumerated_param($_GET, 'pool_id', null, array_keys($Pool_for_id_));
+$pool_id = get_enumerated_param($_GET, 'pool_id', null, Pools::get_ids());
 
 $pool = get_Pool_for_id($pool_id);
 $header_args = ["js_files" => ["$code_url/scripts/filter_project.js"]];

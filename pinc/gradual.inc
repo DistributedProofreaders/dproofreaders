@@ -249,13 +249,13 @@ function maybe_output_new_proofer_project_message($project)
  */
 function encourage_highest_round($username, $round_id = null)
 {
-    global $code_url, $Round_for_round_id_, $ELR_round, $ACCESS_CRITERIA;
+    global $code_url, $ELR_round, $ACCESS_CRITERIA;
 
     // This URL fragment gets used a lot in this file
     $round_url = "$code_url/tools/proofers/round.php?round_id=";
 
     // get the backlog stats for all rounds sorted largest first
-    $backlog_stats = get_round_backlog_stats(array_keys($Round_for_round_id_));
+    $backlog_stats = get_round_backlog_stats(Rounds::get_ids());
     arsort($backlog_stats);
 
     // get all the rounds a user can work

@@ -126,10 +126,9 @@ class Quiz
         // This assumes that the access minima quiz strings are names
         // 'quiz/X' where X is some quiz ID (eg 'f_only', 'p_mod2', 'p_greek')
         $stage_required_for = [];
-        global $Stage_for_id_;
-        foreach ($Stage_for_id_ as $stage_id => $stage) {
+        foreach (Stages::get_all() as $stage) {
             if (array_key_exists("quiz/$this->id", $stage->access_minima)) {
-                $stage_required_for[$stage_id] = $stage;
+                $stage_required_for[$stage->id] = $stage;
             }
         }
 

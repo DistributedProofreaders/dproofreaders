@@ -18,10 +18,8 @@ $height = 200;
 
 function _get_round_backlog_days_data()
 {
-    global $Round_for_round_id_;
-
     // Pull all interested phases, primarily all the rounds and PP
-    $interested_phases = array_keys($Round_for_round_id_);
+    $interested_phases = Rounds::get_ids();
 
     // Pull the stats data out of the database
     $stats = get_round_backlog_stats($interested_phases);

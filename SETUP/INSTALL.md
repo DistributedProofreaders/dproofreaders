@@ -129,7 +129,7 @@ The following components are optional and provide additional functionality.
 If a memcached instance is available on localhost, the code can use it in
 two ways:
 * Implementing API rate limiting (enabled with `_API_RATE_LIMIT` in
-  `configuration.sh`). If `_API_RATE_LIMIT` is set to `TRUE` and memcached
+  `configuration.sh`). If `_API_RATE_LIMIT` is set to `true` and memcached
   is not available, API calls will fail and an error will be logged.
 * Caching some statistics data (automatic, no configuration necessary). If
   memcached is not available everything still functions but no caching is done.

@@ -17,11 +17,11 @@ use voku\helper\UTF8;
  * - an array of messages (errors/warnings)
  * - an array of names of languages used.
  *
- * @param text $orig_text
+ * @param string $orig_text
  *   Original text to run through dictionary
- * @param text $projectid
+ * @param string $projectid
  *   Id of projected, needed for temp filename and to load the custom dictionaries
- * @param text $imagefile
+ * @param string $imagefile
  *   Image filename, needed for temp filename
  * @param array $languages
  *   Languages to check against

@@ -299,7 +299,7 @@ class BadWordAccumulator
  *
  * @param array $input_words_w_freq
  *   An array whose keys are the distinct words of the input text
- * @param array $langauges
+ * @param array $languages
  *   Array of languages, used to load aspell dictionary
  *   for those languages if available
  *
@@ -446,7 +446,7 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq)
         }
     }
 
-    return($bad_words);
+    return ($bad_words);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

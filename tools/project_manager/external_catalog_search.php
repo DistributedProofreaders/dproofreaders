@@ -63,8 +63,7 @@ function show_query_form()
                 'isbn' => _('ISBN'),
                 'issn' => _('ISSN'),
                 'lccn' => _('LCCN'),
-            ]
-            as $field_name => $field_label
+            ] as $field_name => $field_label
         ) {
             echo "<tr>";
             echo   "<th class='label'>$field_label</th>";
@@ -187,8 +186,7 @@ function do_search_and_show_hits()
             ['label' => _("Language"),  'value' => $marc_record->language],
             ['label' => _("LCCN"),      'value' => $marc_record->lccn],
             ['label' => _("ISBN"),      'value' => $marc_record->isbn],
-        ]
-            as $couple
+        ] as $couple
         ) {
             $label = $couple['label'];
             $value = $couple['value'];

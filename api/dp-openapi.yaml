@@ -76,6 +76,11 @@ paths:
         in: query
         schema:
           type: string
+      - name: in_smoothreading
+        in: query
+        required: false
+        schema:
+          type: boolean
       - name: field
         description: Field to return, if not set all fields are returned.
           To request multiple fields, append with [] and pass one per desired
@@ -685,6 +690,231 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/transitions:
+    get:
+      tags:
+      - project
+      description: Gets a list of a project's transitions
+      parameters:
+      - name: projectid
+        in: path
+        description: ID of project
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: List of a project's transitions, ordered by ascending time
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/project_transition'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  /queues:
+    get:
+      tags:
+      - queues
+      description: Gets the release queues for a round (or all rounds)
+      parameters:
+      - name: roundid
+        in: query
+        description: Round ID for queues (all rounds if not provided)
+        schema:
+          type: string
+      - name: field
+        description: Queue field to return, if not set all fields are returned.
+          <br><br>
+          To request multiple fields, append with [] and pass one per desired
+          field (e.g. field[]=projectid&field[]=author).
+        in: query
+        schema:
+          type: string
+      - name: show
+        description: Which queues to show.
+          <dl>
+          <dt>all</dt> <dd>all queues</dd>
+          <dt>enabled</dt> <dd>queues that are enabled</dd>
+          <dt>populated</dt> <dd>queues that are enabled and have projects to release</dd>
+          </dl>
+        in: query
+        schema:
+          type: string
+          enum: [all, enabled, populated]
+      - name: name
+        description: Release queue name substring to match. If not set, all queues are returned.
+          <br><br>
+          To request multiple possible queue names (results ORed together), append with []
+          and pass one per desired name (e.g. name[]=Klingon&name[]=Shakespeare).
+        in: query
+        schema:
+          type: string
+      - name: group
+        description: Release queue group name substring to match. If not set all groups are
+          returned (as well as all matching queues in those groups).
+          <br><br>
+          To match multiple possible group names (results ORed together), append with []
+          and pass one per desired name (e.g. group[]=PM&group[]=Math).
+        in: query
+        schema:
+          type: string
+
+      responses:
+        200:
+          description: Requested release queue list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/release_queue_detail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /queues/{queueid}/stats:
+    get:
+      tags:
+      - queues
+      description: Get release queue stats
+      parameters:
+      - name: queueid
+        in: path
+        description: Queue ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Release queue stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    days_ago:
+                      type: integer
+                    projects_released:
+                      type: integer
+                    pages_released:
+                      type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /queues/{queueid}/projects:
+    get:
+      tags:
+      - queues
+      description: Get projects in release queue
+      parameters:
+      - name: queueid
+        in: path
+        description: Queue ID
+        required: true
+        schema:
+          type: integer
+      - name: unheld_only
+        in: query
+        schema:
+          type: boolean
+      - name: field
+        description: Project field to return, if not set all fields are returned.
+          <br><br>
+          To request multiple fields, append with [] and pass one per desired
+          field (e.g. field[]=title&field[]=author).
+        in: query
+        schema:
+          type: string
+
+      responses:
+        200:
+          description: Release queue projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    projectid:
+                      type: string
+                    title:
+                      type: string
+                    author:
+                      type: string
+                    languages:
+                      type: array
+                      items:
+                        type: string
+                      minItems: 1
+                      maxItems: 2
+                    genre:
+                      type: string
+                    difficulty:
+                      type: string
+                    last_state_change_time:
+                      type: string
+                      format: dateTime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /queues/{queueid}:
+    get:
+      tags:
+      - queues
+      description: Get release queue information
+      parameters:
+      - name: queueid
+        in: path
+        description: Queue ID
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Release queue information
+          content:
+            application/json:
+              schema:
+
+                type: object
+                $ref: '#/components/schemas/release_queue_detail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -697,6 +927,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/site_stats'
+
+  /stats/site/projects/stages:
+    get:
+      tags:
+      - stats
+      description: Gets site statistics for the number of projects in all stages
+      responses:
+        200:
+          description: Requested project statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/project_stats'
+
+  /stats/site/projects/states:
+    get:
+      tags:
+      - stats
+      description: Gets site statistics for the number of projects in all states
+      responses:
+        200:
+          description: Requested project statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/project_stats'
 
   /stats/site/rounds:
     get:
@@ -825,6 +1085,10 @@ components:
           type: string
           format: dateTime
           readOnly: true
+        smoothread_deadline:
+          type: string
+          format: dateTime
+          readOnly: true
       description: A project represents a unique project object in the system. It
         includes a great deal of information, some fields of which are calculated
         and not directly modifiable. Not all fields are available to all users. Fields
@@ -893,6 +1157,32 @@ components:
           type: string
           format: dateTime
 
+    project_transition:
+      required:
+      - timestamp
+      - event_type
+      - details
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: dateTime
+        event_type:
+          type: string
+          enum: [creation, transition, archive]
+          description:
+            <dl>
+            <dt>creation</dt> <dd>Project created</dd>
+            <dt>transition</dt> <dd>Project moves between two stages, eg P3.proj_waiting to P3.proj_avail</dd>
+            <dt>archive</dt> <dd>Project content has been archived and is no longer directly accessible</dd>
+            </dl>
+        details:
+          type: array
+          items:
+            type: string
+            minItems: 3
+            maxItems: 3
+
     project_page:
       required:
       - pagename
@@ -906,6 +1196,33 @@ components:
           type: string
         state:
           type: string
+
+    release_queue_detail:
+      properties:
+        id:
+          type: integer
+        round_id:
+          type: string
+        ordering:
+          type: integer
+        name:
+          type: string
+        enabled:
+          type: boolean
+        populated:
+          type: boolean
+        length:
+          type: integer
+        unheld_length:
+          type: integer
+        comment:
+          type: string
+        project_selector:
+          type: string
+        projects_target:
+          type: integer
+        pages_target:
+          type: integer
 
     charsuite:
       required:
@@ -995,6 +1312,13 @@ components:
           description: Day of the month the special day closes
         enabled:
           type: boolean
+
+    project_stats:
+      type: object
+      additionalProperties:
+        type: integer
+      description: Project statistics by state/stage
+        Keys are state/stage ID, values are the number of projects in that state
 
     round_stats:
       type: object

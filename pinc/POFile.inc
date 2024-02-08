@@ -45,8 +45,6 @@ class POFile
 
     /**
      * Count the total number of strings and the number of translated strings.
-     *
-     * @return array `[$count, $translated]`
      */
     private function count_translated_strings()
     {

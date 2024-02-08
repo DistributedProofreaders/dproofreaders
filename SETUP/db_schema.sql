@@ -408,13 +408,16 @@ CREATE TABLE `projects` (
 #
 
 CREATE TABLE `queue_defns` (
+  `id` int(4) NOT NULL auto_increment,
   `round_id` char(2) NOT NULL default '',
   `ordering` mediumint(5) NOT NULL default '0',
   `enabled` tinyint(1) NOT NULL default '0',
   `name` varchar(64) NOT NULL default '',
   `project_selector` text NOT NULL,
-  `release_criterion` text NOT NULL,
+  `projects_target` smallint unsigned NOT NULL,
+  `pages_target` mediumint unsigned NOT NULL,
   `comment` text,
+  PRIMARY KEY  (`id`),
   UNIQUE KEY `ordering` (`round_id`,`ordering`),
   UNIQUE KEY `name` (`round_id`,`name`)
 );

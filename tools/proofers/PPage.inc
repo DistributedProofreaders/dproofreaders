@@ -162,9 +162,7 @@ class PPage
             'page_state' => $this->lpage->page_state,
             'projectid' => $this->lpage->projectid,
             'reverting' => $this->lpage->reverting_to_orig,
-        ]
-            as
-            $param_name => $param_value
+        ] as $param_name => $param_value
         ) {
             echo "<input type='hidden' value='$param_value' name='$param_name' id='$param_name'>\n";
         }

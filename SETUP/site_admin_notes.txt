@@ -97,7 +97,8 @@ But if you want to:
         name='NAME',
         comment='COMMENT',
         project_selector='PROJECT_SELECTOR',
-        release_criterion='RELEASE_CRITERION',
+        projects_target=PROJECTS_TARGET,
+        pages_target=PAGES_TARGET,
         ordering='NNN'
 where
  -- NAME is a shortish name for the queue (i.e., a name for the set of
@@ -110,18 +111,42 @@ where
         project_selector = '(genre="Non-Fiction" or genre="Other")'
     Below, we refer to these as "selected projects".
 
- -- RELEASE_CRITERION is a logical expression specifying the condition under
-    which this queue should release one of its waiting projects. The
-    expression can reference two quantities:
-     -- 'projects': the number of selected projects that are currently in the
+ -- PROJECTS_TARGET and PAGES_TARGET are numbers that together specify the
+    conditions under which this queue should release one of its waiting
+    projects, as follows.
+
+    When automodify.php runs, it considers each queue (in order), and counts
+    two quantities:
+     -- 'relevant projects': selected projects that are currently in the
         round's 'available for work' state.
-     -- 'pages': the total number of unproofed pages in selected projects in
-        this round.  ("unproofed" = "in any state other than saved-as-done")
-    For example,
-        release_criterion = 'projects < 2 or pages < 100'
+     -- 'relevant pages': unproofed pages in relevant projects.
+        ("unproofed" = "in any state other than saved-as-done")
+
+    If the number of relevant projects is less than the queue's
+    projects_target, or the number of relevant pages is less than its
+    pages_target, then automodify.php will attempt to release a project
+    from that queue. (It might not succeed, for various reasons.)
+
+    A queue's targets shouldn't be thought of as minima or maxima, as there
+    are circumstances in which a relevant quantity can be more or less
+    than the corresponding target.
+
+    Example 1:
+        projects_target = 2, pages_target = 100
     says that the queue should release a project if there are fewer than 2
-    selected projects in the round, or if there are fewer than 100 unproofed
-    pages left in selected projects in the round.
+    relevant projects or if there are fewer than 100 relevant pages.
+
+    Example 2:
+        projects_target = 2, pages_target = 0
+    says that the queue should release a project if there are fewer than 2
+    relevant projects or if there are fewer than 0 relevant pages. But since
+    there can never be fewer than 0 relevant pages, the release condition is
+    just that there are fewer than 2 relevant projects.
+
+    Example 3:
+        projects_target = 0, pages_target = 0
+    says that the queue should never release a project. This has about the
+    same effect as disabling the queue (setting 'enabled' to 0).
 
  -- NNN is an integer that determines the order in which this queue is
     processed. If queues' project_selectors are completely independent (i.e.,
