@@ -338,8 +338,8 @@ class Loader
             $warning_msgs = [];
 
             foreach (['text', 'image'] as $toi) {
-                $db_exts = @$row[$toi]['db'] ?? [];
-                $src_exts = @$row[$toi]['src'] ?? [];
+                $db_exts = $row[$toi]['db'] ?? [];
+                $src_exts = $row[$toi]['src'] ?? [];
 
                 [$action, $error_msg] =
                     $this->_get_action($base, $toi, $db_exts, $src_exts);
