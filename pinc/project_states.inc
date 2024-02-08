@@ -109,7 +109,7 @@ function declare_project_states($rounds, $pools)
         ''
     );
 
-    foreach($rounds as $round) {
+    foreach ($rounds as $round) {
         // Populate $round->project_states with all project states that apply
         // to this round for lookup later.
         $round->project_states[] = $round->project_bad_state = "{$round->id}.proj_bad";
@@ -177,7 +177,7 @@ function declare_project_states($rounds, $pools)
         'SILVER'
     );
 
-    foreach($pools as $pool) {
+    foreach ($pools as $pool) {
         $pool->states[] = $pool->project_available_state = "proj_post_{$pool->ordinal}_available";
         $pool->states[] = $pool->project_checkedout_state = "proj_post_{$pool->ordinal}_checked_out";
 
