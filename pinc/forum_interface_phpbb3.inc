@@ -7,13 +7,7 @@
 // using an entirely different forum software, this is one of the
 // few files that would require changes.
 //
-// Currently only phpBB versions 3.0, 3.1, and 3.2 (PHPBB_VERSION==3)
-//
-// The PHPBB_VERSION checks have been left in this file after phpBB2
-// support was removed to handle the possible future case where other
-// version conditionals are needed.
-
-define('PHPBB_VERSION', '3');
+// Currently only phpBB versions 3.0, 3.1, and 3.2
 
 /*
 Important notes about using phpBB code within DP
@@ -37,9 +31,6 @@ login_forum_user() and logout_forum_user() should make every effort to reduce
 the amount of DP code included in those pages.
 */
 
-assert(PHPBB_VERSION == 3, "Only phpBB version 3 is supported");
-
-
 /**
  * Return a table name with the phpBB table prefix prepended to it
  */
@@ -61,31 +52,29 @@ function phpbb_lang($locale = false)
         $locale = get_desired_language();
     }
 
-    if (PHPBB_VERSION == 3) {
-        // We're given a locale (eg: fr_FR) but phpBB languages are different.
-        // Some samples: en, en_us, de, es_x_tu, es-mx, pt_br, pt
-        // We can only do so much, so try for an exact match in lowercase
-        // first, fall back to just the two-letter language code, and then
-        // just fall back to English (which phpBB comes with by default).
-        $lang_attempts = [strtolower($locale), substr($locale, 0, 2)];
-        foreach ($lang_attempts as $lang) {
-            $query = sprintf(
-                "
-                SELECT *
-                FROM %s
-                WHERE lang_iso='%s'
-                ",
-                phpbb_table("lang"),
-                DPDatabase::escape($lang)
-            );
-            $res = DPDatabase::query($query);
+    // We're given a locale (eg: fr_FR) but phpBB languages are different.
+    // Some samples: en, en_us, de, es_x_tu, es-mx, pt_br, pt
+    // We can only do so much, so try for an exact match in lowercase
+    // first, fall back to just the two-letter language code, and then
+    // just fall back to English (which phpBB comes with by default).
+    $lang_attempts = [strtolower($locale), substr($locale, 0, 2)];
+    foreach ($lang_attempts as $lang) {
+        $query = sprintf(
+            "
+            SELECT *
+            FROM %s
+            WHERE lang_iso='%s'
+            ",
+            phpbb_table("lang"),
+            DPDatabase::escape($lang)
+        );
+        $res = DPDatabase::query($query);
 
-            if (mysqli_num_rows($res) == 1) {
-                return $lang;
-            }
+        if (mysqli_num_rows($res) == 1) {
+            return $lang;
         }
-        return "en";
     }
+    return "en";
 }
 
 /**
@@ -98,13 +87,11 @@ function phpbb_lang($locale = false)
  */
 function forum_password_hash($password)
 {
-    if (PHPBB_VERSION == 3) {
-        // phpBB3 hashing function is involved, so we'll call it directly
-        // instead of duplicating it here, but we don't want to pollute
-        // the DP codespace so we'll do it via phpbb3.inc.
-        $args = func_get_args();
-        return call_phpbb_function('encode_and_hash_password', $args);
-    }
+    // phpBB3 hashing function is involved, so we'll call it directly
+    // instead of duplicating it here, but we don't want to pollute
+    // the DP codespace so we'll do it via phpbb3.inc.
+    $args = func_get_args();
+    return call_phpbb_function('encode_and_hash_password', $args);
 }
 
 /**
@@ -122,40 +109,38 @@ function forum_password_hash($password)
  */
 function create_forum_user($username, $password, $email, $password_is_digested = false)
 {
-    if (PHPBB_VERSION == 3) {
-        // Use the phpBB3 API to create the user, but do so via phpbb3.inc
-        // as to not mix the DP and phpBB3 codespace.
-        $args = [
-            0 => $username,
-            1 => $password,
-            2 => $email,
-            3 => phpbb_lang(),
-        ];
-        $user_id = call_phpbb_function('create_user', $args);
+    // Use the phpBB3 API to create the user, but do so via phpbb3.inc
+    // as to not mix the DP and phpBB3 codespace.
+    $args = [
+        0 => $username,
+        1 => $password,
+        2 => $email,
+        3 => phpbb_lang(),
+    ];
+    $user_id = call_phpbb_function('create_user', $args);
 
-        // create_user() should return a numeric $user_id, if it doesn't
-        // it likely returned a phpBB3 error string. Lets return that instead.
-        if (!is_numeric($user_id)) {
-            return $user_id;
-        }
-
-        // if $password_is_digested we have to update the password in the DB directly
-        if ($password_is_digested) {
-            $sql = sprintf(
-                "
-                UPDATE %s
-                SET user_password='%s'
-                WHERE user_id=%d
-                ",
-                phpbb_table("users"),
-                DPDatabase::escape($password),
-                $user_id
-            );
-            DPDatabase::query($sql);
-        }
-
-        return true;
+    // create_user() should return a numeric $user_id, if it doesn't
+    // it likely returned a phpBB3 error string. Lets return that instead.
+    if (!is_numeric($user_id)) {
+        return $user_id;
     }
+
+    // if $password_is_digested we have to update the password in the DB directly
+    if ($password_is_digested) {
+        $sql = sprintf(
+            "
+            UPDATE %s
+            SET user_password='%s'
+            WHERE user_id=%d
+            ",
+            phpbb_table("users"),
+            DPDatabase::escape($password),
+            $user_id
+        );
+        DPDatabase::query($sql);
+    }
+
+    return true;
 }
 
 /**
@@ -186,71 +171,69 @@ function login_forum_user($username, $password)
     // variable-assignment occurs at function-scope, it affects the global
     // variable.
 
-    if (PHPBB_VERSION == 3) {
-        global $phpbb_root_path, $phpEx;
-        $phpbb_root_path = $forums_phpbb_dir."/";
-        $phpEx = "php";
+    global $phpbb_root_path, $phpEx;
+    $phpbb_root_path = $forums_phpbb_dir."/";
+    $phpEx = "php";
 
-        // these globals are pulled from
-        // phpBB2/includes/sessions.php:setup()
-        global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
-        global $SID, $_SID, $user;
-        // required for phpBB 3.1
-        global $request, $symfony_request, $phpbb_filesystem;
-        // required for phpBB 3.2
-        global $phpbb_container, $phpbb_dispatcher, $table_prefix;
+    // these globals are pulled from
+    // phpBB2/includes/sessions.php:setup()
+    global $db, $template, $config, $auth, $phpEx, $phpbb_root_path, $cache;
+    global $SID, $_SID, $user;
+    // required for phpBB 3.1
+    global $request, $symfony_request, $phpbb_filesystem;
+    // required for phpBB 3.2
+    global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
-        define('IN_PHPBB', true);
-        define('ROOT_PATH', $forums_phpbb_dir);
+    define('IN_PHPBB', true);
+    define('ROOT_PATH', $forums_phpbb_dir);
 
-        include($phpbb_root_path . 'common.' . $phpEx);
+    include($phpbb_root_path . 'common.' . $phpEx);
 
-        // set mysqli logging to pre-PHP 8.1 defaults
-        mysqli_report(MYSQLI_REPORT_OFF);
+    // set mysqli logging to pre-PHP 8.1 defaults
+    mysqli_report(MYSQLI_REPORT_OFF);
 
-        $user->session_begin();
-        $auth->acl($user->data);
+    $user->session_begin();
+    $auth->acl($user->data);
 
-        // Upon initial login, if the password is in the phpBB2 format
-        // it will be converted to the new format. It does this by using
-        // $_REQUEST['password'], so we need to populate that here.
-        $_REQUEST['password'] = $password;
+    // Upon initial login, if the password is in the phpBB2 format
+    // it will be converted to the new format. It does this by using
+    // $_REQUEST['password'], so we need to populate that here.
+    $_REQUEST['password'] = $password;
 
-        // phpBB3's login code does pre-processing on the username and
-        // password before passing them into $auth->login(). To ensure
-        // that passwords accepted by phpBB3 work when passed in here,
-        // we have to do similar pre-processing.
-        set_var($username, $username, 'string', true);
-        set_var($password, $password, 'string', true);
+    // phpBB3's login code does pre-processing on the username and
+    // password before passing them into $auth->login(). To ensure
+    // that passwords accepted by phpBB3 work when passed in here,
+    // we have to do similar pre-processing.
+    set_var($username, $username, 'string', true);
+    set_var($password, $password, 'string', true);
 
-        $persist_login = true;
-        $results = $auth->login($username, $password, $persist_login);
+    $persist_login = true;
+    $results = $auth->login($username, $password, $persist_login);
 
-        $success = $results["status"] == LOGIN_SUCCESS;
-        $reason = '';
-        switch ($results["status"]) {
-            case LOGIN_SUCCESS:
-                $reason = '';
-                break;
-            case LOGIN_ERROR_USERNAME:
-                $reason = 'incorrect_username';
-                break;
-            case LOGIN_ERROR_PASSWORD:
-                $reason = 'incorrect_password';
-                break;
-            case LOGIN_ERROR_ATTEMPTS:
-                $reason = 'too_many_attempts';
-                break;
-            default:
-                $reason = 'unknown';
-                break;
-        }
-
-        // reset mysqli logging
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-        return [$success, $reason];
+    $success = $results["status"] == LOGIN_SUCCESS;
+    $reason = '';
+    switch ($results["status"]) {
+        case LOGIN_SUCCESS:
+            $reason = '';
+            break;
+        case LOGIN_ERROR_USERNAME:
+            $reason = 'incorrect_username';
+            break;
+        case LOGIN_ERROR_PASSWORD:
+            $reason = 'incorrect_password';
+            break;
+        case LOGIN_ERROR_ATTEMPTS:
+            $reason = 'too_many_attempts';
+            break;
+        default:
+            $reason = 'unknown';
+            break;
     }
+
+    // reset mysqli logging
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+    return [$success, $reason];
 }
 
 /**
@@ -268,42 +251,38 @@ function logout_forum_user()
     // See login_forum_user() for about the need for the global
     // declarations below.
 
-    if (PHPBB_VERSION == 3) {
-        global $phpbb_root_path, $phpEx;
-        $phpbb_root_path = $forums_phpbb_dir."/";
-        $phpEx = "php";
+    global $phpbb_root_path, $phpEx;
+    $phpbb_root_path = $forums_phpbb_dir."/";
+    $phpEx = "php";
 
-        // these globals are pulled from
-        // phpBB2/includes/sessions.php:session_create()
-        global $SID, $_SID, $db, $config, $cache, $auth;
-        global $user;
-        // required for phpBB 3.1
-        global $request, $symfony_request, $phpbb_filesystem;
-        // required for phpBB 3.2
-        global $phpbb_container, $phpbb_dispatcher, $table_prefix;
+    // these globals are pulled from
+    // phpBB2/includes/sessions.php:session_create()
+    global $SID, $_SID, $db, $config, $cache, $auth;
+    global $user;
+    // required for phpBB 3.1
+    global $request, $symfony_request, $phpbb_filesystem;
+    // required for phpBB 3.2
+    global $phpbb_container, $phpbb_dispatcher, $table_prefix;
 
-        define('IN_PHPBB', true);
-        define('ROOT_PATH', $forums_phpbb_dir);
+    define('IN_PHPBB', true);
+    define('ROOT_PATH', $forums_phpbb_dir);
 
-        include($phpbb_root_path . 'common.' . $phpEx);
+    include($phpbb_root_path . 'common.' . $phpEx);
 
-        // set mysqli logging to pre-PHP 8.1 defaults
-        mysqli_report(MYSQLI_REPORT_OFF);
+    // set mysqli logging to pre-PHP 8.1 defaults
+    mysqli_report(MYSQLI_REPORT_OFF);
 
-        // Re-initialize phpBB session object in $user so we can kill it
-        $user->session_begin();
-        $user->session_kill();
+    // Re-initialize phpBB session object in $user so we can kill it
+    $user->session_begin();
+    $user->session_kill();
 
-        // reset mysqli logging
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-    }
+    // reset mysqli logging
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 }
 
 function get_reset_password_url()
 {
-    if (PHPBB_VERSION == 3) {
-        return get_url_for_forum() . "/ucp.php?mode=sendpassword";
-    }
+    return get_url_for_forum() . "/ucp.php?mode=sendpassword";
 }
 
 /**
@@ -501,9 +480,7 @@ function get_url_to_compose_message_to_user($username)
 {
     $userid = get_forum_user_id($username);
 
-    if (PHPBB_VERSION == 3) {
-        return get_url_for_forum() . "/ucp.php?i=pm&mode=compose&u=$userid";
-    }
+    return get_url_for_forum() . "/ucp.php?i=pm&mode=compose&u=$userid";
 }
 
 /**
@@ -544,24 +521,22 @@ function get_url_for_user_avatar($username)
         return null;
     }
 
-    if (PHPBB_VERSION == 3) {
-        switch ($user_details["avatar_type"]) {
-            case "avatar.driver.upload":
-                $url = get_url_for_forum() . "/download/file.php?avatar=" . $user_details["avatar"];
-                break;
-            case "avatar.driver.remote":
-                $url = $user_details["avatar"];
-                break;
-            case "avatar.driver.gravatar":
-                $url = "https://www.gravatar.com/avatar/" .
-                        md5(strtolower(trim($user_details["avatar"]))) .
-                        "?s=" . $user_details["avatar_height"];
-                break;
-            default:
-                $url = null;
-        }
-        return $url;
+    switch ($user_details["avatar_type"]) {
+        case "avatar.driver.upload":
+            $url = get_url_for_forum() . "/download/file.php?avatar=" . $user_details["avatar"];
+            break;
+        case "avatar.driver.remote":
+            $url = $user_details["avatar"];
+            break;
+        case "avatar.driver.gravatar":
+            $url = "https://www.gravatar.com/avatar/" .
+                    md5(strtolower(trim($user_details["avatar"]))) .
+                    "?s=" . $user_details["avatar_height"];
+            break;
+        default:
+            $url = null;
     }
+    return $url;
 }
 
 /**
@@ -569,9 +544,7 @@ function get_url_for_user_avatar($username)
  */
 function get_url_to_edit_profile()
 {
-    if (PHPBB_VERSION == 3) {
-        return get_url_for_forum() . "/ucp.php";
-    }
+    return get_url_for_forum() . "/ucp.php";
 }
 
 /**
@@ -579,9 +552,7 @@ function get_url_to_edit_profile()
  */
 function get_url_to_view_profile($user_id)
 {
-    if (PHPBB_VERSION == 3) {
-        return get_url_for_forum() . "/memberlist.php?mode=viewprofile&u=$user_id";
-    }
+    return get_url_for_forum() . "/memberlist.php?mode=viewprofile&u=$user_id";
 }
 
 /**
@@ -589,9 +560,7 @@ function get_url_to_view_profile($user_id)
  */
 function get_url_for_inbox()
 {
-    if (PHPBB_VERSION == 3) {
-        return get_url_for_forum() . "/ucp.php?i=pm&folder=inbox";
-    }
+    return get_url_for_forum() . "/ucp.php?i=pm&folder=inbox";
 }
 
 /**
@@ -605,18 +574,16 @@ function get_number_of_unread_messages($username)
         return null;
     }
 
-    if (PHPBB_VERSION == 3) {
-        // from: includes/functions_privmsgs.php:get_folder($user_id)
-        $query = sprintf(
-            "
-            SELECT SUM(pm_unread)
-            FROM %s
-            WHERE user_id = %d
-            ",
-            phpbb_table("privmsgs_to"),
-            $forum_userid
-        );
-    }
+    // from: includes/functions_privmsgs.php:get_folder($user_id)
+    $query = sprintf(
+        "
+        SELECT SUM(pm_unread)
+        FROM %s
+        WHERE user_id = %d
+        ",
+        phpbb_table("privmsgs_to"),
+        $forum_userid
+    );
 
     $res = DPDatabase::query($query);
 
@@ -804,9 +771,7 @@ function call_phpbb_function($func_name, $args)
     // (cd into the pinc directory, so the script doesn't
     // have to guess where it's being invoked from.)
     global $code_dir, $php_cli_executable;
-    if (PHPBB_VERSION == 3) {
-        $phpbb_include_file = "phpbb3.inc";
-    }
+    $phpbb_include_file = "phpbb3.inc";
     $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
     if ($DEBUG) {
         echo "command: $command<br>\n";
@@ -848,16 +813,12 @@ function topic_change_forum($topic_id, $to_forum_id)
 {
     assert($topic_id != '');
 
-    if (PHPBB_VERSION == 3) {
-        call_phpbb_function('move_topic', [$topic_id, $to_forum_id]);
-    }
+    call_phpbb_function('move_topic', [$topic_id, $to_forum_id]);
 }
 
 // -----------------------------------------------------------------------------
 
 function forum_resynch($forum_id)
 {
-    if (PHPBB_VERSION == 3) {
-        call_phpbb_function('sync_forum', [$forum_id]);
-    }
+    call_phpbb_function('sync_forum', [$forum_id]);
 }
