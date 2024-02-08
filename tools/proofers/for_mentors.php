@@ -33,7 +33,7 @@ if (!$mentoring_round) {
 
     // If they're coming to this page from a MENTORS ONLY book in X2,
     // referrer should contain &expected_state=X2.proj_avail.
-    foreach ($Round_for_round_id_ as $round) {
+    foreach (Rounds::get_all() as $round) {
         if (strpos($referer, $round->project_available_state)) {
             $mentoring_round = $round;
             break;
@@ -42,7 +42,7 @@ if (!$mentoring_round) {
 
     if (!isset($mentoring_round)) {
         // Just take the first.
-        foreach ($Round_for_round_id_ as $round) {
+        foreach (Rounds::get_all() as $round) {
             if ($round->is_a_mentor_round()) {
                 $mentoring_round = $round;
                 break;
@@ -62,7 +62,7 @@ if (!$mentoring_round->is_a_mentor_round()) {
 
 // Are there other mentoring rounds? If so, provide mentoring links for them.
 $other_mentoring_rounds = [];
-foreach ($Round_for_round_id_ as $round) {
+foreach (Rounds::get_all() as $round) {
     if ($round->is_a_mentor_round() && $round->id != $mentoring_round->id) {
         $other_mentoring_rounds[] = $round;
     }

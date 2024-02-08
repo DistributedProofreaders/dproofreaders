@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'site_vars.php');
 include_once($relPath.'Project.inc');         // $PROJECT_STATES_IN_ORDER
-include_once($relPath.'Round.inc'); // $PAGE_STATES_IN_ORDER
+include_once($relPath.'Round.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
@@ -50,11 +50,11 @@ function url_for_pi_do_particular_page($projectid, $proj_state, $imagefile, $pag
 
 function get_requested_PPage($request_params)
 {
-    global $PROJECT_STATES_IN_ORDER, $PAGE_STATES_IN_ORDER;
+    global $PROJECT_STATES_IN_ORDER;
     $projectid = get_projectID_param($request_params, 'projectid');
     $proj_state = get_enumerated_param($request_params, 'proj_state', null, $PROJECT_STATES_IN_ORDER);
     $imagefile = get_page_image_param($request_params, 'imagefile');
-    $page_state = get_enumerated_param($request_params, 'page_state', null, $PAGE_STATES_IN_ORDER);
+    $page_state = get_enumerated_param($request_params, 'page_state', null, Rounds::get_page_states());
     $reverting = get_integer_param($request_params, 'reverting', 0, 0, 1);
 
     $lpage = get_indicated_LPage(

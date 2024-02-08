@@ -14,7 +14,7 @@ define("MESSAGE_WARNING", 1);
 define("MESSAGE_ERROR", 2);
 
 // get an array of round IDs
-$rounds = array_keys($Round_for_round_id_);
+$rounds = Rounds::get_all();
 
 // load any data passed into the page
 $username = array_get($_GET, "username", $pguser);
@@ -103,11 +103,11 @@ function _echo_eval_query_select($selected)
 function _echo_round_select($rounds, $selected_round)
 {
     foreach ($rounds as $round) {
-        echo "<option value='" . attr_safe($round) . "'";
+        echo "<option value='" . attr_safe($round->id) . "'";
         if ($selected_round && $round == $selected_round->id) {
             echo " selected";
         }
-        echo ">$round</option>";
+        echo ">" . $round->id . "</option>";
     }
 }
 

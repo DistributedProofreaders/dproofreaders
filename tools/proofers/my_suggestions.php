@@ -231,7 +231,7 @@ function show_headings($colspecs, $username, $anchor)
 
 function output_suggestion_table($projects, $colspecs, $username)
 {
-    global $code_url, $Round_for_round_id_;
+    global $code_url;
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
@@ -273,7 +273,7 @@ function output_suggestion_table($projects, $colspecs, $username)
         if (isset($colspecs['difficulty'])) {
             echo "<td class='nowrap'>";
             // Make the difficulty label here match that in show_project_listing()
-            if ($Round_for_round_id_[$row["round"]]->is_a_mentee_round()
+            if (Rounds::get_by_id($row["round"])->is_a_mentee_round()
                 && $row["difficulty"] == "beginner") {
                 echo _("BEGINNERS ONLY");
             } else {
@@ -319,7 +319,7 @@ function output_suggestion_table($projects, $colspecs, $username)
 
 function get_suggestions($round_view, $username, $selection_criteria)
 {
-    global $Round_for_project_state_, $ELR_round;
+    global $ELR_round;
 
     // common project fields needed for all SQL queries
     $project_select_fields = <<<SQL
@@ -486,7 +486,7 @@ function get_suggestions($round_view, $username, $selection_criteria)
     $projects = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $row["created"] = hexdec(substr($row["projectid"], 9, 8));
-        $row["round"] = $Round_for_project_state_[$row["state"]]->id;
+        $row["round"] = Rounds::get_by_project_state($row["state"])->id;
 
         $priority = 1;
         foreach ($view_weights as $field => $weight) {
@@ -539,7 +539,7 @@ function get_suggestions($round_view, $username, $selection_criteria)
         $project = new Project($project_row);
 
         try {
-            $round = $Round_for_project_state_[$project->state];
+            $round = Rounds::get_by_project_state($project->state);
             validate_user_against_project_reserve($user, $project, $round);
             $return_projects[] = $project_row;
         } catch (Exception $exception) {
@@ -560,7 +560,7 @@ function compare_array_by_priority($a, $b)
 
 function get_user_suggestion_criteria($username, $flush_cache = false)
 {
-    global $Round_for_round_id_, $testing;
+    global $testing;
 
     // We cache this in the session table so we don't calculate it on every
     // page load. We keep it for an hour.
@@ -577,12 +577,12 @@ function get_user_suggestion_criteria($username, $flush_cache = false)
     $states_can_work_in = [];
     foreach (get_stages_user_can_work_in($username) as $stage_id => $stage) {
         // only include rounds
-        if (isset($Round_for_round_id_[$stage_id])) {
+        if (Rounds::get_by_id($stage_id)) {
             $states_can_work_in[$stage_id] = $stage->project_available_state;
         }
     }
 
-    $backlog_stats = get_round_backlog_stats(array_keys($Round_for_round_id_));
+    $backlog_stats = get_round_backlog_stats(Rounds::get_ids());
     arsort($backlog_stats);
 
     // ELR pages
