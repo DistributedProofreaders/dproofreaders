@@ -34,7 +34,7 @@ $result = DPDatabase::query($sql);
 
 $number_of_projects = mysqli_num_rows($result);
 
-if($number_of_projects > 0) {
+if ($number_of_projects > 0) {
     echo "Found $number_of_projects projects...\n";
     while ($row = mysqli_fetch_assoc($result)) {
         $project = new Project($row);
