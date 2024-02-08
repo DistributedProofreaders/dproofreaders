@@ -327,9 +327,9 @@ function fetch_queue_projects_data($round, $project_selector, $unheld_only)
 
 /**
  * Return the page and project releases stats for a given release queue
- * @param int round
+ * @param Round $round
  *   The round containing the release queue
- * @param string name
+ * @param string $name
  *   The name of the release queue
  *
  * @return array
