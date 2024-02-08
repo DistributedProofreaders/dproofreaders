@@ -365,7 +365,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     function is_decimal_digits($s)
     {
         assert(is_string($s));
-        return ctype_digit($s) && strlen($s) > 0; // the strlen check is necessary before PHP 5.1.0.
+        return ctype_digit($s);
     }
 
     function get_feature_labels($translate)
