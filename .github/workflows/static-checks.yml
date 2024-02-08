@@ -57,6 +57,21 @@ jobs:
         run: npm run lint
       - name: Run PHP-CS-Fixer and confirm no changes
         run: ./vendor/bin/php-cs-fixer fix --show-progress=none --dry-run --diff
+  phpstan:
+    # Only run on a single version of Ubuntu/PHP to save GitHub CPU time.
+    # PHPStan will perform the same checks irrespective of the platform.
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup PHP, composer
+        uses: ./.github/actions/setup-php
+        with:
+          php-version: '7.4'
+      - name: Setup MySQL, install schema
+        uses: ./.github/actions/setup-mysql-db
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan --no-ansi --no-progress --memory-limit=512M
   misc_checks:
     strategy:
       matrix:
