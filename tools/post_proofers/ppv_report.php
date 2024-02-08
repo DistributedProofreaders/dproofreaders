@@ -895,7 +895,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     echo return_to_project_page_link($projectid);
     exit();
 } else {
-    assert(false);
+    throw new UnexpectedValueException("Unexpected action $action");
 }
 
 /**

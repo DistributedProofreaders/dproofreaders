@@ -72,7 +72,7 @@ foreach (['open', 'close'] as $which) {
             break;
 
         default:
-            assert(0);
+            throw new UnexpectedValueException("Unexpected which $which");
     }
 
     $specials_query = "

@@ -71,7 +71,7 @@ if ($format == "file") {
 } elseif ($format == "html") {
     // fall-through
 } else {
-    assert(false);
+    throw new UnexpectedValueException("Unexpected format $format");
 }
 
 // how many instances (ie: frequency sections) are there?

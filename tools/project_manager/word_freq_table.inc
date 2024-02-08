@@ -319,7 +319,7 @@ function echo_page_instruction_text($wordListType, $format)
             $page_instructions_string .= _("You can do this either by using the checkboxes provided, or by copying them from below and pasting them into the Bad Words input box on the Edit Project Word Lists page (taking care not to overwrite any existing words).");
         }
     } else {
-        assert(false);
+        throw new UnexpectedValueException("Unexpected wordListType $wordListType");
     }
 
     if ($format == "html") {

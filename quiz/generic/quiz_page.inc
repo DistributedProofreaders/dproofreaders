@@ -70,8 +70,7 @@ function qp_round_id_for_pi_toolbox()
     } elseif ($quiz->activity_type == 'format') {
         return 'F1';
     } else {
-        assert(false);
-        return 'P1';
+        throw new UnexpectedValueException("Unexpected activity_type $quiz->activity_type");
     }
 }
 
@@ -515,7 +514,7 @@ function qp_describe_difference($user_text, $soln_text)
         } else {
             // We've run out of lines in both texts.
             // This is logically impossible.
-            assert(false);
+            throw new LogicException("Both user_line and soln_line are empty!");
         }
     }
 

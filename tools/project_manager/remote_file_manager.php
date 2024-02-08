@@ -1027,7 +1027,7 @@ function confirm_is_local($type, $item_name)
         $exists = is_dir($src_path);
         $msg = _("%s exists, but is not a folder");
     } else {
-        assert(false);
+        throw new UnexpectedValueException("Unexpected type $type");
     }
 
     if (!$exists) {

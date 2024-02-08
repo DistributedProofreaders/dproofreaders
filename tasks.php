@@ -1966,7 +1966,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
             // no break
         default:
-            assert(false);
+            throw new UnexpectedValueException("Unexpected property_id $property_id");
     }
 
     // Cases that don't return directly,

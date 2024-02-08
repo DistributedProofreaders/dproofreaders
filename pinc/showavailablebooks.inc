@@ -320,7 +320,7 @@ function show_projects_for_pool($pool, $checkedout_or_available)
 
         $columns["days_avail"] = ['Days', _("Days Available")];
     } else {
-        assert(false);
+        throw new UnexpectedValueException("Unexpected checkedout_or_available $checkedout_or_available");
     }
 
     $filtered_project_selector = "$initial_project_selector $projects_filter";

@@ -100,7 +100,7 @@ foreach ($_POST as $name => $value) {
             die("Error: The user hasn't requested access to $activity_id");
         }
     } else {
-        assert(0);
+        throw new UnexpectedValueException("Unexpected action_type $action_type");
     }
 
     // And it's an action hat is valid for the subject user at the current time.

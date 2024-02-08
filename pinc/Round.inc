@@ -546,7 +546,7 @@ function round_project_listing_presort($round)
             ) DESC
         ";
     } else {
-        assert(false);
+        throw new UnexpectedValueException("Unexpected round $round->id");
     }
 }
 

@@ -738,7 +738,7 @@ function _utf8_encode_code_point($cp)
         return $sa;
     } else {
         // utf8 encodes as 4 or more bytes
-        assert(false);
+        throw new UnexpectedValueException("Unexpected codepoint $cp");
     }
 }
 
