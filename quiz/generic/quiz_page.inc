@@ -460,8 +460,8 @@ function qp_describe_difference($user_text, $soln_text)
     $max_n_lines = max(count($user_lines), count($soln_lines));
 
     for ($i = 0; $i < $max_n_lines; $i++) {
-        $user_line = @$user_lines[$i];
-        $soln_line = @$soln_lines[$i];
+        $user_line = $user_lines[$i] ?? null;
+        $soln_line = $soln_lines[$i] ?? null;
         if (isset($user_line) && isset($soln_line)) {
             // We haven't run out of either text yet.
             if ($user_line != $soln_line) {
@@ -497,7 +497,7 @@ function qp_describe_difference($user_text, $soln_text)
                 echo "</pre>\n";
                 return;
             }
-        } elseif (isset($user_line) && !isset($soln_line)) {
+        } elseif (isset($user_line)) {
             // We've run out of lines in the solution-text,
             // but not in the user-text.
             echo _("You need to delete one or more lines at the end of your text.");
@@ -505,7 +505,7 @@ function qp_describe_difference($user_text, $soln_text)
             // (We could say exactly how many lines,
             // but that would make it too easy.)
             return;
-        } elseif (!isset($user_line) && isset($soln_line)) {
+        } elseif (isset($soln_line)) {
             // We've run out of lines in the user-text,
             // but not in the solution-text.
             echo _("The text you submitted is correct, as far as it goes, but it is missing one or more lines at the end.");
@@ -517,10 +517,6 @@ function qp_describe_difference($user_text, $soln_text)
             throw new LogicException("Both user_line and soln_line are empty!");
         }
     }
-
-    // We've gone through all lines of both texts
-    // without finding a difference, which can't happen.
-    assert(false);
 }
 
 // =============================================================================
