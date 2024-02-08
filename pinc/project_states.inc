@@ -275,7 +275,7 @@ declare_project_state(
 foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
     $sql_constant_name = "SQL_CONDITION_$star_metal";
     $sql_condition = '(';
-    foreach ($project_states as $project_state) {
+    foreach ($project_states as $project_state) { /** @phpstan-ignore-line Fixed in https://github.com/phpstan/phpstan/issues/9403 */
         if ($sql_condition != '(') {
             $sql_condition .= ' OR ';
         }

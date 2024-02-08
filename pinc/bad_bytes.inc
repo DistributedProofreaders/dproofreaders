@@ -684,7 +684,7 @@ function define_bad_byte_sequences()
     ksort($_bad_byte_sequences);
 
     if (0) { /** @phpstan-ignore-line */
-        foreach ($_bad_byte_sequences as $raw => $remarks) {
+        foreach ($_bad_byte_sequences as $raw => $remarks) { /** @phpstan-ignore-line Fixed in https://github.com/phpstan/phpstan/issues/9403 */
             [$code_point, $why_bad] = $remarks;
             echo sprintf(
                 "%s: U+%04x %s\n",
