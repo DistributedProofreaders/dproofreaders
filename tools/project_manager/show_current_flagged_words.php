@@ -68,7 +68,7 @@ if ($format == "file") {
 } elseif ($format == "html") {
     // fall-through
 } else {
-    assert(false);
+    throw new UnexpectedValueException("Unexpected format $format");
 }
 
 

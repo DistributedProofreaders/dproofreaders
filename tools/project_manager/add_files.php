@@ -441,7 +441,7 @@ class Loader
 
                     default:
                         // No other combo
-                        assert(0);
+                        throw new UnexpectedValueException("Unexpected combo $combo");
                 }
             }
 
@@ -563,7 +563,7 @@ class Loader
                 ];
             }
         } else {
-            assert(false);
+            throw new UnexpectedValueException("Unexpected toi $toi");
         }
 
         if (count($db_exts) == 0) {

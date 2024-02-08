@@ -168,7 +168,7 @@ function _get_bad_words_for_project_text($which_result_values, $text, $projectid
         // Associate each bad word with the most specific level at which it was deemed bad.
         $bad_words_in_text = array_intersect_key($bad_words, $input_words_w_freq);
     } else {
-        assert(false);
+        throw new UnexpectedValueException("Unexpected which_result_values $which_result_values");
     }
 
     return [$bad_words_in_text, $languages, $messages];
@@ -1055,7 +1055,7 @@ function get_site_possible_bad_word_lists()
  *   If blank all files will be returned.
  * @param bool $urlbase
  *   If TRUE files will be turned as a URL,
- *   I FALSE absolute filesystem paths are returned
+ *   If FALSE absolute filesystem paths are returned
  */
 function get_site_word_files($pattern = "", $urlbase = true)
 {
@@ -1103,6 +1103,12 @@ function get_site_word_files($pattern = "", $urlbase = true)
  * This function is equivalent to
  * `array_count_values(get_all_words_in_text($text))`
  * but (when appropriate) avoids reifying the intermediate array.
+ *
+ * @param string|array<string> $text
+ *    The text or texts to histogram
+ *
+ * @return array<string,int>
+ *    A histogram of word frequencies in $text
  */
 function get_distinct_words_in_text($text)
 {
@@ -1155,7 +1161,7 @@ function get_distinct_words_in_text($text)
             }
         }
     } else {
-        assert(false);
+        throw new UnexpectedValueException("Unexpected text type " . get_type($text));
     }
 
     return $input_words_w_freq;

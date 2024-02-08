@@ -253,7 +253,7 @@ function notify_project_event_subscribers($project, $event, $extras = [])
                 break;
 
             default:
-                assert(0);
+                throw new UnexpectedValueException("Unexpected event $event");
         }
         $email = get_forum_email_address($username);
         send_mail(

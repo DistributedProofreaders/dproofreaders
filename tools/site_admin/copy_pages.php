@@ -500,7 +500,7 @@ function do_stuff(
             $c_dst_fileid = sprintf($c_dst_format, $c_dst_b);
             $c_dst_image = "$c_dst_fileid.$c_src_image_ext";
         } else {
-            assert(false);
+            throw new UnexpectedValueException("Unexpected page_name_handling $page_name_handling");
         }
 
         $c_src_image_[] = $c_src_image;
