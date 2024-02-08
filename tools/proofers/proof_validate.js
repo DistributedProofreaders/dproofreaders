@@ -44,4 +44,18 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    const conversionMap = {
+        '‘': '\'',
+        '“': '"',
+        '’': '\'',
+        '”': '"',
+        '—': '-'
+    };
+
+    document.getElementById('text_data').addEventListener('input', (event) => {
+        event.target.value = [...event.target.value].map(character => {
+            return conversionMap[character] || character;
+        }).join('');
+    });
 });
