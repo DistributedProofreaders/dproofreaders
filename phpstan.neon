@@ -1,0 +1,43 @@
+# https://phpstan.org/config-reference
+
+parameters:
+    fileExtensions:
+        - php
+        - inc
+    paths:
+        - .
+    excludePaths:
+        - SETUP/*
+        - vendor/*
+        # TODO: On pgdp.org phpstan errors while reading the stub files for yaz.
+        # This is triggered by the yaz_wait($extra_options) call.
+        # I can't reproduce it elsewhere.
+        - tools/project_manager/external_catalog_search.php
+    bootstrapFiles:
+        - SETUP/phpstan_bootstrap.inc
+        - pinc/bootstrap.inc
+
+    # https://phpstan.org/user-guide/rule-levels
+    # We want to gradually ratchet up the level here.
+    level: 4
+
+    ignoreErrors:
+        # Errors in third party code, and our interfaces to it
+        - message: '#Property .* does not accept false#'
+          path: pinc/3rdparty/mediawiki/DairikiDiff.php
+        - message: '#Comparison operation .* results in an error#'
+          path: pinc/3rdparty/mediawiki/DiffEngine.php
+        - message: '#PHPDoc tag .* is not subtype of#'
+          path: pinc/3rdparty/mediawiki/DiffFormatter.php
+        - message: '#Instantiated class DiffFormatter is abstract#'
+          path: pinc/DifferenceEngineWrapper.inc
+
+        - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
+        - message: '#Instantiated class .* not found.#'
+        - message: '#Function .* not found.#'
+        - message: '#Call to an undefined method#'
+
+        - message: '#Variable .* might not be defined#'
+        - message: '#Constant .* not found#'
+        - message: '#Throwing object of an unknown class#'
+        - message: '#Access to an undefined property#'
