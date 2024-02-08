@@ -376,12 +376,6 @@ function select_from_site_past_tallies_and_goals(
     $s = preg_replace('/{year_month}/', $ym_expr, $s);
     $s = preg_replace('/{year}/', $y_expr, $s);
 
-    if (0) {
-        echo "<pre>\n";
-        echo $s;
-        echo "</pre>\n";
-    }
-
     return $s;
 }
 

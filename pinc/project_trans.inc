@@ -22,17 +22,9 @@ function project_transition($projectid, $new_state, $who, $extras = [])
     $transition_str = "$projectid: $current_state -> $new_state";
     if ($testing) {
         $indent = '    ';
-        if (false) {
-            // The trace output will be going into a <pre> element,
-            // or to a plain-text document.
-            $eol = "\n";
-        } else {
-            // The trace output will be going to an HTML doc,
-            // but not into a <pre> element.
-            $eol = "<br>\n";
-        }
-
-        // echo "{$indent}$transition_str{$eol}";
+        // The trace output will be going to an HTML doc,
+        // but not into a <pre> element.
+        $eol = "<br>\n";
     }
 
     // -------------------------------------------------------------------------

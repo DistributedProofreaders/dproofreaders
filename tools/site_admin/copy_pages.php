@@ -658,7 +658,7 @@ function do_stuff(
         );
         // FIXME These are very long and should perhaps be suppressed, wrapped or made smaller.
         echo html_safe($query) . "\n";
-        if ($for_real) {
+        if ($for_real) { /** @phpstan-ignore-line */
             DPDatabase::query($query);
             $n = DPDatabase::affected_rows();
             echo sprintf(_("%d rows inserted."), $n) . "\n";
@@ -672,7 +672,7 @@ function do_stuff(
 
         echo "\n" . html_safe(sprintf(_('Copying %1$s to %2$s...'), $c_src_path, $c_dst_path)) . " ";
 
-        if ($for_real) {
+        if ($for_real) { /** @phpstan-ignore-line */
             $success = copy($c_src_path, $c_dst_path);
             $s = ($success ? _('Copy succeeded.') : _('<b>Copy failed!</b>'));
             echo $s . "\n";
@@ -683,7 +683,7 @@ function do_stuff(
     project_recalculate_page_counts($projectid_['to']);
     echo "<p>" . _("Page counts recalculated") . "</p>\n";
 
-    if ($transfer_notifications && $for_real) {
+    if ($transfer_notifications && $for_real) { /** @phpstan-ignore-line */
         echo "<p>" . _("Transferring event notifications...") . "</p>\n";
 
         // for each subscribable event
@@ -726,7 +726,7 @@ function do_stuff(
             $projectid_['from'] // validated input
         );
         echo "<code>" . html_safe($query) . "</code>";
-        if ($for_real) {
+        if ($for_real) { /** @phpstan-ignore-line */
             DPDatabase::query($query);
             $n = DPDatabase::affected_rows();
             echo "<p>" . sprintf(_("%d rows updated."), $n) . "</p>\n";
@@ -735,7 +735,7 @@ function do_stuff(
 
     if ($merge_wordcheck_data) {
         echo "<p>" . _("Merging WordCheck files and events.") . "</p>\n";
-        if ($for_real) {
+        if ($for_real) { /** @phpstan-ignore-line */
             merge_project_wordcheck_data($projectid_['from'], $projectid_['to']);
         }
     }

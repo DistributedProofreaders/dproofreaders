@@ -328,10 +328,10 @@ function get_numeric_param(string $type, array $arr, string $key, $default, $min
     // (and the unit tests for them) can be removed as we can then use union
     // type defs for $min and $max, eg: int|float|null $min. Also add a
     // int_float_null as a return type for this function.
-    if (! (is_null($min) || is_numeric($min))) {
+    if (! (is_null($min) || is_numeric($min))) { /** @phpstan-ignore-line */
         throw new TypeError("\$min must be of the type numeric or null");
     }
-    if (! (is_null($max) || is_numeric($max))) {
+    if (! (is_null($max) || is_numeric($max))) { /** @phpstan-ignore-line */
         throw new TypeError("\$max must be of the type numeric or null");
     }
 
