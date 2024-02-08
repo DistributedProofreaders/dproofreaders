@@ -110,10 +110,8 @@ function lang_direction($langcode = false)
         case "he":
         case "ur": //surely more
             return "RTL";
-            break;
         default:
             return "LTR";
-            break;
     }
 }
 
