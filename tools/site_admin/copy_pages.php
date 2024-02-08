@@ -185,8 +185,7 @@ function display_form(
     echo "<fieldset>\n";
     echo "<legend>" . _("Page number handling:") . "</legend>";
 
-    if (!$repeating ||
-        ($repeating && $page_name_handling == 'PRESERVE_PAGE_NAMES')) {
+    if (!$repeating || $page_name_handling == 'PRESERVE_PAGE_NAMES') {
         $checked1 = 'CHECKED';
         $checked2 = '';
     } else {
@@ -236,8 +235,7 @@ function display_form(
 // NB $input_name must be a valid HTML ID (i.e. no spaces and shouldn't start with a number)
 function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checked)
 {
-    if (!$repeating ||
-        ($repeating && $first_is_checked)) {
+    if (!$repeating || $first_is_checked) {
         $checked1 = 'CHECKED';
         $checked2 = '';
     } else {
