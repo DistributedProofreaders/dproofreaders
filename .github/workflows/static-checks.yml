@@ -37,7 +37,7 @@ jobs:
       - name: Run JS lint
         run: npm run lint
       - name: Run PHP-CS-Fixer and confirm no changes
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
+        run: ./vendor/bin/php-cs-fixer fix --show-progress=none --dry-run --diff
   misc_checks:
     runs-on: ubuntu-20.04
     steps:
