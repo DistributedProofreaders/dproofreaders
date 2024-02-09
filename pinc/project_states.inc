@@ -178,8 +178,19 @@ function declare_project_states($rounds, $pools)
     );
 
     foreach ($pools as $pool) {
-        $pool->states[] = $pool->project_available_state = "proj_post_{$pool->ordinal}_available";
-        $pool->states[] = $pool->project_checkedout_state = "proj_post_{$pool->ordinal}_checked_out";
+        switch ($pool->id) {
+            case 'PP':
+                $pool->project_available_state = "proj_post_first_available";
+                $pool->project_checkedout_state = "proj_post_first_checked_out";
+                break;
+            case 'PPV':
+                $pool->project_available_state = "proj_post_second_available";
+                $pool->project_checkedout_state = "proj_post_second_checked_out";
+                break;
+        }
+
+        $pool->states[] = $pool->project_available_state;
+        $pool->states[] = $pool->project_checkedout_state;
 
         declare_project_state(
             strtoupper($pool->project_available_state),

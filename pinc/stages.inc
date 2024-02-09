@@ -272,7 +272,6 @@ new Pool(
     null, // access_change_callback
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
-    'first',
     _("Manager"),
     'username',
     [
@@ -321,7 +320,6 @@ new Pool(
     null, // access_change_callback
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
-    'second',
     _("Post-Processor"),
     'postproofer',
     [

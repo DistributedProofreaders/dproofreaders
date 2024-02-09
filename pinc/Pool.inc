@@ -40,7 +40,6 @@ class Pool extends Stage
         $access_change_callback,
         $description,
         $document,
-        $ordinal,
         $foo_Header,
         $foo_field_name,
         $blather
@@ -57,7 +56,6 @@ class Pool extends Stage
             "tools/pool.php?pool_id=$id"
         );
 
-        $this->ordinal = $ordinal;
         $this->foo_Header = $foo_Header;
         $this->foo_field_name = $foo_field_name;
         $this->blather = $blather;
