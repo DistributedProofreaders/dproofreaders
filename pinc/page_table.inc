@@ -272,7 +272,7 @@ function echo_page_table(
 
     $project_phase = get_phase_containing_project_state($state);
 
-    $show_delete = (($project_phase == 'NEW' || $project_phase == 'PR') && $can_edit) || user_is_proj_facilitator();
+    $show_delete = (($project_phase == 'NEW') && $can_edit) || user_is_proj_facilitator();
 
     $project_round = get_Round_for_project_state($project->state);
 
