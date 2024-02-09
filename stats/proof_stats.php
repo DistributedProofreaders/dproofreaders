@@ -25,7 +25,7 @@ $users_tallyboard = new TallyBoard($tally_name, 'U');
 [$joined_with_user_page_tallies, $user_page_tally_column] =
     $users_tallyboard->get_sql_joinery_for_current_tallies('users.u_id');
 
-// TRANSLATORS: %s is a page tally name (i.e. 'P1' or 'F2' or 'R*')
+// TRANSLATORS: %s is a page tally name (i.e. 'P1' or 'F2')
 $sql_upt_column_name = sprintf(_("%s Pages Completed"), $tally_name);
 
 $sql = sprintf(
