@@ -1,0 +1,18 @@
+runs:
+  using: "composite"
+  steps:
+    - name: Start mysql service
+      shell: bash
+      run: sudo /etc/init.d/mysql start
+    - name: Configure mysql
+      shell: bash
+      run: |
+        mysql -uroot -proot -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
+        mysql -uroot -proot -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
+        mysql -uroot -proot -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
+    - name: Configure site setup
+      shell: bash
+      run: SETUP/configure SETUP/tests/ci_configuration.sh .
+    - name: Install DB schema
+      shell: bash
+      run: cd SETUP && php install_db.php
