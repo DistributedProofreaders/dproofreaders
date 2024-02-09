@@ -6,27 +6,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        with:
-          php-version: 7.4
-          extensions: mbstring, iconv, intl, mysql, zip
-          tools: composer
-      - name: Start mysql service
-        run: sudo /etc/init.d/mysql start
-      - name: Configure mysql
-        run: |
-          mysql -uroot -proot -e "CREATE DATABASE dp_db CHARACTER SET utf8mb4;"
-          mysql -uroot -proot -e "CREATE USER dp_user@localhost IDENTIFIED BY 'dp_password';"
-          mysql -uroot -proot -e "GRANT ALL ON dp_db.* TO dp_user@localhost;"
-          ./SETUP/configure ./SETUP/tests/ci_configuration.sh .
-      - name: Install DB schema
-        run: |
-          cd SETUP
-          php install_db.php
-          cd ..
-      - name: Install composer dependencies
-        run: composer install
+      - name: Setup PHP, composer
+        uses: ./.github/actions/setup-php
+      - name: Setup MySQL, install schema
+        uses: ./.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt --fix-broken install aspell aspell-en
       - name: Run phpunit tests
@@ -36,12 +19,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install NPM packages (for tests)
-        run: npm install
+      - name: Setup Node, NPM
+        uses: ./.github/actions/setup-node
       - name: Run js unit tests
         run: npm run test
   linting:
@@ -49,24 +28,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        with:
-          php-version: 7.4
-          extensions: mbstring, iconv, intl, mysql, zip
-          tools: composer
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Setup PHP, composer
+        uses: ./.github/actions/setup-php
+      - name: Setup Node, NPM
+        uses: ./.github/actions/setup-node
       - name: Lint PHP code
         run: make -C SETUP lint_code
-      - name: Install NPM packages (for eslint)
-        run: npm install
       - name: Run JS lint
         run: npm run lint
-      - name: Install composer dependencies
-        run: composer install
       - name: Run PHP-CS-Fixer and confirm no changes
         run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
   misc_checks:
@@ -74,20 +43,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
-        with:
-          php-version: 7.4
-          extensions: mbstring, iconv, intl, mysql, zip
-          tools: composer
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install composer dependencies (for UTF8)
-        run: composer install --no-dev
-      - name: Install NPM packages (for less)
-        run: npm install
+      - name: Setup PHP, composer
+        uses: ./.github/actions/setup-php
+      - name: Setup Node, NPM
+        uses: ./.github/actions/setup-node
       - name: Run security checks
         run: make -C SETUP security_checks
       - name: Run charsuite checks
