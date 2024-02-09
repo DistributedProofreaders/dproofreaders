@@ -60,7 +60,7 @@ jobs:
         with:
           node-version: '18'
       - name: Lint PHP code
-        run: cd SETUP && make lint_code && cd ..
+        run: make -C SETUP lint_code
       - name: Install NPM packages (for eslint)
         run: npm install
       - name: Run JS lint
@@ -89,10 +89,10 @@ jobs:
       - name: Install NPM packages (for less)
         run: npm install
       - name: Run security checks
-        run: cd SETUP && make security_checks && cd ..
+        run: make -C SETUP security_checks
       - name: Run charsuite checks
-        run: cd SETUP && make lint_charsuites && cd ..
+        run: make -C SETUP lint_charsuites
       - name: Run less/CSS checks
-        run: cd SETUP && make lint_css && cd ..
+        run: make -C SETUP lint_css
       - name: Run best practice checks
-        run: cd SETUP && make best_practice_checks && cd ..
+        run: make -C SETUP best_practice_checks
