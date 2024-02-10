@@ -60,7 +60,8 @@ class ActivityTest extends PHPUnit\Framework\TestCase
 
     public function test_project_state_functions()
     {
-        global $PROJECT_STATES_IN_ORDER;
+        global $PROJECT_STATES_IN_ORDER, $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx;
+
         $this->assertEquals("P3.proj_bad", $PROJECT_STATES_IN_ORDER[11]);
         $this->assertEquals("project_delete", $PROJECT_STATES_IN_ORDER[34]);
         $this->assertEquals("(state='proj_submit_pgposted')", SQL_CONDITION_GOLD);
@@ -73,8 +74,18 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("PP: Available", get_medium_label_for_project_state(PROJ_POST_FIRST_AVAILABLE));
         $this->assertEquals("PP: Checked out", get_medium_label_for_project_state(PROJ_POST_FIRST_CHECKED_OUT));
         $this->assertEquals("Post-Processing: Available", project_states_text(PROJ_POST_FIRST_AVAILABLE));
+        $this->assertEquals($waiting_projects_forum_idx, get_forum_id_for_project_state(PROJ_P1_WAITING_FOR_RELEASE));
+        $this->assertEquals($projects_forum_idx, get_forum_id_for_project_state(PROJ_P2_WAITING_FOR_RELEASE));
+        $this->assertEquals($pp_projects_forum_idx, get_forum_id_for_project_state(PROJ_POST_FIRST_AVAILABLE));
 
         $this->assertEquals("PPV: Available", get_medium_label_for_project_state(PROJ_POST_SECOND_AVAILABLE));
         $this->assertEquals("Post-Processing Verification: Available", project_states_text(PROJ_POST_SECOND_AVAILABLE));
+    }
+
+    public function test_graph_data_functions()
+    {
+        $this->assertEquals("state IN ('proj_post_first_unavailable','proj_post_first_available','proj_post_first_checked_out','proj_post_second_available','proj_post_second_checked_out','proj_post_complete')", _get_project_state_selector('PP'));
+        $this->assertEquals("state IN ('project_complete')", _get_project_state_selector('COMPLETE'));
+
     }
 }

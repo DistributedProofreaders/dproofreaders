@@ -23,12 +23,22 @@ include_once($relPath.'site_vars.php');
   (Actually, the naming convention is in transition.)
 */
 
-global $PROJECT_STATES_IN_ORDER;
-global $project_state_medium_label_;
-global $project_state_long_label_;
-global $project_state_forum_;
-global $project_state_phase_;
-global $project_states_for_star_metal_;
+class ProjectState
+{
+    public function __construct(
+        $medium_label,
+        $long_label,
+        $forum,
+        $phase
+    ) {
+        $this->medium_label = $medium_label;
+        $this->long_label = $long_label;
+        $this->forum = $forum;
+        $this->phase = $phase;
+    }
+}
+
+global $project_states;
 
 function declare_project_state(
     $constant_name,
@@ -39,19 +49,18 @@ function declare_project_state(
     $phase,
     $star_metal
 ) {
-    global $PROJECT_STATES_IN_ORDER;
-    global $project_state_medium_label_;
-    global $project_state_long_label_;
-    global $project_state_forum_;
-    global $project_state_phase_;
+    global $project_states;
     global $project_states_for_star_metal_;
 
     define($constant_name, $constant_value);
-    $PROJECT_STATES_IN_ORDER[] = $constant_value;
-    $project_state_medium_label_[$constant_value] = $medium_label;
-    $project_state_long_label_[$constant_value] = $long_label;
-    $project_state_forum_[$constant_value] = $forum;
-    $project_state_phase_[$constant_value] = $phase;
+
+    $project_states[$constant_value] = new ProjectState(
+        $medium_label,
+        $long_label,
+        $forum,
+        $phase
+    );
+
     if ($star_metal) {
         $project_states_for_star_metal_[$star_metal][] = $constant_value;
     }
@@ -59,26 +68,26 @@ function declare_project_state(
 
 function get_medium_label_for_project_state($state)
 {
-    global $project_state_medium_label_;
-    return array_get($project_state_medium_label_, $state, '');
+    global $project_states;
+    return $project_states[$state]->medium_label ?? '';
 }
 
 function project_states_text($state)
 {
-    global $project_state_long_label_;
-    return array_get($project_state_long_label_, $state, '');
+    global $project_states;
+    return $project_states[$state]->long_label ?? '';
 }
 
 function get_forum_id_for_project_state($state)
 {
-    global $project_state_forum_;
-    return array_get($project_state_forum_, $state, -1);
+    global $project_states;
+    return $project_states[$state]->forum ?? -1;
 }
 
 function get_phase_containing_project_state($state)
 {
-    global $project_state_phase_;
-    return array_get($project_state_phase_, $state, 'NONE');
+    global $project_states;
+    return $project_states[$state]->phase ?? 'NONE';
 }
 
 // -----------------------------------------------
@@ -91,6 +100,7 @@ function declare_project_states($rounds, $pools)
 {
     global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
     $completed_projects_forum_idx, $deleted_projects_forum_idx, $project_states_for_star_metal_;
+    global $PROJECT_STATES_IN_ORDER, $project_states;
 
     $project_states_for_star_metal_ = [
         'BRONZE' => [],
@@ -263,10 +273,10 @@ function declare_project_states($rounds, $pools)
     // SQL_CONDITION_SILVER
     // SQL_CONDITION_GOLD
 
-    foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
+    foreach ($project_states_for_star_metal_ as $star_metal => $states) {
         $sql_constant_name = "SQL_CONDITION_$star_metal";
         $sql_condition = '(';
-        foreach ($project_states as $project_state) {
+        foreach ($states as $project_state) {
             if ($sql_condition != '(') {
                 $sql_condition .= ' OR ';
             }
@@ -276,6 +286,8 @@ function declare_project_states($rounds, $pools)
 
         define($sql_constant_name, $sql_condition);
     }
+
+    $PROJECT_STATES_IN_ORDER = array_keys($project_states);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
