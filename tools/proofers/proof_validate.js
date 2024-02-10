@@ -50,12 +50,18 @@ window.addEventListener('DOMContentLoaded', function() {
         '“': '"',
         '’': '\'',
         '”': '"',
-        '—': '-'
+        '—': '--'
     };
 
     document.getElementById('text_data').addEventListener('input', (event) => {
-        event.target.value = [...event.target.value].map(character => {
-            return conversionMap[character] || character;
+        const textDataElement = event.target;
+        let selectionEnd = textDataElement.selectionEnd;
+        textDataElement.value = [...textDataElement.value].map((character) => {
+            const conversion = conversionMap[character] || character;
+            selectionEnd += (conversion.length - 1);
+            return conversion;
         }).join('');
+        textDataElement.selectionStart = selectionEnd;
+        textDataElement.selectionEnd = selectionEnd;
     });
 });
