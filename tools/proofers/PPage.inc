@@ -238,6 +238,9 @@ class PPage
             id='text_data'
             cols='$n_cols'
             rows='$n_rows'
+            autocorrect='off'
+            autocomplete='off'
+            autocapitalize='off'
             dir='".lang_direction($lang)."'
         ";
 
