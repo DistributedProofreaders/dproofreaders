@@ -117,10 +117,10 @@ function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
  *   $round = get_enumerated_param( $_GET, 'tally_name', null, $rounds, true);
  *   ```
  *
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param mixed $default
- * @param array $choices
+ * @param array<string|int> $choices
  * @param bool $allownull
  *
  * @return mixed
@@ -133,7 +133,7 @@ function get_enumerated_param(array $arr, string $key, $default, array $choices,
     // $default and a return of mixed
 
     // sanity checks on the args
-    if (count($choices) <= 0) {
+    if (empty($choices)) {
         throw new InvalidArgumentException("\$choices is an empty array");
     }
 
@@ -249,14 +249,14 @@ function get_enumerated_param(array $arr, string $key, $default, array $choices,
  *   $per_page = get_integer_param($_GET, 'per_page', null, 1, null, true);
  *   ```
  *
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param int|null $default
  * @param int|null $min
  * @param int|null $max
  * @param bool $allownull
  *
- * @return string|null
+ * @return int|null
  *
  * @throws InvalidArgumentException
  *
@@ -275,7 +275,7 @@ function get_integer_param(array $arr, string $key, ?int $default, ?int $min, ?i
  * If it's not defined, and `$default` is non-null, return `$default`.
  * If it's not defined, and `$default` is null and `$allownull` is true, return null.
  *
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param float|null $default
  * @param float|null $min
@@ -300,7 +300,7 @@ function get_float_param(array $arr, string $key, ?float $default, ?float $min, 
  * use those versions instead.
  *
  * @param string $type - One of "integer" or "float"
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param int|float|null $default
  * @param int|float|null $min
@@ -443,7 +443,7 @@ function get_numeric_param(string $type, array $arr, string $key, $default, $min
  *   ```
  *   $word = get_param_matching_regex($_GET, 'word', NULL, '/^\w+$/')
  *   ```
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param string|null $default
  * @param string $regex
