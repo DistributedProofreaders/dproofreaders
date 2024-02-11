@@ -2,12 +2,19 @@ name: Static code checks
 on: [push, pull_request]
 jobs:
   phpunit:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        cfg:
+          - { os: 'ubuntu-20.04', php: '7.4' }
+          - { os: 'ubuntu-22.04', php: '8.1' }
+    runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Setup PHP, composer
         uses: ./.github/actions/setup-php
+        with:
+          php-version: ${{ matrix.cfg.php }}
       - name: Setup MySQL, install schema
         uses: ./.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
@@ -15,7 +22,12 @@ jobs:
       - name: Run phpunit tests
         run: cd SETUP/tests && ../../vendor/bin/phpunit
   jsunit:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        cfg:
+          - { os: 'ubuntu-20.04', php: '7.4' }
+          - { os: 'ubuntu-22.04', php: '8.1' }
+    runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -24,12 +36,19 @@ jobs:
       - name: Run js unit tests
         run: npm run test
   linting:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        cfg:
+          - { os: 'ubuntu-20.04', php: '7.4' }
+          - { os: 'ubuntu-22.04', php: '8.1' }
+    runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Setup PHP, composer
         uses: ./.github/actions/setup-php
+        with:
+          php-version: ${{ matrix.cfg.php }}
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
       - name: Lint PHP code
@@ -39,12 +58,19 @@ jobs:
       - name: Run PHP-CS-Fixer and confirm no changes
         run: ./vendor/bin/php-cs-fixer fix --show-progress=none --dry-run --diff
   misc_checks:
-    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        cfg:
+          - { os: 'ubuntu-20.04', php: '7.4' }
+          - { os: 'ubuntu-22.04', php: '8.1' }
+    runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Setup PHP, composer
         uses: ./.github/actions/setup-php
+        with:
+          php-version: ${{ matrix.cfg.php }}
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
       - name: Run security checks
