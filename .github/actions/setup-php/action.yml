@@ -1,10 +1,14 @@
+inputs:
+  php-version:
+    description: 'X.Y version string as accepted by shivammathur/setup-php'
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Setup PHP, with composer and extensions
       uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
       with:
-        php-version: 7.4
+        php-version: ${{ inputs.php-version }}
         extensions: mbstring, iconv, intl, mysql, zip
         tools: composer
     - name: Install composer dependencies
