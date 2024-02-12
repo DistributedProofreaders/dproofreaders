@@ -8,8 +8,10 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         "f10" => "10.0",
         "s10" => "ten",
         "date" => "2024-02-10",
+        "one" => 1,
     ];
     private $ENUM_CHOICES = ["a", "b"];
+    private $ENUM_INT_CHOICES = [1, 3, 5, 9];
 
     //------------------------------------------------------------------------
     // get_enumerated_param() tests
@@ -50,6 +52,22 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $default = null;
         $result = get_enumerated_param($this->GET, 'none', $default, $this->ENUM_CHOICES, true);
         $this->assertEquals(null, $result);
+    }
+
+    public function testEnumInt()
+    {
+        $default = 9;
+        $result = get_enumerated_param($this->GET, 'one', 9, $this->ENUM_INT_CHOICES);
+        $this->assertEquals($result, $this->GET['one']);
+        $this->assertIsInt($result);
+    }
+
+    public function testEnumIntDefault()
+    {
+        $default = 9;
+        $result = get_enumerated_param($this->GET, 'none', $default, $this->ENUM_INT_CHOICES);
+        $this->assertEquals($result, $default);
+        $this->assertIsInt($result);
     }
 
     public function testEnumInvalidOption()

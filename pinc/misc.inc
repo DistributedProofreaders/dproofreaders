@@ -102,8 +102,8 @@ function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
 /**
  * Get and validate a value from an array against a known set of values
  *
- * If `$arr[$key]` is defined and is one of the strings in `$choices`,
- * return that string.
+ * If `$arr[$key]` is defined and is one of the values in `$choices`,
+ * return that value.
  * If it's not defined, and `$default` is non-null, return `$default`.
  * If `$default` is null and `$allownull` is true, return null (useful for optional params).
  *
@@ -150,15 +150,10 @@ function get_enumerated_param(array $arr, string $key, $default, array $choices,
     if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if (!is_string($s)) {
-            throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' is not a valid type"),
-                $key
-            ));
+        if (is_string($s)) {
+            // Trim whitespace from both ends of the string.
+            $s = trim($s);
         }
-
-        // Trim whitespace from both ends of the string.
-        $s = trim($s);
 
         // Although this function was written assuming that $choices is an array
         // of strings, tasks.php started calling it with an array of integers.
@@ -360,15 +355,10 @@ function get_numeric_param(string $type, array $arr, string $key, $default, $min
     if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if (!is_string($s)) {
-            throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' is not a valid type"),
-                $key
-            ));
+        if (is_string($s)) {
+            // Trim whitespace from both ends of the string.
+            $s = trim($s);
         }
-
-        // Trim whitespace from both ends of the string.
-        $s = trim($s);
 
         if ($type == 'integer') {
             if (preg_match('/^[-+]?\d+$/', $s)) {
@@ -473,9 +463,6 @@ function get_param_matching_regex(array $arr, string $key, ?string $default, str
                 $key
             ));
         }
-
-        // Trim whitespace from both ends of the string.
-        $s = trim($s);
 
         if (preg_match($regex, $s)) {
             return $s;
