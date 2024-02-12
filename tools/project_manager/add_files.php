@@ -325,6 +325,9 @@ class Loader
         ";
         $res = DPDatabase::query($sql);
         $field_data = mysqli_fetch_field_direct($res, 0);
+        if (!$field_data) {
+            throw new ServerError(DPDatabase::log_error());
+        }
         $this->image_field_len = $field_data->length;
 
         // -----------

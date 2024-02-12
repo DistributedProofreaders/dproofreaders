@@ -44,6 +44,9 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
     for ($c = 0; $c < ($n_cols); $c++) {
         echo "<th>";
         $field_data = mysqli_fetch_field_direct($result, $c);
+        if (!$field_data) {
+            throw new ServerError(DPDatabase::log_error());
+        }
         echo $field_data->name;
         echo "</th>\n";
     }
@@ -89,6 +92,9 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
     $type = [];
     for ($c = 0; $c < $n_query_cols; $c++) {
         $field_data = mysqli_fetch_field_direct($result, $c);
+        if (!$field_data) {
+            throw new ServerError(DPDatabase::log_error());
+        }
         $type[$c] = $field_data->type;
         $align = ($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '';
         echo "<th$align>\n";
