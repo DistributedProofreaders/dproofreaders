@@ -21,7 +21,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         // sanity check PHP's built-in type checking, we're not going
         // to do this for every param and every function
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("must be of the type array, null given");
+        $this->expectExceptionMessage("type array, null given");
         get_enumerated_param(null, 'c', null, $this->ENUM_CHOICES);
     }
 
@@ -114,14 +114,14 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     public function testNumericMinType()
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("must be of the type numeric or null");
+        $this->expectExceptionMessage("type numeric or null");
         get_numeric_param("integer", $this->GET, 'enum', 1, "min", 1, false);
     }
 
     public function testNumericMaxType()
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("must be of the type numeric or null");
+        $this->expectExceptionMessage("type numeric or null");
         get_numeric_param("integer", $this->GET, 'enum', 1, 0, "max", false);
     }
 
@@ -163,7 +163,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     public function testIntegerDefaultNotInt()
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("must be of the type int or null");
+        $this->expectExceptionMessage("type int or null");
         $default = "string";
         $min = 0;
         $max = 100;
@@ -253,7 +253,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     public function testFloatDefaultNotFloat()
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("must be of the type float or null");
+        $this->expectExceptionMessage("type float or null");
         $default = "string";
         $min = 0;
         $max = 100;
