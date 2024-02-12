@@ -217,7 +217,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
             if ($project_round->id == $round->id) {
                 echo "SELECTED";
             }
-            echo ">$round_id</option>";
+            echo ">$round->id</option>";
         }
         echo "</select>";
         echo "<input type='submit' value='" . attr_safe(_("Submit")) . "'>";
