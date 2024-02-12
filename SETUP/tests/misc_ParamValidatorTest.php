@@ -163,7 +163,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     public function testIntegerDefaultNotInt()
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("type int or null");
+        $this->expectExceptionMessage("must be of");
         $default = "string";
         $min = 0;
         $max = 100;
@@ -253,7 +253,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     public function testFloatDefaultNotFloat()
     {
         $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("type float or null");
+        $this->expectExceptionMessage("must be of");
         $default = "string";
         $min = 0;
         $max = 100;
