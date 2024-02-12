@@ -15,50 +15,66 @@ function makeControlDiv(container, content, controls) {
     container.css({display: 'flex', height: "100%"});
     container.append(content);
 
-    const controlBar = $("<div>", {class: 'page-interface control-bar'});
+    let controlBar = document.createElement("div");
+    controlBar.classList.add('page-interface', 'control-bar');
     // control2 contains the controls, control1 & control3 adjust the layout
-    const control1 = $("<div>", {class: 'left-align'});
-    const control2 = $("<div>").css({flex: '0 1 auto'});
-    const control3 = $("<div>");
+    let control1 = document.createElement("div");
+    control1.classList.add('left-align');
+    let control2 = document.createElement("div");
+    control2.style.flex = '0 1 auto';
+    let control3 = document.createElement("div");
     controlBar.append(control1, control2, control3);
 
-    const menu = $("<div>", {class: "control-bar-menu"});
-    const menuButton = $("<button>", {title: texts.adjustPanel})
-        .append($("<i>", {class: 'fas fa-cog'}))
-        .click(function () {
-            if(menu.is(":hidden")) {
-                // find the position of the menu button and set position of
-                // menu relative to it
-                const menuWidth = menu.outerWidth();
-                let buttonRect = menuButton[0].getBoundingClientRect();
-                switch(compassPoint) {
-                case "N":
-                    menu.css({top: buttonRect.top, left: buttonRect.right});
-                    break;
-                case "W":
-                    menu.css({top: buttonRect.top, left: buttonRect.right});
-                    break;
-                case "S":
-                    menu.css({top: buttonRect.bottom - menuWidth, left: buttonRect.right});
-                    break;
-                default: // E
-                    menu.css({top: buttonRect.top, left: buttonRect.left - menuWidth});
-                    break;
-                }
-            }
-            menu.toggle();
-        });
+    const menu = document.createElement("div");
+    menu.classList.add("control-bar-menu");
+    // set this style explicitly or the event listener does not see it the first time
+    menu.style.display = 'none';
 
+    const menuButton = document.createElement("button");
+    menuButton.title = texts.adjustPanel;
+    menuButton.innerHTML = "<i class='fas fa-cog'></i>";
+    menuButton.addEventListener('click', function () {
+        if(menu.style.display == 'none') {
+            // find the position of the menu button and set position of
+            // menu relative to it
+            let buttonRect = menuButton.getBoundingClientRect();
+            let containerRect = container[0].getBoundingClientRect();
+            switch(compassPoint) {
+            case "N":
+            case "W":
+                menu.style.top = `${buttonRect.top}px`;
+                menu.style.bottom = 'auto';
+                menu.style.left = `${buttonRect.right}px`;
+                menu.style.right = 'auto';
+                break;
+            case "S":
+                menu.style.top = 'auto';
+                menu.style.bottom = `${containerRect.bottom - buttonRect.bottom}px`;
+                menu.style.left = `${buttonRect.right}px`;
+                menu.style.right = 'auto';
+                break;
+            default: // E
+                menu.style.top = `${buttonRect.top}px`;
+                menu.style.bottom = 'auto';
+                menu.style.left = 'auto';
+                menu.style.right = `${containerRect.right - buttonRect.left}px`;
+                break;
+            }
+            menu.style.display = 'block';
+        } else {
+            menu.style.display = 'none';
+        }
+    });
 
     // build navBox
-    const navBox = $("<table>");
+    const navBox = document.createElement('table');
     const navCell = [];
     let cellIndex = 0;
     for(let rowIndex = 0; rowIndex < 3; rowIndex++) {
-        const row = $("<tr>");
+        const row = document.createElement("tr");
         navBox.append(row);
         for(let columnIndex = 0; columnIndex < 3; columnIndex++) {
-            navCell[cellIndex] = $("<td>");
+            navCell[cellIndex] = document.createElement("td");
             row.append(navCell[cellIndex]);
             cellIndex += 1;
         }
@@ -74,53 +90,100 @@ function makeControlDiv(container, content, controls) {
         // this could be done more simply using prepend
         // but on Safari the tools disappear sometimes.
         content.detach();
-        controlBar.detach();
+        controlBar.remove();
         container.append(controlBar);
         container.append(content);
     }
 
     function controlLast() {
-        controlBar.detach();
+        controlBar.remove();
         container.append(controlBar);
     }
 
+    const controlDivs = [];
+
     function controlHoriz() {
         container.css({flexDirection: 'column'});
-        // controlBar so only our's if there are others
-        $(".condiv", controlBar).css({display: "inline", padding: "0 0.1em"});
-        controlBar.css({"text-align": "", "flex-direction": "row"});
+        controlDivs.forEach(function (controlDiv) {
+            controlDiv.style.display = 'inline';
+            controlDiv.style.padding = '0 0.1em';
+        });
+        controlBar.style.textAlign = 'unset';
+        controlBar.style.flexDirection = 'row';
+
     }
 
     function controlVert() {
         container.css({flexDirection: 'row'});
-        $(".condiv", controlBar).css({display: "block", padding: "0.1em 0"});
-        controlBar.css({"text-align": "center", "flex-direction": "column"});
+        controlDivs.forEach(function (controlDiv) {
+            controlDiv.style.display = 'block';
+            controlDiv.style.padding = '0.1em 0';
+        });
+        controlBar.style.textAlign = 'center';
+        controlBar.style.flexDirection = 'column';
     }
 
-    const leftButton = $("<button>", {class: 'navbutton', title: texts.controlLeft})
-        .append($("<i>", {class: 'fas fa-caret-left'}));
-    const centerButton = $("<button>", {class: 'navbutton', title: texts.controlCenter}).append('|');
-    const rightButton = $("<button>", {class: 'navbutton', title: texts.controlRight})
-        .append($("<i>", {class: 'fas fa-caret-right'}));
-    const topButton = $("<button>", {class: 'navbutton', title: texts.controlTop})
-        .append($("<i>", {class: 'fas fa-caret-up'}));
-    const midButton = $("<button>", {class: 'navbutton', title: texts.controlMid}).append('−');
-    const botButton = $("<button>", {class: 'navbutton', title: texts.controlBot})
-        .append($("<i>", {class: 'fas fa-caret-down'}));
+    const leftButton = document.createElement("button");
+    leftButton.classList.add('navbutton');
+    leftButton.title = texts.controlLeft;
+    leftButton.innerHTML = "<i class='fas fa-caret-left'></i>";
 
-    const westButton = $("<button>", {class: 'navbutton', title: texts.dockLeft})
-        .append($("<i>", {class: 'fas fa-arrow-left'}));
-    const northButton = $("<button>", {class: 'navbutton', title: texts.dockTop})
-        .append($("<i>", {class: 'fas fa-arrow-up'}));
-    const southButton = $("<button>", {class: 'navbutton', title: texts.dockBot})
-        .append($("<i>", {class: 'fas fa-arrow-down'}));
-    const eastButton = $("<button>", {class: 'navbutton', title: texts.dockRight})
-        .append($("<i>", {class: 'fas fa-arrow-right'}));
+    const centerButton = document.createElement("button");
+    centerButton.classList.add('navbutton');
+    centerButton.title = texts.controlCenter;
+    centerButton.innerText = '|';
 
-    const hideButton = $("<button>", {class: 'navbutton', title: texts.hideMenu}).append('×');
+    const rightButton = document.createElement("button");
+    rightButton.classList.add('navbutton');
+    rightButton.title = texts.controlRight;
+    rightButton.innerHTML = "<i class='fas fa-caret-right'></i>";
+
+    const topButton = document.createElement("button");
+    topButton.classList.add('navbutton');
+    topButton.title = texts.controlTop;
+    topButton.innerHTML = "<i class='fas fa-caret-up'></i>";
+
+    const midButton = document.createElement("button");
+    midButton.classList.add('navbutton');
+    midButton.title = texts.controlMid;
+    midButton.innerText = '−';
+
+    const botButton = document.createElement("button");
+    botButton.classList.add('navbutton');
+    botButton.title = texts.controlBot;
+    botButton.innerHTML = "<i class='fas fa-caret-down'></i>";
+
+    const westButton = document.createElement("button");
+    westButton.classList.add('navbutton');
+    westButton.title = texts.dockLeft;
+    westButton.innerHTML = "<i class='fas fa-arrow-left'></i>";
+
+    const northButton = document.createElement("button");
+    northButton.classList.add('navbutton');
+    northButton.title = texts.dockTop;
+    northButton.innerHTML = "<i class='fas fa-arrow-up'></i>";
+
+    const southButton = document.createElement("button");
+    southButton.classList.add('navbutton');
+    southButton.title = texts.dockBot;
+    southButton.innerHTML = "<i class='fas fa-arrow-down'></i>";
+
+    const eastButton = document.createElement("button");
+    eastButton.classList.add('navbutton');
+    eastButton.title = texts.dockRight;
+    eastButton.innerHTML = "<i class='fas fa-arrow-right'></i>";
+
+    const hideButton = document.createElement("button");
+    hideButton.classList.add('navbutton');
+    hideButton.title = texts.hideMenu;
+    hideButton.innerText = '×';
 
     menu.append(navBox);
-    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menu);
+    const menuDiv = document.createElement("div");
+    controlDivs.push(menuDiv);
+    menuDiv.classList.add('center-align');
+    menuDiv.append(menuButton);
+    control1.append(menuDiv, menu);
 
     function setCompassPoint() {
         $(".navbutton", navBox).detach();
@@ -128,25 +191,25 @@ function makeControlDiv(container, content, controls) {
         case "N":
             controlFirst();
             controlHoriz();
-            controlBar.css({borderWidth: "0 0 1px 0"});
+            controlBar.style.borderWidth = '0 0 1px 0';
             fillNavBox([leftButton, centerButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
             break;
         case "W":
             controlFirst();
             controlVert();
-            controlBar.css({borderWidth: "0 1px 0 0"});
+            controlBar.style.borderWidth = '0 1px 0 0';
             fillNavBox([topButton, northButton, "", midButton, hideButton, eastButton, botButton, southButton, ""]);
             break;
         case "E":
             controlLast();
             controlVert();
-            controlBar.css({borderWidth: "0 0 0 1px"});
+            controlBar.style.borderWidth = '0 0 0 1px';
             fillNavBox(["", northButton, topButton, westButton, hideButton, midButton, "", southButton, botButton]);
             break;
         case "S":
             controlLast();
             controlHoriz();
-            controlBar.css({borderWidth: "1px 0 0 0"});
+            controlBar.style.borderWidth = '1px 0 0 0';
             fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
             break;
         }
@@ -155,22 +218,22 @@ function makeControlDiv(container, content, controls) {
     function setBegMidEnd() {
         switch(begMidEnd) {
         case "B":
-            control1.css({flex: '0 0 auto'});
-            control3.css({flex: '1 0 auto'});
+            control1.style.flex = '0 0 auto';
+            control3.style.flex = '1 0 auto';
             break;
         case "M":
-            control1.css({flex: '1 0 auto'});
-            control3.css({flex: '1 0 auto'});
+            control1.style.flex = '1 0 auto';
+            control3.style.flex = '1 0 auto';
             break;
         case "E":
-            control1.css({flex: '1 0 auto'});
-            control3.css({flex: '0 0 auto'});
+            control1.style.flex = '1 0 auto';
+            control3.style.flex = '0 0 auto';
             break;
         }
     }
 
-    hideButton.click(() => {
-        menu.hide();
+    hideButton.addEventListener('click', () => {
+        menu.style.display = 'none';
     });
 
     let onChange = new Set();
@@ -181,22 +244,22 @@ function makeControlDiv(container, content, controls) {
         onChange.forEach(function (onChangeCallback) {
             onChangeCallback();
         });
-        menu.hide();
+        menu.style.display = 'none';
     }
 
-    northButton.click(() => {
+    northButton.addEventListener('click', () => {
         newPoint("N");
     });
 
-    southButton.click(() =>{
+    southButton.addEventListener('click', () =>{
         newPoint("S");
     });
 
-    westButton.click(() => {
+    westButton.addEventListener('click', () => {
         newPoint("W");
     });
 
-    eastButton.click(() => {
+    eastButton.addEventListener('click', () => {
         newPoint("E");
     });
 
@@ -204,36 +267,39 @@ function makeControlDiv(container, content, controls) {
         begMidEnd = newBME;
         saveLocation();
         setBegMidEnd();
-        menu.hide();
+        menu.style.display = 'none';
     }
 
-    leftButton.click(() => {
+    leftButton.addEventListener('click', () => {
         newBME('B');
     });
 
-    centerButton.click(() => {
+    centerButton.addEventListener('click', () => {
         newBME('M');
     });
 
-    rightButton.click(() => {
+    rightButton.addEventListener('click', () => {
         newBME('E');
     });
 
-    topButton.click(() => {
+    topButton.addEventListener('click', () => {
         newBME('B');
     });
 
-    midButton.click(() => {
+    midButton.addEventListener('click', () => {
         newBME('M');
     });
 
-    botButton.click(() => {
+    botButton.addEventListener('click', () => {
         newBME('E');
     });
 
+    let controlDiv;
     controls.forEach(function(control) {
-        control2.append($("<div>").addClass("condiv")
-            .append(control));
+        controlDiv = document.createElement("div");
+        controlDiv.append(control[0]);
+        controlDivs.push(controlDiv);
+        control2.append(controlDiv);
     });
 
     return {
