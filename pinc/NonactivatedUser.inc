@@ -85,8 +85,8 @@ class NonactivatedUser
             WHERE $field=$escaped_value
         ";
         $result = DPDatabase::query($sql);
-
-        if (mysqli_num_rows($result) == 0) {
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows == 0) {
             throw new NonexistentNonactivatedUserException(
                 sprintf(
                     _('No non_activated_user found with %1$s = %2$s'),
@@ -94,7 +94,7 @@ class NonactivatedUser
                     $value
                 )
             );
-        } elseif (mysqli_num_rows($result) > 1) {
+        } elseif ($num_rows > 1) {
             throw new NonuniqueNonactivatedUserException(
                 sprintf(
                     _('Multiple non_activated_users found with %1$s = %2$s'),
@@ -217,6 +217,11 @@ class NonactivatedUser
      *
      * @param string $id
      *
+     * @throws NonuniqueNonactivatedUserException
+     *   The user ID is not unique.
+     * @throws NonexistentNonactivatedUserException
+     *   There is no user with this ID.
+     *
      * @return object NonactivatedUser
      */
     public static function load_from_id($id)
@@ -234,7 +239,9 @@ class NonactivatedUser
      * @param string $email
      *
      * @throws NonuniqueNonactivatedUserException
-     *   The email address is not guaranteed to be unique.
+     *   The email address is not unique.
+     * @throws NonexistentNonactivatedUserException
+     *   There is no user with this email address.
      *
      * @return object NonactivatedUser
      */
