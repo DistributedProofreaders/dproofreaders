@@ -73,19 +73,18 @@ jobs:
       - name: Run PHPStan
         run: ./vendor/bin/phpstan --no-ansi --no-progress --memory-limit=512M
   misc_checks:
-    strategy:
-      matrix:
-        cfg:
-          - { os: 'ubuntu-20.04', php: '7.4' }
-          - { os: 'ubuntu-22.04', php: '8.1' }
-    runs-on: ${{ matrix.cfg.os }}
+    # Only run on a single version of Ubuntu/PHP to save GitHub CPU time.
+    # The CSS tests don't use PHP, and the other tests either just check
+    # the source code for regexps, or check for data consistency in the
+    # character tables.
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Setup PHP, composer
         uses: ./.github/actions/setup-php
         with:
-          php-version: ${{ matrix.cfg.php }}
+          php-version: '7.4'
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
       - name: Run security checks
