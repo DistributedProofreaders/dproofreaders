@@ -43,13 +43,15 @@ if (!headers_sent()) {
 include_once($relPath.'gettext_setup.inc');
 include_once($relPath.'DPDatabase.inc');
 
-try {
-    DPDatabase::connect();
-} catch (Exception $e) {
-    // If we're in maintenance mode, don't die here - we'll more gracefully
-    // error out later
-    if (!$maintenance) {
-        throw $e;
+if (!defined('SKIP_DB_CONNECT')) {
+    try {
+        DPDatabase::connect();
+    } catch (Exception $e) {
+        // If we're in maintenance mode, don't die here - we'll more gracefully
+        // error out later
+        if (!$maintenance) {
+            throw $e;
+        }
     }
 }
 
