@@ -68,8 +68,10 @@ jobs:
         uses: ./.github/actions/setup-php
         with:
           php-version: '7.4'
-      - name: Setup MySQL, install schema
-        uses: ./.github/actions/setup-mysql-db
+      # We don't install MySQL, but we do need pinc/site_vars.php & co.
+      # so the static analysis doesn't fail trying to include_once those files.
+      - name: Configure site setup
+        run: SETUP/configure SETUP/tests/ci_configuration.sh .
       - name: Run PHPStan
         run: ./vendor/bin/phpstan --no-ansi --no-progress --memory-limit=512M
   misc_checks:
