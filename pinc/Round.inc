@@ -565,19 +565,18 @@ function is_formatting_round($round)
  *
  * @param array $arr
  * @param string $key
- * @param mixed $default
+ * @param Round|null $default
  * @param bool $allownull
+ *
+ * @return Round|null
  *
  * @throws InvalidArgumentException
  */
-function get_round_param($arr, $key, $default = null, $allownull = false)
+function get_round_param(array $arr, string $key, ?Round $default = null, bool $allownull = false): ?Round
 {
     // sanity checks on the args
-    assert(is_array($arr));
-    assert(!is_array($key));
-    assert(is_null($default) || is_string($default));
-    if (!is_null($default)) {
-        assert(!$allownull);
+    if (!is_null($default) && $allownull) {
+        throw new InvalidArgumentException("\$allownull = true but \$default is specified");
     }
     if (isset($arr[$key])) {
         $s = $arr[$key];

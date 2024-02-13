@@ -102,8 +102,8 @@ function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
 /**
  * Get and validate a value from an array against a known set of values
  *
- * If `$arr[$key]` is defined and is one of the strings in `$choices`,
- * return that string.
+ * If `$arr[$key]` is defined and is one of the values in `$choices`,
+ * return that value.
  * If it's not defined, and `$default` is non-null, return `$default`.
  * If `$default` is null and `$allownull` is true, return null (useful for optional params).
  *
@@ -117,43 +117,43 @@ function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
  *   $round = get_enumerated_param( $_GET, 'tally_name', null, $rounds, true);
  *   ```
  *
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param mixed $default
- * @param array $choices
+ * @param array<string|int> $choices
  * @param bool $allownull
+ *
+ * @return mixed
  *
  * @throws InvalidArgumentException
  */
-function get_enumerated_param($arr, $key, $default, $choices, $allownull = false)
+function get_enumerated_param(array $arr, string $key, $default, array $choices, bool $allownull = false)
 {
-    {
-        // sanity checks on the args
-        assert(is_array($arr));
-        assert(!is_array($key));
+    // TODO: On move to PHP 8.0 as a minimum version, add 'mixed' type def to
+    // $default and a return of mixed
 
-        assert(is_null($default) || is_string($default));
-        assert(is_array($choices));
-        assert(count($choices) > 0);
+    // sanity checks on the args
+    if (empty($choices)) {
+        throw new InvalidArgumentException("\$choices is an empty array");
+    }
 
-        if (!is_null($default)) {
-            assert(in_array($default, $choices));
-            assert(!$allownull);
+    if (!is_null($default)) {
+        if (!in_array($default, $choices)) {
+            throw new InvalidArgumentException("\$default not in \$choices");
+        }
+        if ($allownull) {
+            throw new InvalidArgumentException("\$allownull = true but \$default is specified");
         }
     }
 
+    // get and validate string
     if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if (!is_string($s)) {
-            throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' is not a valid type"),
-                $key
-            ));
+        if (is_string($s)) {
+            // Trim whitespace from both ends of the string.
+            $s = trim($s);
         }
-
-        // Trim whitespace from both ends of the string.
-        $s = trim($s);
 
         // Although this function was written assuming that $choices is an array
         // of strings, tasks.php started calling it with an array of integers.
@@ -244,18 +244,20 @@ function get_enumerated_param($arr, $key, $default, $choices, $allownull = false
  *   $per_page = get_integer_param($_GET, 'per_page', null, 1, null, true);
  *   ```
  *
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param int|null $default
  * @param int|null $min
  * @param int|null $max
  * @param bool $allownull
  *
+ * @return int|null
+ *
  * @throws InvalidArgumentException
  *
  * @see get_float_param()
  */
-function get_integer_param($arr, $key, $default, $min, $max, $allownull = false)
+function get_integer_param(array $arr, string $key, ?int $default, ?int $min, ?int $max, bool $allownull = false): ?int
 {
     return get_numeric_param("integer", $arr, $key, $default, $min, $max, $allownull);
 }
@@ -268,18 +270,20 @@ function get_integer_param($arr, $key, $default, $min, $max, $allownull = false)
  * If it's not defined, and `$default` is non-null, return `$default`.
  * If it's not defined, and `$default` is null and `$allownull` is true, return null.
  *
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param float|null $default
  * @param float|null $min
  * @param float|null $max
  * @param bool $allownull
  *
+ * @return float|null
+ *
  * @throws InvalidArgumentException
  *
  * @see get_integer_param()
  */
-function get_float_param($arr, $key, $default, $min, $max, $allownull = false)
+function get_float_param(array $arr, string $key, ?float $default, ?float $min, ?float $max, bool $allownull = false): ?float
 {
     return get_numeric_param("float", $arr, $key, $default, $min, $max, $allownull);
 }
@@ -291,60 +295,70 @@ function get_float_param($arr, $key, $default, $min, $max, $allownull = false)
  * use those versions instead.
  *
  * @param string $type - One of "integer" or "float"
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
  * @param int|float|null $default
  * @param int|float|null $min
  * @param int|float|null $max
  * @param bool $allownull
  *
+ * @return int|float|null
+ *
  * @throws InvalidArgumentException
  *
  * @see get_integer_param()
  * @see get_float_param()
  */
-function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
+function get_numeric_param(string $type, array $arr, string $key, $default, $min, $max, bool $allownull)
 {
-    {
-        // sanity checks on the args
-        assert(is_array($arr));
-        assert(!is_array($key));
-
-        if ($type == 'integer') {
-            assert(is_null($default) || is_int($default));
-        } else {
-            assert(is_null($default) || is_float($default));
+    // sanity checks on the args
+    if ($type == 'integer') {
+        if (! (is_null($default) || is_int($default))) {
+            throw new TypeError("\$default must be of the type int or null");
         }
-        assert(is_null($min) || is_numeric($min));
-        assert(is_null($max) || is_numeric($max));
-
-        if (!is_null($default)) {
-            if (!is_null($min)) {
-                assert($default >= $min);
-            }
-            if (!is_null($max)) {
-                assert($default <= $max);
-            }
-            assert(!$allownull);
+    } elseif ($type == 'float') {
+        if (! (is_null($default) || is_float($default))) {
+            throw new TypeError("\$default must be of the type float or null");
         }
+    } else {
+        throw new InvalidArgumentException("\$type must be 'integer' or 'float'");
+    }
 
-        if (!is_null($min) && !is_null($max)) {
-            assert($min <= $max);
+    // TODO: On move to PHP 8.0 as a minimum version, the following two checks
+    // (and the unit tests for them) can be removed as we can then use union
+    // type defs for $min and $max, eg: int|float|null $min. Also add a
+    // int_float_null as a return type for this function.
+    if (! (is_null($min) || is_numeric($min))) {
+        throw new TypeError("\$min must be of the type numeric or null");
+    }
+    if (! (is_null($max) || is_numeric($max))) {
+        throw new TypeError("\$max must be of the type numeric or null");
+    }
+
+    if (!is_null($default)) {
+        if (!is_null($min) && $default < $min) {
+            throw new InvalidArgumentException("\$default must be >= \$min");
+        }
+        if (!is_null($max) && $default > $max) {
+            throw new InvalidArgumentException("\$default must be <= \$max");
+        }
+        if ($allownull) {
+            throw new InvalidArgumentException("\$allownull = true but \$default is specified");
         }
     }
 
+    if (!is_null($min) && !is_null($max) && $min > $max) {
+        throw new InvalidArgumentException("\$min must be <= \$max");
+    }
+
+    // get and validate number
     if (isset($arr[$key])) {
         $s = $arr[$key];
 
-        if (!is_string($s)) {
-            throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' is not a valid type"),
-                $key
-            ));
+        if (is_string($s)) {
+            // Trim whitespace from both ends of the string.
+            $s = trim($s);
         }
-
-        // Trim whitespace from both ends of the string.
-        $s = trim($s);
 
         if ($type == 'integer') {
             if (preg_match('/^[-+]?\d+$/', $s)) {
@@ -419,9 +433,9 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
  *   ```
  *   $word = get_param_matching_regex($_GET, 'word', NULL, '/^\w+$/')
  *   ```
- * @param array $arr
+ * @param array<string, mixed> $arr
  * @param string $key
- * @param mixed $default
+ * @param string|null $default
  * @param string $regex
  *   For security, $regex should almost certainly be anchored at both ends,
  *   and should not contain:
@@ -429,21 +443,15 @@ function get_numeric_param($type, $arr, $key, $default, $min, $max, $allownull)
  *   - (unescaped) '.' (e.g., in "/foo.+bar/").
  * @param bool $allownull
  *
+ * @return string|null
+ *
  * @throws InvalidArgumentException
  */
-function get_param_matching_regex($arr, $key, $default, $regex, $allownull = false)
+function get_param_matching_regex(array $arr, string $key, ?string $default, string $regex, bool $allownull = false): ?string
 {
     // sanity checks on args
-    {
-        assert(is_array($arr));
-        assert(!is_array($key));
-
-        assert(is_null($default) || is_string($default));
-        assert(is_string($regex));
-
-        if (!is_null($default)) {
-            assert(!$allownull);
-        }
+    if (!is_null($default) && $allownull) {
+        throw new InvalidArgumentException("\$allownull = true but \$default is specified");
     }
 
     if (isset($arr[$key])) {
@@ -455,9 +463,6 @@ function get_param_matching_regex($arr, $key, $default, $regex, $allownull = fal
                 $key
             ));
         }
-
-        // Trim whitespace from both ends of the string.
-        $s = trim($s);
 
         if (preg_match($regex, $s)) {
             return $s;

@@ -57,4 +57,41 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         global $ACCESS_CRITERIA;
         $this->assertEquals("'P2' pages completed", $ACCESS_CRITERIA["P2"]);
     }
+
+    //------------------------------------------------------------------------
+    // get_round_param() tests
+
+    public function test_get_round_param()
+    {
+        $GET = ["round" => "P1"];
+        $round = get_round_param($GET, "round");
+        $this->assertEquals("P1", $round->id);
+    }
+
+    public function test_get_round_param_invalid()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("is not a valid round ID");
+        $GET = ["round" => "X4"];
+        get_round_param($GET, "round");
+    }
+
+    public function test_get_round_param_default()
+    {
+        $round = get_round_param([], "round", Rounds::get_by_id("P1"));
+        $this->assertEquals("P1", $round->id);
+    }
+
+    public function test_get_round_param_default_null()
+    {
+        $round = get_round_param([], "round", null, true);
+        $this->assertEquals(null, $round);
+    }
+
+    public function test_get_round_param_no_default()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("is required");
+        get_round_param([], "round", null);
+    }
 }
