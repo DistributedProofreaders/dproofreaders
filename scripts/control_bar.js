@@ -257,19 +257,19 @@ function makeControlDiv(container, content, controls) {
 
 function makeImageWidget(container, align = "C") {
     const content = document.createElement("div");
-    const imageCursor = "grab";
+    content.style.scrollbarWidth = 'none';
+    const grabCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
     image.classList.add("middle-align");
-    image.style.cursor = imageCursor;
 
     // When the image is rotated it has width and height as if it were not
     // rotated. To make scroll work correctly, enclose it in a div with the
     //actual width and height.
     const imageDiv = document.createElement("div");
     imageDiv.classList.add("middle-align", "center-align");
-    imageDiv.style.overflow = "hidden";
     imageDiv.style.display = "inline-block";
+    imageDiv.style.cursor = grabCursor;
     content.append(imageDiv);
     imageDiv.appendChild(image);
 
@@ -283,15 +283,15 @@ function makeImageWidget(container, align = "C") {
     function mouseup() {
         document.removeEventListener("mousemove", mousemove);
         document.removeEventListener("mouseup", mouseup);
-        image.style.cursor = imageCursor;
+        imageDiv.style.cursor = grabCursor;
     }
 
-    image.addEventListener("mousedown", function(event) {
+    imageDiv.addEventListener("mousedown", function(event) {
         event.preventDefault();
 
         // so image can be moved with arrow keys
         content.focus();
-        image.style.cursor = "grabbing";
+        imageDiv.style.cursor = "grabbing";
         scrollDiffX = event.pageX + content.scrollLeft;
         scrollDiffY = event.pageY + content.scrollTop;
         document.addEventListener("mousemove", mousemove);
