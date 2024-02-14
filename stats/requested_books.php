@@ -19,7 +19,7 @@ echo "<p>" . _("You can sign up for notifications in the Event Subscriptions sec
 echo "<p class='warning'>This page has been temporarily disabled due to its high load on the system. We're working to fix this.</p>";
 exit;
 
-echo "<h2>" . _("Most Requested Books Being Proofread") . "</h2>\n";
+echo "<h2>" . _("Most Requested Books Being Proofread") . "</h2>\n"; /** @phpstan-ignore-line The exit statement above makes this dead code */
 
 create_temporary_project_event_subscription_summary_table();
 
