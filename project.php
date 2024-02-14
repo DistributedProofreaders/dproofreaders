@@ -582,8 +582,8 @@ function do_project_info_table()
         if ($detail_level >= 4) {
             // We'll call do_page_table later, so we don't need the "Page Detail" link.
         } else {
-            $message = "";
-            if ($project->check_pages_table_exists($message)) {
+            $detail = "";
+            if ($project->check_pages_table_exists($detail)) {
                 $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
                 $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
                 $url2 = "$url&amp;select_by_user";
