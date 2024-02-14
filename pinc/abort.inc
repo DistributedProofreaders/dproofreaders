@@ -113,7 +113,7 @@ function dump_request_info()
     // give them a last chance to save the page text.
 
     foreach (['_GET', '_POST'] as $array_name) {
-        $array = ${$array_name}; // PHP is a dynamic language! :)
+        $array = @${$array_name} ?? null; // PHP is a dynamic language! :)
         if ($array) {
             echo "$array_name\n";
             echo html_safe(json_encode($array, JSON_PRETTY_PRINT));
