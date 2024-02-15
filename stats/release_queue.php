@@ -260,7 +260,7 @@ function _show_queue_details($round, $name, $unheld_only)
         echo "<td>", html_safe(Project::encode_languages($p["languages"])), "</td>\n";
         echo "<td>", html_safe($p["genre"]), "</td>\n";
         echo "<td>", html_safe($p["difficulty"]), "</td>\n";
-        echo "<td>", html_safe($p["username"]), "</td>\n";
+        echo "<td>", html_safe($p["project_manager"]), "</td>\n";
         echo "<td>", date("Y-m-d H:i:s", $p["last_state_change_time"]), "</td>\n";
         echo "<td>", is_null($p["holds_state"]) ? "&nbsp;" : "Y", "</td>\n";
         echo "</tr>";
