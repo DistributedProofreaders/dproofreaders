@@ -85,6 +85,7 @@ function api_v1_queue_projects($method, $data, $query_params)
         "projectid",
         "title",
         "author",
+        "project_manager",
         "languages",
         "genre",
         "difficulty",

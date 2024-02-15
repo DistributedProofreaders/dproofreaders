@@ -318,7 +318,7 @@ function fetch_queue_projects_data($round, $project_selector, $unheld_only)
             "languages" => Project::decode_language($row["language"]),
             "genre" => $row["genre"],
             "difficulty" => $row["difficulty"],
-            "username" => $row["username"],
+            "project_manager" => $row["username"],
             "last_state_change_time" => (int)$row["modifieddate"],
             "holds_state" => $row["holds_state"],
         ];
