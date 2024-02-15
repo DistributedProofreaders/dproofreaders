@@ -289,8 +289,6 @@ function makeImageWidget(container, align = "C") {
     imageDiv.addEventListener("mousedown", function(event) {
         event.preventDefault();
 
-        // so image can be moved with arrow keys
-        content.focus();
         imageDiv.style.cursor = "grabbing";
         scrollDiffX = event.pageX + content.scrollLeft;
         scrollDiffY = event.pageY + content.scrollTop;
