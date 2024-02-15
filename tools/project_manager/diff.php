@@ -31,7 +31,7 @@ if (!$project->pages_table_exists) {
     // But a user might have a bookmarked or otherwise saved a 'diff' URL.
     echo "<p>", _("Page details are not available for this project."), "</p>\n";
     echo "<p>", _("Project ID"), ": $projectid</p>\n";
-    echo "<p>", _("Title"), ":" . html_safe($project_title) . "</p>\n";
+    echo "<p>", _("Title"), ": " . html_safe($project_title) . "</p>\n";
     exit;
 }
 
