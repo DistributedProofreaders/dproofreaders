@@ -157,7 +157,7 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
             $tallyboard->get_sql_joinery_for_current_tallies("users$rn.u_id");
 
         $fields_to_get .= ",
-            STRCMP($prev_text_column_name, $round->text_column_name) AS {$rn}_compare,
+            CAST($prev_text_column_name as BINARY) <> CAST($round->text_column_name as BINARY) AS {$rn}_compare,
             $round->time_column_name,
             $round->user_column_name,
             $user_page_tally_column AS `$rn.user_page_tally`,
