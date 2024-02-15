@@ -231,7 +231,7 @@ function do_navigation(
     $query = "
         SELECT image,
             $L_user_column_name,
-            ($L_text_column_name = $R_text_column_name) AS is_empty_diff
+            CAST($L_text_column_name AS BINARY) = CAST($R_text_column_name AS BINARY) AS is_empty_diff
         FROM $projectid
         ORDER BY image ASC
     ";
