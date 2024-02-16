@@ -155,17 +155,22 @@ function do_search_and_show_hits()
 
     $hits_per_page = 20; // Perhaps later this can be a PM preference or an option on the form.
     $i = 1;
+    // PHPStan up to at least 1.10.57 has a bug where it doesn't correctly detect
+    // that $i is updated in the loop. We need to sprinkle several ignores to get
+    // it to ignore this.
+    // @phpstan-ignore-next-line
     while (($start <= yaz_hits($id) && $i <= $hits_per_page)) {
         $rec = yaz_record($id, $start, "array");
 
         // if $rec isn't an array, then yaz_record() failed and we should
         // skip this record
-        if (!is_array($rec)) {
+        if (!is_array($rec)) { /** @phpstan-ignore-line */
             $start++;
             continue;
         }
 
         //if it's not a book don't display it.  we might want to uncomment in the future if there are too many records being returned - if (substr(yaz_record($id, $start, "raw"), 6, 1) != "a") { $start++; continue; }
+        /** @phpstan-ignore-next-line */
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($rec);
 
@@ -205,7 +210,7 @@ function do_search_and_show_hits()
         $i++;
         $start++;
     }
-    if ($i % 2 != 1) {
+    if ($i % 2 != 1) { /** @phpstan-ignore-line */
         echo "</tr>\n";
     }
 
