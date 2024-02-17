@@ -7,11 +7,263 @@ class InvalidMARCRecord extends Exception
 {
 }
 
+// An example MARC record for Title: "Frederick Douglass", Author: "Washington"
+// as returned by yaz_search()
+// The keys represent hierarchially named MARC fields, indicators, and subfields.
+// There are two standards here Z39.50, and MARC.
+// All MARC fields/subfields/indicators are named as(3,ID).
+//
+// Ex 1: "(3,leader)" for the field "leader"
+//       See https://www.loc.gov/marc/bibliographic/bdleader.html
+// Ex 2: "(3,041)(3,0 )(3,d)" for the Language code (041) of an item without
+//       a translation (indicator 0), that is a "sung or spoken text"
+//       (subfield $d).
+//       See https://www.loc.gov/marc/bibliographic/bd041.html
+//
+// See https://www.loc.gov/marc/bibliographic/ for an overview.
+//
+// TODO: Add more explanation about the mapping of MARC onto yaz's arrays.
+// In particular, what do the `@`s and signficant whitespaces in IDs
+// mean; and how the `#` and `$`s in the MARC spec represent structure.
+//
+// [
+//    ["(3,leader)", "02348cim a2200613 i 4500"],
+//    ["(3,001)"],
+//    ["(3,001)(3,@)", "6207828"],
+//    ["(3,005)"],
+//    ["(3,005)(3,@)", "20221117140825.0"],
+//    ["(3,007)"],
+//    ["(3,007)(3,@)", "sd bmmennmplue"],
+//    ["(3,008)"],
+//    ["(3,008)(3,@)", "860714s1974    nyunnn|  z     l  | eng d"],
+//    ["(3,906)"],
+//    ["(3,906)(3,  )"],
+//    ["(3,906)(3,  )(3,a)", "7"],
+//    ["(3,906)(3,  )(3,b)", "cbc"],
+//    ["(3,906)(3,  )(3,c)", "copycat"],
+//    ["(3,906)(3,  )(3,d)", "2"],
+//    ["(3,906)(3,  )(3,e)", "ncip"],
+//    ["(3,906)(3,  )(3,f)", "20"],
+//    ["(3,906)(3,  )(3,g)", "y-soundrec"],
+//    ["(3,925)"],
+//    ["(3,925)(3,0 )"],
+//    ["(3,925)(3,0 )(3,a)", "acquire"],
+//    ["(3,925)(3,0 )(3,b)", "2 shelf copies"],
+//    ["(3,925)(3,0 )(3,x)", "policy default"],
+//    ["(3,955)"],
+//    ["(3,955)(3,  )"],
+//    ["(3,955)(3,  )(3,a)", "qr40 2022-11-09 z-client"],
+//    ["(3,955)(3,  )(3,i)", "qr40 2022-11-09"],
+//    ["(3,010)"],
+//    ["(3,010)(3,  )"],
+//    ["(3,010)(3,  )(3,a)", "   74750158 "],
+//    ["(3,028)"],
+//    ["(3,028)(3,02)"],
+//    ["(3,028)(3,02)(3,a)", "TC 2070"],
+//    ["(3,028)(3,02)(3,b)", "Caedmon"],
+//    ["(3,035)"],
+//    ["(3,035)(3,  )"],
+//    ["(3,035)(3,  )(3,a)", "(OCoLC)ocm62426011"],
+//    ["(3,040)"],
+//    ["(3,040)(3,  )"],
+//    ["(3,040)(3,  )(3,a)", "MNU"],
+//    ["(3,040)(3,  )(3,b)", "eng"],
+//    ["(3,040)(3,  )(3,e)", "rda"],
+//    ["(3,040)(3,  )(3,c)", "MNU"],
+//    ["(3,040)(3,  )(3,d)", "OCLCQ"],
+//    ["(3,040)(3,  )(3,d)", "OCLCG"],
+//    ["(3,040)(3,  )(3,d)", "OCLCA"],
+//    ["(3,040)(3,  )(3,d)", "OCLCF"],
+//    ["(3,040)(3,  )(3,d)", "OCLCO"],
+//    ["(3,040)(3,  )(3,d)", "OCLCQ"],
+//    ["(3,040)(3,  )(3,d)", "SNN"],
+//    ["(3,040)(3,  )(3,d)", "OCLCQ"],
+//    ["(3,040)(3,  )(3,d)", "OCLCO"],
+//    ["(3,040)(3,  )(3,d)", "DLC"],
+//    ["(3,041)"],
+//    ["(3,041)(3,0 )"],
+//    ["(3,041)(3,0 )(3,d)", "eng"],
+//    ["(3,041)(3,0 )(3,e)", "eng"],
+//    ["(3,042)"],
+//    ["(3,042)(3,  )"],
+//    ["(3,042)(3,  )(3,a)", "lccopycat"],
+//    ["(3,043)"],
+//    ["(3,043)(3,  )"],
+//    ["(3,043)(3,  )(3,a)", "n-us---"],
+//    ["(3,045)"],
+//    ["(3,045)(3,  )"],
+//    ["(3,045)(3,  )(3,a)", "w3w9"],
+//    ["(3,050)"],
+//    ["(3,050)(3,00)"],
+//    ["(3,050)(3,00)(3,a)", "Caedmon TC 2070"],
+//    ["(3,245)"],
+//    ["(3,245)(3,00)"],
+//    ["(3,245)(3,00)(3,a)", "Great black speeches."],
+//    ["(3,245)(3,00)(3,n)", "Vol. 1."],
+//    ["(3,246)"],
+//    ["(3,246)(3,3 )"],
+//    ["(3,246)(3,3 )(3,a)", "Great black speeches."],
+//    ["(3,246)(3,3 )(3,n)", "Volume 1"],
+//    ["(3,246)"],
+//    ["(3,246)(3,3 )"],
+//    ["(3,246)(3,3 )(3,a)", "Great black speeches."],
+//    ["(3,246)(3,3 )(3,n)", "Vol. one"],
+//    ["(3,264)"],
+//    ["(3,264)(3, 1)"],
+//    ["(3,264)(3, 1)(3,a)", "New York, N.Y. :"],
+//    ["(3,264)(3, 1)(3,b)", "Caedmon,"],
+//    ["(3,264)(3, 1)(3,c)", "[1974]"],
+//    ["(3,264)"],
+//    ["(3,264)(3, 4)"],
+//    ["(3,264)(3, 4)(3,c)", "℗1974"],
+//    ["(3,300)"],
+//    ["(3,300)(3,  )"],
+//    ["(3,300)(3,  )(3,a)", "2 audio discs :"],
+//    ["(3,300)(3,  )(3,b)", "33 1/3 rpm, stereo ;"],
+//    ["(3,300)(3,  )(3,c)", "12 in."],
+//    ["(3,306)"],
+//    ["(3,306)(3,  )"],
+//    ["(3,306)(3,  )(3,a)", "013011"],
+//    ["(3,336)"],
+//    ["(3,336)(3,  )"],
+//    ["(3,336)(3,  )(3,a)", "spoken word"],
+//    ["(3,336)(3,  )(3,b)", "spw"],
+//    ["(3,336)(3,  )(3,2)", "rdacontent"],
+//    ["(3,337)"],
+//    ["(3,337)(3,  )"],
+//    ["(3,337)(3,  )(3,a)", "audio"],
+//    ["(3,337)(3,  )(3,b)", "s"],
+//    ["(3,337)(3,  )(3,2)", "rdamedia"],
+//    ["(3,338)"],
+//    ["(3,338)(3,  )"],
+//    ["(3,338)(3,  )(3,a)", "audio disc"],
+//    ["(3,338)(3,  )(3,b)", "sd"],
+//    ["(3,338)(3,  )(3,2)", "rdacarrier"],
+//    ["(3,340)"],
+//    ["(3,340)(3,  )"],
+//    ["(3,340)(3,  )(3,a)", "vinyl"],
+//    ["(3,340)(3,  )(3,2)", "rdamat"],
+//    ["(3,344)"],
+//    ["(3,344)(3,  )"],
+//    ["(3,344)(3,  )(3,a)", "analog"],
+//    ["(3,344)(3,  )(3,2)", "rdatr"],
+//    ["(3,344)"],
+//    ["(3,344)(3,  )"],
+//    ["(3,344)(3,  )(3,c)", "33 1/3 rpm"],
+//    ["(3,344)"],
+//    ["(3,344)(3,  )"],
+//    ["(3,344)(3,  )(3,d)", "microgroove"],
+//    ["(3,344)(3,  )(3,2)", "rdagw"],
+//    ["(3,500)"],
+//    ["(3,500)(3,  )"],
+//    ["(3,500)(3,  )(3,a)", "Title from disc label."],
+//    ["(3,500)"],
+//    ["(3,500)(3,  )"],
+//    ["(3,500)(3,  )(3,a)", "John Graham, editor."],
+//    ["(3,511)"],
+//    ["(3,511)(3,0 )"],
+//    ["(3,511)(3,0 )(3,a)", "Read by Claudia McNeil and Norman Matlock."],
+//    ["(3,500)"],
+//    ["(3,500)(3,  )"],
+//    ["(3,500)(3,  )(3,a)", "In one container."],
+//    ["(3,500)"],
+//    ["(3,500)(3,  )"],
+//    ["(3,500)(3,  )(3,a)", "Program notes on container."],
+//    ["(3,505)"],
+//    ["(3,505)(3,0 )"],
+//    ["(3,505)(3,0 )(3,a)", "O ye sons of Africa, Feb. 27, 1833 / Frances Maria Stewart [aka Maria W. Stewart] -- Rather die freemen than live to be slaves, Aug., 1843 / Henry Highland Garnet -- An appeal to the British people, May 12, 1846 / Frederick Douglass -- Atlanta exposition address, Sept. 18, 1893 / Booker T. Washington."],
+//    ["(3,650)"],
+//    ["(3,650)(3, 0)"],
+//    ["(3,650)(3, 0)(3,a)", "African Americans."],
+//    ["(3,650)"],
+//    ["(3,650)(3, 0)"],
+//    ["(3,650)(3, 0)(3,a)", "Slavery"],
+//    ["(3,650)(3, 0)(3,z)", "United States."],
+//    ["(3,650)"],
+//    ["(3,650)(3, 0)"],
+//    ["(3,650)(3, 0)(3,a)", "Speeches, addresses, etc., American."],
+//    ["(3,655)"],
+//    ["(3,655)(3, 7)"],
+//    ["(3,655)(3, 7)(3,a)", "Speeches."],
+//    ["(3,655)(3, 7)(3,2)", "lcgft"],
+//    ["(3,655)"],
+//    ["(3,655)(3, 7)"],
+//    ["(3,655)(3, 7)(3,a)", "Literary readings."],
+//    ["(3,655)(3, 7)(3,2)", "lcgft"],
+//    ["(3,655)"],
+//    ["(3,655)(3, 7)"],
+//    ["(3,655)(3, 7)(3,a)", "Sound recordings."],
+//    ["(3,655)(3, 7)(3,2)", "lcgft"],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "Stewart, Maria W.,"],
+//    ["(3,700)(3,1 )(3,d)", "1803-1879,"],
+//    ["(3,700)(3,1 )(3,e)", "author."],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "Garnet, Henry Highland,"],
+//    ["(3,700)(3,1 )(3,d)", "1815-1882,"],
+//    ["(3,700)(3,1 )(3,e)", "author."],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "Douglass, Frederick,"],
+//    ["(3,700)(3,1 )(3,d)", "1818-1895,"],
+//    ["(3,700)(3,1 )(3,e)", "author."],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "Washington, Booker T.,"],
+//    ["(3,700)(3,1 )(3,d)", "1856-1915,"],
+//    ["(3,700)(3,1 )(3,e)", "author."],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "McNeil, Claudia,"],
+//    ["(3,700)(3,1 )(3,e)", "speaker."],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "Matlock, Norman,"],
+//    ["(3,700)(3,1 )(3,e)", "speaker."],
+//    ["(3,700)"],
+//    ["(3,700)(3,1 )"],
+//    ["(3,700)(3,1 )(3,a)", "Graham, John,"],
+//    ["(3,700)(3,1 )(3,d)", "1926-2007,"],
+//    ["(3,700)(3,1 )(3,e)", "editor."],
+//  ]
+
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format
     private $record = [];
-    private $literary_form_array = ["a" => "Art", "b" => "Biography", 3 => "Comedy", "c" => "Comic Strip", 4 => "Cooking", "d" => "Drama", "e" => "Essay", 1 => "Fiction", "g" => "Geography", 5 => "Historical", 6 => "History", 7 => "Humor", "i" => "Letter", "l" => "Linguistics", 8 => "Math", 9 => "Medicine", "m" => "Mixed Form", "v" => 'Music', 0 => "Non-Fiction", "f" => "Novel", "y" => "Periodical", "p" => "Poetry", "r" => "Romance", "z" => "Science", "h" => "Satire", "j" => "Short Story", "s" => "Speech", "u" => "Unknown", "|" => "Unknown"];
+    private $literary_form_array = [
+        "a" => "Art",
+        "b" => "Biography",
+        3 => "Comedy",
+        "c" => "Comic Strip",
+        4 => "Cooking",
+        "d" => "Drama",
+        "e" => "Essay",
+        1 => "Fiction",
+        "g" => "Geography",
+        5 => "Historical",
+        6 => "History",
+        7 => "Humor",
+        "i" => "Letter",
+        "l" => "Linguistics",
+        8 => "Math",
+        9 => "Medicine",
+        "m" => "Mixed Form",
+        "v" => "Music",
+        0 => "Non-Fiction",
+        "f" => "Novel",
+        "y" => "Periodical",
+        "p" => "Poetry",
+        "r" => "Romance",
+        "z" => "Science",
+        "h" => "Satire",
+        "j" => "Short Story",
+        "s" => "Speech",
+        "u" => "Unknown",
+        "|" => "Unknown",
+    ];
     private $force_utf8;
 
     public function __construct($force_utf8 = true)
@@ -69,6 +321,8 @@ class MARCRecord
 
     public function get_title()
     {
+        // https://www.loc.gov/marc/bibliographic/concise/bd245.html Title Statement
+        // Subfield $a - Title
         $title_key = $this->_key_search("245", "a");
         if (isset($this->record[$title_key])) {
             $marc_title = $this->record[$title_key][1];
@@ -77,6 +331,8 @@ class MARCRecord
             $marc_title = '';
         }
 
+        // https://www.loc.gov/marc/bibliographic/concise/bd250.html Edition Statement
+        // Subfield $a - Edition statement
         $edition_key = $this->_key_search("250", "a");
         if (isset($this->record[$edition_key])) {
             $marc_edition = $this->record[$edition_key][1];
@@ -96,26 +352,32 @@ class MARCRecord
 
     public function get_author()
     {
-        $arthor = "";
+        $author = "";
 
-        $author_fields = ["100", "700", "710"];
+        $author_fields = [
+            "100", // https://www.loc.gov/marc/bibliographic/concise/bd100.html Main Entry--Personal Name
+            "700", // https://www.loc.gov/marc/bibliographic/concise/bd700.html Added Entry--Personal Name
+            "710", // https://www.loc.gov/marc/bibliographic/concise/bd710.html Added Entry--Corporate Name
+        ];
         foreach ($author_fields as $field) {
             $record_key = $this->_key_search($field, "a");
             if (isset($this->record[$record_key])) {
-                $arthor = $this->record[$record_key][1];
-                $arthor = trim(preg_replace("/,$/", "", $arthor));
-                if ($arthor) {
+                $author = $this->record[$record_key][1];
+                $author = trim(preg_replace("/,$/", "", $author));
+                if ($author) {
                     break;
                 }
             }
         }
 
-        return $arthor;
+        return $author;
     }
 
     public function get_lccn()
     {
         $marc_lccn = "";
+        // https://www.loc.gov/marc/bibliographic/concise/bd010.html Library of Congress Control Number
+        // Subfield $a - LC control number
         $key = $this->_key_search("010", "a");
         if (isset($this->record[$key])) {
             $marc_lccn = $this->record[$key][1];
@@ -127,6 +389,8 @@ class MARCRecord
     public function get_isbn()
     {
         $marc_isbn = "";
+        // https://www.loc.gov/marc/bibliographic/concise/bd020.html International Standard Book Number
+        // Subfield $a - International Standard Book Number
         $key = $this->_key_search("020", "a");
         if (isset($this->record[$key])) {
             $marc_isbn = $this->record[$key][1];
@@ -138,6 +402,8 @@ class MARCRecord
     public function get_pages()
     {
         $marc_pages = "";
+        // https://www.loc.gov/marc/bibliographic/concise/bd300.html Physical Description
+        // Subfield $a - Extent
         $key = $this->_key_search("300", "a");
         if (isset($this->record[$key])) {
             $marc_pages = $this->record[$key][1];
@@ -149,6 +415,8 @@ class MARCRecord
     public function get_date()
     {
         $marc_date = "";
+        // https://www.loc.gov/marc/bibliographic/concise/bd260.html Publication, Distribution, Etc. (Imprint)
+        // Subfield $c - Date of publication, distribution, etc.
         $key = $this->_key_search("260", "c");
         if (isset($this->record[$key])) {
             $marc_date = $this->record[$key][1];
@@ -160,6 +428,8 @@ class MARCRecord
     public function get_language()
     {
         $lang_name = "";
+        // https://www.loc.gov/marc/bibliographic/bd008.html Fixed-Length Data Elements-General Information
+        // Characters 35-37 - Language
         $key = $this->_key_search("008", "");
         if (isset($this->record[$key])) {
             $marc_language = substr($this->record[$key][1], 35, 3);
@@ -175,6 +445,9 @@ class MARCRecord
     {
         $literary_form = "";
         $key = $this->_key_search("008", "");
+        // https://www.loc.gov/marc/bibliographic/bd008.html Fixed-Length Data Elements-General Information
+        // https://www.loc.gov/marc/bibliographic/bd008b.html
+        // Character 33 - Literary form
         if (isset($this->record[$key])) {
             $marc_literary_form = substr($this->record[$key][1], 33, 1);
             $marc_literary_form = @$this->literary_form_array[$marc_literary_form];
@@ -190,7 +463,9 @@ class MARCRecord
     {
         $i = 0;
         $marc_subject = "";
-
+        // https://www.loc.gov/marc/bibliographic/bd650.html Subject Added Entry-Topical Term
+        // Any indicator
+        // Subfield $a - Topical term or geographic name entry element
         while ($i < count($this->record)) {
             if (preg_match("/^\(3,650\)\(3,([^)]*)\)\(3,a\)$/", @$this->record[$i][0])) {
                 $marc_subject .= " ".trim($this->record[$i][1]).",";
@@ -205,6 +480,8 @@ class MARCRecord
     public function get_description()
     {
         $marc_description = "";
+        // https://www.loc.gov/marc/bibliographic/bd520.html Summary, Etc
+        // Subfield $a - Summary, etc.
         $key = $this->_key_search("520", "a");
         if (isset($this->record[$key])) {
             $marc_description = $this->record[$key][1];
@@ -216,6 +493,9 @@ class MARCRecord
     public function get_publisher()
     {
         $marc_publisher = "";
+        // https://www.loc.gov/marc/bibliographic/bd260.html
+        // Subfield $b - Name of publisher, distributor, etc.
+        // Subfield $c - Date of publication, distribution, etc.
         $publisher_key = $this->_key_search("260", "b");
         if (isset($this->record[$publisher_key])) {
             $marc_publisher = $this->record[$publisher_key][1];
