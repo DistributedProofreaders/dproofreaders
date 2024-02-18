@@ -23,7 +23,6 @@ $bb_diffs = (@$_GET['bb_diffs'] === 'on' and user_can_mentor_in_any_round());
 $project = new Project($projectid);
 $state = $project->state;
 $project_title = $project->nameofwork;
-$navigation_text = "";
 
 if (!$project->pages_table_exists) {
     // This shouldn't normally happen --
@@ -127,7 +126,7 @@ output_header("$title: $project_title", NO_STATSBAR, $extra_args);
 echo "<h1>" . html_safe($project_title) . "</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
-do_navigation(
+$navigation_text = get_navigation(
     $projectid,
     $image,
     $L_round_num,
@@ -200,7 +199,7 @@ if ($L_text != $R_text) {
  * Build up the text for the navigation bit, so we can repeat it
  * again at the bottom of the page
  */
-function do_navigation(
+function get_navigation(
     $projectid,
     $image,
     $L_round_num,
@@ -213,7 +212,7 @@ function do_navigation(
     $only_nonempty_diffs,
     $bb_diffs
 ) {
-    global $navigation_text;
+    $navigation_text = "";
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
     $navigation_text .= "\n<form method='get' action='diff.php'>";
@@ -303,6 +302,8 @@ function do_navigation(
     $navigation_text .= "\n<input type='checkbox' name='only_nonempty_diffs' $checked_attribute id='only_nonempty_diffs' onclick='this.form.submit()'>\n";
     $navigation_text .= "\n<label for='only_nonempty_diffs'>" . html_safe(_('Skip empty diffs')) . "</label>\n";
     $navigation_text .= "\n</form>\n";
+
+    return $navigation_text;
 }
 
 /**
