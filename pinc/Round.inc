@@ -572,12 +572,13 @@ function is_formatting_round($round)
  * @param string $key
  * @param Round|null $default
  * @param bool $allownull
+ * @param bool $allowOCR
  *
  * @return Round|null
  *
  * @throws InvalidArgumentException
  */
-function get_round_param(array $arr, string $key, ?Round $default = null, bool $allownull = false): ?Round
+function get_round_param(array $arr, string $key, ?Round $default = null, bool $allownull = false, bool $allowOCR = false)
 {
     // sanity checks on the args
     if (!is_null($default) && $allownull) {
@@ -600,6 +601,8 @@ function get_round_param(array $arr, string $key, ?Round $default = null, bool $
         $round = Rounds::get_by_id($s);
         if ($round) {
             return $round;
+        } elseif ($allowOCR && $s === "OCR") {
+            return get_OCR_pseudoround();
         } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is not a valid round ID"),
@@ -619,4 +622,14 @@ function get_round_param(array $arr, string $key, ?Round $default = null, bool $
             return $default;
         }
     }
+}
+
+function get_OCR_pseudoround()
+{
+    $round = new stdClass();
+    $round->round_number = 0;
+    $round->id = "OCR";
+    $round->text_column_name = 'master_text';
+    $round->user_column_name = "'none'";  // string literal, not column name
+    return $round;
 }

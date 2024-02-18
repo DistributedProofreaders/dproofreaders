@@ -13,8 +13,16 @@ require_login();
 
 $projectid = get_projectID_param($_GET, 'project');
 $image = get_page_image_param($_GET, 'image', true);
-$L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, Rounds::get_last()->round_number);
-$R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, Rounds::get_last()->round_number);
+// older code used round numbers, which we keep for backwards compatibility
+if (isset($_GET['L_round_num'])) {
+    $L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, Rounds::get_last()->round_number);
+    $R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, Rounds::get_last()->round_number);
+    $L_round = Rounds::get_by_number($L_round_num) ?? get_OCR_pseudoround();
+    $R_round = Rounds::get_by_number($R_round_num) ?? get_OCR_pseudoround();
+} else {
+    $L_round = get_round_param($_GET, "L_round", null, false, true);
+    $R_round = get_round_param($_GET, "R_round", null, false, true);
+}
 $format = get_enumerated_param($_GET, "format", null, ["keep", "remove"], true);
 $only_nonempty_diffs = @$_GET['only_nonempty_diffs'] === 'on';
 $bb_diffs = (@$_GET['bb_diffs'] === 'on' and user_can_mentor_in_any_round());
@@ -36,35 +44,8 @@ if (!$project->pages_table_exists) {
 
 // --------------------------------------------------------------
 // get information about this diff
-if ($L_round_num == 0) {
-    $L_text_column_name = 'master_text';
-    $L_user_column_name = "'none'";  // string literal, not column name
-    $L_round_name = _('OCR');
-    $L_round_id = 'OCR';
-    $L_format = false;
-} else {
-    $L_round = get_Round_for_round_number($L_round_num);
-    $L_text_column_name = $L_round->text_column_name;
-    $L_user_column_name = $L_round->user_column_name;
-    $L_round_name = $L_round->id;
-    $L_round_id = $L_round->id;
-    $L_format = is_formatting_round($L_round);
-}
-
-if ($R_round_num == 0) {
-    $R_text_column_name = 'master_text';
-    $R_user_column_name = "'none'";  // string literal, not column name
-    $R_round_name = _('OCR');
-    $R_round_id = 'OCR';
-    $R_format = false;
-} else {
-    $R_round = get_Round_for_round_number($R_round_num);
-    $R_text_column_name = $R_round->text_column_name;
-    $R_user_column_name = $R_round->user_column_name;
-    $R_round_name = $R_round->id;
-    $R_round_id = $R_round->id;
-    $R_format = is_formatting_round($R_round);
-}
+$L_format = $L_round->id == "OCR" ? false : is_formatting_round($L_round);
+$R_format = $R_round->id == "OCR" ? false : is_formatting_round($R_round);
 
 if (!$format) { // no parameter passed
     // default to remove format if only one of the rounds is formatting
@@ -74,15 +55,14 @@ if (!$format) { // no parameter passed
 // Create a label for the two columns with a link to the page text in the
 // Image Viewer. $projectid & $image have been validated above and
 // L/R_round_name are known round names or 'OCR', so no need to escape them.
-$L_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$L_round_id", $L_round_name);
-$R_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$R_round_id", $R_round_name);
+$L_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$L_round->id", $L_round->id);
+$R_label = new_window_link("../page_browser.php?project=$projectid&imagefile=$image&mode=text&round_id=$R_round->id", $R_round->id);
 
-validate_projectID($projectid);
 $query = sprintf(
     "
-    SELECT $L_text_column_name, $R_text_column_name,
-        $L_user_column_name, $R_user_column_name
-    FROM $projectid
+    SELECT $L_round->text_column_name, $R_round->text_column_name,
+        $L_round->user_column_name, $R_round->user_column_name
+    FROM $project->projectid
     WHERE image='%s'
     ",
     DPDatabase::escape($image)
@@ -127,15 +107,12 @@ echo "<h1>" . html_safe($project_title) . "</h1>\n";
 echo "<h2>$image_link</h2>\n";
 
 $navigation_text = get_navigation(
-    $projectid,
+    $project,
     $image,
-    $L_round_num,
-    $R_round_num,
-    $L_user_column_name,
+    $L_round,
+    $R_round,
     $L_user,
     $format,
-    $L_text_column_name,
-    $R_text_column_name,
     $only_nonempty_diffs,
     $bb_diffs
 );
@@ -181,7 +158,7 @@ echo "</p>\n";
 
 // ---------------------------------------------------------
 
-$diffurl = "$code_url/tools/project_manager/diff.php?project=$projectid&image=$image&L_round_num=$L_round_num&R_round_num=$R_round_num";
+$diffurl = "$code_url/tools/project_manager/diff.php?project=$projectid&image=$image&L_round=$L_round->id&R_round=$R_round->id";
 
 $diffEngine = $bb_diffs ? new DifferenceEngineWrapperBBHTML($diffurl) : new DifferenceEngineWrapperTable();
 $diffEngine->setText($L_text, $R_text);
@@ -200,15 +177,12 @@ if ($L_text != $R_text) {
  * again at the bottom of the page
  */
 function get_navigation(
-    $projectid,
+    $project,
     $image,
-    $L_round_num,
-    $R_round_num,
-    $L_user_column_name,
+    $L_round,
+    $R_round,
     $L_user,
     $format,
-    $L_text_column_name,
-    $R_text_column_name,
     $only_nonempty_diffs,
     $bb_diffs
 ) {
@@ -216,22 +190,21 @@ function get_navigation(
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
     $navigation_text .= "\n<form method='get' action='diff.php'>";
-    $navigation_text .= "\n<input type='hidden' name='project' value='$projectid'>";
+    $navigation_text .= "\n<input type='hidden' name='project' value='$project->projectid'>";
     $navigation_text .= "\n<input type='hidden' name='image' value='$image'>";
-    $navigation_text .= "\n<input type='hidden' name='L_round_num' value='$L_round_num'>";
-    $navigation_text .= "\n<input type='hidden' name='R_round_num' value='$R_round_num'>";
+    $navigation_text .= "\n<input type='hidden' name='L_round' value='$L_round->id'>";
+    $navigation_text .= "\n<input type='hidden' name='R_round' value='$R_round->id'>";
     $navigation_text .= "\n<input type='hidden' name='format' value='$format'>";
     if ($bb_diffs) {
         $navigation_text .= "\n<input type='hidden' name='bb_diffs' value='on'>";
     }
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
-    validate_projectID($projectid);
     $query = "
         SELECT image,
-            $L_user_column_name,
-            CAST($L_text_column_name AS BINARY) = CAST($R_text_column_name AS BINARY) AS is_empty_diff
-        FROM $projectid
+            $L_round->user_column_name,
+            CAST($L_round->text_column_name AS BINARY) = CAST($R_round->text_column_name AS BINARY) AS is_empty_diff
+        FROM $project->projectid
         ORDER BY image ASC
     ";
     $res = DPDatabase::query($query);
@@ -284,7 +257,7 @@ function get_navigation(
     }
     $navigation_text .= ">";
 
-    if (can_navigate_by_proofer($projectid, $L_user)) {
+    if (can_navigate_by_proofer($project->projectid, $L_user)) {
         $navigation_text .= "\n<input type='button' value='" . attr_safe(_("Proofreader previous")) . "' onClick=\"$previous_from_proofer_js\"";
         if ($prev_from_proofer == "") {
             $navigation_text .= " disabled";

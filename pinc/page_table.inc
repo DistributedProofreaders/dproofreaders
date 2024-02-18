@@ -426,10 +426,10 @@ function echo_page_table(
             }
         }
 
-        $prev_rn = 0;
+        $prev_round = get_OCR_pseudoround();
         foreach ($rounds_to_display as $round) {
-            echo_cells_for_round($round, $prev_rn, $page_res, $projectid, $can_see_names_for_this_page);
-            $prev_rn = $round->round_number;
+            echo_cells_for_round($round, $prev_round, $page_res, $projectid, $can_see_names_for_this_page);
+            $prev_round = $round;
         }
 
         // (It's annoying that we have to pass all those args,
@@ -595,7 +595,7 @@ function get_rounds_with_data($projectid)
 
 function echo_cells_for_round(
     $round,
-    $diff_round_num, // <- These are the only "real" params.
+    $diff_round, // <- These are the only "real" params.
     $page_res,
     $projectid,
     $can_see_names_for_this_page
@@ -605,7 +605,6 @@ function echo_cells_for_round(
     $imagename = $page_res['image'];
     $page_state = $page_res['state'];
 
-    $round_num = $round->round_number;
     $round_data = $page_res["pagerounds"][$round->id];
     $R_username = $round_data["username"];
 
@@ -637,7 +636,7 @@ function echo_cells_for_round(
     echo "<td>";
     if ($page_state != $round->page_avail_state) {
         if ($round_data["is_diff"]) {
-            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round_num=$diff_round_num&amp;R_round_num=$round_num'>"._("Diff")."</a>";
+            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round=$diff_round->id&amp;R_round=$round->id'>"._("Diff")."</a>";
         } else {
             echo _("No diff");
         }

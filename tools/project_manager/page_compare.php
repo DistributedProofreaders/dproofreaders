@@ -79,10 +79,6 @@ class Comparator
 
         $L_round = get_Round_for_round_id($this->L_round_id);
         $R_round = get_Round_for_round_id($this->R_round_id);
-        $L_text_column_name = $L_round->text_column_name;
-        $R_text_column_name = $R_round->text_column_name;
-        $L_round_num = $L_round->round_number;
-        $R_round_num = $R_round->round_number;
 
         $username = $pguser;
         switch ($this->page_set) {
@@ -110,7 +106,7 @@ class Comparator
 
         validate_projectID($this->projectid);
         $sql = "
-            SELECT image, $L_text_column_name, $R_text_column_name
+            SELECT image, $L_round->text_column_name, $R_round->text_column_name
             FROM $this->projectid
             WHERE $condition
             ORDER BY image ASC
@@ -130,8 +126,8 @@ class Comparator
         $un_formatter = new PageUnformatter();
         while ($page_res = mysqli_fetch_assoc($res)) {
             // also unwrap
-            $L_text = $un_formatter->remove_formatting($page_res[$L_text_column_name], true);
-            $R_text = $un_formatter->remove_formatting($page_res[$R_text_column_name], true);
+            $L_text = $un_formatter->remove_formatting($page_res[$L_round->text_column_name], true);
+            $R_text = $un_formatter->remove_formatting($page_res[$R_round->text_column_name], true);
             if (0 != strcmp($L_text, $R_text)) {
                 $diff_pages[] = $page_res['image'];
             }
@@ -146,7 +142,7 @@ class Comparator
         echo "<p>", _("Clicking on a link will show the differences in a new window or tab."), "</p>\n";
         echo "<p>";
         foreach ($diff_pages as $imagename) {
-            echo "<a href='$code_url/tools/project_manager/diff.php?project=$this->projectid&amp;image=$imagename&amp;L_round_num=$L_round_num&amp;R_round_num=$R_round_num&amp;format=remove' target='_blank'>$imagename</a>\n";
+            echo "<a href='$code_url/tools/project_manager/diff.php?project=$this->projectid&amp;image=$imagename&amp;L_round=$L_round->id&amp;R_round=$R_round->id&amp;format=remove' target='_blank'>$imagename</a>\n";
         }
         echo "</p>";
     }
