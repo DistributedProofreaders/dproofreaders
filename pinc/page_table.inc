@@ -257,9 +257,6 @@ function echo_page_table(
 
     $can_edit = $project->can_be_managed_by_current_user;
 
-    // want PPers able to see names
-    $can_see_names_for_all_pages = $project->names_can_be_seen_by_current_user;
-
     if ($disable_editing) {
         // Although the user may be allowed to edit the project,
         // this particular page should not let them do so.
@@ -411,20 +408,8 @@ function echo_page_table(
         // --------------------------------------------
         // Per-Round Info
 
-        if ($can_see_names_for_all_pages) {
-            $can_see_names_for_this_page = true;
-        } else {
-            // The user can see the names of all the proofreaders for this page
-            // only if they are one of those proofreaders.
-            $can_see_names_for_this_page = false;
-            foreach ($rounds_to_display as $round) {
-                $proofer_name = $page_res["pagerounds"][$round->id]["username"];
-                if ($proofer_name != '' && $proofer_name == $pguser) {
-                    $can_see_names_for_this_page = true;
-                    break;
-                }
-            }
-        }
+        $proofer_usernames = array_map(fn ($r) => $page_res["pagerounds"][$r->id]["username"], $rounds_to_display);
+        $can_see_names_for_this_page = can_user_see_usernames_for_page($project, $proofer_usernames);
 
         $prev_rn = 0;
         foreach ($rounds_to_display as $round) {
@@ -546,6 +531,35 @@ function changeSelection(sel) {
         // We can't easily do a multipage mark-as-bad,
         // because it requires a per-page reason.
     }
+}
+
+/**
+ * Can the currently logged in user see the usernames of users who have
+ * worked on a particular page in a project?
+ *
+ * @param Project $project
+ * @param string[] $proofer_usernames
+ *   List of users who have proofed a page
+ *
+ * @return bool
+ */
+function can_user_see_usernames_for_page(Project $project, array $proofer_usernames): bool
+{
+    // want PPers able to see names
+    if ($project->names_can_be_seen_by_current_user) {
+        return true;
+    }
+
+    $user = User::current_username();
+
+    // The user can see the names of all the proofreaders for this page
+    // only if they are one of those proofreaders.
+    foreach ($proofer_usernames as $u) {
+        if ($u != '' && $u == $user) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // -----------------------------------------------------------------------------

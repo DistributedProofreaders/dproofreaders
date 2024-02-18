@@ -1058,6 +1058,8 @@ components:
           type: string
           enum: [markdown, html]
         clearance:
+          description: This field will not be included if the requestor
+            is not authorized to see it
           type: string
         custom_characters:
           type: string
@@ -1158,6 +1160,10 @@ components:
         last_modified:
           type: string
           format: dateTime
+        username:
+          description: This field will not be included if the requestor
+            is not authorized to see it
+          type: string
 
     project_transition:
       required:
@@ -1197,6 +1203,10 @@ components:
         text:
           type: string
         state:
+          type: string
+        username:
+          description: This field will not be included if the requestor
+            is not authorized to see it
           type: string
 
     release_queue_detail:
