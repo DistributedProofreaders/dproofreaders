@@ -428,8 +428,14 @@ function api_v1_project_pagedetails($method, $data, $query_params)
         }
     }
 
+    $project = $data[":projectid"];
+    $rounds_to_display = get_rounds_to_display($project);
+    if (!is_null($only_rounds)) {
+        $rounds_to_display = array_intersect($rounds_to_display, $only_rounds);
+    }
+
     $return_data = [];
-    foreach (fetch_page_table_data($data[":projectid"], null, null, $only_rounds) as $image) {
+    foreach (fetch_page_table_data($project, null, null, $only_rounds) as $image) {
         $page_rounds_data = [];
         // Remove proofer names and adjust timestamp format
         foreach ($image["pagerounds"] as $round_id => $round_data) {
@@ -438,7 +444,11 @@ function api_v1_project_pagedetails($method, $data, $query_params)
                 $round_data["last_modified"] = date(DATE_ATOM, $round_data["modified_timestamp"]);
                 unset($round_data["modified_timestamp"]);
             }
-            unset($round_data["username"]);
+
+            $proofer_usernames = array_map(fn ($r) => $image["pagerounds"][$r->id]["username"], $rounds_to_display);
+            if (!can_user_see_usernames_for_page($project, $proofer_usernames)) {
+                unset($round_data["username"]);
+            }
             $page_rounds_data[] = $round_data;
         }
         $image["pagerounds"] = $page_rounds_data;
@@ -461,36 +471,44 @@ function api_v1_project_page_round($method, $data, $query_params)
         $user_column = $round->user_column_name;
     }
 
+    $project = $data[":projectid"];
+    $user_cols = array_map(fn ($r) => $r->user_column_name, Rounds::get_all());
+
     $sql = sprintf(
         "
         SELECT
             image,
             %s AS text,
             %s AS user,
+            %s,
             state
         FROM %s
         WHERE image = '%s'
         ",
         $text_column,
         $user_column,
-        $data[":projectid"]->projectid,
+        implode(",", $user_cols),
+        $project->projectid,
         DPDatabase::escape($data[":pagename"])
     );
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
-    $row["image_url"] = $data[":projectid"]->url . "/" . $row["image"];
+    $row["image_url"] = $project->url . "/" . $row["image"];
 
-    // We can't show the username here unless the user has proofed the page
-    // in one round or they are an PF/SA. We need to abstract the conditional
-    // logic out of tools/project_manager/page_detail.inc
-    unset($row["user"]);
+    $json = render_project_page_json($row);
 
-    return render_project_page_json($row);
+    $proofer_usernames = array_map(fn ($u) => $row[$u], $user_cols);
+    if (!can_user_see_usernames_for_page($project, $proofer_usernames)) {
+        unset($json["username"]);
+    }
+
+    return $json;
 }
 
 function render_project_page_json($row)
 {
     return [
+        "username" => $row["user"],
         "pagename" => $row["image"],
         "image_url" => $row["image_url"],
         "text" => $row["text"],
