@@ -210,6 +210,8 @@ function do_search_and_show_hits()
             echo   "<td class='left-align top-align'>$value</td>";
             echo "</tr>\n";
         }
+        // For adding test cases
+        // echo "<tr><th>Base64</th><td style='font-size: x-small;word-wrap: break-word'>", base64_encode(serialize($rec)), "</td></tr>\n";
 
         echo "</table><p></td>";
 

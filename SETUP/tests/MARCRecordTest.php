@@ -113,4 +113,51 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         $marc_string = (string)$marc_record;
         $this->assertEquals($this->YAZ_ARRAY_STR, $marc_string);
     }
+
+    public function testAdditionalAuthors()
+    {
+        // A record that has no Main Entry author, and multiple Additional Entries.
+        // Showing just the additional entry names:
+        // [
+        // ..
+        //   ["(3,700)(3,1 )(3,a)", "Stewart, Maria W.,"],
+        //   ["(3,700)(3,1 )(3,a)", "Garnet, Henry Highland,"],
+        //   ["(3,700)(3,1 )(3,a)", "Douglass, Frederick,"],
+        //   ["(3,700)(3,1 )(3,a)", "Washington, Booker T.,"],
+        //   ["(3,700)(3,1 )(3,a)", "McNeil, Claudia,"],
+        //   ["(3,700)(3,1 )(3,a)", "Matlock, Norman,"],
+        //   ["(3,700)(3,1 )(3,a)", "Graham, John,"],
+        // ..
+        // ]
+        $yaz_array = unserialize(base64_decode(file_get_contents("./data/yaz_array_added_names.b64")));
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($yaz_array);
+        $authors = implode(" & ", [
+            "Stewart, Maria W.",
+            "Garnet, Henry Highland",
+            "Douglass, Frederick",
+            "Washington, Booker T.",
+            "McNeil, Claudia",
+            "Matlock, Norman",
+            "Graham, John",
+        ]);
+        $this->assertEquals($authors, $marc_record->author);
+    }
+
+    public function testUnnamedPublisher()
+    {
+        // A record whose publisher subfields have a location and date, but not a name
+        // [
+        // ..
+        //   ["(3,260)"],
+        //   ["(3,260)(3,  )"],
+        //   ["(3,260)(3,  )(3,a)", "[Washington?"],
+        //   ["(3,260)(3,  )(3,c)", "1890?]"],
+        // ..
+        // ]
+        $yaz_array = unserialize(base64_decode(file_get_contents("./data/yaz_array_no_publisher_name.b64")));
+        $marc_record = new MARCRecord();
+        $marc_record->load_yaz_array($yaz_array);
+        $this->assertEquals("1890?", $marc_record->publisher);
+    }
 }

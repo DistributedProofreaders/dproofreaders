@@ -319,7 +319,7 @@ class MARCRecord
         return $this->record;
     }
 
-    private function _key_search($tag, $subfield)
+    private function _key_search(string $tag, string $subfield)
     {
         foreach ($this->record as $key => $value) {
             if (!isset($value[0])) {
@@ -328,21 +328,31 @@ class MARCRecord
 
             if (!empty($subfield)) {
                 if (preg_match("/^\(3,$tag\)\(3,[0123456789[:space:]]+\)\(3,$subfield\)$/", $value[0])) {
-                    return $key;
+                    yield $key;
                 }
             } else {
                 if (preg_match("/^\(3,$tag\)\(3,[0123456789@[:space:]]+\)$/", $value[0])) {
-                    return $key;
+                    yield $key;
                 }
             }
         }
     }
+    private function _find_first(string $tag, string $subfield)
+    {
+        return $this->_key_search($tag, $subfield)->current();
+    }
+
+    private function _find_all(string $tag, string $subfield)
+    {
+        return iterator_to_array($this->_key_search($tag, $subfield));
+    }
+
 
     public function get_title()
     {
         // https://www.loc.gov/marc/bibliographic/concise/bd245.html Title Statement
         // Subfield $a - Title
-        $title_key = $this->_key_search("245", "a");
+        $title_key = $this->_find_first("245", "a");
         if (isset($this->record[$title_key])) {
             $marc_title = $this->record[$title_key][1];
             $marc_title = trim(preg_replace("/\/$|:$/", "", $marc_title));
@@ -352,7 +362,7 @@ class MARCRecord
 
         // https://www.loc.gov/marc/bibliographic/concise/bd250.html Edition Statement
         // Subfield $a - Edition statement
-        $edition_key = $this->_key_search("250", "a");
+        $edition_key = $this->_find_first("250", "a");
         if (isset($this->record[$edition_key])) {
             $marc_edition = $this->record[$edition_key][1];
             $marc_edition = trim($marc_edition);
@@ -379,17 +389,15 @@ class MARCRecord
             "710", // https://www.loc.gov/marc/bibliographic/concise/bd710.html Added Entry--Corporate Name
         ];
         foreach ($author_fields as $field) {
-            $record_key = $this->_key_search($field, "a");
-            if (isset($this->record[$record_key])) {
-                $author = $this->record[$record_key][1];
-                $author = trim(preg_replace("/,$/", "", $author));
-                if ($author) {
-                    break;
-                }
+            $authors = [];
+            foreach ($this->_find_all($field, "a") as $record_key) {
+                $authors[] = trim(preg_replace("/,$/", "", $this->record[$record_key][1]));
+            }
+            if ($authors) {
+                return implode(" & ", $authors);
             }
         }
-
-        return $author;
+        return "";
     }
 
     public function get_lccn()
@@ -397,7 +405,7 @@ class MARCRecord
         $marc_lccn = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd010.html Library of Congress Control Number
         // Subfield $a - LC control number
-        $key = $this->_key_search("010", "a");
+        $key = $this->_find_first("010", "a");
         if (isset($this->record[$key])) {
             $marc_lccn = $this->record[$key][1];
             $marc_lccn = trim($marc_lccn);
@@ -410,7 +418,7 @@ class MARCRecord
         $marc_isbn = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd020.html International Standard Book Number
         // Subfield $a - International Standard Book Number
-        $key = $this->_key_search("020", "a");
+        $key = $this->_find_first("020", "a");
         if (isset($this->record[$key])) {
             $marc_isbn = $this->record[$key][1];
             $marc_isbn = trim(substr($marc_isbn, 0, 10));
@@ -423,7 +431,7 @@ class MARCRecord
         $marc_pages = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd300.html Physical Description
         // Subfield $a - Extent
-        $key = $this->_key_search("300", "a");
+        $key = $this->_find_first("300", "a");
         if (isset($this->record[$key])) {
             $marc_pages = $this->record[$key][1];
             $marc_pages = trim(preg_replace("/:$/", "", $marc_pages));
@@ -436,7 +444,7 @@ class MARCRecord
         $marc_date = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd260.html Publication, Distribution, Etc. (Imprint)
         // Subfield $c - Date of publication, distribution, etc.
-        $key = $this->_key_search("260", "c");
+        $key = $this->_find_first("260", "c");
         if (isset($this->record[$key])) {
             $marc_date = $this->record[$key][1];
             $marc_date = trim(preg_replace("/.$/", "", $marc_date));
@@ -456,27 +464,36 @@ class MARCRecord
 
     public function get_language()
     {
-        $lang_name = "";
+        $langs = [];
         // https://www.loc.gov/marc/bibliographic/bd008.html Fixed-Length Data Elements-General Information
         // Characters 35-37 - Language
-        $key = $this->_key_search("008", "");
+        $key = $this->_find_first("008", "");
         if (isset($this->record[$key])) {
             $marc_language = substr($this->record[$key][1], 35, 3);
             $decoded_lang_name = langname_for_langcode3($marc_language);
             if ($decoded_lang_name) {
-                $lang_name = $decoded_lang_name;
+                $langs[] = $decoded_lang_name;
             }
         }
-        return $lang_name;
+        // https://www.loc.gov/marc/bibliographic/bd041.html Language Code
+        foreach ($this->_find_all("041", "[a-z]") as $k) {
+            foreach (str_split($this->record[$k][1], 3) as $l) {
+                $lang = langname_for_langcode3($l);
+                if (!empty($lang)) {
+                    $langs[] = $lang;
+                }
+            }
+        }
+        return implode(", ", array_unique($langs));
     }
 
     public function get_literary_form()
     {
         $literary_form = "";
-        $key = $this->_key_search("008", "");
         // https://www.loc.gov/marc/bibliographic/bd008.html Fixed-Length Data Elements-General Information
         // https://www.loc.gov/marc/bibliographic/bd008b.html
         // Character 33 - Literary form
+        $key = $this->_find_first("008", "");
         if (isset($this->record[$key])) {
             $marc_literary_form = substr($this->record[$key][1], 33, 1);
             $marc_literary_form = @$this->literary_form_array[$marc_literary_form];
@@ -511,7 +528,7 @@ class MARCRecord
         $marc_description = "";
         // https://www.loc.gov/marc/bibliographic/bd520.html Summary, Etc
         // Subfield $a - Summary, etc.
-        $key = $this->_key_search("520", "a");
+        $key = $this->_find_first("520", "a");
         if (isset($this->record[$key])) {
             $marc_description = $this->record[$key][1];
             $marc_description = trim(preg_replace("/:$/", "", $marc_description));
@@ -521,37 +538,37 @@ class MARCRecord
 
     public function get_publisher()
     {
-        $marc_publisher = "";
+        $marc_publisher = [];
         // https://www.loc.gov/marc/bibliographic/bd260.html
         // Subfield $b - Name of publisher, distributor, etc.
         // Subfield $c - Date of publication, distribution, etc.
-        $publisher_key = $this->_key_search("260", "b");
+        $publisher_key = $this->_find_first("260", "b");
         if (isset($this->record[$publisher_key])) {
-            $marc_publisher = $this->record[$publisher_key][1];
-            $marc_publisher = trim(preg_replace("/,$/", "", $marc_publisher));
+            $marc_publisher[] = trim(preg_replace("/,$/", "", $this->record[$publisher_key][1]));
         }
 
-        $date_key = $this->_key_search("260", "c");
+        $date_key = $this->_find_first("260", "c");
         if (isset($this->record[$date_key])) {
             $date = $this->record[$date_key][1];
             $date = trim(preg_replace("/.$/", "", $date));
-            $marc_publisher .= ", $date";
+            $marc_publisher[] = $date;
         }
 
-        return $marc_publisher;
+        return rtrim(ltrim(implode(", ", $marc_publisher), "["), "]");
     }
 
     public function set_title($title)
     {
-        $this->record[$this->_key_search("245", "a")][1] = $title;
+        $this->record[$this->_find_first("245", "a")][1] = $title;
     }
 
     public function set_author($author)
     {
         $author_fields = ["100", "700", "710"];
         foreach ($author_fields as $field) {
-            if (!empty($this->record[$this->_key_search($field, "a")][1])) {
-                $this->record[$this->_key_search($field, "a")][1] = $author;
+            $key = $this->_find_first($field, "a");
+            if (!empty($this->record[$key][1])) {
+                $this->record[$key][1] = $author;
                 break;
             }
         }
@@ -559,15 +576,17 @@ class MARCRecord
 
     public function set_language($language)
     {
-        $marc_008 = $this->record[$this->_key_search("008", "")][1];
-        $this->record[$this->_key_search("008", "")][1] = substr($marc_008, 0, 35)."$language".substr($marc_008, 38);
+        $key = $this->_find_first("008", "");
+        $marc_008 = $this->record[$key][1];
+        $this->record[$key][1] = substr($marc_008, 0, 35) . $language . substr($marc_008, 38);
     }
 
     public function set_literary_form($genre)
     {
-        $key = array_search($genre, $this->literary_form_array);
-        $marc_008 = $this->record[$this->_key_search("008", "")][1];
-        $this->record[$this->_key_search("008", "")][1] = substr($marc_008, 0, 33)."$key".substr($marc_008, 34);
+        $form = array_search($genre, $this->literary_form_array);
+        $key = $this->_find_first("008", "");
+        $marc_008 = $this->record[$key][1];
+        $this->record[$key][1] = substr($marc_008, 0, 33) . $form . substr($marc_008, 34);
     }
 
     public function __toString()
