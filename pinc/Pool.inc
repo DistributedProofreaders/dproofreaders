@@ -20,8 +20,6 @@ class Pool extends Stage
      *
      * A container for various constants relating to a particular pool.
      *
-     * @param string $project_checkedout_state
-     * @param string $project_available_state
      * @param $foo_Header
      * @param $foo_field_name
      *   The relevant person to display in pool listings, both
