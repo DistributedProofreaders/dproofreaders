@@ -283,7 +283,7 @@ function construct_star_metal_sql()
     foreach ($project_states_for_star_metal_ as $star_metal => $states) {
         $sql_constant_name = "SQL_CONDITION_$star_metal";
         $sql_condition = '(';
-        foreach ($states as $project_state)
+        foreach ($states as $project_state) {
             if ($sql_condition != '(') {
                 $sql_condition .= ' OR ';
             }
