@@ -266,49 +266,66 @@ function do_search_and_show_hits()
 
 function query_format()
 {
-    $attr_set = 0;
-    $fullquery = "";
+    // Build a Z39.50 Type-1 query.
+    // See
+    // https://www.loc.gov/z3950/agency/markup/09.html Type-1 and Type-101 Queries
+    //
+    //
+    // A Type-1 query is in prefix polish notation and a (prettified) simple query
+    // for editions of Snowcrash published >= 1992 might look like
+    // ```
+    //  @and
+    //  @and
+    //  @attr 1=4 "Snowcrash"
+    //  @attr 1=1003 "Stephenson, Neal"
+    //  @attr 2=4 @attr 1=31 1992
+    // ```
+    // Expressions like `@attr 1=1003` mean value 1003 from attribute set 1
+    // Set 1 is "Bib-1 Use", and 1003 is the value "Author"
+    // https://www.loc.gov/z3950/agency/defns/bib1.html
+    // https://www.loc.gov/z3950/agency/bib1.html
+
+    $fullquery = [];
 
     if ($_REQUEST['title']) {
-        $fullquery = $fullquery.' @attr 1=4 "'.$_REQUEST['title'].'"';
-        $attr_set++;
+        // Bib-1 Use, Title
+        $fullquery[] = sprintf('@attr 1=4 "%s"', $_REQUEST['title']);
     }
     if ($_REQUEST['author']) {
+        // Convert author to "Surname, Forename" if it doesn't already contain a comma.
         $author = $_REQUEST['author'];
-        if (stristr($_REQUEST['author'], ",")) {
-            $author = $_REQUEST['author'];
-        } else {
-            if (stristr($_REQUEST['author'], " ")) {
-                $author = substr($_REQUEST['author'], strrpos($_REQUEST['author'], " "))
-                    . ", "
-                    . substr($_REQUEST['author'], 0, strrpos($_REQUEST['author'], " "));
+        if (!str_contains($author, ",")) {
+            $p = strrpos($author, " ");
+            if ($p !== false) {
+                $author = substr($author, $p) . ", " . substr($author, 0, $p);
             }
         }
-        $fullquery = $fullquery.' @attr 1=1003 "'.trim($author).'"';
-        $attr_set++;
+        // Bib-1 Use, Author
+        $fullquery[] = sprintf('@attr 1=1003 "%s"', trim($author));
     }
     if ($_REQUEST['isbn']) {
-        $fullquery = $fullquery.' @attr 2=3 @attr 1=7 '.str_replace("-", "", $_REQUEST['isbn']).'';
-        $attr_set++;
+        // Bib-1 Relation Equal; Bib-1 Use, ISBN
+        $fullquery[] = sprintf('@attr 2=3 @attr 1=7 %s', str_replace("-", "", $_REQUEST['isbn']));
     }
     if ($_REQUEST['issn']) {
-        $fullquery = $fullquery.' @attr 2=3 @attr 1=8 '.$_REQUEST['issn'].'';
-        $attr_set++;
+        // Bib-1 Relation Equal; Bib-1 Use, ISSN
+        $fullquery[] = sprintf('@attr 2=3 @attr 1=8 %s', $_REQUEST['issn']);
     }
     if ($_REQUEST['lccn']) {
-        $fullquery = $fullquery.' @attr 2=3 @attr 1=9 '.$_REQUEST['lccn'].'';
-        $attr_set++;
+        // Bib-1 Relation Equal; Bib-1 Use, LC call number
+        $fullquery[] = sprintf('@attr 2=3 @attr 1=9 %s', $_REQUEST['lccn']);
     }
     if ($_REQUEST['pubdate']) {
-        $fullquery = $fullquery.' @attr 2=3 @attr 1=31 '.$_REQUEST['pubdate'].'';
-        $attr_set++;
+        // Bib-1 Relation Equal; Bib-1 Use, Date of publication
+        $fullquery[] = sprintf('@attr 2=3 @attr 1=31 "%s"', $_REQUEST['pubdate']);
     }
     if ($_REQUEST['publisher']) {
-        $fullquery = $fullquery.' @attr 1=1018 "'.$_REQUEST['publisher'].'"';
-        $attr_set++;
+        // Bib-1 Use, Publisher
+        $fullquery[] = sprintf('@attr 1=1018 "%s"', $_REQUEST['publisher']);
     }
-    for ($i = 1; $i <= ($attr_set - 1); $i++) {
-        $fullquery = "@and ".$fullquery;
+    $c = count($fullquery) - 1;
+    for ($i = 0; $i < $c; $i++) {
+        array_unshift($fullquery, "@and");
     }
-    return $fullquery;
+    return implode(" ", $fullquery);
 }
