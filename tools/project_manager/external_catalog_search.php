@@ -190,12 +190,13 @@ function do_search_and_show_hits()
         echo "<table class='basic' style='width: 100%;'>";
 
         foreach ([
-            ['label' => _("Title"),     'value' => $marc_record->title],
-            ['label' => _("Author"),    'value' => $marc_record->author],
-            ['label' => _("Publisher"), 'value' => $marc_record->publisher],
-            ['label' => _("Language"),  'value' => $marc_record->language],
-            ['label' => _("LCCN"),      'value' => $marc_record->lccn],
-            ['label' => _("ISBN"),      'value' => $marc_record->isbn],
+            ['label' => _("Type of Record"), 'value' => $marc_record->type_of_record],
+            ['label' => _("Title"),          'value' => $marc_record->title],
+            ['label' => _("Author"),         'value' => $marc_record->author],
+            ['label' => _("Publisher"),      'value' => $marc_record->publisher],
+            ['label' => _("Language"),       'value' => $marc_record->language],
+            ['label' => _("LCCN"),           'value' => $marc_record->lccn],
+            ['label' => _("ISBN"),           'value' => $marc_record->isbn],
         ] as $couple
         ) {
             $label = $couple['label'];

@@ -264,6 +264,25 @@ class MARCRecord
         "u" => "Unknown",
         "|" => "Unknown",
     ];
+
+    // https://www.loc.gov/marc/bibliographic/bdleader.html
+    private $type_of_record_array = [
+        "a" => "Language material", // "resources that are basically textual in nature"
+        "c" => "Notated music",
+        "d" => "Manuscript notated music",
+        "e" => "Cartographic material",
+        "f" => "Manuscript cartographic material",
+        "g" => "Projected medium",
+        "i" => "Nonmusical sound recording",
+        "j" => "Musical sound recording",
+        "k" => "Two-dimensional nonprojectable graphic",
+        "m" => "Computer file",
+        "o" => "Kit",
+        "p" => "Mixed materials",
+        "r" => "Three-dimensional artifact or naturally occurring object",
+        "t" => "Manuscript language material", // material in handwriting, typescript, or computer printout including printed materials completed by hand or by keyboard
+    ];
+
     private $force_utf8;
 
     public function __construct($force_utf8 = true)
@@ -423,6 +442,16 @@ class MARCRecord
             $marc_date = trim(preg_replace("/.$/", "", $marc_date));
         }
         return $marc_date;
+    }
+
+    public function get_type_of_record()
+    {
+        $lang_name = "";
+        // https://www.loc.gov/marc/bibliographic/bdleader.html Leader
+        // Character 6 - Type of record
+        $leader = $this->record[0][1]; // The leader is always the first record.
+        $code = substr($leader, 6, 1);
+        return array_get($this->type_of_record_array, $code, "");
     }
 
     public function get_language()
