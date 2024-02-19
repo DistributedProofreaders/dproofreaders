@@ -29,12 +29,14 @@ class ProjectState
         $medium_label,
         $long_label,
         $forum,
-        $phase
+        $phase,
+        $star_metal
     ) {
         $this->medium_label = $medium_label;
         $this->long_label = $long_label;
         $this->forum = $forum;
         $this->phase = $phase;
+        $this->star_metal = $star_metal;
     }
 }
 
@@ -50,7 +52,6 @@ function declare_project_state(
     $star_metal
 ) {
     global $project_states;
-    global $project_states_for_star_metal_;
 
     define($constant_name, $constant_value);
 
@@ -58,12 +59,9 @@ function declare_project_state(
         $medium_label,
         $long_label,
         $forum,
-        $phase
+        $phase,
+        $star_metal
     );
-
-    if ($star_metal) {
-        $project_states_for_star_metal_[$star_metal][] = $constant_value;
-    }
 }
 
 function get_medium_label_for_project_state($state)
@@ -101,12 +99,6 @@ function declare_project_states($rounds, $pools)
     global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
     $completed_projects_forum_idx, $deleted_projects_forum_idx, $project_states_for_star_metal_;
     global $PROJECT_STATES_IN_ORDER, $project_states;
-
-    $project_states_for_star_metal_ = [
-        'BRONZE' => [],
-        'SILVER' => [],
-        'GOLD' => [],
-    ];
 
     // for the initial creation of a project
     declare_project_state(
@@ -266,13 +258,28 @@ function declare_project_states($rounds, $pools)
         ''
     );
 
-    // -----------------------------------------------------------------------------
+    construct_star_metal_sql();
 
-    // Define constants for use in SQL queries:
-    // SQL_CONDITION_BRONZE
-    // SQL_CONDITION_SILVER
-    // SQL_CONDITION_GOLD
+    $PROJECT_STATES_IN_ORDER = array_keys($project_states);
+}
 
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+/**
+ * construct constants for use in SQL queries:
+ * SQL_CONDITION_BRONZE
+ * SQL_CONDITION_SILVER
+ * SQL_CONDITION_GOLD
+ */
+function construct_star_metal_sql()
+{
+    global $project_states;
+
+    foreach ($project_states as $state_name => $project_state) {
+        if ($project_state->star_metal) {
+            $project_states_for_star_metal_[$project_state->star_metal][] = $state_name;
+        }
+    }
     foreach ($project_states_for_star_metal_ as $star_metal => $states) {
         $sql_constant_name = "SQL_CONDITION_$star_metal";
         $sql_condition = '(';
@@ -286,11 +293,9 @@ function declare_project_states($rounds, $pools)
 
         define($sql_constant_name, $sql_condition);
     }
-
-    $PROJECT_STATES_IN_ORDER = array_keys($project_states);
 }
 
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// -----------------------------------------------------------------------------
 
 /**
  * Return SQL segment that can be used to sort project states
