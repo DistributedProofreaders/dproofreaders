@@ -115,6 +115,14 @@ class Round extends Stage
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
 
+        // The following project-state related attributes are created & set in project_states.inc
+        //     $this->project_unavailable_state
+        //     $this->project_waiting_state
+        //     $this->project_bad_state
+        //     $this->project_available_state
+        //     $this->project_complete_state
+        //     $this->project_states
+
         $this->page_avail_state = "{$round_id}.page_avail";
         $this->page_out_state = "{$round_id}.page_out";
         $this->page_temp_state = "{$round_id}.page_temp";
