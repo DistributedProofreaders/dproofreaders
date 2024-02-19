@@ -18,7 +18,7 @@ var viewSplitter = function(container, storageKey) {
     const splitImage = document.createElement("img");
     splitImage.height = imageButtonSize;
     splitImage.width = imageButtonSize;
-    splitImage.classList.add('img-button', 'control');
+    splitImage.classList.add('img-button');
 
     let splitKey;
     const setSplitDirCallback = [];
