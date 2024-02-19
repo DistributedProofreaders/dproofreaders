@@ -178,12 +178,7 @@ function user_can_mentor_in_any_round()
     }
 
     $userSettings = & get_pguser_settings();
-    foreach (Rounds::get_all() as $round) {
-        if ($userSettings->get_boolean("{$round->id}_mentor.access")) {
-            return true;
-        }
-    }
-    return false;
+    return any(Rounds::get_all(), fn ($r) => $userSettings->get_boolean("{$r->id}_mentor.access"));
 }
 
 function user_can_mentor_in_round($round)

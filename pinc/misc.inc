@@ -777,12 +777,86 @@ function str_contains_any_of($haystack, $needles)
     if (is_string($needles)) {
         return str_contains($haystack, $needles);
     }
-    foreach ($needles as $n) {
-        if (str_contains($haystack, $n)) {
-            return true;
+
+    return any($needles, fn ($n) => str_contains($haystack, $n));
+}
+
+/**
+ *  If `$predicate` is provided then return true if
+ *  the predicate is truthy for any of the input values,
+ *  else return true if any of the input values are truthy.
+ *  (Returns false for empty input.)
+ *  Similar to the `any` function in Python, Rust etc.
+ *
+ *  Ex $has_odd = any([6,5,0,2], fn ($i) => i % 2 == 1);
+ *     $some_missing = any($items, is_null);
+ *     $some_empty_strings = any($strings);
+ *
+ * @param iterable $input
+ *   The items to check the predicate against
+ * @param ?callable $predicate
+ *   The (optional) function to call with each value
+ *
+ * @return bool
+ */
+function any(iterable $input, ?callable $predicate = null): bool
+{
+    // NB We deliberately put the loop inside the two branches
+    // of the `if` as a micro-optimization to avoid testing
+    // predicate is null for each loop iteration.
+    if (is_null($predicate)) {
+        foreach ($input as $v) {
+            if ($v) {
+                return true;
+            }
+        }
+    } else {
+        foreach ($input as $v) {
+            if ($predicate($v)) {
+                return true;
+            }
         }
     }
     return false;
+}
+
+/**
+ *  If `$predicate` is provided then return true if
+ *  the predicate is truthy for all of the input values,
+ *  else return true if all of the input values are truthy.
+ *  (Returns true for empty input.)
+ *  Similar to the `all` function in Python, Rust etc.
+ *
+ *  Ex $all_numbers = all($inputs, is_numeric);
+ *     $valid_enums = all($items, fn $(i) => in_array(["foo", "bar", "baz"], $i);
+ *     $all_nonempty = all($arrays);
+ *
+ * @param iterable $input
+ *   The items to check the predicate against
+ * @param ?callable $predicate
+ *   The (optional) function to call with each value
+ *
+ * @return bool
+ */
+function all(iterable $input, ?callable $predicate = null): bool
+{
+    // NB We deliberately put the loop inside the two branches
+    // of the `if` as a micro-optimization to avoid testing
+    // predicate is null for each loop iteration.
+    if (is_null($predicate)) {
+        foreach ($input as $v) {
+            if (!$v) {
+                return false;
+            }
+        }
+    } else {
+        foreach ($input as $v) {
+            if (!$predicate($v)) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 /**

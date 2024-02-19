@@ -73,12 +73,8 @@ class ProjectTransition
             }
         }
 
-        foreach (explode('|', $this->who_restriction) as $simple_who_restriction) {
-            if ($this->is_valid_for_who($project, $simple_who_restriction, $who)) {
-                return true;
-            }
-        }
-        return false;
+        $restrictions = explode('|', $this->who_restriction);
+        return any($restrictions, fn ($r) => $this->is_valid_for_who($project, $r, $who));
     }
 
     public function is_valid_for_who($project, $simple_who_restriction, $who)
