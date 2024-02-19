@@ -32,6 +32,11 @@ class Rounds extends Stages
     {
         return self::_get("page_states", $state);
     }
+
+    public static function get_last()
+    {
+        return self::get_by_id(array_key_last(self::get_all()));
+    }
 }
 
 // A container for various constants relating to a particular round of proofreading.

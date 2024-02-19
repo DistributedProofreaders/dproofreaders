@@ -19,8 +19,7 @@ function display_graph($d)
     if ($d == 0) {
         $title = _("Net pages saved so far today");
 
-        for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-            $round = get_Round_for_round_number($rn);
+        foreach (Rounds::get_all() as $round) {
             $site_stats = get_site_page_tally_summary($round->id);
             $data[] = $pages = $site_stats->curr_day_actual;
             $labels[] = "$round->id ($pages)";
@@ -30,8 +29,7 @@ function display_graph($d)
         $title = sprintf(_("Net pages saved in preceding %s days"), $d);
 
         $now = time();
-        for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-            $round = get_Round_for_round_number($rn);
+        foreach (Rounds::get_all() as $round) {
             $tallyboard = new TallyBoard($round->id, 'S');
             $data[] = $pages = $tallyboard->get_delta_sum(1, $now - (60 * 60 * 24 * $d), $now);
             $labels[] = "$round->id ($pages)";

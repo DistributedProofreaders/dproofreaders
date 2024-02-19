@@ -13,8 +13,7 @@ function autorelease()
     echo "<pre>\n";
     echo "Starting autorelease\n";
 
-    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-        $round = get_Round_for_round_number($rn);
+    foreach (Rounds::get_all() as $round) {
         autorelease_for_round($round);
     }
 

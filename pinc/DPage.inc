@@ -19,8 +19,7 @@ function project_allow_pages($projectid)
 {
     validate_projectID($projectid);
     $columns_for_rounds = "";
-    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-        $round = get_Round_for_round_number($rn);
+    foreach (Rounds::get_all() as $round) {
         $columns_for_rounds .= "
             {$round->time_column_name}   int(20)     NOT NULL default '0',
             {$round->user_column_name}   varchar(25) NOT NULL default '',
@@ -115,8 +114,7 @@ function project_add_page(
     $page_state = $round->page_avail_state;
 
     $columns_for_rounds = [];
-    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-        $round = get_Round_for_round_number($rn);
+    foreach (Rounds::get_all() as $round) {
         $columns_for_rounds[] = "{$round->text_column_name} = ''";
     }
     $columns_for_rounds = join(", ", $columns_for_rounds);

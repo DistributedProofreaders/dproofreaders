@@ -72,9 +72,7 @@ echo "</select>";
 echo "</form>";
 
 
-// get the latest possible round
-$last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
-$pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
+$pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
 // iterate through all the pages until we find $wordInstances of the word
 // we're looking for
 $foundInstances = 0;

@@ -13,8 +13,8 @@ require_login();
 
 $projectid = get_projectID_param($_GET, 'project');
 $image = get_page_image_param($_GET, 'image', true);
-$L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
-$R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, MAX_NUM_PAGE_EDITING_ROUNDS);
+$L_round_num = get_integer_param($_GET, 'L_round_num', null, 0, Rounds::get_last()->round_number);
+$R_round_num = get_integer_param($_GET, 'R_round_num', null, 0, Rounds::get_last()->round_number);
 $format = get_enumerated_param($_GET, "format", null, ["keep", "remove"], true);
 $only_nonempty_diffs = @$_GET['only_nonempty_diffs'] === 'on';
 $bb_diffs = (@$_GET['bb_diffs'] === 'on' and user_can_mentor_in_any_round());

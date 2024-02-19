@@ -153,8 +153,7 @@ function _get_word_list($projectid, $queryWords)
     $messages = [];
 
     // get the latest project text of all pages up to last possible round
-    $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
-    $pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
+    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
     $page_texts = get_page_texts($pages_res);
 
     // now run it through WordCheck

@@ -26,9 +26,7 @@ $proj_bad_words = load_project_bad_words($projectid);
 // load bad words for the site for this project
 $site_bad_words = load_site_bad_words_given_project($projectid);
 
-// get the latest possible round
-$last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
-$pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
+$pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
 
 // get the entire text
 $page_texts = get_page_texts($pages_res);
@@ -61,7 +59,7 @@ $total["num_pages"] = $project->n_pages;
 
 // now run it again except we're going to count the words per page
 // this time through
-$pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
+$pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
 $page_stats = [];
 // iterate through all the pages gathering stats
 while ([$page_text, $page, $proofer_names] = page_info_fetch($pages_res)) {
