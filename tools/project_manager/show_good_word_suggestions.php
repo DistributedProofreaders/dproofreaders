@@ -258,8 +258,7 @@ function _get_word_list($projectid, $timeCutoff)
     $project_bad_words = load_project_bad_words($projectid);
 
     // get the latest project text of all pages up to last possible round
-    $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
-    $pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
+    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
     $all_words_w_freq = get_distinct_words_in_text(get_page_texts($pages_res));
 
     // array to hold all words

@@ -237,10 +237,6 @@ new Round(
 
 // After creating all rounds:
 
-define('MAX_NUM_PAGE_EDITING_ROUNDS', count(Rounds::get_all()));
-
-// ---------------------------
-
 declare_mentoring_pair('P1', 'P2');
 
 // -----------------------------------------------------------------------------
@@ -371,6 +367,8 @@ new Activity(
 // -----------------------------------------------------------------------------
 
 // recreate globals until they are replaced in the codebase
+
+define('MAX_NUM_PAGE_EDITING_ROUNDS', count(Rounds::get_all()));
 
 function _globals_builder($objects, $field)
 {

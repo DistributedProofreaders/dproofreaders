@@ -20,6 +20,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("P3", Rounds::get_by_id("P3")->id);
         $this->assertEquals("P2.page_saved", Rounds::get_page_states()[8]);
         $this->assertEquals("P2", Rounds::get_by_project_state("P2.proj_waiting")->id);
+        $this->assertEquals("F2", Rounds::get_last()->id);
     }
 
     public function test_rounds_functions()

@@ -182,8 +182,7 @@ function _get_word_list($projectid)
     file_put_contents($ocr_filename, $all_page_text);
 
     // get the latest project text of all pages up to last possible round
-    $last_possible_round = get_Round_for_round_number(MAX_NUM_PAGE_EDITING_ROUNDS);
-    $pages_res = page_info_query($projectid, $last_possible_round->id, 'LE');
+    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
     $all_page_text = get_page_texts($pages_res);
     // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together

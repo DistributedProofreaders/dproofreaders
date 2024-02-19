@@ -487,8 +487,7 @@ function create_project_transitions()
 
     // -----------------------------------------------------------------------------
 
-    for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-        $round = get_Round_for_round_number($rn);
+    foreach (Rounds::get_all() as $round) {
 
         // setting modifieddate:
         //
@@ -666,8 +665,8 @@ function create_project_transitions()
             ]
         );
 
-        if ($rn < MAX_NUM_PAGE_EDITING_ROUNDS) {
-            $next_round = get_Round_for_round_number($rn + 1);
+        if ($round->round_number < Rounds::get_last()->round_number) {
+            $next_round = get_Round_for_round_number($round->round_number + 1);
 
             $project_transitions[] = new ProjectTransition(
                 $round->project_complete_state,
@@ -721,8 +720,8 @@ function create_project_transitions()
             ];
 
             foreach ($from_states as $from_state) {
-                if ($rn < MAX_NUM_PAGE_EDITING_ROUNDS) {
-                    $next_round = get_Round_for_round_number($rn + 1);
+                if ($round->round_number < Rounds::get_last()->round_number) {
+                    $next_round = get_Round_for_round_number($round->round_number + 1);
 
                     $project_transitions[] = new ProjectTransition(
                         $from_state,

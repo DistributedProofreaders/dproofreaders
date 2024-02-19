@@ -196,7 +196,7 @@ echo "</h2>";
 // ---------------------------------------------
 // snippets for use in queries
 $state_builder = [];
-for ($rn = $review_round->round_number + 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
+for ($rn = $review_round->round_number + 1; $rn <= Rounds::get_last()->round_number; $rn++) {
     $round = get_Round_for_round_number($rn);
     // this will be used in sprintf()s below so for the final query to have a
     // single % in it, we need to make it 4x here

@@ -252,11 +252,11 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
     if ($state == $round->project_complete_state) {
         // The project is ready to exit this round.
 
-        if ($round->round_number < MAX_NUM_PAGE_EDITING_ROUNDS) {
+        if ($round->round_number < Rounds::get_last()->round_number) {
             // It goes to the next round.
             $next_round = get_Round_for_round_number(1 + $round->round_number);
             $new_state = $next_round->project_waiting_state;
-        } elseif ($round->round_number == MAX_NUM_PAGE_EDITING_ROUNDS) {
+        } elseif ($round->round_number == Rounds::get_last()->round_number) {
             // It goes into post-processing.
             if (is_null(project_get_auto_PPer($projectid))) {
                 $new_state = PROJ_POST_FIRST_AVAILABLE;
@@ -264,7 +264,7 @@ while ([$projectid] = mysqli_fetch_row($allprojects)) {
                 $new_state = PROJ_POST_FIRST_CHECKED_OUT;
             }
         } else {
-            die("round_number is {$round->round_number}???\n");
+            throw new ValueError("round_number is {$round->round_number}???");
         }
 
         if ($verbose) {

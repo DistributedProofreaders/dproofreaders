@@ -30,8 +30,7 @@ $comments_url3 = DPDatabase::escape("</a>");
 // Instead, custom-build a project-state condition that includes the
 // WAITING and AVAILABLE states from each round.
 $state_condition = '0';
-for ($rn = 1; $rn <= MAX_NUM_PAGE_EDITING_ROUNDS; $rn++) {
-    $round = get_Round_for_round_number($rn);
+foreach (Rounds::get_all() as $round) {
     $state_condition .= "
         OR state='{$round->project_waiting_state}'
         OR state='{$round->project_available_state}'
