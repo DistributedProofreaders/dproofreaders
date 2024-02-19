@@ -4,7 +4,7 @@
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
     const pageSelector = document.createElement("select");
-    const controls = $("<span>", {class: "nowrap control"}).append(proofIntData.strings.page + " ", pageSelector);
+    const controls = $("<span>", {class: "nowrap"}).append(proofIntData.strings.page + " ", pageSelector);
 
     if(!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
@@ -107,6 +107,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     // replace any previous content of topDiv
     topDiv.html(fixHead);
 
+    // controlSpan holds controls varying with mode
+    const controlSpan = $("<span>");
+
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
     // the roundSelector retains its selected item so we do not have to
@@ -134,14 +137,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     }
 
     function displayPages(pages) {
-        const textButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showText});
-        const imageButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImage});
-        const imageTextButton = $("<input>", {type: 'button', class: 'control', value: proofIntData.strings.showImageText});
+        const textButton = $("<input>", {type: 'button', value: proofIntData.strings.showText});
+        const imageButton = $("<input>", {type: 'button', value: proofIntData.strings.showImage});
+        const imageTextButton = $("<input>", {type: 'button', value: proofIntData.strings.showImageText});
         let imageWidget = null;
         let textWidget = null;
 
         function getRoundControls() {
-            return $("<span>", {class: "nowrap control"}).append(proofIntData.strings.round + " ", roundSelector);
+            return $("<span>", {class: "nowrap"}).append(proofIntData.strings.round + " ", roundSelector);
         }
 
         function showCurrentPage(page) {
@@ -188,14 +191,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 $(".imtext").remove();
                 const stretchDiv = $("<div>", {class: 'imtext stretch-box'});
                 topDiv.append(stretchDiv);
-                // remove any old controls from fixHead
-                $(".control", fixHead).detach();
+                // remove any old controls from controlSpan
+                controlSpan.children().detach();
 
                 if(displayMode === "image") {
                     if(simpleHeader) {
-                        fixHead.append(pageControls);
+                        controlSpan.append(pageControls);
                     } else {
-                        fixHead.append(textButton, imageTextButton, pageControls);
+                        controlSpan.append(textButton, imageTextButton, pageControls);
                     }
 
                     const imageDiv = $("<div>");
@@ -214,7 +217,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                         case "text":
                             textWidget = makeTextWidget(textDiv);
                             textWidget.setup(storageKey);
-                            fixHead.append(imageButton, imageTextButton, pageControls, roundControls);
+                            controlSpan.append(imageButton, imageTextButton, pageControls, roundControls);
                             stretchDiv.append(textDiv);
                             break;
                         case "imageText": {
@@ -230,7 +233,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                                 textWidget = makeTextWidget(textDiv);
                             }
                             theSplitter.setSplitDirCallback.push(imageWidget.setup, textWidget.setup);
-                            fixHead.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
+                            controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
                             theSplitter.fireSetSplitDir();
                             break;
                         }
@@ -259,13 +262,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
         } // end of showCurrentPage
 
         function initialPageSelect() {
+            controlSpan.empty();
             const initalPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
-            fixHead.append(initalPageControls);
+            controlSpan.append(initalPageControls);
             if(displayMode !== "image") {
                 getRoundSelector().then(function() {
-                    fixHead.append(getRoundControls());
+                    controlSpan.append(getRoundControls());
                 });
             }
         }
@@ -329,6 +333,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     }
 
     function getPages() {
+        fixHead.append(controlSpan);
         ajax("GET", `v1/projects/${projectId}/pages`)
             .then(displayPages, ajaxAlert);
     }
