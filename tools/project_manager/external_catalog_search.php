@@ -174,11 +174,15 @@ function do_search_and_show_hits()
             continue;
         }
 
-        //if it's not a book don't display it.  we might want to uncomment in the future if there are too many records being returned - if (substr(yaz_record($id, $start, "raw"), 6, 1) != "a") { $start++; continue; }
         /** @phpstan-ignore-next-line */
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($rec);
-
+        // If it's not a 'language material' (printed or typed) or
+        // 'manuscript language material' (written), don't display it.
+        // if (!in_array($marc_record->get_type_of_record(), ["Language material", "Manuscript language material"])) {
+        //     $start++;
+        //     continue;
+        // }
         if ($i % 2 == 1) {
             echo "<tr>";
         }
