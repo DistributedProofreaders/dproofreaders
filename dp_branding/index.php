@@ -17,7 +17,7 @@ echo "<h1>$title</h1>";
 echo "<p>" . _("Consistent branding and logos are an important part of today's world. This page provides some guidance when referring to Distributed Proofreaders as well as visual assets for both web and print.") . "</p>";
 
 echo "<h2>" . _("Referring to Distributed Proofreaders") . "</h2>";
-echo "<p>" . _("Distributed Proofreaders referrs to the web site at <a href='https://www.pgdp.net'>www.pgdp.net</a>. It is governed by the <a href='https://www.pgdp.net/wiki/DPF'>Distributed Proofreaders Foundation</a>. Community members affectionately refer to it as simply 'DP', but use the full 'Distributed Proofreaders' name for clarity when outside the community.") . "</p>";
+echo "<p>" . _("Distributed Proofreaders refers to the web site at <a href='https://www.pgdp.net'>www.pgdp.net</a>. It is governed by the <a href='https://www.pgdp.net/wiki/DPF'>Distributed Proofreaders Foundation</a>. Community members affectionately refer to it as simply 'DP', but use the full 'Distributed Proofreaders' name for clarity when outside the community.") . "</p>";
 
 echo "<p>" . _("Other entities with similar names:") . "</p>";
 
