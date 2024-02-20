@@ -159,7 +159,7 @@ if (!$imso_code) {
 
     if ($imso && can_user_see_image_source($imso)) {
         $base_link = "<a href='show_image_sources.php?name=%s&amp;which=%s'>%s</a>";
-        $all_link = sprintf($base_link, $imso_code, "ALL", pgettext("all sources", "All"));
+        $all_link = sprintf($base_link, $imso_code, "ALL", pgettext("all ebooks", "All"));
         $inprog_link = sprintf($base_link, $imso_code, "INPROG", _("In Progress"));
         $done_link = sprintf($base_link, $imso_code, "DONE", _("Completed"));
 
