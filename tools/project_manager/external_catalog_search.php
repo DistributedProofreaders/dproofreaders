@@ -108,10 +108,15 @@ function do_search_and_show_hits()
     $id = yaz_connect($external_catalog_locator, ["charset" => "UTF-8"]);
     yaz_syntax($id, "usmarc");
     yaz_element($id, "F");
-    yaz_search($id, "rpn", trim($fullquery));
+    yaz_search($id, "rpn", trim(str_replace("\n", " ", $fullquery)));
     $extra_options = ["timeout" => 60];
     yaz_wait($extra_options);
     $errorMsg = yaz_error($id);
+
+    echo "<details>\n";
+    echo "<summary>Raw query</summary>\n";
+    echo "<pre>$fullquery</pre>\n";
+    echo "</details>\n";
 
     if (!empty($errorMsg)) {
         echo "<p class='error'>";
@@ -327,5 +332,5 @@ function query_format()
     for ($i = 0; $i < $c; $i++) {
         array_unshift($fullquery, "@and");
     }
-    return implode(" ", $fullquery);
+    return implode("\n", $fullquery);
 }
