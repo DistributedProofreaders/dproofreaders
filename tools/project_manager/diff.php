@@ -20,8 +20,8 @@ if (isset($_GET['L_round_num'])) {
     $L_round = Rounds::get_by_number($L_round_num) ?? get_OCR_pseudoround();
     $R_round = Rounds::get_by_number($R_round_num) ?? get_OCR_pseudoround();
 } else {
-    $L_round = get_round_param($_GET, "L_round", null, false, true);
-    $R_round = get_round_param($_GET, "R_round", null, false, true);
+    $L_round = get_round_or_ocr_param($_GET, "L_round", null, false);
+    $R_round = get_round_or_ocr_param($_GET, "R_round", null, false);
 }
 $format = get_enumerated_param($_GET, "format", null, ["keep", "remove"], true);
 $only_nonempty_diffs = @$_GET['only_nonempty_diffs'] === 'on';

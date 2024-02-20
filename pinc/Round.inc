@@ -566,13 +566,12 @@ function is_formatting_round($round)
  * @param string $key
  * @param Round|null $default
  * @param bool $allownull
- * @param bool $allowOCR
  *
  * @return Round|null
  *
  * @throws InvalidArgumentException
  */
-function get_round_param(array $arr, string $key, ?Round $default = null, bool $allownull = false, bool $allowOCR = false)
+function get_round_param(array $arr, string $key, ?Round $default = null, bool $allownull = false): ?Round
 {
     // sanity checks on the args
     if (!is_null($default) && $allownull) {
@@ -595,8 +594,6 @@ function get_round_param(array $arr, string $key, ?Round $default = null, bool $
         $round = Rounds::get_by_id($s);
         if ($round) {
             return $round;
-        } elseif ($allowOCR && $s === "OCR") {
-            return get_OCR_pseudoround();
         } else {
             throw new InvalidArgumentException(sprintf(
                 _("Parameter '%1\$s' ('%2\$s') is not a valid round ID"),
@@ -618,7 +615,38 @@ function get_round_param(array $arr, string $key, ?Round $default = null, bool $
     }
 }
 
-function get_OCR_pseudoround()
+/**
+ * From an array & key, get a Round object or an OCR pseudo-round
+ *
+ * @param array $arr
+ * @param string $key
+ * @param Round|null $default
+ * @param bool $allownull
+ *
+ * @return Round|stdClass|null
+ *
+ * @throws InvalidArgumentException
+ */
+function get_round_or_ocr_param(array $arr, string $key, ?Round $default = null, bool $allownull = false)
+{
+    // sanity checks on the args
+    if (!is_null($default) && $allownull) {
+        throw new InvalidArgumentException("\$allownull = true but \$default is specified");
+    }
+
+    // handle OCR corner-case
+    if (isset($arr[$key]) && $arr[$key] == "OCR") {
+        return get_OCR_pseudoround();
+    }
+
+    return get_round_param($arr, $key, $default, $allownull);
+}
+
+/*
+ * Return a Round-like object that represents the OCR record in the
+ * project table.
+ */
+function get_OCR_pseudoround(): stdClass
 {
     $round = new stdClass();
     $round->round_number = 0;
