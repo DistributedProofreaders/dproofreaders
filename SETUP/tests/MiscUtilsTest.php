@@ -2,7 +2,7 @@
 
 // Generic utilities in misc.inc
 
-class MiscUtils extends PHPUnit\Framework\TestCase
+class MiscUtilsTest extends PHPUnit\Framework\TestCase
 {
     public function test_array_get_exists()
     {
