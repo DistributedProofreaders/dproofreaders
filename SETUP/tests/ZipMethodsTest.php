@@ -245,7 +245,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
     public function testCreatingZipFileWithInvalidPath()
     {
         $this->expectException(InvalidArgumentException::class);
-        create_zip_from(['./*.php'], 'misc_ZipMethodsTest.php');
+        create_zip_from(['./*.php'], 'ZipMethodsTest.php');
     }
 
     public function testCreatingZipFileContainingNonExistingFiles()
