@@ -12,7 +12,7 @@ echo "<p>" . sprintf(_("This site is powered by the <a href='%s'>dproofreaders</
 
 echo "<h2>" . _("Developers") . "</h2>";
 
-echo "<p>" . sprintf(_("This software brought to you by many volunteer developers across the world over many years. Recent developer contributions after the move to git can be seen on the project's <a href='%s'>Github Contributors page</a>."), "https://github.com/DistributedProofreaders/dproofreaders/graphs/contributors"). "</p>";
+echo "<p>" . sprintf(_("This software is brought to you by many volunteer developers across the world over many years. Recent developer contributions after the move to git can be seen on the project's <a href='%s'>Github Contributors page</a>."), "https://github.com/DistributedProofreaders/dproofreaders/graphs/contributors"). "</p>";
 
 echo "<h2>" . _("Bundled Software"). "</h2>";
 

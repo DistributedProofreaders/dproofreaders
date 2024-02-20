@@ -28,7 +28,7 @@ function get_preview_messages()
         "scNoCap" => _("Small caps must contain at least one upper case character"),
         "charBeforeStart" => _("Character or punctuation before inline start tag"),
         "charAfterEnd" => _("Character after inline end tag"),
-        "puncBEnd" => _(",; or : before end tag"),
+        "puncBEnd" => _(", ; or : before end tag"),
         "noCloseBrack" => _("No matching closing bracket"),
         "footnoteId" => _("Footnote identifier should be a letter or number"),
         "starAnchor" => _("Footnote anchor should be an upper-case letter"),

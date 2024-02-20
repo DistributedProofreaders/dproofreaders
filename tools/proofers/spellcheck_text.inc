@@ -438,7 +438,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo "<div id='wc_header' $header_style>";
     if (count($messages) != 0) {
         // warnings or errors were raised, print them out
-        echo "<p class='warning'>" . _("The following warnings/errors were raised:") . "<br>\n";
+        echo "<p class='warning'>" . _("The following warnings/errors were raised") . ":<br>\n";
         foreach ($messages as $message) {
             echo html_safe($message) . "<br>\n";
         }
@@ -455,7 +455,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     $used_project_languages = array_intersect($languages, $project_languages);
     if (count($used_project_languages) > 0) {
         echo "<div class='dict-section'>";
-        echo "<div class='dict-section-title'>" . _("Project-based dictionaries:") . "</div>$spacer";
+        echo "<div class='dict-section-title'>" . _("Project-based dictionaries") . ":</div>$spacer";
         output_wordcheck_language_buttons($used_project_languages);
         echo "</div>";
     }
@@ -463,7 +463,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     $aux_languages = array_diff($languages, $project_languages);
     if (count($aux_languages) > 0) {
         echo "<div class='dict-section'>";
-        echo "<div class='dict-section-title'>" . _("Additional dictionaries: ") . "</div>$spacer";
+        echo "<div class='dict-section-title'>" . _("Additional dictionaries") . ":</div>$spacer";
         output_wordcheck_language_buttons($aux_languages);
         echo "</div>";
     }
@@ -472,7 +472,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     if (count($languages) < 5) {
         // output the code allowing the user to select another language
         echo "<select name='aux_language'>";
-        echo "<option value=''>" . _("Select additional language...") . "</option>\n";
+        echo "<option value=''>" . _("Select additional language") . "...</option>\n";
 
         // get a list of languages with dictionaries installed on the system
         $dict_list = get_languages_with_dictionaries();
@@ -505,7 +505,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     // text highlight legend
     if ($highlights) {
         echo "<p>";
-        echo _("The following highlights have been used:") . $spacer;
+        echo _("The following highlights have been used") . ":" . $spacer;
         foreach ($highlights as $hl_class => $message) {
             echo "<span class='$hl_class'>$message</span>" . $spacer;
         }

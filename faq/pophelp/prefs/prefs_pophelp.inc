@@ -181,7 +181,7 @@ _("<p>This setting determines which proofreading interface you prefer.</p>
 browser requirements.</p>
 
 <p>The Enhanced Interface has additional tools and features which are not present in the 
-Standard Interface and may require more a recent browser for complete functionality.</p>
+Standard Interface and may require a more recent browser for complete functionality.</p>
 
 <p>Both interfaces require a frames and JavaScript enabled browser as a minimum.</p>"),
         ],
@@ -353,7 +353,7 @@ _("<p>This setting specifies if colors used to indicate special projects should 
             'title' => _("Profile Name"),
             'content' =>
 _("<p>This field displays the name of the current profile, and can be edited to create a new profile.</p>
-<p>Entering a new name and and clicking 'Save as New Profile' will save a new profile with that name.</p>
+<p>Entering a new name and clicking 'Save as New Profile' will save a new profile with that name.</p>
 <p>A maximum of 10 profiles can be saved.</p>"),
         ],
 
