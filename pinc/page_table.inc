@@ -554,12 +554,7 @@ function can_user_see_usernames_for_page(Project $project, array $proofer_userna
 
     // The user can see the names of all the proofreaders for this page
     // only if they are one of those proofreaders.
-    foreach ($proofer_usernames as $u) {
-        if ($u != '' && $u == $user) {
-            return true;
-        }
-    }
-    return false;
+    return any($proofer_usernames, fn ($u) => $u != '' && $u == $user);
 }
 
 // -----------------------------------------------------------------------------
