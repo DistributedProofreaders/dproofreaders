@@ -55,8 +55,9 @@ class Pool extends Stage
         );
 
         // The following project-state related attributes are created & set in project_states.inc
-        // $this->project_checkedout_state
-        // $this->project_available_state
+        //     $this->project_checkedout_state
+        //     $this->project_available_state
+        //     $this->states
 
         $this->foo_Header = $foo_Header;
         $this->foo_field_name = $foo_field_name;
