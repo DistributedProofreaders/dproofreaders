@@ -14,11 +14,10 @@ var viewSplitter = function(container, storageKey) {
     const mainSplit = splitControl(container, {splitVertical: splitVertical});
     window.addEventListener("resize", mainSplit.reLayout);
 
-    const imageButtonSize = 26;
-    const splitImage = document.createElement("img");
-    splitImage.height = imageButtonSize;
-    splitImage.width = imageButtonSize;
-    splitImage.classList.add('img-button');
+    const splitButton = document.createElement('button');
+    splitButton.type = 'button';
+    const buttonContent = document.createElement('i');
+    splitButton.append(buttonContent);
 
     let splitKey;
     const setSplitDirCallback = [];
@@ -35,7 +34,8 @@ var viewSplitter = function(container, storageKey) {
     });
 
     function setSplitControls() {
-        splitImage.src = splitVertical ? proofIntData.buttonImages.imgHSplit : proofIntData.buttonImages.imgVSplit;
+        buttonContent.className = splitVertical ? 'fas fa-grip-lines' : 'fas fa-grip-lines-vertical';
+        splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
     function fireSetSplitDir() {
@@ -45,7 +45,7 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.reLayout();
     }
 
-    splitImage.addEventListener("click", function () {
+    splitButton.addEventListener("click", function () {
         splitVertical = !splitVertical;
         layout.splitDirection = splitVertical ? "vertical" : "horizontal";
         localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
@@ -62,7 +62,7 @@ var viewSplitter = function(container, storageKey) {
 
     return {
         mainSplit,
-        button: splitImage,
+        button: splitButton,
         setSplitDirCallback,
         fireSetSplitDir,
     };
