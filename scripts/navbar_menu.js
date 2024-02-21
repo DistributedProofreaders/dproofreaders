@@ -1,4 +1,4 @@
-/* exported toggleMenu */
+/* exported toggleMenu showSiteSearch hideSiteSearch */
 
 // Toggle a menu contents to visible and rotate the menu icon
 function toggleMenu(menuId) {
@@ -29,5 +29,33 @@ document.addEventListener("click", function (event) {
         document.querySelectorAll(".menu-icon").forEach(element => {
             element.classList.remove('rotate');
         });
+    }
+});
+
+// Show / hide site search input
+function showSiteSearch() {
+    document.getElementById('search-menu').classList.remove('nodisp');
+    document.getElementById('icon-menu').classList.add('nodisp');
+    document.getElementById('search-menu-input').value = '';
+    document.getElementById('search-menu-input').focus();
+}
+
+function hideSiteSearch() {
+    document.getElementById('search-menu').classList.add('nodisp');
+    document.getElementById('icon-menu').classList.remove('nodisp');
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('search-menu').addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            hideSiteSearch();
+        }
+    });
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && document.activeElement.tagName == "BODY") {
+        event.preventDefault();
+        showSiteSearch();
     }
 });

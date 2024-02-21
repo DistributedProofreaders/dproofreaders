@@ -88,7 +88,7 @@
   opacity: 0;
 }
 .nodisp {
-  display: none;
+  display: none !important;
 }
 .overflow-auto {
   overflow: auto;
@@ -1273,6 +1273,20 @@ header .icon-menu-item .inbox-badge,
   top: -3px;
   right: -3px;
 }
+header #search-menu,
+#header #search-menu {
+  text-align: right;
+  padding-right: 1em;
+  font-size: 1.2em;
+  color: #000099;
+}
+header #search-menu-input,
+#header #search-menu-input {
+  width: 90%;
+  font-size: 1em;
+  border-radius: 8px;
+  border: solid thin #d3d3d3;
+}
 /* ------------------------------------------------------------------------ */
 /* Navbar */
 nav,
@@ -1678,9 +1692,6 @@ details[open] summary {
  window gets too narrow
 */
 @media only screen and (max-width: 768px) {
-  #header #month-preserved-summary {
-    display: none;
-  }
   #header p {
     margin: 0.25em 0.5em;
   }
@@ -1717,6 +1728,9 @@ details[open] summary {
   }
   #header .icon-menu-item .icon-menu-item-name {
     display: none;
+  }
+  #header #search-menu {
+    font-size: 1em;
   }
   #buildtime {
     display: none;

@@ -179,15 +179,19 @@ function html_logobar()
             "class" => "fas fa-question fa-2x",
             "url" => get_faq_url("faq_central.php"),
         ];
+        $icon_links[] = [
+            "name" => _("Search"),
+            "class" => "fas fa-search fa-2x",
+            "onclick" => "showSiteSearch(); return false;",
+        ];
         $links = [];
         foreach ($icon_links as $data) {
             $name = attr_safe($data["name"]);
             $class = $data["class"];
             $url = $data["url"] ?? "";
+            $onclick = isset($data["onclick"]) ? "onclick='" . attr_safe($data["onclick"]) . "'" : "";
             $text = "<div class='icon-menu-item'>";
-            if ($url) {
-                $text .= "<a href='$url' aria-label='$name'>";
-            }
+            $text .= "<a href='$url' aria-label='$name' $onclick>";
             $text .= "<i aria-hidden='true' class='$class' title='$name'></i>";
             if ($data["name"] == _("Inbox")) {
                 $numofPMs = get_number_of_unread_messages($user->username);
@@ -195,10 +199,8 @@ function html_logobar()
                     $text .= "<span class='inbox-badge'>$numofPMs</span>";
                 }
             }
-            $text .= "<br><span class='icon-menu-item-name'>$name</span>";
-            if ($url) {
-                $text .= "</a>";
-            }
+            $text .= "<br><span class='icon-menu-item-name' $onclick>$name</span>";
+            $text .= "</a>";
             $text .= "</div>";
             $links[] = $text;
         }
@@ -206,6 +208,13 @@ function html_logobar()
         echo "<div id='icon-menu'>";
         echo join("", $links);
         echo "</div>"; // icon-menu
+
+        echo "<div id='search-menu' class='nodisp'>";
+        $placeholder = attr_safe(sprintf(_("Search for '%s' to see options"), "help"));
+        echo "<form action='$code_url/tools/site_search.php'>";
+        echo "<input id='search-menu-input' type='text' placeholder='$placeholder' name='q' autocapitalize='none'>&nbsp;<i aria-hidden='true' class='far fa-window-close' onclick='hideSiteSearch()'></i>";
+        echo "</form>";
+        echo "</div>"; // search-menu
     }
     echo "</div>"; // logo-right
     echo "</div>\n"; // header
