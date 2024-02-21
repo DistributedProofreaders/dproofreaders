@@ -759,7 +759,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'resume':
                 return $proof_project_page->resume_page();
             case 'checkin':
-                return $proof_project_page->attempt_save_as_done(receive_project_text_from_request_body('text'));
+                $proof_project_page->attempt_save_as_done(receive_project_text_from_request_body('text'));
             case 'save':
                 return $proof_project_page->save_as_in_progress(receive_project_text_from_request_body('text'));
             case 'revert':
@@ -768,7 +768,6 @@ function api_v1_project_page(string $method, array $data, array $query_params)
                 return $proof_project_page->returnToRound($pguser);
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
-                break;
         }
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
