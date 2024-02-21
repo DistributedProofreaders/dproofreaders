@@ -490,7 +490,7 @@ function api_v1_project_page_round($method, $data, $query_params)
         $user_column,
         implode(",", $user_cols),
         $project->projectid,
-        DPDatabase::escape($data[":pagename"])
+        DPDatabase::escape($data[":pagename"]->page_name)
     );
     $result = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($result);
