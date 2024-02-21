@@ -17,6 +17,7 @@ var viewSplitter = function(container, storageKey) {
     const splitButton = document.createElement('button');
     splitButton.type = 'button';
     const buttonContent = document.createElement('i');
+    buttonContent.className = 'fas fa-columns';
     splitButton.append(buttonContent);
 
     let splitKey;
@@ -34,7 +35,7 @@ var viewSplitter = function(container, storageKey) {
     });
 
     function setSplitControls() {
-        buttonContent.className = splitVertical ? 'fas fa-grip-lines' : 'fas fa-grip-lines-vertical';
+        buttonContent.style.transform = splitVertical ? 'rotate(-90deg)' : 'none';
         splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
