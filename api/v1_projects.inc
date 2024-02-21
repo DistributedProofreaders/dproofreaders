@@ -755,7 +755,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         if (null === $page_action) {
             throw new BadRequest("No page action found in request.");
         }
-        switch($page_action) {
+        switch ($page_action) {
             case 'resume':
                 return $proof_project_page->resume_page();
             case 'checkin':
@@ -789,7 +789,7 @@ function receive_project_text_from_request_body($field): string
 {
     $request_data = api_get_request_body();
     $page_text = $request_data[$field] ?? null;
-    if(null === $page_text) {
+    if (null === $page_text) {
         throw new ProjectNoTextException("There is no text");
     }
     return $page_text;
