@@ -948,9 +948,6 @@
 #page-browser .control-pane select {
   margin-right: 0.4em;
 }
-#page-browser .control-pane .img-button {
-  vertical-align: top;
-}
 #page-browser .control-pane input[type=checkbox] {
   vertical-align: middle;
 }
@@ -960,6 +957,13 @@
 #page-browser .control-pane a {
   margin-right: 0.4em;
   margin-left: 0.4em;
+}
+#page-browser .control-pane button {
+  box-shadow: 1px 1px grey;
+  border-radius: 3px;
+  width: 1.7em;
+  height: 1.7em;
+  padding: 0;
 }
 #page-browser .text-pane {
   width: 100%;
