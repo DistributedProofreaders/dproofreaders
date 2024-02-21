@@ -564,6 +564,14 @@ function get_url_for_inbox()
 }
 
 /**
+ * Return the URL for searching the forums
+ */
+function get_url_for_search(string $query, bool $encode = true)
+{
+    return get_url_for_forum() . "/search.php?keywords=" . ($encode ? urlencode($query) : $query);
+}
+
+/**
  * Given a forum username, return the number of unread messages.
  */
 function get_number_of_unread_messages($username)

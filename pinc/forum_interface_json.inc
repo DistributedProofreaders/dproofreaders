@@ -350,6 +350,14 @@ function get_url_for_inbox()
     return "";
 }
 
+/**
+ * Return the URL for searching the forums
+ */
+function get_url_for_search($query)
+{
+    return "";
+}
+
 function get_number_of_unread_messages($username)
 // Given a forum username, return the number of unread messages.
 {
