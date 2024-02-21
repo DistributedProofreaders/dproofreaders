@@ -35,15 +35,10 @@ function get_proofreading_interface_data_js()
     ];
 
     global $code_url;
-    $button_images = [
-        "imgVSplit" => "$code_url/tools/proofers/gfx/bt4.png",
-        "imgHSplit" => "$code_url/tools/proofers/gfx/bt5.png",
-    ];
 
     $proof_int_data = json_encode([
         "font" => $font_data,
         "strings" => $strings,
-        "buttonImages" => $button_images,
         "projectFile" => "$code_url/project.php",
     ]);
 
