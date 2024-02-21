@@ -72,6 +72,10 @@ function show_query_form()
             echo   "</td>";
             echo "</tr>\n";
         }
+        echo "<tr><th colspan='2'>";
+        echo "<input type='checkbox' checked name='hide_nontext'>";
+        echo _("Hide non-textual results");
+        echo "</th></tr>";
 
         echo "<tr>";
         echo   "<th colspan='2'>";
@@ -90,11 +94,8 @@ function do_search_and_show_hits()
 {
     output_header("Search Results");
     echo "<br>";
-    if (empty($_GET['start'])) {
-        $start = 1;
-    } else {
-        $start = $_GET['start'];
-    }
+    $start = get_integer_param($_GET, 'start', 1, 1, null);
+    $hide_nontext = !empty(@$_REQUEST['hide_nontext']);
     if (!empty($_GET['fq'])) {
         $fullquery = unserialize(base64_decode($_GET['fq']));
     } else {
@@ -119,10 +120,7 @@ function do_search_and_show_hits()
     echo "</details>\n";
 
     if (!empty($errorMsg)) {
-        echo "<p class='error'>";
-        echo _("The following error has occurred:");
-        echo " $errorMsg";
-        echo "</p>";
+        echo "<p class='error'>", _("The following error has occurred:"), " $errorMsg", "</p>";
         echo "<p>";
         $url = "editproject.php?action=createnew";
         echo sprintf(
@@ -134,144 +132,152 @@ function do_search_and_show_hits()
     }
 
     if (yaz_hits($id) == 0) {
-        echo "<p class='warning'>";
-        echo  _("There were no results returned.");
-        echo "</p>";
-        echo "<p>";
-        echo sprintf(_("Please search again or click '%s' to create the project manually."), _("No Matches"));
-        echo "</p>";
-    } else {
-        echo "<p>";
-        echo sprintf(
-            _("%d results returned. Note that some non-book results may not be displayed."),
-            yaz_hits($id)
-        );
-        echo "</p>";
-        echo "<p>";
-        echo _("Please pick a result from below:");
-        echo "</p>";
+        echo "<p class='warning'>", _("There were no results returned."), "</p>\n";
+        echo "<p>", sprintf(_("Please search again or click '%s' to create the project manually."), _("No Matches")), "</p>\n";
     }
 
-    echo "<form method='post' action='editproject.php'>";
-    echo "<input type='hidden' name='action' value='create_from_marc_record'>";
-    echo "<table style='width: 100%; border: 0;'>";
-
-    // -----------------------------------------------------
-
+    // Read and parse results in a batch
+    $total_hits = yaz_hits($id);
+    $num_nontext = 0;
     $hits_per_page = 20; // Perhaps later this can be a PM preference or an option on the form.
-    $i = 1;
-    // PHPStan up to at least 1.10.57 has a bug where it doesn't correctly detect
-    // that $i is updated in the loop. We need to sprinkle several ignores to get
-    // it to ignore this.
-    // @phpstan-ignore-next-line
-    while (($start <= yaz_hits($id) && $i <= $hits_per_page)) {
-        $rec = yaz_record($id, $start, "array");
 
+    $marc_records = [];
+    for ($i = 0; $i < $hits_per_page && $start + $i <= $total_hits; $i++) {
+        $rec = yaz_record($id, $start + $i, "array");
         // if $rec isn't an array, then yaz_record() failed and we should
         // skip this record
         if (!is_array($rec)) { /** @phpstan-ignore-line */
-            $start++;
             continue;
         }
-
         /** @phpstan-ignore-next-line */
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($rec);
-        // If it's not a 'language material' (printed or typed) or
-        // 'manuscript language material' (written), don't display it.
-        // if (!in_array($marc_record->get_type_of_record(), ["Language material", "Manuscript language material"])) {
-        //     $start++;
-        //     continue;
-        // }
-        if ($i % 2 == 1) {
-            echo "<tr>";
+        if (!in_array($marc_record->get_type_of_record(), ["Language material", "Manuscript language material"])) {
+            $num_nontext++;
+            if ($hide_nontext) {
+                continue;
+            }
         }
-
-        echo "<td class='center-align top-align' style='width: 5%;'>";
-        echo "<input type='radio' name='rec' value='".base64_encode(serialize($rec))."'>";
-        echo "</td>";
-        echo "<td class='left-align top-align' style='width: 45%;'>";
-        echo "<table class='basic' style='width: 100%;'>";
-
-        foreach ([
-            ['label' => _("Type of Record"), 'value' => $marc_record->type_of_record],
-            ['label' => _("Title"),          'value' => $marc_record->title],
-            ['label' => _("Author"),         'value' => $marc_record->author],
-            ['label' => _("Publisher"),      'value' => $marc_record->publisher],
-            ['label' => _("Language"),       'value' => $marc_record->language],
-            ['label' => _("LCCN"),           'value' => $marc_record->lccn],
-            ['label' => _("ISBN"),           'value' => $marc_record->isbn],
-        ] as $couple
-        ) {
-            $label = $couple['label'];
-            $value = $couple['value'];
-            echo "<tr>";
-            echo   "<th class='left-align top-align' style='width: 20%;'>$label:</th>";
-            echo   "<td class='left-align top-align'>$value</td>";
-            echo "</tr>\n";
-        }
-        // For adding test cases
-        // echo "<tr><th>Base64</th><td style='font-size: x-small;word-wrap: break-word'>", base64_encode(serialize($rec)), "</td></tr>\n";
-
-        echo "</table><p></td>";
-
-        if ($i % 2 != 1) {
-            echo "</tr>\n";
-        }
-
-        $i++;
-        $start++;
+        $marc_records[] = [$rec, $marc_record];
     }
-    if ($i % 2 != 1) { /** @phpstan-ignore-line */
-        echo "</tr>\n";
+    yaz_close($id);
+
+    // Display results
+    echo "<p>", sprintf(_("%d results returned."), $total_hits), "</p>\n";
+
+    if ($total_hits > 0) {
+        $encoded_fullquery = base64_encode(serialize($fullquery));
+        $url_base = "external_catalog_search.php?action=do_search_and_show_hits&fq=$encoded_fullquery";
+        if ($hide_nontext) {
+            $url_base .= "&hide_nontext=on";
+        }
+
+        // PHPStan up to at least 1.10.57 has a bug where it doesn't correctly detect
+        // that $num_nontext is updated in the loop. We need to sprinkle several ignores
+        // to get it to ignore this.
+        // @phpstan-ignore-next-line
+        $book_frag = ($hide_nontext && $num_nontext > 0) ? sprintf(_(" (%d non-textual hidden)"), $num_nontext) : "";
+
+        if ($num_nontext < $hits_per_page) { /** @phpstan-ignore-line */
+            echo "<p>", _("Please pick a result from below:"), "</p>\n";
+
+            display_navbar($url_base, $start, $hits_per_page, $total_hits, $book_frag);
+
+            // Display the results as a two column, multi-row table where each cell is
+            // an input form radio button with a single subtable of label/value rows.
+            echo "<form method='post' action='editproject.php'>\n";
+            echo "<input type='hidden' name='action' value='create_from_marc_record'>\n";
+            echo "<table style='width: 100%; border: 0;'>\n";
+
+            $i = 1;
+            foreach ($marc_records as [$r, $m]) { /** @phpstan-ignore-line */
+                if ($i % 2 == 1) {
+                    echo "<tr>";
+                }
+                // Radio button to select record
+                echo "<td class='center-align top-align' style='width: 5%;'>";
+                echo "<input type='radio' name='rec' value='".base64_encode(serialize($r))."'>";
+                echo "</td>";
+
+                // Subtable for record
+                echo "<td class='left-align top-align' style='width: 45%;'>";
+                display_record_table($m);
+                echo "<p>"; // vertical gap between records
+                echo "</td>";
+                if ($i % 2 != 1) {
+                    echo "</tr>\n";
+                }
+                $i++;
+            }
+
+            if ($i % 2 != 1) { /** @phpstan-ignore-line */
+                echo "</tr>\n";
+            }
+            echo "</table>";
+        }
+        // Always display the bottom navbar, even if all results on a page are filtered away
+        display_navbar($url_base, $start, $hits_per_page, $total_hits, $book_frag);
     }
 
-    // -----------------------------------------------------
+    // Button bar
+    echo "<p class='center-align'>";
+    if ($total_hits != 0) {
+        echo "<input type='submit' value='", attr_safe(_("Create the Project")), "'>";
+    }
 
-    $encoded_fullquery = base64_encode(serialize($fullquery));
-    echo "<tr>";
-    echo "<td class='left-align top-align' style='width: 50%;' colspan='2'>";
-    if (isset($_GET['start']) && ($_GET['start'] - $hits_per_page) > 0) {
-        $url = "external_catalog_search.php?action=do_search_and_show_hits&start=".($_GET['start'] - $hits_per_page)."&fq=$encoded_fullquery";
-        echo "<a href='$url'>Previous</a>";
-    } else {
+    foreach ([
+        [_('Search Again'), "external_catalog_search.php?action=show_query_form"],
+        [_('No Matches'), "editproject.php?action=createnew"],
+        [_('Quit'), "projectmgr.php"],
+    ] as [$label, $url]) {
         echo "&nbsp;";
+        echo "<input type='button' value='", attr_safe($label), "' onclick='javascript:location.href=\"$url\";'>";
     }
-    echo "</td>";
-    echo "<td class='right-align top-align' style='width: 50%;' colspan='2'>";
-    if (($start + $hits_per_page) <= yaz_hits($id)) {
-        $url = "external_catalog_search.php?action=do_search_and_show_hits&start=$start&fq=$encoded_fullquery";
-        echo "<a href='$url'>Next</a>";
-    } else {
-        echo "&nbsp;";
-    }
-    echo "</td>";
-    echo "</tr>\n";
-
-    // -----------------------------------------------------
-
-    echo "</table><p class='center-align'>";
-    if (yaz_hits($id) != 0) {
-        echo "<input type='submit' value='", attr_safe(_("Create the Project")), "'>&nbsp;";
-    }
-
-    $label = attr_safe(_('Search Again'));
-    $url = "external_catalog_search.php?action=show_query_form";
-    echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
-    echo "&nbsp;";
-
-    $label = attr_safe(_('No Matches'));
-    $url = "editproject.php?action=createnew";
-    echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
-    echo "&nbsp;";
-
-    $label = attr_safe(_('Quit'));
-    $url = "projectmgr.php";
-    echo "<input type='button' value='$label' onclick='javascript:location.href=\"$url\";'>";
-
     echo "</p>";
     echo "</form>";
-    yaz_close($id);
+}
+
+function link_or_text(string $url_base, string $label, bool $show_link, int $start): string
+{
+    return $show_link ? "<a href='$url_base&start=$start'>" . html_safe($label) . "</a>" : $label;
+}
+
+function display_navbar(string $url_base, int $start, int $hits_per_page, int $total_hits, string $book_frag): void
+{
+    // NB yaz indexes are 1-based: from 1 to $total_hits inclusive.
+    // To spell out the arithmetic here (because it's easy to make off-by-one errors)
+    // I'll use examples of start=51, hits_per_page=10, total_hits=100
+    $next = $start + $hits_per_page;            // next page will be 61 to 70
+    $prev = max(1, $start - $hits_per_page);    // prev page will be 41 to 50. If we start at <11, prev=1
+    $last = $total_hits - ($hits_per_page - 1); // last page will be 91 to 100.
+    $frags = [
+        link_or_text($url_base, "First", $start > 1, 1),
+        link_or_text($url_base, "Previous", $start > 1, $prev),
+        sprintf(_("Results %d to %d of %d%s"), $start, min($total_hits, $next - 1), $total_hits, $book_frag),
+        link_or_text($url_base, "Next", $next <= $total_hits, min($total_hits, $next)),
+        link_or_text($url_base, "Last", $next <= $total_hits, $last),
+    ];
+    echo "<p class='center-align'>", implode(" | ", $frags), "</p>\n";
+}
+
+function display_record_table(MARCRecord $marc_record): void
+{
+    echo "<table class='basic' style='width: 100%;'>";
+    foreach ([
+        [_("Type of Record"), $marc_record->type_of_record],
+        [_("Title"),          $marc_record->title],
+        [_("Author"),         $marc_record->author],
+        [_("Publisher"),      $marc_record->publisher],
+        [_("Language"),       $marc_record->language],
+        [_("LCCN"),           $marc_record->lccn],
+        [_("ISBN"),           $marc_record->isbn],
+    ] as [$label, $value]) {
+        echo "<tr>";
+        echo   "<th class='left-align top-align' style='width: 20%;'>{$label}:</th>";
+        echo   "<td class='left-align top-align'>{$value}</td>";
+        echo "</tr>\n";
+    }
+    echo "</table>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
