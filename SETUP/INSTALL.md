@@ -51,7 +51,8 @@ change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 ## Distro support
 These middleware components match the following major distribution releases:
 * Ubuntu 18.04, Bionic (with PHP 7.4 upgrade)
-* Ubuntu 20.04, Bionic
+* Ubuntu 20.04, Focal
+* Ubuntu 22.04, Jammy (with possible PHP 7.4 downgrade)
 * RHEL / CentOS 7.x family (with PHP 7.4 and MariaDB 10.2 or later upgrade)
 * RHEL / CentOS 8.x family
 
