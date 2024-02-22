@@ -8,6 +8,45 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'MARCRecord.inc');
 
+
+$title_attrs = [
+    // Bib-1 Use, Title (attribute 4)
+    // "A word, phrase, character, or group of characters, normally appearing in an item,
+    // that names the item or the work contained in it.
+    // Matches 130, 21X-24X, 440, 490, 730, 740, 830, 840, subfield $t in 400, 410, 410, 600,
+    // 610, 611, 700, 710, 711, 800, 810, 811"
+    // That leads to broad matches, similar to the KTIL LoC advanced search, but
+    // sometimes is necessary due to missing fields in MARC records.
+    // https://catalog.loc.gov/vwebv/ui/en_US/htdocs/help/searchExamples.html#KTIL
+
+    4 => _("Title (wide)"),
+    // Bib-1 Use, Title Uniform (attribute 6)
+    // "The particular title by which a work is to be identified for cataloging purposes.
+    // Matches [MARC fields] 130, 240, 730; subfield $t in 700, 710, 711."
+    // Seems to have the same behavior as the KTUT advanced search on the LoC website
+    // https://catalog.loc.gov/vwebv/ui/en_US/htdocs/help/searchExamples.html#KTUT
+    6 => _("Title (narrow)"),
+];
+
+$author_attrs = [
+    // Bib-1 Use, Author-name-personal (attribute 1004)
+    // "A person's real name, pseudonym, title of nobility nickname, or initials.
+    // (Differs from attribute "Author-name" in that personal name subject
+    // headings are not included.)
+    // [Matches MARC fields] 100, 400, 700, 800"
+    // Seems similar to KPNC advanced search on LoC website.
+    // https://catalog.loc.gov/vwebv/ui/en_US/htdocs/help/searchExamples.html#KPNC
+    1004 => _("Author name (personal)"),
+
+    // Bib-1 Use, Author-name (attribute 1003).
+    // "A personal or corporate author or a conference or meeting name.
+    // (No subject name headings are included.)
+    // [Matches MARC fields] 100, 110, 111, 400, 410, 411, 700, 710, 711, 800, 810, 811)"
+    // That leads to broad matches, similar to the KNAM advanced search.
+    // https://catalog.loc.gov/vwebv/ui/en_US/htdocs/help/searchExamples.html#KNAM
+    1003 => _("Author name (all)"),
+];
+
 require_login();
 
 $action = get_enumerated_param($_REQUEST, 'action', 'show_query_form', ['show_query_form', 'do_search_and_show_hits']);
@@ -22,6 +61,8 @@ if ($action == 'show_query_form') {
 
 function show_query_form()
 {
+    global $title_attrs, $author_attrs;
+
     $title = _("Create a Project");
     output_header($title);
 
@@ -52,10 +93,24 @@ function show_query_form()
         echo "<input type='hidden' name='action' value='do_search_and_show_hits'>\n";
         echo "<table class='basic'>";
 
+        foreach ([
+            'title' => $title_attrs,
+            'author' => $author_attrs,
+        ] as $label => $attrs) {
+            echo "<tr>";
+            echo   "<th class='label'><select name='{$label}_attr'>\n";
+            foreach ($attrs as $value => $attr_label) {
+                echo   "<option value='$value'>$attr_label</option>\n";
+            }
+            echo   "</select></th>";
+            echo   "<td>";
+            echo     "<input type='text' size='30' name='{$label}' maxlength='255'>";
+            echo   "</td>";
+            echo "</tr>\n";
+        }
+
         foreach (
             [
-                'title' => _('Title'),
-                'author' => _('Author'),
                 'publisher' => _('Publisher'),
                 'pubdate' => _('Publication Year (eg: 1912)'),
                 'isbn' => _('ISBN'),
@@ -282,6 +337,7 @@ function display_record_table(MARCRecord $marc_record): void
 
 function query_format()
 {
+    global $title_attrs, $author_attrs;
     // Build a Z39.50 Type-1 query.
     // See
     // https://www.loc.gov/z3950/agency/markup/09.html Type-1 and Type-101 Queries
@@ -292,20 +348,20 @@ function query_format()
     // ```
     //  @and
     //  @and
-    //  @attr 1=4 "Snowcrash"
-    //  @attr 1=1003 "Stephenson, Neal"
+    //  @attr 1=6 "Snowcrash"
+    //  @attr 1=1004 "Stephenson, Neal"
     //  @attr 2=4 @attr 1=31 1992
     // ```
-    // Expressions like `@attr 1=1003` mean value 1003 from attribute set 1
-    // Set 1 is "Bib-1 Use", and 1003 is the value "Author"
+    // Expressions like `@attr 1=1004` mean value 1004 from attribute set 1
+    // Set 1 is "Bib-1 Use", and 1004 is the value "Author-name-personal"
     // https://www.loc.gov/z3950/agency/defns/bib1.html
     // https://www.loc.gov/z3950/agency/bib1.html
 
     $fullquery = [];
 
     if ($_REQUEST['title']) {
-        // Bib-1 Use, Title
-        $fullquery[] = sprintf('@attr 1=4 "%s"', $_REQUEST['title']);
+        $attr = get_enumerated_param($_REQUEST, 'title_attr', null, array_keys($title_attrs));
+        $fullquery[] = sprintf('@attr 1=%s "%s"', $attr, $_REQUEST['title']);
     }
     if ($_REQUEST['author']) {
         // Convert author to "Surname, Forename" if it doesn't already contain a comma.
@@ -316,8 +372,8 @@ function query_format()
                 $author = substr($author, $p) . ", " . substr($author, 0, $p);
             }
         }
-        // Bib-1 Use, Author
-        $fullquery[] = sprintf('@attr 1=1003 "%s"', trim($author));
+        $attr = get_enumerated_param($_REQUEST, 'author_attr', null, array_keys($author_attrs));
+        $fullquery[] = sprintf('@attr 1=%s "%s"', $attr, trim($author));
     }
     if ($_REQUEST['isbn']) {
         // Bib-1 Relation Equal; Bib-1 Use, ISBN
