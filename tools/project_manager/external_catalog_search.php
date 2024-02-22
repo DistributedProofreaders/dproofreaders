@@ -10,14 +10,12 @@ include_once($relPath.'MARCRecord.inc');
 
 require_login();
 
-$action = @$_REQUEST['action'];
+$action = get_enumerated_param($_REQUEST, 'action', 'show_query_form', ['show_query_form', 'do_search_and_show_hits']);
 
 if ($action == 'show_query_form') {
     show_query_form();
 } elseif ($action == "do_search_and_show_hits") {
     do_search_and_show_hits();
-} else {
-    die("unrecognized value for 'action' parameter: '$action'");
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
