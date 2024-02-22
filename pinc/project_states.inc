@@ -23,16 +23,24 @@ include_once($relPath.'site_vars.php');
   (Actually, the naming convention is in transition.)
 */
 
-$PROJECT_STATES_IN_ORDER = [];
-$project_state_medium_label_ = [];
-$project_state_long_label_ = [];
-$project_state_forum_ = [];
-$project_state_phase_ = [];
-$project_states_for_star_metal_ = [
-    'BRONZE' => [],
-    'SILVER' => [],
-    'GOLD' => [],
-];
+class ProjectState
+{
+    public function __construct(
+        $medium_label,
+        $long_label,
+        $forum,
+        $phase,
+        $star_metal
+    ) {
+        $this->medium_label = $medium_label;
+        $this->long_label = $long_label;
+        $this->forum = $forum;
+        $this->phase = $phase;
+        $this->star_metal = $star_metal;
+    }
+}
+
+global $project_states;
 
 function declare_project_state(
     $constant_name,
@@ -43,100 +51,41 @@ function declare_project_state(
     $phase,
     $star_metal
 ) {
-    global $PROJECT_STATES_IN_ORDER;
-    global $project_state_medium_label_;
-    global $project_state_long_label_;
-    global $project_state_forum_;
-    global $project_state_phase_;
-    global $project_states_for_star_metal_;
+    global $project_states;
 
     define($constant_name, $constant_value);
-    $PROJECT_STATES_IN_ORDER[] = $constant_value;
-    $project_state_medium_label_[$constant_value] = $medium_label;
-    $project_state_long_label_[$constant_value] = $long_label;
-    $project_state_forum_[$constant_value] = $forum;
-    $project_state_phase_[$constant_value] = $phase;
-    if ($star_metal) {
-        $project_states_for_star_metal_[$star_metal][] = $constant_value;
-    }
+
+    $project_states[$constant_value] = new ProjectState(
+        $medium_label,
+        $long_label,
+        $forum,
+        $phase,
+        $star_metal
+    );
 }
 
 function get_medium_label_for_project_state($state)
 {
-    global $project_state_medium_label_;
-    return array_get($project_state_medium_label_, $state, '');
+    global $project_states;
+    return $project_states[$state]->medium_label ?? '';
 }
 
 function project_states_text($state)
 {
-    global $project_state_long_label_;
-    return array_get($project_state_long_label_, $state, '');
+    global $project_states;
+    return $project_states[$state]->long_label ?? '';
 }
 
 function get_forum_id_for_project_state($state)
 {
-    global $project_state_forum_;
-    return array_get($project_state_forum_, $state, -1);
+    global $project_states;
+    return $project_states[$state]->forum ?? -1;
 }
 
 function get_phase_containing_project_state($state)
 {
-    global $project_state_phase_;
-    return array_get($project_state_phase_, $state, 'NONE');
-}
-
-// -----------------------------------------------
-
-function declare_project_states_for_round($round_id, $round_name)
-{
-    global $projects_forum_idx;
-    global $waiting_projects_forum_idx;
-
-    declare_project_state(
-        "PROJ_{$round_id}_BAD_PROJECT",
-        "$round_id.proj_bad",
-        "$round_id: " .  _("Bad Project"),
-        "$round_name: " . _("Bad Project"),
-        $projects_forum_idx,
-        'PAGE_EDITING',
-        ''
-    );
-    declare_project_state(
-        "PROJ_{$round_id}_UNAVAILABLE",
-        "$round_id.proj_unavail",
-        "$round_id: " . _("Unavailable"),
-        "$round_name: " . _("Unavailable"),
-        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
-        'PAGE_EDITING',
-        ''
-    );
-    declare_project_state(
-        "PROJ_{$round_id}_WAITING_FOR_RELEASE",
-        "$round_id.proj_waiting",
-        "$round_id: " . _("Waiting"),
-        "$round_name: " . _("Waiting for Release"),
-        ($round_id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
-        'PAGE_EDITING',
-        ''
-    );
-    declare_project_state(
-        "PROJ_{$round_id}_AVAILABLE",
-        "$round_id.proj_avail",
-        "$round_id: " . _("Available"),
-        "$round_name: " . _("Available"),
-        $projects_forum_idx,
-        'PAGE_EDITING',
-        'BRONZE'
-    );
-    declare_project_state(
-        "PROJ_{$round_id}_COMPLETE",
-        "$round_id.proj_done",
-        "$round_id: " . _("Completed"),
-        "$round_name: " . _("Completed"),
-        $projects_forum_idx,
-        'PAGE_EDITING',
-        ''
-    );
+    global $project_states;
+    return $project_states[$state]->phase ?? 'NONE';
 }
 
 // -----------------------------------------------
@@ -145,148 +94,208 @@ function declare_project_states_for_round($round_id, $round_name)
 // is the order in which they will be displayed in various contexts
 // (via $PROJECT_STATES_IN_ORDER).
 
+function declare_project_states($rounds, $pools)
+{
+    global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
+    $completed_projects_forum_idx, $deleted_projects_forum_idx, $project_states_for_star_metal_;
+    global $PROJECT_STATES_IN_ORDER, $project_states;
 
-// PR
+    // for the initial creation of a project
+    declare_project_state(
+        "PROJ_NEW",
+        "project_new",
+        _("New Project"),
+        _("New Project"),
+        $waiting_projects_forum_idx,
+        'NEW',
+        ''
+    );
 
+    foreach ($rounds as $round) {
+        // Populate $round->project_states with all project states that apply
+        // to this round for lookup later.
+        $round->project_states[] = $round->project_bad_state = "{$round->id}.proj_bad";
+        $round->project_states[] = $round->project_unavailable_state = "{$round->id}.proj_unavail";
+        $round->project_states[] = $round->project_waiting_state = "{$round->id}.proj_waiting";
+        $round->project_states[] = $round->project_available_state = "{$round->id}.proj_avail";
+        $round->project_states[] = $round->project_complete_state = "{$round->id}.proj_done";
 
-// for the initial creation of a project
-declare_project_state(
-    "PROJ_NEW",
-    "project_new",
-    _("New Project"),
-    _("New Project"),
-    $waiting_projects_forum_idx,
-    'NEW',
-    ''
-);
+        declare_project_state(
+            "PROJ_{$round->id}_BAD_PROJECT",
+            $round->project_bad_state,
+            "$round->id: " .  _("Bad Project"),
+            "$round->name: " . _("Bad Project"),
+            $projects_forum_idx,
+            'PAGE_EDITING',
+            ''
+        );
 
-
-// PROOF
-declare_project_states_for_round('P1', _('Proofreading Round 1'));
-declare_project_states_for_round('P2', _('Proofreading Round 2'));
-declare_project_states_for_round('P3', _('Proofreading Round 3'));
-
-// FORMAT
-declare_project_states_for_round('F1', _('Formatting Round 1'));
-declare_project_states_for_round('F2', _('Formatting Round 2'));
-
-
-// POST
-declare_project_state(
-    "PROJ_POST_FIRST_UNAVAILABLE",
-    "proj_post_first_unavailable",
-    _("Unavailable for PP"),
-    _("Unavailable for Post-Processing"),
-    $pp_projects_forum_idx,
-    'PP',
-    'SILVER'
-);
-declare_project_state(
-    "PROJ_POST_FIRST_AVAILABLE",
-    "proj_post_first_available",
-    _("Available for PP"),
-    _("Available for Post-Processing"),
-    $pp_projects_forum_idx,
-    'PP',
-    'SILVER'
-);
-
-declare_project_state(
-    "PROJ_POST_FIRST_CHECKED_OUT",
-    "proj_post_first_checked_out",
-    _("In PP"),
-    _("In Post-Processing"),
-    $pp_projects_forum_idx,
-    'PP',
-    'SILVER'
-);
-
-declare_project_state(
-    "PROJ_POST_SECOND_AVAILABLE",
-    "proj_post_second_available",
-    _("Available for PPV"),
-    _("Available for Verifying Post-Processing"),
-    $pp_projects_forum_idx,
-    'PP',
-    'SILVER'
-);
-
-declare_project_state(
-    "PROJ_POST_SECOND_CHECKED_OUT",
-    "proj_post_second_checked_out",
-    _("In PPV"),
-    _("Verifying Post-Processing"),
-    $pp_projects_forum_idx,
-    'PP',
-    'SILVER'
-);
-declare_project_state(
-    "PROJ_POST_COMPLETE",
-    "proj_post_complete",
-    _("Completed Post"),
-    _("Completed Post-Processing"),
-    $pp_projects_forum_idx,
-    'PP',
-    'SILVER'
-);
-
-
-
-// SUBMIT (was GB)
-declare_project_state(
-    "PROJ_SUBMIT_PG_POSTED",
-    "proj_submit_pgposted",
-    _("Posted to PG"),
-    _("Completed and Posted to Project Gutenberg"),
-    $posted_projects_forum_idx,
-    'GB',
-    'GOLD'
-);
-
-// for complete project
-declare_project_state(
-    "PROJ_COMPLETE",
-    "project_complete",
-    _("Project Complete"),
-    _("Project Complete"),
-    $completed_projects_forum_idx,
-    'COMPLETE',
-    ''
-);
-
-// for the 'deletion' of a project
-declare_project_state(
-    "PROJ_DELETE",
-    "project_delete",
-    _("Delete Project"),
-    _("Delete Project"),
-    $deleted_projects_forum_idx,
-    'NONE',
-    ''
-);
-
-// -----------------------------------------------------------------------------
-
-// Define constants for use in SQL queries:
-// SQL_CONDITION_BRONZE
-// SQL_CONDITION_SILVER
-// SQL_CONDITION_GOLD
-
-foreach ($project_states_for_star_metal_ as $star_metal => $project_states) {
-    $sql_constant_name = "SQL_CONDITION_$star_metal";
-    $sql_condition = '(';
-    foreach ($project_states as $project_state) { /** @phpstan-ignore-line Fixed in https://github.com/phpstan/phpstan/issues/9403 */
-        if ($sql_condition != '(') {
-            $sql_condition .= ' OR ';
-        }
-        $sql_condition .= "state='$project_state'";
+        declare_project_state(
+            "PROJ_{$round->id}_UNAVAILABLE",
+            $round->project_unavailable_state,
+            "$round->id: " . _("Unavailable"),
+            "$round->name: " . _("Unavailable"),
+            ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
+            'PAGE_EDITING',
+            ''
+        );
+        declare_project_state(
+            "PROJ_{$round->id}_WAITING_FOR_RELEASE",
+            $round->project_waiting_state,
+            "$round->id: " . _("Waiting"),
+            "$round->name: " . _("Waiting for Release"),
+            ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
+            'PAGE_EDITING',
+            ''
+        );
+        declare_project_state(
+            "PROJ_{$round->id}_AVAILABLE",
+            $round->project_available_state,
+            "$round->id: " . _("Available"),
+            "$round->name: " . _("Available"),
+            $projects_forum_idx,
+            'PAGE_EDITING',
+            'BRONZE'
+        );
+        declare_project_state(
+            "PROJ_{$round->id}_COMPLETE",
+            $round->project_complete_state,
+            "$round->id: " . _("Completed"),
+            "$round->name: " . _("Completed"),
+            $projects_forum_idx,
+            'PAGE_EDITING',
+            ''
+        );
     }
-    $sql_condition .= ')';
 
-    define($sql_constant_name, $sql_condition);
+    // POST
+    declare_project_state(
+        "PROJ_POST_FIRST_UNAVAILABLE",
+        "proj_post_first_unavailable",
+        _("Unavailable for PP"),
+        _("Unavailable for Post-Processing"),
+        $pp_projects_forum_idx,
+        'PP',
+        'SILVER'
+    );
+
+    foreach ($pools as $pool) {
+        switch ($pool->id) {
+            case 'PP':
+                $pool->project_available_state = "proj_post_first_available";
+                $pool->project_checkedout_state = "proj_post_first_checked_out";
+                break;
+            case 'PPV':
+                $pool->project_available_state = "proj_post_second_available";
+                $pool->project_checkedout_state = "proj_post_second_checked_out";
+                break;
+        }
+
+        $pool->states[] = $pool->project_available_state;
+        $pool->states[] = $pool->project_checkedout_state;
+
+        declare_project_state(
+            strtoupper($pool->project_available_state),
+            $pool->project_available_state,
+            "$pool->id: " . _("Available"),
+            "$pool->name: " . _("Available"),
+            $pp_projects_forum_idx,
+            'PP',
+            'SILVER'
+        );
+
+        declare_project_state(
+            strtoupper($pool->project_checkedout_state),
+            $pool->project_checkedout_state,
+            "$pool->id: " . _("Checked out"),
+            "$pool->name: " . _("Checked out"),
+            $pp_projects_forum_idx,
+            'PP',
+            'SILVER'
+        );
+    }
+
+    declare_project_state(
+        "PROJ_POST_COMPLETE",
+        "proj_post_complete",
+        _("Completed Post"),
+        _("Completed Post-Processing"),
+        $pp_projects_forum_idx,
+        'PP',
+        'SILVER'
+    );
+
+    // SUBMIT (was GB)
+    declare_project_state(
+        "PROJ_SUBMIT_PG_POSTED",
+        "proj_submit_pgposted",
+        _("Posted to PG"),
+        _("Completed and Posted to Project Gutenberg"),
+        $posted_projects_forum_idx,
+        'GB',
+        'GOLD'
+    );
+
+    // for complete project
+    declare_project_state(
+        "PROJ_COMPLETE",
+        "project_complete",
+        _("Project Complete"),
+        _("Project Complete"),
+        $completed_projects_forum_idx,
+        'COMPLETE',
+        ''
+    );
+
+    // for the 'deletion' of a project
+    declare_project_state(
+        "PROJ_DELETE",
+        "project_delete",
+        _("Delete Project"),
+        _("Delete Project"),
+        $deleted_projects_forum_idx,
+        'NONE',
+        ''
+    );
+
+    construct_star_metal_sql();
+
+    $PROJECT_STATES_IN_ORDER = array_keys($project_states);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+/**
+ * construct constants for use in SQL queries:
+ * SQL_CONDITION_BRONZE
+ * SQL_CONDITION_SILVER
+ * SQL_CONDITION_GOLD
+ */
+function construct_star_metal_sql()
+{
+    global $project_states;
+
+    foreach ($project_states as $state_name => $project_state) {
+        if ($project_state->star_metal) {
+            $project_states_for_star_metal_[$project_state->star_metal][] = $state_name;
+        }
+    }
+    foreach ($project_states_for_star_metal_ as $star_metal => $states) {
+        $sql_constant_name = "SQL_CONDITION_$star_metal";
+        $sql_condition = '(';
+        foreach ($states as $project_state) {
+            if ($sql_condition != '(') {
+                $sql_condition .= ' OR ';
+            }
+            $sql_condition .= "state='$project_state'";
+        }
+        $sql_condition .= ')';
+
+        define($sql_constant_name, $sql_condition);
+    }
+}
+
+// -----------------------------------------------------------------------------
 
 /**
  * Return SQL segment that can be used to sort project states

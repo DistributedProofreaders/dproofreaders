@@ -20,8 +20,6 @@ class Pool extends Stage
      *
      * A container for various constants relating to a particular pool.
      *
-     * @param string $project_checkedout_state
-     * @param string $project_available_state
      * @param $foo_Header
      * @param $foo_field_name
      *   The relevant person to display in pool listings, both
@@ -40,8 +38,6 @@ class Pool extends Stage
         $access_change_callback,
         $description,
         $document,
-        $project_checkedout_state,
-        $project_available_state,
         $foo_Header,
         $foo_field_name,
         $blather
@@ -58,16 +54,14 @@ class Pool extends Stage
             "tools/pool.php?pool_id=$id"
         );
 
-        $this->project_checkedout_state = $project_checkedout_state;
-        $this->project_available_state = $project_available_state;
+        // The following project-state related attributes are created & set in project_states.inc
+        //     $this->project_checkedout_state
+        //     $this->project_available_state
+        //     $this->states
+
         $this->foo_Header = $foo_Header;
         $this->foo_field_name = $foo_field_name;
         $this->blather = $blather;
-
-        $this->states = [
-            $this->project_checkedout_state,
-            $this->project_available_state,
-        ];
     }
 }
 

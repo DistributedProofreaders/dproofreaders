@@ -120,19 +120,13 @@ class Round extends Stage
         $this->honorifics = $honorifics;
         krsort($this->honorifics);
 
-        $this->project_unavailable_state = constant("PROJ_{$round_id}_UNAVAILABLE");
-        $this->project_waiting_state = constant("PROJ_{$round_id}_WAITING_FOR_RELEASE");
-        $this->project_bad_state = constant("PROJ_{$round_id}_BAD_PROJECT");
-        $this->project_available_state = constant("PROJ_{$round_id}_AVAILABLE");
-        $this->project_complete_state = constant("PROJ_{$round_id}_COMPLETE");
-
-        // Populate $this->project_states with all project states that apply
-        // to this round for lookup later.
-        $this->project_states = [];
-        foreach (["unavailable", "waiting", "bad", "available", "complete"] as $state) {
-            $attribute = "project_{$state}_state";
-            $this->project_states[] = $this->$attribute;
-        }
+        // The following project-state related attributes are created & set in project_states.inc
+        //     $this->project_unavailable_state
+        //     $this->project_waiting_state
+        //     $this->project_bad_state
+        //     $this->project_available_state
+        //     $this->project_complete_state
+        //     $this->project_states
 
         $this->page_avail_state = "{$round_id}.page_avail";
         $this->page_out_state = "{$round_id}.page_out";

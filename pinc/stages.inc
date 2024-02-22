@@ -268,8 +268,6 @@ new Pool(
     null, // access_change_callback
     _('After going through various rounds of proofreading and formatting, the books need to be massaged into a final e-text.'),
     'post_proof.php',
-    PROJ_POST_FIRST_CHECKED_OUT,
-    PROJ_POST_FIRST_AVAILABLE,
     _("Manager"),
     'username',
     [
@@ -318,8 +316,6 @@ new Pool(
     null, // access_change_callback
     _('Once a PPer has submitted a final e-text, it needs to be checked by a PPVer before it is posted to PG.'),
     'ppv.php',
-    PROJ_POST_SECOND_CHECKED_OUT,
-    PROJ_POST_SECOND_AVAILABLE,
     _("Post-Processor"),
     'postproofer',
     [
@@ -363,6 +359,10 @@ new Activity(
     '',
     null // access_change_callback
 );
+
+// -----------------------------------------------------------------------------
+
+declare_project_states(Rounds::get_all(), Pools::get_all());
 
 // -----------------------------------------------------------------------------
 
