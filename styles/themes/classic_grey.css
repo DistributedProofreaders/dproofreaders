@@ -962,8 +962,9 @@
   box-shadow: 1px 1px grey;
   border-radius: 3px;
   width: 1.7em;
-  padding-left: 0;
-  padding-right: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 1.4em;
 }
 #page-browser .text-pane {
   width: 100%;

@@ -16,10 +16,7 @@ var viewSplitter = function(container, storageKey) {
 
     const splitButton = document.createElement('button');
     splitButton.type = 'button';
-    const buttonContent = document.createElement('i');
-    buttonContent.className = 'fas fa-columns';
-    splitButton.append(buttonContent);
-
+    splitButton.innerHTML = "&nbsp;";
     let splitKey;
     const setSplitDirCallback = [];
     setSplitDirCallback.push(function(storageKey) {
@@ -35,7 +32,7 @@ var viewSplitter = function(container, storageKey) {
     });
 
     function setSplitControls() {
-        buttonContent.style.transform = splitVertical ? 'rotate(-90deg)' : 'none';
+        splitButton.style.backgroundImage = splitVertical ? `url("https://api.iconify.design/octicon:rows-24.svg")` : `url("https://api.iconify.design/octicon:columns-24.svg")`;
         splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
