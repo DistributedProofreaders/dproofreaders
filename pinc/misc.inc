@@ -1543,6 +1543,26 @@ function return_bytes($size_str)
     }
 }
 
+
+/**
+ * Encode a string using base64 with a variant alphabet that's safe to use in URL query values.
+ * See https://datatracker.ietf.org/doc/html/rfc4648
+ */
+function base64url_encode(string $data): string
+{
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+/**
+ * Encode a string using base64 with a variant alphabet that's safe to use in URL query values.
+ * See https://datatracker.ietf.org/doc/html/rfc4648
+ */
+function base64url_decode(string $data): string
+{
+    return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+}
+
+
 // -----------------------------------------------------------------------------
 
 class InvalidCSRFTokenException extends UnexpectedValueException
