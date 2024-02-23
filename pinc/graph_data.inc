@@ -798,8 +798,6 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
  */
 function _get_project_state_selector($which, $desired_states = null)
 {
-    global $project_states;
-
     if (null == $desired_states) {
         $desired_states = ["unavailable", "waiting", "bad", "available", "complete"];
     } elseif (!is_array($desired_states)) {
@@ -822,7 +820,7 @@ function _get_project_state_selector($which, $desired_states = null)
 
     // it may be a pool or stage so look at the stage's phase
     $states = [];
-    foreach ($project_states as $state => $project_state) {
+    foreach (ProjectStates::get_all() as $state => $project_state) {
         if ($project_state->phase == $which) {
             array_push($states, $state);
         }
