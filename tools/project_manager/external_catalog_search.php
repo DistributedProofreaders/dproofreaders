@@ -249,11 +249,20 @@ function do_search_and_show_hits()
                 }
                 // Radio button to select record
                 echo "<td class='center-align top-align' style='width: 5%;'>";
-                echo "<input type='radio' name='rec' value='".base64_encode(serialize($r))."'>";
+                echo "<input style='margin-top:1.6em' type='radio' name='rec' value='".base64_encode(serialize($r))."'>";
                 echo "</td>";
 
                 // Subtable for record
                 echo "<td class='left-align top-align' style='width: 45%;'>";
+
+                // Compresss the record so we don't run over URL length limits
+                $rec = base64url_encode(gzencode(serialize($r), 9));
+                echo "<div style='text-align:right; font-size:small'>\n";
+                echo   "<a style='text-decoration: none' target='_blank' href='marc_inspector.php?rec=$rec'>\n";
+                echo     "inspect MARC <i class='fa fa-external-link-alt'></i>\n";
+                echo   "</a>\n";
+                echo "</div>\n";
+
                 display_record_table($m);
                 echo "<p>"; // vertical gap between records
                 echo "</td>";
