@@ -326,10 +326,9 @@ function get_phase_containing_project_state($state)
  */
 function sql_collater_for_project_state($state_column)
 {
-    global $PROJECT_STATES_IN_ORDER;
     return sprintf(
         "FIELD($state_column, %s)",
-        surround_and_join($PROJECT_STATES_IN_ORDER, "'", "'", ",")
+        surround_and_join(ProjectStates::get_states(), "'", "'", ",")
     );
 }
 
