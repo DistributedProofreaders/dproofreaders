@@ -31,10 +31,10 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.setSplitPercent(directionData.splitPercent);
     });
 
-    const iconFolder = `${codeUrl}/pinc/3rdparty/iconify/octicon`;
+    const iconFolder = `${codeUrl}/pinc/3rdparty/iconify`;
 
     function setSplitControls() {
-        splitButton.style.backgroundImage = splitVertical ? `url("${iconFolder}/rows-24.svg")` : `url("${iconFolder}/columns-24.svg")`;
+        splitButton.style.backgroundImage = splitVertical ? `url("${iconFolder}/octicon-rows-24.svg")` : `url("${iconFolder}/octicon-columns-24.svg")`;
         splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
