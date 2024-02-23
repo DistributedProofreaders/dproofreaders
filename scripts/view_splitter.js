@@ -1,4 +1,4 @@
-/* global splitControl proofIntData */
+/* global splitControl proofIntData codeUrl */
 /* exported viewSplitter */
 
 // Construct the button for horizontal/vertical split
@@ -31,8 +31,10 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.setSplitPercent(directionData.splitPercent);
     });
 
+    const iconFolder = `${codeUrl}/pinc/3rdparty/iconify/octicon`;
+
     function setSplitControls() {
-        splitButton.style.backgroundImage = splitVertical ? `url("https://api.iconify.design/octicon:rows-24.svg")` : `url("https://api.iconify.design/octicon:columns-24.svg")`;
+        splitButton.style.backgroundImage = splitVertical ? `url("${iconFolder}/rows-24.svg")` : `url("${iconFolder}/columns-24.svg")`;
         splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
