@@ -9,6 +9,7 @@ parameters:
     excludePaths:
         - SETUP/*
         - vendor/*
+        - node_modules/*
     bootstrapFiles:
         - SETUP/phpstan_bootstrap.inc
         - pinc/bootstrap.inc
