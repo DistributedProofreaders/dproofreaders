@@ -47,14 +47,18 @@ $author_attrs = [
     1003 => _("Author name (all)"),
 ];
 
+$serial_attrs = [
+    9 => _('LCCN'), // Library of Congress Control Number
+    8 => _('ISSN'), // International Standard Serial Number
+    7 => _('ISBN'), // International Standard Book Number
+];
+
 $search_params = [
     'title' => ['type' => 'attr', 'attrs' => $title_attrs],
     'author' => ['type' => 'attr', 'attrs' => $author_attrs],
     'publisher' => ['type' => 'text', 'name' => _('Publisher')],
     'pubdate' => ['type' => 'text', 'name' => _('Publication Year (eg: 1912)')],
-    'isbn' => ['type' => 'text', 'name' => _('ISBN')],
-    'issn' => ['type' => 'text', 'name' => _('ISSN')],
-    'lccn' => ['type' => 'text', 'name' => _('LCCN')],
+    'serial' => ['type' => 'attr', 'attrs' => $serial_attrs],
     'hide_nontext' => ['type' => 'checkbox', 'name' => _("Hide non-textual results")],
 ];
 
@@ -377,7 +381,7 @@ function display_record_table(MARCRecord $marc_record, bool $hide_nontext): void
 
 function query_format()
 {
-    global $title_attrs, $author_attrs;
+    global $title_attrs, $author_attrs, $serial_attrs;
     // Build a Z39.50 Type-1 query.
     // See
     // https://www.loc.gov/z3950/agency/markup/09.html Type-1 and Type-101 Queries
@@ -415,17 +419,11 @@ function query_format()
         $attr = get_enumerated_param($_REQUEST, 'author_attr', null, array_keys($author_attrs));
         $fullquery[] = sprintf('@attr 1=%s "%s"', $attr, trim($author));
     }
-    if ($_REQUEST['isbn']) {
-        // Bib-1 Relation Equal; Bib-1 Use, ISBN
-        $fullquery[] = sprintf('@attr 2=3 @attr 1=7 %s', str_replace("-", "", $_REQUEST['isbn']));
-    }
-    if ($_REQUEST['issn']) {
-        // Bib-1 Relation Equal; Bib-1 Use, ISSN
-        $fullquery[] = sprintf('@attr 2=3 @attr 1=8 %s', $_REQUEST['issn']);
-    }
-    if ($_REQUEST['lccn']) {
-        // Bib-1 Relation Equal; Bib-1 Use, LC call number
-        $fullquery[] = sprintf('@attr 2=3 @attr 1=9 %s', $_REQUEST['lccn']);
+    if ($_REQUEST['serial']) {
+        $attr = get_enumerated_param($_REQUEST, 'serial_attr', null, array_keys($serial_attrs));
+        $serial = trim(str_replace("-", "", $_REQUEST['serial'])); // str_replace only needed for ISBN
+        // Bib-1 Relation Equal; Bib-1 Use, ISBN/ISSN/LCCN
+        $fullquery[] = sprintf('@attr 2=3 @attr 1=%s "%s"', $attr, $serial);
     }
     if ($_REQUEST['pubdate']) {
         // Bib-1 Relation Equal; Bib-1 Use, Date of publication
