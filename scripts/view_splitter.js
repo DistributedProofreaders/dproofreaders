@@ -1,4 +1,4 @@
-/* global splitControl proofIntData */
+/* global splitControl proofIntData codeUrl */
 /* exported viewSplitter */
 
 // Construct the button for horizontal/vertical split
@@ -14,12 +14,9 @@ var viewSplitter = function(container, storageKey) {
     const mainSplit = splitControl(container, {splitVertical: splitVertical});
     window.addEventListener("resize", mainSplit.reLayout);
 
-    const imageButtonSize = 26;
-    const splitImage = document.createElement("img");
-    splitImage.height = imageButtonSize;
-    splitImage.width = imageButtonSize;
-    splitImage.classList.add('img-button');
-
+    const splitButton = document.createElement('button');
+    splitButton.type = 'button';
+    splitButton.innerHTML = "&nbsp;";
     let splitKey;
     const setSplitDirCallback = [];
     setSplitDirCallback.push(function(storageKey) {
@@ -34,8 +31,11 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.setSplitPercent(directionData.splitPercent);
     });
 
+    const iconFolder = `${codeUrl}/pinc/3rdparty/iconify`;
+
     function setSplitControls() {
-        splitImage.src = splitVertical ? proofIntData.buttonImages.imgHSplit : proofIntData.buttonImages.imgVSplit;
+        splitButton.style.backgroundImage = splitVertical ? `url("${iconFolder}/octicon-rows-24.svg")` : `url("${iconFolder}/octicon-columns-24.svg")`;
+        splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
     }
 
     function fireSetSplitDir() {
@@ -45,7 +45,7 @@ var viewSplitter = function(container, storageKey) {
         mainSplit.reLayout();
     }
 
-    splitImage.addEventListener("click", function () {
+    splitButton.addEventListener("click", function () {
         splitVertical = !splitVertical;
         layout.splitDirection = splitVertical ? "vertical" : "horizontal";
         localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
@@ -62,7 +62,7 @@ var viewSplitter = function(container, storageKey) {
 
     return {
         mainSplit,
-        button: splitImage,
+        button: splitButton,
         setSplitDirCallback,
         fireSetSplitDir,
     };
