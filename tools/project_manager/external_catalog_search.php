@@ -263,7 +263,7 @@ function do_search_and_show_hits()
                 echo   "</a>\n";
                 echo "</div>\n";
 
-                display_record_table($m);
+                display_record_table($m, $hide_nontext);
                 echo "<p>"; // vertical gap between records
                 echo "</td>";
                 if ($i % 2 != 1) {
@@ -322,18 +322,22 @@ function display_navbar(string $url_base, int $start, int $hits_per_page, int $t
     echo "<p class='center-align'>", implode(" | ", $frags), "</p>\n";
 }
 
-function display_record_table(MARCRecord $marc_record): void
+function display_record_table(MARCRecord $marc_record, bool $hide_nontext): void
 {
     echo "<table class='basic' style='width: 100%;'>";
-    foreach ([
-        [_("Type of Record"), $marc_record->type_of_record],
-        [_("Title"),          $marc_record->title],
-        [_("Author"),         $marc_record->author],
-        [_("Publisher"),      $marc_record->publisher],
-        [_("Language"),       $marc_record->language],
-        [_("LCCN"),           $marc_record->lccn],
-        [_("ISBN"),           $marc_record->isbn],
-    ] as [$label, $value]) {
+    $fields = [];
+    if (!$hide_nontext) {
+        $fields[] = [_("Type of Record"), $marc_record->type_of_record];
+    }
+    $fields = array_merge($fields, [
+        [_("Title"),     $marc_record->title],
+        [_("Author"),    $marc_record->author],
+        [_("Publisher"), $marc_record->publisher],
+        [_("Language"),  $marc_record->language],
+        [_("LCCN"),      $marc_record->lccn],
+        [_("ISBN"),      $marc_record->isbn],
+    ]);
+    foreach ($fields as [$label, $value]) {
         echo "<tr>";
         echo   "<th class='left-align top-align' style='width: 20%;'>{$label}:</th>";
         echo   "<td class='left-align top-align'>{$value}</td>";
