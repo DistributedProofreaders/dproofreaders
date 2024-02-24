@@ -47,6 +47,39 @@ $author_attrs = [
     1003 => _("Author name (all)"),
 ];
 
+$search_params = [
+    'title' => ['type' => 'attr', 'attrs' => $title_attrs],
+    'author' => ['type' => 'attr', 'attrs' => $author_attrs],
+    'publisher' => ['type' => 'text', 'name' => _('Publisher')],
+    'pubdate' => ['type' => 'text', 'name' => _('Publication Year (eg: 1912)')],
+    'isbn' => ['type' => 'text', 'name' => _('ISBN')],
+    'issn' => ['type' => 'text', 'name' => _('ISSN')],
+    'lccn' => ['type' => 'text', 'name' => _('LCCN')],
+    'hide_nontext' => ['type' => 'checkbox', 'name' => _("Hide non-textual results")],
+];
+
+/** Build a URL query fragment from the populated $_REQUEST parameters  **/
+function search_query_params(): string
+{
+    global $search_params;
+    $params = [];
+    foreach ($search_params as $k => $info) {
+        $val = array_get($_REQUEST, $k, null);
+        if (!empty($val)) {
+            $params[$k] = $val;
+            // Only set the attribute param if we searched
+            // for something with that attribute.
+            if ($info['type'] == 'attr') {
+                $attr_val = array_get($_REQUEST, "{$k}_attr", null);
+                if (!empty($attr_val)) {
+                    $params["{$k}_attr"] = $attr_val;
+                }
+            }
+        }
+    }
+    return http_build_query($params);
+}
+
 require_login();
 
 $action = get_enumerated_param($_REQUEST, 'action', 'show_query_form', ['show_query_form', 'do_search_and_show_hits']);
@@ -61,7 +94,7 @@ if ($action == 'show_query_form') {
 
 function show_query_form()
 {
-    global $title_attrs, $author_attrs;
+    global $search_params;
 
     $title = _("Create a Project");
     output_header($title);
@@ -89,46 +122,42 @@ function show_query_form()
         echo _("Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.");
         echo "</p>";
 
-        echo "<form method='post' action='external_catalog_search.php'>\n";
+        $url = "external_catalog_search.php?" . search_query_params();
+        echo "<form method='post' action='" . attr_safe($url) . "'>\n";
         echo "<input type='hidden' name='action' value='do_search_and_show_hits'>\n";
         echo "<table class='basic'>";
 
-        foreach ([
-            'title' => $title_attrs,
-            'author' => $author_attrs,
-        ] as $label => $attrs) {
+        foreach ($search_params as $label => $info) {
             echo "<tr>";
-            echo   "<th class='label'><select name='{$label}_attr'>\n";
-            foreach ($attrs as $value => $attr_label) {
-                echo   "<option value='$value'>$attr_label</option>\n";
+            if ($info['type'] == 'attr') {
+                echo   "<th class='label'><select name='{$label}_attr'>\n";
+                foreach ($info['attrs'] as $value => $attr_label) {
+                    $selected = array_get($_REQUEST, "{$label}_attr", null) == $value ? " selected" : "";
+                    echo   "<option value='$value'$selected>$attr_label</option>\n";
+                }
+                $value = attr_safe(array_get($_REQUEST, $label, ""));
+                echo   "</select></th>";
+                echo   "<td>";
+                echo     "<input type='text' size='30' name='{$label}' maxlength='255' value='$value'>";
+                echo   "</td>";
+                echo "</tr>\n";
+            } elseif ($info['type'] == 'text') {
+                $value = attr_safe(array_get($_REQUEST, $label, ""));
+                echo "<tr>";
+                echo   "<th class='label'>{$info['name']}</th>";
+                echo   "<td>";
+                echo     "<input type='text' size='30' name='$label' maxlength='255' value='$value'>";
+                echo   "</td>";
+                echo "</tr>\n";
+            } elseif ($info['type'] == 'checkbox') {
+                $checked = !empty(array_get($_REQUEST, $label, "")) ? " checked" : "";
+                echo "<tr><th colspan='2'>";
+                echo "<input type='checkbox' $checked name='$label'>";
+                echo $info['name'];
+                echo "</th></tr>";
             }
-            echo   "</select></th>";
-            echo   "<td>";
-            echo     "<input type='text' size='30' name='{$label}' maxlength='255'>";
-            echo   "</td>";
-            echo "</tr>\n";
         }
 
-        foreach (
-            [
-                'publisher' => _('Publisher'),
-                'pubdate' => _('Publication Year (eg: 1912)'),
-                'isbn' => _('ISBN'),
-                'issn' => _('ISSN'),
-                'lccn' => _('LCCN'),
-            ] as $field_name => $field_label
-        ) {
-            echo "<tr>";
-            echo   "<th class='label'>$field_label</th>";
-            echo   "<td>";
-            echo     "<input type='text' size='30' name='$field_name' maxlength='255'>";
-            echo   "</td>";
-            echo "</tr>\n";
-        }
-        echo "<tr><th colspan='2'>";
-        echo "<input type='checkbox' checked name='hide_nontext'>";
-        echo _("Hide non-textual results");
-        echo "</th></tr>";
 
         echo "<tr>";
         echo   "<th colspan='2'>";
@@ -220,10 +249,7 @@ function do_search_and_show_hits()
 
     if ($total_hits > 0) {
         $encoded_fullquery = base64_encode(serialize($fullquery));
-        $url_base = "external_catalog_search.php?action=do_search_and_show_hits&fq=$encoded_fullquery";
-        if ($hide_nontext) {
-            $url_base .= "&hide_nontext=on";
-        }
+        $url_base = "external_catalog_search.php?action=do_search_and_show_hits&fq=$encoded_fullquery&" . search_query_params();
 
         // PHPStan up to at least 1.10.57 has a bug where it doesn't correctly detect
         // that $num_nontext is updated in the loop. We need to sprinkle several ignores
@@ -288,12 +314,13 @@ function do_search_and_show_hits()
     }
 
     foreach ([
-        [_('Search Again'), "external_catalog_search.php?action=show_query_form"],
-        [_('No Matches'), "editproject.php?action=createnew"],
-        [_('Quit'), "projectmgr.php"],
+        [_('Refine Search'), 'external_catalog_search.php?action=show_query_form&' . search_query_params()],
+        [_('Start New Search'), 'external_catalog_search.php?action=show_query_form'],
+        [_('No Matches'), 'editproject.php?action=createnew'],
+        [_('Quit'), 'projectmgr.php'],
     ] as [$label, $url]) {
         echo "&nbsp;";
-        echo "<input type='button' value='", attr_safe($label), "' onclick='javascript:location.href=\"$url\";'>";
+        echo "<input type='button' value='", attr_safe($label), "' onclick='javascript:location.href=\"", attr_safe($url), "\";'>";
     }
     echo "</p>";
     echo "</form>";
@@ -301,7 +328,7 @@ function do_search_and_show_hits()
 
 function link_or_text(string $url_base, string $label, bool $show_link, int $start): string
 {
-    return $show_link ? "<a href='$url_base&start=$start'>" . html_safe($label) . "</a>" : $label;
+    return $show_link ? "<a href='" . attr_safe("$url_base&start=$start") . "'>" . html_safe($label) . "</a>" : $label;
 }
 
 function display_navbar(string $url_base, int $start, int $hits_per_page, int $total_hits, string $book_frag): void
