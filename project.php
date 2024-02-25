@@ -31,14 +31,13 @@ include_once($relPath.'special_colors.inc'); // load_special_days
 // in a list of projects.
 // But there are lots of other less-used pages that link here.
 
-$MIN_DETAIL_LEVEL = 1;
-$MAX_DETAIL_LEVEL = 4;
-$DEFAULT_DETAIL_LEVEL = 3;
+$userSettings = Settings::get_Settings(User::current_username());
 
 // Validate all the input
 $projectid = get_projectID_param($_GET, 'id');
 $expected_state = get_enumerated_param($_GET, 'expected_state', null, $PROJECT_STATES_IN_ORDER, true);
-$detail_level = get_integer_param($_GET, 'detail_level', $DEFAULT_DETAIL_LEVEL, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL);
+$detail_levels = get_project_detail_levels();
+$detail_level = get_enumerated_param($_GET, 'detail_level', $userSettings->get_value('project_detail', 2), array_keys($detail_levels));
 
 $project = new Project($projectid);
 
@@ -149,21 +148,20 @@ if ($detail_level == 1) {
 
 function do_detail_level_switch()
 {
-    global $project, $detail_level, $MIN_DETAIL_LEVEL, $MAX_DETAIL_LEVEL;
+    global $project, $detail_level, $detail_levels;
 
-    echo "<p>";
-    echo sprintf(
-        _('This page is being presented at detail level %d.'),
-        $detail_level
-    );
-    echo "\n";
-    echo _('Switch to:'), "\n";
-    for ($v = $MIN_DETAIL_LEVEL; $v <= $MAX_DETAIL_LEVEL; $v++) {
-        if ($v != $detail_level) {
-            $url = "project.php?id={$project->projectid}&amp;expected_state={$project->state}&amp;detail_level=$v";
-            echo "<a href='$url'>$v</a>\n";
+    $level_links = [];
+    foreach ($detail_levels as $level => $label) {
+        if ($level == $detail_level) {
+            $level_links[] = "<b>$label</b>";
+        } else {
+            $url = "?id={$project->projectid}&amp;expected_state={$project->state}&amp;detail_level=$level";
+            $level_links[] = "<a href='$url'>$label</a>";
         }
     }
+    echo "<p>";
+    echo _("Detail level: ");
+    echo implode(" | ", $level_links);
     echo "</p>\n";
 }
 
