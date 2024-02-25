@@ -2577,6 +2577,11 @@ td.has-diff {
 div.task-nav {
   padding: 0.5em 0;
 }
+div.task-comment-title a.perma {
+  color: #707070;
+  font-size: small;
+  text-decoration: none;
+}
 div.task-comment {
   border-left: thick solid #1a1a1a;
   padding-left: 1em;

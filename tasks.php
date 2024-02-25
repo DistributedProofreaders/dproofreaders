@@ -1486,11 +1486,14 @@ function TaskComments($tid, $action)
         $can_edit_comment = ($requester_u_id == $row['u_id'] && $now_sse - (int)$row['comment_date'] <= 86400) || user_is_a_sitemanager();
         echo "<div class='task-comment' id='$comment_id'>";
         $comment_username_link = private_message_link_for_uid($row['u_id']);
-        echo "<b>$comment_username_link - " . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
+
+        echo "<div class='task-comment-title'>";
+        echo "<b>$comment_username_link</b> - <b>" . date("l d M Y @ g:ia", $row['comment_date']) . "</b>";
+        echo "&nbsp;<a class='perma' href='$tasks_url?action=show&task_id=$tid#$comment_id'><i class='fas fa-link'></i></a>";
         if ($can_edit_comment && $action != 'edit_comment') {
             echo " - <a href='$tasks_url?action=edit_comment&task_id=$tid&comment_id=$comment_id#$comment_id'>" . _("edit") . "</a>";
         }
-        echo "<br>\n";
+        echo "</div>\n";
         echo "<div class='task-comment-body'>";
         if ($action == 'edit_comment' && $can_edit_comment && $comment_id == $_GET['comment_id']) {
             echo "<form action='$tasks_url' method='post'>";
