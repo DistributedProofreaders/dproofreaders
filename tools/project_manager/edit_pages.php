@@ -62,7 +62,7 @@ if (@$_REQUEST['confirmed'] == 'yes') {
         echo "<br>\n";
         echo "<br>\n";
     }
-    echo return_to_project_page_link($projectid, ["detail_level=4"]) . "<br>\n";
+    echo return_to_project_page_link($projectid) . "<br>\n";
 } else {
     // Obtain confirmation
 

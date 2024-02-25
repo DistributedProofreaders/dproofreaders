@@ -129,8 +129,7 @@ class PPage
             . "id={$this->lpage->projectid}"
             . $amp
             . "expected_state={$this->proj_state}"
-            . $amp
-            . "detail_level=1#project-comments";
+            . "#project-comments";
     }
 
     public function urlencoded($escape_amp = false)

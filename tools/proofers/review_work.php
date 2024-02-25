@@ -254,7 +254,6 @@ $projects_done = []; // the projects that we've done rows for
 // go through the list of projects with pages saved in the work round, according
 // to the page_events table
 while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save] = mysqli_fetch_row($res2)) {
-    // $url = "$code_url/project.php?id=$projectid&amp;detail_level=4";
     $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=" . $work_round->id;
 
     // if the project has been deleted, find out whether it was merged into another one

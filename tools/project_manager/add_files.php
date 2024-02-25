@@ -173,7 +173,7 @@ if (!@$_POST['confirmed']) {
 }
 
 echo "<hr>\n";
-echo return_to_project_page_link($projectid, ["detail_level=4"]) . "\n";
+echo return_to_project_page_link($projectid) . "\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -637,7 +637,7 @@ class Loader
         echo "<br>\n";
         echo _("Please review the information, and use the link at the bottom of the page to proceed with the load.");
         echo "<br>\n";
-        $project_url = project_page_link_url($projectid, ["detail_level=4"]);
+        $project_url = project_page_link_url($projectid);
         echo sprintf(_("If there's a problem, return to the <a %s>project page</a> without loading the files."), "href='$project_url'");
         echo "</p>\n";
 
