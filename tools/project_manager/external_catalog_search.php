@@ -319,7 +319,7 @@ function do_search_and_show_hits()
 
     foreach ([
         [_('Refine Search'), 'external_catalog_search.php?action=show_query_form&' . search_query_params()],
-        [_('Start New Search'), 'external_catalog_search.php?action=show_query_form'],
+        [_('Start New Search'), 'external_catalog_search.php?action=show_query_form&hide_nontext=on'],
         [_('No Matches'), 'editproject.php?action=createnew'],
         [_('Quit'), 'projectmgr.php'],
     ] as [$label, $url]) {
