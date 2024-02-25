@@ -26,14 +26,16 @@ include_once($relPath.'site_vars.php');
 class ProjectState
 {
     public function __construct(
+        $name,
         $medium_label,
-        $long_label,
+        $label,
         $forum,
         $phase,
         $star_metal
     ) {
+        $this->name = $name;
         $this->medium_label = $medium_label;
-        $this->long_label = $long_label;
+        $this->label = $label;
         $this->forum = $forum;
         $this->phase = $phase;
         $this->star_metal = $star_metal;
@@ -44,9 +46,9 @@ class ProjectStates
 {
     private static $states = [];
 
-    public static function add_state($state_name, $state)
+    public static function add_state($state)
     {
-        self::$states[$state_name] = $state;
+        self::$states[$state->name] = $state;
     }
 
     public static function get_states()
@@ -64,9 +66,9 @@ class ProjectStates
         return self::$states[$state]->medium_label ?? '';
     }
 
-    public static function text($state)
+    public static function get_label($state)
     {
-        return self::$states[$state]->long_label ?? '';
+        return self::$states[$state]->label ?? '';
     }
 
     public static function get_forum($state)
@@ -90,7 +92,8 @@ function declare_project_states($rounds, $pools)
 
     // for the initial creation of a project
     define("PROJ_NEW", "project_new");
-    ProjectStates::add_state(PROJ_NEW, new ProjectState(
+    ProjectStates::add_state(new ProjectState(
+        PROJ_NEW,
         _("New Project"),
         _("New Project"),
         $waiting_projects_forum_idx,
@@ -108,7 +111,8 @@ function declare_project_states($rounds, $pools)
         $round->project_states[] = $round->project_complete_state = "{$round->id}.proj_done";
 
         define("PROJ_{$round->id}_BAD_PROJECT", $round->project_bad_state);
-        ProjectStates::add_state($round->project_bad_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $round->project_bad_state,
             "$round->id: " .  _("Bad Project"),
             "$round->name: " . _("Bad Project"),
             $projects_forum_idx,
@@ -117,7 +121,8 @@ function declare_project_states($rounds, $pools)
         ));
 
         define("PROJ_{$round->id}_UNAVAILABLE", $round->project_unavailable_state);
-        ProjectStates::add_state($round->project_unavailable_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $round->project_unavailable_state,
             "$round->id: " . _("Unavailable"),
             "$round->name: " . _("Unavailable"),
             ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
@@ -126,7 +131,8 @@ function declare_project_states($rounds, $pools)
         ));
 
         define("PROJ_{$round->id}_WAITING_FOR_RELEASE", $round->project_waiting_state);
-        ProjectStates::add_state($round->project_waiting_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $round->project_waiting_state,
             "$round->id: " . _("Waiting"),
             "$round->name: " . _("Waiting for Release"),
             ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
@@ -135,7 +141,8 @@ function declare_project_states($rounds, $pools)
         ));
 
         define("PROJ_{$round->id}_AVAILABLE", $round->project_available_state);
-        ProjectStates::add_state($round->project_available_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $round->project_available_state,
             "$round->id: " . _("Available"),
             "$round->name: " . _("Available"),
             $projects_forum_idx,
@@ -144,7 +151,8 @@ function declare_project_states($rounds, $pools)
         ));
 
         define("PROJ_{$round->id}_COMPLETE", $round->project_complete_state);
-        ProjectStates::add_state($round->project_complete_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $round->project_complete_state,
             "$round->id: " . _("Completed"),
             "$round->name: " . _("Completed"),
             $projects_forum_idx,
@@ -156,7 +164,8 @@ function declare_project_states($rounds, $pools)
     // POST
 
     define("PROJ_POST_FIRST_UNAVAILABLE", "proj_post_first_unavailable");
-    ProjectStates::add_state(PROJ_POST_FIRST_UNAVAILABLE, new ProjectState(
+    ProjectStates::add_state(new ProjectState(
+        PROJ_POST_FIRST_UNAVAILABLE,
         _("Unavailable for PP"),
         _("Unavailable for Post-Processing"),
         $pp_projects_forum_idx,
@@ -180,7 +189,8 @@ function declare_project_states($rounds, $pools)
         $pool->states[] = $pool->project_checkedout_state;
 
         define(strtoupper($pool->project_available_state), $pool->project_available_state);
-        ProjectStates::add_state($pool->project_available_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $pool->project_available_state,
             "$pool->id: " . _("Available"),
             "$pool->name: " . _("Available"),
             $pp_projects_forum_idx,
@@ -189,7 +199,8 @@ function declare_project_states($rounds, $pools)
         ));
 
         define(strtoupper($pool->project_checkedout_state), $pool->project_checkedout_state);
-        ProjectStates::add_state($pool->project_checkedout_state, new ProjectState(
+        ProjectStates::add_state(new ProjectState(
+            $pool->project_checkedout_state,
             "$pool->id: " . _("Checked out"),
             "$pool->name: " . _("Checked out"),
             $pp_projects_forum_idx,
@@ -199,7 +210,8 @@ function declare_project_states($rounds, $pools)
     }
 
     define("PROJ_POST_COMPLETE", "proj_post_complete");
-    ProjectStates::add_state(PROJ_POST_COMPLETE, new ProjectState(
+    ProjectStates::add_state(new ProjectState(
+        PROJ_POST_COMPLETE,
         _("Completed Post"),
         _("Completed Post-Processing"),
         $pp_projects_forum_idx,
@@ -210,7 +222,8 @@ function declare_project_states($rounds, $pools)
     // SUBMIT (was GB)
 
     define("PROJ_SUBMIT_PG_POSTED", "proj_submit_pgposted");
-    ProjectStates::add_state(PROJ_SUBMIT_PG_POSTED, new ProjectState(
+    ProjectStates::add_state(new ProjectState(
+        PROJ_SUBMIT_PG_POSTED,
         _("Posted to PG"),
         _("Completed and Posted to Project Gutenberg"),
         $posted_projects_forum_idx,
@@ -221,7 +234,8 @@ function declare_project_states($rounds, $pools)
     // for complete project
 
     define("PROJ_COMPLETE", "project_complete");
-    ProjectStates::add_state(PROJ_COMPLETE, new ProjectState(
+    ProjectStates::add_state(new ProjectState(
+        PROJ_COMPLETE,
         _("Project Complete"),
         _("Project Complete"),
         $completed_projects_forum_idx,
@@ -232,7 +246,8 @@ function declare_project_states($rounds, $pools)
     // for the 'deletion' of a project
 
     define("PROJ_DELETE", "project_delete");
-    ProjectStates::add_state(PROJ_DELETE, new ProjectState(
+    ProjectStates::add_state(new ProjectState(
+        PROJ_DELETE,
         _("Delete Project"),
         _("Delete Project"),
         $deleted_projects_forum_idx,
@@ -280,7 +295,7 @@ function get_medium_label_for_project_state($state)
 
 function project_states_text($state)
 {
-    return ProjectStates::text($state);
+    return ProjectStates::get_label($state);
 }
 
 function get_forum_id_for_project_state($state)
