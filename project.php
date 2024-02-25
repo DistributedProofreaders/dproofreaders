@@ -2067,7 +2067,7 @@ function echo_postcomments_instructions()
         . '</p>';
     echo '<p>' . sprintf(
         // TRANSLATORS: PM = project manager
-        _("If you find that some proofing images are missing or unreadable,
+        _("If you find that some images are missing or unreadable,
         or that illustration images are missing or inadequate,
         first let the PM know what you've found (or not found).
         If you don't hear back from the PM within a reasonable amount of time,
