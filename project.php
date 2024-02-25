@@ -578,7 +578,7 @@ function do_project_info_table()
 
     // -------------------------------------------------------------------------
 
-    // For now, we say that guests can't see page details.
+    // For now, we say that guests can't see page details or page browser
     if ($user_is_logged_in) {
 
         if ($detail_level >= 4) {
@@ -590,14 +590,31 @@ function do_project_info_table()
                 $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
                 $url2 = "$url&amp;select_by_user";
                 $blurb2 = html_safe(_("Just my pages"));
-                $detail = "<a href='$url'>$blurb</a> &middot; <a href='$url2'><b>$blurb2</b></a>";
+                $detail = "<a href='$url'>$blurb</a> (<a href='$url2'><b>$blurb2</b></a>)";
                 if ($project->has_entered_formatting_round()) {
                     $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
                     $blurb3 = html_safe(_("Compare without formatting"));
-                    $detail .= " &middot; <a href='$url3'>$blurb3</a>";
+                    $detail .= "<br><a href='$url3'>$blurb3</a>";
                 }
             }
             echo_row_a(_("Page Detail"), $detail);
+        }
+
+        if ($detail_level >= 3 && $project->pages_table_exists) {
+            // get the first page image
+            $pages = $project->get_page_names_from_db();
+            $url = "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=" . $pages[0];
+            $images_url = "$url&amp;mode=image";
+            $text_url = "$url&amp;mode=text";
+            $both_url = "$url&amp;mode=imageText";
+            $blurb = sprintf(
+                _("Browse page: <a href='%s'>images</a> &middot; <a href='%s'>texts</a> &middot; <a href='%s'>both</a>"),
+                $images_url,
+                $text_url,
+                $both_url
+            );
+
+            echo_row_a(_("Page Browser"), $blurb);
         }
     }
 
