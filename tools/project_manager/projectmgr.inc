@@ -23,8 +23,8 @@ function echo_manager_links()
     global $theme, $code_url, $external_catalog_locator, $db_requests_email_addr;
 
     $create_project_url = (empty($external_catalog_locator)
-                           ? "$code_url/tools/project_manager/editproject.php?action=createnew"
-                           : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form");
+        ? "$code_url/tools/project_manager/editproject.php?action=createnew"
+        : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form&hide_nontext=on");
 
     echo "<div id='linkbox'>\n";
     // TRANSLATORS: PM = project manager
@@ -34,7 +34,7 @@ function echo_manager_links()
     if (user_is_PM()) {
         echo "<li><a href='$code_url/tools/project_manager/remote_file_manager.php'>"._("Manage uploads")."</a></li>\n";
         if (! user_has_project_loads_disabled()) {
-            echo "<li><a href='$create_project_url'>"._("Create Project")."</a></li>\n";
+            echo "<li><a href='" . attr_safe($create_project_url) . "'>" ._("Create Project") . "</a></li>\n";
         }
         echo "<li><a href='$code_url/tools/project_manager/project_quick_check.php'>"._("Project Quick Check")."</a></li>\n";
         echo "<li><a href='$code_url/tools/project_manager/clearance_check.php'>"._("Clearance Check")."</a></li>\n";
