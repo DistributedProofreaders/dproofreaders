@@ -362,7 +362,7 @@ new Activity(
 
 // -----------------------------------------------------------------------------
 
-ProjectStates::declare_project_states(Rounds::get_all(), Pools::get_all());
+declare_project_states(Rounds::get_all(), Pools::get_all());
 
 // -----------------------------------------------------------------------------
 
