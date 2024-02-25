@@ -81,7 +81,7 @@
   </xs:element>
 
   <xs:element name="interests">
-    <xs:complexType mixed="true">
+    <xs:complexType mixed="true" />
   </xs:element>
 
   <xs:element name="lastlogin">
