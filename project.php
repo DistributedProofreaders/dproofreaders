@@ -368,6 +368,8 @@ function do_project_info_table()
 {
     global $project, $code_url;
     global $user_is_logged_in;
+    global $detail_level;
+    global $pguser;
 
     $projectid = $project->projectid;
     $state = $project->state;
@@ -578,7 +580,7 @@ function do_project_info_table()
 
     // For now, we say that guests can't see page details.
     if ($user_is_logged_in) {
-        global $detail_level;
+
         if ($detail_level >= 4) {
             // We'll call do_page_table later, so we don't need the "Page Detail" link.
         } else {
@@ -604,7 +606,6 @@ function do_project_info_table()
 
     // If you're not logged in, we certainly can't show your personal data.
     if ($user_is_logged_in) {
-        global $detail_level;
         if ($round && $detail_level > 1) {
             recentlyproofed(0);
             recentlyproofed(1);
@@ -614,7 +615,6 @@ function do_project_info_table()
     // -------------------------------------------------------------------------
     // Comments
 
-    global $pguser;
 
     $postcomments = get_formatted_postcomments($project->projectid);
 
