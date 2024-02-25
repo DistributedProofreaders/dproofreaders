@@ -223,7 +223,7 @@ class StateChangeColumn extends TimeColumn
 {
     public function get_warning()
     {
-        return _("The 'Last State Change' column tracks forward progress through the proofing and formatting rounds well, but does not reflect Post-processing state changes or state changes to Unavailable accurately.");
+        return _("The 'Last State Change' column tracks forward progress through the proofreading and formatting rounds well, but does not reflect Post-processing state changes or state changes to Unavailable accurately.");
     }
 
     public function get_tooltip()
