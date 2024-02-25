@@ -2109,3 +2109,16 @@ function get_project_difficulties()
         'hard' => _('Hard'),
     ];
 }
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// Project page detail level
+
+function get_project_detail_levels()
+{
+    return [
+        1 => _("Minimal"),
+        2 => _("Basic"),
+        3 => _("Advanced"),
+        4 => _("Everything"),
+    ];
+}

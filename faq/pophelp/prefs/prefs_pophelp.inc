@@ -127,6 +127,12 @@ _("<p>This setting controls who is able to see your statistics.</p>
             'content' => _("<p>This setting determines which site theme is used as your default.</p>"),
         ],
 
+    'set_project_detail' =>
+        [
+            'title' => _("Project Detail"),
+            'content' => _("<p>This setting determines the default detail level shown on a project page.</p>"),
+        ],
+
     // =====================================================================
     // PM Tab Settings
 

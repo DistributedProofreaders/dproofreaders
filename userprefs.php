@@ -11,6 +11,7 @@ include_once($relPath.'Settings.inc');
 include_once($relPath.'js_newpophelp.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
 include_once($relPath.'User.inc');
+include_once($relPath.'Project.inc');
 
 require_login();
 
@@ -379,7 +380,26 @@ function echo_general_tab($user)
         'credit_name_adhoc',
         null
     );
-    show_blank();
+
+    foreach (get_project_detail_levels() as $level => $label) {
+        // We don't allow users to select level 1 and 4 because:
+        // * Level 1 doesn't include Start Proofreading and will confuse people
+        // * Level 4 includes the page detail which is resource intensive
+        //   and can produce a Very Large Page (>35MB)
+        if ($level == 1 || $level == 4) {
+            continue;
+        }
+
+        $page_detail_options[$level] = sprintf("%s (%d)", $label, $level);
+    }
+    show_preference(
+        _('Default Project Detail Level'),
+        'project_detail',
+        'project_detail',
+        $userSettings->get_value('project_detail', 1),
+        'dropdown',
+        $page_detail_options
+    );
     echo "</tr>\n";
 
     echo_bottom_button_row();
@@ -422,6 +442,8 @@ function save_general_tab($user)
     }
 
     $userSettings->set_boolean('hide_special_colors', $_POST["show_special_colors"] == 'no');
+
+    $userSettings->set_value('project_detail', $_POST["project_detail"]);
 }
 
 function echo_proofreading_tab($user)
