@@ -93,7 +93,7 @@ function sort_special_days(&$special_days, $sort_by = "display_name")
             $special_days
         );
     } else {
-        throw Exception("Invalid value for \$sort_by");
+        throw new Exception("Invalid value for \$sort_by");
     }
 }
 

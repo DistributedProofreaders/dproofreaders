@@ -711,5 +711,5 @@ function api_v1_projects_holdstates($method, $data, $query_params)
  */
 function _get_enabled_filter($query_params)
 {
-    return _get_flag_value($query_params, "enabled");
+    return get_flag_value($query_params, "enabled");
 }

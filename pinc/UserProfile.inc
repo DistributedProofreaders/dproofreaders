@@ -122,7 +122,7 @@ class UserProfile
     public function delete()
     {
         if (!isset($this->id)) {
-            throw NonexistentUserProfileException(
+            throw new NonexistentUserProfileException(
                 _("Cannot delete nonexistent profile")
             );
         }
