@@ -64,7 +64,6 @@ parameters:
         - Ranker
         - Selector
         - SortUtility
-        - SpecialDay
         - SpecialDayElement
         - Stopwatch
         - TallyBoard
