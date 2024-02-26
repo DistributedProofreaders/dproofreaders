@@ -15,18 +15,23 @@ class Pools extends Stages
 
 class Pool extends Stage
 {
+    public string $foo_Header;
+    public string $foo_field_name;
+    /** @var string[] */
+    public array $blather;
+
     /**
      * Pool constructor
      *
      * A container for various constants relating to a particular pool.
      *
-     * @param $foo_Header
-     * @param $foo_field_name
+     * @param string $foo_Header
+     * @param string $foo_field_name
      *   The relevant person to display in pool listings, both
      *   as shown to the user and as a field in the projects table
      *   (e.g. "postprocessor" when listing books available for PPV).
      *   Used by `pinc/showavailablebooks.inc`
-     * @param $blather
+     * @param string[] $blather
      *   An array of strings to echo on the pool's home page.
      */
     public function __construct(

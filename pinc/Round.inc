@@ -42,10 +42,38 @@ class Rounds extends Stages
 // A container for various constants relating to a particular round of proofreading.
 class Round extends Stage
 {
+    public int $round_number;
+    /** @var array<string, string[]> */
+    public array $pi_tools;
+    public ?int $daily_page_limit;
+    public array $other_rounds_with_visible_usernames;
+    /** @var array<int, string> */
+    private array $honorifics;
+    public string $project_unavailable_state;
+    public string $project_waiting_state;
+    public string $project_bad_state;
+    public string $project_available_state;
+    public string $project_complete_state;
+    /** @var ProjectState[] */
+    public array $project_states;
+    public string $page_avail_state;
+    public string $page_out_state;
+    public string $page_temp_state;
+    public string $page_save_state;
+    public string $page_bad_state;
+    /** @var string[] */
+    public array $page_states;
+    public string $time_column_name;
+    public string $text_column_name;
+    public string $user_column_name;
+    public string $prevtext_column_name;
+    public ?Round $mentor_round;
+    public ?Round $mentee_round;
+
     /**
      * Round constructor
      *
-     * @param array $pi_tools
+     * @param array<string, string[]> $pi_tools
      *   A list of which tools should be available in the proofreading
      *   interface's toolbox when proofreading a page in this round.
      *   The format is:
@@ -67,15 +95,15 @@ class Round extends Stage
      *   ```
      *   See `pinc/ProofreadingToolbox.inc` for which tools are available
      *   and their names.
-     * @param $daily_page_limit
+     * @param ?int $daily_page_limit
      *   This is either NULL (indicating no daily page limit for this round)
      *   or a non-negative (though likely positive) integer.
-     * @param array $other_rounds_with_visible_usernames
+     * @param string[] $other_rounds_with_visible_usernames
      *   An array of round_ids.
      *   If user X worked on a page in this round, they can see the
      *   username of another user Y who worked on the page *if* user Y
      *   worked on the page in a round that appears in this parameter.
-     * @param array $honorifics
+     * @param array<int, string> $honorifics
      *   An array of integer => string items that determine a user's
      *   "title" on the basis of their page tally in this round.
      *   In each item:
