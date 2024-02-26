@@ -310,7 +310,7 @@ class Settings
      *
      * @param string $username
      *
-     * @return object Settings
+     * @return Settings
      */
     public static function & get_Settings($username)
     {
