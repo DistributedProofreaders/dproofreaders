@@ -31,7 +31,6 @@ parameters:
         - MARCRecord
 
         - BadWordAccumulator
-        - CharacterSelector
         - Column
         - ColumnData
         - ColumnSelector
