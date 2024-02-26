@@ -4,6 +4,8 @@ include_once($relPath."unicode.inc"); // convert_codepoint_ranges_to_characters(
 
 class CharacterSelector
 {
+    private array $picker_sets;
+
     public function __construct($projectid)
     {
         $project = get_project_or_quiz($projectid);
