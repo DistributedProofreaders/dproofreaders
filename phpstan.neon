@@ -14,10 +14,6 @@ parameters:
         - SETUP/phpstan_bootstrap.inc
         - pinc/bootstrap.inc
     universalObjectCratesClasses:
-        - NonactivatedUser
-        - User
-        - UserProfile
-
         - Activity
         - Stage
         - Round
