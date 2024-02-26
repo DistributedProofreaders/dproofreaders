@@ -222,7 +222,7 @@ class NonactivatedUser
      * @throws NonexistentNonactivatedUserException
      *   There is no user with this ID.
      *
-     * @return object NonactivatedUser
+     * @return NonactivatedUser
      */
     public static function load_from_id($id)
     {
@@ -243,7 +243,7 @@ class NonactivatedUser
      * @throws NonexistentNonactivatedUserException
      *   There is no user with this email address.
      *
-     * @return object NonactivatedUser
+     * @return NonactivatedUser
      */
     public static function load_from_email($email)
     {
