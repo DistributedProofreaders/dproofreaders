@@ -22,7 +22,6 @@ parameters:
         - Stage
         - Round
 
-        - Project
         - ProjectState
         - ProjectTransition
 
