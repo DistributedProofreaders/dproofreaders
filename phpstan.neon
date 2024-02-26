@@ -43,7 +43,6 @@ parameters:
         - Loader
         - OptionData
         - OptionSelector
-        - POFile
         - PageTally
         - PageTally_Neighbor
         - ProjectFilterElement
