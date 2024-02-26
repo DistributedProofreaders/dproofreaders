@@ -37,10 +37,8 @@ parameters:
         - POFile
         - PageTally
         - PageTally_Neighbor
-        - PopupLink
         - ProjectInfoHolder
         - ProjectWordListHolder
-        - ProofreadingToolbox
         - Quiz
         - QuizLevel
         - Ranker
@@ -48,7 +46,6 @@ parameters:
         - Stopwatch
         - TallyBoard
         - ThemedTable
-        - ToolButton
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
