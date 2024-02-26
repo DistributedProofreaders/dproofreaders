@@ -2,6 +2,13 @@
 
 class ProjectState
 {
+    public string $name;
+    public string $medium_label;
+    public string $label;
+    public string $forum;
+    public string $phase;
+    public string $star_metal;
+
     public function __construct(
         $name,
         $medium_label,
