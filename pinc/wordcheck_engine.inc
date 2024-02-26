@@ -250,6 +250,11 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
 
 class BadWordAccumulator
 {
+    /** @var string[] */
+    public array $words;
+    /** @var string[] */
+    public array $messages;
+
     public function __construct()
     {
         $this->words = [];
