@@ -39,8 +39,6 @@ parameters:
         - PageTally_Neighbor
         - ProjectInfoHolder
         - ProjectWordListHolder
-        - Quiz
-        - QuizLevel
         - Ranker
         - SortUtility
         - Stopwatch
