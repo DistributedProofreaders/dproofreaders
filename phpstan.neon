@@ -36,9 +36,6 @@ parameters:
         - ColumnSelector
         - Comparator
         - DifficultyElement
-        - FAQ
-        - FAQEntry
-        - FAQSection
         - GenreColumn
         - GenreElement
         - HoldWidget
