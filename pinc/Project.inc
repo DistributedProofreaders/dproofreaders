@@ -1748,7 +1748,7 @@ class Project
     public function check_pages_table_exists(&$message)
     {
         if (!$this->pages_table_exists) {
-            if ($this->archived != 0) {
+            if ($this->archived) {
                 $message = _("The project has been archived, so page details are not available.");
             } elseif ($this->state == PROJ_DELETE) {
                 $message = _("The project has been deleted, so page details are not available.");
