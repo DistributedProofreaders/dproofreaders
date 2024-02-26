@@ -13,6 +13,11 @@ $comparator->render();
 
 class Comparator
 {
+    /** @var array<string, int> */
+    private array $state_index;
+    private Project $project;
+    private string $page_set;
+
     public function render(): void
     {
         global $pguser, $code_url;
