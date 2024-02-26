@@ -29,8 +29,6 @@ parameters:
         - LPage
         - PPage
 
-        - MARCRecord
-
         - Column
         - ColumnData
         - ColumnSelector
