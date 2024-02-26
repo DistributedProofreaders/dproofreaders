@@ -579,9 +579,10 @@ function do_project_info_table()
     // For now, we say that guests can't see page details or page browser
     if ($user_is_logged_in) {
 
+        $pages = $project->get_page_names_from_db();
         if ($detail_level >= 4) {
             // We'll call do_page_table later, so we don't need the "Page Detail" link.
-        } else {
+        } elseif ($pages) {
             $detail = "";
             if ($project->check_pages_table_exists($detail)) {
                 $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
@@ -598,9 +599,8 @@ function do_project_info_table()
             echo_row_a(_("Page Detail"), $detail);
         }
 
-        if ($detail_level >= 3 && $project->pages_table_exists) {
+        if ($detail_level >= 3 && $project->pages_table_exists && $pages) {
             // get the first page image
-            $pages = $project->get_page_names_from_db();
             $url = "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=" . $pages[0];
             $images_url = "$url&amp;mode=image";
             $text_url = "$url&amp;mode=text";
