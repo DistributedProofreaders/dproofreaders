@@ -895,7 +895,7 @@ class Loader
 
     public function _do_command($cmd)
     {
-        if ($this->dry_run) { /** @phpstan-ignore-line */
+        if ($this->dry_run) {
             echo "$cmd<br>";
         } else {
             system($cmd, $exit_status);

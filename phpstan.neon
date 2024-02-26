@@ -13,6 +13,71 @@ parameters:
     bootstrapFiles:
         - SETUP/phpstan_bootstrap.inc
         - pinc/bootstrap.inc
+    universalObjectCratesClasses:
+        - NonactivatedUser
+        - User
+        - UserProfile
+
+        - Activity
+        - Stage
+        - Round
+
+        - Project
+        - ProjectState
+        - ProjectTransition
+
+        - LPage
+        - PPage
+
+        - MARCRecord
+
+        - CharSuite
+
+        - BadWordAccumulator
+        - CharacterSelector
+        - Column
+        - ColumnData
+        - ColumnSelector
+        - Comparator
+        - DifficultyElement
+        - FAQ
+        - FAQEntry
+        - FAQSection
+        - GenreColumn
+        - GenreElement
+        - HoldWidget
+        - ImageSource
+        - LanguageElement
+        - LinkColumn
+        - Loader
+        - OptionData
+        - OptionSelector
+        - POFile
+        - PageTally
+        - PageTally_Neighbor
+        - PickerSet
+        - PopupLink
+        - ProjectFilterElement
+        - ProjectInfoHolder
+        - ProjectSearchElement
+        - ProjectSearchForm
+        - ProjectSearchResults
+        - ProjectSearchResults
+        - ProjectSearchWidget
+        - ProjectWordListHolder
+        - ProofreadingToolbox
+        - Quiz
+        - QuizLevel
+        - Ranker
+        - Selector
+        - SortUtility
+        - SpecialDay
+        - SpecialDayElement
+        - Stopwatch
+        - TallyBoard
+        - ThemedTable
+        - TimeColumn
+        - ToolButton
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
@@ -31,4 +96,6 @@ parameters:
         - message: '#Call to an undefined method#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
-        - message: '#Access to an undefined property#'
+
+        # Allow references where we don't know the type of an object
+        - message: '#Access to an undefined property object::#'
