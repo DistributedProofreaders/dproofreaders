@@ -3,6 +3,11 @@ include_once($relPath.'metarefresh.inc');
 
 class Selector
 {
+    public string $id;
+    public string $label;
+    protected Settings $userSettings;
+    protected string $search_origin;
+
     public function echo_select_item()
     {
         echo "
@@ -16,6 +21,8 @@ class Selector
 
 class ColumnSelector extends Selector
 {
+    private Column $column;
+
     public function __construct($column, $userSettings, $search_origin)
     {
         $this->column = $column;
@@ -34,6 +41,9 @@ class ColumnSelector extends Selector
 
 class OptionSelector extends Selector
 {
+    private string $def_value;
+    private array $options;
+
     public function __construct($id, $label, $value, $options, $userSettings, $search_origin)
     {
         $this->id = $id;
@@ -81,6 +91,11 @@ class OptionSelector extends Selector
 
 class OptionData
 {
+    public OptionSelector $results_per_page;
+    public OptionSelector $time_format;
+    /** @var OptionSelector[] */
+    public array $options;
+
     public function __construct($userSettings, $search_origin)
     {
         $this->results_per_page = new OptionSelector(
@@ -107,6 +122,9 @@ class OptionData
 
 class ConfigForm extends ColumnData
 {
+    private array $column_selectors;
+    private OptionData $option_data;
+
     public function __construct($userSettings, $search_origin)
     {
         parent::__construct($userSettings, $search_origin);
