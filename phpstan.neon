@@ -30,7 +30,6 @@ parameters:
         - Loader
         - PageTally
         - PageTally_Neighbor
-        - ProjectInfoHolder
         - ProjectWordListHolder
 
     # https://phpstan.org/user-guide/rule-levels
@@ -50,6 +49,3 @@ parameters:
         - message: '#Call to an undefined method#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
-
-        # Allow references where we don't know the type of an object
-        - message: '#Access to an undefined property object::#'
