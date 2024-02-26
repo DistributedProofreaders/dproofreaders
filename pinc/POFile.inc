@@ -1,10 +1,17 @@
 <?php
 
+/**
+ * @property-read bool $exists
+ * @property-read int|bool $last_modified
+ * @property-read string|null $content_type
+ * @property-read int|null $messages_count
+ * @property-read int|null $messages_translated_count
+ */
 class POFile
 {
-    private $po_filename;
-    private $num_messages = null;
-    private $num_messages_translated = null;
+    private string $po_filename;
+    private ?int $num_messages = null;
+    private ?int $num_messages_translated = null;
 
     public function __construct($po_filename = null)
     {
