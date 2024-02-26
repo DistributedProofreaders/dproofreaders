@@ -406,7 +406,7 @@ class User
      *
      * @param int $u_id
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_uid($u_id)
     {
@@ -422,7 +422,7 @@ class User
      *
      * @param string $reg_token
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_registration_token($reg_token)
     {
@@ -438,7 +438,7 @@ class User
      *
      * @param string $api_key
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_api_key($api_key)
     {
@@ -457,7 +457,7 @@ class User
      * @throws NonuniqueUserException
      *   The email address is not guaranteed to be unique.
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_email($email)
     {
