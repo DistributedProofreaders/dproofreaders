@@ -33,7 +33,6 @@ parameters:
         - Loader
         - POFile
         - ProjectInfoHolder
-        - Stopwatch
         - ThemedTable
 
     # https://phpstan.org/user-guide/rule-levels
