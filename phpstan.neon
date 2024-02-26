@@ -29,7 +29,6 @@ parameters:
         - PPage
 
         - Loader
-        - ProjectInfoHolder
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
