@@ -46,7 +46,7 @@ class ProjectStates
 {
     private static $states = [];
 
-    public static function add_state($state)
+    public static function add_state(&$state)
     {
         self::$states[$state->name] = $state;
     }
