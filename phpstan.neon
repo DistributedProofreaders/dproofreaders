@@ -23,7 +23,6 @@ parameters:
         - Round
 
         - ProjectState
-        - ProjectTransition
 
 
     # https://phpstan.org/user-guide/rule-levels

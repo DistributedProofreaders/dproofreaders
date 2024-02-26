@@ -11,6 +11,19 @@ define('PT_AUTO', '[AUTO]');
 
 class ProjectTransition
 {
+    public string $from_state;
+    public string $to_state;
+    public string $who_restriction;
+
+    // Populated from $options
+    private ?string $project_restriction; // callable
+    public ?string $action_name;
+    public ?string $confirmation_question;
+    public ?string $detour;
+    public ?string $settings_template;
+    private ?string $collateral_actions; // callable
+    private ?bool $disabled_during_SR;
+
     /**
      * Project Transition constructor
      *
