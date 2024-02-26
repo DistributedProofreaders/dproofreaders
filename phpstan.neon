@@ -34,7 +34,6 @@ parameters:
         - POFile
         - ProjectInfoHolder
         - ProjectWordListHolder
-        - SortUtility
         - Stopwatch
         - ThemedTable
 
