@@ -4,6 +4,33 @@ class NonexistentUserProfileException extends Exception
 {
 }
 
+/**
+ * @property int $id;
+ * @property int $u_ref;
+ * @property string $profilename;
+ * @property bool $i_res;
+ * @property bool $i_type;
+ * @property bool $i_layout;
+ * @property bool $i_toolbar;
+ * @property bool $i_statusbar;
+ * @property bool $i_newwin;
+ * @property int $v_fnts;
+ * @property bool $v_fntf;
+ * @property string $v_fntf_other;
+ * @property int $v_tframe;
+ * @property int $v_tlines;
+ * @property int $v_tchars;
+ * @property int $v_tscroll;
+ * @property int $v_twrap;
+ * @property int $h_fnts;
+ * @property bool $h_fntf;
+ * @property string $h_fntf_other;
+ * @property int $h_tframe;
+ * @property int $h_tlines;
+ * @property int $h_tchars;
+ * @property int $h_tscroll;
+ * @property int $h_twrap;
+ */
 class UserProfile
 {
     private $table_row;
