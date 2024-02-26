@@ -34,7 +34,6 @@ parameters:
         - Column
         - ColumnData
         - ColumnSelector
-        - Comparator
         - DifficultyElement
         - GenreColumn
         - GenreElement
