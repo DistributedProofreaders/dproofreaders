@@ -31,8 +31,6 @@ parameters:
 
         - MARCRecord
 
-        - CharSuite
-
         - BadWordAccumulator
         - CharacterSelector
         - Column
@@ -55,7 +53,6 @@ parameters:
         - POFile
         - PageTally
         - PageTally_Neighbor
-        - PickerSet
         - PopupLink
         - ProjectFilterElement
         - ProjectInfoHolder
