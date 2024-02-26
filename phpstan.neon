@@ -28,8 +28,6 @@ parameters:
         - LPage
         - PPage
 
-        - Loader
-
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
     level: 4

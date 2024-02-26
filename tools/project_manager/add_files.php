@@ -180,6 +180,24 @@ echo return_to_project_page_link($projectid) . "\n";
 
 class Loader
 {
+    private string $source_project_dir;
+    private string $dest_project_dir;
+    private string $projectid;
+    private bool $dry_run;
+    private bool $adding_pages;
+    private int $image_field_len;
+    /** @var array<string, string> */
+    private array $ignored_files;
+    /** @var string[] */
+    private array $non_page_files;
+    /** @var array<string, array<string, array<string, string>>> */
+    private array $page_file_table;
+    /** @var array<string, string> */
+    private array $db_text_for_base;
+    private int $n_ops;
+    private int $n_warnings;
+    private int $n_errors;
+
     public function __construct($source_project_dir, $dest_project_dir, $projectid)
     {
         $this->source_project_dir = $source_project_dir;
