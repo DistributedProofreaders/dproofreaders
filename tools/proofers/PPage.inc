@@ -45,7 +45,7 @@ function url_for_pi_do_particular_page($projectid, $proj_state, $imagefile, $pag
 
 // -----------------------------------------------------------------------------
 
-function get_requested_PPage($request_params)
+function get_requested_PPage(array $request_params): PPage
 {
     $projectid = get_projectID_param($request_params, 'projectid');
     $proj_state = get_enumerated_param($request_params, 'proj_state', null, ProjectStates::get_states());
@@ -69,6 +69,9 @@ function get_requested_PPage($request_params)
 // The initial 'P' is for 'Presentation' (i.e., user interface).
 class PPage
 {
+    public LPage $lpage;
+    private string $proj_state;
+
     public function __construct(&$lpage, $proj_state)
     {
         $this->lpage = & $lpage;

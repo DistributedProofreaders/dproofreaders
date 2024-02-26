@@ -20,9 +20,6 @@ parameters:
 
         - ProjectTransition
 
-        - LPage
-        - PPage
-
         - DifficultyElement
         - GenreColumn
         - GenreElement
