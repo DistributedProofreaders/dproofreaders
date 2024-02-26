@@ -33,7 +33,6 @@ parameters:
         - Loader
         - POFile
         - ProjectInfoHolder
-        - ProjectWordListHolder
         - Stopwatch
         - ThemedTable
 
