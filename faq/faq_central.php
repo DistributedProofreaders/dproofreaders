@@ -196,6 +196,8 @@ $faq->output();
 
 class FAQ
 {
+    public array $sections;
+
     public function __construct()
     {
         $this->sections = [];
@@ -230,13 +232,17 @@ class FAQ
 
 class FAQSection
 {
-    public function __construct($title)
+    public string $title;
+    /** @var FAQEntry[] */
+    public array $entries;
+
+    public function __construct(string $title)
     {
         $this->title = $title;
         $this->entries = [];
     }
 
-    public function add_entry($entry)
+    public function add_entry(FAQEntry $entry)
     {
         $this->entries[] = $entry;
     }
@@ -295,7 +301,11 @@ class FAQSection
 
 class FAQEntry
 {
-    public function __construct($title, $page, $text)
+    public string $title;
+    public string $text;
+    public array $urls;
+
+    public function __construct(string $title, string $page, string $text)
     {
         $this->title = $title;
         $this->text = $text;
