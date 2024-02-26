@@ -18,7 +18,6 @@ parameters:
         - Stage
         - Round
 
-        - Project
         - ProjectTransition
 
         - LPage

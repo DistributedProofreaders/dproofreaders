@@ -121,11 +121,66 @@ class ProjectNoMorePagesException extends ProjectException
     }
 }
 
+/**
+ * @property-read string $url
+ * @property-read string $dir
+ * @property-read string $page_url
+ * @property-read bool $is_utf8
+ * @property-read bool $dir_exists
+ * @property-read bool $pages_table_exists
+ * @property-read string $credits_line
+ * @property string[] $languages
+ * @property-read string $image_source_name
+ * @property-read bool $can_be_managed_by_current_user
+ * @property-read bool $user_can_delete_nonpage_images
+ * @property-read bool $names_can_be_seen_by_current_user
+ * @property-read string $PPer
+ * @property-read string $PPVer
+ * @property-read bool $PPer_is_current_user
+ * @property-read bool $PPVer_is_current_user
+ */
 class Project
 {
     use CharSuiteSet;
 
     private $_create_source = null;
+    public string $nameofwork;
+    public ?string $state;
+    public string $special_code;
+    public int $smoothread_deadline;
+    public ?string $projectid;
+    public string $custom_chars;
+    public bool $archived;
+    public string $authorsname;
+    public string $genre;
+    public string $checkedoutby;
+    public string $difficulty;
+    public string $username;
+    public ?string $postednum; // TODO: Should be int
+    public ?string $topic_id; // TODO: Should be int
+    public float $days_checkedout;
+    public int $n_available_pages;
+    public int $n_pages;
+    public int $modifieddate;
+    public int $t_last_edit;
+    public int $t_last_change_comments;
+    public int $t_last_page_done;
+    public string $image_source;
+    public ?string $image_source_credit;
+    public string $_image_source_name;
+    public string $image_preparer;
+    public string $text_preparer;
+    public string $clearance;
+    public string $language;
+    public string $title;
+    public string $postproofer;
+    public ?string $ppverifier;
+    public string $deletion_reason;
+    public string $postcomments;
+    public string $comment_format;
+    public string $comments;
+    public string $scannercredit;
+    public string $extra_credits;
 
     public function __construct($arg = null)
     {
@@ -594,7 +649,7 @@ class Project
                 return self::decode_language($this->language);
             case "image_source_name":
                 $this->_load_image_source();
-                return $this->image_source_name;
+                return $this->_image_source_name;
             case "can_be_managed_by_current_user":
                 return $this->can_be_managed_by_user($pguser);
             case "user_can_delete_nonpage_images":
@@ -636,7 +691,7 @@ class Project
 
     private function _load_image_source()
     {
-        $this->image_source_name = '';
+        $this->_image_source_name = '';
         $this->image_source_credit = '';
 
         if (!isset($this->image_source)) {
@@ -646,7 +701,7 @@ class Project
         $image_sources = load_image_sources();
         $imso_res = array_get($image_sources, (string)$this->image_source, null);
         if ($imso_res) {
-            $this->image_source_name = $imso_res['full_name'];
+            $this->_image_source_name = $imso_res['full_name'];
             $this->image_source_credit = $imso_res['credit'];
         }
     }
