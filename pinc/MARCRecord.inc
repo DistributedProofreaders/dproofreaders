@@ -229,6 +229,21 @@ class InvalidMARCRecord extends Exception
 //    ["(3,700)(3,1 )(3,e)", "editor."],
 //  ]
 
+/**
+ * @property-read array $yaz_array
+ * @property string $title
+ * @property string $author
+ * @property-read string $lccn
+ * @property-read string $isbn
+ * @property-read string $pages
+ * @property-read string $date
+ * @property-read string $type_of_record
+ * @property string $language
+ * @property string $literary_form
+ * @property-read string $subject
+ * @property-read string $description
+ * @property-read string $publisher
+ */
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format
@@ -348,7 +363,7 @@ class MARCRecord
     }
 
 
-    public function get_title()
+    public function get_title(): string
     {
         // https://www.loc.gov/marc/bibliographic/concise/bd245.html Title Statement
         // Subfield $a - Title
@@ -379,7 +394,7 @@ class MARCRecord
         return preg_replace('/[,;: ]+$/', '', $marc_title);
     }
 
-    public function get_author()
+    public function get_author(): string
     {
         $author = "";
 
@@ -400,7 +415,7 @@ class MARCRecord
         return "";
     }
 
-    public function get_lccn()
+    public function get_lccn(): string
     {
         $marc_lccn = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd010.html Library of Congress Control Number
@@ -413,7 +428,7 @@ class MARCRecord
         return $marc_lccn;
     }
 
-    public function get_isbn()
+    public function get_isbn(): string
     {
         $marc_isbn = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd020.html International Standard Book Number
@@ -426,7 +441,7 @@ class MARCRecord
         return $marc_isbn;
     }
 
-    public function get_pages()
+    public function get_pages(): string
     {
         $marc_pages = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd300.html Physical Description
@@ -439,7 +454,7 @@ class MARCRecord
         return $marc_pages;
     }
 
-    public function get_date()
+    public function get_date(): string
     {
         $marc_date = "";
         // https://www.loc.gov/marc/bibliographic/concise/bd260.html Publication, Distribution, Etc. (Imprint)
@@ -452,7 +467,7 @@ class MARCRecord
         return $marc_date;
     }
 
-    public function get_type_of_record()
+    public function get_type_of_record(): string
     {
         $lang_name = "";
         // https://www.loc.gov/marc/bibliographic/bdleader.html Leader
@@ -462,7 +477,7 @@ class MARCRecord
         return array_get($this->type_of_record_array, $code, "");
     }
 
-    public function get_language()
+    public function get_language(): string
     {
         $langs = [];
         // https://www.loc.gov/marc/bibliographic/bd008.html Fixed-Length Data Elements-General Information
@@ -487,7 +502,7 @@ class MARCRecord
         return implode(", ", array_unique($langs));
     }
 
-    public function get_literary_form()
+    public function get_literary_form(): string
     {
         $literary_form = "";
         // https://www.loc.gov/marc/bibliographic/bd008.html Fixed-Length Data Elements-General Information
@@ -505,7 +520,7 @@ class MARCRecord
         return $literary_form;
     }
 
-    public function get_subject()
+    public function get_subject(): string
     {
         $i = 0;
         $marc_subject = "";
@@ -523,7 +538,7 @@ class MARCRecord
         return $marc_subject;
     }
 
-    public function get_description()
+    public function get_description(): string
     {
         $marc_description = "";
         // https://www.loc.gov/marc/bibliographic/bd520.html Summary, Etc
@@ -536,7 +551,7 @@ class MARCRecord
         return $marc_description;
     }
 
-    public function get_publisher()
+    public function get_publisher(): string
     {
         $marc_publisher = [];
         // https://www.loc.gov/marc/bibliographic/bd260.html
