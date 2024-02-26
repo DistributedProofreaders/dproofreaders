@@ -142,6 +142,19 @@ if ($action == 'show_sources') {
 
 class ImageSource
 {
+    public bool $new_source;
+    public ?string $code_name;   // TODO: DB field is non-null
+    public string $display_name;
+    public string $full_name;
+    public int $info_page_visibility; // TODO: bool
+    public string $url;
+    public string $credit;
+    public int $ok_keep_images; // TODO: bool
+    public int $ok_show_images; // TODO: bool
+    public string $public_comment;
+    public string $internal_comment;
+    public int $is_active;
+
     public function __construct($code_name = null)
     {
         $this->new_source = true;
@@ -393,10 +406,10 @@ class ImageSource
             // If the user is an Image Sources Manager, then the new source
             // should default to disabled. If not, the source should default
             // to pending approval.
-            $this->is_active = $can_edit ? '0' : '-1';
+            $this->is_active = $can_edit ? 0 : -1;
             // New sources shouldn't be shown on the public version of the
             // info page until they are approved.
-            $this->info_page_visibility = '1' ;
+            $this->info_page_visibility = 1;
         }
 
         $sql = sprintf(
@@ -513,9 +526,9 @@ class ImageSource
         return $open . $middle . '</td>';
     }
 
-    public function _may_maynot_unknown($value)
+    public function _may_maynot_unknown(int $value): string
     {
-        if ($value != '-1') {
+        if ($value != -1) {
             return ($value ? _('may') : _('may not'));
         } else {
             return "unknown";
