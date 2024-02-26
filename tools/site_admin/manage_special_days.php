@@ -126,6 +126,21 @@ if ($action == 'show_specials') {
 
 class SpecialDay
 {
+    public bool $new_source;
+    public ?string $spec_code;
+    public string $display_name;
+    public int $enable;
+    public string $comment;
+    public string $color;
+    public int $open_day;
+    public int $open_month;
+    public int $close_day;
+    public int $close_month;
+    public string $date_changes;
+    public string $info_url;
+    public string $image_url;
+    public string $symbol;
+
     public function __construct($spec_code = null)
     {
         $this->new_source = true;

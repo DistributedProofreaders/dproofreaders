@@ -45,7 +45,6 @@ parameters:
         - QuizLevel
         - Ranker
         - SortUtility
-        - SpecialDay
         - Stopwatch
         - TallyBoard
         - ThemedTable
