@@ -28,8 +28,6 @@ parameters:
         - LPage
         - PPage
 
-        - MARCRecord
-
         - Loader
         - ProjectInfoHolder
         - ThemedTable
