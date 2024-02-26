@@ -27,7 +27,6 @@ parameters:
         - GenreColumn
         - GenreElement
         - HoldWidget
-        - Loader
         - PageTally
         - PageTally_Neighbor
         - ProjectWordListHolder
