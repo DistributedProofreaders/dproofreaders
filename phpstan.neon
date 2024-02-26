@@ -14,10 +14,6 @@ parameters:
         - SETUP/phpstan_bootstrap.inc
         - pinc/bootstrap.inc
     universalObjectCratesClasses:
-        - Activity
-        - Stage
-        - Round
-
         - DifficultyElement
         - GenreColumn
         - GenreElement
