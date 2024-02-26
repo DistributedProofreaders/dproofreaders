@@ -23,33 +23,17 @@ parameters:
         - LPage
         - PPage
 
-        - Column
-        - ColumnData
-        - ColumnSelector
         - DifficultyElement
         - GenreColumn
         - GenreElement
         - HoldWidget
-        - LanguageElement
-        - LinkColumn
         - Loader
-        - OptionData
-        - OptionSelector
         - PageTally
         - PageTally_Neighbor
-        - ProjectFilterElement
         - ProjectInfoHolder
-        - ProjectSearchElement
-        - ProjectSearchForm
-        - ProjectSearchResults
-        - ProjectSearchResults
-        - ProjectSearchWidget
         - ProjectWordListHolder
         - Ranker
-        - Selector
-        - SpecialDayElement
         - TallyBoard
-        - TimeColumn
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
