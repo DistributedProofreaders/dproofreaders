@@ -24,17 +24,11 @@ parameters:
           path: pinc/3rdparty/mediawiki/DairikiDiff.php
         - message: '#Comparison operation .* results in an error#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
-        - message: '#PHPDoc tag .* is not subtype of#'
-          path: pinc/3rdparty/mediawiki/DiffFormatter.php
         - message: '#Instantiated class DiffFormatter is abstract#'
           path: pinc/DifferenceEngineWrapper.inc
 
         - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
-        - message: '#Instantiated class .* not found.#'
-        - message: '#Function .* not found.#'
         - message: '#Call to an undefined method#'
-
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
-        - message: '#Throwing object of an unknown class#'
         - message: '#Access to an undefined property#'
