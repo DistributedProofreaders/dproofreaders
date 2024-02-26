@@ -14,6 +14,13 @@ include_once($relPath.'Project.inc'); // get_project_difficulties()
 
 class ProjectFilterElement
 {
+    private string $id;
+    public string $label;
+    private bool $active;
+    protected $data;
+    protected string $state_sql;
+    public array $selected_options;
+
     public function __construct($id, $label, $data, $state_sql, $active_fields)
     {
         $this->id = $id;
@@ -275,6 +282,9 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
 class ProjectSearchElement
 {
+    private string $id;
+    protected $data;
+
     public function __construct($id, $data)
     {
         $this->id = $id;

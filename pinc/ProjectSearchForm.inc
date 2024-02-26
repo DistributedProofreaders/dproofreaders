@@ -4,9 +4,17 @@ include_once($relPath.'genres.inc'); // load_genre_translation_array
 
 class ProjectSearchWidget
 {
-    public $can_be_multiple = false;
-    public $initial_value = '';
-    public $has_invert = false;
+    protected string $id;
+    protected string $label;
+    protected string $invert_label;
+    private array $q_contrib;
+    private string $separator;
+    private bool $can_be_multiple = false;
+    private string $initial_value = '';
+    private bool $has_invert = false;
+    private string $type;
+    private int $size;
+    private array $options;
 
     public function __construct($properties)
     {
@@ -191,6 +199,8 @@ class HoldWidget extends ProjectSearchWidget
 
 class ProjectSearchForm
 {
+    private array $widgets;
+
     public function __construct()
     {
         $this->define_form_widgets();
