@@ -125,6 +125,15 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
 class ProjectInfoHolder
 {
+    public Project $project;
+    /** @var string[] */
+    private array $charsuites;
+    public string $original_marc_array_encd;
+    private string $clone_projectid;
+    private bool $posted;
+    /** @var string[] */
+    private array $hold_states;
+
     public function set_from_nothing()
     {
         global $pguser, $default_project_char_suites;
@@ -202,7 +211,7 @@ class ProjectInfoHolder
         }
 
         // ProjectTransition routes users here when a project is posted to PG
-        $this->posted = @$_GET['posted'];
+        $this->posted = (bool) @$_GET['posted'];
 
         $this->charsuites = [];
         foreach ($this->project->get_charsuites(false) as $project_charsuite) {
@@ -228,7 +237,7 @@ class ProjectInfoHolder
             }
 
             if (!$this->project->can_be_managed_by_current_user) {
-                return _("You are not authorized to manage this project.").": '$this->projectid'";
+                return _("You are not authorized to manage this project.").": '{$this->project->projectid}'";
             }
         } elseif (isset($_POST['clone_projectid'])) {
             // we're creating a clone; initialize our object with the original
@@ -271,7 +280,7 @@ class ProjectInfoHolder
             if ($_POST["postednum"] == "") {
                 $this->project->postednum = null;
             } else {
-                $this->project->postednum = (int)$_POST["postednum"];
+                $this->project->postednum = sprintf("%d", $_POST["postednum"]);
             }
         }
 
@@ -323,7 +332,7 @@ class ProjectInfoHolder
             $errors[] = _("At least one Character Suite is required.");
         }
 
-        $this->posted = @$_POST['posted'];
+        $this->posted = (bool) @$_POST['posted'];
         if ($this->posted) {
             // We are in the process of marking this project as posted.
             if (!$this->project->postednum) {
@@ -444,7 +453,7 @@ class ProjectInfoHolder
         if (!empty($this->original_marc_array_encd)) {
             echo "<input type='hidden' name='rec' value='$this->original_marc_array_encd'>";
         }
-        if (!empty($this->posted)) {
+        if ($this->posted) {
             echo "<input type='hidden' name='posted' value='1'>";
         }
         if (!empty($this->project->projectid)) {
