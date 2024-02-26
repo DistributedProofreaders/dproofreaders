@@ -55,7 +55,6 @@ parameters:
         - Selector
         - SpecialDayElement
         - TallyBoard
-        - ThemedTable
         - TimeColumn
 
     # https://phpstan.org/user-guide/rule-levels
