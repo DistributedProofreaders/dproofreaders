@@ -23,7 +23,6 @@ parameters:
         - Round
 
         - Project
-        - ProjectState
         - ProjectTransition
 
         - LPage
