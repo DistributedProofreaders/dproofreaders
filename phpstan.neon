@@ -30,7 +30,6 @@ parameters:
 
         - MARCRecord
 
-        - Comparator
         - ImageSource
         - Loader
         - POFile
