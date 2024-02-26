@@ -261,7 +261,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     // this may give us duplicates in the list. This relies on the deletion
     // reason containing 'merged' and the projectid.
 
-    $was_merged = ($state == 'project_delete') &&
+    $was_merged = ($state == PROJ_DELETE) &&
         str_contains($deletion_reason, 'merged');
     // see if the deletion reason contains "merged", and if so look for the projectid
     if ($was_merged &&

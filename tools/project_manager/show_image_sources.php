@@ -166,12 +166,12 @@ if (!$imso_code) {
 
         switch ($which) {
             case 'ALL':
-                $where_cls = " AND state != 'project_delete'";
+                $where_cls = " AND state != '" . PROJ_DELETE . "'";
                 $title = sprintf(_("All Ebooks being produced with images from %s"), $imso['full_name']);
                 $links_list = $inprog_link . ", " . $done_link . ".";
                 break;
             case 'INPROG':
-                $where_cls = " AND state != 'project_delete' AND state != 'proj_submit_pgposted'";
+                $where_cls = " AND state != '" . PROJ_DELETE . "' AND state != '" . PROJ_SUBMIT_PG_POSTED . "'";
                 $title = sprintf(_("In Progress Ebooks being produced with images from %s"), $imso['full_name']);
                 $links_list = $all_link . ", " . $done_link . ".";
                 break;
@@ -283,7 +283,7 @@ function load_image_source_stats()
             count(distinct  projectid) as projects_total,
             sum(".SQL_CONDITION_GOLD.") as projects_completed
             FROM projects
-            WHERE state != 'project_delete'
+            WHERE state != '" . PROJ_DELETE . "'
             AND image_source != ''
             GROUP BY image_source
     ";

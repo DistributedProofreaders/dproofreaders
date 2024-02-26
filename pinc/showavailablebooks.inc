@@ -46,7 +46,7 @@ function show_projects_for_smooth_reading()
 
     // Selector for checked out projects
     $initial_project_selector = "
-        state = 'proj_post_first_checked_out' AND
+        state = '" . PROJ_POST_FIRST_CHECKED_OUT . "' AND
         smoothread_deadline > UNIX_TIMESTAMP()
     ";
 

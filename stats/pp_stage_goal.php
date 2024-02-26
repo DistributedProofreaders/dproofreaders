@@ -26,7 +26,7 @@ $page_res = DPDatabase::query(sprintf(
     "
     SELECT SUM(n_pages)
     FROM projects
-    WHERE state='proj_submit_pgposted'
+    WHERE state='" . PROJ_SUBMIT_PG_POSTED . "'
         AND modifieddate >= %d
     ",
     $m_start

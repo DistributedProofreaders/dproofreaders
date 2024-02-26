@@ -82,7 +82,7 @@ function get_table_query_resource($username, $view_mode)
     $sql = "
         SELECT projectid, nameofwork, authorsname, username, state, clearance
         FROM projects
-        WHERE state NOT IN ('proj_submit_pgposted','project_delete')
+        WHERE state NOT IN ('" . PROJ_SUBMIT_PG_POSTED . "','" . PROJ_DELETE . "')
     ";
 
     if ($username) {
