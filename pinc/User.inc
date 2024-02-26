@@ -71,6 +71,27 @@ class ReservedForNewProofreadersException extends UserAccessException
     }
 }
 
+/**
+ * @property-read string $reg_token;
+ * @property string $real_name;
+ * @property-read string $username;
+ * @property string $email;
+ * @property int $date_created;
+ * @property int $last_login;
+ * @property int $t_last_activity;
+ * @property bool $email_updates;
+ * @property string $referrer;
+ * @property string $referrer_details;
+ * @property string $http_referrer;
+ * @property int $u_neigh;
+ * @property bool $u_align;
+ * @property string $i_theme;
+ * @property-read int $u_id;
+ * @property int $u_profile;
+ * @property string $u_intlang;
+ * @property bool $u_privacy;
+ * @property string $api_key;
+ */
 class User
 {
     private $table_row;

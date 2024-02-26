@@ -19,6 +19,7 @@ if (User::current_username()) {
 try {
     $user = NonactivatedUser::load_from_id($reg_token);
 } catch (NonexistentNonactivatedUserException $exception) {
+    $user = null;
     // See if the user is already activated.
     try {
         $user_test = User::load_from_registration_token($reg_token);
