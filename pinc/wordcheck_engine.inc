@@ -1160,7 +1160,7 @@ function get_distinct_words_in_text($text)
             }
         }
     } else {
-        throw new UnexpectedValueException("Unexpected text type " . get_type($text));
+        throw new UnexpectedValueException("Unexpected text type " . gettype($text));
     }
 
     return $input_words_w_freq;
