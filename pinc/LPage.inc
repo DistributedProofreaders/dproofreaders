@@ -283,6 +283,13 @@ class RoundInfo
  */
 class LPage
 {
+    public Project $project;
+    public string $projectid;
+    public string $imagefile;
+    public string $page_state;
+    public int $reverting_to_orig;
+    public Round $round;
+
     public function __construct($project, $imagefile, $page_state, $reverting_to_orig)
     {
         $this->project = $project;
