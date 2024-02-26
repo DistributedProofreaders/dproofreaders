@@ -4,6 +4,7 @@ include_once($relPath.'CharacterSelector.inc');
 
 class ToolButton
 {
+    public string $html;
     public function __construct($accesskey, $title, $label, $onclick)
     {
         $access_string = $accesskey ? "accesskey='" . attr_safe($accesskey) . "'" : '';
@@ -14,6 +15,7 @@ class ToolButton
 // A link that, when clicked, opens a new window containing some tool.
 class PopupLink
 {
+    public string $html;
     public function __construct($label, $url, $window_name, $width, $height)
     {
         $js = "return openToolboxPopup('$url', $width, $height, '$window_name');";
@@ -23,6 +25,13 @@ class PopupLink
 
 class ProofreadingToolbox
 {
+    /** @var ToolButton[] */
+    public array $row1_buttons;
+    /** @var ToolButton[] */
+    public array $row2_buttons;
+    /** @var PopupLink[] */
+    public array $popup_links;
+
     public function __construct()
     {
         global $wikihiero_dir;
