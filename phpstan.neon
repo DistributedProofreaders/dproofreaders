@@ -56,7 +56,6 @@ parameters:
         - ProjectWordListHolder
         - Ranker
         - Selector
-        - SortUtility
         - SpecialDayElement
         - Stopwatch
         - TallyBoard
