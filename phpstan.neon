@@ -35,14 +35,10 @@ parameters:
         - ImageSource
         - Loader
         - POFile
-        - PageTally
-        - PageTally_Neighbor
         - ProjectInfoHolder
         - ProjectWordListHolder
-        - Ranker
         - SortUtility
         - Stopwatch
-        - TallyBoard
         - ThemedTable
 
     # https://phpstan.org/user-guide/rule-levels

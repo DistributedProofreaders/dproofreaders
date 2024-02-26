@@ -29,6 +29,8 @@
 /**
  * Return an array of TallyBoard objects, representing all
  * boards on which there is some tally explicitly recorded.
+ *
+ * @return TallyBoard[]
  */
 function get_all_current_tallyboards()
 {
@@ -48,7 +50,10 @@ function get_all_current_tallyboards()
 
 class TallyBoard
 {
-    public function __construct($tally_name, $holder_type)
+    public string $tally_name;
+    public string $holder_type;
+
+    public function __construct(string $tally_name, string $holder_type)
     {
         $this->tally_name = $tally_name;
         $this->holder_type = $holder_type;
@@ -56,7 +61,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    public function add_to_tally($holder_id, $amount)
+    public function add_to_tally(string $holder_id, int $amount)
     {
         $sql = sprintf(
             "
@@ -106,6 +111,7 @@ class TallyBoard
      *   String containing an SQL expression (typically just a column name)
      *   that yields the holder_ids of the holders for whom you want to extract
      *   tally data.
+     * @return string[]
      */
     public function get_sql_joinery_for_current_tallies($holder_id_expr)
     {
@@ -129,7 +135,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    public function get_num_holders_with_positive_tally()
+    public function get_num_holders_with_positive_tally(): int
     {
         $sql = sprintf(
             "
@@ -156,7 +162,7 @@ class TallyBoard
      * Note that if you want tallies for multiple holders, it's probably
      * more efficient to use SQL-joinery supplied by the previous method.
      */
-    public function get_current_tally($holder_id)
+    public function get_current_tally(string $holder_id): int
     {
         $sql = sprintf(
             "
@@ -747,6 +753,10 @@ class TallyBoard
 
 class Ranker
 {
+    private bool $zero_begets_zero;
+    private int $n;
+    private int $prev_rank;
+    private int $prev_value;
     /**
      * Ranker constructor
      *

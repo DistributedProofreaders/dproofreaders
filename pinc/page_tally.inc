@@ -119,10 +119,11 @@ function user_get_ELR_page_tally($username)
 
 /**
  * Get the user's page tally neighborhood
- *
+ * @param string $tally_name
+ * @param string $username
  * @param int $radius
  *   (maximum) number of neighbors (on each side) to include in
- *   the neighborhood. (It will include fewer that the maximum iff the target
+ *   the neighborhood. (It will include fewer than the maximum iff the target
  *   user is within $radius of the corresponding end of the ranked list.)
  *
  * Return the page-tally neighborhood of $username.
@@ -131,6 +132,8 @@ function user_get_ELR_page_tally($username)
  * (So key=0 refers to the target user.)
  * For a given key, the corresponding value is a PageTally_Neighbor object
  * supplying various information about the page-tally neighbor.
+ *
+ * @return PageTally_Neighbor[]
  */
 function user_get_page_tally_neighborhood($tally_name, $username, $radius)
 {
@@ -154,7 +157,6 @@ function user_get_page_tally_neighborhood($tally_name, $username, $radius)
 
         $neighbors[$rel_posn] =
             new PageTally_Neighbor(
-                $tallyboard,
                 $neighbor_is_anonymized,
                 $neighbor_username,
                 $neighbor_date_joined,
@@ -169,9 +171,15 @@ function user_get_page_tally_neighborhood($tally_name, $username, $radius)
 
 class PageTally_Neighbor
 {
-    public function __construct($tallyboard, $is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank)
+    private bool $is_anonymized;
+    private string $username;
+    private int $date_joined;
+    private int $u_id;
+    private int $current_page_tally;
+    private int $current_page_tally_rank;
+
+    public function __construct($is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank)
     {
-        $this->tallyboard = $tallyboard;
         $this->is_anonymized = $is_anonymized;
         $this->username = $username;
         $this->date_joined = $date_joined;
