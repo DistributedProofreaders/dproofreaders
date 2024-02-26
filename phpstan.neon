@@ -30,7 +30,6 @@ parameters:
 
         - MARCRecord
 
-        - BadWordAccumulator
         - Comparator
         - ImageSource
         - Loader
