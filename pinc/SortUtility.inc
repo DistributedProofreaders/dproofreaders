@@ -10,10 +10,10 @@ define('DESCENDING', 2);
 
 class SortableValue
 {
-    public $_name;
-    public $_label;
-    public $_sqlRuleAscending;
-    public $_sqlRuleDescending;
+    public string $_name;
+    public string $_label;
+    public string $_sqlRuleAscending;
+    public string $_sqlRuleDescending;
 
     /**
      * SortableValue constructor
@@ -106,18 +106,19 @@ class SortUtility
 {
     // the name of the utility -- used when identifying
     // HTTP-arguments on sorting
-    public $_name;
+    private string $_name;
     // the SortableValues
-    public $_collection;
+    /** @var SortableValue[] */
+    private array $_collection;
 
     // optionally: one SortableValue is 'primary' meaning it is
     // always sorted by
     // ( ORDER BY whatever, primary )
-    public $_primaryValue;
+    private SortableValue $_primaryValue;
 
     // sorting
-    public $_sortingValue;
-    public $_sortingDirection;
+    private ?SortableValue $_sortingValue;
+    private ?int $_sortingDirection;
 
     /**
      * SortUtility constructor
@@ -322,7 +323,7 @@ class SortUtility
      */
     public function getPrimaryValue()
     {
-        return $this->primaryValue;
+        return $this->_primaryValue;
     }
 
     /**
