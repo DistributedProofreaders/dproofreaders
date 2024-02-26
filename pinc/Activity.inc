@@ -94,6 +94,14 @@ class Activities
 
 class Activity
 {
+    public string $id;
+    public string $name;
+    /** @var array<string,int> */
+    public array $access_minima;
+    public string $after_satisfying_minima;
+    public string $evaluation_criteria;
+    public ?string $access_change_callback;
+
     /**
      * Activity constructor
      *
@@ -119,7 +127,7 @@ class Activity
      *   ```
      * @param string $evaluation_criteria
      *   A brief description of what the evaluation criteria are.
-     * @param string $access_change_callback
+     * @param ?string $access_change_callback
      *   A callback function that will be called when a user's access for this
      *   round has changed. The function will be passed a User object representing
      *   the user with the access change in addition to the access change itself, eg:
