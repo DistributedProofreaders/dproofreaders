@@ -5,15 +5,22 @@ include_once($relPath.'CharSuites.inc'); // CharSuiteSet
 // for groups of quizzes that go together
 class QuizLevel
 {
+    public string $level_id;
+    public string $level_name;    // name for the category of quizzes
+    public string $activity_type; // "proof" or "format"
+    public string $info;          // description or other info the user should know
+    /** @var Quiz[] */
+    public array $quizzes;        // the individual quizzes that the level contains
+
     public static $map_quiz_level_id_to_QuizLevel = [];
 
     public function __construct($level_id, $level_name, $activity_type, $info, $quizzes)
     {
         $this->level_id = $level_id;
-        $this->level_name = $level_name;         // name for the category of quizzes
-        $this->activity_type = $activity_type;   // "proof" or "format"
-        $this->info = $info;                     // description or other info the user should know
-        $this->quizzes = $quizzes;               // the individual quizzes that the level contains
+        $this->level_name = $level_name;
+        $this->activity_type = $activity_type;
+        $this->info = $info;
+        $this->quizzes = $quizzes;
 
         foreach ($quizzes as $quiz) {
             $quiz->activity_type = $activity_type;
@@ -26,6 +33,17 @@ class QuizLevel
 
 class Quiz
 {
+    public string $id;
+    public string $name;             // appears in the top of the quiz's table
+    public string $short_name;       // appears in the righthand frame during the quiz
+    public string $description;
+    public string $thread;           // forum thread for quiz questions & comments, if other than the default
+    public array $pages;
+    // Currently supported pass_requirements:
+    // ['maximum_age'] => time_in_seconds:
+    //     Passes recorded longer than time_in_seconds ago are not valid.
+    public array $pass_requirements;
+
     public static $valid_quiz_page_ids = [];
     public static $map_quiz_page_id_to_Quiz = [];
     public static $map_quiz_id_to_Quiz = [];
@@ -33,15 +51,12 @@ class Quiz
     public function __construct($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
     {
         $this->id = $id;
-        $this->name = $name;               // appears in the top of the quiz's table
-        $this->short_name = $short_name;   // appears in the righthand frame during the quiz
+        $this->name = $name;
+        $this->short_name = $short_name;
         $this->description = $description;
-        $this->thread = $thread;           // forum thread for quiz questions & comments, if other than the default
+        $this->thread = $thread;
         $this->pages = $pages;
         $this->pass_requirements = $pass_requirements;
-        // Currently supported pass_requirements:
-        // ['maximum_age'] => time_in_seconds:
-        //     Passes recorded longer than time_in_seconds ago are not valid.
 
         assert(!isset(Quiz::$map_quiz_id_to_Quiz[$id]));
         Quiz::$map_quiz_id_to_Quiz[$id] = & $this;

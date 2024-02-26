@@ -57,8 +57,6 @@ parameters:
         - ProjectSearchResults
         - ProjectSearchWidget
         - ProjectWordListHolder
-        - Quiz
-        - QuizLevel
         - Ranker
         - Selector
         - SortUtility
