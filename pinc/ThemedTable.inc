@@ -7,6 +7,12 @@
 
 class ThemedTable
 {
+    private int $n_cols;
+    /** @var int[] */
+    private array $column_widths;
+    /** @var string[] */
+    private array $column_alignments;
+
     public function __construct($n_cols, $title, $options = [])
     {
         $this->n_cols = $n_cols;
