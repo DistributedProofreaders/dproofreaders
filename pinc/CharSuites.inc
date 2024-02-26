@@ -8,6 +8,8 @@ class CharSuiteNotEnabledException extends Exception
 class PickerSet
 {
     public $name;
+    private array $subsets;
+    private array $titles;
 
     public function add_subset($name, $codepoints, $title = null)
     {
@@ -31,6 +33,9 @@ class PickerSet
     }
 }
 
+/**
+ * @property PickerSet $pickerset
+ */
 class CharSuite
 {
     public $name;
