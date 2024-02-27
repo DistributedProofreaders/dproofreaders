@@ -99,6 +99,14 @@ class ActivityTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // test project state functions
 
+    public function test_project_states_class()
+    {
+        $this->assertEquals("P3.proj_bad", ProjectStates::get_states()[11]);
+        $this->assertEquals('PP', ProjectStates::get_all()[PROJ_POST_SECOND_AVAILABLE]->phase);
+        $this->assertEquals("P1: Waiting", ProjectStates::get_medium_label(PROJ_P1_WAITING_FOR_RELEASE));
+        $this->assertEquals("Proofreading Round 1: Waiting for Release", ProjectStates::get_label(PROJ_P1_WAITING_FOR_RELEASE));
+    }
+
     public function test_project_state_functions()
     {
         global $PROJECT_STATES_IN_ORDER, $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx;

@@ -400,3 +400,5 @@ foreach (Rounds::get_all() as $round) {
         $PAGE_STATES_IN_ORDER[] = $page_state;
     }
 }
+global $PROJECT_STATES_IN_ORDER;
+$PROJECT_STATES_IN_ORDER = ProjectStates::get_states();
