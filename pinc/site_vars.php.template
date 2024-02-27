@@ -45,6 +45,7 @@ $wikihiero_url = '<<WIKIHIERO_URL>>';
 
 $archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
 
+global $forum_type;
 $forum_type = '<<FORUM_TYPE>>';
 $forums_phpbb_table_prefix = '<<PHPBB_TABLE_PREFIX>>';
 $forums_phpbb_dir = '<<PHPBB_DIR>>';
