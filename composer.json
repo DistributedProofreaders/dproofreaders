@@ -17,14 +17,17 @@
         "phpstan/phpstan": "^1.10"
     },
     "replace": {
+        "symfony/polyfill-ctype": "*",
         "symfony/polyfill-php54": "*",
         "symfony/polyfill-php55": "*",
         "symfony/polyfill-php56": "*",
         "symfony/polyfill-php70": "*",
         "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
         "symfony/polyfill-php74": "*",
-        "symfony/polyfill-mbstring": "*",
+        "symfony/polyfill-iconv": "*",
         "symfony/polyfill-intl-grapheme": "*",
-        "symfony/polyfill-intl-normalizer": "*"
+        "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-mbstring": "*"
     }
 }
