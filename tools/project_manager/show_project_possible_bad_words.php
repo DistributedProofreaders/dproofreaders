@@ -16,7 +16,7 @@ $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
 enforce_edit_authorization($projectid);
 
-// $format determins what is presented from this page:
+// $format determines what is presented from this page:
 //   'html' - page is rendered with frequencies included
 //   'file' - all words and frequencies are presented as a
 //            downloaded file
@@ -83,7 +83,7 @@ output_header($title, NO_STATSBAR, ["js_data" => get_cutoff_script($cutoffOption
 
 echo_page_header($title, $projectid);
 
-// what is the intial cutoff frequecny?
+// what is the initial cutoff frequecny?
 $initialFreq = getInitialCutoff($freqCutoff, $cutoffOptions, $bad_words_w_freq);
 
 echo "<p>$page_text</p>";

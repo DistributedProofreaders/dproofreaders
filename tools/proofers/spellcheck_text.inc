@@ -382,7 +382,7 @@ $word_check_messages = [
     "confirmExitString" => _("Changes have been made. OK to quit without saving?"),
     "pageChangedError" => _("Cannot save page from WordCheck. Words have been modified."),
     "badCharsError" => _("There are invalid characters in the page"),
-    "keepCorrectons" => _("Keep corrections and return to proofreading this page"),
+    "keepCorrections" => _("Keep corrections and return to proofreading this page"),
     "rerun" => _("Check page against an additional language"),
 ];
 
@@ -532,7 +532,7 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo '<tr>';
     echo '<td id="tdtop">';
     $value = attr_safe(_("Submit Corrections"));
-    $title = attr_safe($word_check_messages['keepCorrectons']);
+    $title = attr_safe($word_check_messages['keepCorrections']);
     echo "<input type='submit' name='spcorrect' id='spcorrect' value='$value' title='$title'>";
     echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 

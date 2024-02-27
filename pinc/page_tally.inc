@@ -240,7 +240,7 @@ $SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
 // to subtract 3 hours and 1 second from a snapshot timestamp
 // to get a timestamp that will convert to the appropriate date.
 //
-// Of course, 1 second is all that's necesary for the *new* snapshots
+// Of course, 1 second is all that's necessary for the *new* snapshots
 // on pgdp.net, and all that's necessary on DP sites that don't change
 // their time zone, but it's important to note that subtracting
 // more than necessary isn't incorrect: yesterday is normally

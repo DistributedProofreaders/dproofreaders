@@ -210,7 +210,7 @@ Scripts supporting this upgrade are in `SETUP/upgrade/10`
 
 * Support phpBB versions 3.1 and 3.2 (cpeel)
 * Support jpgraph version 4.0.2 (cpeel)
-* Moved to mysqli extention (cpeel)
+* Moved to mysqli extension (cpeel)
   This should allow the code to run on PHP 7.x but that has not been tested.
 * Full French translation of the UI (srjfoo and other volunteers)
 * See `git log R201701 R201707` for full set of changes.

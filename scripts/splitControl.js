@@ -9,7 +9,7 @@
  * config - optional object that controls the div: (defaults in brackets)
  * {
  *   splitVertical: (true) true or false,
- *   splitPercent: (50), percentage of contaner occupied by pane1,
+ *   splitPercent: (50), percentage of container occupied by pane1,
  *   dragBarSize: (6), the width/height of the splitterbar in pixels,
  *   dragBarColor: ("darkgray"),
  * }

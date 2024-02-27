@@ -18,7 +18,7 @@ require_login();
 * Remarks:
 *
 * This is transient page executing the database function for the action "commit" or "withdraw".
-* It will automatically call the page adressed by next_url.
+* It will automatically call the page addressed by next_url.
 *
 ****************************************************************************************/
 

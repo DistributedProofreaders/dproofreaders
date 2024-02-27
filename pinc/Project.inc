@@ -1107,7 +1107,7 @@ class Project
             FROM {$this->projectid}
             ORDER BY %s
             ",
-            sql_collater_for_page_state("state")
+            sql_collator_for_page_state("state")
         );
         $res = DPDatabase::query($sql);
         while ($row = mysqli_fetch_assoc($res)) {

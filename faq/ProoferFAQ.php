@@ -154,7 +154,7 @@ different pages.  This will significantly speed up the proofreading process.
     donations.
     See the "donate" button on our
     <a href="..">main page</a> if you wish to make a
-    tax-deductable donation.</p>
+    tax-deductible donation.</p>
 
 <p> You can also <b>donate books</b> (Public Domain) by shipping them to us for scanning
     (better if they do not need to be returned). You can also scan the books and send us

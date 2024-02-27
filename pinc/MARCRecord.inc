@@ -23,7 +23,7 @@ class InvalidMARCRecord extends Exception
 // See https://www.loc.gov/marc/bibliographic/ for an overview.
 //
 // TODO: Add more explanation about the mapping of MARC onto yaz's arrays.
-// In particular, what do the `@`s and signficant whitespaces in IDs
+// In particular, what do the `@`s and significant whitespaces in IDs
 // mean; and how the `#` and `$`s in the MARC spec represent structure.
 //
 // [

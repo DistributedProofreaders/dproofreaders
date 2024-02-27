@@ -134,7 +134,7 @@ Server MPM:     Prefork
 </ul>
 
 <h3>Translator coordination</h3>
-<p>PO files contain the entire translation for a locale. When a new PO file is uploaded, its contents replace the prior contents in their entirity, not just any untranslated strings. If multiple translators are working on a single locale, they should coordinate their efforts to work in series, not parallel, or select one person to do the actual updates, even if multiple people are helping with the localization.</p>
+<p>PO files contain the entire translation for a locale. When a new PO file is uploaded, its contents replace the prior contents in their entirety, not just any untranslated strings. If multiple translators are working on a single locale, they should coordinate their efforts to work in series, not parallel, or select one person to do the actual updates, even if multiple people are helping with the localization.</p>
 
 <h3>Using the Translation Center</h3>
 <p>Translations are managed in the <a href='../locale/translators/index.php'>Translation Center</a>.</p>
@@ -169,7 +169,7 @@ Server MPM:     Prefork
 <h4>HTML, attributes, entities and spaces</h4>
 <p>You <strong>must not</strong> translate HTML tags, attributes, and entities. For example: if the string is "No&amp;nbsp;space" translate "No" and "space" but leave &amp;nbsp; as-is. Because the site is UTF-8 enabled, you should not need to use entities for most characters.</p>
 
-<p>If you are unfamiliar with HTML tags, attributes and entites, and uncertain whether something should be translated or not, ask for clarification.</p>
+<p>If you are unfamiliar with HTML tags, attributes and entities, and uncertain whether something should be translated or not, ask for clarification.</p>
 
 <p>Although there should not be any, if there are spaces at the beginning or the end of a line, keep them.</p>
 

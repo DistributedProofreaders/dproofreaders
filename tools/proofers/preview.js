@@ -569,7 +569,7 @@ const analyse = function (txt, config) {
     function checkFootnotes() {
         var anchorArray = [];
         var footnoteArray = [];
-        // let footnote marker be an optionaly tagged letter, or a number
+        // let footnote marker be an optionally tagged letter, or a number
         // Bad tag caught elsewhere
         let marker = `(?:<(?:${ILTags})>)?(?:[A-Za-z]|\\d+)(?:<.+>)?`;
         let footnoteIDRegex = new RegExp(`^(?:${marker})$`);

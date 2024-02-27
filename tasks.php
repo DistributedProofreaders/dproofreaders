@@ -924,7 +924,7 @@ function process_related_task($pre_task, $action, $related_task_id)
 }
 
 /**
- * Add or remove a related topic (forum thread) to the curent task.
+ * Add or remove a related topic (forum thread) to the current task.
  */
 function process_related_topic($pre_task, $action, $related_topic_id)
 {

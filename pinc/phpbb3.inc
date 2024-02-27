@@ -271,7 +271,7 @@ function _insert_post(
 
         // Defining Post Options
         'enable_bbcode' => true,    // Enable BBcode in this post. (bool)
-        'enable_smilies' => false,   // Enabe smilies in this post. (bool)
+        'enable_smilies' => false,   // Enable smilies in this post. (bool)
         'enable_urls' => true,    // Enable self-parsing URL links in this post. (bool)
         'enable_sig' => $attach_sig, // Enable the signature of the poster to be displayed in the post. (bool)
 

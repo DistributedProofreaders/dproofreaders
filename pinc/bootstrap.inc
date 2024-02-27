@@ -35,7 +35,7 @@ set_exception_handler($testing ? 'test_exception_handler' : 'production_exceptio
 
 if (!headers_sent()) {
     // Tell proxies to vary the caching based on the Accept-Language header
-    // to ensure others behind the proxy don't inadvertantly get a language
+    // to ensure others behind the proxy don't inadvertently get a language
     // they aren't expecting.
     header("Vary: Accept-Language");
 }

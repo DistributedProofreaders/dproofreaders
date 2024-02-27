@@ -47,8 +47,8 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
 
     // If the ELR_round requires access and the user doesn't currently
     // have it, show them what they need to do.
-    $accessable_stages = get_stages_user_can_work_in($username);
-    if (!isset($accessable_stages[$ELR_round->id])) {
+    $accessible_stages = get_stages_user_can_work_in($username);
+    if (!isset($accessible_stages[$ELR_round->id])) {
         $uao = $ELR_round->user_access($username);
 
         // If the user has been denied access, just return and don't show anything
@@ -198,10 +198,10 @@ function maybe_output_new_proofer_project_message($project)
         return;
     }
 
-    $accessable_stages = get_stages_user_can_work_in(User::current_username());
+    $accessible_stages = get_stages_user_can_work_in(User::current_username());
     $pagesproofed = get_pages_proofed_maybe_simulated();
 
-    if (!isset($accessable_stages[$ELR_round->id])) {
+    if (!isset($accessible_stages[$ELR_round->id])) {
         echo "<div class='callout'>";
         echo "<div class='calloutheader'>";
         echo _("Welcome New Proofreader!");

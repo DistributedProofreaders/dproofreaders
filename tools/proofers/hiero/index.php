@@ -59,7 +59,7 @@ $syntax = ["-", ":", "*", "!"];
 $escaped_hierobox = html_safe($hierobox);
 $table_options = table_options($tables, $table);
 $syntax_options = syntax_options($syntax);
-$glpyh_table = glyphs($hierobox, $wikihiero_url);
+$glyph_table = glyphs($hierobox, $wikihiero_url);
 
 echo <<<HTML
     <form name="hieroform" method="POST">
@@ -81,7 +81,7 @@ echo <<<HTML
     <input type="button" value="Reset" onClick="hierobox.value='';">
     </td></tr>
     <tr><td colspan="3">
-    $glpyh_table
+    $glyph_table
     </td></tr>
     </table>
     </form>

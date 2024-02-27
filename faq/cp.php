@@ -632,7 +632,7 @@ files for use by Distributed Proofreaders. Automatic markup extraction,
 dehyphenization, filtering, renaming &amp; more.
 See also <a href="<?php echo $Guiprep_topic_URL; ?>">this forum topic</a>.
 Guiprep requires perl.
-Please see the guiprep manual for more infomation
+Please see the guiprep manual for more information
 about obtaining a perl interpreter for your system.
 </p>
 

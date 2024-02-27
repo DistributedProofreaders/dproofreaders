@@ -113,7 +113,7 @@ function get_font_styles($interface = null)
  * Return an array of font-family strings to use to render text
  * in the user's proofreading font plus the font fallback.
  *
- * Font faces with spaces in them are esacped in _single quotes_.
+ * Font faces with spaces in them are escaped in _single quotes_.
  * The array is indexed like get_available_proofreading_font_faces()
  * This is used above and to select fonts in the format preview.
  */

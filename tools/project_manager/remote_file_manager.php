@@ -765,7 +765,7 @@ function get_current_dir_relative_path($home_dirname)
     // To prevent leaking information about the local filesystem, all error
     // messages about if a file/directory exists or not need to be the same.
     // If we gave one message if the file exists and another if it wasn't
-    // in a normalized form, we allow them a programatic way of determining
+    // in a normalized form, we allow them a programmatic way of determining
     // information about what files/directories exist on the system.
     $error_message = sprintf(_("'%s' does not exist, or is not a folder"), html_safe($cdrp));
 
@@ -1138,7 +1138,7 @@ function searchdir($dir_path, $maxdepth = -1, $mode = "FULL", $d = 0)
 function show_form($action, $cdrp, $form_content, $submit_label)
 {
     // Display a div with a form containing action and cdrp hidden inputs; some content,
-    // which can be abritrary HTML/other inputs; and finally a labeled submit button
+    // which can be arbitrary HTML/other inputs; and finally a labeled submit button
     echo "<div id='$action' style='border: 1px solid grey; margin-left: .5em; padding: .25em;'>\n";
     echo "<form id='{$action}_form' style='margin: 0em;' action='?' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='action' value='" . attr_safe($action) . "'>\n";

@@ -49,7 +49,7 @@ foreach ($fixed_pages as $page => $frequency) {
 // relevant if there are more than 50k of them, in which case we drop off
 // projects on the tail end (deleted projects get dropped first, posted ones
 // get dropped second, etc).
-$order_by = sql_collater_for_project_state("state");
+$order_by = sql_collator_for_project_state("state");
 $sql = "
     SELECT projectid, modifieddate
     FROM projects

@@ -71,7 +71,7 @@ if ($show_view == 'search_form') {
 
 if ($show_view == "user_all") {
     $condition = "username = '$user->username'";
-    // adjust $_GET so will work corectly with refine search and sort and navigate
+    // adjust $_GET so will work correctly with refine search and sort and navigate
     // keep "user_all" or we won't know it is user all
     $_GET = array_merge($_GET, ['project_manager' => $user->username]);
 } elseif ($show_view == "user_active") {

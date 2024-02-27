@@ -1,6 +1,6 @@
 <?php
 
-// This is an incomplete abstration around the Teams
+// This is an incomplete abstraction around the Teams
 
 class Team
 {

@@ -263,10 +263,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
 
         function initialPageSelect() {
             controlSpan.empty();
-            const initalPageControls = makePageControl(pages, null, function (page) {
+            const initialPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
-            controlSpan.append(initalPageControls);
+            controlSpan.append(initialPageControls);
             if(displayMode !== "image") {
                 getRoundSelector().then(function() {
                     controlSpan.append(getRoundControls());
