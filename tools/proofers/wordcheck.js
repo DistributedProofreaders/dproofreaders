@@ -21,7 +21,7 @@ function isWordChanged(wordID) {
         badBoxes -= 1;
         if(0 === badBoxes) {
             let spCorrect = document.getElementById("spcorrect");
-            spCorrect.title = wordCheckMessages.keepCorrectons;
+            spCorrect.title = wordCheckMessages.keepCorrections;
             spCorrect.disabled = false;
             let spRerun = document.getElementById("rerunauxlanguage");
             spRerun.disabled = false;

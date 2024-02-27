@@ -23,7 +23,7 @@ if ($user_is_logged_in) {
 } else {
     $font_settings = '';
 }
-// 'quiz' will result in codepoints for quizes
+// 'quiz' will result in codepoints for quizzes
 $quiz = get_project_or_quiz("quiz");
 $valid_character_pattern = build_character_regex_filter($quiz->get_valid_codepoints(), "js");
 

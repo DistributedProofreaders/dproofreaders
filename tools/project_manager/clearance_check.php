@@ -101,7 +101,7 @@ function get_table_query_resource($username, $view_mode)
         $sql .= "AND NOT($okay_clearance_condition) ";
     }
 
-    $sql .= "ORDER BY username, " .  sql_collater_for_project_state("state");
+    $sql .= "ORDER BY username, " .  sql_collator_for_project_state("state");
 
     return DPDatabase::query($sql);
 }

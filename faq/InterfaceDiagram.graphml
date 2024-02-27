@@ -681,7 +681,7 @@ discarded)</y:EdgeLabel>
           <y:Path sx="46.5" sy="0.0" tx="-51.96394531249939" ty="-39.466061162159974"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="9" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="24.953125" modelName="six_pos" modelPosition="thead" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="74.962890625" x="30.912109375" y="-26.95312199790567">(implict save as
+          <y:EdgeLabel alignment="center" distance="2.0" fontFamily="Dialog" fontSize="9" fontStyle="italic" hasBackgroundColor="false" hasLineColor="false" height="24.953125" modelName="six_pos" modelPosition="thead" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="74.962890625" x="30.912109375" y="-26.95312199790567">(implicit save as
 IN PROGRESS)</y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>

@@ -72,7 +72,7 @@ function output_footer($nameofpage, $show_statsbar = true)
     // Display stats bar on left (1) or right (0)
     $statsbar_align = $user ? $user->u_align : 0;
 
-    // The main page content has been emited so close the main page content column.
+    // The main page content has been emitted so close the main page content column.
     echo "</div>\n";
     if ($show_statsbar && $statsbar_align == 0) {
         // If we're displaying the the stats bar on the right, then emit:

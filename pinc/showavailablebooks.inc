@@ -173,7 +173,7 @@ function show_projects_for_smooth_reading()
  *   An array naming any custom fields that should appear in the filter widget.
  * @param bool $allow_special_colors_legend
  *   Should we show the special colors legend?
- *   (This can be overriden by the corresponding user preference.)
+ *   (This can be overridden by the corresponding user preference.)
  * @param array $columns
  *   Which columns should appear in the listing.
  */

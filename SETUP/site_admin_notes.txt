@@ -68,7 +68,7 @@ to grant/revoke privileges.
 Setting daily goals for the rounds:
 -----------------------------------
 
-You don't need to set daily goals (in effect, they defalt to zero), but if
+You don't need to set daily goals (in effect, they default to zero), but if
 you want to, here's how. For each round that you want to set a goal for:
     insert into site_tally_goals
     set date='YYYY-MM-DD', tally_name='ROUND_ID', goal='GOAL'

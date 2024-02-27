@@ -4,7 +4,7 @@
 previewMessages defaultStyles */
 /*
 This file controls the user interface functions. Initially nothing is displayed
-because "prevdiv" has diplay:none; which means it is not displayed and the page
+because "prevdiv" has display:none; which means it is not displayed and the page
 is laid out as if it was not there.
 When the preview button is pressed the function "show" changes its display style
 to "block" and changes the display style of the normal view (proofDiv) to "none"

@@ -227,7 +227,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
             '## `first_column`',
             'here is the description of the first column...',
             '## `second_column`',
-            'here is the descriptio of the second column,',
+            'here is the description of the second column,',
             'which doesn\' fit in one line...',
             '## `third_column`',
             'and here is the description of the third column',

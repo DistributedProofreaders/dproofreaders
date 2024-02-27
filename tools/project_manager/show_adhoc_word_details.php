@@ -29,7 +29,7 @@ $queryWordText = implode("\r\n", $queryWords);
 
 enforce_edit_authorization($projectid);
 
-// $format determins what is presented from this page:
+// $format determines what is presented from this page:
 //    'html' - page is rendered with frequencies included
 // 'update' - update the list
 $format = get_enumerated_param($_REQUEST, 'format', 'html', ['html', 'update']);
@@ -76,7 +76,7 @@ if (count($queryWords)) {
 
     [$words_w_freq, $messages] = _get_word_list($projectid, $queryWords);
 
-    // what is the intial cutoff frequecny?
+    // what is the initial cutoff frequecny?
     $initialFreq = getInitialCutoff($freqCutoff, $cutoffOptions, $words_w_freq);
 
     echo_any_warnings_errors($messages);

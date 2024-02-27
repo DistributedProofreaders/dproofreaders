@@ -147,7 +147,7 @@ function create_forum_user($username, $password, $email, $password_is_digested =
  * Log in the user to the forums.
  *
  * Returns:
- * - [TRUE, '']  - user sucessfully logged in
+ * - [TRUE, '']  - user successfully logged in
  * - [FALSE, $reason] - login failed and the reason why, valid $reasons:
  *   - incorrect_username
  *   - incorrect_password

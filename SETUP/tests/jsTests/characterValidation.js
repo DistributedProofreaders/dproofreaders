@@ -27,7 +27,7 @@ QUnit.module("Character validation test", function() {
         assert.strictEqual(testText("ab\u{1F702}c"), false);
     });
 
-    QUnit.test("In basic latin A with combining diaresis is valid when normalised, b is not", function (assert) {
+    QUnit.test("In basic latin A with combining diaeresis is valid when normalised, b is not", function (assert) {
         validCharacterPattern = basicLatin;
         assert.strictEqual(testText("a\u0308bc"), true);
         assert.strictEqual(testText("ab\u0308c"), false);

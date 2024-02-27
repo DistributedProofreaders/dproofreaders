@@ -174,7 +174,7 @@ foreach (scandir($local_catalog_dir) as $filename) {
         //
         // We'll just assume that that's what's happened here.
         // That is, no nodes in this file match $format_xpath.
-        // This is almost certainly becase the file is a placeholder,
+        // This is almost certainly because the file is a placeholder,
         // i.e. $etext_number has not yet been assigned to an ebook
         // (or perhaps once *was* assigned, but got de-assigned).
         //

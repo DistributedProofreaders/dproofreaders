@@ -343,7 +343,7 @@ function get_table_column_specs()
     // );
     // $id is the column name as passed by GET argument.
     // $label is the translatable label displayed in the column header
-    // $sql is the SQL collater expression, or NULL for unsortable columns.
+    // $sql is the SQL collator expression, or NULL for unsortable columns.
     // $class is the HTML class to use for the field on output
     $round_columns = [
         'title' => [
@@ -352,7 +352,7 @@ function get_table_column_specs()
         ],
         'state' => [
             'label' => _('Current State'),
-            'sql' => sql_collater_for_project_state('projects.state'),
+            'sql' => sql_collator_for_project_state('projects.state'),
         ],
         'time' => [
             'label' => _('Time of Last Activity'),
@@ -399,7 +399,7 @@ function get_table_column_specs()
         ],
         'state' => [
             'label' => _('Current State'),
-            'sql' => sql_collater_for_project_state('state'),
+            'sql' => sql_collator_for_project_state('state'),
         ],
         'checkedoutby' => [
             'label' => _("Checked Out By"),

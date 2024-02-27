@@ -263,7 +263,7 @@ class FAQSection
             echo "<br>";
             $links = [];
             foreach ($entry->urls as $iso => $url) {
-                // If the document is available in the user's langauge it
+                // If the document is available in the user's language it
                 // has been used as a link in the title, so don't include
                 // it in the list of available languages.
                 if ($iso == $user_iso || $iso == 'all') {

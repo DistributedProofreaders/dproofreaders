@@ -236,7 +236,7 @@ class StateColumn extends Column
 {
     public function get_sort_sql()
     {
-        return sql_collater_for_project_state('state');
+        return sql_collator_for_project_state('state');
     }
 
     public function print_cell_data($project)
@@ -518,7 +518,7 @@ class ProjectSearchResults
             $sort_param = "stateA";
             $this->sort_column_id = 'state';
             $this->sql_sort_dir = "asc";
-            $this->sort_sql = sql_collater_for_project_state('state');
+            $this->sort_sql = sql_collator_for_project_state('state');
         }
         if ($sort_param != $saved_sort) {
             $this->userSettings->set_value("search:{$this->search_origin}.sort", $sort_param);

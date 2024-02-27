@@ -287,7 +287,7 @@ function get_Round_for_text_column_name($text_column_name)
  * which is not very useful. Instead, ORDER BY the result of this function,
  * and it will use the canonical order-of-declaration for rounds.
  */
-function sql_collater_for_round_id($round_id_column)
+function sql_collator_for_round_id($round_id_column)
 {
     return sprintf(
         "FIELD($round_id_column, %s)",
@@ -302,7 +302,7 @@ function sql_collater_for_round_id($round_id_column)
  * which is not very useful. Instead, ORDER BY the result of this function,
  * and it will use the canonical order-of-declaration for page states.
  */
-function sql_collater_for_page_state($state_column)
+function sql_collator_for_page_state($state_column)
 {
     return sprintf(
         "FIELD($state_column, %s)",
