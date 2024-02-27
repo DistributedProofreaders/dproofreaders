@@ -35,19 +35,20 @@ To use them, see ../DifferenceEngineWrapper.inc
 
 To update the files from MediaWiki:
 1. Check out MediaWiki code from git
-  `git clone https://gerrit.wikimedia.org/r/p/mediawiki/core.git mediawiki`
+  `git clone --depth 1 https://gerrit.wikimedia.org/r/mediawiki/core mediawiki`
+  `git fetch --tags`
 2. Show list of release tags
-  `git tags`
+  `git tag -l`
 3. Change to the release you want to use
   `git checkout <tag_name>`
 4. Copy updated files from locations mentioned above to this directory
-5. Unless the code has been fully converted to UTF-8:
+6. Unless the code has been fully converted to UTF-8:
    1. Update TableDiffFormatter.php::deletedLine() to change the endash to
       the ASCII hyphen-minus.
    2. Change all instances of htmlspecialchars() to html_safe().
-6. Compare the methods in DifferenceEngineWrapper and DifferenceEngine to
+7. Compare the methods in DifferenceEngineWrapper and DifferenceEngine to
    see if any of those in the latter were changed, and then reflect those
    changes in the methods in the former.
-7. Update README.md (this file) with the new version information and
+8. Update README.md (this file) with the new version information and
    changes made.
-8. Commit the changes
+9. Commit the changes
