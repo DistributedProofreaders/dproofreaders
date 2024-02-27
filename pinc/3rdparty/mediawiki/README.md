@@ -42,13 +42,13 @@ To update the files from MediaWiki:
 3. Change to the release you want to use
   `git checkout <tag_name>`
 4. Copy updated files from locations mentioned above to this directory
-6. Unless the code has been fully converted to UTF-8:
+5. Unless the code has been fully converted to UTF-8:
    1. Update TableDiffFormatter.php::deletedLine() to change the endash to
       the ASCII hyphen-minus.
    2. Change all instances of htmlspecialchars() to html_safe().
-7. Compare the methods in DifferenceEngineWrapper and DifferenceEngine to
+6. Compare the methods in DifferenceEngineWrapper and DifferenceEngine to
    see if any of those in the latter were changed, and then reflect those
    changes in the methods in the former.
-8. Update README.md (this file) with the new version information and
+7. Update README.md (this file) with the new version information and
    changes made.
-9. Commit the changes
+8. Commit the changes
