@@ -1,7 +1,7 @@
 <?php
 $relPath = "pinc/";
 include_once($relPath."base.inc");
-include_once($relPath."project_states.inc");
+include_once($relPath."stages.inc"); // For PROJECT_STATES_IN_ORDER
 
 // fixed, non-project pages to include in the listing with their
 // change frequency
