@@ -28,6 +28,5 @@ parameters:
           path: pinc/DifferenceEngineWrapper.inc
 
         - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
-        - message: '#Call to an undefined method#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'

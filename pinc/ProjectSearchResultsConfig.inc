@@ -1,12 +1,14 @@
 <?php
 include_once($relPath.'metarefresh.inc');
 
-class Selector
+abstract class Selector
 {
     public string $id;
     public string $label;
     protected Settings $userSettings;
     protected string $search_origin;
+
+    abstract public function get_html_control(): string;
 
     public function echo_select_item()
     {
@@ -32,7 +34,7 @@ class ColumnSelector extends Selector
         $this->search_origin = $search_origin;
     }
 
-    public function get_html_control()
+    public function get_html_control(): string
     {
         $check = $this->column->is_active() ? " checked" : "";
         return "<input type='checkbox' name='{$this->column->id}'$check>";
@@ -55,15 +57,16 @@ class OptionSelector extends Selector
         $this->search_origin = $search_origin;
     }
 
-    public function get_html_control()
+    public function get_html_control(): string
     {
-        echo "<select name='$this->id'>\n";
+        $r = "<select name='$this->id'>\n";
         $selected_item = $this->get_value();
         foreach ($this->options as $option_value => $option_label) {
             $selected_attr = ($option_value == $selected_item) ? 'selected' : '';
-            echo "<option value='", attr_safe($option_value), "' $selected_attr>", html_safe($option_label), "</option>\n";
+            $r .= "<option value='" . attr_safe($option_value) . "' $selected_attr>" . html_safe($option_label) . "</option>\n";
         }
-        echo "</select>\n";
+        $r .= "</select>\n";
+        return $r;
     }
 
     public function get_value()

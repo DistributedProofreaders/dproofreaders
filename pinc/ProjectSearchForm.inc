@@ -23,7 +23,7 @@ class ProjectSearchWidget
         }
     }
 
-    public function get_html_control()
+    public function get_html_control(): string
     {
         // make all widgets 100% width
         $size_attr = "style='width: 100%;'";
@@ -71,6 +71,8 @@ class ProjectSearchWidget
                 $r .= "<br>$this->invert_label<input type='checkbox' name='{$this->id}_inv'$check>";
             }
             return $r;
+        } else {
+            throw new InvalidArgumentException("type is invalid '{$this->type}'");
         }
     }
 
@@ -181,7 +183,7 @@ class SpecialDayWidget extends ProjectSearchWidget
 
 class HoldWidget extends ProjectSearchWidget
 {
-    public function get_html_control()
+    public function get_html_control(): string
     {
         $check = isset($_GET[$this->id]) ? " checked" : "";
         return "<input type='checkbox' name='$this->id'$check>";
