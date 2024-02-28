@@ -342,15 +342,16 @@ $project_status_descriptors = ['posted', 'PPd', 'proofed', 'created'];
  *
  * @return object
  */
-function get_project_status_descriptor($which)
+function get_project_status_descriptor(string $which): object
 {
+    global $testing;
+
     $obj = new stdClass();
 
     switch ($which) {
         case 'created':
-            $obj->state_selector = "(
-                state NOT LIKE 'project_new%' AND state != 'project_delete'
-            )";
+            $not_created_states = [PROJ_NEW, PROJ_DELETE];
+            $obj->state_selector = "(state NOT IN (" . surround_and_join($not_created_states, "'", "'", ",") . "))";
             $obj->Xed_title = _('Created');
             $obj->projects_Xed_title = _('Projects Created');
             $obj->graphs_title = _('Created Projects Graphs');
@@ -359,10 +360,16 @@ function get_project_status_descriptor($which)
             break;
 
         case 'proofed':
-            $obj->state_selector = "(
-                state LIKE 'proj_submit%'
-                OR state LIKE 'proj_post%'
-            )";
+            $proofed_states = [
+                PROJ_POST_FIRST_UNAVAILABLE,
+                PROJ_POST_FIRST_AVAILABLE,
+                PROJ_POST_FIRST_CHECKED_OUT,
+                PROJ_POST_SECOND_AVAILABLE,
+                PROJ_POST_SECOND_CHECKED_OUT,
+                PROJ_SUBMIT_PG_POSTED,
+                PROJ_POST_COMPLETE,
+            ];
+            $obj->state_selector = "(state IN (" . surround_and_join($proofed_states, "'", "'", ",") . "))";
             $obj->Xed_title = _('Proofread');
             $obj->projects_Xed_title = _('Projects Proofread');
             $obj->graphs_title = _('Proofread Projects Graphs');
@@ -371,10 +378,12 @@ function get_project_status_descriptor($which)
             break;
 
         case 'PPd':
-            $obj->state_selector = "(
-                state LIKE 'proj_submit%'
-                OR state LIKE 'proj_post_second%'
-            )";
+            $pped_states = [
+                PROJ_POST_SECOND_AVAILABLE,
+                PROJ_POST_SECOND_CHECKED_OUT,
+                PROJ_SUBMIT_PG_POSTED,
+            ];
+            $obj->state_selector = "(state IN (" . surround_and_join($pped_states, "'", "'", ",") . "))";
             $obj->Xed_title = _('Post-Processed');
             $obj->projects_Xed_title = _('Projects Post-Processed');
             $obj->graphs_title = _('PPd Projects Graphs');
@@ -383,9 +392,7 @@ function get_project_status_descriptor($which)
             break;
 
         case 'posted':
-            $obj->state_selector = "(
-                state LIKE 'proj_submit%'
-            )";
+            $obj->state_selector = "(state = '" . PROJ_SUBMIT_PG_POSTED . "')";
             $obj->Xed_title = _('Posted to PG');
             $obj->projects_Xed_title = _('Projects Posted');
             $obj->graphs_title = _('Posted Projects Graphs');
@@ -395,6 +402,10 @@ function get_project_status_descriptor($which)
 
         default:
             die(html_safe("bad value for 'which': '$which'"));
+    }
+
+    if ($testing) {
+        echo_html_comment($obj->state_selector);
     }
 
     return $obj;
