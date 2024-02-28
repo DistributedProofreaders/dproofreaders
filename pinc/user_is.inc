@@ -139,9 +139,10 @@ function that_user_is_over_PP_checked_out_limit($username)
         SELECT COUNT(*)
         FROM projects
         WHERE checkedoutby LIKE '%s'
-            AND state = '" . PROJ_POST_FIRST_CHECKED_OUT . "'
+            AND state = '%s'
         ",
-        DPDatabase::escape($username)
+        DPDatabase::escape($username),
+        PROJ_POST_FIRST_CHECKED_OUT,
     );
     $result = DPDatabase::query($query);
     $row = mysqli_fetch_row($result);
