@@ -344,8 +344,6 @@ $project_status_descriptors = ['posted', 'PPd', 'proofed', 'created'];
  */
 function get_project_status_descriptor(string $which): object
 {
-    global $testing;
-
     $obj = new stdClass();
 
     switch ($which) {
@@ -402,10 +400,6 @@ function get_project_status_descriptor(string $which): object
 
         default:
             die(html_safe("bad value for 'which': '$which'"));
-    }
-
-    if ($testing) {
-        echo_html_comment($obj->state_selector);
     }
 
     return $obj;
