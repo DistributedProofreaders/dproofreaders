@@ -16,18 +16,25 @@ class Comparator
 {
     public function __construct()
     {
-        global $PROJECT_STATES_IN_ORDER;
+        $all_rounds = Rounds::get_all();
+        $all_ids = Rounds::get_ids();
 
-        $this->L_round_options = ['P1', 'P2', 'P3', 'F1'];
-        $this->R_round_options = ['F1', 'F2'];
-        $this->state_index = array_flip($PROJECT_STATES_IN_ORDER);
+        // L_round_options are all rounds except the last
+        $this->L_round_options =  array_slice($all_ids, 0, count($all_ids) - 1);
+        // R_round_options are all formatting rounds
+        $this->R_round_options = array_keys(array_filter($all_rounds, 'is_formatting_round'));
+        // default R_round is first R-round
+        $this->default_R_round_id = $this->R_round_options[0];
+        // default L_round is the preceding one
+        $this->default_L_round_id = $all_ids[array_search($this->default_R_round_id, $all_ids) -1];
+        $this->state_index = array_flip(ProjectStates::get_states());
     }
 
     public function get_data()
     {
         $this->projectid = get_projectID_param($_GET, 'project');
-        $this->L_round_id = get_enumerated_param($_GET, "L_round_id", "P3", $this->L_round_options);
-        $this->R_round_id = get_enumerated_param($_GET, "R_round_id", "F1", $this->R_round_options);
+        $this->L_round_id = get_enumerated_param($_GET, "L_round_id", $this->default_L_round_id, $this->L_round_options);
+        $this->R_round_id = get_enumerated_param($_GET, "R_round_id", $this->default_R_round_id, $this->R_round_options);
         $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
         $this->go_compare = isset($_GET['compare']);
     }
