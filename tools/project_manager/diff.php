@@ -171,6 +171,42 @@ if ($L_text != $R_text) {
     echo $navigation_text;
 }
 
+// Load an associative array for which pages in the project have diffs.
+function load_page_diff_array(Project $project, $L_round, $R_round, bool $include_no_format = false): array
+{
+    if ($include_no_format) {
+        $un_formatter = new PageUnformatter();
+        $text_columns = "
+            $L_round->text_column_name as L_text,
+            $R_round->text_column_name as R_text,
+        ";
+    } else {
+        $text_columns = "";
+    }
+    $sql = "
+        SELECT image,
+            $L_round->user_column_name as username,
+            $text_columns
+            CAST($L_round->text_column_name AS BINARY) = CAST($R_round->text_column_name AS BINARY) AS is_same
+        FROM $project->projectid
+        ORDER BY image ASC
+    ";
+    $res = DPDatabase::query($sql);
+    $result = [];
+    while ($row = mysqli_fetch_assoc($res)) {
+        $result[$row["image"]] = [
+            "username" => $row["username"],
+            "is_diff" => ! $row["is_same"],
+        ];
+        if ($include_no_format) {
+            $L_text = $un_formatter->remove_formatting($row["L_text"], false);
+            $R_text = $un_formatter->remove_formatting($row["R_text"], false);
+            $result[$row["image"]]["is_diff_without_formatting"] = $L_text != $R_text;
+        }
+    }
+    return $result;
+}
+
 /**
  * Build up the text for the navigation bit, so we can repeat it
  * again at the bottom of the page
@@ -199,27 +235,24 @@ function get_navigation(
     }
     $navigation_text .= "\n" . _("Jump to") . ": <select name='jumpto' onChange='$jump_to_js'>\n";
 
-    $query = "
-        SELECT image,
-            $L_round->user_column_name,
-            CAST($L_round->text_column_name AS BINARY) = CAST($R_round->text_column_name AS BINARY) AS is_empty_diff
-        FROM $project->projectid
-        ORDER BY image ASC
-    ";
-    $res = DPDatabase::query($query);
+    $diff_array = load_page_diff_array($project, $L_round, $R_round, $format == "remove");
+
     $prev_image = "";
     $next_image = "";
     $prev_from_proofer = "";
     $next_from_proofer = "";
     $got_there = false;
     // construct the dropdown; work out where previous and next buttons should take us
-    while ([$this_val, $this_user, $is_empty_diff] = mysqli_fetch_row($res)) {
+    foreach ($diff_array as $this_val => $diff_record) {
+        $this_user = $diff_record["username"];
+        $is_diff = $format == "remove" ? $diff_record["is_diff_without_formatting"] : $diff_record["is_diff"];
+
         $navigation_text .= "\n<option value='$this_val'";
 
         if ($this_val == $image) {
             $navigation_text .= " selected";  // make the correct element of the drop down selected
             $got_there = true;
-        } elseif ($only_nonempty_diffs && $is_empty_diff) {
+        } elseif ($only_nonempty_diffs && !$is_diff) {
             $navigation_text .= " disabled"; // Disable empty diffs in the dropdown and skip the other checks
         } elseif ($got_there) {
             // we are at the one after the current one
@@ -270,9 +303,9 @@ function get_navigation(
     }
 
     $checked_attribute = $only_nonempty_diffs ? 'checked' : '';
-
+    $checkbox_title = $format == "remove" ? _('Skip empty diffs, ignoring formatting') : _('Skip empty diffs');
     $navigation_text .= "\n<input type='checkbox' name='only_nonempty_diffs' $checked_attribute id='only_nonempty_diffs' onclick='this.form.submit()'>\n";
-    $navigation_text .= "\n<label for='only_nonempty_diffs'>" . html_safe(_('Skip empty diffs')) . "</label>\n";
+    $navigation_text .= "\n<label for='only_nonempty_diffs'>" . html_safe($checkbox_title) . "</label>\n";
     $navigation_text .= "\n</form>\n";
 
     return $navigation_text;
