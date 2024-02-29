@@ -783,6 +783,7 @@ function echo_pm_tab($user)
 
     $pm_view_options = [
         "user_all" => _("All Projects"),
+        "user_avail" => _("Available Projects"),
         "user_active" => _("Active Projects"),
         "blank" => _("Basic Page"),
     ];

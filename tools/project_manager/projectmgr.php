@@ -24,7 +24,7 @@ try {
         'show',
         $default_view,
         ['search_form', 'search', 'user_all', 'user_active',
-            'blank', 'set_columns', 'config', ]
+            'user_avail', 'blank', 'set_columns', 'config', ]
     );
 } catch (Exception $e) {
     $show_view = 'blank';
@@ -74,6 +74,14 @@ if ($show_view == "user_all") {
     // adjust $_GET so will work correctly with refine search and sort and navigate
     // keep "user_all" or we won't know it is user all
     $_GET = array_merge($_GET, ['project_manager' => $user->username]);
+} elseif ($show_view == "user_avail") {
+    $avail_states = array_map(fn ($r) => $r->project_available_state, array_values(Rounds::get_all()));
+    $PROJECT_IS_AVAIL_sql = "state IN (" . surround_and_join($avail_states, "'", "'", ",") . ")";
+    $condition = "$PROJECT_IS_AVAIL_sql AND username = '$user->username'";
+    $_GET = array_merge($_GET, [
+        'project_manager' => $user->username,
+        'state' => $avail_states,
+    ]);
 } elseif ($show_view == "user_active") {
     $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$user->username'";
     $_GET = array_merge($_GET, [
@@ -103,6 +111,10 @@ $search_results->render($condition);
 function echo_shortcut_links($show_view)
 {
     $views = [
+        "user_avail" => [
+            // TRANSLATORS: Abbreviation for Project Manager
+            "label" => _("Your Available PM Projects"),
+        ],
         "user_active" => [
             // TRANSLATORS: Abbreviation for Project Manager
             "label" => _("Your Active PM Projects"),
