@@ -167,7 +167,7 @@ class Comparator
         return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label);
     }
 
-    private function has_project_started_round($round)
+    private function has_project_started_round(Round $round): bool
     {
         if ($this->state_index[$this->project->state] < $this->state_index[$round->project_available_state]) {
             echo "<p>", sprintf(_("%s has not started"), $round->id), "</p>";

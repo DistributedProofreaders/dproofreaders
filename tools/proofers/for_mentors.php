@@ -183,7 +183,7 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
 
 // -------------------------------------------------------------------
 
-function get_beginner_projects_in_state($state, $mentored_round)
+function get_beginner_projects_in_state(string $state, Round $mentored_round): array
 {
     $mentored_round_detail = $mentored_round->project_complete_state;
 
