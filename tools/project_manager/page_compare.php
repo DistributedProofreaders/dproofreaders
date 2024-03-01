@@ -73,12 +73,12 @@ class Comparator
             exit();
         }
 
-        if (!$this->has_project_started_round($this->L_round_id) || !$this->has_project_started_round($this->R_round_id)) {
-            exit();
-        }
-
         $L_round = get_Round_for_round_id($this->L_round_id);
         $R_round = get_Round_for_round_id($this->R_round_id);
+
+        if (!$this->has_project_started_round($L_round) || !$this->has_project_started_round($R_round)) {
+            exit();
+        }
 
         $username = $pguser;
         switch ($this->page_set) {
@@ -99,7 +99,7 @@ class Comparator
                 break;
         }
 
-        $right_complete = ($this->state_index[$this->project->state] >= $this->state_index["{$this->R_round_id}.proj_done"]);
+        $right_complete = ($this->state_index[$this->project->state] >= $this->state_index[$R_round->project_complete_state]);
         if (!$right_complete) {
             $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
@@ -167,10 +167,10 @@ class Comparator
         return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label);
     }
 
-    public function has_project_started_round($round_id)
+    private function has_project_started_round(Round $round): bool
     {
-        if ($this->state_index[$this->project->state] < $this->state_index["{$round_id}.proj_avail"]) {
-            echo "<p>", sprintf(_("%s has not started"), $round_id), "</p>";
+        if ($this->state_index[$this->project->state] < $this->state_index[$round->project_available_state]) {
+            echo "<p>", sprintf(_("%s has not started"), $round->id), "</p>";
             return false;
         }
         return true;

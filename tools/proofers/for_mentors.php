@@ -101,7 +101,7 @@ echo " ";
 echo sprintf(_("Please check the Saved column in the 'Which proofreader did each page...' section for each project listed below, to make sure you first work on the project with the oldest pages saved in %s."), "<b>$mentored_round->id</b>");
 echo "</p>";
 
-$projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state, $mentored_round->id);
+$projects_available = get_beginner_projects_in_state($mentoring_round->project_available_state, $mentored_round);
 if ($projects_available) {
     echo "<ol>";
     foreach ($projects_available as $proj_obj) {
@@ -121,7 +121,7 @@ echo " ";
 echo _("Oldest project listed first.");
 echo "</p>";
 
-$projects_waiting = get_beginner_projects_in_state($mentoring_round->project_waiting_state, $mentored_round->id);
+$projects_waiting = get_beginner_projects_in_state($mentoring_round->project_waiting_state, $mentored_round);
 if ($projects_waiting) {
     echo "<ol>";
     foreach ($projects_waiting as $proj_obj) {
@@ -183,9 +183,9 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
 
 // -------------------------------------------------------------------
 
-function get_beginner_projects_in_state($state, $mentored_round)
+function get_beginner_projects_in_state(string $state, Round $mentored_round): array
 {
-    $mentored_round_detail = $mentored_round . '.proj_done';
+    $mentored_round_detail = $mentored_round->project_complete_state;
 
     $sql = sprintf(
         "
