@@ -18,9 +18,13 @@ function get_image_small_dimension_error($width, $height)
 {
     global $page_image_minimum_dimension;
     $result = null;
-
-    if ($width < $page_image_minimum_dimension || $height < $page_image_minimum_dimension) {
-        $result = sprintf(_("Image may be too small: shortest dimension is less than %d pixels."), $page_image_minimum_dimension);
+    if (min($width, $height) < $page_image_minimum_dimension) {
+        $result = sprintf(
+            _("Image may be too small: Resolution %dx%d, shortest dimension is less than %d pixels."),
+            $width,
+            $height,
+            $page_image_minimum_dimension
+        );
     }
     return $result;
 }
