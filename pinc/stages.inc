@@ -6,6 +6,7 @@
 include_once($relPath.'Stage.inc');
 include_once($relPath.'Round.inc');
 include_once($relPath.'Pool.inc');
+include_once($relPath.'ProjectState.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -397,5 +398,9 @@ foreach (Rounds::get_all() as $round) {
         $PAGE_STATES_IN_ORDER[] = $page_state;
     }
 }
+
 global $PROJECT_STATES_IN_ORDER;
 $PROJECT_STATES_IN_ORDER = ProjectStates::get_states();
+
+global $project_status_descriptors;
+$project_status_descriptors = get_project_status_descriptors();

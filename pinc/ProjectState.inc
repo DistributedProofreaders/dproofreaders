@@ -1,27 +1,5 @@
 <?php
 
-/*
-  States:
-
-  All state names begin with PROJ (project)
-
-  PROJ[_stage][_round]_description
-
-  stages:
-  PRE=Pre Processing
-  PROOF=Proofreading rounds
-  POST=Post Processing
-  SUBMIT_PG=submission stage for Project Gutenberg
-
-  rounds:
-  NEW
-  METADATA COLLECTION (MD)
-  FIRST
-  SECOND
-
-  (Actually, the naming convention is in transition.)
-*/
-
 class ProjectState
 {
     public function __construct(
@@ -325,7 +303,11 @@ function sql_collator_for_project_state($state_column)
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-$project_status_descriptors = ['posted', 'PPd', 'proofed', 'created'];
+
+function get_project_status_descriptors()
+{
+    return ['posted', 'PPd', 'proofed', 'created'];
+}
 
 /**
  * Return an object with details about a project status
