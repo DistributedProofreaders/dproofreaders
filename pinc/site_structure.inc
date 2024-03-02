@@ -7,9 +7,6 @@
  * dependencies between them.
  */
 
-// Project states
-require_once($relPath."project_states.inc");
-
 // Stages, Rounds, and Pools
 require_once($relPath."stages.inc");
 

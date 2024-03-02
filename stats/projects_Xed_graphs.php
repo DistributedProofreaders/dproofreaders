@@ -6,7 +6,7 @@ include_once($relPath.'graph_data.inc');
 
 require_login();
 
-$which = get_enumerated_param($_GET, 'which', null, $project_status_descriptors);
+$which = get_enumerated_param($_GET, 'which', null, get_project_status_descriptors());
 
 $psd = get_project_status_descriptor($which);
 

@@ -22,11 +22,10 @@ function build_svg_graph_inits($graphs)
 
 function cumulative_total_proj_summary_graph()
 {
-    global $project_status_descriptors;
     $max_num_data = 0;
     $data = [];
 
-    foreach ($project_status_descriptors as $which) {
+    foreach (get_project_status_descriptors() as $which) {
         $psd = get_project_status_descriptor($which);
 
         //query db and put results into arrays
