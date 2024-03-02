@@ -34,7 +34,7 @@ if ($row["count"]) {
 // to zero for every currently-defined state.
 $num_projects_in_state_ = [];
 $num_pages_in_state_ = [];
-foreach ($PROJECT_STATES_IN_ORDER as $state) {
+foreach (ProjectStates::get_states() as $state) {
     $num_projects_in_state_[$state] = 0;
     $num_pages_in_state_[$state] = 0;
 }

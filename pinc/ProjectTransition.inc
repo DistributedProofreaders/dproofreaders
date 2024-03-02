@@ -462,7 +462,7 @@ function get_transition($from_state, $to_state)
 
 function create_project_transitions()
 {
-    global $code_url, $PROJECT_STATES_IN_ORDER;
+    global $code_url;
 
     $project_transitions[] = new ProjectTransition(
         PROJ_NEW,
@@ -1155,7 +1155,7 @@ function create_project_transitions()
     // -----------------------------------------------------------------------------
     // Transitions to PROJ_DELETE.
 
-    foreach ($PROJECT_STATES_IN_ORDER as $from_state) {
+    foreach (ProjectStates::get_states() as $from_state) {
         // Don't bother creating a transition for Delete -> Delete.
         if ($from_state == PROJ_DELETE) {
             continue;

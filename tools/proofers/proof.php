@@ -11,7 +11,7 @@ require_login();
 // one of the links in "Done" or "In Progress" trays.)
 
 $projectid = get_projectID_param($_GET, 'projectid');
-$expected_state = get_enumerated_param($_GET, 'proj_state', null, $PROJECT_STATES_IN_ORDER, true);
+$expected_state = get_enumerated_param($_GET, 'proj_state', null, ProjectStates::get_states(), true);
 
 $project = new Project($projectid);
 

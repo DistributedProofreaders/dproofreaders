@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'abort.inc');
-include_once($relPath.'Project.inc'); // $PROJECT_STATES_IN_ORDER
+include_once($relPath.'Project.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
@@ -21,7 +21,7 @@ $_POST:
 */
 
 $projectid = get_projectID_param($_POST, 'projectid');
-$proj_state = get_enumerated_param($_POST, 'proj_state', null, $PROJECT_STATES_IN_ORDER);
+$proj_state = get_enumerated_param($_POST, 'proj_state', null, ProjectStates::get_states());
 $imagefile = get_page_image_param($_POST, 'imagefile');
 $text_data = array_get($_POST, 'text_data', '');
 

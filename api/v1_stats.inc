@@ -57,8 +57,7 @@ function api_v1_stats_site_projects_states($method, $data, $query_params)
 {
     // Make sure all project state statistics are provided.
     $output = [];
-    global $PROJECT_STATES_IN_ORDER;
-    foreach ($PROJECT_STATES_IN_ORDER as $s) {
+    foreach (ProjectStates::get_states() as $s) {
         $output[$s] = 0;
     }
 

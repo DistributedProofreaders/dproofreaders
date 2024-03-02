@@ -14,8 +14,8 @@ header("Content-Type: text/html; charset=$charset");
 
 // Get Passed parameters to code
 $projectid = get_projectID_param($_POST, 'projectid');
-$curr_state = get_enumerated_param($_POST, 'curr_state', null, $PROJECT_STATES_IN_ORDER);
-$next_state = get_enumerated_param($_POST, 'next_state', null, array_merge($PROJECT_STATES_IN_ORDER, ['automodify']));
+$curr_state = get_enumerated_param($_POST, 'curr_state', null, ProjectStates::get_states());
+$next_state = get_enumerated_param($_POST, 'next_state', null, array_merge(ProjectStates::get_states(), ['automodify']));
 $confirmed = get_enumerated_param($_POST, 'confirmed', null, ['yes'], true);
 $return_uri = @$_POST['return_uri'];
 

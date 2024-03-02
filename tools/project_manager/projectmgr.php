@@ -86,7 +86,7 @@ if ($show_view == "user_all") {
     $condition = "$PROJECT_IS_ACTIVE_sql AND username = '$user->username'";
     $_GET = array_merge($_GET, [
         'project_manager' => $user->username,
-        'state' => array_diff($PROJECT_STATES_IN_ORDER, [PROJ_SUBMIT_PG_POSTED, PROJ_DELETE]),
+        'state' => array_diff(ProjectStates::get_states(), [PROJ_SUBMIT_PG_POSTED, PROJ_DELETE]),
     ]);
 } else { // $show_view == 'search'
     $search_form = new ProjectSearchForm();
