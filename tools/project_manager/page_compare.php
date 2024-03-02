@@ -20,13 +20,13 @@ class Comparator
         $all_ids = Rounds::get_ids();
 
         // L_round_options are all rounds except the last
-        $this->L_round_options =  array_slice($all_ids, 0, count($all_ids) - 1);
+        $this->L_round_options = array_slice($all_ids, 0, count($all_ids) - 1);
         // R_round_options are all formatting rounds
         $this->R_round_options = array_keys(array_filter($all_rounds, 'is_formatting_round'));
         // default R_round is first R-round
         $this->default_R_round_id = $this->R_round_options[0];
         // default L_round is the preceding one
-        $this->default_L_round_id = $all_ids[array_search($this->default_R_round_id, $all_ids) -1];
+        $this->default_L_round_id = $all_ids[array_search($this->default_R_round_id, $all_ids) - 1];
         $this->state_index = array_flip(ProjectStates::get_states());
     }
 
