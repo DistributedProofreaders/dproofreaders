@@ -33,7 +33,7 @@ $userSettings = Settings::get_Settings(User::current_username());
 
 // Validate all the input
 $projectid = get_projectID_param($_GET, 'id');
-$expected_state = get_enumerated_param($_GET, 'expected_state', null, $PROJECT_STATES_IN_ORDER, true);
+$expected_state = get_enumerated_param($_GET, 'expected_state', null, ProjectStates::get_states(), true);
 $detail_levels = get_project_detail_levels();
 $detail_level = get_enumerated_param($_GET, 'detail_level', $userSettings->get_value('project_detail', 2), array_keys($detail_levels));
 

@@ -499,4 +499,13 @@ class ProjectTest extends ProjectUtils
         $this->expectExceptionCode(113);
         get_available_proof_page_array($project, $round, $pguser);
     }
+
+    public function test_project_has_entered_formatting_round()
+    {
+        $project = $this->_create_project();
+        $project->state = "P1.proj_avail";
+        $this->assertFalse($project->has_entered_formatting_round());
+        $project->state = "F1.proj_avail";
+        $this->assertTrue($project->has_entered_formatting_round());
+    }
 }

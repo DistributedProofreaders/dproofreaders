@@ -237,10 +237,8 @@ class ProjectSearchForm
 
     public static function state_options()
     {
-        global $PROJECT_STATES_IN_ORDER;
-
         $state_options[''] = _('Any state');
-        foreach ($PROJECT_STATES_IN_ORDER as $proj_state) {
+        foreach (ProjectStates::get_states() as $proj_state) {
             $state_options[$proj_state] = project_states_text($proj_state);
         }
         return $state_options;

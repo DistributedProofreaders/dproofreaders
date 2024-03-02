@@ -1715,10 +1715,10 @@ class Project
      */
     public function has_entered_formatting_round()
     {
-        global $PROJECT_STATES_IN_ORDER;
-        $state_index = array_search($this->state, $PROJECT_STATES_IN_ORDER);
-        for ($i = $state_index; $i >= 0; $i--) {
-            $round = get_Round_for_project_state($PROJECT_STATES_IN_ORDER[$i]);
+        $project_states = ProjectStates::get_states();
+        $completed_states = array_slice($project_states, 0, array_search($this->state, $project_states) + 1);
+        foreach (array_reverse($completed_states) as $state) {
+            $round = get_Round_for_project_state($state);
             if ($round && is_formatting_round($round)) {
                 return true;
             }
