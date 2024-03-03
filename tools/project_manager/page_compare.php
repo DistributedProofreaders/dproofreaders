@@ -28,15 +28,15 @@ class Comparator
 
         $this->state_index = array_flip(ProjectStates::get_states());
 
-        $this->projectid = get_projectID_param($_GET, 'project');
+        $projectid = get_projectID_param($_GET, 'project');
         $L_round = get_round_param($_GET, "L_round_id", $default_L_round);
         $R_round = get_round_param($_GET, "R_round_id", $default_R_round);
         $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
-        $this->go_compare = isset($_GET['compare']);
+        $go_compare = isset($_GET['compare']);
 
         global $pguser, $code_url;
 
-        $this->project = new Project($this->projectid);
+        $this->project = new Project($projectid);
 
         $title = _('Compare pages with formatting removed');
         $sub_title = $this->project->nameofwork;
@@ -46,7 +46,7 @@ class Comparator
         echo "<h2>" . html_safe($sub_title) . "</h2>\n";
 
         $state = $this->project->state;
-        echo "<p>" . return_to_project_page_link($this->projectid, ["expected_state=$state"]) . "</p>\n";
+        echo "<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "</p>\n";
 
         if (!$this->project->check_pages_table_exists($warn_message)) {
             echo "<p class='warning'>$warn_message</p>\n";
@@ -55,7 +55,7 @@ class Comparator
 
         // draw the round selectors
         echo "<form action='page_compare.php' method='GET'>
-            <input type='hidden' name='project' value='$this->projectid'>
+            <input type='hidden' name='project' value='$projectid'>
             <input type='hidden' name='compare'>",
         "<div>", _("Compare rounds:"), "</div>\n",
         "<div class='grid-wrapper'>\n",
@@ -69,7 +69,7 @@ class Comparator
         "<input type='submit' value=", attr_safe(_('Go')), "></form>\n";
 
         // if this is first entry don't do anything else
-        if (!$this->go_compare) {
+        if (!$go_compare) {
             exit();
         }
 
@@ -101,10 +101,10 @@ class Comparator
             $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
 
-        validate_projectID($this->projectid);
+        validate_projectID($projectid);
         $sql = "
             SELECT image, $L_round->text_column_name, $R_round->text_column_name
-            FROM $this->projectid
+            FROM $projectid
             WHERE $condition
             ORDER BY image ASC
         ";
@@ -139,7 +139,7 @@ class Comparator
         echo "<p>", _("Clicking on a link will show the differences in a new window or tab."), "</p>\n";
         echo "<p>";
         foreach ($diff_pages as $imagename) {
-            echo "<a href='$code_url/tools/project_manager/diff.php?project=$this->projectid&amp;image=$imagename&amp;L_round=$L_round->id&amp;R_round=$R_round->id&amp;format=remove' target='_blank'>$imagename</a>\n";
+            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round=$L_round->id&amp;R_round=$R_round->id&amp;format=remove' target='_blank'>$imagename</a>\n";
         }
         echo "</p>";
     }
