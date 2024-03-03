@@ -46,28 +46,30 @@ $sql = "
 ";
 mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
-echo "Converting the release_criterion in {$n_rows} rows ...\n";
+if ($n_rows > 0) {
+    echo "Converting the release_criterion in {$n_rows} rows ...\n";
 
-mysqli_data_seek($result, 0) or die(DPDatabase::log_error());
+    mysqli_data_seek($result, 0) or die(DPDatabase::log_error());
 
-$n_conversion_errors = 0;
-while ([$id, $round_id, $name, $release_criterion] = mysqli_fetch_row($result)) {
-    $queue_ident = "queue $id (round_id='$round_id', name='$name')";
-    // echo "$queue_ident:\n";
+    $n_conversion_errors = 0;
+    while ([$id, $round_id, $name, $release_criterion] = mysqli_fetch_row($result)) {
+        $queue_ident = "queue $id (round_id='$round_id', name='$name')";
+        // echo "$queue_ident:\n";
 
-    $targets_array = convert($release_criterion, $queue_ident);
+        $targets_array = convert($release_criterion, $queue_ident);
 
-    $setters = 'projects_target = ' . array_get($targets_array, 'projects', 0)
-        . ', pages_target = ' . array_get($targets_array, 'pages', 0);
-    $sql = "UPDATE queue_defns SET $setters WHERE id=$id\n";
-    // echo "$sql\n";
-    $res = mysqli_query(DPDatabase::get_connection(), $sql) or die("At $queue_ident, " . mysqli_error(DPDatabase::get_connection()));
-}
+        $setters = 'projects_target = ' . array_get($targets_array, 'projects', 0)
+            . ', pages_target = ' . array_get($targets_array, 'pages', 0);
+        $sql = "UPDATE queue_defns SET $setters WHERE id=$id\n";
+        // echo "$sql\n";
+        $res = mysqli_query(DPDatabase::get_connection(), $sql) or die("At $queue_ident, " . mysqli_error(DPDatabase::get_connection()));
+    }
 
-if ($n_conversion_errors) {
-    // This can't happen?
-    echo "Aborting (leaving 'release_criterion' column in place) due to $n_conversion_errors conversion errors noted above.\n";
-    exit;
+    if ($n_conversion_errors) {
+        // This can't happen?
+        echo "Aborting (leaving 'release_criterion' column in place) due to $n_conversion_errors conversion errors noted above.\n";
+        exit;
+    }
 }
 
 echo "Dropping the release_criterion column ...\n";
