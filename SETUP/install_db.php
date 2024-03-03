@@ -27,7 +27,9 @@ $db_schema = "db_schema.sql";
 $db_schema = file($db_schema);
 $sql_create_tables = "";
 while ($lines = array_shift($db_schema)) {
-    if (substr($lines, 0, 1) == "#" || substr($lines, 0, 1) == "\n") {
+    if (substr($lines, 0, 1) == "#" ||
+        substr($lines, 0, 2) == "--" ||
+        substr($lines, 0, 1) == "\n") {
         // skip comment and blank lines
     } else {
         $sql_create_tables = $sql_create_tables.$lines." ";
