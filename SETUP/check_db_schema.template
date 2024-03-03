@@ -12,26 +12,25 @@ set -e
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R202102
-curr_tag=production
-upgrade_number=16
+prev_tag=R202309
+curr_tag=master
+upgrade_number=20
 
-setup_dir=`dirname $0`
+setup_dir=$(realpath $(dirname $0))
 testing_dir=/tmp/dp_schema_check
 testing_code_dir=$testing_dir/c
 testing_db_name=temp_dp_schema_check
 
+db_server='<<DB_SERVER>>'
+db_user='<<DB_USER>>'
+db_password='<<DB_PASSWORD>>'
 php_cli_exec='<<PHP_CLI_EXECUTABLE>>'
 
 mkdir -p $testing_dir
 
 echo ""
 echo "Dumping the schema of the current database..."
-$setup_dir/dump_db_schema --table-list-from-code > $testing_dir/current_schema_dump
-# Use --table-list-from-code because a real DP database will typically have
-# a) a full complement of phpbb tables, and
-# b) some adhoc tables,
-# neither of which are pertinent to this check.
+$setup_dir/dump_db_schema --table-list-from-db > $testing_dir/current_schema_dump
 
 echo ""
 echo "Creating a config file for a test install..."
@@ -42,9 +41,9 @@ echo "
 
     _CODE_DIR=$testing_code_dir
     _DB_NAME=$testing_db_name
-    _DB_SERVER=<<DB_SERVER>>
-    _DB_USER=<<DB_USER>>
-    _DB_PASSWORD='<<DB_PASSWORD>>'
+    _DB_SERVER=$db_server
+    _DB_USER=$db_user
+    _DB_PASSWORD='$db_password'
 
     # Need to set booleans/integers, otherwise site_vars.php will raise syntax errors.
     _TESTING=true
@@ -60,6 +59,7 @@ echo "
     _API_RATE_LIMIT_SECONDS_IN_WINDOW=0
 
     # String values
+    _FORUM_TYPE='phpbb3'
     _DEFAULT_CHAR_SUITES='[ \"basic-latin\" ]'
     _PHPMAILER_SMTP_CONFIG='[]'
 
@@ -93,12 +93,12 @@ cd $testing_code_setup_dir
 
 echo ""
 echo "Creating and/or cleaning out the test database..."
-mysql -h <<DB_SERVER>> -u <<DB_USER>> -p'<<DB_PASSWORD>>' -e "DROP   DATABASE $testing_db_name"
-mysql -h <<DB_SERVER>> -u <<DB_USER>> -p'<<DB_PASSWORD>>' -e "CREATE DATABASE $testing_db_name"
+mysql -h $db_server -u $db_user -p"$db_password" -e "DROP   DATABASE $testing_db_name"
+mysql -h $db_server -u $db_user -p"$db_password" -e "CREATE DATABASE $testing_db_name"
 if [ $? != 0 ]; then
     echo "CREATE DATABASE failed."
     echo "Probably some sufficiently powerful MySQL user will have to invoke:"
-    echo "    GRANT ALL ON $testing_db_name.* TO <<DB_USER>>@<<DB_SERVER>> IDENTIFIED BY '<<DB_PASSWORD>>'"
+    echo "    GRANT ALL ON $testing_db_name.* TO $db_user@$db_server IDENTIFIED BY '$db_password'"
     exit 1
 fi
 
@@ -130,7 +130,7 @@ echo "Dumping the schema of the resulting database..."
 if [ -e $testing_dir/upgraded_schema_dump ]; then
     mv $testing_dir/upgraded_schema_dump $testing_dir/upgraded_schema_dump.bak
 fi
-./dump_db_schema --table-list-from-db > $testing_dir/upgraded_schema_dump
+$setup_dir/dump_db_schema --table-list-from-db $testing_db_name > $testing_dir/upgraded_schema_dump
 
 echo ""
 echo "Compare the two schemas, eg:"
@@ -141,5 +141,3 @@ echo ""
 echo "When you're done, don't forget to..."
 echo "    rm -rf $testing_dir"
 echo "    DROP DATABASE $testing_db_name;"
-
-# vim: sw=4 ts=4 expandtab
