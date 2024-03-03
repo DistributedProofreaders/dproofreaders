@@ -1,6 +1,7 @@
 #!/bin/bash
-
 # Dump (to stdout) the SQL commands to create DP tables.
+
+set -euo pipefail
 
 db_user='<<DB_USER>>'
 db_password='<<DB_PASSWORD>>'
@@ -16,13 +17,13 @@ export LC_ALL=POSIX
 
 # We don't want to dump schema for *all* tables in the database.
 # So how will we determine which ones to dump?
-if [ "$1" = '--table-list-from-db' ]; then
+if [ "${1-}" = '--table-list-from-db' ]; then
     table_list_source='db'
     # If they've passed in another arg, assume it's the DB name
-    if [ ! -z "$2" ]; then
+    if [ -n "${2-}" ]; then
         db_name=$2
     fi
-elif [ "$1" = '--table-list-from-code' ]; then
+elif [ "${1-}" = '--table-list-from-code' ]; then
     table_list_source='code'
 else
     table_list_source='code'
@@ -41,16 +42,16 @@ get_table_names()
             |
         sort
     elif [ $table_list_source = code ]; then
-        find $code_dir -type f \
+        find $setup_dir/.. -type f \
             \( -name '*.php' -o -name '*.inc' -o -name '*.pl' \) |
 
         xargs grep -E '(FROM|INTO|JOIN) ' |
 
-        # Suppress some non-SQL occurrences of those keywords:
+        # Suppress some non-SQL occurrences of those keywords and vendor code
         grep -v \
+            -e /vendor/ \
             -e 'the FROM clause' \
             -e 'FAR FROM HOME' \
-            -e 'INSERT INTO the same table' \
         |
 
         sed -n -e'
@@ -61,21 +62,15 @@ get_table_names()
             s/^`\([^`]*\)`.*/\1/p
         ' |
 
-        # 'cur' and 'old' are tables referenced in DifferenceEngine.inc,
-        #     by code that we presumably don't execute.
         # 'member_stats', 'user_teams_stats', and 'pagestats' are obsolete
         #     tables that are referenced by some upgrade scripts.
         # The rest are temporary tables.
         grep -v -x \
-            -e cur -e old \
             -e member_stats -e user_teams_stats -e pagestats \
-            -e _page_latest \
             -e access_log_summary \
             -e active_page_counts \
-            -e beginpages \
-            -e newbies \
-            -e test_u \
-            -e user_filters_temp \
+            -e information_schema \
+            -e genre_translations \
             -e project_event_subscriptions_grouped_by_project \
         |
         # Tables with phpbb_ prefix are managed / installed by phpBB.
@@ -91,7 +86,7 @@ get_table_names()
     fi
 }
 
-tables=`get_table_names`
+tables=$(get_table_names)
 
 if true; then
     # The order tables are dumped is not consistent and it's possible to have
