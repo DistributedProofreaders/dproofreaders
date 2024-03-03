@@ -13,8 +13,10 @@ $comparator->render();
 
 class Comparator
 {
-    public function render()
+    public function render(): void
     {
+        global $pguser, $code_url;
+
         $all_rounds = Rounds::get_all();
 
         // L_round_options are all rounds except the last
@@ -33,8 +35,6 @@ class Comparator
         $R_round = get_round_param($_GET, "R_round_id", $default_R_round);
         $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
         $go_compare = isset($_GET['compare']);
-
-        global $pguser, $code_url;
 
         $this->project = new Project($projectid);
 
@@ -101,7 +101,6 @@ class Comparator
             $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
 
-        validate_projectID($projectid);
         $sql = "
             SELECT image, $L_round->text_column_name, $R_round->text_column_name
             FROM $projectid
@@ -144,7 +143,7 @@ class Comparator
         echo "</p>";
     }
 
-    public function selector_string($selected_round, $name, $rounds)
+    private function selector_string(Round $selected_round, string $name, array $rounds): string
     {
         $sel_str = "<select name=$name>";
         foreach ($rounds as $round) {
@@ -158,7 +157,7 @@ class Comparator
         return $sel_str;
     }
 
-    public function radio_string($value, $label)
+    private function radio_string(string $value, string $label): string
     {
         $checked = ($this->page_set === $value) ? " checked" : "";
         return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label);
