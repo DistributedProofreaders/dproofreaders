@@ -1,12 +1,9 @@
-# Disable foreign key checks to until all tables are created
+-- Disable foreign key checks to until all tables are created
 SET FOREIGN_KEY_CHECKS=0;
 
-#
-# Table structure for table `access_log`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `access_log`
+--
 
 CREATE TABLE `access_log` (
   `timestamp` int(20) NOT NULL default '0',
@@ -16,14 +13,10 @@ CREATE TABLE `access_log` (
   `activity` varchar(32) NOT NULL default '',
   KEY `subject_username` (`subject_username`,`timestamp`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `authors`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `authors`
+--
 
 CREATE TABLE `authors` (
   `author_id` mediumint(8) unsigned NOT NULL auto_increment,
@@ -39,16 +32,12 @@ CREATE TABLE `authors` (
   `dcomments` varchar(20) NOT NULL default '',
   `enabled` tinytext NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`author_id`)
+  PRIMARY KEY (`author_id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `best_tally_rank`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `best_tally_rank`
+--
 
 CREATE TABLE `best_tally_rank` (
   `tally_name` char(2) NOT NULL default '',
@@ -56,16 +45,12 @@ CREATE TABLE `best_tally_rank` (
   `holder_id` int(6) unsigned NOT NULL default '0',
   `best_rank` int(6) NOT NULL default '0',
   `best_rank_timestamp` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`)
+  PRIMARY KEY (`tally_name`,`holder_type`,`holder_id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `biographies`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `biographies`
+--
 
 CREATE TABLE `biographies` (
   `bio_id` int(11) NOT NULL auto_increment,
@@ -73,49 +58,38 @@ CREATE TABLE `biographies` (
   `bio` text NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `bio_format` varchar(8) NOT NULL default 'markdown',
-  PRIMARY KEY  (`bio_id`)
+  PRIMARY KEY (`bio_id`)
 ) COMMENT='Contains biographies (see authors)';
-# --------------------------------------------------------
 
-#
-# Table structure for table `current_tallies`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `current_tallies`
+--
 
 CREATE TABLE `current_tallies` (
   `tally_name` char(2) NOT NULL default '',
   `holder_type` char(1) NOT NULL default '',
   `holder_id` int(6) unsigned NOT NULL default '0',
   `tally_value` int(8) NOT NULL default '0',
-  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`)
+  PRIMARY KEY (`tally_name`,`holder_type`,`holder_id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `charsuites`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `charsuites`
+--
 
 CREATE TABLE `charsuites` (
   `name` varchar(64) NOT NULL,
   `enabled` tinyint(4) DEFAULT '1',
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB;
-# --------------------------------------------------------
+
 
 INSERT INTO charsuites
     SET name='basic-latin';
 
-#
-# Table structure for table `image_sources`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `image_sources`
+--
 
 CREATE TABLE `image_sources` (
   `code_name` varchar(10) NOT NULL default '',
@@ -132,14 +106,10 @@ CREATE TABLE `image_sources` (
   UNIQUE KEY `code_name` (`code_name`),
   UNIQUE KEY `display_name` (`display_name`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `job_logs`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `job_logs`
+--
 
 CREATE TABLE `job_logs` (
   `filename` varchar(40) NOT NULL default ''' ''',
@@ -147,29 +117,21 @@ CREATE TABLE `job_logs` (
   `event` varchar(20) NOT NULL default ''' ''',
   `comments` varchar(255) default NULL
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `marc_records`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `marc_records`
+--
 
 CREATE TABLE `marc_records` (
   `projectid` varchar(22) NOT NULL default '',
   `original_array` text NOT NULL,
   `updated_array` text NOT NULL,
-  PRIMARY KEY  (`projectid`)
+  PRIMARY KEY (`projectid`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `news_items`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `news_items`
+--
 
 CREATE TABLE `news_items` (
   `id` int(11) NOT NULL auto_increment,
@@ -181,31 +143,23 @@ CREATE TABLE `news_items` (
   `locale` varchar(8) NOT NULL DEFAULT '',
   `header` varchar(256) NOT NULL DEFAULT '',
   `item_type` varchar(16) NOT NULL DEFAULT '',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `pageid_locale` (`news_page_id`,`locale`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `news_pages`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `news_pages`
+--
 
 CREATE TABLE `news_pages` (
   `news_page_id` varchar(8) NOT NULL default '',
   `t_last_change` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`news_page_id`)
+  PRIMARY KEY (`news_page_id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `non_activated_users`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `non_activated_users`
+--
 
 CREATE TABLE `non_activated_users` (
   `id` varchar(50) NOT NULL default '',
@@ -219,17 +173,13 @@ CREATE TABLE `non_activated_users` (
   `http_referrer` varchar(256) NOT NULL DEFAULT '',
   `u_intlang` varchar(25) default '',
   `user_password` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`username`),
+  PRIMARY KEY (`username`),
   KEY `email` (`email`)
 ) COMMENT='Each row represents a not-yet-activated user, user_password ';
-# --------------------------------------------------------
 
-#
-# Table structure for table `page_events`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `page_events`
+--
 
 CREATE TABLE `page_events` (
   `event_id` int(10) unsigned NOT NULL auto_increment,
@@ -239,18 +189,14 @@ CREATE TABLE `page_events` (
   `event_type` varchar(16) NOT NULL default '',
   `username` varchar(25) NOT NULL default '',
   `round_id` char(2) default NULL,
-  PRIMARY KEY  (`event_id`),
+  PRIMARY KEY (`event_id`),
   KEY `username` (`username`,`round_id`),
   KEY `projectid_username` (`projectid`,`username`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `past_tallies`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `past_tallies`
+--
 
 CREATE TABLE `past_tallies` (
   `timestamp` int(10) unsigned NOT NULL default '0',
@@ -259,31 +205,23 @@ CREATE TABLE `past_tallies` (
   `tally_name` char(2) NOT NULL default '',
   `tally_delta` int(8) NOT NULL default '0',
   `tally_value` int(8) NOT NULL default '0',
-  PRIMARY KEY  (`tally_name`,`holder_type`,`holder_id`,`timestamp`),
+  PRIMARY KEY (`tally_name`,`holder_type`,`holder_id`,`timestamp`),
   KEY `tallyboard_time` (`tally_name`,`holder_type`,`timestamp`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `pg_books`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `pg_books`
+--
 
 CREATE TABLE `pg_books` (
   `etext_number` int(10) unsigned NOT NULL,
   `formats` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY  (`etext_number`)
+  PRIMARY KEY (`etext_number`)
 ) COMMENT='Each row represents a different PG etext';
-# --------------------------------------------------------
 
-#
-# Table structure for table `project_events`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `project_events`
+--
 
 CREATE TABLE `project_events` (
   `event_id` int(10) unsigned NOT NULL auto_increment,
@@ -294,18 +232,14 @@ CREATE TABLE `project_events` (
   `details1` varchar(255) NOT NULL default '',
   `details2` varchar(255) NOT NULL default '',
   `details3` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`event_id`),
+  PRIMARY KEY (`event_id`),
   KEY `project` (`projectid`),
   KEY `timestamp` (`timestamp`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `project_charsuites`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `project_charsuites`
+--
 
 CREATE TABLE `project_charsuites` (
   `projectid` varchar(22) NOT NULL,
@@ -314,14 +248,10 @@ CREATE TABLE `project_charsuites` (
   KEY `charsuite_fk` (`charsuite_name`),
   CONSTRAINT `charsuite_fk` FOREIGN KEY (`charsuite_name`) REFERENCES `charsuites` (`name`)
 ) ENGINE=InnoDB;
-# --------------------------------------------------------
 
-#
-# Table structure for table `project_holds`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `project_holds`
+--
 
 CREATE TABLE `project_holds` (
   `projectid` varchar(22) NOT NULL,
@@ -329,14 +259,10 @@ CREATE TABLE `project_holds` (
   `notify_time` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`projectid`,`state`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `project_state_stats`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `project_state_stats`
+--
 
 CREATE TABLE `project_state_stats` (
   `date` date NOT NULL default '2003-01-01',
@@ -347,14 +273,10 @@ CREATE TABLE `project_state_stats` (
   KEY `date` (`date`),
   KEY `state` (`state`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `projects`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `projects`
+--
 
 CREATE TABLE `projects` (
   `nameofwork` varchar(255) NOT NULL default '',
@@ -393,19 +315,15 @@ CREATE TABLE `projects` (
   `smoothread_deadline` int(20) NOT NULL default '0',
   `deletion_reason` tinytext NOT NULL,
   `custom_chars` varchar(64) DEFAULT '',
-  PRIMARY KEY  (`projectid`),
+  PRIMARY KEY (`projectid`),
   KEY `special_code` (`special_code`),
   KEY `projectid_archived_state` (`projectid`,`archived`,`state`),
   KEY `state_moddate` (`state`,`modifieddate`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `queue_defns`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `queue_defns`
+--
 
 CREATE TABLE `queue_defns` (
   `id` int(4) NOT NULL auto_increment,
@@ -417,18 +335,14 @@ CREATE TABLE `queue_defns` (
   `projects_target` smallint unsigned NOT NULL,
   `pages_target` mediumint unsigned NOT NULL,
   `comment` text,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `ordering` (`round_id`,`ordering`),
   UNIQUE KEY `name` (`round_id`,`name`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `quiz_passes`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `quiz_passes`
+--
 
 CREATE TABLE `quiz_passes` (
   `username` varchar(25) NOT NULL default '',
@@ -437,14 +351,10 @@ CREATE TABLE `quiz_passes` (
   `result` varchar(10) NOT NULL default '',
   KEY `username` (`username`,`quiz_page`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `rules`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `rules`
+--
 
 CREATE TABLE `rules` (
   `id` int(4) NOT NULL auto_increment,
@@ -453,64 +363,48 @@ CREATE TABLE `rules` (
   `anchor` varchar(255) default NULL,
   `subject` varchar(255) NOT NULL default '',
   `rule` text NOT NULL,
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `document_langcode` (`document`,`langcode`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `sessions`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `sessions`
+--
 
 CREATE TABLE `sessions` (
   `sid` varchar(32) NOT NULL default '',
   `expiration` int(11) NOT NULL default '0',
   `value` text NOT NULL,
-  PRIMARY KEY  (`sid`),
+  PRIMARY KEY (`sid`),
   KEY `expiration` (`expiration`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `site_tally_goals`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `site_tally_goals`
+--
 
 CREATE TABLE `site_tally_goals` (
   `date` date NOT NULL default '2000-01-01',
   `tally_name` char(2) NOT NULL default '',
   `goal` int(6) NOT NULL default '0',
-  PRIMARY KEY  (`date`,`tally_name`)
+  PRIMARY KEY (`date`,`tally_name`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `smoothread`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `smoothread`
+--
 
 CREATE TABLE `smoothread` (
   `projectid` varchar(22) NOT NULL default '',
   `user` varchar(25) NOT NULL default '',
   `committed` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`projectid`,`user`),
+  PRIMARY KEY (`projectid`,`user`),
   KEY `user` (`user`)
 ) COMMENT='Each row represents an association between a user and a proj';
-# --------------------------------------------------------
 
-#
-# Table structure for table `special_days`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `special_days`
+--
 
 CREATE TABLE `special_days` (
   `spec_code` varchar(20) NOT NULL default '',
@@ -528,14 +422,10 @@ CREATE TABLE `special_days` (
   `symbol` varchar(2) default '',
   UNIQUE KEY `spec_code` (`spec_code`)
 ) COMMENT='definitions of SPECIAL days';
-# --------------------------------------------------------
 
-#
-# Table structure for table `tasks`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `tasks`
+--
 
 CREATE TABLE `tasks` (
   `task_id` mediumint(9) NOT NULL auto_increment,
@@ -560,14 +450,10 @@ CREATE TABLE `tasks` (
   `related_postings` mediumtext NOT NULL,
   PRIMARY KEY (`task_id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `tasks_comments`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `tasks_comments`
+--
 
 CREATE TABLE `tasks_comments` (
   `task_id` mediumint(9) NOT NULL default '0',
@@ -576,14 +462,10 @@ CREATE TABLE `tasks_comments` (
   `comment` mediumtext NOT NULL,
   PRIMARY KEY (`task_id`,`u_id`,`comment_date`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `tasks_related_tasks`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `tasks_related_tasks`
+--
 
 CREATE TABLE `tasks_related_tasks` (
   `task_id_1` mediumint(9) NOT NULL,
@@ -591,14 +473,10 @@ CREATE TABLE `tasks_related_tasks` (
   PRIMARY KEY (`task_id_1`,`task_id_2`),
   KEY `task_id_2` (`task_id_2`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `tasks_votes`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `tasks_votes`
+--
 
 CREATE TABLE `tasks_votes` (
   `id` int(11) NOT NULL auto_increment,
@@ -609,14 +487,10 @@ CREATE TABLE `tasks_votes` (
   UNIQUE KEY `id` (`id`),
   KEY `task_id` (`task_id`,`u_id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `themes`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `themes`
+--
 
 CREATE TABLE `themes` (
   `theme_id` int(10) NOT NULL auto_increment,
@@ -625,11 +499,10 @@ CREATE TABLE `themes` (
   `created_by` varchar(25) NOT NULL default '',
   KEY `theme_id` (`theme_id`)
 );
-# --------------------------------------------------------
 
-#
-# Initial theme data
-#
+--
+-- Initial theme data
+--
 
 INSERT INTO themes SET
     name='Project Gutenberg',
@@ -648,14 +521,11 @@ INSERT INTO themes SET
     unixname='charcoal',
     created_by='srjfoo';
 
-# --------------------------------------------------------
 
-#
-# Table structure for table `user_active_log`
-#
-# Creation:
-# Last update:
-#
+
+--
+-- Table structure for table `user_active_log`
+--
 
 CREATE TABLE `user_active_log` (
   `year` smallint(4) unsigned NOT NULL default '2003',
@@ -674,29 +544,21 @@ CREATE TABLE `user_active_log` (
   `comments` varchar(255) default NULL,
   KEY `timestamp_ndx` (`time_stamp`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `user_filters`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `user_filters`
+--
 
 CREATE TABLE `user_filters` (
   `username` varchar(25) NOT NULL default '',
   `filtertype` varchar(25) NOT NULL default '',
   `value` text NOT NULL,
-  PRIMARY KEY  (`username`,`filtertype`)
+  PRIMARY KEY (`username`,`filtertype`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `user_profiles`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `user_profiles`
+--
 
 CREATE TABLE `user_profiles` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -724,17 +586,13 @@ CREATE TABLE `user_profiles` (
   `h_tchars` tinyint(2) unsigned default '70',
   `h_tscroll` tinyint(1) default '1',
   `h_twrap` tinyint(1) default '0',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   KEY `u_ref` (`u_ref`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `user_project_info`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `user_project_info`
+--
 
 CREATE TABLE `user_project_info` (
   `username` varchar(25) NOT NULL,
@@ -749,17 +607,13 @@ CREATE TABLE `user_project_info` (
   `iste_ppv_enter` tinyint(1) NOT NULL default '0',
   `iste_posted` tinyint(1) NOT NULL default '0',
   `iste_sr_reported` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`username`,`projectid`),
+  PRIMARY KEY (`username`,`projectid`),
   KEY `projectid` (`projectid`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `user_teams`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `user_teams`
+--
 
 CREATE TABLE `user_teams` (
   `id` int(10) unsigned NOT NULL auto_increment,
@@ -774,17 +628,13 @@ CREATE TABLE `user_teams` (
   `icon` varchar(25) NOT NULL default 'icon_default.png',
   `topic_id` int(10) default NULL,
   `latestUser` mediumint(9) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `teamname` (`teamname`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `user_teams_membership`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `user_teams_membership`
+--
 
 CREATE TABLE `user_teams_membership` (
   `u_id` int(11) unsigned NOT NULL,
@@ -794,14 +644,10 @@ CREATE TABLE `user_teams_membership` (
   FOREIGN KEY (`u_id`) REFERENCES `users` (`u_id`),
   FOREIGN KEY (`t_id`) REFERENCES `user_teams` (`id`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `users`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `users`
+--
 
 CREATE TABLE `users` (
   `reg_token` varchar(50) NOT NULL default '',
@@ -823,7 +669,7 @@ CREATE TABLE `users` (
   `u_intlang` varchar(25) default '',
   `u_privacy` tinyint(1) default '0',
   `api_key` varchar(38) DEFAULT NULL,
-  PRIMARY KEY  (`username`),
+  PRIMARY KEY (`username`),
   UNIQUE KEY `api_key` (`api_key`),
   KEY `u_id` (`u_id`),
   KEY `last_login` (`last_login`),
@@ -831,14 +677,10 @@ CREATE TABLE `users` (
   KEY `api_key_username` (`api_key`,`username`),
   KEY `email` (`email`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `usersettings`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `usersettings`
+--
 
 CREATE TABLE `usersettings` (
   `username` varchar(25) NOT NULL default '',
@@ -848,14 +690,10 @@ CREATE TABLE `usersettings` (
   KEY `setting` (`setting`,`value`),
   KEY `value` (`value`,`setting`)
 );
-# --------------------------------------------------------
 
-#
-# Table structure for table `wordcheck_events`
-#
-# Creation:
-# Last update:
-#
+--
+-- Table structure for table `wordcheck_events`
+--
 
 CREATE TABLE `wordcheck_events` (
   `check_id` int(10) unsigned NOT NULL auto_increment,
@@ -866,11 +704,10 @@ CREATE TABLE `wordcheck_events` (
   `username` varchar(25) NOT NULL,
   `suggestions` text,
   `corrections` text,
-  PRIMARY KEY  (`check_id`),
+  PRIMARY KEY (`check_id`),
   KEY `pc_compound` (`projectid`,`timestamp`,`image`)
 );
-# --------------------------------------------------------
 
-# Re-enable foreign key checks
+-- Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS=1;
 

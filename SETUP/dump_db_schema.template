@@ -7,7 +7,7 @@ db_password='<<DB_PASSWORD>>'
 db_name='<<DB_NAME>>'
 code_dir='<<CODE_DIR>>'
 
-setup_dir=`dirname $0`
+setup_dir=$(realpath $(dirname $0))
 
 export LC_ALL=POSIX
 # because on www.pgdp.net, none of the LC_* are defined,
@@ -104,27 +104,15 @@ if true; then
         --no-data --quote-names --add-drop-table=FALSE --force \
         $db_name $tables |
 
-    # Remove column collation specs as those can vary
+    # Remove column collation specs & auto increment as those can vary
     sed -E '
+        s/AUTO_INCREMENT=[0-9]+ //
         s/COLLATE \w+\s*//
         s/ COLLATE=\w+//
     ' |
 
     # Ensure the per-table chunks are in a consistent order:
     php -f  $setup_dir/sort_mysqldump.php |
-
-    # Make it look more like the dump from phpMyAdmin:
-    sed '
-        s/^--/#/
-        s/for table .\(.*\)./for table \`\1\`/
-        /^# Table structure/ a\
-#\
-# Creation:\
-# Last update:
-        s/AUTO_INCREMENT=\([0-9]*\) //
-        /^) ENGINE=/ a\
-# --------------------------------------------------------
-        ' |
 
     # Skip MySQL command sequences as they may be version-specific
     # (and generate a lot of noise in the diffs).
