@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Stop on undefined variables or errors
-set -u
-set -e
+set -euo pipefail
 
 # Compare the db-schema of the current installation
 # to the db-schema you get by taking an installation of the previous release
