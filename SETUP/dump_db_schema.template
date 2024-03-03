@@ -5,7 +5,7 @@
 db_user='<<DB_USER>>'
 db_password='<<DB_PASSWORD>>'
 db_name='<<DB_NAME>>'
-code_dir=<<CODE_DIR>>
+code_dir='<<CODE_DIR>>'
 
 setup_dir=`dirname $0`
 
@@ -18,6 +18,10 @@ export LC_ALL=POSIX
 # So how will we determine which ones to dump?
 if [ "$1" = '--table-list-from-db' ]; then
     table_list_source='db'
+    # If they've passed in another arg, assume it's the DB name
+    if [ ! -z "$2" ]; then
+        db_name=$2
+    fi
 elif [ "$1" = '--table-list-from-code' ]; then
     table_list_source='code'
 else
@@ -33,14 +37,8 @@ get_table_names()
         grep -v \
             -e '^projectID' \
             -e '^phpbb_' \
-            -e active_users \
-            -e begin_users \
-            -e end_users \
-            -e old_phpbb_users \
-            -e phpwiki \
-            -e projectstemp \
-            -e ranks \
-            -e states |
+            -e pgdptest_voter_info \
+            |
         sort
     elif [ $table_list_source = code ]; then
         find $code_dir -type f \
@@ -105,6 +103,12 @@ if true; then
     mysqldump --user=$db_user --password="$db_password" \
         --no-data --quote-names --add-drop-table=FALSE --force \
         $db_name $tables |
+
+    # Remove column collation specs as those can vary
+    sed -E '
+        s/COLLATE \w+\s*//
+        s/ COLLATE=\w+//
+    ' |
 
     # Ensure the per-table chunks are in a consistent order:
     php -f  $setup_dir/sort_mysqldump.php |
