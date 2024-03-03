@@ -9,38 +9,31 @@ include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 require_login();
 
 $comparator = new Comparator();
-$comparator->get_data();
 $comparator->render();
 
 class Comparator
 {
-    public function __construct()
-    {
-        $all_rounds = Rounds::get_all();
-        $all_ids = Rounds::get_ids();
-
-        // L_round_options are all rounds except the last
-        $this->L_round_options = array_slice($all_ids, 0, count($all_ids) - 1);
-        // R_round_options are all formatting rounds
-        $this->R_round_options = array_keys(array_filter($all_rounds, 'is_formatting_round'));
-        // default R_round is first R-round
-        $this->default_R_round_id = $this->R_round_options[0];
-        // default L_round is the preceding one
-        $this->default_L_round_id = $all_ids[array_search($this->default_R_round_id, $all_ids) - 1];
-        $this->state_index = array_flip(ProjectStates::get_states());
-    }
-
-    public function get_data()
-    {
-        $this->projectid = get_projectID_param($_GET, 'project');
-        $this->L_round_id = get_enumerated_param($_GET, "L_round_id", $this->default_L_round_id, $this->L_round_options);
-        $this->R_round_id = get_enumerated_param($_GET, "R_round_id", $this->default_R_round_id, $this->R_round_options);
-        $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
-        $this->go_compare = isset($_GET['compare']);
-    }
-
     public function render()
     {
+        $all_rounds = Rounds::get_all();
+
+        // L_round_options are all rounds except the last
+        $L_round_options = array_slice($all_rounds, 0, count($all_rounds) - 1);
+        // R_round_options are all formatting rounds
+        $R_round_options = array_filter($all_rounds, 'is_formatting_round');
+        // default R_round is first R-round
+        $default_R_round = reset($R_round_options);
+        // default L_round is the preceding one
+        $default_L_round = Rounds::get_by_number($default_R_round->round_number - 1);
+
+        $this->state_index = array_flip(ProjectStates::get_states());
+
+        $this->projectid = get_projectID_param($_GET, 'project');
+        $L_round = get_round_param($_GET, "L_round_id", $default_L_round);
+        $R_round = get_round_param($_GET, "R_round_id", $default_R_round);
+        $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
+        $this->go_compare = isset($_GET['compare']);
+
         global $pguser, $code_url;
 
         $this->project = new Project($this->projectid);
@@ -67,8 +60,8 @@ class Comparator
         "<div>", _("Compare rounds:"), "</div>\n",
         "<div class='grid-wrapper'>\n",
         // TRANSLATORS: "Round 1" and "Round 2" are repeated below in "Pages I worked on in Round 1" etc.
-        "<div>", _("Round 1"), "</div><div>", $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options), "</div>\n",
-        "<div>", _("Round 2"), "</div><div>", $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options), "</div></div>\n",
+        "<div>", _("Round 1"), "</div><div>", $this->selector_string($L_round, "L_round_id", $L_round_options), "</div>\n",
+        "<div>", _("Round 2"), "</div><div>", $this->selector_string($R_round, "R_round_id", $R_round_options), "</div></div>\n",
         "<p>", _("Show"), ":<br>\n",
         $this->radio_string('all', _("All pages")), "<br>\n",
         $this->radio_string('left', _("Pages I worked on in Round 1")), "<br>\n",
@@ -79,9 +72,6 @@ class Comparator
         if (!$this->go_compare) {
             exit();
         }
-
-        $L_round = get_Round_for_round_id($this->L_round_id);
-        $R_round = get_Round_for_round_id($this->R_round_id);
 
         if (!$this->has_project_started_round($L_round) || !$this->has_project_started_round($R_round)) {
             exit();
