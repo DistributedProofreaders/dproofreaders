@@ -63,7 +63,7 @@ output_header("$page_details_str: $title", NO_STATSBAR);
 // `float: right` like the other linkboxes in the codebase do because on
 // this page the inflexible and very wide page details table causes the
 // linkbox to display in ugly locations.
-echo "<div style='display: flex; justify-content: space-between'>";
+echo "<div style='display: flex; align-items: flex-start; justify-content: space-between'>";
 echo "<div>";
 echo "<h1>" . html_safe($title) . "</h1>\n";
 echo "<h2>$page_details_str</h2>\n";
