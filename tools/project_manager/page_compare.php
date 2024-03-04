@@ -9,34 +9,34 @@ include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 require_login();
 
 $comparator = new Comparator();
-$comparator->get_data();
 $comparator->render();
 
 class Comparator
 {
-    public function __construct()
-    {
-        global $PROJECT_STATES_IN_ORDER;
-
-        $this->L_round_options = ['P1', 'P2', 'P3', 'F1'];
-        $this->R_round_options = ['F1', 'F2'];
-        $this->state_index = array_flip($PROJECT_STATES_IN_ORDER);
-    }
-
-    public function get_data()
-    {
-        $this->projectid = get_projectID_param($_GET, 'project');
-        $this->L_round_id = get_enumerated_param($_GET, "L_round_id", "P3", $this->L_round_options);
-        $this->R_round_id = get_enumerated_param($_GET, "R_round_id", "F1", $this->R_round_options);
-        $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
-        $this->go_compare = isset($_GET['compare']);
-    }
-
-    public function render()
+    public function render(): void
     {
         global $pguser, $code_url;
 
-        $this->project = new Project($this->projectid);
+        $all_rounds = Rounds::get_all();
+
+        // L_round_options are all rounds except the last
+        $L_round_options = array_slice($all_rounds, 0, count($all_rounds) - 1);
+        // R_round_options are all formatting rounds
+        $R_round_options = array_filter($all_rounds, 'is_formatting_round');
+        // default R_round is first R-round
+        $default_R_round = reset($R_round_options);
+        // default L_round is the preceding one
+        $default_L_round = Rounds::get_by_number($default_R_round->round_number - 1);
+
+        $this->state_index = array_flip(ProjectStates::get_states());
+
+        $projectid = get_projectID_param($_GET, 'project');
+        $L_round = get_round_param($_GET, "L_round_id", $default_L_round);
+        $R_round = get_round_param($_GET, "R_round_id", $default_R_round);
+        $this->page_set = get_enumerated_param($_GET, "page_set", "all", ['left', 'right', 'all']);
+        $go_compare = isset($_GET['compare']);
+
+        $this->project = new Project($projectid);
 
         $title = _('Compare pages with formatting removed');
         $sub_title = $this->project->nameofwork;
@@ -46,7 +46,7 @@ class Comparator
         echo "<h2>" . html_safe($sub_title) . "</h2>\n";
 
         $state = $this->project->state;
-        echo "<p>" . return_to_project_page_link($this->projectid, ["expected_state=$state"]) . "</p>\n";
+        echo "<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "</p>\n";
 
         if (!$this->project->check_pages_table_exists($warn_message)) {
             echo "<p class='warning'>$warn_message</p>\n";
@@ -55,13 +55,13 @@ class Comparator
 
         // draw the round selectors
         echo "<form action='page_compare.php' method='GET'>
-            <input type='hidden' name='project' value='$this->projectid'>
+            <input type='hidden' name='project' value='$projectid'>
             <input type='hidden' name='compare'>",
         "<div>", _("Compare rounds:"), "</div>\n",
         "<div class='grid-wrapper'>\n",
         // TRANSLATORS: "Round 1" and "Round 2" are repeated below in "Pages I worked on in Round 1" etc.
-        "<div>", _("Round 1"), "</div><div>", $this->selector_string($this->L_round_id, "L_round_id", $this->L_round_options), "</div>\n",
-        "<div>", _("Round 2"), "</div><div>", $this->selector_string($this->R_round_id, "R_round_id", $this->R_round_options), "</div></div>\n",
+        "<div>", _("Round 1"), "</div><div>", $this->selector_string($L_round, "L_round_id", $L_round_options), "</div>\n",
+        "<div>", _("Round 2"), "</div><div>", $this->selector_string($R_round, "R_round_id", $R_round_options), "</div></div>\n",
         "<p>", _("Show"), ":<br>\n",
         $this->radio_string('all', _("All pages")), "<br>\n",
         $this->radio_string('left', _("Pages I worked on in Round 1")), "<br>\n",
@@ -69,12 +69,9 @@ class Comparator
         "<input type='submit' value=", attr_safe(_('Go')), "></form>\n";
 
         // if this is first entry don't do anything else
-        if (!$this->go_compare) {
+        if (!$go_compare) {
             exit();
         }
-
-        $L_round = get_Round_for_round_id($this->L_round_id);
-        $R_round = get_Round_for_round_id($this->R_round_id);
 
         if (!$this->has_project_started_round($L_round) || !$this->has_project_started_round($R_round)) {
             exit();
@@ -104,10 +101,9 @@ class Comparator
             $condition .= sprintf(" AND state='%s'", $R_round->page_save_state);
         }
 
-        validate_projectID($this->projectid);
         $sql = "
             SELECT image, $L_round->text_column_name, $R_round->text_column_name
-            FROM $this->projectid
+            FROM $projectid
             WHERE $condition
             ORDER BY image ASC
         ";
@@ -142,12 +138,12 @@ class Comparator
         echo "<p>", _("Clicking on a link will show the differences in a new window or tab."), "</p>\n";
         echo "<p>";
         foreach ($diff_pages as $imagename) {
-            echo "<a href='$code_url/tools/project_manager/diff.php?project=$this->projectid&amp;image=$imagename&amp;L_round=$L_round->id&amp;R_round=$R_round->id&amp;format=remove' target='_blank'>$imagename</a>\n";
+            echo "<a href='$code_url/tools/project_manager/diff.php?project=$projectid&amp;image=$imagename&amp;L_round=$L_round->id&amp;R_round=$R_round->id&amp;format=remove' target='_blank'>$imagename</a>\n";
         }
         echo "</p>";
     }
 
-    public function selector_string($selected_round, $name, $rounds)
+    private function selector_string(Round $selected_round, string $name, array $rounds): string
     {
         $sel_str = "<select name=$name>";
         foreach ($rounds as $round) {
@@ -161,7 +157,7 @@ class Comparator
         return $sel_str;
     }
 
-    public function radio_string($value, $label)
+    private function radio_string(string $value, string $label): string
     {
         $checked = ($this->page_set === $value) ? " checked" : "";
         return "<input type='radio' name='page_set' value='$value'$checked>" . html_safe($label);
