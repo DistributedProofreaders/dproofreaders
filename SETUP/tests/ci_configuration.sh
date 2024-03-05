@@ -9,15 +9,14 @@ _DB_PASSWORD=dp_password
 _DB_NAME=dp_db
 _ARCHIVE_DB_NAME=dp_archive
 
-_CODE_DIR=$HOME
-_CODE_URL='http://localhost'
-_DYN_DIR=$HOME
-_DYN_URL='http://localhost'
+_CODE_DIR=$PWD
+_CODE_URL='http://127.0.0.1:12345'
+_DYN_DIR=$PWD
+_DYN_URL='http://127.0.0.1:12345'
 
-_FORUM_TYPE=phpbb3
-_PHPBB_TABLE_PREFIX=phpbb3.phpbb
-_PHPBB_DIR=$HOME/phpBB3
-_PHPBB_URL='http://localhost/phpBB3'
+_FORUM_TYPE=json
+_JSON_USERS=$PWD/SETUP/smoketests/users.json
+_JSON_POSTS=$PWD/SETUP/smoketests/posts.json
 
 _DEFAULT_CHAR_SUITES='["basic-latin"]'
 
@@ -36,11 +35,11 @@ _UPLOADS_PASSWORD=PICK_A_PASSWORD
 _ANTIVIRUS_EXECUTABLE=
 
 _PROJECTS_DIR=$HOME/projects
-_PROJECTS_URL='http://localhost/projects'
+_PROJECTS_URL='http://127.0.0.1:12345/projects'
 
 _ARCHIVE_PROJECTS_DIR=$HOME/projects.archive
 
-_API_ENABLED=false
+_API_ENABLED=true
 _API_RATE_LIMIT=false
 _API_RATE_LIMIT_REQUESTS_PER_WINDOW=3600
 _API_RATE_LIMIT_SECONDS_IN_WINDOW=3600
