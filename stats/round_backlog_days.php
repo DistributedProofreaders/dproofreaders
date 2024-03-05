@@ -55,7 +55,7 @@ $stats = query_graph_cache("_get_round_backlog_days_data", [], 60 * 60 * 24);
 $stats_total = array_sum($stats);
 
 // calculate the goal percent as 100 / number_of_phases
-$goal_percent = ceil(100 / count($stats));
+$goal_percent = ceil(100 / min(1, count($stats)));
 
 // colors
 $barColors = [];

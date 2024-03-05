@@ -31,7 +31,7 @@ $progordone_n_pages = [];
 // ---------------
 
 $stage_labels[] = 'New';
-$unavail_n_pages[] = $n_pages_[PROJ_NEW];
+$unavail_n_pages[] = $n_pages_[PROJ_NEW] ?? 0;
 $waiting_n_pages[] = 0;
 $available_n_pages[] = 0;
 $progordone_n_pages[] = 0;
