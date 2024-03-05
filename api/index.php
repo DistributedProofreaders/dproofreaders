@@ -179,7 +179,13 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
 
     // If the URI doesn't include the url param (because the Apache config
     // hasn't been updated) we need to include it here to make valid links.
-    $link_base = $_SERVER["SCRIPT_URI"] . "?";
+
+    // NB We don't use $_SERVER['SCRIPT_URI'] because not all servers set
+    // it. Most notably, the `php -S` CLI server we use for testing.
+    // See https://www.php.net/manual/en/reserved.variables.server.php
+    $proto = !empty(array_get($_SERVER, 'HTTPS', '')) ? 'https://' : 'http://';
+    $script_uri = $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $link_base = $script_uri . "?";
     if (stripos($link_base, $_GET["url"]) === false) {
         $link_base .= "url=" . $_GET["url"] . "&";
     }
