@@ -1,4 +1,4 @@
-name: Static code checks
+name: CI tests
 on: [push, pull_request]
 jobs:
   phpunit:
@@ -97,3 +97,28 @@ jobs:
         run: make -C SETUP lint_css
       - name: Run best practice checks
         run: make -C SETUP best_practice_checks
+  pageload-smoketest:
+    strategy:
+      matrix:
+        cfg:
+          - { os: 'ubuntu-20.04', php: '7.4' }
+          - { os: 'ubuntu-22.04', php: '8.1' }
+    runs-on: ${{ matrix.cfg.os }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup PHP, composer
+        uses: ./.github/actions/setup-php
+        with:
+          php-version: ${{ matrix.cfg.php }}
+      - name: Setup MySQL, install schema
+        uses: ./.github/actions/setup-mysql-db
+      - name: Install aspell dependencies for WordCheck tests
+        run: sudo apt --fix-broken install aspell aspell-en
+      - name: Add smoketest DB entries
+        run: |
+            mysql -uroot -proot < SETUP/smoketests/test_tables.sql
+      - name: Run pageload smoketest
+        run: |
+            SETUP/smoketests/pageload_smoketest.py \
+                -u admin -p admin_pass -k admin_key

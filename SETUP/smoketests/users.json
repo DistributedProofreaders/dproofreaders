@@ -1,0 +1,4 @@
+{
+    "admin": {"id": 1, "password": "$argon2id$v=19$m=65536,t=4,p=1$bElGVnhFNXpOZXZONUdaOA$gazVDNwh/og8aFAvtKCizQkFw3k2Q6l5E2WV26UxAaA", "email": "a@example.com"},
+    "teststeel": {"id": 110, "password": "", "email": ""}
+}
