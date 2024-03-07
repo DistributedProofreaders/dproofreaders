@@ -1,0 +1,11 @@
+--- a/Parsedown.php	2024-03-07 03:41:04.428494261 +0000
++++ b/Parsedown.php	2024-03-07 03:42:55.857437607 +0000
+@@ -1490,7 +1490,7 @@
+ 
+     protected function inlineSpecialCharacter($Excerpt)
+     {
+-        if ($Excerpt['text'][1] !== ' ' and strpos($Excerpt['text'], ';') !== false
++        if (@$Excerpt['text'][1] !== ' ' and strpos($Excerpt['text'], ';') !== false
+             and preg_match('/^&(#?+[0-9a-zA-Z]++);/', $Excerpt['text'], $matches)
+         ) {
+             return array(

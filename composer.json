@@ -9,7 +9,8 @@
         "erusev/parsedown": "1.8.0-beta-7",
         "erusev/parsedown-extra": "0.8.0",
         "voku/portable-utf8": "^6.0",
-        "phpmailer/phpmailer": "^6.8"
+        "phpmailer/phpmailer": "^6.8",
+        "cweagans/composer-patches": "^1.7.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
@@ -29,5 +30,18 @@
         "symfony/polyfill-intl-grapheme": "*",
         "symfony/polyfill-intl-normalizer": "*",
         "symfony/polyfill-mbstring": "*"
+    },
+    "extra": {
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "erusev/parsedown": {
+                "Parser PHP Notice on invalid HTML attribute": "patches/composer/parsedown-1.diff"
+            }
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "cweagans/composer-patches": true
+        }
     }
 }
