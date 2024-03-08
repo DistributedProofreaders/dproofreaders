@@ -11,7 +11,7 @@ include_once($relPath.'authors.inc');
  * This markup should always be replaced with the proper biography before the
  * project comments are displayed, zipped up for the post-processor, etc.
  *
- * @param object $project Project object
+ * @param Project $project Project object
  *
  * @return string
  */
@@ -22,9 +22,7 @@ function parse_project_comments($project)
     if ($project->comment_format == 'html') {
         $comments = sanitize_html($project->comments, 'td');
     } else {
-        $Parsedown = new ParsedownExtra();
-        $Parsedown->setSafeMode(true);
-        $comments = $Parsedown->text($project->comments);
+        $comments = render_markdown_as_html($project->comments);
     }
 
     // insert biographies instead of [biography=123]-markup
