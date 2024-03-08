@@ -1476,8 +1476,6 @@ function TaskComments($tid, $action)
     $result = DPDatabase::query($sql);
 
     echo "<h2>" . _("Comments") . "</h2>";
-    $Parsedown = new ParsedownExtra();
-    $Parsedown->setSafeMode(true);
     while ($row = mysqli_fetch_assoc($result)) {
         $comment_id = create_anchor_for_comment($row['u_id'], $row['comment_date']);
 
@@ -1505,7 +1503,7 @@ function TaskComments($tid, $action)
             echo "<input type='hidden' name='action' value='save_edit_comment'>";
             echo "<input type='submit' value='" . attr_safe(_("Save Comment")) . "'>";
         } else {
-            echo $Parsedown->text($row['comment']);
+            echo render_markdown_as_html($row['comment']);
         }
         echo "</div>";
         echo "</div>";
@@ -1857,9 +1855,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
             break;
 
         case 'task_details':
-            $Parsedown = new Parsedown();
-            $Parsedown->setSafeMode(true);
-            return $Parsedown->text($raw_value);
+            return render_markdown_as_html($raw_value);
 
             // The raw value is an integer denoting state of progress:
         case 'percent_complete':

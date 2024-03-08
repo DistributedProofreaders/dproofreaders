@@ -651,6 +651,27 @@ function sanitize_html($html, $parent_tag = 'div')
     return $purifier->purify($html);
 }
 
+/* Parse markdown text string using Parsedown library and output HTML
+ * @param $message Markdown text
+ * @return string HTML content
+ */
+function render_markdown_as_html(string $message): string
+{
+    $parser = new ParsedownExtra();
+    $parser->setSafeMode(true);
+    // NB Parsedown's parser code routinely uses $str[index] on
+    // substrings of the user provided input without checking if
+    // the string is long enough first, which generates PHP Notices.
+    // The result is an empty string which is what the parser code
+    // tends to mean in the places I've checked, so it's safe, but
+    // we get PHP Notices in the logs as a side effect.
+    // There's an open issue for this since 2020, so I suspect it's
+    // not going to be fixed anytime soon, so for now just suppress
+    // the notice.
+    // See https://github.com/erusev/parsedown/issues/784
+    return @$parser->text($message);
+}
+
 // -----------------------------------------------------------------------------
 
 /**

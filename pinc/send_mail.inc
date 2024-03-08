@@ -49,9 +49,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
 
     $text_message = $message . $text_footer;
 
-    $Parsedown = new ParsedownExtra();
-    $Parsedown->setSafeMode(true);
-    $html_message = $Parsedown->text($message) . $html_footer;
+    $html_message = render_markdown_as_html($message) . $html_footer;
 
     if ($testing) {
         echo "\n<hr style='border-style:double;'>\n";
