@@ -29,6 +29,7 @@ $valid_character_pattern = build_character_regex_filter($quiz->get_valid_codepoi
 $header_args = [
     "js_files" => [
         "$code_url/tools/proofers/process_diacritcal_markup.js",
+        "$code_url/tools/proofers/text_data_processor.js",
     ],
     "js_data" => "
         var validCharacterPattern = '$valid_character_pattern';
