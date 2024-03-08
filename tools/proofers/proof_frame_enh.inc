@@ -35,6 +35,7 @@ function echo_proof_frame_enh($ppage)
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
+            "$code_url/tools/proofers/text_data_processor.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
             "$code_url/scripts/control_bar.js",
             "$code_url/tools/proofers/proof_image.js",
