@@ -396,7 +396,7 @@ function echo_general_tab($user)
         _('Default Project Detail Level'),
         'project_detail',
         'project_detail',
-        $userSettings->get_value('project_detail', 1),
+        $userSettings->get_value('project_detail', 2),
         'dropdown',
         $page_detail_options
     );
