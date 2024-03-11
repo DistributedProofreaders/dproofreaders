@@ -7,11 +7,16 @@ include_once('menu.inc');
 
 require_login();
 
-$author_id = get_integer_param($_GET, 'author_id', null, null, null, true);
+$author_id = get_integer_param($_GET, 'author_id', null, null, null, false);
 
 $sql = sprintf("SELECT * FROM authors WHERE author_id=%d", $author_id);
 $result = DPDatabase::query($sql);
 $row = mysqli_fetch_assoc($result);
+if (!$row) {
+    output_header('');
+    echo "<p class='error'>", sprintf(_('Author id %d not found'), $author_id), "</p>\n";
+    exit;
+}
 $last_name = $row["last_name"];
 $other_names = $row["other_names"];
 $birth = format_date_from_sqlset($row, 'b');
