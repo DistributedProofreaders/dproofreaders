@@ -17,8 +17,8 @@ if (!$project->can_be_managed_by_current_user) {
 }
 
 $return_uri = urldecode($_POST['return_uri']);
-$states = [$_POST['curr_state']];
+$curr_state = get_enumerated_param($_POST, 'curr_state', null, ProjectStates::get_states());
 
-$project->remove_holds($states);
+$project->remove_holds([$curr_state]);
 $title = _("Removing hold");
 metarefresh(0, $return_uri, $title, $title);
