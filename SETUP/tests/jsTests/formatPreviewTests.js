@@ -702,6 +702,8 @@ bq
 /#
 bqbq
 #/
+
+bq
 #/`;
         let preview = makePreview(text, false, true, defaultStyles, getMessage);
         assert.strictEqual(preview.ok, true);
@@ -710,6 +712,7 @@ bqbq
         assert.strictEqual(preview.txtout,
             `<div style='margin-left: 1em;' class='para blockquote_color'>bq
 </div><div style='margin-left: 2em;' class='para blockquote_color'>bqbq
+</div><div style='margin-left: 1em;' class='para blockquote_color'>bq
 </div>`);
     });
 });
