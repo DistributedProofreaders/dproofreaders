@@ -38,7 +38,7 @@ if (isset($_GET['page_state'])) {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
     $projectid = get_projectID_param($_REQUEST, 'projectid');
-    $proj_state = $_REQUEST['proj_state'];
+    $proj_state = get_enumerated_param($_REQUEST, 'proj_state', null, ProjectStates::get_states());
 
     // Consider the page (if any) that this user most recently "opened" in
     // this session, either via 'Start Proofreading' or via the 'Done' or
