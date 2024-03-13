@@ -15,16 +15,16 @@ fi
 function lint_file()
 {
     local file=$1
-    echo $file
-    OUTPUT=$(php -l $file)
-    if ! echo $OUTPUT | grep -q 'No syntax errors detected'; then
+    echo "$file"
+    OUTPUT=$(php -l "$file")
+    if ! echo "$OUTPUT" | grep -q 'No syntax errors detected'; then
         echo "ERROR: PHP lint failure in $file"
         echo "$OUTPUT"
         exit 1
     fi
 
-    OUTPUT=$(file $file)
-    if ! echo $OUTPUT | grep -Eq 'ASCII|UTF-8'; then
+    OUTPUT=$(file "$file")
+    if ! echo "$OUTPUT" | grep -Eq 'ASCII|UTF-8'; then
         echo "ERROR: Unexpected encoding in $file"
         echo "$OUTPUT"
         exit 1
@@ -33,6 +33,7 @@ function lint_file()
 
 echo "Checking all .php and .inc files under $BASE_DIR for linting errors..."
 N=$(nproc)
+# shellcheck disable=SC2044
 for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v /vendor/); do
    lint_file "$file" &
    # Run at most N at a time.
