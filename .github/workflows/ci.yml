@@ -97,6 +97,8 @@ jobs:
         run: make -C SETUP lint_css
       - name: Run best practice checks
         run: make -C SETUP best_practice_checks
+      - name: Run shellcheck on shell scripts
+        run: make -C SETUP shellcheck
   pageload-smoketest:
     strategy:
       matrix:

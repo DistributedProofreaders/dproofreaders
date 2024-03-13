@@ -39,3 +39,8 @@ less:
 # Unit tests
 tests:
 	cd $(SELF_DIR)/tests && phpunit
+
+#----------------------------------------------------------------------------
+# Shellcheck: Shell script linter
+shellcheck:
+	find . -type f -name '*.sh' | xargs shellcheck
