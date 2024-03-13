@@ -3,6 +3,10 @@
 # any part of the automated tests, but they need to be present to
 # make sure the filled-in .template files are valid PHP files.
 
+# This script exists simply to define variables for SETUP/configure, so
+# disable unused variable warnings.
+# shellcheck shell=bash disable=SC2034
+
 _DB_SERVER=localhost
 _DB_USER=dp_user
 _DB_PASSWORD=dp_password
@@ -99,28 +103,7 @@ TAG=master
 GROUP=users
 SHIFT_TO_LIVE=yes
 
-_PHP_CLI_EXECUTABLE=`which php`
-_XGETTEXT_EXECUTABLE=`which xgettext`
-
-_URL_DUMP_PROGRAM=
-if [ "$_URL_DUMP_PROGRAM" == "" ]; then
-    # No program explicitly specified, attempt to find: wget, curl, lynx
-    program_test=`which wget`
-    if [ $? -eq 0 ]; then
-        _URL_DUMP_PROGRAM="$program_test --quiet --tries=1 --timeout=0 -O-"
-    else
-        program_test=`which curl`
-        if [ $? -eq 0 ]; then
-            _URL_DUMP_PROGRAM="$program_test --silent"
-        else
-            program_test=`which lynx`
-            if [ $? -eq 0 ]; then
-                _URL_DUMP_PROGRAM="$program_test -source"
-            else
-                echo "ERROR: No program found to dump URLs."
-                echo "       Edit the configuration file and set _URL_DUMP_PROGRAM."
-                exit 1
-            fi
-        fi
-    fi
-fi
+# Hardcode the executables we know we're using in the CI environment
+_PHP_CLI_EXECUTABLE=$(command -v php)
+_XGETTEXT_EXECUTABLE=$(command -v xgettext)
+_URL_DUMP_PROGRAM="$(command -v wget) --quiet --tries=1 --timeout=0 -O-"

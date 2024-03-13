@@ -1,7 +1,9 @@
 # DP site configuration script
 # ======================================================================
 
-# This script is used to configure the DP site code.
+# This script is used to configure the DP site code by defining shell
+# variables used to populate some template files.
+#
 # Make an editable copy of this file, put it *outside* your web
 # server's doc root, and edit that file to configure your DP system.
 
@@ -27,6 +29,10 @@
 # the Site" section.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# This script exists simply to define variables for SETUP/configure, so
+# disable unused variable warnings.
+# shellcheck shell=bash disable=SC2034
 
 # Database access
 # ---------------
@@ -507,9 +513,8 @@ SHIFT_TO_LIVE=prompt
 # without including the phpBB namespace into ours.
 _PHP_CLI_EXECUTABLE=
 if [ ! -x "$_PHP_CLI_EXECUTABLE" ]; then
-    program_test=`which php`
-    if [ $? -eq 0 ]; then
-        _PHP_CLI_EXECUTABLE=$program_test
+    if exe_path=$(command -v php); then
+        _PHP_CLI_EXECUTABLE=$exe_path
     else
         echo "ERROR: Unable to find command-line version of PHP."
         echo "       Edit the configuration file and set _PHP_CLI_EXECUTABLE."
@@ -520,9 +525,8 @@ fi
 # The location of xgettext executable.
 _XGETTEXT_EXECUTABLE=
 if [ ! -x "$_XGETTEXT_EXECUTABLE" ]; then
-    program_test=`which xgettext`
-    if [ $? -eq 0 ]; then
-        _XGETTEXT_EXECUTABLE=$program_test
+    if exe_path=$(command -v xgettext); then
+        _XGETTEXT_EXECUTABLE=$exe_path
     else
         echo "WARNING: Unable to find xgettext, site translation functionality"
         echo "         may be limited."
@@ -534,17 +538,14 @@ fi
 _URL_DUMP_PROGRAM=
 if [ ! -x "$_URL_DUMP_PROGRAM" ]; then
     # No program explicitly specified, attempt to find: wget, curl, lynx
-    program_test=`which wget`
-    if [ $? -eq 0 ]; then
-        _URL_DUMP_PROGRAM="$program_test --quiet --tries=1 --timeout=0 -O-"
+    if exe_path=$(command -v wget); then
+        _URL_DUMP_PROGRAM="$exe_path --quiet --tries=1 --timeout=0 -O-"
     else
-        program_test=`which curl`
-        if [ $? -eq 0 ]; then
-            _URL_DUMP_PROGRAM="$program_test --silent"
+        if exe_path=$(command -v curl); then
+            _URL_DUMP_PROGRAM="$exe_path --silent"
         else
-            program_test=`which lynx`
-            if [ $? -eq 0 ]; then
-                _URL_DUMP_PROGRAM="$program_test -source"
+            if exe_path=$(command -v lynx); then
+                _URL_DUMP_PROGRAM="$exe_path -source"
             else
                 echo "ERROR: No program found to dump URLs."
                 echo "       Edit the configuration file and set _URL_DUMP_PROGRAM."
