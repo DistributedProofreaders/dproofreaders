@@ -906,8 +906,8 @@ function get_directory_items_sorted($curr_abspath)
         }
     }
     closedir($handle);
-    sort($items_dirs);
-    sort($items_files);
+    sort($items_dirs, SORT_FLAG_CASE | SORT_NATURAL);
+    sort($items_files, SORT_FLAG_CASE | SORT_NATURAL);
     return array_merge($items_dirs, $items_files);
 }
 
