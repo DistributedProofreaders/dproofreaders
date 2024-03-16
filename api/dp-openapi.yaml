@@ -393,6 +393,13 @@ paths:
         required: true
         schema:
           type: string
+      - name: field
+        description: Field to return, if not set all fields are returned.
+          To request multiple fields, append with [] and pass one per desired
+          field (e.g. field[]=projectid&field[]=author).
+        in: query
+        schema:
+          type: string
       responses:
         200:
           description: project response
