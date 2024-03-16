@@ -253,7 +253,9 @@ function create_or_update_project($project)
 function api_v1_project($method, $data, $query_params)
 {
     if ($method == "GET") {
-        return render_project_json($data[":projectid"]);
+        // restrict to list of desired fields, if set
+        $return_fields = array_get_as_array($query_params, "field", null);
+        return render_project_json($data[":projectid"], $return_fields);
     } elseif ($method == "PUT") {
         $project = $data[":projectid"];
         return render_project_json(create_or_update_project($project));
