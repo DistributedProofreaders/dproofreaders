@@ -629,10 +629,9 @@ function api_v1_projects_specialdays($method, $data, $query_params)
     $special_days = load_special_days();
     $enabled_filter = _get_enabled_filter($query_params);
     foreach ($special_days as $spec_code => $special_day) {
+        $enabled = $special_day["enable"] == 1;
         if ($enabled_filter !== null) {
-            if ($enabled_filter && $special_day["enable"] != 1) {
-                continue;
-            } elseif (!$enabled_filter && $special_day["enable"] == 1) {
+            if ($enabled_filter != $enabled) {
                 continue;
             }
         }
@@ -647,7 +646,7 @@ function api_v1_projects_specialdays($method, $data, $query_params)
             "date_open_day" => (int)$special_day["open_day"],
             "date_close_month" => (int)$special_day["close_month"],
             "date_close_day" => (int)$special_day["close_day"],
-            "enabled" => $special_day["enable"] == 1,
+            "enabled" => $enabled,
         ];
     }
 
@@ -665,10 +664,9 @@ function api_v1_projects_imagesources($method, $data, $query_params)
 
     $enabled_filter = _get_enabled_filter($query_params);
     foreach ($image_sources as $id => $image_source) {
+        $is_active = $image_source["is_active"] == 1;
         if ($enabled_filter !== null) {
-            if ($enabled_filter && $image_source["is_active"] != 1) {
-                continue;
-            } elseif (!$enabled_filter && $image_source["is_active"] == 1) {
+            if ($enabled_filter != $is_active) {
                 continue;
             }
         }
@@ -683,7 +681,7 @@ function api_v1_projects_imagesources($method, $data, $query_params)
             "name_full" => $image_source["full_name"],
             "url" => $image_source["url"],
             "credit" => $image_source["credit"],
-            "enabled" => $image_source["is_active"] == 1,
+            "enabled" => $is_active,
         ];
     }
 
