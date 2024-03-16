@@ -7,7 +7,7 @@
 // using an entirely different forum software, this is one of the
 // few files that would require changes.
 //
-// Currently only phpBB versions 3.0, 3.1, and 3.2
+// Currently only phpBB versions 3.0, 3.1, 3.2, and 3.3
 
 /*
 Important notes about using phpBB code within DP
@@ -704,7 +704,7 @@ function get_topic_details($topic_id)
 /**
  * Create a topic
  *
- * A proxy for phpbb[2|3]_create_topic() in external phpbb3.inc
+ * A proxy for phpbb3_create_topic() in external phpbb3.inc
  */
 function topic_create(
     $forum_id,
@@ -729,7 +729,7 @@ function topic_create(
 /**
  * Create a post
  *
- * A proxy for phpbb[2|3]_add_post() in external phpbb3.inc
+ * A proxy for phpbb3_add_post() in external phpbb3.inc
  */
 function topic_add_post(
     $topic_id,
