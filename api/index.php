@@ -1,6 +1,7 @@
 <?php
 $relPath = "../pinc/";
 include_once($relPath.'bootstrap.inc');
+include_once($relPath.'site_structure.inc');
 include_once($relPath.'User.inc');
 include_once('ApiRouter.inc');
 include_once('exceptions.inc');

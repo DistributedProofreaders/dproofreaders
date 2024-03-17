@@ -47,7 +47,7 @@ $site_structure_includes = [
 
 // List of files that are ok to contain site structure includes
 $ok_includes_site_structure = [
-    "pinc/bootstrap.inc",
+    "pinc/base.inc",
     "pinc/Quiz.inc",
     "pinc/Round.inc",
     "pinc/Stage.inc",
@@ -56,6 +56,7 @@ $ok_includes_site_structure = [
     "pinc/quizzes.inc",
     "pinc/stages.inc",
     "pinc/site_structure.inc",
+    "api/index.php",
 ];
 
 
