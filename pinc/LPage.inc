@@ -310,6 +310,21 @@ class LPage
         return $page_text;
     }
 
+    public function get_info()
+    {
+        foreach ($this->round->other_rounds_with_visible_usernames as $other_round_id) {
+            $other_round = get_Round_for_round_id($other_round_id);
+            $username = $this->get_username_for_round($other_round);
+            $user_id = get_forum_user_id($username);
+            $round_info_array[] = [$other_round->id, $username, $user_id];
+        }
+
+        return [
+            pathinfo($this->imagefile, PATHINFO_FILENAME),
+            $round_info_array,
+        ];
+    }
+
     public function get_language()
     {
         $project = new Project($this->projectid);
