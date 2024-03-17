@@ -97,9 +97,7 @@ function showProjectInfo($input, $argv, $parser)
 {
     global $relPath, $code_url;
     include($relPath.'site_vars.php');
-    include_once($relPath.'misc.inc'); // needed for project_states.inc
     include_once($relPath.'DPDatabase.inc');
-    include_once($relPath.'project_states.inc');
 
     DPDatabase::connect();
 
@@ -123,7 +121,6 @@ function showProjectInfo($input, $argv, $parser)
     }
 
     $project['raw_state'] = $project['state'];
-    $project['state'] = project_states_text($project['state']);
 
     $project['title'] = $project['nameofwork'];
     $project['author'] = $project['authorsname'];

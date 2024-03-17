@@ -41,9 +41,7 @@ function listHospitalProjects($input, $argv)
 {
     global $relPath, $code_url;
     include_once($relPath.'site_vars.php');
-    include_once($relPath.'misc.inc'); // needed for project_states.inc
     include_once($relPath.'DPDatabase.inc');
-    include_once($relPath.'project_states.inc');
 
     DPDatabase::connect();
 
@@ -60,7 +58,7 @@ function listHospitalProjects($input, $argv)
         // Get the preformatted remarks from PCs
         $matches = [];
         $problems = preg_match('/<pre>.*?<\/pre>/s', $project->comments, $matches);
-        $pstate = project_states_text($project->state);
+        $pstate = $project->state;
         $puri = "$code_url/project.php?id=$project->projectid";
         $plink = "<a href='$puri'>$project->nameofwork</a>";
 
