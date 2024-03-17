@@ -32,6 +32,11 @@ if (DPDatabase::get_connection()) {
 
 configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
+// Load the site structure. We do this here and not in bootstrap.inc because
+// it uses _() on some strings but we need to configure_gettext() first
+// or those won't be in the user's language.
+include_once($relPath.'site_structure.inc');
+
 if ($maintenance && !@$maintenance_override) {
     /*
     Including user_is.inc causes a perf impact because it includes
