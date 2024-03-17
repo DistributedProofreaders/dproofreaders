@@ -84,7 +84,7 @@ echo   "<th>" . _("Max diffs to show") . "</th>";
 echo   "<td><input name='sample_limit' type='number' min='0' value='$sampleLimit' required></td>";
 echo  "</tr>";
 echo "</table>";
-echo "<input type='submit' value='Search'>";
+echo "<input type='submit' value='", attr_safe(_("Search")), "'>";
 echo "</form>";
 
 function _echo_eval_query_select($selected)

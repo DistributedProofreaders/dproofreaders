@@ -13,7 +13,7 @@ if (empty($_GET["id"])) {
     include_once($relPath.'theme.inc');
     output_header(_("Error"));
     echo "<p class='error'>";
-    echo sprintf(_("A team id must specified in the following format: %s"), "$code_url/stats/teams/teams_xml.php?id=*****");
+    echo sprintf(_("A team id must be specified in the following format: %s"), "$code_url/stats/teams/teams_xml.php?id=*****");
     echo "</p>";
     exit();
 }
