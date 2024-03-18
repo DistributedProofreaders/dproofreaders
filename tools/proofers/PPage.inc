@@ -178,7 +178,7 @@ class PPage
         echo "</span>\n";
     }
 
-    private function make_round_user_string($info)
+    private function make_round_user_string(RoundInfo $info): String
     {
         $round_user_string = "$info->round_id: ";
         $username = $info->username;
