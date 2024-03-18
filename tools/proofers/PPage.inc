@@ -180,9 +180,9 @@ class PPage
 
     private function make_round_user_string($info)
     {
-        [$roundid, $username, $user_id] = $info;
-        $round_user_string = "$roundid: ";
-        if ($username == '' || $user_id == null) {
+        $round_user_string = "$info->round_id: ";
+        $username = $info->username;
+        if ($username == '' || $info->user_id == null) {
             // Grey, because it's not the link expected by the user.
             $round_user_string .= "<span class='text-link-disabled'>";
             if ($username == '') {

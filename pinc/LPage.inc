@@ -253,6 +253,20 @@ function project_continuity_test($project, $orig_state, $no_more_pages)
     }
 }
 
+class RoundInfo
+{
+    public $round_id;
+    public $username;
+    public $user_id;
+
+    public function __construct($round_id, $username, $user_id)
+    {
+        $this->round_id = $round_id;
+        $this->username = $username;
+        $this->user_id = $user_id;
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 /**
@@ -323,7 +337,7 @@ class LPage
             $other_round = get_Round_for_round_id($other_round_id);
             $username = $this->get_username_for_round($other_round);
             $user_id = get_forum_user_id($username);
-            $round_info_array[] = [$other_round->id, $username, $user_id];
+            $round_info_array[] = new RoundInfo($other_round->id, $username, $user_id);
         }
 
         return $round_info_array;
