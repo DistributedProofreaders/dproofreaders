@@ -542,8 +542,10 @@ $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-
  */
 function check_username($username, $registering = false)
 {
-    $username_max_len = 25;
     // This is the length of the 'username' field in the 'users' table.
+    $username_max_len = 25;
+    // Ensure that the length is >= 3 required by phpBB, we opt for a bit longer
+    $username_min_len = 4;
 
     if ($username == '') {
         $error = _("You did not supply a User Name (ID).");
@@ -552,6 +554,12 @@ function check_username($username, $registering = false)
 
     if (strlen($username) > $username_max_len) {
         $error = sprintf(_("Your User Name is too long.<br>(The maximum is %s characters.)"), $username_max_len);
+        return $error;
+    }
+
+    // For new registrations, prevent too-short usernames
+    if ($registering && strlen($username) < $username_min_len) {
+        $error = sprintf(_("Your User Name is too short.<br>(The minimum is %s characters.)"), $username_min_len);
         return $error;
     }
 
