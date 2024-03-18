@@ -310,8 +310,15 @@ class LPage
         return $page_text;
     }
 
+    public function get_filename()
+    {
+        return pathinfo($this->imagefile, PATHINFO_FILENAME);
+    }
+
     public function get_info()
     {
+        $round_info_array = [];
+
         foreach ($this->round->other_rounds_with_visible_usernames as $other_round_id) {
             $other_round = get_Round_for_round_id($other_round_id);
             $username = $this->get_username_for_round($other_round);
@@ -319,10 +326,7 @@ class LPage
             $round_info_array[] = [$other_round->id, $username, $user_id];
         }
 
-        return [
-            pathinfo($this->imagefile, PATHINFO_FILENAME),
-            $round_info_array,
-        ];
+        return $round_info_array;
     }
 
     public function get_language()

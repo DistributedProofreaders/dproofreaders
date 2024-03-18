@@ -166,11 +166,11 @@ class PPage
 
     public function echo_info()
     {
-        [$pagenum, $round_info_array] = $this->lpage->get_info();
+        $round_info_array = $this->lpage->get_info();
 
         //display page number
         echo "<span class='small bold'>";
-        echo sprintf(_("Page: %s"), $pagenum);
+        echo sprintf(_("Page: %s"), $this->lpage->get_filename());
 
         if (count($round_info_array) > 0) {
             echo " &mdash; ", implode(", ", array_map([$this, 'make_round_user_string'], $round_info_array));
