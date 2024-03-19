@@ -253,13 +253,16 @@ function project_continuity_test($project, $orig_state, $no_more_pages)
     }
 }
 
+/**
+ * Used to hold names of users who proofread each round
+ */
 class RoundInfo
 {
-    public $round_id;
-    public $username;
-    public $user_id;
+    public string $round_id;
+    public string $username;
+    public string $user_id;
 
-    public function __construct($round_id, $username, $user_id)
+    public function __construct(string $round_id, string $username, string $user_id)
     {
         $this->round_id = $round_id;
         $this->username = $username;
@@ -329,7 +332,7 @@ class LPage
         return pathinfo($this->imagefile, PATHINFO_FILENAME);
     }
 
-    public function get_info()
+    public function get_info(): array
     {
         $round_info_array = [];
 
