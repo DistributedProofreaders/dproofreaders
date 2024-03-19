@@ -4,7 +4,6 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'links.inc');
-include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
