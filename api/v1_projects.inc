@@ -744,7 +744,22 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         $proof_project = create_proof_project($data, $query_params);
         $project_page = $data[":pagename"];
         $page_state = $query_params['pagestate'] ?? null;
-        validate_page_state($page_state, $project_page);
+
+        if (null === $page_state) {
+            throw new ProjectNoPageStateGivenException("No page state found in request.");
+        }
+        if (!in_array($page_state, Rounds::get_page_states())) {
+            throw new ProjectInvalidPageStateException(sprintf("%s is not a valid page state", $page_state));
+        }
+        if ($page_state != $project_page->page_state) {
+            $err = sprintf(
+                _('Warning: Page  "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+                $project_page->page_name,
+                $page_state,
+                $project_page->page_state
+            );
+            throw new ProjectPageInconsistentStateException($err);
+        }
 
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
         if ($method == "GET") {
@@ -781,7 +796,25 @@ function create_proof_project(array $data, array $query_params)
 {
     $project = $data[":projectid"];
     $state = $query_params["state"] ?? null;
-    validate_project_state($state, $project);
+    try {
+        if (null === $state) {
+            throw new ProjectNoStateGivenException("No project state found in request.");
+        }
+        if (!in_array($state, ProjectStates::get_states())) {
+            throw new ProjectInvalidStateException("Invalid project state");
+        }
+        if ($state != $project->state) {
+            $err = sprintf(
+                _('Warning: Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+                $project->nameofwork,
+                project_states_text($state),
+                project_states_text($project->state)
+            );
+            throw new ProjectNotInRequiredStateException($err);
+        }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
     return new ProofProject($project);
 }
 
