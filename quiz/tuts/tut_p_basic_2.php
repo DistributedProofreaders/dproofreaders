@@ -25,7 +25,7 @@ echo "    <tr>\n      <td>sensations&mdash;sweet, bitter, salt, and sour<br>\n  
 echo "      <td><kbd>sensations--sweet, bitter, salt, and sour--if<br>\n        even all of these are simple tastes. What</kbd></td>\n    </tr>\n";
 echo "    <tr>\n      <td>senses&mdash;touch, smell, hearing, and sight&mdash;<br>\n        with which we are here concerned,</td>\n";
 echo "      <td><kbd>senses--touch, smell, hearing, and sight--with<br>\n        which we are here concerned,</kbd></td>\n    </tr>\n";
-echo "    <tr>\n      <td><img src='../../faq/dashes.png' width='300' height='28' alt=''></td>\n";
+echo "    <tr>\n      <td><img src='../generic/images/dashes.png' width='300' height='28' alt=''></td>\n";
 echo "      <td><kbd>how a--a--cannon-ball goes----\"</kbd></td>\n";
 echo "    </tr>\n  </tbody>\n</table>\n";
 
