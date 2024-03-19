@@ -179,7 +179,7 @@ class ApiTest extends ProjectUtils
         global $pguser;
         $pguser = $this->TEST_USERNAME;
 
-        $this->expectExceptionCode(121);
+        $this->expectExceptionCode(6);
 
         $project = $this->_create_project();
         $this->checkout($project->projectid, "project_ne");
@@ -189,7 +189,7 @@ class ApiTest extends ProjectUtils
     {
         global $pguser;
 
-        $this->expectExceptionCode(122);
+        $this->expectExceptionCode(6);
 
         $project = $this->_create_project();
         $pguser = $this->TEST_USERNAME;
@@ -383,7 +383,7 @@ class ApiTest extends ProjectUtils
         $pguser = $this->TEST_USERNAME;
         $project = $this->_create_available_project();
 
-        $this->expectExceptionCode(124);
+        $this->expectExceptionCode(6);
 
         $_SERVER["REQUEST_METHOD"] = "PUT";
         $path = "v1/projects/$project->projectid/pages/001.png";
@@ -440,7 +440,7 @@ class ApiTest extends ProjectUtils
     {
         global $pguser;
 
-        $this->expectExceptionCode(123);
+        $this->expectExceptionCode(6);
 
         $pguser = $this->TEST_USERNAME;
         $project = $this->_create_available_project();
@@ -537,7 +537,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // save as in progress
-        $this->expectExceptionCode(126);
+        $this->expectExceptionCode(6);
         $this->api_project_page($project->projectid, "P1.proj_avail", "001.png", "P1.page_out", [], "save");
     }
 

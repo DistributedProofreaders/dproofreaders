@@ -746,10 +746,10 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         $page_state = $query_params['pagestate'] ?? null;
 
         if (null === $page_state) {
-            throw new ProjectNoPageStateGivenException("No page state found in request.");
+            throw new InvalidValue("No page state found in request.");
         }
         if (!in_array($page_state, Rounds::get_page_states())) {
-            throw new ProjectInvalidPageStateException(sprintf("%s is not a valid page state", $page_state));
+            throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
         }
         if ($page_state != $project_page->page_state) {
             $err = sprintf(
@@ -798,10 +798,10 @@ function create_proof_project(array $data, array $query_params)
     $state = $query_params["state"] ?? null;
     try {
         if (null === $state) {
-            throw new ProjectNoStateGivenException("No project state found in request.");
+            throw new InvalidValue("No project state found in request.");
         }
         if (!in_array($state, ProjectStates::get_states())) {
-            throw new ProjectInvalidStateException("Invalid project state");
+            throw new InvalidValue("Invalid project state");
         }
         if ($state != $project->state) {
             $err = sprintf(
@@ -823,7 +823,7 @@ function receive_project_text_from_request_body($field): string
     $request_data = api_get_request_body();
     $page_text = $request_data[$field] ?? null;
     if (null === $page_text) {
-        throw new ProjectNoTextException("There is no text");
+        throw new InvalidValue("There is no text");
     }
     return $page_text;
 }

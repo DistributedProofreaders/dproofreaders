@@ -145,49 +145,9 @@ class ProjectNotInRequiredStateException extends ProjectException
     }
 }
 
-class ProjectInvalidStateException extends ProjectException
-{
-    public function __construct($message, $code = 121)
-    {
-        parent::__construct($message, $code);
-    }
-}
-
-class ProjectNoStateGivenException extends ProjectException
-{
-    public function __construct($message, $code = 122)
-    {
-        parent::__construct($message, $code);
-    }
-}
-
-class ProjectInvalidPageStateException extends ProjectException
-{
-    public function __construct($message, $code = 123)
-    {
-        parent::__construct($message, $code);
-    }
-}
-
-class ProjectNoPageStateGivenException extends ProjectException
-{
-    public function __construct($message, $code = 124)
-    {
-        parent::__construct($message, $code);
-    }
-}
-
 class ProjectInvalidTextException extends ProjectException
 {
     public function __construct($message, $code = 125)
-    {
-        parent::__construct($message, $code);
-    }
-}
-
-class ProjectNoTextException extends ProjectException
-{
-    public function __construct($message, $code = 126)
     {
         parent::__construct($message, $code);
     }
