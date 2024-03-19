@@ -179,37 +179,37 @@ class TextChecker
     private const VALID_TEXT = 0;
     private const INVALID_TEXT = 1;
 
-    private static $text_array;
-    private static $valid_text_block;
+    private $text_array;
+    private $valid_text_block;
 
-    public static function analyse(string $page_text, object $project): array
+    private function append_valid(): void
+    {
+        if ($this->valid_text_block != "") {
+            $this->text_array[] = [$this->valid_text_block, self::VALID_TEXT];
+            $this->valid_text_block = "";
+        }
+    }
+
+    public function analyse(string $page_text, object $project): array
     {
         $pattern_string = build_character_regex_filter($project->get_valid_codepoints());
-        self::$text_array = [];
-        self::$valid_text_block = "";
+        $this->text_array = [];
+        $this->valid_text_block = "";
         $all_valid = true;
         foreach (split_graphemes($page_text) as $grapheme) {
             if (1 === preg_match("/$pattern_string/u", $grapheme)) {
-                self::$valid_text_block .= $grapheme;
+                $this->valid_text_block .= $grapheme;
             } else {
                 $all_valid = false;
-                self::append_valid();
-                self::$text_array[] = [$grapheme, self::INVALID_TEXT];
+                $this->append_valid();
+                $this->text_array[] = [$grapheme, self::INVALID_TEXT];
             }
         }
         // append any remaining valid text
-        self::append_valid();
+        $this->append_valid();
         return [
-            "mark_array" => self::$text_array,
+            "mark_array" => $this->text_array,
             "valid" => $all_valid,
         ];
-    }
-
-    private static function append_valid(): void
-    {
-        if (self::$valid_text_block != "") {
-            self::$text_array[] = [self::$valid_text_block, self::VALID_TEXT];
-            self::$valid_text_block = "";
-        }
     }
 }

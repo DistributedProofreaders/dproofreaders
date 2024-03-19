@@ -733,7 +733,8 @@ function api_v1_project_checkout($method, array $data, array $query_params)
 
 function api_v1_project_validatetext($method, $data, array $query_params)
 {
-    return TextChecker::analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
+    $text_checker = new TextChecker();
+    return $text_checker->analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
 }
 
 function api_v1_project_page(string $method, array $data, array $query_params)
