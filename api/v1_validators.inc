@@ -95,13 +95,11 @@ function validate_project_state($state, $project)
 
 function validate_page_state($page_state, $project_page)
 {
-    global $PAGE_STATES_IN_ORDER;
-
     try {
         if (null === $page_state) {
             throw new ProjectNoPageStateGivenException("No page state found in request.");
         }
-        if (!in_array($page_state, $PAGE_STATES_IN_ORDER)) {
+        if (!in_array($page_state, Rounds::get_page_states())) {
             throw new ProjectInvalidPageStateException(sprintf("%s is not a valid page state", $page_state));
         }
         if ($page_state != $project_page->page_state) {
