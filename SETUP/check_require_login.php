@@ -44,7 +44,6 @@ $ok_files = [
     "faq/prooffacehelp.php",
     "faq/proofreading_guidelines.php",
     "faq/scanning.php",
-    "faq/simple_proof_rules.php",
     "faq/site_progress_snapshot_legend.php",
     "faq/translate.php",
     "faq/wordcheck-faq.php",
