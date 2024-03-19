@@ -402,6 +402,8 @@ if ($i_type == 0) {
     echo "</dl>\n";
     echo "</form>\n";
 } else {
+    $faq_url = get_faq_url("ProoferFAQ.php");
+    $guidelines_url = get_faq_url("proofreading_guidelines.php");
     ?>
 
 <DIV ALIGN="CENTER"><TABLE
@@ -414,9 +416,9 @@ COLSPAN="2">
 <p><A HREF="#proofing_toolbox"><B>Help for Proofreading Toolbox</B></A></p>
 <p><B>Additional Help Files</B>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="ProoferFAQ.php">Proofreader's Frequently Asked Questions</A>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="<?php echo $faq_url; ?>">Proofreader's Frequently Asked Questions</A>
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="proofreading_guidelines.php">Proofreading Guidelines</A></p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="<?php echo $guidelines_url; ?>">Proofreading Guidelines</A></p>
 </TD></TR>
 <TR><TD ALIGN="CENTER" COLSPAN="2">
 <p class='large'><A NAME="ibtns"> </A>Button and Selection Menu</p></TD></TR>

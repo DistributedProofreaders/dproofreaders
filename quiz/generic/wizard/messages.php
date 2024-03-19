@@ -2,6 +2,7 @@
 $relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
+include_once($relPath."faq.inc");
 include_once('../quiz_defaults.inc'); // $default_*
 
 require_login();
@@ -137,7 +138,12 @@ echo _("HTML allowed. This field is optional. If you leave it empty there will b
 
 echo "<p>" . _("Theoretically you can add more hints, but again you have to manually edit the final file for this.") . "</p>\n<hr>\n";
 
-echo "<p>" . sprintf(_("If you want you can also provide a link to a relevant section of the guidelines.  If you choose one of these, a sentence such as this will appear: \"See the <a href='%s' target='_blank'>Page Headers/Page Footers</a> section of the Proofreading Guidelines for details.\" (with a different section name and \"Proofreading\" or \"Formatting\" as appropriate)."), "../../../faq/proofreading_guidelines.php#page_hf") . "</p>\n";
+echo "<p>";
+echo sprintf(
+    _("If you want you can also provide a link to a relevant section of the guidelines.  If you choose one of these, a sentence such as this will appear: \"See the <a href='%s' target='_blank'>Page Headers/Page Footers</a> section of the Proofreading Guidelines for details.\" (with a different section name and \"Proofreading\" or \"Formatting\" as appropriate)."),
+    get_faq_url("proofreading_guidelines.php") . "#page_hf"
+);
+echo "</p>\n";
 
 echo "<p>" . _("Proofreading Guidelines section:") . "<br>\n";
 echo "<select size='1' name='P_guideline'>\n<option></option>\n";

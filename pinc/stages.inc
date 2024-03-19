@@ -8,6 +8,7 @@ include_once($relPath.'Round.inc');
 include_once($relPath.'Pool.inc');
 include_once($relPath.'ProjectState.inc');
 include_once($relPath.'forum_interface.inc'); // get_url_to_view_forum()
+include_once($relPath.'faq.inc');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -273,7 +274,7 @@ new Pool(
         "<b>" . _("First Time Here?") . "</b>",
         sprintf(
             _("Please read the <a href='%s'>Post-Processing FAQ</a> as it covers all the steps needed to post-process an e-text."),
-            "$code_url/faq/post_proof.php"
+            get_faq_url("post_proof.php")
         ),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
         sprintf(_("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx)),
@@ -321,7 +322,7 @@ new Pool(
         _("In this pool, experienced volunteers verify texts that have already been Post-Processed, and mentor new Post-Processors."),
         sprintf(
             _("<b>Before working in this pool</b>, please make sure you read the <a href='%s'>Post-Processing Verification Guidelines</a>."),
-            "$code_url/faq/ppv.php"
+            get_faq_url("ppv.php")
         ),
         sprintf(
             _("The PPV reporting form is <a href='%s'>here</a>."),
