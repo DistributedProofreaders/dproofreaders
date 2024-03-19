@@ -1883,11 +1883,14 @@ class Project
 
     public function get_project_page($pagename)
     {
-        $sql = "
+        $sql = sprintf(
+            "
             SELECT state
             FROM $this->projectid
-            WHERE image='$pagename'
-        ";
+            WHERE image='%s'
+            ",
+            DPDatabase::escape($pagename)
+        );
         $res = DPDatabase::query($sql);
         $row = mysqli_fetch_row($res);
         if (!$row) {
