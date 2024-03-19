@@ -35,20 +35,9 @@ $external_faq_overrides = [
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_fourniture_de_contenu",
         "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Fornecimento_de_Conte%C3%BAdos",
     ],
-    "dochist.php" => [
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_and_Formatting_Guidelines_Revision_History",
-    ],
     "faq_central.php" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central",
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ",
-    ],
-    "longabsent.php" => [
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/Welcome_Back,_Alumni",
-    ],
-    "pm-faq.php" => [
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Project_Managing_FAQ",
-        "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_gestion_de_projet",
-        "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Gest%C3%A3o_de_Projectos",
     ],
     "post_proof.php" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_FAQ",
@@ -56,9 +45,6 @@ $external_faq_overrides = [
     ],
     "ppv.php" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:PP_and_PPV/Post-Processing_Verification_Guidelines",
-    ],
-    "scanning.php" => [
-        "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Scanning_FAQ",
     ],
     "wordcheck-faq.php" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/WordCheck_FAQ",
