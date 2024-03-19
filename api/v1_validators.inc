@@ -70,13 +70,11 @@ function validate_release_queue($queueid, $data)
 
 function validate_project_state($state, $project)
 {
-    global $PROJECT_STATES_IN_ORDER;
-
     try {
         if (null === $state) {
             throw new ProjectNoStateGivenException("No project state found in request.");
         }
-        if (!in_array($state, $PROJECT_STATES_IN_ORDER)) {
+        if (!in_array($state, ProjectStates::get_states())) {
             throw new ProjectInvalidStateException("Invalid project state");
         }
         if ($state != $project->state) {
