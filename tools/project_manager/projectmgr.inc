@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'user_is.inc');
 include_once($relPath.'project_edit.inc');
+include_once($relPath."faq.inc");
 
 function abort_if_not_manager()
 {
@@ -62,8 +63,10 @@ function echo_manager_links()
     }
     echo "<li><a href='$code_url/stats/release_queue.php'>"._("Show All Release Queues")."</a></li>\n";
     echo "<li><a href='https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM'>"._("PM Official Documentation")."</a></li>\n";
-    echo "<li><a href='$code_url/faq/proofreading_guidelines.php'>"._("Proofreading Guidelines")."</a></li>\n";
-    echo "<li><a href='$code_url/faq/formatting_guidelines.php'>"._("Formatting Guidelines")."</a></li>\n";
+    $url = get_faq_url("proofreading_guidelines.php");
+    echo "<li><a href='$url'>"._("Proofreading Guidelines")."</a></li>\n";
+    $url = get_faq_url("formatting_guidelines.php");
+    echo "<li><a href='$url'>"._("Formatting Guidelines")."</a></li>\n";
 
     echo "</ul>\n";
     echo "</div>\n";

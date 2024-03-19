@@ -2,6 +2,7 @@
 // This file creates quiz objects for each quiz with data in CVS
 include_once($relPath."Quiz.inc");
 include_once($relPath."forum_interface.inc");
+include_once($relPath."faq.inc");
 
 define('SIX_MONTHS_IN_SECONDS', 15778463);
 
@@ -25,7 +26,7 @@ new QuizLevel(
     "P_BASIC",
     _("Basic Proofreading Quizzes and Tutorials"),
     "proof",
-    "<p>" . _("This section is designed as an overview of the most important and frequently used <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages cover items that you are likely to see when proofreading BEGINNERS ONLY and EASY projects.") .
+    "<p>" . sprintf(_("This section is designed as an overview of the most important and frequently used <a href='%s'>proofreading guidelines</a>. The pages cover items that you are likely to see when proofreading BEGINNERS ONLY and EASY projects."), get_faq_url("proofreading_guidelines.php")) .
         "</p>\n<p>" .
         _("These tutorials and quizzes only address the standard guidelines. Some projects have special instructions, particularly for books in non-English languages or with unusual features, so be sure to read the Project Comments carefully on each project you proofread.") .
         "</p>\n<p>" .
@@ -75,7 +76,7 @@ new QuizLevel(
     "P_MOD",
     _("Moderate Proofreading Quizzes and Tutorials"),
     "proof",
-    "<p>" . _("This section covers other aspects of the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>, beyond what is in the Basic section. The pages include items that you are likely to see when proofreading Average projects.") . "</p>",
+    "<p>" . sprintf(_("This section covers other aspects of the <a href='%s'>proofreading guidelines</a>, beyond what is in the Basic section. The pages include items that you are likely to see when proofreading Average projects."), get_faq_url("proofreading_guidelines.php")) . "</p>",
     [
 
         new Quiz(
@@ -123,7 +124,7 @@ new QuizLevel(
     "P_SPECIAL",
     _("Specialized Proofreading Quizzes and Tutorials"),
     "proof",
-    "<p>" . _("This section covers topics that are not addressed in the <a href='../faq/proofreading_guidelines.php'>proofreading guidelines</a>. The pages include items that you are likely to see when proofreading HARD (and some Average) projects.") .
+    "<p>" . sprintf(_("This section covers topics that are not addressed in the <a href='%s'>proofreading guidelines</a>. The pages include items that you are likely to see when proofreading HARD (and some Average) projects."), get_faq_url("proofreading_guidelines.php")) .
         "</p>\n<p>" .
         _("If you are not yet familiar with a topic, you can learn about it by using the tutorial mode or following the \"Information\" link for that topic.") .
         "</p>",
@@ -190,7 +191,7 @@ new QuizLevel(
     "F_ONLY",
     _("Formatting Quizzes"),
     "format",
-    "<p>" . _("The formatting quizzes cover topics addressed in the <a href='../faq/formatting_guidelines.php'>formatting guidelines</a>.") . "</p>",
+    "<p>" . sprintf(_("The formatting quizzes cover topics addressed in the <a href='%s'>formatting guidelines</a>."), get_faq_url("formatting_guidelines.php")) . "</p>",
     [
 
         new Quiz(

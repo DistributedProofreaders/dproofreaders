@@ -504,7 +504,7 @@ function activity_descriptions()
         echo _("Providing Content");
         echo "</dt>";
         echo "<dd>";
-        echo sprintf(_("Want to help out the site by providing material for us to proofread? <a href='%s'>Find out how!</a>"), "$code_url/faq/cp.php");
+        echo sprintf(_("Want to help out the site by providing material for us to proofread? <a href='%s'>Find out how!</a>"), get_faq_url("cp.php"));
         echo "</dd>\n";
     }
 
