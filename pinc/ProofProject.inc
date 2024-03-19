@@ -5,8 +5,6 @@ class ProofProjectPage extends LPage
 {
     public function __construct(object $proof_project, object $project_page)
     {
-        global $pguser;
-
         $this->page_state = $project_page->page_state;
         $this->page_name = $project_page->page_name;
         $this->project = $proof_project->project;
