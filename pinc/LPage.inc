@@ -7,6 +7,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
+include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -260,13 +261,13 @@ class RoundInfo
 {
     public string $round_id;
     public string $username;
-    public string $user_id;
+    public string $forum_user_id;
 
-    public function __construct(string $round_id, string $username, string $user_id)
+    public function __construct(string $round_id, string $username, string $forum_user_id)
     {
         $this->round_id = $round_id;
         $this->username = $username;
-        $this->user_id = $user_id;
+        $this->forum_user_id = $forum_user_id;
     }
 }
 
@@ -339,8 +340,8 @@ class LPage
         foreach ($this->round->other_rounds_with_visible_usernames as $other_round_id) {
             $other_round = get_Round_for_round_id($other_round_id);
             $username = $this->get_username_for_round($other_round);
-            $user_id = get_forum_user_id($username);
-            $round_info_array[] = new RoundInfo($other_round->id, $username, $user_id);
+            $forum_user_id = get_forum_user_id($username);
+            $round_info_array[] = new RoundInfo($other_round->id, $username, $forum_user_id);
         }
 
         return $round_info_array;
