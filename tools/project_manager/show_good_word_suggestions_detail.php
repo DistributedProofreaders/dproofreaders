@@ -60,7 +60,7 @@ if (!is_array($suggestions)) {
 // it was pulled in the raw format
 $word_suggestions = [];
 foreach ($suggestions as $suggestion) {
-    [$time, $round, $page, $proofer, $words] = $suggestion;
+    [$time, $roundid, $page, $proofer, $words] = $suggestion;
     if (in_array($word, $words)) {
         array_push($word_suggestions, $suggestion);
     }
@@ -85,19 +85,19 @@ echo "<a href='javascript:void(0)' id='h_v_switch'></a>";
 echo "</p>";
 
 foreach ($word_suggestions as $suggestion) {
-    [$time, $round, $page, $proofer, $words] = $suggestion;
+    [$time, $roundid, $page, $proofer, $words] = $suggestion;
     // get a context string
-    [$context_strings, $totalLines] = _get_word_context_on_page($projectid, $page, $round, $word);
+    [$context_strings, $totalLines] = _get_word_context_on_page($projectid, $page, $roundid, $word);
 
     // If the word was suggested on a page, but then changed before
     // being saved, let the PM know about it.
     if (!count($context_strings)) {
-        echo "<p>" . sprintf(_('The word was suggested in round %1$s for page %2$s, but no longer exists in the saved text for that round.'), $round, $page) . "</p>";
+        echo "<p>" . sprintf(_('The word was suggested in round %1$s for page %2$s, but no longer exists in the saved text for that round.'), $roundid, $page) . "</p>";
         continue;
     }
 
     echo "<p><b>" . _("Date") . "</b>: " . icu_date_template("long+time", $time) . "<br>";
-    echo "<b>" . _("Round") . "</b>: $round &nbsp; | &nbsp; ";
+    echo "<b>" . _("Round") . "</b>: $roundid &nbsp; | &nbsp; ";
     echo "<b>" . _("Proofreader") . "</b>: " . private_message_link($proofer) . "<br>";
     echo "<b>" . _("Page") . "</b>: <a href='javascript:void(0)' class='page-select' data-value='$page'>$page</a><br>";
     foreach ($context_strings as $lineNum => $context_string) {
@@ -120,9 +120,8 @@ echo "<p style='margin: 0.5em;'>" . _("Select one of the page links to view the 
 echo "</div>";
 echo "</div>";
 
-function _get_word_context_on_page($projectid, $page, $round, $word)
+function _get_word_context_on_page($projectid, $page, $roundid, $word)
 {
-    $lpage = new LPage($projectid, $page, "$round.page_saved", 0);
-    $page_text = $lpage->get_text();
+    $page_text = Page_getText($projectid, $page, get_Round_for_round_id($roundid)->text_column_name);
     return _get_word_context_from_text($page_text, $word);
 }

@@ -299,15 +299,7 @@ class LPage
             $desired_column_name = $this->round->text_column_name;
         }
 
-        $sql = "
-            SELECT $desired_column_name
-            FROM {$this->projectid}
-            WHERE image='{$this->imagefile}'
-        ";
-        $res = DPDatabase::query($sql);
-        [$page_text] = mysqli_fetch_row($res);
-
-        return $page_text;
+        return Page_getText($this->projectid, $this->imagefile, $desired_column_name);
     }
 
     public function get_language()
