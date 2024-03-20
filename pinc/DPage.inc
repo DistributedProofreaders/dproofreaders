@@ -249,11 +249,14 @@ function Page_modifyText($projectid, $image, $page_text, $text_column, $user)
 
 function Page_getText(string $projectid, string $image, string $text_column): string
 {
-    $sql = "
+    $sql = sprintf(
+        "
         SELECT $text_column
         FROM $projectid
-        WHERE image='$image'
-    ";
+        WHERE image='%s'
+        ",
+        DPDatabase::escape($image)
+    );
     $res = DPDatabase::query($sql);
     [$page_text] = mysqli_fetch_row($res);
 
