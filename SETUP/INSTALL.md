@@ -34,9 +34,9 @@ You need a recent version of Composer installed to manage the relevant PHP
 package dependencies.
 
 ### MySQL
-MySQL version 5.7 is the minimum supported version. MySQL 8.x will also work.
+MySQL version 8.0 is the minimum supported version.
 
-MariaDB version 10.2 and later should also work but has not been tested.
+MariaDB version 10.4 and later should also work but has not been tested.
 
 ### phpBB
 [phpBB](https://www.phpbb.com) 3.3 is the minimum supported version.
