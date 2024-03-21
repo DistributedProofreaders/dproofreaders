@@ -553,13 +553,13 @@ function check_username($username, $registering = false)
     }
 
     if (strlen($username) > $username_max_len) {
-        $error = sprintf(_("Your User Name is too long.<br>(The maximum is %s characters.)"), $username_max_len);
+        $error = sprintf(_("Your User Name is too long.<br>(The maximum is %d characters.)"), $username_max_len);
         return $error;
     }
 
     // For new registrations, prevent too-short usernames
     if ($registering && strlen($username) < $username_min_len) {
-        $error = sprintf(_("Your User Name is too short.<br>(The minimum is %s characters.)"), $username_min_len);
+        $error = sprintf(_("Your User Name is too short.<br>(The minimum is %d characters.)"), $username_min_len);
         return $error;
     }
 
