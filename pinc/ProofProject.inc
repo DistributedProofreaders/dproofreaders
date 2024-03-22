@@ -21,7 +21,7 @@ class ProofProjectPage extends LPage
         return $this->render_page_data();
     }
 
-    public function attempt_save_as_done(string $page_text): array
+    public function attempt_checkin(string $page_text): array
     {
         global $pguser;
 
@@ -45,7 +45,7 @@ class ProofProjectPage extends LPage
         }
     }
 
-    public function save_as_in_progress(string $page_text): array
+    public function save(string $page_text): array
     {
         global $pguser;
         $this->validate_text($page_text);
