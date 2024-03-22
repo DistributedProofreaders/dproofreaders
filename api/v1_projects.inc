@@ -775,7 +775,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'resume':
                 return $proof_project_page->resume_page();
             case 'checkin':
-                $proof_project_page->attempt_save_as_done(receive_project_text_from_request_body('text'));
+                return $proof_project_page->attempt_save_as_done(receive_project_text_from_request_body('text'));
                 break;
             case 'save':
                 return $proof_project_page->save_as_in_progress(receive_project_text_from_request_body('text'));

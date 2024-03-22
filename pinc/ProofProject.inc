@@ -21,33 +21,27 @@ class ProofProjectPage extends LPage
         return $this->render_page_data();
     }
 
-    public function attempt_save_as_done(string $page_text): void
+    public function attempt_save_as_done(string $page_text): array
     {
         global $pguser;
 
         $this->page_text = $this->get_valid_text($page_text);
-        if ($this->round->has_a_daily_page_limit()) {
-            $pre_save_dpl_count = get_dpl_count_for_user_in_round($pguser, $this->round);
-            if ($pre_save_dpl_count >= $this->round->daily_page_limit) {
-                // The user has already reached their limit of this kind of page.
-                $this->saveAsInProgress($page_text, $pguser);
-                $sentence = sprintf(
-                    _("Your page was saved as 'In Progress' rather than 'Done', because you have already reached the daily page limit for %s."),
-                    $this->round->id
-                );
-                throw new DailyLimitExceededException($sentence);
-            } else {
-                $this->save_as_done();
-                if ($pre_save_dpl_count + 1 >= $this->round->daily_page_limit) {
-                    $sentence = sprintf(
-                        _("Your page has been saved as 'Done'. However, you have now reached the daily page limit for %s."),
-                        $this->round->id
-                    );
-                    throw new DailyLimitReachedException($sentence);
-                }
-            }
+        [$saved, $dpl_reached] = $this->attemptSaveAsDone($this->page_text, $pguser);
+
+        if (!$dpl_reached) {
+            return ["message" => _("Your page has been checked-in.")];
+        } elseif ($saved) {
+            $sentence = sprintf(
+                _("Your page has been checked-in. However, you have now reached the daily page limit for %s."),
+                $this->round->id
+            );
+            return ["message" => $sentence];
         } else {
-            $this->save_as_done();
+            $sentence = sprintf(
+                _("Your page was not checked-in because you have already reached the daily page limit for %s. You can save it and will be able to check it in after server midnight."),
+                $this->round->id
+            );
+            throw new DailyLimitExceededException($sentence);
         }
     }
 

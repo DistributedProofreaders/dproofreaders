@@ -35,9 +35,9 @@ class ApiTest extends ProjectUtils
         return $this->api_project_page($projectid, $project_state, $page_name, $page_state, ["text" => $text], "revert");
     }
 
-    protected function save_as_done(string $projectid, string $project_state, string $page_name, string $page_state, string $text): void
+    protected function save_as_done(string $projectid, string $project_state, string $page_name, string $page_state, string $text): array
     {
-        $this->api_project_page($projectid, $project_state, $page_name, $page_state, ["text" => $text], "checkin");
+        return $this->api_project_page($projectid, $project_state, $page_name, $page_state, ["text" => $text], "checkin");
     }
 
     protected function get_text(string $projectid, string $project_state, string $page_name, string $page_state): array
@@ -557,7 +557,8 @@ class ApiTest extends ProjectUtils
         $tally = $user_tallyboard->get_current_tally($user->u_id);
 
         // save as done
-        $this->save_as_done($project->projectid, "P1.proj_avail", "001.png", "P1.page_out", $this->TEST_MODIFIED_TEXT);
+        $response = $this->save_as_done($project->projectid, "P1.proj_avail", "001.png", "P1.page_out", $this->TEST_MODIFIED_TEXT);
+        $this->assertEquals(["message" => "Your page has been checked-in."], $response);
 
         // check tally has increased by one
         $this->assertEquals(1, $user_tallyboard->get_current_tally($user->u_id) - $tally);
@@ -579,30 +580,29 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
         // check tally back to original value
         $this->assertEquals($user_tallyboard->get_current_tally($user->u_id), $tally);
+    }
 
-        // test daily limit
+    public function test_daily_limit()
+    {
+        global $pguser;
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project(2);
+
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
         $round = get_Round_for_round_id("P1");
         $old_limit = $round->daily_page_limit;
         $round->daily_page_limit = 1;
         // check reaching limit
-        try {
-            $this->save_as_done($project->projectid, "P1.proj_avail", '001.png', "P1.page_temp", $this->TEST_MODIFIED_TEXT);
-        } catch (ApiException $exception) {
-            $this->assertEquals(309, $exception->getCode());
-        }
+        $response = $this->save_as_done($project->projectid, "P1.proj_avail", '001.png', "P1.page_out", $this->TEST_MODIFIED_TEXT);
+        $this->assertEquals("Your page has been checked-in. However, you have now reached the daily page limit for P1.", $response["message"]);
 
         // checkout another page
         $this->checkout($project->projectid, "P1.proj_avail");
-        try {
-            $this->save_as_done($project->projectid, "P1.proj_avail", '002.png', "P1.page_out", $this->TEST_MODIFIED_TEXT);
-        } catch (ApiException $exception) {
-            $this->assertEquals(308, $exception->getCode());
-        }
-        // check that page has been saved as in progress,
-        // if saved as done this will fail with wrong state,
-        // if not saved at all the text will not be modified
-        $response = $this->resume($project->projectid, "P1.proj_avail", '002.png', "P1.page_temp");
-        $this->assertEquals($response["text"], $this->TEST_MODIFIED_TEXT);
+        $this->expectExceptionCode(308);
+        $this->save_as_done($project->projectid, "P1.proj_avail", '002.png', "P1.page_out", $this->TEST_MODIFIED_TEXT);
 
         // reset daily limit
         $round->daily_page_limit = $old_limit;

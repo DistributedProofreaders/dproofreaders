@@ -87,14 +87,6 @@ class DailyLimitExceededException extends UserAccessException
     }
 }
 
-class DailyLimitReachedException extends UserAccessException
-{
-    public function __construct($message = "", $code = 309)
-    {
-        parent::__construct($message, $code);
-    }
-}
-
 class User
 {
     private $table_row;
