@@ -25,8 +25,8 @@ class ProofProjectPage extends LPage
     {
         global $pguser;
 
-        $this->page_text = $this->get_valid_text($page_text);
-        [$saved, $dpl_reached] = $this->attemptSaveAsDone($this->page_text, $pguser);
+        $this->validate_text($page_text);
+        [$saved, $dpl_reached] = $this->attemptSaveAsDone($page_text, $pguser);
 
         if (!$dpl_reached) {
             return ["message" => _("Your page has been checked-in.")];
@@ -45,19 +45,10 @@ class ProofProjectPage extends LPage
         }
     }
 
-    private function save_as_done(): void
-    {
-        global $pguser;
-
-        $this->page_state = Page_saveAsDone($this->projectid, $this->page_name, $this->round, $pguser, $this->page_text);
-        // add to user page count
-        page_tallies_add($this->round->id, $pguser, +1);
-    }
-
     public function save_as_in_progress(string $page_text): array
     {
         global $pguser;
-        $this->page_text = $this->get_valid_text($page_text);
+        $this->validate_text($page_text);
         $this->saveAsInProgress($page_text, $pguser);
         return $this->get_page_text_array() + $this->get_page_state_array();
     }
@@ -65,7 +56,7 @@ class ProofProjectPage extends LPage
     public function save_and_revert(string $page_text): array
     {
         global $pguser;
-        $this->page_text = $this->get_valid_text($page_text);
+        $this->validate_text($page_text);
         $this->saveAsInProgress($page_text, $pguser);
         $this->revertToOriginal();
         return $this->get_page_text_array() + $this->get_page_state_array();
@@ -131,7 +122,7 @@ class ProofProjectPage extends LPage
         ];
     }
 
-    private function get_valid_text(string $text): string
+    private function validate_text(string $text): void
     {
         $pattern_string = build_character_regex_filter($this->project->get_valid_codepoints());
         foreach (split_graphemes($text) as $grapheme) {
@@ -139,7 +130,6 @@ class ProofProjectPage extends LPage
                 throw new ProjectInvalidTextException(_("The text contains characters which are not allowed for this project"));
             }
         }
-        return _normalize_page_text($text, $this->project->projectid);
     }
 }
 
