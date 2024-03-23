@@ -776,7 +776,6 @@ function api_v1_project_page(string $method, array $data, array $query_params)
                 return $proof_project_page->resume_page();
             case 'checkin':
                 return $proof_project_page->attempt_checkin(receive_project_text_from_request_body('text'));
-                break;
             case 'save':
                 return $proof_project_page->save(receive_project_text_from_request_body('text'));
             case 'revert':
