@@ -268,7 +268,7 @@ class ApiTest extends ProjectUtils
             'saved' => false,
             'pagenum' => '001',
             'round_info_array' => [],
-            'langDir' => 'LTR',
+            'language_direction' => 'LTR',
         ];
         $this->assertEquals($expected, $response);
     }
@@ -355,7 +355,7 @@ class ApiTest extends ProjectUtils
             'saved' => false,
             'pagenum' => '001',
             'round_info_array' => [],
-            'langDir' => 'LTR',
+            'language_direction' => 'LTR',
         ];
 
         $this->assertEquals($expected, $response);
@@ -574,7 +574,7 @@ class ApiTest extends ProjectUtils
             'saved' => true,
             'pagenum' => '001',
             'round_info_array' => [],
-            'langDir' => 'LTR',
+            'language_direction' => 'LTR',
         ];
 
         $this->assertEquals($expected, $response);

@@ -921,7 +921,7 @@ paths:
     put:
       tags:
       - project
-      description: Check out a page for proofreading. Response - schema - proof_page.
+      description: Check out a page for proofreading.
       parameters:
       - $ref: '#/components/parameters/projectid'
       - $ref: '#/components/parameters/state_query'
@@ -986,15 +986,15 @@ paths:
         in: query
         description: Action to perform on the page.
             <br><br>
-            resume - If the page is saved-as-done 'unsaves' it. Response - schema - proof_page.
+            resume - If the page is saved-as-done 'unsaves' it. Response:- proof_page object.
             <br><br>
-            checkin - Checks the page for invalid characters and if valid, saves it as done. Response - none.
+            checkin - Checks the page for invalid characters and if valid, saves it as done. Response:- checkin_message object.
             <br><br>
-            save - Checks the page for invalid characters and if valid, saves it as in progress. Response - schema - page_text_state.
+            save - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
-            revert - Checks the page for invalid characters and if valid, saves it as in progress. Response - schema - page_text_state.
+            revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
-            abandon - Returns the page to the round, response - none.
+            abandon - Returns the page to the round, response:- none.
         required: true
         schema:
           type: string
@@ -1007,6 +1007,7 @@ paths:
             application/json:
               schema:
                 oneOf:
+                  - $ref: '#/components/schemas/checkin_message'
                   - $ref: '#/components/schemas/proof_page'
                   - $ref: '#/components/schemas/page_text_state'
         '400':
@@ -1143,7 +1144,7 @@ components:
         type: string
 
     state_query:
-      name: state_query
+      name: state
       in: query
       description: Project state
       required: true
@@ -1159,7 +1160,7 @@ components:
         type: string
 
     pagestate_query:
-      name: pagestate_query
+      name: pagestate
       in: query
       description: Page state
       required: true
@@ -1563,6 +1564,10 @@ components:
         image_url:
           description: URL of the image of the page
           type: string
+        language_direction:
+          description: left-to-right or right-to-left
+          type: string
+          enum: [RTL, LTR]
         pagenum:
           description: Page "number" without extension
           type: string
@@ -1571,6 +1576,13 @@ components:
           type: array
           items:
             type: string
+
+    checkin_message:
+      type: object
+      properties:
+        message:
+          description: message if reached limit, else empty string.
+          type: string
 
     page_text_state:
       type: object

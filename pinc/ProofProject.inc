@@ -105,7 +105,7 @@ class ProofProjectPage extends LPage
                 "round_info_array" => $round_info_array,
                 "pagename" => $this->page_name,
                 "image_url" => "{$this->project->url}/{$this->page_name}",
-                "langDir" => lang_direction(langcode2_for_langname($this->project->languages[0])),
+                "language_direction" => lang_direction(langcode2_for_langname($this->project->languages[0])),
             ];
     }
 
