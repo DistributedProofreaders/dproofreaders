@@ -54,7 +54,7 @@ if ($user_can_review_others) {
     // only let site admins or reviewers to access non-self records and eval query
     echo  "<tr>";
     echo   "<th>" . _("Username") . "</th>";
-    echo   "<td><input name='username' type='text' size='26' value='" . attr_safe($username) . "' required></td>";
+    echo   "<td><input name='username' type='text' size='26' value='" . attr_safe($username) . "' autocapitalize='none' required></td>";
     echo  "</tr>";
     echo  "<tr>";
     echo   "<th>" . _("Use Evaluation Query") . "</th>";

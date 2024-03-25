@@ -314,7 +314,7 @@ function output_link_box($username)
     if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
         echo "<form action='#' method='get'><p>";
         echo _("See projects for another user") . "<br>";
-        echo "<input type='text' name='username' value='" . attr_safe($username) . "' required>";
+        echo "<input type='text' name='username' value='" . attr_safe($username) . "' autocapitalize='none' required>";
         echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
         echo "</p></form>\n";
         echo "<hr>";

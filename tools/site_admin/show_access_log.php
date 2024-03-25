@@ -32,7 +32,7 @@ echo "<form method='GET'>";
 echo "<table class='basic'>";
 echo "<tr>";
 echo "  <th>" . _("Username") . "</th>";
-echo "  <td><input name='username' type='text' value='" . attr_safe($username) . "'></td>";
+echo "  <td><input name='username' type='text' value='" . attr_safe($username) . "' autocapitalize='none'></td>";
 echo "</tr>";
 echo "<tr>";
 echo "  <th>" . _("Action") . "</th>";

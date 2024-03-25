@@ -36,7 +36,7 @@ if ($action == 'default') {
 
     echo "<form method='get'>";
     echo "<input type='hidden' name='action' value='get_user'>";
-    echo _("Username") . ": <input type='text' name='username' required>";
+    echo _("Username") . ": <input type='text' name='username' autocapitalize='none' required>";
     echo  " <input type='submit' value='" . attr_safe(_("Continue")) . "'>";
     echo "</form>";
     echo "<br>";
