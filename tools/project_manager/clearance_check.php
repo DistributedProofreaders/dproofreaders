@@ -40,7 +40,7 @@ if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
     echo "<div id='linkbox'>";
     echo "<form action='#' method='get'><p>";
     echo _("See projects for another user") . "<br>";
-    echo "<input type='text' name='username' value='$username' required>";
+    echo "<input type='text' name='username' value='$username' autocapitalize='none' required>";
     echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
     echo "</p></form>\n";
     echo "<p><a href='?username='>" . _("See all projects with suspect clearances") . "</a></p>";

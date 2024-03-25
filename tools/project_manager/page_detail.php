@@ -95,7 +95,7 @@ function echo_filter_box(string $projectid, int $show_image_size, ?string $usern
     echo "<tr><td colspan=2>", _("Filter pages by:"), "</td></tr>";
     echo "<tr>";
     echo "<td class='bold'><label for='sbu'>", _("Username"), "</label></td>";
-    echo "<td><input type='text' id='sbu' name='select_by_user' value='" . attr_safe($username) . "' required></td>";
+    echo "<td><input type='text' id='sbu' name='select_by_user' value='" . attr_safe($username) . "' autocapitalize='none' required></td>";
     echo "</tr>";
     echo "<tr>";
     echo "<td class='bold'><label for='sbr'>", _("User in round"), "</label></td>";

@@ -221,7 +221,7 @@ function html_navbar()
         // login link text
         // TRANSLATORS: ID is an abbreviation for username in the navbar
         $login_form .= "<label for='loginform-userNM'>" . _("ID") . ":</label> ";
-        $login_form .= "<input type='text' id='loginform-userNM' name='userNM' style='width: 7em;' required>&nbsp;";
+        $login_form .= "<input type='text' id='loginform-userNM' name='userNM' style='width: 7em;' autocapitalize='none' required>&nbsp;";
         $login_form .= "<label for='loginform-userPW'>" . _("Password") . ":</label> ";
         $login_form .= "<input type='password' id='loginform-userPW' name='userPW' style='width: 7em;' required>&nbsp;";
         $login_form .= "<input type='submit' value='" . _("Sign In") ."'>";

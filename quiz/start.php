@@ -73,7 +73,7 @@ elseif (
         echo "<form action='#' method='get'><p>";
         echo _("See results for another user") . "<br>";
         echo "<input type='hidden' name='show_only' value='$activity_type' required>";
-        echo "<input type='text' name='username' value='$username' required>";
+        echo "<input type='text' name='username' value='$username' autocapitalize='none' required>";
         echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
         echo "</p></form>\n";
         echo "</div>";
