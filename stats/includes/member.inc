@@ -198,6 +198,13 @@ function showForumProfile($username)
     global $site_abbreviation;
 
     $bb_user = get_forum_user_details($username);
+    if (is_null($bb_user)) {
+        echo "<p class='error'>";
+        echo sprintf(_("User '%s' has no forum account"), html_safe($username));
+        echo "</p>";
+        return;
+    }
+
 
     $view_url = attr_safe(get_url_to_view_profile($bb_user["id"]));
     $text = _('View');
@@ -276,26 +283,26 @@ function showForumProfile($username)
         ],
         [
             "AIM",
-            $bb_user["aim"],
+            @$bb_user["aim"],
             null,
             '',
         ],
         [
             "MSN",
-            $bb_user["msnm"],
+            @$bb_user["msnm"],
             null,
             '',
         ],
         [
             _("Yahoo Message"),
-            $bb_user["yim"],
-            "ymsgr:sendim?" . $bb_user["yim"],
+            @$bb_user["yim"],
+            "ymsgr:sendim?" . @$bb_user["yim"],
             '',
         ],
         [
             "ICQ",
-            $bb_user["icq"],
-            "https://www.icq.com/people/" . $bb_user["icq"] . "/",
+            @$bb_user["icq"],
+            "https://www.icq.com/people/" . @$bb_user["icq"] . "/",
             "_new",
         ],
         [
