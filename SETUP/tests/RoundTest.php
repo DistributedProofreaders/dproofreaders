@@ -109,10 +109,8 @@ class ActivityTest extends PHPUnit\Framework\TestCase
 
     public function test_project_state_functions()
     {
-        global $PROJECT_STATES_IN_ORDER, $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx;
+        global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx;
 
-        $this->assertEquals("P3.proj_bad", $PROJECT_STATES_IN_ORDER[11]);
-        $this->assertEquals("project_delete", $PROJECT_STATES_IN_ORDER[34]);
         $this->assertEquals("(state='proj_submit_pgposted')", SQL_CONDITION_GOLD);
         $this->assertEquals("(state='P1.proj_avail' OR state='P2.proj_avail' OR state='P3.proj_avail' OR state='F1.proj_avail' OR state='F2.proj_avail')", SQL_CONDITION_BRONZE);
 
