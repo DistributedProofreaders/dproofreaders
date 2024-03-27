@@ -190,7 +190,10 @@ TOOLS_TESTS = [
         },
     },
     {'path': 'tools/charsuites.php'},
-    {'path': 'tools/download_images.php?projectid=projectID5e23a810ef693'},
+    {
+        'path': 'tools/download_images.php?projectid=projectID5e23a810ef693',
+        'expect_status': 302,
+    },
     {'path': 'tools/extend_sr.php?project=projectID5e23a810ef693&days=10'},
     {
         'method': 'POST',
@@ -264,8 +267,7 @@ TOOLS_AUTHORS_TESTS = [
         },
     },
     {'path': 'tools/authors/addbio.php?bio_id=1&author_id=1'},
-    # Disabled until #1140 is committed.
-    #{'path': 'tools/authors/author.php?author_id=1'},
+    {'path': 'tools/authors/author.php?author_id=1'},
     {'path': 'tools/authors/authorxml.php'},
     {'path': 'tools/authors/bio.php'},
     {'path': 'tools/authors/bio.php?bio_id=1'},
@@ -311,8 +313,7 @@ TOOLS_PROJECT_MANAGER_TESTS = [
     {'path': 'tools/project_manager/marc_inspector.php?rec=H4sIAAAAAAAAA23QwQrCMAwG4FcJPSmI_Enbrc0uvko2PQgq4rzJ3t2uQ2GwXpo0_b9CTVv9XBWdqSzFqAx1O3-4Xex8ee1dd1UupxLUATnkh93JRABJmYxCBFw3zZdM-We0lQB4X2ey8uU_LNvp_0LJeJ9ahtSM3_Li4oVNL649btRxTgmRBTmKyDHXdNyS0yI3m3Jay6H8UHE9p5Fzw1TW-CTrh1L0cweAQIO9iYo6fQG-RwV6ZgEAAA'},
     {'path': 'tools/project_manager/page_compare.php?project=projectID5e23a810ef693&L_round=P1&R_round=P2'},
     {'path': 'tools/project_manager/page_detail.php?project=projectID5e23a810ef693'},
-    # Needs project dir and pngcheck
-    #{'path': 'tools/project_manager/project_quick_check.php?projectid=projectID5e23a810ef693'},
+    {'path': 'tools/project_manager/project_quick_check.php?projectid=projectID5e23a810ef693'},
     {'path': 'tools/project_manager/projectmgr.php?show=user_avail'},
     {'path': 'tools/project_manager/projectmgr.php?show=user_active'},
     {'path': 'tools/project_manager/projectmgr.php?show=user_all'},
@@ -340,8 +341,59 @@ TOOLS_PROJECT_MANAGER_TESTS = [
     {'path': 'tools/project_manager/show_word_context.php?projectid=projectID5e23a810ef693'},
     {'path': 'tools/project_manager/show_image_sources.php'},
     {'path': 'tools/project_manager/show_specials.php'},
-    # TODO Needs a projects dir to work.
-    #{'path': 'tools/project_manager/update_illos.php?projectid=projectID5e23a810ef693&image=001.png'},
+    {'path': 'tools/project_manager/update_illos.php?projectid=projectID5e23a810ef693&image=illo.png'},
+]
+
+TOOLS_PROOFERS_TESTS = [
+    {'path': 'tools/proofers/for_mentors.php?round_id=P3'},
+    {'path': 'tools/proofers/greek2ascii.php'},
+    # TODO not installed
+    {'path': 'tools/proofers/hiero/index.php'},
+    {'path': 'tools/proofers/ctrl_frame.php?round_id=P3&project_id=projectID5e23a810ef693'},
+    {'path': 'tools/proofers/image_frame_std.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail&imagefile=001.png&page_state=P3.page_saved'},
+    {'path': 'tools/proofers/text_frame_std.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail&imagefile=001.png&page_state=P3.page_saved'},
+    {'path': 'tools/proofers/images_index.php?project=projectID5e23a810ef693'},
+    {'path': 'tools/proofers/mktable.php'},
+    # TODO make non-empty
+    {'path': 'tools/proofers/my_projects.php'},
+    # TODO make non-empty
+    {'path': 'tools/proofers/my_suggestions.php'},
+    # TODO make a valid state
+    {
+        'method': 'POST',
+        'path': 'tools/proofers/processtext.php',
+        'data': {
+            'projectid': 'projectID5e23a810ef693',
+            'proj_state': 'P3.proj_unavail',
+            'imagefile': '001.png',
+            'page_state': 'P3.page_saved',
+            'button4': '1', # B_SWITCH_LAYOUT. NB this fails because not P3.page_temp
+        },
+    },
+    # TODO check redirect URL
+    {
+        'path': 'tools/proofers/project_topic.php?project=projectID5e23a810ef693',
+        'expect_status': 302,
+    },
+    # TODO proof a valid state
+    {'path': 'tools/proofers/proof.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail'},
+    # TODO proof a valid state
+    {'path': 'tools/proofers/proof_frame.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail'},
+    {
+        'method': 'POST',
+        'path': 'tools/proofers/report_bad_page.php',
+        'data': {
+            'projectid': 'projectID5e23a810ef693',
+            'proj_state': 'P3.proj_unavail',
+            'imagefile': '001.png',
+            'page_state': 'P3.page_saved',
+        },
+    },
+    # TODO: Needs page_events or user_project_info entries to exercise properly
+    {'path': 'tools/proofers/review_work.php?username=teststeel'},
+    # TODO: Needs projects in P3.proj_avail to exercise properly
+    {'path': 'tools/proofers/round.php?round_id=P3'},
+    {'path': 'tools/proofers/srchrep.php'},
 ]
 
 TESTS = (
@@ -357,28 +409,10 @@ TESTS = (
     TOOLS_TESTS +
     TOOLS_AUTHORS_TESTS +
     TOOLS_POST_PROOFERS_TESTS +
-    TOOLS_PROJECT_MANAGER_TESTS
+    TOOLS_PROJECT_MANAGER_TESTS +
+    TOOLS_PROOFERS_TESTS
 )
 
-# {'path': 'tools/proofers/ctrl_frame.php'},
-# {'path': 'tools/proofers/for_mentors.php'},
-# {'path': 'tools/proofers/greek2ascii.php'},
-# {'path': 'tools/proofers/hiero/index.php'},
-# {'path': 'tools/proofers/image_frame_std.php'},
-# {'path': 'tools/proofers/images_index.php'},
-# {'path': 'tools/proofers/mktable.php'},
-# {'path': 'tools/proofers/my_projects.php'},
-# {'path': 'tools/proofers/my_suggestions.php'},
-# {'path': 'tools/proofers/processtext.php'},
-# {'path': 'tools/proofers/project_topic.php'},
-# {'path': 'tools/proofers/proof.php'},
-# {'path': 'tools/proofers/proof_frame.php'},
-# {'path': 'tools/proofers/report_bad_page.php'},
-# {'path': 'tools/proofers/review_work.php'},
-# {'path': 'tools/proofers/round.php'},
-# {'path': 'tools/proofers/srchrep.php'},
-# {'path': 'tools/proofers/text_frame_std.php'},
-#
 # {'path': 'tools/site_admin/convert_project_table_utf8.php'},
 # {'path': 'tools/site_admin/copy_pages.php'},
 # {'path': 'tools/site_admin/delete_pages.php'},
@@ -575,7 +609,7 @@ def main() -> int:
         if args.verbose:
             print(data.decode())
         if status not in expect_status or test_failed(logs):
-            print(f'Status: {status}')
+            print(f'Status: {status} (expected {expect_status})')
             print('\n'.join(logs))
             ret = 1
             break

@@ -117,9 +117,8 @@ jobs:
         uses: ./.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt --fix-broken install aspell aspell-en
-      - name: Add smoketest DB entries
-        run: |
-            mysql -uroot -proot < SETUP/smoketests/test_tables.sql
+      - name: Setup smoke test environment
+        run: SETUP/smoketests/smoketest_setup.sh
       - name: Run pageload smoketest
         run: |
             SETUP/smoketests/pageload_smoketest.py \
