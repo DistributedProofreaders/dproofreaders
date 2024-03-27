@@ -491,7 +491,7 @@ class ProjectTest extends ProjectUtils
         $pguser = $this->TEST_USERNAME;
         $round = get_Round_for_round_id("P1");
         [$imagefile, $state] = get_available_proof_page_array($project, $round, $pguser);
-        $lpage = new LPage($project->projectid, $imagefile, $state, 0);
+        $lpage = new LPage($project, $imagefile, $state, 0);
         $lpage->checkout($pguser);
         $this->assertEquals("P1.page_out", $lpage->page_state);
 
