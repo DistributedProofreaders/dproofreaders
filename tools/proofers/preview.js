@@ -1057,7 +1057,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         let inBlock = false;
         let indent = 0;
         let blockType = CONT;
-        let blockQuote = false;
+        let blockQuote = 0;
         const noWrapColor = styler.color ? ' nowrap_color' : '';
 
         function terminate() {
@@ -1098,10 +1098,10 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
                 }
                 blanks = 0;
                 if ("/#" === line) {
-                    blockQuote = true;
+                    blockQuote += 1;
                     indent += 1;
                 } else if ("#/" === line) {
-                    blockQuote = false;
+                    blockQuote -= 1;
                     indent -= 1;
                 } else if("/*" === line) {
                     // no wrap
