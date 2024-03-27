@@ -4,7 +4,6 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'LPage.inc');
 include_once($relPath.'links.inc');
-include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 
 // Page-related code that's common to the standard and enhanced interfaces.
 
@@ -166,47 +165,37 @@ class PPage
 
     public function echo_info()
     {
+        $round_info_array = $this->lpage->get_info();
+
         //display page number
-        $pageNum = substr($this->lpage->imagefile, 0, -4);
         echo "<span class='small bold'>";
-        echo sprintf(_("Page: %s"), $pageNum);
+        echo sprintf(_("Page: %s"), $this->lpage->get_filename());
 
-        $round = $this->lpage->round;
-        $other_round_ids = $round->other_rounds_with_visible_usernames;
-        if (count($other_round_ids) > 0) {
-            echo " &mdash; ";
-
-            $show_comma = false;
-            foreach ($other_round_ids as $other_round_id) {
-                $other_round = get_Round_for_round_id($other_round_id);
-                $username = $this->lpage->get_username_for_round($other_round);
-
-                if ($show_comma) {
-                    echo ", ";
-                } else {
-                    $show_comma = true;
-                }
-                echo "$other_round->id: ";
-
-                $user_id = get_forum_user_id($username);
-
-                if ($username == '' || $user_id == null) {
-                    // Grey, because it's not the link expected by the user.
-                    echo "<span class='text-link-disabled'>";
-                    if ($username == '') {
-                        // e.g., the project might have skipped $other_round,
-                        // or it could be a future round.
-                        echo "<i>" . pgettext("no user", "none") . "</i>";
-                    } else {
-                        echo $username;
-                    }
-                    echo "</span>";
-                } else {
-                    echo private_message_link($username, "comments");
-                }
-            }
+        if (count($round_info_array) > 0) {
+            echo " &mdash; ", implode(", ", array_map([$this, 'make_round_user_string'], $round_info_array));
         }
         echo "</span>\n";
+    }
+
+    private function make_round_user_string(RoundInfo $info): string
+    {
+        $round_user_string = "$info->round_id: ";
+        $username = $info->username;
+        if ($username == '' || $info->forum_user_id == null) {
+            // Grey, because it's not the link expected by the user.
+            $round_user_string .= "<span class='text-link-disabled'>";
+            if ($username == '') {
+                // e.g., the project might have skipped $other_round,
+                // or it could be a future round.
+                $round_user_string .= "<i>" . pgettext("no user", "none") . "</i>";
+            } else {
+                $round_user_string .= $username;
+            }
+            $round_user_string .= "</span>";
+        } else {
+            $round_user_string .= private_message_link($username, "comments");
+        }
+        return $round_user_string;
     }
 
     public function echo_proofing_textarea()

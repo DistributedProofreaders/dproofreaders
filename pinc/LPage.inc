@@ -7,6 +7,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
+include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -253,6 +254,23 @@ function project_continuity_test($project, $orig_state, $no_more_pages)
     }
 }
 
+/**
+ * Used to hold names of users who proofread each round
+ */
+class RoundInfo
+{
+    public string $round_id;
+    public string $username;
+    public string $forum_user_id;
+
+    public function __construct(string $round_id, string $username, string $forum_user_id)
+    {
+        $this->round_id = $round_id;
+        $this->username = $username;
+        $this->forum_user_id = $forum_user_id;
+    }
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 /**
@@ -308,6 +326,25 @@ class LPage
         [$page_text] = mysqli_fetch_row($res);
 
         return $page_text;
+    }
+
+    public function get_filename()
+    {
+        return pathinfo($this->imagefile, PATHINFO_FILENAME);
+    }
+
+    public function get_info(): array
+    {
+        $round_info_array = [];
+
+        foreach ($this->round->other_rounds_with_visible_usernames as $other_round_id) {
+            $other_round = get_Round_for_round_id($other_round_id);
+            $username = $this->get_username_for_round($other_round);
+            $forum_user_id = get_forum_user_id($username);
+            $round_info_array[] = new RoundInfo($other_round->id, $username, $forum_user_id);
+        }
+
+        return $round_info_array;
     }
 
     public function get_language()
