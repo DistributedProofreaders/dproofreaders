@@ -245,6 +245,25 @@ function Page_modifyText($projectid, $image, $page_text, $text_column, $user)
     _log_page_event($projectid, $image, 'modifyText', $user, $round);
 }
 
+// -----------------------------------------------------------------------------
+
+function Page_getText(string $projectid, string $image, string $text_column): string
+{
+    $sql = sprintf(
+        "
+        SELECT $text_column
+        FROM $projectid
+        WHERE image='%s'
+        ",
+        DPDatabase::escape($image)
+    );
+    $res = DPDatabase::query($sql);
+    [$page_text] = mysqli_fetch_row($res);
+
+    return $page_text;
+}
+
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function Page_checkout($projectid, $image, $round, $user)
