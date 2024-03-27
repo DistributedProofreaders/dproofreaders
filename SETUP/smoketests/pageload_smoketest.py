@@ -71,7 +71,6 @@ FAQ_TESTS = [
     {'path': 'faq/font_sample.php'},
     {'path': 'faq/privacy.php'},
     {'path': 'faq/prooffacehelp.php'},
-    {'path': 'faq/simple_proof_rules.php'},
     {'path': 'faq/site_progress_snapshot_legend.php'},
     {'path': 'faq/translate.php'},
 ]
