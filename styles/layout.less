@@ -206,8 +206,9 @@ header, #header {
     display: table;
     background-color: @header-background;
     color: @header-text;
-    #logo, #titles-preserved {
+    #logo, #logo-right {
         display: table-cell;
+        .middle-align;
     }
     #logo {
         height: 75px;
@@ -219,11 +220,43 @@ header, #header {
     }
     #titles-preserved {
         .center-align;
-        .middle-align;
         font-size: 0.9em;
         #x-preserved {
             .bold;
             .sans-serif;
+        }
+    }
+    #icon-menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+    .icon-menu-item {
+        position: relative;
+        cursor: pointer;
+        margin-right: 1.5em;
+        .center-align;
+        text-decoration: none;
+        .sans-serif;
+        font-size: 0.7em;
+        color: @navbar-background;
+        .unicolor-link(@navbar-background);
+        .icon-menu-item-name {
+            font-size: 0.9em;
+            color: @heading-color;
+            .unicolor-link(@heading-color);
+        }
+        .inbox-badge {
+          background-color: @text-error;
+          border-radius: 2px;
+          color: @page-background;
+
+          padding: 1px 3px;
+          font-size: 0.9em;
+
+          position: absolute;
+          top: -3px;
+          right: -3px;
         }
     }
 }
@@ -281,6 +314,49 @@ nav, #navbar-outer {
         }
     }
 }
+
+.menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    color: @navbar-text;
+    text-align: center;
+    min-width: 4em;
+}
+
+.menu-selector {
+    display: inline;
+}
+
+.menu-icon {
+    transition-duration: 0.15s;
+}
+
+.menu-contents {
+    // initially these are invisible & transparent
+    transition: all 0.15s ease-in-out;
+    position: absolute;
+    z-index: 1;
+    .solid-border();
+    color: @header-text;
+    background-color: @navbar-background;
+    text-align: left;
+    padding: 0.5em;
+    margin-top: 0.4em;
+    .menu-item {
+        margin: 0.3em;
+    }
+}
+
+#my-activities-string {
+    display: inline;
+    white-space: nowrap;
+}
+#my-activities-menu {
+    display: none;
+    white-space: nowrap;
+}
+
 
 /* ------------------------------------------------------------------------ */
 /* Alert & Test bar */
@@ -461,6 +537,19 @@ details[open] summary {
 .graph-series-loop(10);
 
 /*
+ If the screen is "narrow enough", collapse the activities into a menu.
+ > 900px allows *all* activities to be displayed for English, French, and German.
+*/
+@media only screen and (max-width: 900px) {
+    #my-activities-string {
+        display: none;
+    }
+    #my-activities-menu {
+        display: inline;
+    }
+}
+
+/*
  If the screen is "narrow enough" we move the statsbar below the page
  content using a flex layout. We don't use a flex layout for the
  regular content because doing so cuts off the project listings on
@@ -490,17 +579,27 @@ details[open] summary {
 }
 
 /* For even smaller screens, change the header and footer */
-@media only screen and (max-width: 481px) {
+@media only screen and (max-width: 600px) {
     #header {
-        #titles-preserved {
-            display: table-row;
-            .right-align;
-            font-size: 0.8em;
-        }
         #logo {
             max-width: 95%;
             img {
                 max-width: 95%;
+            }
+        }
+        #logo-right {
+            display: table-row;
+        }
+        #titles-preserved {
+            .right-align;
+            font-size: 0.8em;
+            padding-bottom: 5px;
+        }
+        .icon-menu-item {
+            font-size: 0.6em;
+            padding-bottom: 5px;
+            .icon-menu-item-name {
+                display: none;
             }
         }
     }

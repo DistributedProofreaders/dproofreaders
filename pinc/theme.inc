@@ -91,7 +91,7 @@ function output_footer($nameofpage, $show_statsbar = true)
     echo "<p>\n";
     echo "<small>\n";
 
-    echo "&copy;$site_name";
+    echo "&copy;" . html_safe($site_name);
 
     echo "<span id='buildtime'>";
     echo " &middot; ";
@@ -119,30 +119,96 @@ function html_logobar()
 {
     global $code_url, $site_name;
     global $maintenance, $testing, $alert_message;
+    global $blog_url, $wiki_url;
 
     echo "\n<div id='header'>\n";
-    echo "<a href='$code_url'>\n";
+
     echo "<div id='logo'>\n";
-    echo "<img src='$code_url/graphics/dp-logo.svg' alt='$site_name'>\n";
-    echo "</div>\n";
+    echo "<a href='$code_url'>\n";
+    echo "<img id='logo-img' src='$code_url/graphics/dp-logo.svg' alt='" . attr_safe($site_name) . "'>\n";
     echo "</a>\n";
+    echo "</div>\n"; // logo
 
-    echo "<div id='titles-preserved'><p>\n";
+    echo "<div id='logo-right'>";
+    $user = User::load_current();
+    if (!$user) {
+        // show number of books posted to PG
+        // (takes into account that some books are processed as several projects)
+        echo "<div id='titles-preserved'>\n";
+        echo "<span id='x-preserved'>";
+        echo sprintf(
+            _('%s titles preserved for the world!'),
+            number_format(total_completed_projects())
+        );
+        echo "</span>\n";
+        echo "<span id='month-preserved-summary'>";
+        show_completed_projects(true);
+        echo "</span>";
+        echo "</div>\n";
+    } else {
+        $icon_links = [];
+        if (get_url_for_forum()) {
+            $icon_links[] = [
+                "name" => _("Inbox"),
+                "class" => "fas fa-envelope fa-2x",
+                "url" => get_url_for_inbox(),
+            ];
 
-    // show number of books posted to PG
-    // (takes into account that some books are processed as several projects)
-    echo "<span id='x-preserved'>";
-    echo sprintf(
-        _('%s titles preserved for the world!'),
-        number_format(total_completed_projects())
-    );
-    echo "</span>\n";
-    echo "<span id='month-preserved-summary'>";
-    show_completed_projects(true);
-    echo "</span>";
+            $icon_links[] = [
+                "name" => _("Forums"),
+                "class" => "fas fa-comments fa-2x",
+                "url" => get_url_for_forum(),
+            ];
+        }
+        if (!empty($wiki_url)) {
+            $icon_links[] = [
+                "name" => _("Wiki"),
+                "class" => "fas fa-scroll fa-2x",
+                "url" => $wiki_url,
+            ];
+        }
+        if (!empty($blog_url)) {
+            $icon_links[] = [
+                "name" => _("Blog"),
+                "class" => "fab fa-wordpress fa-2x",
+                "url" => $blog_url,
+            ];
+        }
+        $icon_links[] = [
+            "name" => _("Help"),
+            "class" => "fas fa-question fa-2x",
+            "url" => get_faq_url("faq_central.php"),
+        ];
+        $links = [];
+        foreach ($icon_links as $data) {
+            $name = attr_safe($data["name"]);
+            $class = $data["class"];
+            $url = $data["url"] ?? "";
+            $text = "<div class='icon-menu-item'>";
+            if ($url) {
+                $text .= "<a href='$url' aria-label='$name'>";
+            }
+            $text .= "<i aria-hidden='true' class='$class' title='$name'></i>";
+            if ($url) {
+                $text .= "</a>";
+            }
+            if ($data["name"] == _("Inbox")) {
+                $numofPMs = get_number_of_unread_messages($user->username);
+                if ($numofPMs > 0) {
+                    $text .= "<span class='inbox-badge'>$numofPMs</span>";
+                }
+            }
+            $text .= "<br><span class='icon-menu-item-name'>$name</span>";
+            $text .= "</div>";
+            $links[] = $text;
+        }
 
-    echo "</p></div>\n";
-    echo "</div>\n";
+        echo "<div id='icon-menu'>";
+        echo join("", $links);
+        echo "</div>"; // icon-menu
+    }
+    echo "</div>"; // logo-right
+    echo "</div>\n"; // header
 
     html_navbar();
 
@@ -174,7 +240,7 @@ function html_logobar()
  */
 function html_navbar()
 {
-    global $code_url, $site_abbreviation, $blog_url, $wiki_url;
+    global $code_url, $blog_url, $wiki_url;
 
     echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
@@ -183,13 +249,16 @@ function html_navbar()
     $user = User::load_current();
     if (!$user) {
         $links = [];
-        $links[] = ['text' => $site_abbreviation, 'url' => "default.php"];
         if (!empty($blog_url)) {
             $links[] = ['text' => _("Blog"), 'url' => $blog_url];
+        }
+        if (!empty($wiki_url)) {
+            $links[] = ['text' => _("Wiki"), 'url' => $wiki_url];
         }
         if (get_url_for_forum()) {
             $links[] = ['text' => _("Forums"), 'url' => get_url_for_forum()];
         }
+        $links[] = ['text' => _('Help'), 'url' => get_faq_url("faq_central.php")];
         echo "<span id='navbar-left'>";
         echo headerbar_text_array($links);
         echo "</span>\n";
@@ -230,7 +299,6 @@ function html_navbar()
         $links = [];
         $links[] = ['text' => $login_form];
         $links[] = ['text' => _('Register'), 'url' => "accounts/addproofer.php"];
-        $links[] = ['text' => _('Help'), 'url' => get_faq_url("faq_central.php")];
         echo headerbar_text_array($links);
         echo "</div>\n";
     } else {
@@ -238,21 +306,58 @@ function html_navbar()
 
         // left side
         echo "<span id='navbar-left'>";
-        echo headerbar_text_array([['text' => $site_abbreviation, 'url' => "default.php"]]);
-
-        echo " | ";
 
         $links = [];
         $links[] = ['text' => _("Activity Hub"), 'url' => "activity_hub.php"];
 
-        // use white-space: nowrap; to keep the rounds within []s together
-        $activities_string = "<span style='white-space: nowrap;'>[ ";
-        if (get_pages_proofed_maybe_simulated() < 100) {
-            $activities_string .= "<span class='text'>" . _("Activities") . ": </span>";
+        // We create 2 different ways of showing the activities, one with them
+        // all visible in one string and one with with them collapsed behind a menu.
+        // We show/hide them based on the user's navbar_activity_menu preference.
+        //   0 - always collapse
+        //   1 - automatically collapse
+        //   2 - never collapse
+        // Furthermore, in auto mode never collapse the menu for new users or
+        // users with fewer than 4 activities.
+        $activity_links = get_activity_links();
+
+        $is_new_user = get_pages_proofed_maybe_simulated() < 100;
+
+        // Calculate style-level CSS that will override the classes
+        // 2 - never collapse
+        if ($user->navbar_activity_menu == 2) {
+            $string_style = "style='display: inline;'";
+            $menu_style = "style='display: none;'";
+        }
+        // 0 - always collapse
+        elseif ($user->navbar_activity_menu == 0) {
+            $string_style = "style='display: none;'";
+            $menu_style = "style='display: inline;'";
+        }
+        // 1 - auto collapse
+        else {
+            $string_style = "";
+            $menu_style = "";
+
+            // don't collapse for new users in auto mode
+            if ($is_new_user || count($activity_links) <= 3) {
+                $string_style = "style='display: inline;'";
+                $menu_style = "style='display: none;'";
+            }
         }
 
-        $activities_string .= headerbar_text_array(get_activity_links());
-        $activities_string .= " ]</span>";
+        // non-collapsed
+        $activities_string = "<div id='my-activities-string' $string_style>[ ";
+        if ($is_new_user) {
+            $activities_string .= "<span class='text'>" . _("My Activities") . ": </span>";
+        }
+        $activities_string .= headerbar_text_array($activity_links);
+        $activities_string .= " ]</div>";
+
+        // collapsed
+        $activities_string .= "<div id='my-activities-menu' $menu_style>";
+        $activities_string .= headerbar_menu(_("My Activities"), [['text' => headerbar_text_array($activity_links)]]);
+        $activities_string .= "</div>";
+
         $links[] = ['text' => $activities_string];
 
         $links[] = ['text' => _("My Projects"), 'url' => "tools/proofers/my_projects.php"];
@@ -270,34 +375,19 @@ function html_navbar()
         // on the same line.
         echo "<span id='navbar-right'>";
         $links = [];
-        if (get_url_for_inbox()) {
-            $inbox_text = _("Inbox");
-
-            $numofPMs = get_number_of_unread_messages($user->username);
-            if ($numofPMs > 0) {
-                $inbox_text .= " " . sprintf(_("(%s unread)"), $numofPMs);
-            }
-            $links[] = ['text' => $inbox_text, 'url' => get_url_for_inbox()];
-        }
-
-        if (get_url_for_forum()) {
-            $links[] = ['text' => _("Forums"), 'url' => get_url_for_forum()];
-        }
-
-        if (!empty($blog_url)) {
-            $links[] = ['text' => _("Blog"), 'url' => $blog_url];
-        }
-
-        if (!empty($wiki_url)) {
-            $links[] = ['text' => _("Wiki"), 'url' => $wiki_url];
-        }
-
         $links[] = ['text' => _("Stats"), 'url' => "stats/stats_central.php"];
-        $links[] = ['text' => _("Prefs"), 'url' => "userprefs.php"];
-        $links[] = ['text' => _('Help'), 'url' => get_faq_url("faq_central.php")];
-        $links[] = ['text' => sprintf(_("Log Out (%s)"), $user->username), 'url' => "accounts/logout.php"];
 
         echo headerbar_text_array($links);
+        echo "  &#183; ";
+
+        $account_links = [
+            ['text' => _("Profile"), 'url' => "stats/members/mdetail.php"],
+            ['text' => _("Preferences"), 'url' => "userprefs.php"],
+            ['text' => _("Log Out"), 'url' => "accounts/logout.php"],
+        ];
+
+        echo headerbar_menu($user->username, $account_links, true);
+
         echo "</span>";
     }
 
@@ -305,8 +395,34 @@ function html_navbar()
     echo "</div>\n";
 }
 
+function headerbar_menu(string $menu_title, array $links, bool $align_right = false): string
+{
+    $menu_style = "";
+    $menu_contents_style = "";
+    if ($align_right) {
+        $menu_style = "style='padding-right: 0.5em;'";
+        $menu_contents_style = "style='right: 0;'";
+    }
+
+    $menu_id = 'menu' . md5($menu_title);
+    $output = [
+        "<div id='$menu_id' class='menu' $menu_style>",
+        "<div class='menu-selector' onclick='toggleMenu(\"$menu_id\")'>",
+        "<i class='menu-icon fas fa-caret-right'></i>",
+        " " . html_safe($menu_title),
+        "</div>",
+        "<div class='menu-contents invisible transparent' $menu_contents_style>",
+    ];
+    foreach (resolve_headerbar_entries($links) as $entry) {
+        $output[] = "<div class='menu-item'>$entry</div>";
+    }
+    $output[] = "</div>"; // menu-contents
+    $output[] = "</div>"; // menu
+    return join("", $output);
+}
+
 /**
- * Outputs entries in the navbar contained within $entries.
+ * Resolve navbar entries to full links or current page
  *
  * Each $entry is an associative array containing either:
  * - 'text' - text to display as-is without changes, can include HTML
@@ -317,7 +433,7 @@ function html_navbar()
  * current page is one of the urls and if so it doesn't create the link but
  * instead wraps the text in a span.currentpage tag.
  */
-function headerbar_text_array($entries)
+function resolve_headerbar_entries(array $entries): array
 {
     global $code_url;
 
@@ -368,12 +484,21 @@ function headerbar_text_array($entries)
 
         $output_entries[] = $entry_string;
     }
+    return $output_entries;
+}
 
+/**
+ * Outputs entries in the navbar contained within $entries.
+ *
+ * See resolve_headerbar_entries() for $entries format.
+ */
+function headerbar_text_array(array $entries): string
+{
     // set the divider
     // &#183; == &middot; == middle-dot
     $divider = " &#183; ";
 
-    return implode($divider, $output_entries);
+    return implode($divider, resolve_headerbar_entries($entries));
 }
 
 function html_statsbar($nameofpage)

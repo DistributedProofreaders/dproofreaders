@@ -669,6 +669,7 @@ CREATE TABLE `users` (
   `u_intlang` varchar(25) default '',
   `u_privacy` tinyint(1) default '0',
   `api_key` varchar(38) DEFAULT NULL,
+  `navbar_activity_menu` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`username`),
   UNIQUE KEY `api_key` (`api_key`),
   KEY `u_id` (`u_id`),

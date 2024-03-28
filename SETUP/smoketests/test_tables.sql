@@ -10,8 +10,8 @@ REPLACE INTO `projects` VALUES ('An Empty Project','Fletcher, Jessica','English'
 /* `users` rows populated by INSERTs in accounts/activate.php.
  * Can't do this programatically yet.
  */
-REPLACE INTO `users` VALUES ('userID1234567890abc', 'Adam Adminston', 'admin', 'a@example.com', 1234567890, 1234567890, 1234567890, 1, '', '', '', 10, 0, 'project_gutenberg', 1, 110, '', 0, 'admin_key');
-REPLACE INTO `users` VALUES ('userID460b20a8a8a71','BKeir','teststeel','teststeel@localhost',1175134376,1175134406,1175134457,1,'','','',10,0,'project_gutenberg',110,119,'en_US',0,NULL);
+REPLACE INTO `users` VALUES ('userID1234567890abc', 'Adam Adminston', 'admin', 'a@example.com', 1234567890, 1234567890, 1234567890, 1, '', '', '', 10, 0, 'project_gutenberg', 1, 110, '', 0, 'admin_key', 1);
+REPLACE INTO `users` VALUES ('userID460b20a8a8a71','BKeir','teststeel','teststeel@localhost',1175134376,1175134406,1175134457,1,'','','',10,0,'project_gutenberg',110,119,'en_US',0,NULL,1);
 
 /* $up = new UserProfile(); $up->foo = bar; $up->save(); does not allow new
  * profiles to be created with programmatic control of id.
