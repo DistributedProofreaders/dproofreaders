@@ -71,6 +71,27 @@ class ReservedForNewProofreadersException extends UserAccessException
     }
 }
 
+/**
+ * @property-read string $reg_token;
+ * @property string $real_name;
+ * @property-read string $username;
+ * @property string $email;
+ * @property int $date_created;
+ * @property int $last_login;
+ * @property int $t_last_activity;
+ * @property bool $email_updates;
+ * @property string $referrer;
+ * @property string $referrer_details;
+ * @property string $http_referrer;
+ * @property int $u_neigh;
+ * @property bool $u_align;
+ * @property string $i_theme;
+ * @property-read int $u_id;
+ * @property int $u_profile;
+ * @property string $u_intlang;
+ * @property bool $u_privacy;
+ * @property string $api_key;
+ */
 class User
 {
     private $table_row;
@@ -406,7 +427,7 @@ class User
      *
      * @param int $u_id
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_uid($u_id)
     {
@@ -422,7 +443,7 @@ class User
      *
      * @param string $reg_token
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_registration_token($reg_token)
     {
@@ -438,7 +459,7 @@ class User
      *
      * @param string $api_key
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_api_key($api_key)
     {
@@ -457,7 +478,7 @@ class User
      * @throws NonuniqueUserException
      *   The email address is not guaranteed to be unique.
      *
-     * @return object User
+     * @return User
      */
     public static function load_from_email($email)
     {

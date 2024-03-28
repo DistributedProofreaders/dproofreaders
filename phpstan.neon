@@ -31,4 +31,3 @@ parameters:
         - message: '#Call to an undefined method#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
-        - message: '#Access to an undefined property#'

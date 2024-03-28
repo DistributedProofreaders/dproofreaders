@@ -1203,7 +1203,7 @@ function TaskForm($task)
     } else {
         echo "<input type='hidden' name='action' value='edit'>\n";
         echo "<input type='hidden' name='task_id' value='$task->task_id'>";
-        $title = "#$task->task_id: " . html_safe($task->task_summary);
+        $title = "#$task->task_id: " . html_safe($task->task_summary); /** @phpstan-ignore-line */
     }
     if ($task->opened_by == $requester_u_id && !user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
         echo "<input type='hidden' name='percent_complete' value='$task->percent_complete'>";
@@ -1230,7 +1230,7 @@ function TaskForm($task)
     property_echo_select_tr('task_status', $task->task_status, $tasks_status_array);
     property_echo_select_tr('task_assignee', $task->task_assignee, $task_assignees_array);
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($task->task_id)) {
-        property_echo_select_tr('percent_complete', $task->percent_complete, $percent_complete_array);
+        property_echo_select_tr('percent_complete', $task->percent_complete, $percent_complete_array); /** @phpstan-ignore-line */
     }
     echo "</table>";
     echo "</div>";

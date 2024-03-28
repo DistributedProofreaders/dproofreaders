@@ -20,16 +20,20 @@ class Stages extends Activities
 
 class Stage extends Activity
 {
+    public string $description;
+    public ?string $document;
+    public string $relative_url;
+
     /**
      * Stage constructor
      *
-     * @param $description
+     * @param string $description
      *   A sentence or two explaining what happens in this stage.
-     * @param $document
+     * @param ?string $document
      *   The path (relative to `$code_url/faq/`) of a document that tells you
      *   everything you need to know about working in this stage.
      *   Or NULL if there is no such document.
-     * @param $relative_url
+     * @param string $relative_url
      *   The "home" location (relative to `$code_url/`) of the stage.
      */
     public function __construct(

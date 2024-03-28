@@ -8,6 +8,19 @@ class NonuniqueNonactivatedUserException extends Exception
 {
 }
 
+/**
+ * @property-read string $id;
+ * @property string $real_name;
+ * @property string $username;
+ * @property string $email;
+ * @property-read int $date_created;
+ * @property bool $email_updates;
+ * @property string $referrer;
+ * @property string $referrer_details;
+ * @property string $http_referrer;
+ * @property string $u_intlang;
+ * @property string $user_password;
+ */
 class NonactivatedUser
 {
     private $table_row;
@@ -222,7 +235,7 @@ class NonactivatedUser
      * @throws NonexistentNonactivatedUserException
      *   There is no user with this ID.
      *
-     * @return object NonactivatedUser
+     * @return NonactivatedUser
      */
     public static function load_from_id($id)
     {
@@ -243,7 +256,7 @@ class NonactivatedUser
      * @throws NonexistentNonactivatedUserException
      *   There is no user with this email address.
      *
-     * @return object NonactivatedUser
+     * @return NonactivatedUser
      */
     public static function load_from_email($email)
     {

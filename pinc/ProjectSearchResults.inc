@@ -10,6 +10,16 @@ include_once($relPath.'genres.inc');  // maybe_create_temporary_genre_translatio
 
 class Column
 {
+    public string $id;
+    protected string $label;
+    private string $long_label;
+    private string $css_class;
+    private bool $default_display;
+    public bool $sortable;
+    protected string $db_column;
+    private Settings $userSettings;
+    private string $search_origin;
+
     public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column)
     {
         $this->id = $id;
@@ -45,7 +55,7 @@ class Column
         return $this->get_long_label();
     }
 
-    public function get_sort_sql()
+    public function get_sort_sql(): ?string
     {
         return $this->db_column; // overridden by state column
     }
@@ -131,6 +141,8 @@ class Column
 
 class TimeColumn extends Column
 {
+    private string $time_format;
+
     public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $time_format)
     {
         parent::__construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column);
@@ -234,7 +246,7 @@ class StateChangeColumn extends TimeColumn
 
 class StateColumn extends Column
 {
-    public function get_sort_sql()
+    public function get_sort_sql(): ?string
     {
         return sql_collator_for_project_state('state');
     }
@@ -390,6 +402,10 @@ class HoldColumn extends Column
 
 class ColumnData
 {
+    protected Settings $userSettings;
+    protected string $search_origin;
+    public array $columns;
+
     public function __construct($userSettings, $search_origin, $time_format = '')
     {
         global $pguser;
@@ -430,6 +446,17 @@ class ColumnData
 
 class ProjectSearchResults
 {
+    private Settings $userSettings;
+    private string $search_origin;
+    private int $page_size;
+    private bool $show_special_colors;
+    /** @var Column[] */
+    private array $active_columns;
+    private string $sort_column_id;
+    private ?string $sort_sql;
+    private string $sql_sort_dir;
+    private string $sec_sort;
+
     public function __construct($search_origin)
     {
         global $pguser;
@@ -480,7 +507,7 @@ class ProjectSearchResults
         }
     }
 
-    private function get_sort_sql($col_id)
+    private function get_sort_sql($col_id): ?string
     {
         foreach ($this->active_columns as $column) {
             if ($column->sortable && ($column->id == $col_id)) {

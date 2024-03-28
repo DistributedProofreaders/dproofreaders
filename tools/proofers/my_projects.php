@@ -120,7 +120,7 @@ if (mysqli_num_rows($res) == 0) {
                 ))) {
                 // get the dope from the project it was merged into
                 $project = new Project($matches[1]);
-                if ($project->archived == '1') {
+                if ($project->archived) {
                     // The project it was merged into has been archived.
                     // So skip it.
                     continue;
