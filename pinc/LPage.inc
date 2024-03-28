@@ -146,7 +146,7 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
         $err = $exception->getMessage();
         return null;
     }
-    $lpage = new LPage($project->projectid, $imagefile, $state, 0);
+    $lpage = new LPage($project, $imagefile, $state, 0);
 
     $lpage->checkout($pguser);
 
@@ -232,7 +232,7 @@ function get_indicated_LPage(
         throw new ProjectPageException($err);
     }
 
-    return new LPage($projectid, $imagefile, $page_state, $reverting_to_orig);
+    return new LPage($project, $imagefile, $page_state, $reverting_to_orig);
 }
 
 function project_continuity_test($project, $orig_state, $no_more_pages)
@@ -283,9 +283,10 @@ class RoundInfo
  */
 class LPage
 {
-    public function __construct($projectid, $imagefile, $page_state, $reverting_to_orig)
+    public function __construct($project, $imagefile, $page_state, $reverting_to_orig)
     {
-        $this->projectid = $projectid;
+        $this->project = $project;
+        $this->projectid = $project->projectid;
         $this->imagefile = $imagefile;
         $this->page_state = $page_state;
         $this->reverting_to_orig = $reverting_to_orig;
@@ -341,8 +342,7 @@ class LPage
 
     public function get_language()
     {
-        $project = new Project($this->projectid);
-        return langcode2_for_langname($project->languages[0]);
+        return langcode2_for_langname($this->project->languages[0]);
     }
 
     public function get_username_for_round($round)
@@ -432,8 +432,7 @@ class LPage
         Page_markAsBad($this->projectid, $this->imagefile, $this->round, $user, $reason);
 
         // Advise PM that the page has been marked bad.
-        $project = new Project($this->projectid);
-        configure_gettext_for_user($project->username);
+        configure_gettext_for_user($this->project->username);
         $body_blurb_messages[] = sprintf(_('Page %1$s of this project has been marked bad due to %2$s.'), $this->imagefile, $PAGE_BADNESS_REASONS[$reason]);
         // TRANSLATORS: %s is a url
         $body_blurb_messages[] = sprintf(
@@ -443,12 +442,11 @@ class LPage
         $body_blurb_messages[] = _("Until this report has been resolved, the project will not be able to leave the current round.");
         $body_blurb_messages[] = _("If 10 pages are marked bad by at least 3 different users, the project will automatically be made unavailable.");
         $body_blurb = implode("\n\n", $body_blurb_messages);
-        send_mail_project_manager($project, $body_blurb, _("Bad Page Report"));
+        send_mail_project_manager($this->project, $body_blurb, _("Bad Page Report"));
         configure_gettext_for_user();
 
         // Now determine whether the project as a whole should be marked bad.
-        $project = new Project($this->projectid);
-        if (!$project->is_bad_from_pages($this->round)) {
+        if (!$this->project->is_bad_from_pages($this->round)) {
             return false;
         }
 
