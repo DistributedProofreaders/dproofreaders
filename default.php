@@ -41,7 +41,7 @@ echo "<p>"
     . "\n";
 
 echo "<p>"
-    . _("Once all the pages have completed these steps, a post-processor carefully assembles them into an e-book, optionally makes it available to interested parties for 'smooth reading', and submits it to the Project Gutenberg archive.")
+    . sprintf(_("Once all the pages have completed these steps, a post-processor carefully assembles them into an e-book, optionally makes it available to interested parties for 'smooth reading', and submits it to the <a href='%s'>Project Gutenberg</a> archive."), $PG_home_url)
     . "</p>"
     . "\n";
 
