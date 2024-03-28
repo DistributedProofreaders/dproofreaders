@@ -12,23 +12,30 @@ include_once("api_common.inc");
 //===========================================================================
 // projects/
 
+/**
+ * Get an array of the fields to be returned to the client.
+ * @param ?array<string,string> $query_params the HTTP query
+ * @return ?array<string>
+ * @throws InvalidValue if any of the filter arguments aren't recognized
+ */
+function get_return_fields(?array $query_params)
+{
+    $return_fields = array_get_as_array($query_params, "field", null);
+    if (is_null($return_fields)) {
+        return null;
+    }
+    $valid_render_fields = array_keys(get_project_fields_with_attr());
+    $invalid_fields = array_diff($return_fields, $valid_render_fields);
+    if (!empty($invalid_fields)) {
+        throw new InvalidValue("Invalid filter args: " . implode(", ", $invalid_fields));
+    }
+    return $return_fields;
+}
+
 function api_v1_projects($method, $data, $query_params)
 {
     // set which fields are queryable and their column names
-    $valid_fields = [
-        "projectid" => "projectid",
-        "state" => "state",
-        "title" => "nameofwork",
-        "author" => "authorsname",
-        "languages" => "language",
-        "genre" => "genre",
-        "difficulty" => "difficulty",
-        "special_day" => "special_day",
-        "project_manager" => "username",
-        "pg_ebook_number" => "postednum",
-        "pages_available" => "n_pages_available",
-        "pages_total" => "n_pages",
-    ];
+    $valid_fields = get_project_fields_with_attr("queryable");
 
     // parameters in the query where the value can be "false", "true" or absent (==true)
     // When true, a WHERE clause is added to the SQL query.
@@ -125,7 +132,7 @@ function api_v1_projects($method, $data, $query_params)
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);
 
     // restrict to list of desired fields, if set
-    $return_fields = array_get_as_array($query_params, "field", null);
+    $return_fields = get_return_fields($query_params);
 
     $output = [];
     while ($row = mysqli_fetch_assoc($result)) {
@@ -139,30 +146,56 @@ function api_v1_projects($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid
 
+function get_project_fields_with_attr(?string $attr = null): array
+{
+    // A list of all the fields that can be rendered by render_project_json
+    // and the corresponding name of the SQL column.
+    // In addition, fields with the "queryable" attribute can be used
+    // as query term for api/v1/projects, and fields with the "updatable"
+    // attribute can be set by a POST request.
+    $fields = [
+        "projectid" => ["sql_name" => "projectid", "queryable" => true],
+        "title" => ["sql_name" => "nameofwork", "updatable" => true, "queryable" => true],
+        "author" => ["sql_name" => "authorsname", "updatable" => true, "queryable" => true],
+        "languages" => ["sql_name" => "languages",  "updatable" => true, "queryable" => true],
+        "genre" => ["sql_name" => "genre", "updatable" => true, "queryable" => true],
+        "difficulty" => ["sql_name" => "difficulty", "updatable" => true, "queryable" => true],
+        "special_day" => ["sql_name" => "special_code", "updatable" => true, "queryable" => true],
+        "project_manager" => ["sql_name" => "username", "updatable" => true, "queryable" => true],
+        "image_source" => ["sql_name" => "image_source", "updatable" => true],
+        "image_preparer" => ["sql_name" => "image_preparer", "updatable" => true],
+        "text_preparer" => ["sql_name" => "text_preparer", "updatable" => true],
+        "pg_ebook_number" => ["sql_name" => "postednum", "updatable" => true, "queryable" => true],
+        "comments" => ["sql_name" => "comments", "updatable" => true],
+        "comment_format" => ["sql_name" => "comment_format", "updatable" => true],
+        "clearance" => ["sql_name" => "clearance", "updatable" => true],
+        "custom_characters" => ["sql_name" => "custom_chars", "updatable" => true],
+        "pages_available" => ["sql_name" => "n_available_pages", "queryable" => true],
+        "pages_total" => ["sql_name" => "n_pages", "queryable" => true],
+        "post_processor" => ["sql_name" => "postproofer"],
+        "post_process_verifier" => ["sql_name" => "ppverifier"],
+        "state" => ["sql_name" => "state"],
+        "last_state_change_time" => ["sql_name" => "modifieddate"],
+        "last_page_done_time" => ["sql_name" => "t_last_page_done"],
+        "last_edit_time" => ["sql_name" => "t_last_edit"],
+        "smoothread_deadline" => ["sql_name" => "smoothread_deadline"],
+    ];
+    $r = [];
+    foreach ($fields as $api_name => $attrs) {
+        if (is_null($attr) || @$attrs[$attr] == true) {
+            $r[$api_name] = $attrs["sql_name"];
+        }
+    }
+    return $r;
+}
+
 /**
  * Return a list of updatable project fields mapped from the API names
  * to the Project object names.
  */
 function get_updatable_project_fields()
 {
-    return [
-        // API name => Project name
-        "title" => "nameofwork",
-        "author" => "authorsname",
-        "languages" => "languages",
-        "genre" => "genre",
-        "difficulty" => "difficulty",
-        "special_day" => "special_code",
-        "project_manager" => "username",
-        "image_source" => "image_source",
-        "image_preparer" => "image_preparer",
-        "text_preparer" => "text_preparer",
-        "pg_ebook_number" => "postednum",
-        "comments" => "comments",
-        "comment_format" => "comment_format",
-        "clearance" => "clearance",
-        "custom_characters" => "custom_chars",
-    ];
+    return get_project_fields_with_attr("updatable");
 }
 
 function create_or_update_project($project)
@@ -254,7 +287,7 @@ function api_v1_project($method, $data, $query_params)
 {
     if ($method == "GET") {
         // restrict to list of desired fields, if set
-        $return_fields = array_get_as_array($query_params, "field", null);
+        $return_fields = get_return_fields($query_params);
         return render_project_json($data[":projectid"], $return_fields);
     } elseif ($method == "PUT") {
         $project = $data[":projectid"];
