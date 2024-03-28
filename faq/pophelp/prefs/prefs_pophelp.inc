@@ -127,6 +127,12 @@ _("<p>This setting controls who is able to see your statistics.</p>
             'content' => _("<p>This setting determines which site theme is used as your default.</p>"),
         ],
 
+    'set_navbar_activity_menu' =>
+        [
+            'title' => _("My Activities Menu"),
+            'content' => _("<p>This setting determines if the My Activities menu in the navigation bar is always collapsed, never collapsed, or automatically collapsed based on the width of the window.</p>"),
+        ],
+
     'set_project_detail' =>
         [
             'title' => _("Project Detail"),

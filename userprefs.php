@@ -256,7 +256,14 @@ function echo_general_tab($user)
         ['100%', 'required', '']
         // About 98% of pgdp.net's users have length(real_name) <= 20
     );
-    show_blank();
+    show_preference(
+        _('Interface Language'),
+        'u_intlang',
+        'intlang',
+        $user->u_intlang,
+        'dropdown',
+        $u_intlang_options
+    );
     echo "</tr>\n";
 
     // Check for DP/forum email mismatch, warn user if not the same
@@ -277,25 +284,6 @@ function echo_general_tab($user)
         'emailfield',
         ['100%', 'required', $email_warning]
     );
-    show_preference(
-        _('Interface Language'),
-        'u_intlang',
-        'intlang',
-        $user->u_intlang,
-        'dropdown',
-        $u_intlang_options
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('E-mail Updates'),
-        'email_updates',
-        'updates',
-        $user->email_updates,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
     $theme_options = [];
     $result = DPDatabase::query("SELECT * FROM themes");
     while ($row = mysqli_fetch_array($result)) {
@@ -310,6 +298,30 @@ function echo_general_tab($user)
         $user->i_theme,
         'dropdown',
         $theme_options
+    );
+    echo "</tr>\n";
+
+    echo "<tr>\n";
+    show_preference(
+        _('E-mail Updates'),
+        'email_updates',
+        'updates',
+        $user->email_updates,
+        'radio_group',
+        [1 => _("Yes"), 0 => _("No")]
+    );
+    $navbar_options = [
+        0 => _("Always collapse"),
+        1 => _("Auto collapse"),
+        2 => _("Never collapse"),
+    ];
+    show_preference(
+        _('My Activities Menu'),
+        'navbar_activity_menu',
+        'navbar_activity_menu',
+        $user->navbar_activity_menu,
+        'dropdown',
+        $navbar_options
     );
     echo "</tr>\n";
 
@@ -411,7 +423,7 @@ function save_general_tab($user)
 
     // set users values
     $input_string_fields = ["real_name", "email", "email_updates", "i_theme", "u_intlang"];
-    $input_numeric_fields = ["u_align", "u_neigh", "u_privacy"];
+    $input_numeric_fields = ["u_align", "u_neigh", "u_privacy", "navbar_activity_menu"];
 
     // pull only specific data out of $_POST
     $data = [];

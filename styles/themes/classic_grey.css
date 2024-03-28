@@ -84,6 +84,9 @@
 .invisible {
   visibility: hidden;
 }
+.transparent {
+  opacity: 0;
+}
 .nodisp {
   display: none;
 }
@@ -102,6 +105,9 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+.rotate {
+  transform: rotate(90deg);
 }
 /* ------------------------------------------------------------------------ */
 /* WEB FONTS */
@@ -1191,9 +1197,10 @@ header,
 }
 header #logo,
 #header #logo,
-header #titles-preserved,
-#header #titles-preserved {
+header #logo-right,
+#header #logo-right {
   display: table-cell;
+  vertical-align: middle;
 }
 header #logo,
 #header #logo {
@@ -1208,13 +1215,61 @@ header #logo img,
 header #titles-preserved,
 #header #titles-preserved {
   text-align: center;
-  vertical-align: middle;
   font-size: 0.9em;
 }
 header #titles-preserved #x-preserved,
 #header #titles-preserved #x-preserved {
   font-weight: bold;
   font-family: Verdana, Helvetica, sans-serif;
+}
+header #icon-menu,
+#header #icon-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+header .icon-menu-item,
+#header .icon-menu-item {
+  position: relative;
+  cursor: pointer;
+  margin-right: 1.5em;
+  text-align: center;
+  text-decoration: none;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-size: 0.7em;
+  color: #444444;
+}
+header .icon-menu-item a:link,
+#header .icon-menu-item a:link,
+header .icon-menu-item a:visited,
+#header .icon-menu-item a:visited,
+header .icon-menu-item a:active,
+#header .icon-menu-item a:active {
+  color: #444444;
+}
+header .icon-menu-item .icon-menu-item-name,
+#header .icon-menu-item .icon-menu-item-name {
+  font-size: 0.9em;
+  color: #333333;
+}
+header .icon-menu-item .icon-menu-item-name a:link,
+#header .icon-menu-item .icon-menu-item-name a:link,
+header .icon-menu-item .icon-menu-item-name a:visited,
+#header .icon-menu-item .icon-menu-item-name a:visited,
+header .icon-menu-item .icon-menu-item-name a:active,
+#header .icon-menu-item .icon-menu-item-name a:active {
+  color: #333333;
+}
+header .icon-menu-item .inbox-badge,
+#header .icon-menu-item .inbox-badge {
+  background-color: red;
+  border-radius: 2px;
+  color: #ffffff;
+  padding: 1px 3px;
+  font-size: 0.9em;
+  position: absolute;
+  top: -3px;
+  right: -3px;
 }
 /* ------------------------------------------------------------------------ */
 /* Navbar */
@@ -1274,6 +1329,42 @@ nav,
 }
 #navbar form div {
   display: inline;
+}
+.menu {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+  min-width: 4em;
+}
+.menu-selector {
+  display: inline;
+}
+.menu-icon {
+  transition-duration: 0.15s;
+}
+.menu-contents {
+  transition: all 0.15s ease-in-out;
+  position: absolute;
+  z-index: 1;
+  border: thin solid #000000;
+  color: #000000;
+  background-color: #444444;
+  text-align: left;
+  padding: 0.5em;
+  margin-top: 0.4em;
+}
+.menu-contents .menu-item {
+  margin: 0.3em;
+}
+#my-activities-string {
+  display: inline;
+  white-space: nowrap;
+}
+#my-activities-menu {
+  display: none;
+  white-space: nowrap;
 }
 /* ------------------------------------------------------------------------ */
 /* Alert & Test bar */
@@ -1564,6 +1655,18 @@ details[open] summary {
   stroke: #1f77b4;
 }
 /*
+ If the screen is "narrow enough", collapse the activities into a menu.
+ > 900px allows *all* activities to be displayed for English, French, and German.
+*/
+@media only screen and (max-width: 900px) {
+  #my-activities-string {
+    display: none;
+  }
+  #my-activities-menu {
+    display: inline;
+  }
+}
+/*
  If the screen is "narrow enough" we move the statsbar below the page
  content using a flex layout. We don't use a flex layout for the
  regular content because doing so cuts off the project listings on
@@ -1591,17 +1694,27 @@ details[open] summary {
   }
 }
 /* For even smaller screens, change the header and footer */
-@media only screen and (max-width: 481px) {
-  #header #titles-preserved {
-    display: table-row;
-    text-align: right;
-    font-size: 0.8em;
-  }
+@media only screen and (max-width: 600px) {
   #header #logo {
     max-width: 95%;
   }
   #header #logo img {
     max-width: 95%;
+  }
+  #header #logo-right {
+    display: table-row;
+  }
+  #header #titles-preserved {
+    text-align: right;
+    font-size: 0.8em;
+    padding-bottom: 5px;
+  }
+  #header .icon-menu-item {
+    font-size: 0.6em;
+    padding-bottom: 5px;
+  }
+  #header .icon-menu-item .icon-menu-item-name {
+    display: none;
   }
   #buildtime {
     display: none;
