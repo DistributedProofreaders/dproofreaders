@@ -261,9 +261,9 @@ class RoundInfo
 {
     public string $round_id;
     public string $username;
-    public string $forum_user_id;
+    public ?string $forum_user_id;
 
-    public function __construct(string $round_id, string $username, string $forum_user_id)
+    public function __construct(string $round_id, string $username, ?string $forum_user_id)
     {
         $this->round_id = $round_id;
         $this->username = $username;
