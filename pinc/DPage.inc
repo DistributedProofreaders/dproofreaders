@@ -550,7 +550,7 @@ function _Page_require(
             . "\n"
             . "    "
             . sprintf(_("But it is in %s"), $curr_page_state);
-        throw new ProjectPageException($err);
+        throw new ProjectPageStateException($err);
     }
 
     if (is_null($allowed_user_colname)) {
@@ -567,7 +567,7 @@ function _Page_require(
                     _("This operation (%s) can only be done by the user who has the page checked out, which you are not."),
                     $op_name
                 );
-            throw new ProjectPageException($err);
+            throw new PageNotOwnedException($err);
         }
     }
 }
