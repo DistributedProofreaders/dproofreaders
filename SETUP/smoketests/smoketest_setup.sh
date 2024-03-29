@@ -8,3 +8,4 @@ mkdir -p "${HOME}/projects/projectID5e23a810ef693"
 for i in 001 002 003 004 005 illo; do
     cp SETUP/smoketests/dot.png "${HOME}/projects/projectID5e23a810ef693/${i}.png"
 done
+mkdir -p "${HOME}/projects/projectID3141592653589"
