@@ -395,6 +395,77 @@ TOOLS_PROOFERS_TESTS = [
     {'path': 'tools/proofers/round.php?round_id=P3'},
     {'path': 'tools/proofers/srchrep.php'},
 ]
+TOOLS_SITE_ADMIN_TESTS = [
+    {'path': 'tools/site_admin/convert_project_table_utf8.php?projectid=projectID5e23a810ef693'},
+    {
+        'method': 'POST',
+        'path': 'tools/site_admin/copy_pages.php',
+        'data': {
+            'projectid_[from]': 'projectID5e23a810ef693',
+            'projectid_[to]': 'projectID3141592653589',
+            'from_image_[lo]': '004.png',
+            'from_image_[hi]': '005.png',
+            'page_name_handling': 'RENUMBER_PAGES',
+            'transfer_notifications': 0,
+            'add_deletion_reason': 0,
+            'merge_wordcheck_data': 0,
+            'repeat_project': 'NONE',
+            'action': 'docopy',
+        },
+    },
+    {
+        'method': 'POST',
+        'path': 'tools/site_admin/delete_pages.php',
+        'data': {
+            'projectid': 'projectID5e23a810ef693',
+            'from_image_[lo]': '004.png',
+            'from_image_[hi]': '005.png',
+            'action': 'check',
+        },
+    },
+    # TODO Needs rules table to be useful
+    {'path': 'tools/site_admin/displayrandrules.php'},
+    # TODO Needs rules table to be useful
+    {'path': 'tools/site_admin/manage_random_rules.php'},
+    # TODO Needs a non-activated user to be useful
+    {'path': 'tools/site_admin/edit_mail_address_for_non_activated_user.php'},
+    {'path': 'tools/site_admin/index.php'},
+    {'path': 'tools/site_admin/manage_site_access_privileges.php?username=teststeel'},
+    {'path': 'tools/site_admin/manage_site_charsuites.php'},
+    # TODO Needs some site wordlists
+    {'path': 'tools/site_admin/manage_site_word_lists.php'},
+    # TODO Needs some special day entries
+    {'path': 'tools/site_admin/manage_special_days.php'},
+    {
+        'method': 'POST',
+        'path': 'tools/site_admin/project_jump.php',
+        'data': {
+            'projectid': 'projectID5e23a810ef693',
+            'new_state': 'F2.proj_unavail',
+            'action': 'check',
+        },
+    },
+    {'path': 'tools/site_admin/projects_with_odd_values.php'},
+    {'path': 'tools/site_admin/rename_pages.php?projectid=projectID3141592653589'},
+    {
+        'method': 'POST',
+        'path': 'tools/site_admin/rename_pages.php',
+        'data': {
+            'projectid': 'projectID3141592653589',
+            'renumber_from_n': 'on',
+            'renumbering_start': 123,
+            'submit_button': 'Check renamings',
+        },
+    },
+    # TODO Needs conflicts to be useful
+    {'path': 'tools/site_admin/shared_postednums.php'},
+    # TODO Needs access_log entries to be useful
+    {'path': 'tools/site_admin/show_access_log.php'},
+    # TODO Needs overlapping word lists to be useful
+    {'path': 'tools/site_admin/show_common_words_from_project_word_lists.php'},
+    # TODO Needs news_items to be useful
+    {'path': 'tools/site_admin/sitenews.php'},
+]
 
 TESTS = (
     NOLOGIN_TESTS +
@@ -410,27 +481,10 @@ TESTS = (
     TOOLS_AUTHORS_TESTS +
     TOOLS_POST_PROOFERS_TESTS +
     TOOLS_PROJECT_MANAGER_TESTS +
-    TOOLS_PROOFERS_TESTS
+    TOOLS_PROOFERS_TESTS +
+    TOOLS_SITE_ADMIN_TESTS
 )
 
-# {'path': 'tools/site_admin/convert_project_table_utf8.php'},
-# {'path': 'tools/site_admin/copy_pages.php'},
-# {'path': 'tools/site_admin/delete_pages.php'},
-# {'path': 'tools/site_admin/displayrandrules.php'},
-# {'path': 'tools/site_admin/edit_mail_address_for_non_activated_user.php'},
-# {'path': 'tools/site_admin/index.php'},
-# {'path': 'tools/site_admin/manage_random_rules.php'},
-# {'path': 'tools/site_admin/manage_site_access_privileges.php'},
-# {'path': 'tools/site_admin/manage_site_charsuites.php'},
-# {'path': 'tools/site_admin/manage_site_word_lists.php'},
-# {'path': 'tools/site_admin/manage_special_days.php'},
-# {'path': 'tools/site_admin/project_jump.php'},
-# {'path': 'tools/site_admin/projects_with_odd_values.php'},
-# {'path': 'tools/site_admin/rename_pages.php'},
-# {'path': 'tools/site_admin/shared_postednums.php'},
-# {'path': 'tools/site_admin/show_access_log.php'},
-# {'path': 'tools/site_admin/show_common_words_from_project_word_lists.php'},
-# {'path': 'tools/site_admin/sitenews.php'},
 
 def get_site_config() -> dict:
     config = {}

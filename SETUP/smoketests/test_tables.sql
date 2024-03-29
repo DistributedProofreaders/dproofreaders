@@ -5,6 +5,7 @@ SET FOREIGN_KEY_CHECKS=0;
  * to be created with programmatic control of the project_id.
  */
 REPLACE INTO `projects` VALUES ('*UTF-8 Practice','Lummis, Charles Fletcher','English','admin','notes','html','projectID5e23a810ef693','','',1704080514,1579564017,1579395673,1708309119,'','P3.proj_avail',NULL,'20200118BEGIN001','',417,1,0,'Folklore','beginner',0,'','',15,6,NULL,'TESTING','admin','admin','',0,'','');
+REPLACE INTO `projects` VALUES ('An Empty Project','Fletcher, Jessica','English','admin','notes','html','projectID3141592653589','','',1704080514,1579564017,1579395673,1708309119,'','P3.proj_avail',NULL,'20200118BEGIN001','',417,1,0,'History','beginner',0,'','',15,6,NULL,'TESTING','admin','admin','',0,'','');
 
 /* `users` rows populated by INSERTs in accounts/activate.php.
  * Can't do this programatically yet.
@@ -73,3 +74,35 @@ REPLACE INTO `projectID5e23a810ef693` VALUES ('002','002.png','THE MAN WHO MARRI
 REPLACE INTO `projectID5e23a810ef693` VALUES ('003','003.png','Copyright, 1891, 1892, 1894,\r\n\r\nBy THE CENTURY C0.\r\n\r\n\r\n\r\nTHE DEVINNE PREss;',1579633720,'sanspeur43','Copyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\n\r\n\r\nTHE DE VINNE PREss.',1579651130,'jjz','\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nTHE DE VINNE PREss.',1708308890,'srjfoo','\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nThe De Vinne Press.',0,'','',0,'','','P3.page_saved','',0,'');
 REPLACE INTO `projectID5e23a810ef693` VALUES ('004','004.png','To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',1579633808,'sanspeur43','To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',1579651187,'jjz','\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',1708308955,'srjfoo','\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',0,'','',0,'','','P3.page_saved','',0,'');
 REPLACE INTO `projectID5e23a810ef693` VALUES ('005','005.png','',1579633830,'sanspeur43','[Blank Page]',1579651201,'jjz','[Blank Page]',1708308967,'srjfoo','[Blank Page]',0,'','',0,'','','P3.page_saved','',0,'');
+
+DROP TABLE IF EXISTS `projectID3141592653589`;
+CREATE TABLE `projectID3141592653589` (
+  fileid varchar(20) NOT NULL DEFAULT '', UNIQUE (fileid),
+  image varchar(12) NOT NULL DEFAULT '', UNIQUE (image),
+  master_text longtext NOT NULL,
+  round1_time int NOT NULL DEFAULT '0',
+  round1_user varchar(25) NOT NULL DEFAULT '',
+  round1_text longtext NOT NULL,
+  round2_time int NOT NULL DEFAULT '0',
+  round2_user varchar(25) NOT NULL DEFAULT '',
+  round2_text longtext COLLATE utf8mb4_general_ci NOT NULL,
+  round3_time int NOT NULL DEFAULT '0',
+  round3_user varchar(25) NOT NULL DEFAULT '',
+  round3_text longtext NOT NULL,
+  round4_time int NOT NULL DEFAULT '0',
+  round4_user varchar(25) NOT NULL DEFAULT '',
+  round4_text longtext NOT NULL,
+  round5_time int NOT NULL DEFAULT '0',
+  round5_user varchar(25) NOT NULL DEFAULT '',
+  round5_text longtext NOT NULL,
+  state varchar(50) NOT NULL DEFAULT '',
+  b_user varchar(25) NOT NULL DEFAULT '',
+  b_code int NOT NULL DEFAULT '0',
+  orig_page_num varchar(6) NOT NULL DEFAULT '',
+  KEY round1_user (round1_user),
+  KEY round2_user (round2_user),
+  KEY round3_user (round3_user),
+  KEY round4_user (round4_user),
+  KEY round5_user (round5_user),
+  KEY state (state)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
