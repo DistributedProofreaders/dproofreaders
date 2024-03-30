@@ -66,9 +66,9 @@ function pp_access_change_email($user, $access_change)
 
 function p2_access_change_email($user, $access_change)
 {
-    global $site_name, $site_abbreviation, $Round_for_round_id_;
+    global $site_name, $site_abbreviation;
 
-    $daily_limit = $Round_for_round_id_['P2']->daily_page_limit;
+    $daily_limit = $get_Round_for_round_id('P2')->daily_page_limit;
 
     // only send emails on grant
     if ($access_change != "grant") {
@@ -161,9 +161,9 @@ function p2_access_change_email($user, $access_change)
 
 function f1_access_change_email($user, $access_change)
 {
-    global $site_name, $site_abbreviation, $Round_for_round_id_;
+    global $site_name, $site_abbreviation;
 
-    $daily_limit = $Round_for_round_id_['F1']->daily_page_limit;
+    $daily_limit = get_Round_for_round_id('F1')->daily_page_limit;
 
     // only send emails on grant
     if ($access_change != "grant") {
