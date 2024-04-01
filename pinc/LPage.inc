@@ -459,7 +459,7 @@ class LPage
 
     // -----------------------------------------------------------------------------
 
-    public function resume_saved_page($pguser)
+    public function resume_page($pguser)
     {
         if ($this->page_state == $this->round->page_save_state) {
             // Page comes from DONE.
