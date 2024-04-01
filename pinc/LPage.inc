@@ -463,7 +463,6 @@ class LPage
     {
         if ($this->page_state == $this->round->page_save_state) {
             // Page comes from DONE.
-
             // no need to update text, just record state change
             $this->page_state = Page_reopen($this->projectid, $this->imagefile, $this->round, $pguser);
 
@@ -471,32 +470,20 @@ class LPage
             // Now they are 'unsaving' it, so decrement their page-count.
             // They'll get it back if/when they save-as-done again.
             // (Plugs a former page-count cheat.)
-
             page_tallies_add($this->round->id, $pguser, -1);
         } else {
-            // Page comes from IN PROGRESS.
-
+            // Page comes from IN PROGRESS or OUT.
             // Resuming such a page has no actual effect on the page,
-            // though it might in the future.
-
-            // For now, just confirm that the user is entitled to resume
+            // just confirm that the user is entitled to resume
             // this page. (In the DONE case, Page_reopen performs this check.)
-
-            $res = DPDatabase::query("
-                SELECT {$this->round->user_column_name}
-                FROM $this->projectid
-                WHERE image='$this->imagefile'
-            ");
-            [$current_round_user] = mysqli_fetch_row($res);
-
-            if ($pguser != $current_round_user) {
-                $err = sprintf(
-                    _('You (%1$s) do not have the necessary access to page %2$s'),
-                    $pguser,
-                    $this->imagefile
-                );
-                throw new ProjectPageException($err);
-            }
+            _Page_require(
+                $this->projectid,
+                $this->imagefile,
+                [$this->round->page_out_state, $this->round->page_temp_state],
+                $this->round->user_column_name,
+                $pguser,
+                'resume'
+            );
         }
     }
 } // end class
