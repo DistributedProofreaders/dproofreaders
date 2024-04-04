@@ -147,7 +147,7 @@ echo "<p>"
 
 echo "<p>"
     . sprintf(
-        _("Distributed Proofreaders regrets that we are unable to certify court-ordered community service or other government-required certification that depends on verification of identity. We also cannot provide certification for any organization that requires Distributed Proofreaders to track the amount of time spent volunteering. For more information, please see <a href='%s'>this page</a>."),
+        _("We are unable to provide certification for any purpose that would require Distributed Proofreaders to track the number of hours spent volunteering, or to provide verification of a user's identity beyond that provided by their email address, or to certify that the volunteer personally performed the work. For these reasons, we cannot provide certification for court-ordered community service, programs operated by federal, state, or municipal governments, etc. For more information, please see <a href='%s'>this page</a>."),
         "$wiki_url/DP_Official_Documentation:General/Certification_of_Volunteer_Work"
     )
     . "</p>"
