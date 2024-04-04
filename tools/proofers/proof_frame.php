@@ -30,7 +30,7 @@ if (isset($_GET['page_state'])) {
 
     try {
         $ppage = get_requested_PPage($_GET);
-        $ppage->lpage->resume_saved_page($pguser);
+        $ppage->lpage->resume_page($pguser);
     } catch (ProjectException | ProjectPageException $exception) {
         abort($exception->getMessage());
     }
