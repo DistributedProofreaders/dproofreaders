@@ -115,8 +115,8 @@ Increasing the number of open files (`open_files_limit`) and the table cache
 increase these more than the MySQL daemon can open based on kernel limits.
 Consult the MySQL documentation for more information.
 
-### Install gettext and xgettext
-If you want to localize the site messages, install gettext and xgettext.
+### Install gettext
+If you want to localize the site messages, install gettext.
 
 ### Install aspell
 The code uses aspell for the spellchecker in the proofreading interface.

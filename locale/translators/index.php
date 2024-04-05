@@ -20,7 +20,7 @@ if ($may_manage) {
 }
 
 if (user_is_a_sitemanager()) {
-    $allowed_functions[] = 'xgettext';
+    $allowed_functions[] = 'xtext';
     $allowed_functions[] = 'newtranslation';
     $allowed_functions[] = 'newtranslation2';
     $allowed_functions[] = 'delete';
@@ -43,11 +43,13 @@ if ($func == "download" || $func == "view") {
     $po_file = new POFile($filename);
     if ($po_file->exists) {
         // Set the header content-type based on the values specified in the
-        // file if set. If it isn't set, we don't know what the encoding
-        // is with any sort of confidence.
+        // file if set. If it isn't set, use UTF-8 since all files since 2020
+        // should be UTF-8.
         $po_content_type = $po_file->content_type;
         if ($po_content_type && strpos($po_content_type, "=CHARSET") === false) {
             header($po_content_type);
+        } else {
+            header("Content-Type: text/plain; charset=UTF-8");
         }
 
         if ($func == "download") {
@@ -167,35 +169,21 @@ elseif ($func == "changeenable") {
         . _("Back to the Translation Center") . "</a></p>";
 }
 // Scan PHP source code for translatable strings, create template file and report results.
-elseif ($func == "xgettext") {
+elseif ($func == "xtext") {
     if (chdir($code_dir) == false) {
         die("Unable to change to requested directory.");
     }
 
-    $cmd = join(" ", [
-        $xgettext_executable,
-        "--output-dir=" . escapeshellarg("$dyn_locales_dir/"),
-        "--output=messages.pot",
-        "--language=PHP",
-        "--keyword=_",
-        "--keyword='pgettext:1c,2'",
-        "--add-comments=TRANSLATORS",
-        "--from-code=UTF-8",
-        "--sort-by-file",
-        "`find -name '*.php' -o -name '*.inc'`",
-        "2>&1",
-    ]);
-    exec($cmd, $exec_out, $ret_var);
-    if ($ret_var) {
+    try {
+        $pofile = new POFile();
+        $pofile->create_template($code_dir, "$dyn_locales_dir/messages.pot");
+        echo "<p>" . _("<code>xtext</code> ran successfully") ."</p>";
+    } catch (Exception $exception) {
         echo "<p class='center-align'>" . _("Strings <b>not</b> rebuilt!") . "<br>"
-            . _("This is the <code>xgettext</code> output:") . "</p>";
+            . _("This is the <code>xtext</code> output:") . "</p>";
         echo "<pre>";
-        foreach ($exec_out as $v) {
-            echo html_safe($v)."\n";
-        }
+        echo html_safe($exception->getMessage());
         echo "</pre><br>";
-    } else {
-        echo "<p>" . _("<code>xgettext</code> ran successfully.") ."</p>";
     }
 
     echo "<p><a href='$translate_url'>"
@@ -335,10 +323,10 @@ function main_form()
         echo "<p>" . _("No POT template file has been generated.") . "</p>";
     }
 
-    if (in_array("xgettext", $allowed_functions)) {
-        echo "<form action='$translate_url?func=xgettext' method='POST'>";
+    if (in_array("xtext", $allowed_functions)) {
+        echo "<form action='$translate_url?func=xtext' method='POST'>";
         echo "<input type='submit' value='" . attr_safe(_("Regenerate template file")) . "'> ";
-        echo _("Run <code>xgettext</code> to generate a fresh template file.");
+        echo _("Run <code>xtext</code> to generate a fresh template file.");
         echo "</form>\n";
     }
 }
@@ -351,10 +339,10 @@ function manage_form($locale)
     $system_locales = get_installed_system_locales();
     $translation_enabled = is_locale_translation_enabled($locale);
 
+    echo "<h1>" . sprintf(_("Managing locale %s"), $locale) . "</h1>\n";
+
     echo "<p><a href='$translate_url'>"
         . _("Back to the Translation Center") . "</a></p>";
-
-    echo "<h1>" . sprintf(_("Managing locale %s"), $locale) . "</h1>\n";
 
     echo "<p><b>" . _("Locale") . ":</b> $locale</p>\n";
     if (!in_array($locale, $system_locales)) {
