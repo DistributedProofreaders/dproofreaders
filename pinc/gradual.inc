@@ -22,17 +22,20 @@ include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
  * Retrieve the number of pages proofread by the current user.
  *
  * For demo purposes, allow the user (via the URL parameter 'numofpages')
- * to pretend to have a different number of pages,
- * as long as it's less than their actual number.
+ * to pretend to have a different number of pages. In production only allow
+ * users to adjust down; during testing allow adjusting higher or lower.
  */
 function get_pages_proofed_maybe_simulated($username = null)
 {
+    global $testing;
+
     if ($username === null) {
         $username = User::current_username();
     }
 
     $pagesproofed = user_get_ELR_page_tally($username);
-    $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $pagesproofed);
+    $max_pagesproofed = $testing ? null : $pagesproofed;
+    $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $max_pagesproofed);
 
     return $pagesproofed;
 }
