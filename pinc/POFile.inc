@@ -9,7 +9,7 @@
  */
 class POFile
 {
-    private string $po_filename;
+    private ?string $po_filename;
     private ?int $num_messages = null;
     private ?int $num_messages_translated = null;
 
@@ -122,6 +122,30 @@ class POFile
         fclose($fh);
 
         return $content_type;
+    }
+
+    public function create_template($basedir, $pot_filename)
+    {
+        $cmd = join(" ", [
+            // change into the base directory so the filenames in the POT
+            // don't have it prefixed to them
+            "cd " . escapeshellarg($basedir),
+            "&&",
+            "./vendor/bin/xtext",
+            "-x=./vendor",
+            "-x=./SETUP",
+            "-i='*.php'",
+            "-i='*.inc'",
+            "-c=TRANSLATORS",
+            ".",
+            "2>&1",
+            ">",
+            escapeshellarg($pot_filename),
+        ]);
+        exec($cmd, $exec_out, $return_value);
+        if ($return_value != 0) {
+            throw new Exception(implode("\n", $exec_out));
+        }
     }
 
     public function create_from_template($pot_filename, $locale)

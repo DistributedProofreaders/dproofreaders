@@ -522,17 +522,6 @@ if [ ! -x "$_PHP_CLI_EXECUTABLE" ]; then
     fi
 fi
 
-# The location of xgettext executable.
-_XGETTEXT_EXECUTABLE=
-if [ ! -x "$_XGETTEXT_EXECUTABLE" ]; then
-    if exe_path=$(command -v xgettext); then
-        _XGETTEXT_EXECUTABLE=$exe_path
-    else
-        echo "WARNING: Unable to find xgettext, site translation functionality"
-        echo "         may be limited."
-    fi
-fi
-
 # Automatically determine an installed program (with parameters) to dump
 # the contents of a URL. The program is then used in SETUP/dp.cron.
 _URL_DUMP_PROGRAM=
