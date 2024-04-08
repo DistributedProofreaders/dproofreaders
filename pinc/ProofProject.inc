@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 class ProofProjectPage extends LPage
 {
-    public function __construct(object $proof_project, object $project_page)
+    public function __construct(ProofProject $proof_project, ProjectPage $project_page)
     {
         parent::__construct($proof_project->project, $project_page->page_name, $project_page->page_state, 0);
     }
@@ -114,7 +114,10 @@ class ProofProjectPage extends LPage
 
 class ProofProject
 {
-    public function __construct(object $project)
+    public $project;
+    public $round;
+
+    public function __construct(Project $project)
     {
         global $pguser;
 
