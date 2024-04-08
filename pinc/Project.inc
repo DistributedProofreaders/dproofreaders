@@ -155,7 +155,10 @@ class ProjectInvalidTextException extends ProjectException
 
 class ProjectPage
 {
-    public function __construct($pagename, $pagestate)
+    public $page_name;
+    public $page_state;
+
+    public function __construct(string $pagename, string $pagestate)
     {
         $this->page_name = $pagename;
         $this->page_state = $pagestate;
