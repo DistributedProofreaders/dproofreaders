@@ -159,7 +159,7 @@ echo "<form action='login.php' method='post'>
 $csrf_token
 <table class='themed theme_striped' style='width: auto'>
 <tr>
-  <th><label for='loginform-userNM'>" . _("ID") . "</label></th>
+  <th><label for='loginform-userNM'>" . _("Username") . "</label></th>
   <td><input type='text' id='loginform-userNM' name='userNM' value='".attr_safe($user->username)."' autocapitalize='none' required></td>
 </tr>
 <tr>
