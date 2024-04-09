@@ -267,7 +267,7 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
         echo sprintf(_("The text area below contains the text from the previous round  (%1\$s) for %2\$s."), $round_id, $image) . "<br>";
         echo _("You may use it as-is, or insert other replacement text for this page:") . "<br>";
     } else {
-        // TRANSLATORS: %1$s is the round ID; %2$ss is the image name.
+        // TRANSLATORS: %1$s is the round ID; %2$s is the image name.
         echo sprintf(_("The text area below contains the text from round <b>%1\$s</b> for %2\$s."), $round_id, $image) . "<br>";
     }
 

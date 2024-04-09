@@ -125,8 +125,8 @@ function show_projects_for_smooth_reading()
         <img src='$code_url/graphics/rss.gif' width='36' height='14' alt='[RSS]'></a>
     ";
 
-    // TRANSLATORS: %s are image links to the XML and RSS feeds
     echo "<p>";
+    // TRANSLATORS: %s are image links to the XML and RSS feeds
     echo sprintf(_("Feeds of projects currently available for Smooth Reading: %s"), $xml_rss_images);
     echo "</p>";
 

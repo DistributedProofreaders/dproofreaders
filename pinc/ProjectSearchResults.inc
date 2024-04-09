@@ -405,17 +405,42 @@ class ColumnData
             new GenreColumn("genre", _("Genre"), '', 'left-align', true, true, 'trans_genre'),
             new LinkColumn("project_manager", pgettext("project manager", "PM"), _('Project Manager'), 'left-align', true, true, 'username'),
             new LinkColumn("checkedoutby", _('Checked Out By'), '', 'left-align', false, true, 'checkedoutby'),
-            // TRANSLATORS: Abbreviation for Post Processor
-            new LinkColumn("pp_er", _('PP'), _('Post-processor'), 'left-align', false, true, 'postproofer'),
-            // TRANSLATORS: Abbreviation for Post-processing Verifier
-            new LinkColumn("ppv_er", _('PPV'), _('Post-processing Verifier'), 'left-align', false, true, 'ppverifier'),
+            new LinkColumn(
+                "pp_er",
+                // TRANSLATORS: Abbreviation for Post Processor
+                _('PP'),
+                _('Post-processor'),
+                'left-align',
+                false,
+                true,
+                'postproofer'
+            ),
+            new LinkColumn(
+                "ppv_er",
+                // TRANSLATORS: Abbreviation for Post-processing Verifier
+                _('PPV'),
+                _('Post-processing Verifier'),
+                'left-align',
+                false,
+                true,
+                'ppverifier'
+            ),
             new TimeColumn("last_proof", _('Last proofed'), '', 'right-align', true, true, 't_last_page_done', $time_format),
             new PGColumn("postednum", _('PG etext number'), '', 'right-align', false, true, 'postednum'),
             new Column('p_avail', _('Available pages'), '', 'right-align', false, true, 'n_available_pages'),
             new Column('p_total', _('Total pages'), '', 'right-align', false, false, 'n_pages'),
             new StateChangeColumn("days_avail", _('Last State Change'), '', 'right-align', true, true, 'modifieddate', $time_format),
             new StateColumn('state', pgettext('project state', 'State'), '', 'left-align', true, true, 'state'),
-            new HoldColumn('hold', _('Hold'), _('On hold'), 'center-align', false, false, 'hold'),
+            new HoldColumn(
+                'hold',
+                _('Hold'),
+                // TRANSLATORS: string indicates that the project is "on hold"
+                _('On hold'),
+                'center-align',
+                false,
+                false,
+                'hold'
+            ),
         ];
         if (user_can_work_in_stage($pguser, 'PP') || user_is_PM()) {
             $this->columns[] = new OptionsColumn('options', _('Actions'), '', 'left-align nowrap', true, false, '');

@@ -130,7 +130,7 @@ if ($projects_waiting) {
         echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
         if (in_array($mentoring_round->project_waiting_state, $project->get_hold_states())) {
             // TRANSLATORS: string indicates that the project is "on hold"
-            echo " <b>[" . _("On hold") . "]</b>";
+            echo sprintf(" <b>[%s]</b>", _("On hold"));
         }
         echo "</li>";
     }

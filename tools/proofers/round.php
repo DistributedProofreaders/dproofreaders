@@ -102,8 +102,8 @@ if ($rule && $pagesproofed >= 10) {
 
     echo "<i>".$rule->subject."</i><br>";
     echo "<p>".$rule->rule."</p>";
-    // TRANSLATORS: %1$s is the linked name of a random Guideline section.
     printf(
+        // TRANSLATORS: %1$s is the linked name of a random Guideline section.
         _("See the %1\$s section of the <a href='%2\$s'>Guidelines</a>"),
         "<a href='$round_doc_url#".$rule->anchor."'>".$rule->subject."</a>",
         $round_doc_url

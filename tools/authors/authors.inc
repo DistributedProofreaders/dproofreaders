@@ -117,10 +117,10 @@ function format_ymd($y, $m, $d)
         $year = $y;
     } elseif ($y > 0) {
         // TRANSLATORS: Abbreviation for 'anno Domini' (years > 0)
-        $year = $y . ' ' . _('A. D.');
+        $year = sprintf("%d %s", $y, _('A. D.'));
     } elseif ($y < 0) {
         // TRANSLATORS: Abbreviation for 'before Christ' (years < 0)
-        $year = -$y . ' ' . _('B. C.');
+        $year = sprintf("%d %s", -$y, _('B. C.'));
     } else {
         // Year unknown = Everything unknown
         return null;

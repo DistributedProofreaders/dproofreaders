@@ -51,8 +51,14 @@ echo "<div class='overflow-auto'>";
 echo "<div style='padding: 0.5em;'>";
 
 $project_name = get_project_name($projectid);
-// TRANSLATORS: %1$s is a word, %2$s is the project name.
-echo "<h2>", sprintf(_("Context for '%1\$s' in %2\$s"), $word, $project_name), "</h2>";
+echo "<h2>";
+echo sprintf(
+    // TRANSLATORS: %1$s is a word and %2$s is a project name.
+    _("Context for '%1\$s' in %2\$s"),
+    $word,
+    $project_name
+);
+echo "</h2>";
 
 echo "<p>";
 echo "<a href='javascript:void(0)' id='h_v_switch'></a>";

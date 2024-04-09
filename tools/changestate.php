@@ -78,8 +78,8 @@ if (!is_null($transition->confirmation_question) && $confirmed != 'yes') {
         <input type='hidden' name='next_state' value='$next_state'>
         <input type='hidden' name='confirmed'  value='yes'>
         <input type='hidden' name='return_uri' value='$return_uri'>"
-        // TRANSLATORS: %1$s is a button labeled "confirm transition change".
         . sprintf(
+            // TRANSLATORS: %1$s is a button labeled "confirm transition change".
             _("If so, %1\$s, otherwise go back to <a href='%2\$s'>where you were</a>"),
             "<input type='submit' value='" . attr_safe(_("confirm transition change")) . "'>",
             $return_uri

@@ -229,13 +229,13 @@ if ($use_eval_query) {
 } else {
     echo "<th>" . _("Last saved by user in project") . "</th>";
 }
-// TRANSLATORS: %s is the round ID.
+// TRANSLATORS: %s is the round ID
 echo "<th>" . sprintf(_("Pages saved by user in %s"), $work_round->id) . "</th>";
-// TRANSLATORS: %s is the round ID.
+// TRANSLATORS: %s is the round ID
 echo "<th>" . sprintf(_("Pages saved by others in %s"), $review_round->id) . "</th>";
 echo "<th>" . _("Pages with differences") . "</th>";
 if ($sampleLimit > 0) {
-    // TRANSLATORS: %s is a number of diffs.
+    // TRANSLATORS: %s is a number of diffs
     echo "<th>" . sprintf(_("%s most recent diffs"), $sampleLimit) . "</th>";
 }
 echo "</tr>";
