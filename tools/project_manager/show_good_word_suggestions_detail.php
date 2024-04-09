@@ -68,8 +68,8 @@ foreach ($suggestions as $suggestion) {
 
 $project_name = get_project_name($projectid);
 echo "<h2>",
-// TRANSLATORS: %1$s is a word and %2$s is a project name.
 sprintf(
+    // TRANSLATORS: %1$s is a word and %2$s is a project name.
     _("Suggestion context for '%1\$s' in %2\$s"),
     $word,
     $project_name
@@ -103,9 +103,7 @@ foreach ($word_suggestions as $suggestion) {
     foreach ($context_strings as $lineNum => $context_string) {
         $context_string = _highlight_word(html_safe($context_string, ENT_NOQUOTES), $word);
         echo "<b>" . _("Line") . "</b>: ",
-        // TRANSLATORS: %1$d is the approximate line number, and
-        // %2$d is the total number of lines when displaying the
-        // context of a word.
+        // TRANSLATORS: %1$d is the approximate line number, %2$d is the total number of lines
         sprintf(_('~%1$d of %2$d'), $lineNum, $totalLines),
         " &nbsp; | &nbsp; ";
         echo "<b>" . _("Context") . "</b>:<br><span class='mono'>$context_string</span><br>";

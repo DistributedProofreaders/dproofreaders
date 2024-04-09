@@ -78,8 +78,8 @@ function list_projects($where_condition, $order_clause, $group_clause, $url_base
     $last = $offset + $numrows;
 
     // Display where we are now
-    // TRANSLATORS: This string is of the form: Projects <first> to <last> of <total>
     echo "<p>";
+    // TRANSLATORS: This string is of the form: Projects <first> to <last> of <total>
     echo sprintf(_('Projects %1$d to %2$d of %3$d'), $first, $last, $num_found_rows);
     echo "</p>\n";
 

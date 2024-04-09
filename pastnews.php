@@ -26,9 +26,9 @@ if ($num == 0) {
     $limit_clause = "";
 } else {
     $limit_clause = "LIMIT $num";
-    echo "<a href='pastnews.php?news_page_id=$news_page_id'>"
+    echo "<a href='pastnews.php?news_page_id=$news_page_id'>" .
         // TRANSLATORS: %s is the news subject.
-        . sprintf(_("Show All %s News"), $news_subject) . "</a>";
+        sprintf(_("Show All %s News"), $news_subject) . "</a>";
 }
 
 $sql = sprintf(

@@ -279,7 +279,6 @@ function main_form()
             echo date("F d Y H:i:s", $po_file->last_modified);
             echo "</td>";
             echo "<td style='text-align: right'>";
-            // TRANSLATORS: This shows the number of strings translated with a percentage
             $total_strings = $po_file->messages_count;
             $translated_strings = $po_file->messages_translated_count;
             if ($total_strings) {
@@ -288,6 +287,7 @@ function main_form()
                 $percent_translated = 0;
             }
             echo sprintf(
+                // TRANSLATORS: This shows the number of strings translated with a percentage
                 _('%1$s of %2$s translated (%3$d%%)'),
                 $translated_strings,
                 $total_strings,
@@ -326,7 +326,6 @@ function main_form()
            . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
            . _("Download") . "</a> ";
         echo " (" . _("Last modified") . ": "
-                // TRANSLATORS: This is a date-formatted string
                 . date("F d Y H:i:s", $pot_file->last_modified) . ")";
         $total_strings = $pot_file->messages_count;
         $translated_strings = $pot_file->messages_translated_count;
@@ -380,7 +379,6 @@ function manage_form($locale)
         echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
             . _("View") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
             . _("Download") . "</a> (" . _("Last modified") . ": "
-            // TRANSLATORS: this is a date-formatted string
             . date("F d Y H:i:s", $po_file->last_modified) . ")";
 
         echo " - ";
