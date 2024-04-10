@@ -15,7 +15,7 @@ function get_rounds_to_display($project)
     // yet to do, so there may be some round-columns with no data in them.
     // Figure out which ones to display.
     //
-    $rounds_to_display = get_rounds_with_data($project->projectid);
+    $rounds_to_display = get_rounds_with_data($project);
 
     // If the project is in a round, then users expect that round to appear here,
     // even if there's no data in it.
@@ -132,7 +132,7 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         $wordcheck_events = [];
     }
 
-    $rounds_with_data = get_rounds_with_data($project->projectid);
+    $rounds_with_data = get_rounds_with_data($project);
 
     $fields_to_get = "{$project->projectid}.image AS image, length(master_text), state";
     $tables = $project->projectid;
@@ -560,8 +560,13 @@ function can_user_see_usernames_for_page(Project $project, array $proofer_userna
  * Returns an array of Rounds representing those rounds
  * for which the given project has some useful data.
  */
-function get_rounds_with_data($projectid)
+function get_rounds_with_data(Project $project): array
 {
+    $projectid = $project->projectid;
+    if (!$project->pages_table_exists) {
+        throw new NoProjectPageTable(_("Project page table does not exist."));
+    }
+
     $rounds_with_data = [];
 
     // Currently, when a project skips a round, the time and text of the
