@@ -44,7 +44,7 @@ function validate_page_name($pagename, $data)
             throw new NonexistentPageException("No such page in project");
         }
         return $pagename;
-    } catch (NonexistentPageException $exception) {
+    } catch (NonexistentPageException | NoProjectPageTable $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
 }

@@ -436,12 +436,16 @@ function api_v1_project_pages($method, $data, $query_params)
     $project = $data[":projectid"];
 
     $return_data = [];
-    foreach ($project->get_page_names_from_db() as $image) {
-        $return_data[] = [
-            "image" => $image,
-            "image_url" => "{$project->url}/$image",
-            "image_size" => (int)$project->get_image_file_size($image),
-        ];
+    try {
+        foreach ($project->get_page_names_from_db() as $image) {
+            $return_data[] = [
+                "image" => $image,
+                "image_url" => "{$project->url}/$image",
+                "image_size" => (int)$project->get_image_file_size($image),
+            ];
+        }
+    } catch (NoProjectPageTable $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
     return $return_data;
 }
@@ -470,7 +474,11 @@ function api_v1_project_pagedetails($method, $data, $query_params)
     }
 
     $project = $data[":projectid"];
-    $rounds_to_display = get_rounds_to_display($project);
+    try {
+        $rounds_to_display = get_rounds_to_display($project);
+    } catch (NoProjectPageTable $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
     if (!is_null($only_rounds)) {
         $rounds_to_display = array_intersect($rounds_to_display, $only_rounds);
     }
