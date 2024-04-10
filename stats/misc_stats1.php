@@ -70,7 +70,7 @@ echo "<form action='$code_url/stats/misc_stats1.php'>
 <input type='submit' value='" . _("Graph") . "'>
 </form>
 <br>
-<div id='graph' style='max-width: 640px;max-height: 400px'></div>
+<div id='graph' style='max-width: 640px'></div>
 ";
 
 show_all_time_total();
