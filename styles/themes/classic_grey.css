@@ -1231,10 +1231,8 @@ header #icon-menu,
 header .icon-menu-item,
 #header .icon-menu-item {
   position: relative;
-  cursor: pointer;
   margin-right: 1.5em;
   text-align: center;
-  text-decoration: none;
   font-family: Verdana, Helvetica, sans-serif;
   font-size: 0.7em;
   color: #444444;
@@ -1246,6 +1244,10 @@ header .icon-menu-item a:visited,
 header .icon-menu-item a:active,
 #header .icon-menu-item a:active {
   color: #444444;
+}
+header .icon-menu-item a,
+#header .icon-menu-item a {
+  text-decoration: none;
 }
 header .icon-menu-item .icon-menu-item-name,
 #header .icon-menu-item .icon-menu-item-name {

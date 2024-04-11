@@ -189,9 +189,6 @@ function html_logobar()
                 $text .= "<a href='$url' aria-label='$name'>";
             }
             $text .= "<i aria-hidden='true' class='$class' title='$name'></i>";
-            if ($url) {
-                $text .= "</a>";
-            }
             if ($data["name"] == _("Inbox")) {
                 $numofPMs = get_number_of_unread_messages($user->username);
                 if ($numofPMs > 0) {
@@ -199,6 +196,9 @@ function html_logobar()
                 }
             }
             $text .= "<br><span class='icon-menu-item-name'>$name</span>";
+            if ($url) {
+                $text .= "</a>";
+            }
             $text .= "</div>";
             $links[] = $text;
         }
