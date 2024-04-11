@@ -538,18 +538,12 @@ function _Page_require(
     $res = DPDatabase::query($sql);
     [$curr_page_state, $curr_page_owner] = mysqli_fetch_row($res);
     if (!in_array($curr_page_state, $allowed_states)) {
-        $err = "\n"
-            . "    "
-            . sprintf(
-                _("This operation (%s) requires that the page be in one of the following states:"),
-                $op_name
-            )
-            . "\n"
-            . "        "
-            . implode(' ', $allowed_states)
-            . "\n"
-            . "    "
-            . sprintf(_("But it is in %s"), $curr_page_state);
+        $err = sprintf(
+            _("This operation (%s) requires that the page be in one of the following states: %s. But it is in state %s."),
+            $op_name,
+            implode(', ', $allowed_states),
+            $curr_page_state
+        );
         throw new ProjectPageException($err);
     }
 
@@ -561,12 +555,10 @@ function _Page_require(
         // The operation can only be done by the person who currently
         // "owns" the page.
         if ($requesting_user != $curr_page_owner) {
-            $err = "\n"
-                . "    "
-                . sprintf(
-                    _("This operation (%s) can only be done by the user who has the page checked out, which you are not."),
-                    $op_name
-                );
+            $err = sprintf(
+                _("This operation (%s) can only be done by the user who has the page checked out, which you are not."),
+                $op_name
+            );
             throw new ProjectPageException($err);
         }
     }
