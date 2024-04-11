@@ -172,7 +172,7 @@ function do_expected_state()
     if (!empty($expected_state) && $expected_state != $project->state) {
         echo "<p class='warning'>";
         echo sprintf(
-            _('Warning: Project "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+            _('Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
             html_safe($project->nameofwork),
             project_states_text($expected_state),
             project_states_text($project->state)
