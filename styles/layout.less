@@ -233,14 +233,15 @@ header, #header {
     }
     .icon-menu-item {
         position: relative;
-        cursor: pointer;
         margin-right: 1.5em;
         .center-align;
-        text-decoration: none;
         .sans-serif;
         font-size: 0.7em;
         color: @navbar-background;
         .unicolor-link(@navbar-background);
+        a {
+            text-decoration: none;
+        }
         .icon-menu-item-name {
             font-size: 0.9em;
             color: @heading-color;
