@@ -811,7 +811,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         }
         if ($page_state != $project_page->page_state) {
             $err = sprintf(
-                _('Warning: Page  "%1$s" is no longer in state "%2$s"; it is now in state "%3$s".'),
+                _('Page  "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
                 $project_page->page_name,
                 $page_state,
                 $project_page->page_state
@@ -862,7 +862,7 @@ function create_proof_project(array $data, array $query_params)
         }
         if ($state != $project->state) {
             $err = sprintf(
-                _('Warning: Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+                _('Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
                 $project->nameofwork,
                 project_states_text($state),
                 project_states_text($project->state)

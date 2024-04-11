@@ -928,7 +928,7 @@ paths:
     put:
       tags:
       - project
-      description: Check out a page for proofreading.
+      description: Check out a page for proofreading and return page-level details (current text, image name, etc).
       parameters:
       - $ref: '#/components/parameters/projectid'
       - $ref: '#/components/parameters/state_query'
@@ -983,17 +983,17 @@ paths:
     put:
       tags:
       - project
-      description: Various operations on the page as determined by the 'pageaction_query' parameter
+      description: Various operations on the page as determined by the 'pageaction' parameter
       parameters:
       - $ref: '#/components/parameters/projectid'
       - $ref: '#/components/parameters/state_query'
       - $ref: '#/components/parameters/pagename'
       - $ref: '#/components/parameters/pagestate_query'
-      - name: pageaction_query
+      - name: pageaction
         in: query
         description: Action to perform on the page.
             <br><br>
-            resume - If the page is saved-as-done 'unsaves' it. Response:- proof_page object.
+            resume - The page state can be 'out', 'temp' or 'saved'. If the state is 'saved' it is changed to 'temp'. Returns page-level details (current text, image name, etc). Response:- proof_page object.
             <br><br>
             checkin - Checks the page for invalid characters and if valid, saves it as done. Response:- checkin_response object.
             <br><br>
