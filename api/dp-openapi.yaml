@@ -1029,32 +1029,6 @@ paths:
           $ref: '#/components/responses/RateLimitExceeded'
         default:
           $ref: '#/components/responses/UnexpectedError'
-    get:
-      tags:
-      - project
-      description: Gets the current (last saved) page text
-      parameters:
-      - $ref: '#/components/parameters/projectid'
-      - $ref: '#/components/parameters/state_query'
-      - $ref: '#/components/parameters/pagename'
-      - $ref: '#/components/parameters/pagestate_query'
-      responses:
-        200:
-          description: Page text
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/proof_page_text'
-        '400':
-          $ref: '#/components/responses/InvalidValue'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '429':
-          $ref: '#/components/responses/RateLimitExceeded'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
 
   /stats/site:
     get:
@@ -1545,13 +1519,6 @@ components:
       type: array
       items:
         type: string
-
-    proof_page_text:
-      type: object
-      properties:
-        text:
-          description: The page text from current round.
-          type: string
 
     proof_page:
       type: object

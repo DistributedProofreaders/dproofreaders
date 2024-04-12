@@ -820,10 +820,6 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         }
 
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
-        if ($method == "GET") {
-            return $proof_project_page->render_page_text();
-        }
-        // must be PUT
         $page_action = $query_params['pageaction'] ?? null;
         if (null === $page_action) {
             throw new BadRequest("No page action found in request.");

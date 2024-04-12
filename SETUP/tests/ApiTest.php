@@ -517,8 +517,8 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($this->TEST_TEXT, $response["text"]);
 
         // get last saved text
-        $response = $this->get_text($project->projectid, "P1.proj_avail", "001.png", "P1.page_temp");
-        $this->assertEquals(["text" => $this->TEST_MODIFIED_TEXT], $response);
+        $response = $this->resume($project->projectid, "P1.proj_avail", "001.png", "P1.page_temp");
+        $this->assertEquals($this->TEST_MODIFIED_TEXT, $response["text"]);
 
         // save invalid text
         $this->expectExceptionCode(125);
