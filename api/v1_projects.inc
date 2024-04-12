@@ -46,6 +46,16 @@ function api_v1_projects($method, $data, $query_params)
         "in_smoothreading" => "smoothread_deadline > UNIX_TIMESTAMP()",
     ];
 
+    $valid_query_keys = array_merge(
+        array_keys($valid_fields),
+        array_keys($valid_flags),
+        ['field', 'sort', 'page', 'per_page'],
+    );
+    $invalid_query_params = array_diff(array_keys($query_params), $valid_query_keys);
+    if (!empty($invalid_query_params)) {
+        throw new InvalidValue("Invalid query args: " . implode(", ", $invalid_query_params));
+    }
+
     // pull out the query parameters
     $query = [];
     foreach (array_intersect(array_keys($valid_fields), array_keys($query_params)) as $field) {
@@ -169,7 +179,7 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
         "pages_total" => ["sql_name" => "n_pages", "queryable" => true],
         "post_processor" => ["sql_name" => "postproofer"],
         "post_process_verifier" => ["sql_name" => "ppverifier"],
-        "state" => ["sql_name" => "state"],
+        "state" => ["sql_name" => "state", "queryable" => true],
         "last_state_change_time" => ["sql_name" => "modifieddate"],
         "last_page_done_time" => ["sql_name" => "t_last_page_done"],
         "last_edit_time" => ["sql_name" => "t_last_edit"],
