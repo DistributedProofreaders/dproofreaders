@@ -48,7 +48,7 @@ class ProofProjectPage extends LPage
         global $pguser;
         $this->validate_text($page_text);
         $this->saveAsInProgress($page_text, $pguser);
-        return $this->get_page_text_array() + $this->get_page_state_array();
+        return $this->get_page_text_data();
     }
 
     public function save_and_revert(string $page_text): array
@@ -57,7 +57,7 @@ class ProofProjectPage extends LPage
         $this->validate_text($page_text);
         $this->saveAsInProgress($page_text, $pguser);
         $this->revertToOriginal();
-        return $this->get_page_text_array() + $this->get_page_state_array();
+        return $this->get_page_text_data();
     }
 
     public function pp_resume_page(): array
@@ -68,17 +68,10 @@ class ProofProjectPage extends LPage
         return $this->render_page_data();
     }
 
-    public function render_page_text(): array
-    {
-        // validate user and page? page should be in out or temp state only
-        return $this->get_page_text_array();
-    }
-
     private function render_page_data(): array
     {
         return
-            $this->get_page_text_array() +
-            $this->get_page_state_array() +
+            $this->get_page_text_data() +
             [
                 "pagenum" => $this->get_filename(),
                 "round_info" => $this->get_info(),
@@ -88,14 +81,10 @@ class ProofProjectPage extends LPage
             ];
     }
 
-    public function get_page_text_array(): array
-    {
-        return ["text" => $this->get_text()];
-    }
-
-    private function get_page_state_array(): array
+    private function get_page_text_data(): array
     {
         return [
+            "text" => $this->get_text(),
             "pagestate" => $this->page_state,
             "saved" => $this->can_be_reverted_to_last_save(),
         ];
