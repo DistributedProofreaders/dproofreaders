@@ -488,6 +488,18 @@ function do_upload($locale)
             @copy($save, "messages.po");
         }
     }
+
+    // only keep backups for the last 6 months
+    $six_months_ago = new DateTime("6 months ago");
+    $six_months_ago_ts = $six_months_ago->format("U");
+
+    $backup_files = glob("$dyn_locales_dir/$locale/LC_MESSAGES/messages_*.po");
+    foreach ($backup_files as $filename) {
+        $details = stat($filename);
+        if ($details['ctime'] < $six_months_ago_ts) {
+            unlink($filename);
+        }
+    }
 }
 
 function do_merge($locale, $fuzzy)
