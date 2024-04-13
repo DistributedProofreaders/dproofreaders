@@ -1846,6 +1846,10 @@ class Project
 
     public function get_project_page($pagename)
     {
+        if (!$this->pages_table_exists) {
+            throw new NoProjectPageTable(_("Project page table does not exist."));
+        }
+
         $sql = sprintf(
             "
             SELECT state

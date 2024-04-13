@@ -40,7 +40,7 @@ function validate_page_name($pagename, $data)
 {
     try {
         return $data[":projectid"]->get_project_page($pagename);
-    } catch (NonexistentPageException $exception) {
+    } catch (NonexistentPageException | NoProjectPageTable $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
 }
