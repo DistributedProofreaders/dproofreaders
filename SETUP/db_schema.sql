@@ -70,6 +70,9 @@ CREATE TABLE `current_tallies` (
   `holder_type` char(1) NOT NULL default '',
   `holder_id` int(6) unsigned NOT NULL default '0',
   `tally_value` int(8) NOT NULL default '0',
+  `last_snap_timestamp` int unsigned NOT NULL DEFAULT '0',
+  `last_snap_tally_delta` int NOT NULL DEFAULT '0',
+  `last_snap_tally_value` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`tally_name`,`holder_type`,`holder_id`)
 );
 
@@ -411,6 +414,15 @@ CREATE TABLE `special_days` (
   `symbol` varchar(2) default '',
   UNIQUE KEY `spec_code` (`spec_code`)
 ) COMMENT='definitions of SPECIAL days';
+
+--
+-- Table structure for table `tally_snapshot_times`
+--
+
+CREATE TABLE `tally_snapshot_times` (
+  `timestamp` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY (`timestamp`)
+);
 
 --
 -- Table structure for table `tasks`

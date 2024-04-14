@@ -386,17 +386,12 @@ function get_site_tally_grouped(
         throw new InvalidArgumentException("\$grouped_into is an invalid value");
     }
 
-    $where_time = "";
+    $where_time = "1 ";
     if (isset($min_timestamp)) {
         $where_time .= sprintf("AND timestamp >= %d ", $min_timestamp + $SECONDS_TO_YESTERDAY);
     }
     if (isset($max_timestamp)) {
         $where_time .= sprintf("AND timestamp < %d ", $max_timestamp + $SECONDS_TO_YESTERDAY);
-    }
-
-    $limit_string = "";
-    if (isset($limit)) {
-        $limit_string = sprintf("LIMIT %d", $limit);
     }
 
     if (!$sort) {
@@ -414,31 +409,67 @@ function get_site_tally_grouped(
     if (!in_array(strtolower($sort_direction), ["asc", "desc"])) {
         throw new InvalidArgumentException("Invalid \$sort direction`");
     }
-    $sort_string = "ORDER BY $sort_column $sort_direction";
+    $sort_direction = $sort_direction == strtolower("asc") ? SORT_ASC : SORT_DESC;
 
     $sql = sprintf(
         "
-        SELECT $date_expr as dateunit, sum(tally_delta) as tally_delta, sum(goal) as goal
-        FROM past_tallies
+        SELECT $date_expr as dateunit, sum(goal) as goal
+        FROM tally_snapshot_times
             LEFT OUTER JOIN site_tally_goals
-            ON (past_tallies.tally_name = site_tally_goals.tally_name
+            ON (site_tally_goals.tally_name = '%s'
                 AND $goal_expr = site_tally_goals.date
             )
         WHERE
-            past_tallies.tally_name = '%s'
-            AND holder_type = 'S'
-            AND holder_id = 1
             $where_time
         GROUP BY dateunit
-        $sort_string
-        $limit_string
         ",
         $tally_name
     );
     $result = DPDatabase::query($sql);
+    $dataset = [];
+    while ([$dateunit, $goal] = mysqli_fetch_row($result)) {
+        $dataset[$dateunit] = [
+            "dateunit" => $dateunit,
+            "tally_delta" => 0,
+            "goal" => $goal,
+        ];
+    }
+
+    $sql = sprintf(
+        "
+        SELECT $date_expr as dateunit, sum(tally_delta) as tally_delta
+        FROM past_tallies
+        WHERE
+            $where_time
+            AND past_tallies.tally_name = '%s'
+            AND holder_type = 'S'
+            AND holder_id = 1
+        GROUP BY dateunit
+        ",
+        $tally_name
+    );
+    $result = DPDatabase::query($sql);
+    while ([$dateunit, $tally_delta] = mysqli_fetch_row($result)) {
+        // this shouldn't happen, but check for it anyway
+        if (!isset($dataset[$dateunit])) {
+            $dataset[$dateunit] = [
+                "dateunit" => $dateunit,
+                "goal" => 0,
+            ];
+        }
+        $dataset[$dateunit]["tally_delta"] = $tally_delta;
+    }
+
+    // now we need to sort and enforce our limit
+    array_multisort(array_column($dataset, $sort_column), $sort_direction, $dataset);
+
     $rows = [];
-    while ($row = mysqli_fetch_row($result)) {
-        $rows[] = $row;
+    foreach ($dataset as $dateunit => $data) {
+        $rows[] = [$dateunit, $data["tally_delta"], $data["goal"] ?? 0];
+    }
+
+    if ($limit) {
+        return array_slice($rows, 0, $limit);
     }
 
     return $rows;
