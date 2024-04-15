@@ -1591,6 +1591,9 @@ details[open] summary {
 .graph-background {
   fill: #ffffff;
 }
+.grpah-download-button {
+  margin: 5px;
+}
 .graph-divider {
   margin: 1.25em 0 1.25em 0;
 }
