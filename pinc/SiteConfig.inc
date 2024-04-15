@@ -102,6 +102,7 @@ class SiteConfig
 
     // New feature deployment timestamps
     public int $wordcheck_deployed = 0;
+    public int $unicode_deployed = 0;
     public int $format_preview_tracking_deployed = 0;
 
     // Misc configuration
