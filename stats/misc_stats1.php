@@ -45,6 +45,7 @@ if (isset($start) && isset($end)) {
     $graph_config = [
         // %s is a tally name
         "title" => sprintf(_("%s Pages Completed by Month"), $tally_name),
+        "downloadLabel" => _("Download Chart"),
         "yAxisLabel" => _("Pages"),
         "data" => [
             "" => [

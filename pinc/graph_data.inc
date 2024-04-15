@@ -57,6 +57,7 @@ function cumulative_total_proj_summary_graph()
     return [
         "data" => $data,
         "title" => _("Total Projects Created, Proofread, Post-Processed and Posted"),
+        "downloadLabel" => _("Download Chart"),
     ];
 }
 
@@ -127,6 +128,7 @@ function user_logging_on($past, $preceding)
 
     return [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "axisLeft" => true,
         "data" => [
             _('Fresh Logons') => [
@@ -157,6 +159,7 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
 
     return [
         "title" => _('Pages Completed per Day'),
+        "downloadLabel" => _("Download Chart"),
         "bottomLegend" => $error,
         "width" => 600,
         "height" => 300,
@@ -209,6 +212,7 @@ function new_users($time_interval)
 
     return [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "xAxisHeight" => 90,
         "data" => [
             _('# users') => [
@@ -237,6 +241,7 @@ function average_hour_users_logging_on()
 
     return [
         "title" => _('Average number of users newly logged in each hour'),
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             _('Fresh Logons') => [
                 "x" => $datax,
@@ -272,6 +277,7 @@ function users_by_language()
     $title = _("Number of users per user interface language");
     return [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "xAxisHeight" => 100,
         "data" => [
             _('Interface Language') => [
@@ -302,6 +308,7 @@ function users_by_country()
     $title = _("Number of users per country");
     return [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             _('Country') => [
                 "x" => $x,
@@ -379,6 +386,7 @@ function curr_month_proj($which)
 
     return [
         "title" => "$psd->per_day_title ($timeframe)",
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             _('Projects') => [
                 "x" => $datax,
@@ -450,6 +458,7 @@ function cumulative_month_proj($which)
 
     return [
         "title" => "$psd->cumulative_title ($timeframe)",
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             _('Projects') => [
                 "x" => $datax,
@@ -483,6 +492,7 @@ function total_proj_graph($which)
 
     return [
         "title" => "$psd->per_day_title ($timeframe)",
+        "downloadLabel" => _("Download Chart"),
         "xAxisHeight" => 75,
         "data" => [
             _('Projects') => [
@@ -518,6 +528,7 @@ function cumulative_total_proj_graph($which)
 
     return [
         "title" => "$psd->cumulative_title ($timeframe)",
+        "downloadLabel" => _("Download Chart"),
         "xAxisHeight" => 75,
         "data" => [
             _('Projects') => [
@@ -546,6 +557,7 @@ function total_pages_by_month_graph($tally_name)
 
     return [
         "title" => _("Pages Done Each Month Since the Beginning of Statistics Collection"),
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             _("Actual") => [
                 "x" => $datax,
@@ -778,6 +790,7 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
     return [
         "title" => "$main_title ($title_timeframe)",
+        "downloadLabel" => _("Download Chart"),
         "data" => $data,
         "yAxisLabel" => _("Pages"),
         "xAxisHeight" => 65,

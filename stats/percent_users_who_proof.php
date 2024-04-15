@@ -45,6 +45,7 @@ $title = _('Percentage of New Users Who Went on to Proofread By Month');
 $graphs = [
     ["barLineGraph", "percent_users_who_proof", [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             // xgettext:no-php-format
             _('% of newly Joined Users who Proofread') => [

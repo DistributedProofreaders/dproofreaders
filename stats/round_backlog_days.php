@@ -94,6 +94,7 @@ if ($stats_total == 0) {
 $graphs = [
     ["barLineGraph", "round_backlog_days", [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "barColors" => $barColors,
         "data" => [
             $x_title => [

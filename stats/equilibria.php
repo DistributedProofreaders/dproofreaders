@@ -42,6 +42,7 @@ function display_graph($d)
 
     $config = [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "labels" => $labels,
         "data" => $data,
     ];

@@ -101,6 +101,7 @@ foreach ($page_stats as $page => $data) {
 
 $graph_flags_per_page = [
     "title" => _("Flagged words per page"),
+    "downloadLabel" => _("Download Chart"),
     "data" => [
         _("Flags") => [
             "x" => $graph_x,
@@ -130,6 +131,7 @@ for ($numFlags = $total["flagged_min"]; $numFlags <= $total["flagged_max"]; $num
 
 $graph_pages_per_number_of_flags = [
     "title" => _("Number of flags on a page"),
+    "downloadLabel" => _("Download Chart"),
     "data" => [
         _("Pages with that many flags") => [
             "x" => array_keys($flags_n_pages),
