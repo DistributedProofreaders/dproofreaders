@@ -1673,6 +1673,9 @@ function echo_download_zip(string $link_text, string $discriminator): void
     echo "</a>";
     echo_byte_size($filesize_b);
     echo_last_modified($last_modified);
+    if ($discriminator == "" && $last_modified && $last_modified < SiteConfig::get()->unicode_deployed) {
+        echo "<br><span class='warning'>" . _("This file was generated before the Unicode conversion. If you are just starting to PP this project, please ask a site administrator to regenerate the file.") . "</span>";
+    }
     echo "</li>";
     echo "\n";
 }
