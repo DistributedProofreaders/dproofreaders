@@ -99,7 +99,8 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             }
         }
 
-        let svgText = svgElement.outerHTML.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="450px" ');
+        const width = window.getComputedStyle(svgElement).width;
+        let svgText = svgElement.outerHTML.replace('<svg ', `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" `);
         const endOfFirstElement = svgText.indexOf('>');
         svgText = `${svgText.slice(0, endOfFirstElement + 1)}
             <style>
@@ -111,22 +112,24 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
     };
 
     function addDownloadButton(svg, config) {
-        const svgElement = svg.nodes()[0];
-        const downloadButton = document.createElement('button');
-        downloadButton.textContent = 'Download Image';
-        downloadButton.style.margin = `5px ${margin.left}px 0 ${margin.right}px`;
-        downloadButton.addEventListener('click', () => {
-            let svgBlob = new Blob([createSvgText(svgElement)], { type: 'image/svg+xml' });
-            const downloadLink = document.createElement('a');
-            const downloadLinkHref = window.URL.createObjectURL(svgBlob);
-            downloadLink.href = downloadLinkHref;
-            downloadLink.download = config.title;
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-            window.URL.revokeObjectURL(downloadLinkHref);
-        });
-        svgElement.parentElement.appendChild(downloadButton);
+        if (config.downloadLabel) {
+            const svgElement = svg.nodes()[0];
+            const downloadButton = document.createElement('button');
+            downloadButton.textContent = config.downloadLabel;
+            downloadButton.classList.add('grpah-download-button');
+            downloadButton.addEventListener('click', () => {
+                let svgBlob = new Blob([createSvgText(svgElement)], { type: 'image/svg+xml' });
+                const downloadLink = document.createElement('a');
+                const downloadLinkHref = window.URL.createObjectURL(svgBlob);
+                downloadLink.href = downloadLinkHref;
+                downloadLink.download = config.title;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                window.URL.revokeObjectURL(downloadLinkHref);
+            });
+            svgElement.parentElement.appendChild(downloadButton);
+        }
     }
 
     function stackedAreaGraph(id, config) {
