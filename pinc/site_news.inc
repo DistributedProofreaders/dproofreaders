@@ -65,8 +65,9 @@ function show_news_for_page($news_page_id)
 
     // -------------------------------------------
 
-    // Get the set of 'current' news items
-    // defined for the given page.
+    // Get the set of 'current' news items defined for the given page.
+    // The odd sorting forces all GLOBAL items (if any) to appear first then
+    // by the ordering column which is the order they appear when editing.
     $sql = sprintf(
         "
         SELECT date_posted, header, content, item_type
@@ -74,7 +75,7 @@ function show_news_for_page($news_page_id)
         WHERE status = 'current'
             AND (news_page_id = '%s' OR news_page_id = 'GLOBAL')
             AND (locale = '' OR locale = '%s')
-        ORDER BY ORDERING DESC
+        ORDER BY FIELD(news_page_id, 'GLOBAL') DESC, ordering DESC
         ",
         DPDatabase::escape($news_page_id),
         DPDatabase::escape($user_locale)
