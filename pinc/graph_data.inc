@@ -533,16 +533,10 @@ function total_pages_by_month_graph($tally_name)
     ///////////////////////////////////////////////////
     //Total pages by month since beginning of stats
 
-    $result = DPDatabase::query(select_from_site_past_tallies_and_goals(
-        $tally_name,
-        "SELECT {year_month}, SUM(tally_delta), SUM(goal)",
-        "",
-        "GROUP BY 1",
-        "ORDER BY 1",
-        ""
-    ));
-
-    [$datax, $datay1, $datay2] = dpsql_fetch_columns($result);
+    $data = get_site_tally_grouped($tally_name, 'year_month');
+    $datax = array_column($data, 0);
+    $datay1 = array_column($data, 1);
+    $datay2 = array_column($data, 2);
 
     return [
         "title" => _("Pages Done Each Month Since the Beginning of Statistics Collection"),
@@ -594,23 +588,18 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
         case 'curr_month':
             $start_timestamp = mktime(0, 0, 0, $curr_m, 1, $curr_y);
             $end_timestamp = mktime(0, 0, 0, $curr_m + 1, 1, $curr_y);
-            $year_month = date('Y-m', $start_timestamp);
-            $where_clause = "WHERE {year_month} = '$year_month'";
             $title_timeframe = icu_date('MMM y', $now_timestamp);
             break;
 
         case 'prev_month':
             $start_timestamp = mktime(0, 0, 0, $curr_m - 1, 1, $curr_y);
             $end_timestamp = mktime(0, 0, 0, $curr_m, 1, $curr_y);
-            $year_month = date('Y-m', $start_timestamp);
-            $where_clause = "WHERE {year_month} = '$year_month'";
             $title_timeframe = icu_date('MMM y', $start_timestamp);
             break;
 
         case 'all_time':
             $start_timestamp = 0;
             $end_timestamp = mktime(0, 0, 0, $curr_m + 1, 1, $curr_y);
-            $where_clause = '';
             $title_timeframe = _('since stats began');
             break;
 
@@ -633,18 +622,10 @@ function pages_daily($tally_name, $c_or_i, $timeframe)
 
     // -----------------------------------------------------------------------------
 
-    $result = DPDatabase::query(
-        select_from_site_past_tallies_and_goals(
-            $tally_name,
-            "SELECT {date}, tally_delta, goal",
-            $where_clause,
-            "",
-            "ORDER BY timestamp",
-            ""
-        )
-    );
-
-    [$datax, $datay1, $datay2] = dpsql_fetch_columns($result);
+    $data = get_site_tally_grouped($tally_name, 'date', $start_timestamp, $end_timestamp);
+    $datax = array_column($data, 0);
+    $datay1 = array_column($data, 1);
+    $datay2 = array_column($data, 2);
 
     if ($c_or_i == 'cumulative') {
         $datay1 = array_accumulate($datay1);

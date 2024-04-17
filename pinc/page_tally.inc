@@ -329,53 +329,111 @@ function get_site_tally_goal_summed($tally_name, $date_condition)
 // -----------------------------------------------------------------------------
 
 /**
- * Return a string containing an SQL 'select' statement
- * dealing with site-specific rows from the past_tallies table,
- * and corresponding rows from the site_tally_goals table.
+ * Return tally_delta sums over a timeframe grouped into predefined date units.
+ *
+ * The multi-dimensional array returned contains a row for every time unit:
+ * ```
+ * [
+ *     [dateunit, tally_delta, goal],
+ *     [dateunit, tally_delta, goal],
+ *     ...
+ * ]
+ * ```
+ *
+ * @param string $tally_name
+ *   Tally name
+ * @param string $grouped_into
+ *   Which date format to group into, one of: date, year_month, year
+ * @param ?int $min_timestamp
+ *   Earliest timestamp to evaluate
+ * @param ?int $max_timestamp
+ *   Latest timestamp to evaluate
+ * @param ?int $limit
+ *   Limit the number of rows to return
+ * @param ?string $sort
+ *   Field to sort on, one of: dateunit, tally_delta, goal
+ *
+ * @return array
  */
-function select_from_site_past_tallies_and_goals(
-    $tally_name,
-    $select,
-    $where,
-    $groupby,
-    $orderby,
-    $limit
-) {
+function get_site_tally_grouped(
+    string $tally_name,
+    string $grouped_into,
+    ?int $min_timestamp = null,
+    ?int $max_timestamp = null,
+    ?int $limit = null,
+    ?string $sort = null
+): array {
     global $SECONDS_TO_YESTERDAY;
 
-    if (empty($where)) {
-        $where_addition = '';
+    // The date formats below use two %s because they are embedded in an sprintf()
+    $goal_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y-%%m-%%d')";
+
+    if ($grouped_into == "date") {
+        $date_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y-%%m-%%d')";
+    } elseif ($grouped_into == "year_month") {
+        $date_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y-%%m')";
+    } elseif ($grouped_into == "year") {
+        $date_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y')";
     } else {
-        $where_addition =
-            preg_replace('/^\s*WHERE\s+(.*)$/i', 'AND (\1)', $where);
+        throw new InvalidArgumentException("\$grouped_into is an invalid value");
     }
 
-    $s = "
-        $select
+    $where_time = "";
+    if (isset($min_timestamp)) {
+        $where_time .= sprintf("AND timestamp >= %d ", $min_timestamp + $SECONDS_TO_YESTERDAY);
+    }
+    if (isset($max_timestamp)) {
+        $where_time .= sprintf("AND timestamp < %d ", $max_timestamp + $SECONDS_TO_YESTERDAY);
+    }
+
+    $limit_string = "";
+    if (isset($limit)) {
+        $limit_string = sprintf("LIMIT %d", $limit);
+    }
+
+    if (!$sort) {
+        $sort = "dateunit asc";
+    }
+    if (stripos($sort, " ") !== false) {
+        [$sort_column, $sort_direction] = explode(" ", $sort);
+    } else {
+        $sort_column = $sort;
+        $sort_direction = "asc";
+    }
+    if (!in_array($sort_column, ["dateunit", "tally_delta", "goal"])) {
+        throw new InvalidArgumentException("Invalid \$sort column");
+    }
+    if (!in_array(strtolower($sort_direction), ["asc", "desc"])) {
+        throw new InvalidArgumentException("Invalid \$sort direction`");
+    }
+    $sort_string = "ORDER BY $sort_column $sort_direction";
+
+    $sql = sprintf(
+        "
+        SELECT $date_expr as dateunit, sum(tally_delta) as tally_delta, sum(goal) as goal
         FROM past_tallies
             LEFT OUTER JOIN site_tally_goals
             ON (past_tallies.tally_name = site_tally_goals.tally_name
-                AND {date} = site_tally_goals.date
+                AND $goal_expr = site_tally_goals.date
             )
         WHERE
-            past_tallies.tally_name='$tally_name'
-            AND holder_type='S'
-            AND holder_id=1
-            $where_addition
-        $groupby
-        $orderby
-        $limit
-    ";
+            past_tallies.tally_name = '%s'
+            AND holder_type = 'S'
+            AND holder_id = 1
+            $where_time
+        GROUP BY dateunit
+        $sort_string
+        $limit_string
+        ",
+        $tally_name
+    );
+    $result = DPDatabase::query($sql);
+    $rows = [];
+    while ($row = mysqli_fetch_row($result)) {
+        $rows[] = $row;
+    }
 
-    $date_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m-%d')";
-    $ym_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y-%m')";
-    $y_expr = "FROM_UNIXTIME(past_tallies.timestamp - $SECONDS_TO_YESTERDAY, '%Y')";
-
-    $s = preg_replace('/{date}/', $date_expr, $s);
-    $s = preg_replace('/{year_month}/', $ym_expr, $s);
-    $s = preg_replace('/{year}/', $y_expr, $s);
-
-    return $s;
+    return $rows;
 }
 
 // -----------------------------------------------------------------------------
