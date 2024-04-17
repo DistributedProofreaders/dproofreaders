@@ -78,6 +78,14 @@ $pwlh->show_form();
 
 class ProjectWordListHolder
 {
+    public string $projectid;
+    public Project $project;
+    public string $bad_words;
+    public string $good_words;
+    public int $bwl_timestamp;
+    public int $gwl_timestamp;
+
+
     public function __construct($projectid)
     {
         $this->projectid = $projectid;

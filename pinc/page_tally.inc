@@ -172,8 +172,8 @@ function user_get_page_tally_neighborhood($tally_name, $username, $radius)
 class PageTally_Neighbor
 {
     private bool $is_anonymized;
-    private string $username;
-    private int $date_joined;
+    private ?string $username;
+    private ?int $date_joined;
     private int $u_id;
     private int $current_page_tally;
     private int $current_page_tally_rank;
