@@ -1,7 +1,6 @@
 <?php
 $relPath = '../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc'); // get_page_tally_names()
 include_once($relPath.'graph_data.inc');
@@ -25,23 +24,14 @@ $title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
 
 $js_data = "";
 if (isset($start) && isset($end)) {
-    $SECONDS_IN_DAY = 86400; // 60 * 60 * 24
-    $start_timestamp = mktime(0, 0, 0, explode("-", $start)[1], 1, explode("-", $start)[0]);
+    $start_date = new DateTime("$start-01");
+    $start_timestamp = $start_date->format("U");
     $end_date = new DateTime("$end-01");
-    $end_timestamp = mktime(0, 0, 0, explode("-", $end)[1], $end_date->format('t'), explode("-", $end)[0]) + $SECONDS_IN_DAY;
-    $sql = select_from_site_past_tallies_and_goals(
-        $tally_name,
-        "SELECT 
-        {year_month} as 'month',
-        CAST(SUM(tally_delta) AS SIGNED)",
-        "AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY >= $start_timestamp
-         AND past_tallies.timestamp - $SECONDS_TO_YESTERDAY < $end_timestamp",
-        "GROUP BY 1",
-        "ORDER BY 1",
-        ""
-    );
-    $result = DPDatabase::query($sql);
-    [$datax, $datay] = dpsql_fetch_columns($result);
+    $end_timestamp = $end_date->format("U");
+    $data = get_site_tally_grouped($tally_name, 'year_month', $start_timestamp, $end_timestamp);
+    $datax = array_column($data, 0);
+    $datay = array_column($data, 1);
+
     $graph_config = [
         // %s is a tally name
         "title" => sprintf(_("%s Pages Completed by Month"), $tally_name),
@@ -78,16 +68,9 @@ show_all_time_total();
 show_month_sums('top_ten');
 
 show_top_days(30, 'ever');
-show_top_days(10, 'this_year');
 
 show_month_sums('all_chron');
 show_month_sums('all_by_pages');
-
-show_months_with_most_days_over(5000);
-show_months_with_most_days_over(6000);
-show_months_with_most_days_over(7000);
-show_months_with_most_days_over(8000);
-show_months_with_most_days_over(9000);
 
 // -----------------------------------------------------------------------------
 
@@ -107,19 +90,14 @@ function show_all_time_total()
     echo "<br>\n";
 }
 
-function show_top_days($n, $when)
+function show_top_days($limit, $when)
 {
     global $tally_name, $curr_year, $curr_year_month;
 
     switch ($when) {
         case 'ever':
             $where = '';
-            $sub_title = sprintf(_('Top %d Proofreading Days Ever'), $n);
-            break;
-
-        case 'this_year':
-            $where = "WHERE {year} = '$curr_year'";
-            $sub_title = sprintf(_('Top %d Proofreading Days This Year'), $n);
+            $sub_title = sprintf(_('Top %d Proofreading Days Ever'), $limit);
             break;
 
         default:
@@ -128,23 +106,23 @@ function show_top_days($n, $when)
 
     echo "<h2>$sub_title</h2>\n";
 
-    dpsql_dump_themed_query(
-        select_from_site_past_tallies_and_goals(
-            $tally_name,
-            "SELECT
-                {date} as '" . DPDatabase::escape(_("Date")) . "',
-                tally_delta as '" . DPDatabase::escape(_("Pages Proofread")) . "',
-                IF({year_month} = '$curr_year_month', '******',' ') as '"
-                   . DPDatabase::escape(_("This Month?")) . "'",
-            $where,
-            "",
-            "ORDER BY 2 DESC",
-            "LIMIT $n"
-        ),
-        1,
-        DPSQL_SHOW_RANK
-    );
-
+    echo "<table class='themed theme_striped stats'>";
+    echo "<tr>";
+    echo "<th>" . _("Rank") . "</th>";
+    echo "<th>" . _("Date") . "</th>";
+    echo "<th>" . _("Pages Proofread") . "</th>";
+    echo "</tr>";
+    $data = get_site_tally_grouped($tally_name, 'date', null, null, $limit, "tally_delta desc");
+    $rank = 1;
+    foreach ($data as $row) {
+        echo "<tr>";
+        echo "<td>" . $rank . "</td>";
+        echo "<td>" . $row[0] . "</td>";
+        echo "<td>" . $row[1] . "</td>";
+        echo "</tr>";
+        $rank += 1;
+    }
+    echo "</table>";
     echo "<br>\n";
 }
 
@@ -155,20 +133,20 @@ function show_month_sums($which)
     switch ($which) {
         case 'top_ten':
             $sub_title = _("Top Ten Best Proofreading Months");
-            $order = '2 DESC';
-            $limit = 'LIMIT 10';
+            $sort = 'tally_delta desc';
+            $limit = 10;
             break;
 
         case 'all_chron':
             $sub_title = _("Historical Log of Total Pages Proofread Per Month");
-            $order = '1'; // chronological
-            $limit = '';
+            $sort = 'dateunit'; // chronological
+            $limit = null;
             break;
 
         case 'all_by_pages':
             $sub_title = _("Total Pages Proofread Per Month");
-            $order = '2 DESC';
-            $limit = '';
+            $sort = 'tally_delta desc';
+            $limit = null;
             break;
 
         default:
@@ -177,52 +155,24 @@ function show_month_sums($which)
 
     echo "<h2>$sub_title</h2>\n";
 
-    dpsql_dump_themed_query(
-        select_from_site_past_tallies_and_goals(
-            $tally_name,
-            "SELECT
-                {year_month} as '" . DPDatabase::escape(_("Month")) . "',
-                CAST(SUM(tally_delta) AS SIGNED) as '"
-                    . DPDatabase::escape(_("Pages Proofread")) . "',
-                CAST(SUM(goal) AS SIGNED) as '"
-                    . DPDatabase::escape(_("Monthly Goal")) . "',
-                IF({year_month} = '$curr_year_month', '******',' ') as '"
-                    . DPDatabase::escape(_("This Month?")) . "'",
-            "",
-            "GROUP BY 1",
-            "ORDER BY $order",
-            $limit
-        ),
-        1,
-        DPSQL_SHOW_RANK
-    );
-
-    echo "<br>\n";
-}
-
-function show_months_with_most_days_over($n)
-{
-    global $tally_name, $curr_year_month;
-
-    $sub_title = sprintf(_('Months with most days over %s pages'), number_format($n));
-    echo "<h2>$sub_title</h2>\n";
-
-    dpsql_dump_themed_query(
-        select_from_site_past_tallies_and_goals(
-            $tally_name,
-            "SELECT
-                {year_month} as '" . DPDatabase::escape(_("Month")) . "',
-                count(*) as '" . DPDatabase::escape(_("Number of Days")) . "',
-                IF({year_month} = '$curr_year_month', '******',' ') as '"
-                    . DPDatabase::escape(_("This Month?")) . "'",
-            "WHERE tally_delta >= $n",
-            "GROUP BY 1",
-            "ORDER BY 2 DESC",
-            "LIMIT 10"
-        ),
-        1,
-        DPSQL_SHOW_RANK
-    );
-
+    echo "<table class='themed theme_striped stats'>";
+    echo "<tr>";
+    echo "<th>" . _("Rank") . "</th>";
+    echo "<th>" . _("Month") . "</th>";
+    echo "<th>" . _("Pages Proofread") . "</th>";
+    echo "<th>" . _("Monthly Goal") . "</th>";
+    echo "</tr>";
+    $data = get_site_tally_grouped($tally_name, 'year_month', null, null, $limit, $sort);
+    $rank = 1;
+    foreach ($data as $row) {
+        echo "<tr>";
+        echo "<td>" . $rank . "</td>";
+        echo "<td>" . $row[0] . "</td>";
+        echo "<td>" . $row[1] . "</td>";
+        echo "<td>" . $row[2] . "</td>";
+        echo "</tr>";
+        $rank += 1;
+    }
+    echo "</table>";
     echo "<br>\n";
 }
