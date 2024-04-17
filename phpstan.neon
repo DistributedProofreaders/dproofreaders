@@ -14,12 +14,6 @@ parameters:
         - SETUP/phpstan_bootstrap.inc
         - pinc/bootstrap.inc
     universalObjectCratesClasses:
-        - DifficultyElement
-        - GenreColumn
-        - GenreElement
-        - HoldWidget
-        - PageTally
-        - PageTally_Neighbor
         - ProjectWordListHolder
 
     # https://phpstan.org/user-guide/rule-levels
