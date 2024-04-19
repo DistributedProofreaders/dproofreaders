@@ -511,17 +511,17 @@ function do_project_info_table()
         }
 
         echo_row_a(_("Word Lists"), $links);
-    }
 
-    if ($project->pages_table_exists && !$project->is_utf8) {
-        echo_row_a(_("Encoding"), "<span class='error'>" . _("Project table is not UTF-8.") . "</span>");
-    }
+        if ($project->pages_table_exists && !$project->is_utf8) {
+            echo_row_a(_("Encoding"), "<span class='error'>" . _("Project table is not UTF-8.") . "</span>");
+        }
 
-    $project_charsuites = [];
-    foreach ($project->get_charsuites() as $charsuite) {
-        $project_charsuites[] = "<a href='tools/charsuites.php?projectid=$projectid#" . attr_safe($charsuite->name) . "'>" . html_safe($charsuite->title) . "</a>";
+        $project_charsuites = [];
+        foreach ($project->get_charsuites() as $charsuite) {
+            $project_charsuites[] = "<a href='tools/charsuites.php?projectid=$projectid#" . attr_safe($charsuite->name) . "'>" . html_safe($charsuite->title) . "</a>";
+        }
+        echo_row_a(_("Character Suites"), implode(", ", $project_charsuites));
     }
-    echo_row_a(_("Character Suites"), implode(", ", $project_charsuites));
 
     // -------------------------------------------------------------------------
 
