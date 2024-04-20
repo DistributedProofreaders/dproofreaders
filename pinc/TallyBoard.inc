@@ -624,15 +624,17 @@ class TallyBoard
 
     /**
      * Return all tally deltas recorded for the given holder
-     * since $min_timestamp.
+     * since $min_timestamp and optionally before $max_timestamp
      *
      * Specifically, the result is an array of key => value pairs,
      * where key is the ascribed time of a snapshot,
      * and value is the tally delta recorded for that time.
      * (The items are sorted by timestamp.)
      */
-    public function get_deltas($holder_id, $min_timestamp)
+    public function get_deltas($holder_id, $min_timestamp, $max_timestamp = null)
     {
+        $addl_where = $max_timestamp === null ? "" : sprintf("AND timestamp < %d", $max_timestamp);
+
         $sql = sprintf(
             "
             SELECT timestamp, tally_delta
@@ -642,6 +644,7 @@ class TallyBoard
                 AND holder_type = '%s'
                 AND holder_id   = %d
                 AND timestamp  >= $min_timestamp
+                $addl_where
             ORDER BY timestamp ASC
             ",
             DPDatabase::escape($this->tally_name),

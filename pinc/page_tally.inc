@@ -436,6 +436,124 @@ function get_site_tally_grouped(
     return $rows;
 }
 
+/**
+ * Return either the cumulative or the incremental daily page stats for
+ * a site tally with optional simple moving average for the incremental.
+ *
+ * @param string $tally_name
+ *   Tally name
+ * @param string $c_or_i
+ *   One of: cumulative, increment
+ * @param int $start_timestamp
+ *   Earliest timestamp to evaluate
+ * @param int $end_timestamp
+ *   Latest timestamp to evaluate
+ * @param int $days_to_average
+ *   If using 'increment', number of days to calculate simple moving average
+ *
+ * @return array
+ */
+function get_site_tally_cumulative_or_incremental(
+    string $tally_name,
+    string $c_or_i,
+    int $start_timestamp,
+    int $end_timestamp,
+    int $days_to_average = 21
+): array {
+    global $SECONDS_TO_YESTERDAY;
+
+    // get_site_tally_grouped() handles the ascribed-vs-actual time difference
+    $data = get_site_tally_grouped($tally_name, 'date', $start_timestamp, $end_timestamp);
+    $datax = array_column($data, 0);
+    $datay1 = array_column($data, 1);
+    $datay2 = array_column($data, 2);
+
+    if ($c_or_i == 'cumulative') {
+        $datay1 = array_accumulate($datay1);
+        $datay2 = array_accumulate($datay2);
+
+        // The accumulated 'actual' for today and subsequent days is bogus,
+        // so delete it.
+        $date_today = date('Y-m-d');
+        for ($i = 0; $i < count($datax); $i++) {
+            if ($datax[$i] >= $date_today) {
+                unset($datay1[$i]);
+            }
+        }
+    }
+
+    if (empty($datay1)) {
+        $datay1[0] = 0;
+    }
+
+
+    // Calculate a simple moving average for 'increments' graphs
+    if ($c_or_i == 'increments') {
+        // To calculate a simple moving average over $days_to_average we need
+        // to have at least that many days worth of data before $start_timestamp.
+        $sma_start_timestamp = max($start_timestamp - ($days_to_average * 60 * 60 * 24), 0);
+        $sma_end_timestamp = $end_timestamp + 60 * 60 * 24;
+
+        $site_tallyboard = new TallyBoard($tally_name, 'S');
+        $deltas = $site_tallyboard->get_deltas(1, $sma_start_timestamp, $sma_end_timestamp);
+
+        $smas = calculate_tally_sma($deltas, $days_to_average);
+
+        // store the results in a date-based array we can use to populate the
+        // graph's data array; we need to account for ascribed-vs-actual diff
+        foreach ($smas as $timestamp => $average) {
+            $average_lookup[date("Y-m-d", $timestamp - $SECONDS_TO_YESTERDAY)] = $average;
+        }
+
+        // pull out the smas just for the dates in the data we're going to return
+        $moving_average = [];
+        foreach ($datax as $date) {
+            $moving_average[] = $average_lookup[$date] ?? 0;
+        }
+    } else {
+        $moving_average = null;
+    }
+
+    // if no data was returned from the SELECT, create an empty dataset
+    if (empty($datax)) {
+        // set arrays to empty before populating them
+        $datax = $datay1 = [];
+        $datay2 = null;
+
+        // don't go past the current date
+        $end_timestamp = min($end_timestamp, time());
+
+        // iterate through the days of the specified month
+        for ($dateTimestamp = $start_timestamp; $dateTimestamp <= $end_timestamp; $dateTimestamp += (60 * 60 * 24)) {
+            $datax[] = date('Y-m-d', $dateTimestamp);
+            $datay1[] = 0;
+        }
+    }
+
+    return [$datax, $datay1, $datay2, $moving_average];
+}
+
+/**
+ * Given an array of numbers and a window, calculate the moving average over
+ * the window.
+ */
+function calculate_tally_sma(array $array, int $window): array
+{
+    // We calculate the simple moving average from the $window of days leading
+    // up to, and including, a given date. If there are fewer than $window days
+    // before the date, we average the available data up to $window.
+    $timestamps = array_keys($array);
+    $values = array_values($array);
+    $results = [];
+    for ($i = 0; $i < count($values); $i++) {
+        $start_range = max($i - ($window - 1), 0);
+        $length = min($window, $i + 1);
+        $results[$timestamps[$i]] = array_sum(array_slice($values, $start_range, $length)) / $length;
+    }
+    return $results;
+}
+
+
 // -----------------------------------------------------------------------------
 
 /**
