@@ -17,6 +17,8 @@ include_once($relPath.'faq.inc');
  */
 function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
 {
+    global $code_url;
+
     $user = User::load_current();
 
     // Display stats bar on left (1) or right (0)
@@ -29,6 +31,7 @@ function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
 
     // All our themes begin with the initial markup, logo and navbar, and open a
     // table for further layout.
+    $extra_args['js_files'][] = "$code_url/scripts/navbar_menu.js";
     output_html_header($nameofpage, $extra_args, $show_statsbar);
     html_logobar();
     echo "\n<div id='page-container'>\n";
