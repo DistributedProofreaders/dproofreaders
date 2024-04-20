@@ -28,14 +28,12 @@
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
-var splitControl = function(container, {splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray"} = {}) {
+var splitControl = function(container, {splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray", splitLimit = 0.1} = {}) {
     let splitRatio = splitPercent / 100;
-    // base, splitPos, range, minPos, maxPos units in principal direction
+    // base, splitPos, range units in principal direction
     let base;
     let splitPos;
     let range;
-    let minPos;
-    let maxPos;
     container = $(container).css({display: 'flex'});
     let children = container.children();
     let pane1 = $(children[0]).css({overflow: 'auto'});
@@ -52,12 +50,9 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
     let onDragEnd = new Set();
 
     function moveSplit() {
-        if (splitPos < minPos) {
-            splitPos = minPos;
-        }
-        if (splitPos > maxPos) {
-            splitPos = maxPos;
-        }
+        splitRatio = Math.max(splitRatio, splitLimit);
+        splitRatio = Math.min(splitRatio, 1 - splitLimit);
+        splitPos = base + (range * splitRatio);
         pane1.css({flex: `0 0 ${splitPos - base}px`});
         onResize.forEach(function (reSizeCallback) {
             reSizeCallback();
@@ -83,13 +78,7 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
             dragBar.css("cursor", "ns-resize");
         }
         range -= dragBarSize;
-        minPos = base;
-        if(range < 0) {
-            range = 0;
-        }
-        splitPos = base + (range * splitRatio);
         // mouse sets top/left of dragbar
-        maxPos = base + range;
         moveSplit();
     }
 
@@ -102,6 +91,9 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
 
     function dragMove(event) {
         splitPos = (splitVertical) ? event.pageX : event.pageY;
+        if(range > 0) {
+            splitRatio = (splitPos - base) / range;
+        }
         moveSplit();
     }
 
@@ -109,12 +101,9 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
         // restore normal operation
         pane2.css("pointerEvents", "auto");
         pane1.css("pointerEvents", "auto");
-        if(range > 0) {
-            splitRatio = (splitPos - base) / range;
-            onDragEnd.forEach(function (dragEndCallback) {
-                dragEndCallback((splitRatio * 100).toFixed(0));
-            });
-        }
+        onDragEnd.forEach(function (dragEndCallback) {
+            dragEndCallback((splitRatio * 100).toFixed(0));
+        });
     }
 
     function dragMouseUp() {
