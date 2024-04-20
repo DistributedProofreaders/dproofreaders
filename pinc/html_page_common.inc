@@ -93,7 +93,6 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     $js_files = [
         "$code_url/pinc/3rdparty/jquery/jquery-3.5.1.min.js",
         "$code_url/scripts/api.js",
-        "$code_url/scripts/navbar_menu.js",
     ];
 
     // Per-page JS

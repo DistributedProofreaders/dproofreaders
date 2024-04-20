@@ -46,16 +46,19 @@ function hideSiteSearch() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('search-menu').addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            hideSiteSearch();
-        }
-    });
-});
+    // if the page has the search menu, add some listeners for it
+    if (document.getElementById('search-menu')) {
+        document.getElementById('search-menu').addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                hideSiteSearch();
+            }
+        });
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === '/' && document.activeElement.tagName == "BODY") {
-        event.preventDefault();
-        showSiteSearch();
+        document.addEventListener('keydown', (event) => {
+            if (event.key === '/' && document.activeElement.tagName == "BODY") {
+                event.preventDefault();
+                showSiteSearch();
+            }
+        });
     }
 });
