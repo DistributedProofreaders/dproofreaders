@@ -29,7 +29,7 @@ function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
 
     // All our themes begin with the initial markup, logo and navbar, and open a
     // table for further layout.
-    output_html_header($nameofpage, $extra_args, $show_statsbar);
+    output_html_header($nameofpage, $extra_args, $show_statsbar, true);
     html_logobar();
     echo "\n<div id='page-container'>\n";
     echo "<div id='page-body-container'>\n";

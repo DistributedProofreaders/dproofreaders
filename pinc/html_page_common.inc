@@ -12,7 +12,7 @@ define('SHOW_STATSBAR', true);
  * Output the opening HTML page code, including pulling in common styles,
  * page title, etc.
  */
-function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
+function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true, $show_logobar = false)
 {
     global $code_url, $site_abbreviation;
     global $charset;
@@ -93,8 +93,11 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     $js_files = [
         "$code_url/pinc/3rdparty/jquery/jquery-3.5.1.min.js",
         "$code_url/scripts/api.js",
-        "$code_url/scripts/navbar_menu.js",
     ];
+
+    if($show_logobar) {
+        $js_files[] = "$code_url/scripts/navbar_menu.js";
+    }
 
     // Per-page JS
     if (isset($extra_args['js_files'])) {
