@@ -95,7 +95,7 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
         "$code_url/scripts/api.js",
     ];
 
-    if($show_logobar) {
+    if ($show_logobar) {
         $js_files[] = "$code_url/scripts/navbar_menu.js";
     }
 
