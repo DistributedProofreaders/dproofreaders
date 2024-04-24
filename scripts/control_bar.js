@@ -173,12 +173,12 @@ function makeControlDiv(container, content, controls) {
         menu.hide();
     });
 
-    let onChange = new Set();
+    let onChangeCompassPoint = new Set();
     function newPoint(newP) {
         compassPoint = newP;
         saveLocation();
         setCompassPoint();
-        onChange.forEach(function (onChangeCallback) {
+        onChangeCompassPoint.forEach(function (onChangeCallback) {
             onChangeCallback();
         });
         menu.hide();
@@ -251,7 +251,7 @@ function makeControlDiv(container, content, controls) {
             setCompassPoint();
             setBegMidEnd();
         },
-        onChange: onChange,
+        onChange: onChangeCompassPoint,
     };
 }
 
