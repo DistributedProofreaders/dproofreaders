@@ -257,7 +257,6 @@ function makeControlDiv(container, content, controls) {
 
 function makeImageWidget(container, align = "C") {
     const content = document.createElement("div");
-    content.style.scrollbarWidth = 'none';
     const grabCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
@@ -351,6 +350,11 @@ function makeImageWidget(container, align = "C") {
         yOffset += vertOffset;
         // image rotates about centre. Offset moves it to correct position
         image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`;
+
+        // show scrollbar only if image is bigger than window
+        content.style.overflowX = (imageWidth > contentWidth) ? "auto" : "hidden";
+        // seems to need +1 to hide bar when fitting to height
+        content.style.overflowY = (imageHeight > contentHeight + 1) ? "auto" : "hidden";
     }
 
     function initScroll() {
