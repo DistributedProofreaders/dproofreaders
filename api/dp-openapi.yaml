@@ -1030,6 +1030,33 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+    get:
+      tags:
+      - project
+      description: Get page text and state
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/pagename'
+      responses:
+        200:
+          description: Page data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/page_text_state'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:
@@ -1571,9 +1598,8 @@ components:
           description: The page state, it is now in a 'temp' state since this is returned by save-as-in-progress or save-and-revert-to-original
           type: string
         saved:
-          description: Now true (since page has been saved)
+          description: true if the page has been saved.
           type: boolean
-          enum: [true]
 
     text_analysis:
       type: object

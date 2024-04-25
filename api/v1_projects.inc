@@ -775,6 +775,14 @@ function _get_enabled_filter($query_params)
 //---------------------------------------------------------------------------
 // Proofreading functions
 
+function api_v1_project_page_data(string $method, array $data, array $query_params)
+{
+    $project_page = $data[":pagename"];
+    $proof_project = new ProofProject($data[":projectid"]);
+    $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+    return $proof_project_page->get_page_text_data();
+}
+
 // checkout a page
 function api_v1_project_checkout($method, array $data, array $query_params)
 {
