@@ -81,7 +81,7 @@ class ProofProjectPage extends LPage
             ];
     }
 
-    private function get_page_text_data(): array
+    public function get_page_text_data(): array
     {
         return [
             "text" => $this->get_text(),

@@ -161,6 +161,18 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
+    public function test_get_page_data()
+    {
+        $project = $this->_create_available_project();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $path = "v1/projects/$project->projectid/pages/001.png";
+        $query_params = [];
+        $router = ApiRouter::get_router();
+        $result = $router->route($path, $query_params);
+        $this->assertEquals($this->TEST_TEXT, $result["text"]);
+        $this->assertEquals("P1.page_avail", $result["pagestate"]);
+    }
+
     //---------------------------------------------------------------------------
     // tests for proofreading
 
