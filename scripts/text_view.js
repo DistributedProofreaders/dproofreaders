@@ -138,6 +138,10 @@ function makeTextWidget(container, splitter = false) {
             textArea.scrollLeft = 0;
         },
 
+        getText: function () {
+            return textArea.value;
+        },
+
         reLayout: function () {
             if(splitter) {
                 subSplitter.reLayout();
