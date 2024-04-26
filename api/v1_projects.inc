@@ -775,19 +775,14 @@ function _get_enabled_filter($query_params)
 //---------------------------------------------------------------------------
 // Proofreading functions
 
-function api_v1_project_page_data(string $method, array $data, array $query_params)
-{
-    $project_page = $data[":pagename"];
-    $proof_project = new ProofProject($data[":projectid"]);
-    $proof_project_page = new ProofProjectPage($proof_project, $project_page);
-    return $proof_project_page->get_page_text_data();
-}
-
 // checkout a page
 function api_v1_project_checkout($method, array $data, array $query_params)
 {
     try {
-        $proof_project = create_proof_project($data, $query_params);
+        $project = $data[":projectid"];
+        $state = $query_params["state"] ?? null;
+        validate_project_state($project, $state);
+        $proof_project = new ProofProject($project);
         return $proof_project->checkout();
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
@@ -807,10 +802,19 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     global $pguser;
 
     try {
-        $proof_project = create_proof_project($data, $query_params);
+        $project = $data[":projectid"];
         $project_page = $data[":pagename"];
-        $page_state = $query_params['pagestate'] ?? null;
+        if ($method == "GET") {
+            $proof_project = new ProofProject($project);
+            $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+            return $proof_project_page->get_page_text_data();
+        }
+        // $method is "PUT"
+        $state = $query_params["state"] ?? null;
+        validate_project_state($project, $state);
+        $proof_project = new ProofProject($project);
 
+        $page_state = $query_params['pagestate'] ?? null;
         if (null === $page_state) {
             throw new InvalidValue("No page state found in request.");
         }
@@ -853,30 +857,23 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
-function create_proof_project(array $data, array $query_params)
+function validate_project_state($project, $state)
 {
-    $project = $data[":projectid"];
-    $state = $query_params["state"] ?? null;
-    try {
-        if (null === $state) {
-            throw new InvalidValue("No project state found in request.");
-        }
-        if (!in_array($state, ProjectStates::get_states())) {
-            throw new InvalidValue("Invalid project state");
-        }
-        if ($state != $project->state) {
-            $err = sprintf(
-                _('Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
-                $project->nameofwork,
-                project_states_text($state),
-                project_states_text($project->state)
-            );
-            throw new ProjectNotInRequiredStateException($err);
-        }
-    } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    if (null === $state) {
+        throw new InvalidValue("No project state found in request.");
     }
-    return new ProofProject($project);
+    if (!in_array($state, ProjectStates::get_states())) {
+        throw new InvalidValue("Invalid project state");
+    }
+    if ($state != $project->state) {
+        $err = sprintf(
+            _('Project "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+            $project->nameofwork,
+            project_states_text($state),
+            project_states_text($project->state)
+        );
+        throw new ProjectNotInRequiredStateException($err);
+    }
 }
 
 function receive_project_text_from_request_body($field): string
