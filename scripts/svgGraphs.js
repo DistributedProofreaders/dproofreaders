@@ -116,7 +116,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
             const svgElement = svg.nodes()[0];
             const downloadButton = document.createElement('button');
             downloadButton.textContent = config.downloadLabel;
-            downloadButton.classList.add('grpah-download-button');
+            downloadButton.classList.add('graph-download-button');
             downloadButton.addEventListener('click', () => {
                 let svgBlob = new Blob([createSvgText(svgElement)], { type: 'image/svg+xml' });
                 const downloadLink = document.createElement('a');
