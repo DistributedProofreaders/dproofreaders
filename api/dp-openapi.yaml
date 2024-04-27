@@ -1572,7 +1572,7 @@ components:
         pagenum:
           description: Page "number" without extension
           type: string
-        round_info_array:
+        round_info:
           description: Array of names of proofreaders in earlier rounds
           type: array
           items:

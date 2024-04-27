@@ -823,7 +823,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         }
         if ($page_state != $project_page->page_state) {
             $err = sprintf(
-                _('Page  "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+                _('Page "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
                 $project_page->page_name,
                 $page_state,
                 $project_page->page_state
@@ -833,10 +833,9 @@ function api_v1_project_page(string $method, array $data, array $query_params)
 
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
         $page_action = $query_params['pageaction'] ?? null;
-        if (null === $page_action) {
-            throw new BadRequest("No page action found in request.");
-        }
         switch ($page_action) {
+            case null:
+                throw new BadRequest("No page action found in request.");
             case 'resume':
                 return $proof_project_page->pp_resume_page();
             case 'checkin':
