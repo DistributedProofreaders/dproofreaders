@@ -373,6 +373,23 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
+    public function test_resume_page_not_owned()
+    {
+        global $pguser;
+
+        $this->expectExceptionCode(307);
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
+        // let another user try to resume it
+        $pguser = $this->TEST_USERNAME_PM;
+        $this->resume($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out');
+    }
+
     public function test_project_return_to_round()
     {
         global $pguser;
