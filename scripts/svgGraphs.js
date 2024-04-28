@@ -70,6 +70,68 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         }
     }
 
+    const nodeIterator = (elem, fn) => {
+        fn(elem);
+        for (const child of elem.children) {
+            nodeIterator(child, fn);
+        }
+    };
+
+    const createSvgText = (svgElement) => {
+        const classNames = new Set(['graph-background']);
+
+        nodeIterator(svgElement, (elem) => {
+            elem.classList.forEach(className => {
+                classNames.add(className);
+            });
+        });
+
+        const dummyElement = document.createElement('a');
+        classNames.forEach(className => {
+            dummyElement.classList.add(className);
+        });
+        const cssStyleRules = new Set();
+        for (const sheet of document.styleSheets) {
+            for (const rule of sheet.cssRules) {
+                if (dummyElement.matches(rule.selectorText)) {
+                    cssStyleRules.add(rule.cssText);
+                }
+            }
+        }
+
+        const width = window.getComputedStyle(svgElement).width;
+        let svgText = svgElement.outerHTML.replace('<svg ', `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" `);
+        const endOfFirstElement = svgText.indexOf('>');
+        svgText = `${svgText.slice(0, endOfFirstElement + 1)}
+            <style>
+                ${[...cssStyleRules].join('')}
+            </style>
+            <rect width="100%" height="100%" class="graph-background" />
+            ${svgText.slice(endOfFirstElement + 1)}`;
+        return svgText;
+    };
+
+    function addDownloadButton(svg, config) {
+        if (config.downloadLabel) {
+            const svgElement = svg.nodes()[0];
+            const downloadButton = document.createElement('button');
+            downloadButton.textContent = config.downloadLabel;
+            downloadButton.classList.add('graph-download-button');
+            downloadButton.addEventListener('click', () => {
+                let svgBlob = new Blob([createSvgText(svgElement)], { type: 'image/svg+xml' });
+                const downloadLink = document.createElement('a');
+                const downloadLinkHref = window.URL.createObjectURL(svgBlob);
+                downloadLink.href = downloadLinkHref;
+                downloadLink.download = config.title;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                window.URL.revokeObjectURL(downloadLinkHref);
+            });
+            svgElement.parentElement.appendChild(downloadButton);
+        }
+    }
+
     function stackedAreaGraph(id, config) {
         const height = 400;
         const width = 640;
@@ -95,7 +157,8 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const series = d3.stack().keys(data.columns.slice(1))(data);
 
         const svg = d3.select("#" + id).append("svg")
-            .attr("viewBox", [0, 0, width, height]);
+            .attr("viewBox", [0, 0, width, height])
+            .attr("class", "graph-element");
 
         const y = d3.scaleLinear()
             .domain([0, d3.max(series, d => d3.max(d, d => d[1]))])
@@ -155,6 +218,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
         addTitle(svg, config, width);
         addLegend(svg, config, data.columns.slice(1) /* no date column */, width, height, true /* reverse */);
+        addDownloadButton(svg, config);
     }
 
     function barLineGraph(id, config) {
@@ -167,7 +231,8 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const width = config.width || 640;
         const data = Object.entries(config.data).filter(([,{x}]) => x && x.length > 0);
         const svg = d3.select("#" + id).append("svg")
-            .attr("viewBox", [0, 0, width, height]);
+            .attr("viewBox", [0, 0, width, height])
+            .attr("class", "graph-element");
         if (data.length > 0) {
             const tooltip = d3.select("#" + id)
                 .append("div")
@@ -311,6 +376,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
 
         addTitle(svg, config, width);
         addLegend(svg, config, data.map(([title]) => title), width, height);
+        addDownloadButton(svg, config);
     }
 
     function pieGraph(id, config) {
@@ -330,7 +396,8 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         const width = config.width || 660;
 
         const svg = d3.select("#" + id).append("svg")
-            .attr("viewBox", [0, 0, width, height]);
+            .attr("viewBox", [0, 0, width, height])
+            .attr("class", "graph-element");
 
         if (config.error) {
             svg.append("text").attr("class", "error")
@@ -376,6 +443,7 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
         }
 
         addTitle(svg, config, width);
+        addDownloadButton(svg, config);
     }
 
     return {

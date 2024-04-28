@@ -93,6 +93,9 @@ respects different configuration properties.
   // Title of the graph, shown at the top center.
   title?: string;
 
+  // Download graph string
+  downloadLabel?: string;
+
   // Offset to legend box drawn when there are multiple series.
   legendAdjustment?: {
     x: number; // x offset for legend box
@@ -125,6 +128,9 @@ respects different configuration properties.
   // Title of the graph, shown at the top center.
   title?: string;
 
+  // Download graph string
+  downloadLabel?: string;
+
   // Offset to legend box drawn when there are multiple series.
   legendAdjustment?: {
     x: number; // x offset for legend box
@@ -151,6 +157,9 @@ respects different configuration properties.
   
   // Title of the graph, shown at the top center.
   title?: string;
+
+  // Download graph string
+  downloadLabel?: string;
 
   // Offset to legend box drawn when there are multiple series.
   legendAdjustment?: {

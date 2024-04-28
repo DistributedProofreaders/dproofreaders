@@ -1596,10 +1596,19 @@ details[open] summary {
   padding: 5px;
   position: absolute;
 }
+.graph-element {
+  color: #000000;
+}
 .graph-legend {
   fill: #ffffff;
   outline: 2px solid #000000;
   border-radius: 5px;
+}
+.graph-background {
+  fill: #ffffff;
+}
+.graph-download-button {
+  margin: 5px;
 }
 .graph-divider {
   margin: 1.25em 0 1.25em 0;

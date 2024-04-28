@@ -66,6 +66,7 @@ $title = _("Number of pages in various states");
 $graphs = [
     ["barLineGraph", "pages_in_states", [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             _('unavailable') => [
                 "x" => $stage_labels,

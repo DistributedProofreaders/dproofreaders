@@ -60,6 +60,7 @@ $height = 200;
 $graphs = [
     ["barLineGraph", "pp_stage_goal", [
         "title" => $title,
+        "downloadLabel" => _("Download Chart"),
         "data" => [
             $x_title => [
                 "x" => $datax,

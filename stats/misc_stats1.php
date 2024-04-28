@@ -35,6 +35,7 @@ if (isset($start) && isset($end)) {
     $graph_config = [
         // %s is a tally name
         "title" => sprintf(_("%s Pages Completed by Month"), $tally_name),
+        "downloadLabel" => _("Download Chart"),
         "yAxisLabel" => _("Pages"),
         "data" => [
             "" => [
@@ -60,7 +61,7 @@ echo "<form action='$code_url/stats/misc_stats1.php'>
 <input type='submit' value='" . _("Graph") . "'>
 </form>
 <br>
-<div id='graph' style='max-width: 640px;max-height: 400px'></div>
+<div id='graph' style='max-width: 640px'></div>
 ";
 
 show_all_time_total();
