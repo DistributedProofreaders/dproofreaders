@@ -274,25 +274,44 @@ function makeImageWidget(container, align = "C") {
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
-    function mousemove(event) {
+    function dragMove(event) {
         content.scrollTop = scrollDiffY - event.pageY;
         content.scrollLeft = scrollDiffX - event.pageX;
     }
 
-    function mouseup() {
-        document.removeEventListener("mousemove", mousemove);
-        document.removeEventListener("mouseup", mouseup);
+    function mouseUp() {
+        document.removeEventListener("mousemove", dragMove);
+        document.removeEventListener("mouseup", mouseUp);
         imageDiv.style.cursor = grabCursor;
+    }
+
+    function dragStart(event) {
+        scrollDiffX = event.pageX + content.scrollLeft;
+        scrollDiffY = event.pageY + content.scrollTop;
     }
 
     imageDiv.addEventListener("mousedown", function(event) {
         event.preventDefault();
-
         imageDiv.style.cursor = "grabbing";
-        scrollDiffX = event.pageX + content.scrollLeft;
-        scrollDiffY = event.pageY + content.scrollTop;
-        document.addEventListener("mousemove", mousemove);
-        document.addEventListener("mouseup", mouseup);
+        dragStart(event);
+        document.addEventListener("mousemove", dragMove);
+        document.addEventListener("mouseup", mouseUp);
+    });
+
+    function dragTouchMove(event) {
+        dragMove(event.touches[0]);
+    }
+
+    function dragTouchEnd() {
+        document.removeEventListener("touchmove", dragTouchMove);
+        document.removeEventListener("touchend", dragTouchEnd);
+    }
+
+    imageDiv.addEventListener("touchstart", function(event) {
+        event.preventDefault();
+        dragStart(event.touches[0]);
+        document.addEventListener("touchmove", dragTouchMove);
+        document.addEventListener("touchend", dragTouchEnd);
     });
 
     let imageKey;
