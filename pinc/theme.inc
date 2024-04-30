@@ -949,12 +949,18 @@ function show_completed_projects($terse = false)
         $num_months = 1;
     } else {
         echo "<h2>" . _("Completed Projects") . "</h2>\n";
+        echo "<p class='center-align'>";
+        echo sprintf(
+            _('%s titles preserved for the world!'),
+            number_format(total_completed_projects())
+        );
+        echo "</p>";
         echo "<table>\n";
         $num_months = 12;
     }
     $thismonth = date("n");
     $thisyear = date("Y");
-    for ($months_ago = $num_months; $months_ago >= 0; $months_ago--) {
+    for ($months_ago = 0; $months_ago <= $num_months; $months_ago++) {
         // midnight that begins the 1st day of this month and the next:
         $begindate = mktime(0, 0, 0, $thismonth - $months_ago, 1, $thisyear);
         $enddate = mktime(0, 0, 0, $thismonth - $months_ago + 1, 1, $thisyear);
@@ -978,10 +984,10 @@ function show_completed_projects($terse = false)
         } else {
             echo "<tr>";
             echo   "<td class='month'>";
-            echo     "&nbsp;$displaydate&nbsp;&mdash;";
+            echo     "$displaydate&nbsp;&mdash;";
             echo   "</td>";
             echo   "<td class='count'>";
-            echo     "&nbsp;$totalprojects&nbsp;";
+            echo     "&nbsp;$totalprojects";
             echo   "</td>";
             echo "</tr>";
             echo "\n";
