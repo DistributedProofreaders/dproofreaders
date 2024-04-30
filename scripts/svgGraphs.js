@@ -326,8 +326,9 @@ const {barLineGraph, stackedAreaGraph, pieGraph} = (function () {
                 }, []);
 
                 if (seriesToRender === "line" && seriesData.type === "line") {
+                    let lineOffset = xValues.length >= 2 ? (x(1) - x(0)) / 2 : 0;
                     const line = d3.line()
-                        .x((d, i) => x(i))
+                        .x((d, i) => x(i) + lineOffset)
                         .y(({value}) => y(value));
 
                     svg.append("path")
