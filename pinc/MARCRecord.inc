@@ -635,7 +635,7 @@ class MARCRecord
                 if (strlen($directory) == 3) {
                     $start = "00000";
                 } else {
-                    $start = (substr($directory, -12, 4) + substr($directory, -8, 5));
+                    $start = (substr($directory, -12, 4) . substr($directory, -8, 5));
                 }
 
                 $start = str_pad($start, 5, "0", STR_PAD_LEFT);
