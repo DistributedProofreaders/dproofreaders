@@ -326,7 +326,7 @@ function _get_word_list($projectid)
     prep_numeric_keys_for_multisort($percent_changed);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($percent_changed), SORT_DESC, array_map('strtolower', array_keys($percent_changed)), SORT_ASC, $percent_changed);
+    array_multisort(array_values($percent_changed), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($percent_changed)), SORT_ASC, $percent_changed);
 
     return [$percent_changed, $possible_scannos_w_freq, $messages, $possible_scannos_w_correction, $possible_scannos_w_count];
 }

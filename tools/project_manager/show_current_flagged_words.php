@@ -151,7 +151,7 @@ function _get_word_list($projectid)
     prep_numeric_keys_for_multisort($bad_words_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($bad_words_w_freq), SORT_DESC, array_map('strtolower', array_keys($bad_words_w_freq)), SORT_ASC, $bad_words_w_freq);
+    array_multisort(array_values($bad_words_w_freq), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($bad_words_w_freq)), SORT_ASC, $bad_words_w_freq);
 
     return [$bad_words_w_freq, $messages];
 }

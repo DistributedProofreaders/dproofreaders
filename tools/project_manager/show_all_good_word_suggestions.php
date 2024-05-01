@@ -257,7 +257,7 @@ function _get_word_list($projectid, $suggestions)
     prep_numeric_keys_for_multisort($all_suggestions_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map('strtolower', array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
+    array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
 
     return [$all_suggestions_w_freq, $all_suggestions_w_occurrences, $messages];
 }

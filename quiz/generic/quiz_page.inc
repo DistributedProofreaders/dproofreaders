@@ -215,8 +215,8 @@ function qp_text_contains_anticipated_error($text, $test)
                 $part = strstr($text, $test["starttext"]);
                 $part = substr($part, $len, strpos($part, $test["stoptext"]) - $len);
             } else {
-                $part = stristr($text, $test["starttext"]);
-                $part = substr($part, $len, stripos($part, $test["stoptext"]) - $len);
+                $part = voku\helper\UTF8::stristr($text, $test["starttext"]);
+                $part = substr($part, $len, voku\helper\UTF8::stripos($part, $test["stoptext"]) - $len);
             }
             $num = number_of_occurrences($part, "\n", true);
             if ($num < $test["number"]) {
@@ -266,7 +266,7 @@ function str_posn($haystack, $needle, $cs)
     if ($cs) {
         return strpos($haystack, $needle);
     } else {
-        return stripos($haystack, $needle);
+        return voku\helper\UTF8::stripos($haystack, $needle);
     }
 }
 
