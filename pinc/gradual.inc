@@ -364,7 +364,6 @@ function encourage_highest_round($username, $round_id = null)
         // except the quizzes (eg number of days and pages done), nudge them along.
         $ready_ignoring_quizzes = true;
         $quiz_requirements = [];
-        $uao = $round->user_access($username);
         foreach ($uao->minima_table as $criterion_code => $tuple) {
             // skip checking any quiz criteria for pass
             if (startswith($criterion_code, 'quiz/')) {
