@@ -2,6 +2,8 @@
 $relPath = "../../pinc/";
 include_once($relPath."base.inc");
 
+use voku\helper\UTF8;
+
 require_login();
 
 $charset = "UTF-8";
@@ -18,8 +20,8 @@ $col = array_get($_POST, 'col', 1);
 $bord = array_get($_POST, 'border', 1);
 $trim = (array_get($_POST, 'trim', 'off') == 'on');
 $clear = array_get($_POST, 'clear', 0);
-$vert_align = array_get($_POST, 'vert_align', []);
-$horiz_align = array_get($_POST, 'horiz_align', []);
+$vert_align = array_map('intval', array_get($_POST, 'vert_align', []));
+$horiz_align = array_map('intval', array_get($_POST, 'horiz_align', []));
 $table_contents = array_get($_POST, 'table_contents', []);
 
 if ($clear) {
@@ -165,7 +167,7 @@ function generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord)
                 echo "|";
             }
             for ($j = 0; $j < $col; $j++) {
-                echo htmlspecialchars(mb_str_pad($a[$i][$j][$k], @$lng[$j], " ", $al[$j]), ENT_QUOTES, $charset);
+                echo htmlspecialchars(UTF8::str_pad($a[$i][$j][$k], @$lng[$j], " ", $al[$j]), ENT_QUOTES, $charset);
                 if ($j < $col - 1) {
                     echo "|";
                 }
@@ -188,9 +190,9 @@ function hline($col, $lng, $bord)
         echo "+";
     }
     for ($j = 0; $j < $col - 1; $j++) {
-        echo mb_str_pad("", @$lng[$j], "-")."+";
+        echo UTF8::str_pad("", @$lng[$j], "-")."+";
     }
-    echo mb_str_pad("", @$lng[$col - 1], "-");
+    echo UTF8::str_pad("", @$lng[$col - 1], "-");
     if ($bord) {
         echo "+";
     }
@@ -200,41 +202,6 @@ function hline($col, $lng, $bord)
 function str_not_empty($str)
 {
     return $str !== "";
-}
-
-function mb_str_pad($input, $pad_length, $pad_string = " ", $pad_type = STR_PAD_RIGHT, $encoding = null)
-{
-    if ($encoding == null) {
-        $encoding = mb_internal_encoding();
-    }
-    $l = mb_strlen($input, $encoding);
-    if ($pad_length <= $l) {
-        return $input;
-    }
-
-    switch ($pad_type) {
-        case STR_PAD_LEFT:
-            for ($i = 0; $i < $pad_length - $l; $i++) {
-                $input = $pad_string.$input;
-            }
-            break;
-        case STR_PAD_RIGHT:
-            for ($i = 0; $i < $pad_length - $l; $i++) {
-                $input .= $pad_string;
-            }
-            break;
-        case STR_PAD_BOTH:
-            for ($i = 0; $i < floor(($pad_length - $l) / 2); $i++) {
-                $input = $pad_string.$input;
-            }
-            for ($i = 0; $i < ceil(($pad_length - $l) / 2); $i++) {
-                $input .= $pad_string;
-            }
-            break;
-        default:
-            break;
-    }
-    return $input;
 }
 
 function array_pad_internal($input, $pad_size, $pad_type)
