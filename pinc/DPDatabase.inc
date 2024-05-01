@@ -15,6 +15,7 @@ final class DPDatabase
     private static $_default_db_charset = null;
     private static $_default_db_collation = null;
     public static $skip_encoding_check = false;
+    public static $tracing_log = null;
 
     public static function connect()
     {
@@ -91,6 +92,7 @@ final class DPDatabase
     {
         try {
             $result = mysqli_query(self::$_connection, $sql);
+            DPDatabase::log_trace($sql);
         } catch (mysqli_sql_exception $e) {
             if ($log_on_failure) {
                 // include this function's caller in the backtrace
@@ -187,6 +189,30 @@ final class DPDatabase
         );
         $result = self::query($sql);
         return mysqli_fetch_assoc($result) !== null;
+    }
+
+    private static function log_trace($sql)
+    {
+        if (!DPDatabase::$tracing_log) {
+            return;
+        }
+
+        try {
+            $backtrace = debug_backtrace();
+            $caller = $backtrace[1]['file'] . ":" . $backtrace[1]['line'];
+
+            $message = sprintf(
+                "%s %s %s\n",
+                date("c"),
+                $caller,
+                preg_replace("/\s+/", " ", $sql)
+            );
+            $fp = fopen(DPDatabase::$tracing_log, 'a');
+            fwrite($fp, $message);
+            fclose($fp);
+        } catch (Exception $e) {
+            // never fail on tracing
+        }
     }
 
     // Prevent this class from being instantiated
