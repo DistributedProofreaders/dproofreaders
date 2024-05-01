@@ -7,6 +7,7 @@ jobs:
         cfg:
           - { os: 'ubuntu-20.04', php: '7.4' }
           - { os: 'ubuntu-22.04', php: '8.1' }
+          - { os: 'ubuntu-22.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -25,8 +26,7 @@ jobs:
     strategy:
       matrix:
         cfg:
-          - { os: 'ubuntu-20.04', php: '7.4' }
-          - { os: 'ubuntu-22.04', php: '8.1' }
+          - { os: 'ubuntu-22.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -41,6 +41,7 @@ jobs:
         cfg:
           - { os: 'ubuntu-20.04', php: '7.4' }
           - { os: 'ubuntu-22.04', php: '8.1' }
+          - { os: 'ubuntu-22.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -67,7 +68,7 @@ jobs:
       - name: Setup PHP, composer
         uses: ./.github/actions/setup-php
         with:
-          php-version: '7.4'
+          php-version: '8.3'
       # We don't install MySQL, but we do need pinc/site_vars.php & co.
       # so the static analysis doesn't fail trying to include_once those files.
       - name: Configure site setup
@@ -79,14 +80,14 @@ jobs:
     # The CSS tests don't use PHP, and the other tests either just check
     # the source code for regexps, or check for data consistency in the
     # character tables.
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Setup PHP, composer
         uses: ./.github/actions/setup-php
         with:
-          php-version: '7.4'
+          php-version: '8.3'
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
       - name: Run security checks
@@ -105,6 +106,7 @@ jobs:
         cfg:
           - { os: 'ubuntu-20.04', php: '7.4' }
           - { os: 'ubuntu-22.04', php: '8.1' }
+          - { os: 'ubuntu-22.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
