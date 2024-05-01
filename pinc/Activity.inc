@@ -215,7 +215,15 @@ class Activity
             return $uao;
         }
 
-        $user_scores = get_user_scores($username, $this->access_minima);
+        // A user's score isn't going to change in a page load but many page
+        // loads will request an activity's user_access object multiple times
+        // so cache the scores to reduces DB hits.
+        static $_user_score_cache = [];
+        $cache_index = "$this->id:$username";
+        if (!array_key_exists($cache_index, $_user_score_cache)) {
+            $_user_score_cache[$cache_index] = get_user_scores($username, $this->access_minima);
+        }
+        $user_scores = $_user_score_cache[$cache_index];
 
         // -----------------------------------
         // recorded_access is the value recorded in the db for whether the user
