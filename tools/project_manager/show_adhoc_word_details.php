@@ -170,7 +170,7 @@ function _get_word_list($projectid, $queryWords)
     prep_numeric_keys_for_multisort($words_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($words_w_freq), SORT_DESC, array_map('strtolower', array_keys($words_w_freq)), SORT_ASC, $words_w_freq);
+    array_multisort(array_values($words_w_freq), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($words_w_freq)), SORT_ASC, $words_w_freq);
 
     return [$words_w_freq, $messages];
 }
