@@ -592,9 +592,6 @@ class Project
                     $this->checkedoutby
                 );
             }
-
-            // Update the MARC record
-            $this->update_marc_record();
         } else {
             // Creating a new project
             $this->projectid = uniqid("projectID"); // The project ID
@@ -635,6 +632,9 @@ class Project
             // values created or assigned from the database
             $this->_load_from_db($this->projectid);
         }
+
+        // Create or update the metadata file
+        $this->generate_metadata_json();
     }
 
     public function delete()
@@ -1653,160 +1653,29 @@ class Project
     // -------------------------------------------------------------------------
 
     /**
-     * Given a MARCRecord, write a dc XML document for this project
+     * Write out project's metadata to a JSON file
      */
-    public function create_dc_xml_oai($marc_record)
+    public function generate_metadata_json()
     {
-        global $charset, $site_name, $code_url;
-
-        $dirname = $this->dir;
-        $filename = "$dirname/dc.xml";
-
-        if (!is_dir($dirname)) {
-            // If the project directory doesn't exist, the project was likely
-            // deleted or posted/archived.
-            return;
+        if (!$this->dir_exists) {
+            throw new NoProjectDirectory(_("Project directory does not exist."));
         }
 
-        if (!file_exists($filename)) {
-            touch($filename);
-        }
-
-        // Encode fields for XML heredoc
-        $title = xmlencode($this->nameofwork);
-        $creator = xmlencode($this->authorsname);
-        $subject = xmlencode($marc_record->subject);
-        $description = xmlencode($marc_record->description);
-        $publisher = xmlencode($site_name);
-        $contributor = xmlencode($this->credits_line);
-        $type = xmlencode($this->genre);
-        $language = xmlencode($this->language);
-
-        $xmlpage = <<<XML
-            <?xml version="1.0" encoding="$charset" ?>
-                <dc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://purl.org/dc/elements/1.1/ http://www.openarchives.org/OAI/dc.xsd">
-                  <title>$title</title>
-                  <creator>$creator</creator>
-                  <subject>$subject</subject>
-                  <description>$description</description>
-                  <publisher>$publisher</publisher>
-                  <contributor>$contributor</contributor>
-                  <date>$marc_record->date</date>
-                  <type>$type</type>
-                  <format>XML</format>
-                  <identifier>$code_url/project.php?id=$this->projectid</identifier>
-                  <source>LCCN: $marc_record->lccn</source>
-                  <language>$language</language>
-                </dc>
-            XML;
-
-        $fp = fopen($filename, "w");
-        if ($fp) {
-            fwrite($fp, $xmlpage);
-            fclose($fp);
-        }
-    }
-
-    // MARC records for a project are saved in marc_records, one per projectid.
-    // The original_* columns hold the values returned from the YAZ search
-    // upon project creation. The updated_* columns hold updated YAZ records
-    // based on edits to the project record.
-
-    /**
-     * Populate the original_* columns for this project's MARC record
-     */
-    public function init_marc_record($marc_record)
-    {
-        $original_marc_array = $marc_record->get_yaz_array();
-
-        $sql = sprintf(
-            "
-            INSERT INTO marc_records
-            SET
-                projectid      = '%s',
-                original_array = '%s'
-            ",
-            DPDatabase::escape($this->projectid),
-            base64_encode(serialize($original_marc_array))
-        );
-    }
-
-    /**
-     * Update the updated_* columns for this project's MARC record
-     */
-    public function save_marc_record($marc_record)
-    {
-        $updated_marc_array = $marc_record->get_yaz_array();
-        $sql = sprintf(
-            "
-            UPDATE marc_records
-            SET
-                updated_array = '%s'
-            WHERE projectid = '%s'
-            ",
-            base64_encode(serialize($updated_marc_array)),
-            DPDatabase::escape($this->projectid)
-        );
-        DPDatabase::query($sql);
-
-        // Update project's Dublin Core file
-        $this->create_dc_xml_oai($marc_record);
-    }
-
-    /**
-     * Load the updated MARC record for this project
-     */
-    public function load_marc_record()
-    {
-        $updated_record = new MARCRecord();
-        $sql = sprintf(
-            "
-            SELECT updated_array
-            FROM marc_records
-            WHERE projectid = '%s'
-            ",
-            DPDatabase::escape($this->projectid)
-        );
-        $result = DPDatabase::query($sql);
-
-        $row = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
-
-        if (!$row) {
-            return $updated_record;
-        }
-
-        $updated_record->load_yaz_array(unserialize(base64_decode($row["updated_array"])));
-
-        return $updated_record;
-    }
-
-    /**
-     * Update the project's MARC record from the current Project values
-     */
-    public function update_marc_record()
-    {
-        $marc_record = $this->load_marc_record();
-
-        // Mapping of Project field names to MARC field names
-        $marc_field_map = [
-            "nameofwork" => "title",
-            "authorsname" => "author",
-            "genre" => "literary_form",
+        $metadata = [
+            "projectid" => $this->projectid,
+            "nameofwork" => $this->nameofwork,
+            "authorsname" => $this->authorsname,
+            "language" => $this->language,
+            "genre" => $this->genre,
+            "postednum" => $this->postednum,
+            "image_source" => $this->image_source,
         ];
 
-        foreach ($marc_field_map as $project_field => $marc_field) {
-            if ($this->$project_field) {
-                $marc_record->$marc_field = $this->$project_field;
-            }
-        }
-
-        // Only pull out the primary language
-        if ($this->languages) {
-            $marc_record->language = langcode3_for_langname($this->languages[0]);
-        }
-
-        $this->save_marc_record($marc_record);
+        file_put_contents("{$this->dir}/metadata.json", json_encode(
+            $metadata,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
+            JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
+        ));
     }
 
     /**

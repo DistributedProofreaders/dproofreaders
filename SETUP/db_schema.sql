@@ -119,17 +119,6 @@ CREATE TABLE `job_logs` (
 );
 
 --
--- Table structure for table `marc_records`
---
-
-CREATE TABLE `marc_records` (
-  `projectid` varchar(22) NOT NULL default '',
-  `original_array` text NOT NULL,
-  `updated_array` text NOT NULL,
-  PRIMARY KEY (`projectid`)
-);
-
---
 -- Table structure for table `news_items`
 --
 
