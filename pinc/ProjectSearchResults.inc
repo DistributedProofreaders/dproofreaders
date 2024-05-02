@@ -601,7 +601,7 @@ class ProjectSearchResults
         $sql = "
             SELECT COUNT(*)
             FROM projects
-            NATURAL JOIN genre_translations
+            NATURAL LEFT JOIN genre_translations
             LEFT JOIN project_holds
             USING (projectid, state)
             WHERE $where_condition
@@ -614,7 +614,7 @@ class ProjectSearchResults
             SELECT projects.*, genre_translations.trans_genre,
             project_holds.projectid IS NOT NULL AS hold
             FROM projects
-            NATURAL JOIN genre_translations
+            NATURAL LEFT JOIN genre_translations
             LEFT JOIN project_holds
             USING (projectid, state)
             WHERE $where_condition
