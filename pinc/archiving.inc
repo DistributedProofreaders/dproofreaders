@@ -51,6 +51,12 @@ function archive_project($project, $dry_run)
         }
     }
 
+    if ($dry_run) {
+        echo "    Write project metadata.\n";
+    } else {
+        $project->generate_metadata_json();
+    }
+
     $project_dir = $project->dir;
     $new_dir = "$archive_projects_dir/$projectid";
     if (file_exists($project_dir)) {
@@ -66,8 +72,6 @@ function archive_project($project, $dry_run)
     }
 
     archive_ancillary_data_for_project_etc($project, '        ', $dry_run);
-
-    generate_project_metadata_json($project, "$new_dir/metadata.json", $dry_run);
 
     if ($dry_run) {
         echo "    Mark project as archived.\n";
@@ -87,33 +91,6 @@ function archive_project($project, $dry_run)
 }
 
 // -----------------------------------------------------------------------------
-
-/**
- * Write out project's metadata to a JSON file within the archive
- */
-function generate_project_metadata_json($project, $filename, $dry_run)
-{
-    $metadata = [
-        "projectid" => $project->projectid,
-        "nameofwork" => $project->nameofwork,
-        "authorsname" => $project->authorsname,
-        "language" => $project->language,
-        "genre" => $project->genre,
-        "postednum" => $project->postednum,
-        "image_source" => $project->image_source,
-    ];
-
-    if ($dry_run) {
-        echo "    Write project metadata to $filename.\n";
-    } else {
-        file_put_contents($filename, json_encode(
-            $metadata,
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
-            JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
-        ))
-            or die("Error writing project metadata to $filename.");
-    }
-}
 
 /**
  * Archive the ancillary info relating to $project

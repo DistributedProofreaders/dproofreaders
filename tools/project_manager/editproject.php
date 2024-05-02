@@ -357,15 +357,6 @@ class ProjectInfoHolder
             // We're creating a new project
             $this->project->save();
 
-            // Save original MARC record, if provided
-            $yaz_array = unserialize(base64_decode($this->original_marc_array_encd));
-            if ($yaz_array !== false) {
-                $marc_record = new MARCRecord();
-                $marc_record->load_yaz_array($yaz_array);
-                $this->project->init_marc_record($marc_record);
-                $this->project->update_marc_record();
-            }
-
             // Create the project's 'good word list' and 'bad word list'.
             if (isset($this->clone_projectid)) {
                 // We're creating a project via cloning.
