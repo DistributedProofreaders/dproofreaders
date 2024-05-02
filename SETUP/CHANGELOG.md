@@ -10,6 +10,11 @@ first before upgrading to R202102 or later releases.**
 ## R??????
 Scripts supporting this upgrade are in `SETUP/upgrade/21`
 
+**This is the last release to support PHP 7.4. Future releases will only
+support PHP 8.0 and later.**
+
+* Updated minimum middleware to MySQL 8.0 (cpeel)
+
 ## R202403
 Scripts supporting this upgrade are in `SETUP/upgrade/20`
 
