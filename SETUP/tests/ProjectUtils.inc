@@ -30,9 +30,11 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         $settings->set_boolean("manager", true);
 
         create_test_user($this->TEST_USERNAME);
+        grant_user_access($this->TEST_USERNAME, "P1");
 
         // create an old user (new users $days_on_site_threshold = 21)
         create_test_user($this->TEST_OLDUSERNAME, 22);
+        grant_user_access($this->TEST_OLDUSERNAME, "P1");
 
         create_test_image_source($this->TEST_IMAGESOURCE);
 

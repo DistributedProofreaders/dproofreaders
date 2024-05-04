@@ -22,6 +22,12 @@ function create_test_user($username, $age = 0)
     }
 }
 
+function grant_user_access($username, $activity)
+{
+    $user = new User($username);
+    $user->grant_access($activity, "none");
+}
+
 function delete_test_user($username)
 {
     // Delete test user's page events
@@ -43,6 +49,20 @@ function delete_test_user($username)
     $sql = sprintf(
         "DELETE FROM current_tallies WHERE holder_id = %d",
         $user->u_id
+    );
+    DPDatabase::query($sql);
+
+    // Delete any usersettings
+    $sql = sprintf(
+        "DELETE FROM usersettings WHERE username = '%s'",
+        DPDatabase::escape($username)
+    );
+    DPDatabase::query($sql);
+
+    // Delete any access_log
+    $sql = sprintf(
+        "DELETE FROM access_log WHERE subject_username = '%s'",
+        DPDatabase::escape($username)
     );
     DPDatabase::query($sql);
 

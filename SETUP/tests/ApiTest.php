@@ -163,6 +163,9 @@ class ApiTest extends ProjectUtils
 
     public function test_get_page_data()
     {
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+
         $project = $this->_create_available_project();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $path = "v1/projects/$project->projectid/pages/001.png";
@@ -386,7 +389,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // let another user try to resume it
-        $pguser = $this->TEST_USERNAME_PM;
+        $pguser = $this->TEST_OLDUSERNAME;
         $this->resume($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out');
     }
 
@@ -517,7 +520,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // let another user return it to round
-        $pguser = $this->TEST_USERNAME_PM;
+        $pguser = $this->TEST_OLDUSERNAME;
         $this->return_to_round($project->projectid, "P1.proj_avail", "001.png", "P1.page_out");
     }
 
