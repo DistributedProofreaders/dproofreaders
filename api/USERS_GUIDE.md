@@ -295,7 +295,7 @@ curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
     -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
     > project.json
 
-PROJECT_STATE=$(cat project.json | jq -r '.state')
+PROJECT_STATE=$(cat project.json | jq -r .state)
 ```
 
 Check out a page and parse out the page name, state, and page text:
