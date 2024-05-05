@@ -8,10 +8,10 @@
 # shellcheck shell=bash disable=SC2034
 
 _DB_SERVER=localhost
-_DB_USER=dp_user
-_DB_PASSWORD=dp_password
-_DB_NAME=dp_db
-_ARCHIVE_DB_NAME=dp_archive
+_DB_USER=dp_test_user
+_DB_PASSWORD=dp_test_password
+_DB_NAME=dp_test_db
+_ARCHIVE_DB_NAME=dp_test_archive
 
 _CODE_DIR=$PWD
 _CODE_URL='http://127.0.0.1:12345'

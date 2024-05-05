@@ -16,9 +16,11 @@ final class DPDatabase
     private static $_default_db_collation = null;
     public static $skip_encoding_check = false;
 
-    public static function connect()
+    public static function connect($db_server = null, $db_name = null, $db_user = null, $db_password = null)
     {
-        include('udb_user.php');
+        if (!isset($db_server)) {
+            include('udb_user.php');
+        }
         self::$_db_name = $db_name;
 
         // Throw exceptions for DB call failures (PHP 8.1 default values)

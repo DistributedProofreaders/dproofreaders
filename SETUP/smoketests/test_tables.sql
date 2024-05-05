@@ -1,4 +1,4 @@
-USE dp_db;
+USE dp_test_db;
 SET FOREIGN_KEY_CHECKS=0;
 
 /* $p = new Project(); $p->foo = bar; $p->save() does not allow new projects
