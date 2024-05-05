@@ -5,6 +5,11 @@ $completed_projects_forum_idx, $deleted_projects_forum_idx;
 
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
+
+// Reconnect to the test DB
+DPDatabase::close();
+DPDatabase::connect("localhost", "dp_test_db", "dp_test_user", "dp_test_password");
+
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'TableDocumentation.inc');
 include_once($relPath.'../api/v1.inc');
