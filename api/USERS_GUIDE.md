@@ -282,3 +282,58 @@ current holds for the project:
     "P1.proj_avail"
 ]
 ```
+
+### Proofreading
+
+The proofreading APIs require retaining and passing in state information. The
+following examples use [jq](https://jqlang.github.io/jq/) to parse responses
+and store them as environment variables.
+
+Get a project's details and parse out the project state:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
+    > project.json
+
+PROJECT_STATE=$(cat project.json | jq -r '.state')
+```
+
+Check out a page and parse out the page name, state, and page text:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/checkout?state=$PROJECT_STATE" \
+    > proof_page.json
+
+PAGE_NAME=$(cat proof_page.json | jq -r .pagename)
+PAGE_STATE=$(cat proof_page.json | jq -r .pagestate)
+cat proof_page.json | jq '{text}' > page_text.json
+```
+
+Validate the page text doesn't have any weird characters:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/validatetext" \
+    -d @page_text.json
+```
+
+Save the page as in-progress:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/$PAGE_NAME?state=$PROJECT_STATE&pagestate=$PAGE_STATE&pageaction=save" \
+    -d @page_text.json
+```
+
+Get the current page state:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/$PAGE_NAME" \
+    > page_info.json
+
+PAGE_STATE=$(cat page_info.json | jq -r .pagestate)
+```
+
+Save the page as done:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/$PAGE_NAME?state=$PROJECT_STATE&pagestate=$PAGE_STATE&pageaction=checkin"
+```
