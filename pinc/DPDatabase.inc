@@ -11,11 +11,11 @@ class DBQueryError extends Exception
 final class DPDatabase
 {
     private static $_connection = false;
-    private static $_db_name = null;
-    private static $_default_db_charset = null;
-    private static $_default_db_collation = null;
-    public static $skip_encoding_check = false;
-    public static $tracing_log = null;
+    private static ?string $_db_name = null;
+    private static ?string $_default_db_charset = null;
+    private static ?string $_default_db_collation = null;
+    public static bool $skip_encoding_check = false;
+    public static ?string $tracing_log = null;
 
     public static function connect()
     {
@@ -78,17 +78,17 @@ final class DPDatabase
         return self::$_connection;
     }
 
-    public static function escape($value)
+    public static function escape(?string $value): string
     {
         return mysqli_real_escape_string(self::$_connection, $value);
     }
 
-    public static function escape_like_wildcards($value)
+    public static function escape_like_wildcards(?string $value): string
     {
         return addcslashes($value, "%_");
     }
 
-    public static function query($sql, $throw_on_failure = true, $log_on_failure = true)
+    public static function query(string $sql, bool $throw_on_failure = true, bool $log_on_failure = true)
     {
         try {
             $result = mysqli_query(self::$_connection, $sql);
@@ -112,7 +112,7 @@ final class DPDatabase
         return mysqli_affected_rows(self::$_connection);
     }
 
-    public static function log_error($backtrace_level = 0)
+    public static function log_error(int $backtrace_level = 0): string
     {
         // Log the SQL error to the PHP error log and return a generic error
         // for display to the user
@@ -141,7 +141,7 @@ final class DPDatabase
         mysqli_free_result($result);
     }
 
-    public static function get_default_db_charset()
+    public static function get_default_db_charset(): string
     {
         if (!self::$_default_db_charset) {
             self::get_db_defaults();
@@ -149,7 +149,7 @@ final class DPDatabase
         return self::$_default_db_charset;
     }
 
-    public static function get_default_db_collation()
+    public static function get_default_db_collation(): string
     {
         if (!self::$_default_db_collation) {
             self::get_db_defaults();
@@ -157,7 +157,7 @@ final class DPDatabase
         return self::$_default_db_collation;
     }
 
-    public static function is_table_utf8($table_name)
+    public static function is_table_utf8(string $table_name): bool
     {
         $sql = sprintf(
             "
@@ -176,7 +176,7 @@ final class DPDatabase
         return stripos($table_encoding, 'utf8mb4') === 0;
     }
 
-    public static function does_table_exist($table_name)
+    public static function does_table_exist(string $table_name): bool
     {
         $sql = sprintf(
             "
@@ -191,7 +191,7 @@ final class DPDatabase
         return mysqli_fetch_assoc($result) !== null;
     }
 
-    private static function log_trace($sql)
+    private static function log_trace(string $sql)
     {
         if (!DPDatabase::$tracing_log) {
             return;
