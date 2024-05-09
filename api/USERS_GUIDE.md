@@ -292,7 +292,7 @@ and store them as environment variables.
 Get a project's details and parse out the project state:
 ```bash
 curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
-    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
+    -X GET "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1" \
     > project.json
 
 PROJECT_STATE=$(cat project.json | jq -r .state)
@@ -335,5 +335,6 @@ PAGE_STATE=$(cat page_info.json | jq -r .pagestate)
 Save the page as done:
 ```bash
 curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
-    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/$PAGE_NAME?state=$PROJECT_STATE&pagestate=$PAGE_STATE&pageaction=checkin"
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/pages/$PAGE_NAME?state=$PROJECT_STATE&pagestate=$PAGE_STATE&pageaction=checkin" \
+    -d @page_text.json
 ```
