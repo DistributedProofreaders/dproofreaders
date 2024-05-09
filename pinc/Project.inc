@@ -634,7 +634,12 @@ class Project
         }
 
         // Create or update the metadata file
-        $this->generate_metadata_json();
+        try {
+            $this->generate_metadata_json();
+        } catch (NoProjectDirectory $exception) {
+            // this is likely because the project has been deleted, either way
+            // continue instead of failing
+        }
     }
 
     public function delete()
