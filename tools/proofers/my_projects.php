@@ -18,6 +18,7 @@ if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
         die("Invalid username.");
     }
 }
+$focus_user = new User($username);
 
 [$round_view_options, $pool_view_options] = get_view_options($username);
 [$round_column_specs, $pool_column_specs] = get_table_column_specs();
@@ -143,6 +144,18 @@ if (mysqli_num_rows($res) == 0) {
             $n_available_pages = $row->n_available_pages;
             $percent_done = $row->percent_done;
             $days_checkedout = $row->days_checkedout;
+        }
+
+        // for the Available tab, confirm that the user can actually work in
+        // them accounting for the project reserve.
+        if ($round_view == "available") {
+            $project = new Project($projectid);
+            try {
+                $round = Rounds::get_by_project_state($project->state);
+                validate_user_against_project_reserve($focus_user, $project, $round);
+            } catch (Exception $exception) {
+                continue;
+            }
         }
 
         echo "<tr>\n";
@@ -433,17 +446,17 @@ function get_sort_options($colspecs)
 function get_view_options($username)
 {
     $round_view_options = [
+        "available" => [
+            "label" => _("Available"),
+            "text_self" => _("All projects in which you have proofread or formatted a page that are currently available for you to work in again."),
+            "text_other" => sprintf(_("All projects in which %s has proofread or formatted a page that are currently available for them to work in again."), $username),
+            "text_none" => _("No previously proofread or formatted projects are currently available."),
+        ],
         "recent" => [
             "label" => _("Recent"),
             "text_self" => _("Projects in which you have proofread or formatted a page in the past 100 days."),
             "text_other" => sprintf(_("Projects in which %s proofread or formatted a page in the past 100 days."), $username),
             "text_none" => _("No recent projects found."),
-        ],
-        "available" => [
-            "label" => _("Available"),
-            "text_self" => _("All projects currently available in which you have proofread or formatted a page."),
-            "text_other" => sprintf(_("All projects currently available in which %s has proofread or formatted a page."), $username),
-            "text_none" => _("No previously proofread or formatted projects are currently available."),
         ],
         "active" => [
             "label" => _("Active"),
@@ -564,8 +577,6 @@ function show_headings($colspecs, $sorting, $username, $sort_name, $anchor)
 
 function get_round_query_result($round_view, $round_sort, $round_column_specs, $username)
 {
-    global $avail_states;
-
     [$order_col, $order_dir] = get_sort_col_and_dir($round_sort);
     $sql_order = sql_order_spec($round_column_specs, $order_col, $order_dir);
 
@@ -577,6 +588,15 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
     }
 
     if ($round_view == "available") {
+        // create an array of available states for rounds the user can work in
+        // and select on those
+        $avail_states = [];
+        foreach (get_stages_user_can_work_in($username) as $stage) {
+            if (Rounds::get_by_id($stage->id)) {
+                $avail_states[] = $stage->project_available_state;
+            }
+        }
+
         $avail_state_clause = sprintf(
             "AND projects.state in (%s)",
             surround_and_join($avail_states, "'", "'", ',')
