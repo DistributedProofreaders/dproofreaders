@@ -332,7 +332,7 @@ function makeImageWidget(container, align = "C") {
     let cosine = 1;
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
-    let contentWidth, imageWidth, imDivWidth, vertOffset;
+    let contentWidth, contentHeight, imageWidth, imDivWidth, vertOffset;
 
     function setImageStyle() {
         // To allow scrolling when image does not overflow the window
@@ -343,7 +343,7 @@ function makeImageWidget(container, align = "C") {
         // (2 * windowWidth + imageWidth): scroll to far edges,
         // similarly for vertical
         contentWidth = parseFloat(getComputedStyle(content).width);
-        const contentHeight = parseFloat(getComputedStyle(content).height);
+        contentHeight = parseFloat(getComputedStyle(content).height);
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
         let imageHeight, xOffset, yOffset, imDivHeight;
@@ -402,19 +402,23 @@ function makeImageWidget(container, align = "C") {
             percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
-        setImageStyle();
     }
 
     function setDrawSave() {
         setZoom();
+        setImageStyle();
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     function reScroll () {
-        // keep same scroll proportion when contentWidth changes
-        let oldScroll = (contentWidth > 20) ? content.scrollLeft / contentWidth : 0.5;
+        // keep image stationary when window changes size
+        // x is distance of left edge of image to left of window etc.
+        let x = contentWidth - content.scrollLeft;
+        let y = contentHeight - content.scrollTop;
         setImageStyle();
-        content.scrollLeft = oldScroll * contentWidth;
+        // contentWidth and height have changed
+        content.scrollLeft = contentWidth - x;
+        content.scrollTop = contentHeight - y;
     }
 
     percentInput.change(function() {
@@ -510,6 +514,8 @@ function makeImageWidget(container, align = "C") {
             setZoom();
             controlDiv.setupControls(imageWidgetKey);
         },
+
+        initAll,
 
         setImage: function (src) {
             sine = 0;

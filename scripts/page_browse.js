@@ -234,7 +234,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                                 textWidget = makeTextWidget(textDiv);
                             }
                             theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
-                            theSplitter.setSplitDirCallback.push(imageWidget.setup, textWidget.setup);
+                            theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
+                            theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
                             controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
                             theSplitter.fireSetSplitDir();
                             break;
