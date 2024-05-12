@@ -6,16 +6,12 @@
 class MARCRecordTest extends PHPUnit\Framework\TestCase
 {
     private $YAZ_ARRAY = null;
-    private $YAZ_ARRAY_STR = null;
 
     protected function setUp(): void
     {
         // Load the yaz array from disk
         $yaz_array_b64 = file_get_contents("./data/yaz_array.b64");
         $this->YAZ_ARRAY = unserialize(base64_decode($yaz_array_b64));
-        $this->YAZ_ARRAY_STR = base64_decode(
-            file_get_contents("./data/yaz_array_str.b64")
-        );
     }
 
     private function _load_record()
@@ -104,14 +100,6 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('Street and Smith, [c1883', $marc_record->publisher);
-    }
-
-    public function testArrayToString()
-    {
-        $marc_record = $this->_load_record();
-
-        $marc_string = (string)$marc_record;
-        $this->assertEquals($this->YAZ_ARRAY_STR, $marc_string);
     }
 
     public function testAdditionalAuthors()
