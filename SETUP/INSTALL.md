@@ -416,16 +416,6 @@ It's also suggested that you use
 to have the wiki authenticate against phpBB for a single source of user
 credentials.
 
-WARNING: If your site ran phpBB 2.x with the MediaWiki_PHPBB_Auth extension
-at some point in the past, you must patch the extension after installing it!
-The extension for phpBB 2.x created MediaWiki usernames that matched the
-capitalization of those from phpBB. The extension for phpBB 3.0 uses the new
-`username_clean` column which, among other things, lowercases the phpBB
-usernames in the wiki. Without the patch, users with capital letters in their
-names will get a new wiki account differing only in capitalization upon log-in.
-Apply the included `MediaWiki_PHPBB_Auth.patch` to the `extensions/`
-subdirectory after installing the extension.
-
 ### Define a site administrator
 The code is based on users having particular roles. To manage these,
 a site administrator is needed. Assuming you are administering the
