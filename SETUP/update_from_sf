@@ -1,7 +1,0 @@
-#!/bin/sh
-
-echo "The dproofreaders source code has moved to github.com:"
-echo "    https://github.com/DistributedProofreaders/dproofreaders"
-echo "Use update_from_github to fetch new code."
-
-exit 1
