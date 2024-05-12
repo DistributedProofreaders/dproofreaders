@@ -44,7 +44,7 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
         $holder_id = intval($row['holder_id']);
 
         if ($progress_index % 100 == 0) {
-            echo "    last holder_id $holder_id\n";
+            echo sprintf("    %s: holder_id %d\n", $progress_index, $holder_id);
         }
 
         // time how long the delete takes and sleep for the same amount of time
@@ -65,7 +65,7 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
         );
         DPDatabase::query($sql);
         $watch->stop();
-        sleep($watch->read());
+        sleep(round($watch->read()));
         $progress_index += 1;
     }
 }
