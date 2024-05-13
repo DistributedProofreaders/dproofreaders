@@ -750,7 +750,7 @@ function _install_bad_sequence($bytes, $code_point, $why_bad)
 
     if (!preg_match($_anchored_bad_bytes_regex, $bytes)) {
         $hex = string_to_hex($bytes);
-        die("$hex ($code_point $why_bad) is not covered by \$_bad_bytes_pattern\n");
+        throw new UnexpectedValueException("$hex ($code_point $why_bad) is not covered by \$_bad_bytes_pattern\n");
     }
 
     $_bad_byte_sequences[$bytes] = [$code_point, $why_bad];

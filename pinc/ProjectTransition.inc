@@ -143,7 +143,7 @@ class ProjectTransition
             }
         }
 
-        die("transition has bad 'restriction' value: '$simple_who_restriction'");
+        throw new UnexpectedValueException("transition has bad 'restriction' value: '$simple_who_restriction'");
     }
 
     /**

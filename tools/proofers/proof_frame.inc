@@ -23,6 +23,6 @@ function echo_proof_frame($ppage)
             break;
 
         default:
-            die("unknown i_type: '$interface_type'");
+            throw new UnexpectedValueException("unknown i_type: '$interface_type'");
     }
 }

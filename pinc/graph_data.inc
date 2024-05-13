@@ -81,7 +81,7 @@ function user_logging_on($past, $preceding)
             break;
 
         default:
-            die("bad value for 'past'");
+            throw new UnexpectedValueException("bad value for 'past'");
     }
 
     switch ($preceding) {
@@ -106,7 +106,7 @@ function user_logging_on($past, $preceding)
             break;
 
         default:
-            die("bad value for 'preceding'");
+            throw new UnexpectedValueException("bad value for 'preceding'");
     }
 
     ///////////////////////////////////////////////////
@@ -614,7 +614,7 @@ function pages_daily(string $tally_name, string $c_or_i, string $timeframe)
             break;
 
         default:
-            die("bad 'timeframe' value: '$timeframe'");
+            throw new UnexpectedValueException("bad 'timeframe' value: '$timeframe'");
     }
 
     switch ($c_or_i) {
@@ -627,7 +627,7 @@ function pages_daily(string $tally_name, string $c_or_i, string $timeframe)
             break;
 
         default:
-            die("bad 'cori' value: '$c_or_i'");
+            throw new UnexpectedValueException("bad 'cori' value: '$c_or_i'");
     }
 
     $days_to_average = 21;
@@ -714,7 +714,7 @@ function _get_project_state_selector($which, $desired_states = null)
         return $sql;
     }
 
-    die("bad value for 'which': '$which'");
+    throw new UnexpectedValueException("bad value for 'which': '$which'");
 }
 
 function get_round_backlog_stats($interested_phases)

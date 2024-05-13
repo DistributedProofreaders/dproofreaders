@@ -20,6 +20,6 @@ function can_reveal_details_about($username, $user_privacy_setting)
 
         default:
             // Shouldn't happen.
-            die("can_reveal_details_about(): bad privacy setting: '$user_privacy_setting'");
+            throw new UnexpectedValueException("can_reveal_details_about(): bad privacy setting: '$user_privacy_setting'");
     }
 }

@@ -216,7 +216,7 @@ function page_info_query($projectid, $limit_round_id, $which_text)
     } else {
         $limit_round = get_Round_for_round_id($limit_round_id);
         if (is_null($limit_round)) {
-            die("'$limit_round_id' is not a valid round-id\n");
+            throw new UnexpectedValueException("'$limit_round_id' is not a valid round-id\n");
         }
 
         if ($which_text == 'EQ') {
@@ -258,7 +258,7 @@ function page_info_query($projectid, $limit_round_id, $which_text)
             $text_column_expr .= " ELSE master_text";
             $text_column_expr .= " END";
         } else {
-            die("bad value for which_text: '$which_text'");
+            throw new UnexpectedValueException("bad value for which_text: '$which_text'");
         }
 
         $user_fields = "";

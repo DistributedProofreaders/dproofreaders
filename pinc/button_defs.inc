@@ -25,7 +25,7 @@ function echo_button($button_id, $which_interface)
     } elseif ($which_interface == 'a') {
         $label = 'alt';
     } else {
-        die("echo_button: bad which_interface arg: '$which_interface'");
+        throw new UnexpectedValueException("echo_button: bad which_interface arg: '$which_interface'");
     }
 
     switch ($button_id) {

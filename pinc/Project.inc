@@ -245,7 +245,7 @@ class Project
             $this->_create_source = "empty";
         } else {
             $arg_type = gettype($arg);
-            die("Project::Project(): 'arg' has unexpected type $arg_type");
+            throw new InvalidArgumentException("Project::Project(): 'arg' has unexpected type $arg_type");
         }
     }
 

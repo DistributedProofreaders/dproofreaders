@@ -239,7 +239,7 @@ function qp_text_contains_anticipated_error($text, $test)
             break;
 
         default:
-            die("test-type '{$test['type']}' not recognized");
+            throw new UnexpectedValueException("test-type '{$test['type']}' not recognized");
 
     }
 
@@ -583,16 +583,16 @@ function qp_echo_hint_html($message_id, $hint_number)
     global $messages;
 
     if (!isset($messages[$message_id])) {
-        die("supplied message-id ($message_id) is not valid");
+        throw new UnexpectedValueException("supplied message-id ($message_id) is not valid");
     }
 
     if (!isset($messages[$message_id]["hints"])) {
-        die("The specified message ($message_id) does not have any hints.");
+        throw new UnexpectedValueException("The specified message ($message_id) does not have any hints.");
     }
 
     $max_hint_number = count($messages[$message_id]["hints"]) - 1;
     if ($hint_number > $max_hint_number) {
-        die("supplied hint-number ($hint_number) is greater than the maximum $max_hint_number");
+        throw new UnexpectedValueException("supplied hint-number ($hint_number) is greater than the maximum $max_hint_number");
     }
 
     $hint = $messages[$message_id]["hints"][$hint_number];

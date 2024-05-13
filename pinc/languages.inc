@@ -227,7 +227,7 @@ function set_locale_translation_enabled($locale, $enable)
     $enabled_file = "$translation_base/enabled";
 
     if (!is_dir($translation_base)) {
-        die(sprintf(_("Locale translation %s not installed"), $locale));
+        throw new RuntimeException(sprintf(_("Locale translation %s not installed"), $locale));
     }
 
     if ($enable && !is_file($enabled_file)) {
