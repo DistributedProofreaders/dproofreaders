@@ -200,7 +200,9 @@ class ProjectTransition
         global $testing;
 
         // make sure this transition is valid
-        assert($this->is_valid_for($project, $who));
+        if (!$this->is_valid_for($project, $who)) {
+            throw new Exception("User '$who' is not authorized for this transition.");
+        }
 
         $projectid = $project->projectid;
 
