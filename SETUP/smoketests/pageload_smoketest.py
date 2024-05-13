@@ -83,7 +83,7 @@ MISC_TESTS = [
 
 QUIZ_TESTS = [
     {'path': 'quiz/start.php'},
-    {'path': 'quiz/generic/hints.php?quiz_page_id=p_greek_4&error=G_n_u&number=1'},
+    {'path': 'quiz/generic/hints.php?quiz_page_id=p_basicx_2&error=arid&number=1'},
     {'path': 'quiz/generic/main.php?quiz_page_id=p_greek_1'},
     {'path': 'quiz/generic/orig.php?quiz_page_id=p_greek_2'},
     {'path': 'quiz/generic/proof.php?quiz_page_id=p_greek_3'},

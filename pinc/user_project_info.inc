@@ -97,7 +97,7 @@ function get_label_for_event($event)
     $subscribable_project_events = get_subscribable_project_events();
     $label = @$subscribable_project_events[$event];
     if (is_null($label)) {
-        die("Unknown event: '$event'");
+        throw new UnexpectedValueException("Unknown event: '$event'");
     }
     return $label;
 }

@@ -21,7 +21,7 @@ function archive_project($project, $dry_run)
     global $archive_projects_dir, $archive_db_name;
 
     if (!is_dir($archive_projects_dir)) {
-        die("Error: archive directory $archive_projects_dir does not exist.\n");
+        throw new RuntimeException("Error: archive directory $archive_projects_dir does not exist.\n");
     }
 
     $projectid = $project->projectid;
@@ -65,7 +65,9 @@ function archive_project($project, $dry_run)
         } else {
             // Remove uncompressed versions of whole-project texts, leaving zips.
             exec("rm $project_dir/projectID*.txt");
-            rename($project_dir, $new_dir) or die("Unable to move $project_dir to $new_dir");
+            if (!rename($project_dir, $new_dir)) {
+                throw new RuntimeException("Unable to move $project_dir to $new_dir");
+            }
         }
     } else {
         echo "    Warning: $project_dir does not exist.\n";

@@ -388,7 +388,7 @@ function get_project_status_descriptor(string $which): object
             break;
 
         default:
-            die(html_safe("bad value for 'which': '$which'"));
+            throw new UnexpectedValueException(html_safe("bad value for 'which': '$which'"));
     }
 
     return $obj;

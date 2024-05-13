@@ -1195,7 +1195,7 @@ function get_all_words_in_text($text, $with_offsets = false)
     $flags = $with_offsets ? PREG_OFFSET_CAPTURE : 0;
     $n_matches = preg_match_all($word_pattern, $text, $matches, $flags);
     if ($n_matches === false) {
-        die("get_all_words_in_text: An error occurred.");
+        throw new UnexpectedValueException("get_all_words_in_text: An error occurred.");
     }
 
     if ($with_offsets) {

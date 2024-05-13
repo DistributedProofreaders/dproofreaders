@@ -36,7 +36,7 @@ class ThemedTable
                     $subtitle = $option_value;
                     break;
                 default:
-                    die("ThemedTable created with invalid option: '$option_name'");
+                    throw new UnexpectedValueException("ThemedTable created with invalid option: '$option_name'");
             }
         }
 

@@ -321,7 +321,7 @@ class Activity
                     break;
 
                 default:
-                    die("bad after_satisfying_minima value: '$this->after_satisfying_minima'");
+                    throw new UnexpectedValueException("bad after_satisfying_minima value: '$this->after_satisfying_minima'");
             }
         } else {
             // They don't satisfy the requirements
@@ -480,7 +480,7 @@ function show_user_access_object($uao, $will_autogrant = false)
             break;
 
         default:
-            die("bad request_status '$uao->request_status'");
+            throw new UnexpectedValueException("bad request_status '$uao->request_status'");
     }
 
     if (!empty($request_status_string)) {
@@ -509,7 +509,7 @@ function show_user_access_chart($username)
     global $ACCESS_CRITERIA, $code_url;
 
     if (is_null($username)) {
-        die('show_user_access_chart: $username is null');
+        throw new UnexpectedValueException('show_user_access_chart: $username is null');
     }
 
     [$allow_grant, $allow_revoke] = user_can_modify_access_of($username);
@@ -635,7 +635,7 @@ function show_user_access_chart($username)
 
 
             default:
-                die("bad request_status '$uao->request_status'");
+                throw new UnexpectedValueException("bad request_status '$uao->request_status'");
         }
         echo "</td>";
 
