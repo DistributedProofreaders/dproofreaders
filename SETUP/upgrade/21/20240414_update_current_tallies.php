@@ -17,11 +17,12 @@ $sql = "
 
 mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
 
-// The "IF NOT EXISTS" allows the script to be re-run easily if necessary
 $sql = "
-    CREATE TABLE IF NOT EXISTS `tally_snapshot_times` (
+    CREATE TABLE `tally_snapshot_times` (
+      `tally_name` char(2) NOT NULL default '',
+      `holder_type` char(1) NOT NULL default '',
       `timestamp` int(10) unsigned NOT NULL default '0',
-      PRIMARY KEY (`timestamp`)
+      PRIMARY KEY (`tally_name`, `holder_type`, `timestamp`)
     )
 ";
 
@@ -62,7 +63,6 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
             "
             UPDATE current_tallies
             SET
-                last_snap_timestamp = %d,
                 last_snap_tally_value = %d,
                 last_snap_tally_delta = %d
             WHERE
@@ -70,7 +70,6 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
                 AND holder_type = '%s'
                 AND holder_id = %d
             ",
-            $row['timestamp'],
             $row['tally_value'],
             $row['tally_delta'],
             DPDatabase::escape($tally_name),
@@ -80,57 +79,41 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
         DPDatabase::query($sql);
         $progress_index += 1;
     }
-}
 
-// Keep track of all the timestamps we've seen and inserted into
-// tally_snapshot_times so far.
-$found_timestamps = [];
-
-// Create a list of distinct tally names for holder_type = 'S'
-$tally_names = [];
-foreach (get_all_current_tallyboards() as $tallyboard) {
-    if ($tallyboard->holder_type == 'S') {
-        $tally_names[] = $tallyboard->tally_name;
-    }
-}
-array_unique($tally_names);
-
-foreach ($tally_names as $tally_name) {
-    echo "Finding distinct timestamps for site tally_name $tally_name\n";
-    $holder_type = 'S';
-    $holder_id = 1;
-
+    echo "    Finding distinct timestamps...\n";
     $sql = sprintf(
         "
         SELECT DISTINCT timestamp
         FROM past_tallies
-        WHERE tally_name = '%s' AND holder_type = '%s' AND holder_id = 1
+        WHERE tally_name = '%s' AND holder_type = '%s'
         ",
         DPDatabase::escape($tally_name),
         DPDatabase::escape($holder_type),
     );
-
     $res = DPDatabase::query($sql);
+
+    echo "    Inserting them into tally_snapshot_times...\n";
     while ($row = mysqli_fetch_assoc($res)) {
         $timestamp = $row['timestamp'];
-        if (isset($found_timestamps[$timestamp])) {
-            continue;
-        }
 
         // we handle duplicates in case this script was restarted
         $sql = sprintf(
             "
             INSERT INTO tally_snapshot_times
             SET
+                tally_name = '%s',
+                holder_type = '%s',
                 timestamp = %d
             ON DUPLICATE KEY UPDATE
+                tally_name = tally_name,
+                holder_type = holder_type,
                 timestamp = timestamp
             ",
+            DPDatabase::escape($tally_name),
+            DPDatabase::escape($holder_type),
             $timestamp
         );
         DPDatabase::query($sql);
-
-        $found_timestamps[$timestamp] = 1;
     }
 }
 

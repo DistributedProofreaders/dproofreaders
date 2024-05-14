@@ -35,7 +35,7 @@
 //                  per snapshot with a non-zero tally_delta
 //
 // And one table to track all of the snapshot times:
-// * tally_snapshot_times - records all the snapshot times
+// * tally_snapshot_times - records all the snapshot times per tally_name/holder_type
 // -----------------------------------------------------------------------------
 
 /**
@@ -400,14 +400,12 @@ class TallyBoard
             "
             UPDATE current_tallies
             SET
-                last_snap_timestamp = %d,
                 last_snap_tally_delta = tally_value - last_snap_tally_value,
                 last_snap_tally_value = tally_value
             WHERE
                 tally_name  = '%s'
                 AND holder_type = '%s'
             ",
-            $ascribe_time,
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
         );
@@ -443,13 +441,14 @@ class TallyBoard
                     "
                     INSERT INTO past_tallies
                     SET
-                        timestamp   = $ascribe_time,
+                        timestamp   = %d,
                         tally_name  = '%s',
                         holder_type = '%s',
                         holder_id   = %d,
                         tally_delta = %d,
                         tally_value = %d
                     ",
+                    $ascribe_time,
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type),
                     $holder_id,
@@ -495,10 +494,12 @@ class TallyBoard
             "
             INSERT INTO tally_snapshot_times
             SET
+                tally_name = '%s',
+                holder_type = '%s',
                 timestamp = %d
-            ON DUPLICATE KEY UPDATE
-                timestamp = timestamp
             ",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             $ascribe_time
         );
         DPDatabase::query($sql);
@@ -514,8 +515,8 @@ class TallyBoard
     {
         $sql = sprintf(
             "
-            SELECT MAX(last_snap_timestamp) as max_timestamp
-            FROM current_tallies
+            SELECT MAX(timestamp) as max_timestamp
+            FROM tally_snapshot_times
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
@@ -552,7 +553,6 @@ class TallyBoard
         $sql = sprintf(
             "
             SELECT
-                last_snap_timestamp as timestamp,
                 last_snap_tally_delta as tally_delta,
                 last_snap_tally_value as tally_value
             FROM current_tallies
@@ -575,14 +575,12 @@ class TallyBoard
             //     his delta would have been zero, and also
             //     his rank would have been zero (null rank).
 
-            $timestamp = $this->get_time_of_latest_snapshot(0);
-
             $info = [
-                'timestamp' => $timestamp,
                 'tally_delta' => 0,
                 'tally_value' => 0,
             ];
         }
+        $info["timestamp"] = $this->get_time_of_latest_snapshot(0);
 
         return $info;
     }
@@ -681,9 +679,15 @@ class TallyBoard
             "
             SELECT timestamp
             FROM tally_snapshot_times
-            WHERE timestamp >= %d $addl_where
+            WHERE
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND timestamp  >= %d
+                $addl_where
             ORDER BY timestamp ASC
             ",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
             $min_timestamp
         );
         $result = DPDatabase::query($sql);
@@ -717,16 +721,6 @@ class TallyBoard
             $delta_at_[$timestamp] = $tally_delta;
         }
 
-        // remove all the zero tally_deltas at the beginning as the first
-        // non-zero entry is the first actual start, regardless when other
-        // snapshots started
-        foreach ($delta_at_ as $timestamp => $tally_delta) {
-            if ($tally_delta == 0) {
-                unset($delta_at_[$timestamp]);
-            } else {
-                break;
-            }
-        }
         return $delta_at_;
     }
 

@@ -70,7 +70,6 @@ CREATE TABLE `current_tallies` (
   `holder_type` char(1) NOT NULL default '',
   `holder_id` int(6) unsigned NOT NULL default '0',
   `tally_value` int(8) NOT NULL default '0',
-  `last_snap_timestamp` int unsigned NOT NULL DEFAULT '0',
   `last_snap_tally_delta` int NOT NULL DEFAULT '0',
   `last_snap_tally_value` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`tally_name`,`holder_type`,`holder_id`)
@@ -420,8 +419,10 @@ CREATE TABLE `special_days` (
 --
 
 CREATE TABLE `tally_snapshot_times` (
+  `tally_name` char(2) NOT NULL default '',
+  `holder_type` char(1) NOT NULL default '',
   `timestamp` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY (`timestamp`)
+  PRIMARY KEY (`tally_name`, `holder_type`, `timestamp`)
 );
 
 --
