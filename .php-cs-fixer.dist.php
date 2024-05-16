@@ -11,7 +11,8 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 $config = new PhpCsFixer\Config();
-return $config->setRules([
+$config->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
+$config->setRules([
         '@PSR12' => true,
         '@PHP74Migration' => true,
         // PHP tags
@@ -39,6 +40,7 @@ return $config->setRules([
         'no_useless_return' => true,
         'no_mixed_echo_print' => ['use' => 'echo'],
         'method_chaining_indentation' => true,
-    ])
-    ->setFinder($finder)
-;
+]);
+
+$config->setFinder($finder);
+return $config;
