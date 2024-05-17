@@ -1280,9 +1280,17 @@ header #search-menu,
   font-size: 1.2em;
   color: black;
 }
+header #search-menu a:link,
+#header #search-menu a:link,
+header #search-menu a:visited,
+#header #search-menu a:visited,
+header #search-menu a:active,
+#header #search-menu a:active {
+  color: black;
+}
 header #search-menu-input,
 #header #search-menu-input {
-  width: 90%;
+  width: 80%;
   font-size: 1em;
   border-radius: 8px;
   border: solid thin #404040;
@@ -2971,6 +2979,14 @@ header #logo-img,
 header #search-menu,
 #header #search-menu {
   color: #cdcdcd;
+}
+header #search-menu a:link,
+#header #search-menu a:link,
+header #search-menu a:visited,
+#header #search-menu a:visited,
+header #search-menu a:active,
+#header #search-menu a:active {
+  color: #bcbcbc;
 }
 header .icon-menu-item,
 #header .icon-menu-item {
