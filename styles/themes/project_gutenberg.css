@@ -1280,9 +1280,17 @@ header #search-menu,
   font-size: 1.2em;
   color: #336633;
 }
+header #search-menu a:link,
+#header #search-menu a:link,
+header #search-menu a:visited,
+#header #search-menu a:visited,
+header #search-menu a:active,
+#header #search-menu a:active {
+  color: #336633;
+}
 header #search-menu-input,
 #header #search-menu-input {
-  width: 90%;
+  width: 80%;
   font-size: 1em;
   border-radius: 8px;
   border: solid thin #d3d3d3;
