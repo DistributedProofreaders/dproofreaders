@@ -3,7 +3,6 @@ $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
-include_once($relPath.'User.inc');
 
 require_login();
 
@@ -15,12 +14,10 @@ if ($query == "help") {
 }
 
 if ($query !== "") {
-    // try a jump search first, as we want to prefer the built-in jump
-    // search strings over usernames that might conflict
+    // try a jump search first
     jump_search($query);
 
-    // try a smart search -- usernames can't contain ':' so these will
-    // never conflict
+    // try a smart search
     smart_search($query);
 
     try {
@@ -51,7 +48,6 @@ echo "<p>" . _("Site search attempts to figure out what you're looking for and g
 
 echo "<ul>";
 echo "<li>" . _("Enter a projectID to go to the project's page.") . "</li>";
-echo "<li>" . _("Enter a username to go to the user's statistics page.") . "</li>";
 echo "<li>" . sprintf(
     _("Enter an activity (%s) to go to the activity's page."),
     surround_and_join(array_keys(get_activity_jumps()), "<kbd>", "</kbd>", ", ")
@@ -303,14 +299,6 @@ function smart_search(string $query)
         new Project($query);
         metarefresh(0, "$code_url/project.php?id=$query");
     } catch (NonexistentProjectException $e) {
-        // pass
-    }
-
-    // is it a valid username?
-    try {
-        $user = new User($query);
-        metarefresh(0, "$code_url/stats/members/mdetail.php?id=$user->u_id");
-    } catch (NonexistentUserException $e) {
         // pass
     }
 
