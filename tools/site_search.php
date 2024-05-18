@@ -23,8 +23,6 @@ if ($query !== "") {
     try {
         // try a prefix search
         prefix_search($query);
-
-        $message = sprintf(_("Not sure what to do with '%s', maybe try one of the prefixes below."), $query);
     } catch (Exception $exception) {
         $message = sprintf(_("The input for your prefix search was invalid: %s"), $exception->getMessage());
     }
@@ -43,6 +41,22 @@ echo "<form>";
 echo "<input type='text' name='q' value='" . attr_safe($query) . "'> ";
 echo "<input type='submit' value='" . attr_safe(_("Search")) . "'>";
 echo "</form>";
+
+if ($query && $query != "help") {
+    echo "<p class='warning'>" . sprintf(_("Not sure what to do with '%s', perhaps try one of these."), html_safe($query)) . "</p>";
+    echo "<ul>";
+    foreach (get_prefix_searches(false) as $prefix => $details) {
+        echo sprintf(
+            "<li><a href='%s'>%s</a> (<kbd>%s:%s</kbd>)</li>",
+            attr_safe(sprintf("?q=%s:%s", $prefix, urlencode($query))),
+            $details["desc"],
+            $prefix,
+            html_safe($query)
+        );
+    }
+    echo "</ul>";
+    echo "<hr>";
+}
 
 echo "<p>" . _("Site search attempts to figure out what you're looking for and get you to it quickly.") . "</p>";
 
