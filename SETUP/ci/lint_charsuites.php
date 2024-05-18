@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-$relPath = "../pinc/";
+$relPath = "../../pinc/";
 // Load composer autoloader
 // Note: We do this instead of including base.inc to make the CI easier
 //       and we don't need the database.

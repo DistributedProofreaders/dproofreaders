@@ -53,7 +53,7 @@ jobs:
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
       - name: Lint PHP code
-        run: make -C SETUP lint_code
+        run: make -C SETUP/ci lint_code
       - name: Run JS lint
         run: npm run lint
       - name: Run PHP-CS-Fixer and confirm no changes
@@ -91,15 +91,15 @@ jobs:
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
       - name: Run security checks
-        run: make -C SETUP security_checks
+        run: make -C SETUP/ci security_checks
       - name: Run charsuite checks
-        run: make -C SETUP lint_charsuites
+        run: make -C SETUP/ci lint_charsuites
       - name: Run less/CSS checks
-        run: make -C SETUP lint_css
+        run: make -C SETUP/ci lint_css
       - name: Run best practice checks
-        run: make -C SETUP best_practice_checks
+        run: make -C SETUP/ci best_practice_checks
       - name: Run shellcheck on shell scripts
-        run: make -C SETUP shellcheck
+        run: make -C SETUP/ci shellcheck
   pageload-smoketest:
     strategy:
       matrix:
