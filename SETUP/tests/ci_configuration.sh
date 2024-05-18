@@ -19,8 +19,8 @@ _DYN_DIR=$PWD
 _DYN_URL='http://127.0.0.1:12345'
 
 _FORUM_TYPE=json
-_JSON_USERS=$PWD/SETUP/smoketests/users.json
-_JSON_POSTS=$PWD/SETUP/smoketests/posts.json
+_JSON_USERS=$PWD/SETUP/tests/smoketests/users.json
+_JSON_POSTS=$PWD/SETUP/tests/smoketests/posts.json
 
 _DEFAULT_CHAR_SUITES='["basic-latin"]'
 

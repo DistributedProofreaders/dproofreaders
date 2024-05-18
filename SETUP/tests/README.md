@@ -1,10 +1,11 @@
-# Unit tests
+# Tests
 
-This directory contains a variety of files used for automated testing.
+This directory contains a variety of files used for testing.
 Including:
 * [phpunit](https://phpunit.de/) tests in the `unittests` directory
 * [QUnit](https://qunitjs.com/) tests in the `jsTests` directory
 * Manual web-based tests in the `manual_web` directory
+* Smoke tests in the `smoketests` directory
 * [GitHub Actions](https://github.com/features/actions) configuration
 
 ## phpunit tests
