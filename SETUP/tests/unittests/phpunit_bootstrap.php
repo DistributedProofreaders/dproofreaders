@@ -3,7 +3,7 @@ global $relPath, $forum_type, $projects_dir, $aspell_temp_dir;
 global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
 $completed_projects_forum_idx, $deleted_projects_forum_idx;
 
-$relPath = '../../pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 
 // Reconnect to the test DB

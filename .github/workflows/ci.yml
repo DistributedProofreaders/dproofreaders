@@ -21,7 +21,7 @@ jobs:
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt --fix-broken install aspell aspell-en
       - name: Run phpunit tests
-        run: cd SETUP/tests && ../../vendor/bin/phpunit
+        run: cd SETUP/tests/unittests && ../../../vendor/bin/phpunit
   jsunit:
     strategy:
       matrix:
