@@ -2,10 +2,10 @@
 <?php
 // Check all .php and .inc files for include best-practices.
 
-$relPath = "../pinc/";
+$relPath = "../../pinc/";
 include_once($relPath."misc.inc");
 
-$basedir = $argv[1] ?? "../";
+$basedir = $argv[1] ?? "../../";
 
 // List of files that don't need to contain base.inc
 $ok_not_includes_base = [

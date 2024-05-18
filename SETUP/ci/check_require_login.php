@@ -1,7 +1,9 @@
 #!/usr/bin/env php
 <?php
-$relPath = "../pinc/";
+$relPath = "../../pinc/";
 include_once($relPath."misc.inc");
+
+$basedir = $argv[1] ?? "../../";
 
 // List of accepted unauthenticated files
 $ok_files = [
@@ -66,7 +68,8 @@ $ok_files = [
     ".php-cs-fixer.dist.php",
 ];
 
-$files = get_all_php_files("../");
+$basedir .= endswith($basedir, "/") ? "" : "/";
+$files = get_all_php_files($basedir);
 foreach ($files as $file) {
     // If it's in the SETUP directory, skip it
     if (startswith($file, "SETUP/")) {
@@ -86,7 +89,7 @@ foreach ($files as $file) {
     echo "$file\n";
 
     // If it requires authentication, skip it
-    if (file_requires_auth("../$file")) {
+    if (file_requires_auth("../../$file")) {
         continue;
     }
 

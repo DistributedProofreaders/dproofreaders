@@ -5,8 +5,8 @@ if [ -n "${1-}" ]; then
     BASE_DIR=$1
 elif [ -d SETUP ]; then
     BASE_DIR=.
-elif [ -d ../SETUP ]; then
-    BASE_DIR=../
+elif [ -d ../../SETUP ]; then
+    BASE_DIR=../../
 else
     echo "Unable to determine base code directory"
     exit 1
