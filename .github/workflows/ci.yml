@@ -120,8 +120,8 @@ jobs:
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt --fix-broken install aspell aspell-en
       - name: Setup smoke test environment
-        run: SETUP/smoketests/smoketest_setup.sh
+        run: SETUP/tests/smoketests/smoketest_setup.sh
       - name: Run pageload smoketest
         run: |
-            SETUP/smoketests/pageload_smoketest.py \
+            SETUP/tests/smoketests/pageload_smoketest.py \
                 -u admin -p admin_pass -k admin_key

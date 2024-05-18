@@ -524,7 +524,7 @@ def server_ready(site_url: str) -> bool:
     within 5 seconds & 10 retries"""
     for i in range(10):
         time.sleep(.5)
-        url = f'{site_url}/SETUP/smoketests/hello.php?i={i}'
+        url = f'{site_url}/SETUP/tests/smoketests/hello.php?i={i}'
         try:
             data, _, _, _ = request(Request(url))
             return data == b'Hello world\n'
@@ -596,7 +596,7 @@ def login(config, username: str, password: str) -> bool:
 
 def check_error_detect(config) -> bool:
     """Does the log parsing correctly detect PHP notices, warnings, errors?"""
-    url_base = config['site_url'] + '/SETUP/smoketests/'
+    url_base = config['site_url'] + '/SETUP/tests/smoketests/'
     for script in ['notice.php', 'warning.php', 'error.php']:
         _, _, _, logs = request(Request(url_base + script))
         if not test_failed(logs):
