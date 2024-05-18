@@ -1,5 +1,5 @@
 <?php
-$relPath = '../../pinc/';
+$relPath = '../../../pinc/';
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 class PageCompareTest extends PHPUnit\Framework\TestCase
