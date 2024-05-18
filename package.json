@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint \"./**/*.js\" --max-warnings=0",
     "lint-fix": "eslint --fix \"./**/*.js\"",
-    "test": "node ./SETUP/tests/jsUnit.js"
+    "test": "node ./SETUP/tests/jsTests/jsUnit.js"
   },
   "repository": {
     "type": "git",
