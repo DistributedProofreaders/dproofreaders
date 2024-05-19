@@ -117,12 +117,12 @@ function get_prefix_searches(bool $flatten_aliases = false): array
         ],
         "user" => [
             "url" => "$code_url/stats/members/mbr_list.php?uname=%s",
-            "desc" => _("Search for this username or part of a username"),
+            "desc" => _("User search by all or part of a username"),
             "alias" => "u",
         ],
         "team" => [
             "url" => "$code_url/stats/teams/tlist.php?tname=%s",
-            "desc" => _("Search for this team name or part of a team name"),
+            "desc" => _("Team search by all or part of a team name"),
         ],
         "task" => [
             "url" => "$code_url/tasks.php?q=%s",
@@ -133,7 +133,7 @@ function get_prefix_searches(bool $flatten_aliases = false): array
     if (get_url_for_forum()) {
         $prefix_searches["forum"] = [
             "url" => get_url_for_search("%s", false),
-            "desc" => _("Search for this in forum posts"),
+            "desc" => _("Forum search for this in a post"),
             "alias" => "f",
         ];
     }
@@ -141,7 +141,7 @@ function get_prefix_searches(bool $flatten_aliases = false): array
     if (!empty($wiki_url)) {
         $prefix_searches["wiki"] = [
             "url" => "$wiki_url/Special:Search/Index.php?profile=all&search=%s",
-            "desc" => _("Search for this in the wiki"),
+            "desc" => _("Wiki search for this in an article"),
             "alias" => "w",
         ];
     }
