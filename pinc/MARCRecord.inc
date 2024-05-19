@@ -318,12 +318,6 @@ class MARCRecord
         return $string;
     }
 
-    public function __set($field, $value)
-    {
-        $func = "set_$field";
-        $this->{$func}($value);
-    }
-
     public function load_yaz_array($yaz_array)
     {
         $this->record = $yaz_array;
@@ -570,38 +564,6 @@ class MARCRecord
         }
 
         return rtrim(ltrim(implode(", ", $marc_publisher), "["), "]");
-    }
-
-    public function set_title($title)
-    {
-        $this->record[$this->_find_first("245", "a")][1] = $title;
-    }
-
-    public function set_author($author)
-    {
-        $author_fields = ["100", "700", "710"];
-        foreach ($author_fields as $field) {
-            $key = $this->_find_first($field, "a");
-            if (!empty($this->record[$key][1])) {
-                $this->record[$key][1] = $author;
-                break;
-            }
-        }
-    }
-
-    public function set_language($language)
-    {
-        $key = $this->_find_first("008", "");
-        $marc_008 = $this->record[$key][1];
-        $this->record[$key][1] = substr($marc_008, 0, 35) . $language . substr($marc_008, 38);
-    }
-
-    public function set_literary_form($genre)
-    {
-        $form = array_search($genre, $this->literary_form_array);
-        $key = $this->_find_first("008", "");
-        $marc_008 = $this->record[$key][1];
-        $this->record[$key][1] = substr($marc_008, 0, 33) . $form . substr($marc_008, 34);
     }
 
     public function __toString()
