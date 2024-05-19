@@ -39,7 +39,6 @@
 @text-alert: #ff6600;        // orange family
 @text-warning: blue;         // blue family
 @text-ok: green;             // green family
-@text-mono: #cc0000;         // red family, different from error
 @text-base-highc: #232323;   // high contrast theme page-text color
 @text-base-mediumc: #666666; // medium contrast theme page-text color
 @text-base-lowc: #9a9a9a;    // low contrast theme page-text color
@@ -831,8 +830,10 @@ div.calloutheader {
 
 kbd {
     font-family: DejaVu Sans Mono, monospace;
-    color: @text-mono;
-    font-size: .95em;
+    background-color: @table-cell-base-mediumc;
+    font-size: 85%;
+    border-radius: 6px;
+    padding: 0 0.3em;
 }
 
 /* ------------------------------------------------------------------------ */
