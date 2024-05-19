@@ -1907,8 +1907,10 @@ div.calloutheader {
 }
 kbd {
   font-family: DejaVu Sans Mono, monospace;
-  color: #cc0000;
-  font-size: 0.95em;
+  background-color: #dddddd;
+  font-size: 85%;
+  border-radius: 6px;
+  padding: 0 0.3em;
 }
 /* ------------------------------------------------------------------------ */
 /* Round and Pool filter table */
