@@ -37,6 +37,17 @@ if (isset($_GET['f']) && !isset($_GET['action'])) {
     unset($_REQUEST['f']);
 }
 
+// If we got here with a generic query param, if it's numeric assume its
+// a task ID, otherwise a summary search
+if (isset($_GET['q'])) {
+    if (is_numeric($_GET['q'])) {
+        $_REQUEST['task_id'] = $_GET['task_id'] = $_GET['q'];
+    } else {
+        $_REQUEST['search_text'] = $_GET['search_text'] = $_GET['q'];
+        $_REQUEST['action'] = $_GET['action'] = 'search';
+    }
+}
+
 if (isset($_GET['tid']) && !isset($_GET['task_id'])) {
     $_REQUEST['task_id'] = $_GET['task_id'] = $_GET['tid'];
     unset($_GET['tid']);

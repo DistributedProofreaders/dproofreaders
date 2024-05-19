@@ -125,9 +125,8 @@ function get_prefix_searches(bool $flatten_aliases = false): array
             "desc" => _("Search for this team name or part of a team name"),
         ],
         "task" => [
-            "url" => "$code_url/tasks.php?task_id=%s",
-            "desc" => _("Jump to this task ID"),
-            "validator" => "_validate_integer",
+            "url" => "$code_url/tasks.php?q=%s",
+            "desc" => _("Task search by task ID or part of a task summary"),
         ],
     ];
 
@@ -324,17 +323,5 @@ function prefix_search(string $query)
 
     $query = $matches[2];
 
-    // if there's a validator for the prefix, validate it
-    if (@$data["validator"]) {
-        $data["validator"]($query);
-    }
-
     metarefresh(0, sprintf($data["url"], urlencode($query)), "", "", true);
-}
-
-function _validate_integer(string $value)
-{
-    if (!preg_match("/^\d+$/", $value)) {
-        throw new Exception("Not a valid integer");
-    }
 }
