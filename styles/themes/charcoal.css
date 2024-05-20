@@ -145,14 +145,13 @@
   font-weight: normal;
   font-style: oblique;
 }
-/* EB Garamond
-   https://fonts.google.com/specimen/EB+Garamond */
+/* EB Garamond */
 @font-face {
   font-family: 'EB Garamond';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/ebgaramond/v27/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-DPNUAw.ttf) format('truetype');
+  src: url('../fonts/EBGaramond-Bold.woff2') format('woff2');
 }
 /* ======================================================================== */
 /* Page Interface Structures */

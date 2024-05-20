@@ -23,3 +23,9 @@ for download and local install.
 DejaVu Sans Mono is a member of the [DejaVu font family](https://dejavu-fonts.github.io/)
 and licensed under the [DejaVu Fonts License](DejaVu%20Fonts%20License.txt).
 This version was obtained from [Font Squirrel](https://www.fontsquirrel.com/fonts/dejavu-sans-mono).
+
+# EB Garamond
+
+[EB Garamond](https://github.com/octaviopardo/EBGaramond12) is an open source
+font we use for styling. The TTF was converted to WOFF2 before being checked
+into git.
