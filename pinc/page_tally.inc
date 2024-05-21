@@ -373,25 +373,25 @@ function get_site_tally_grouped(
 ): array {
     global $SECONDS_TO_YESTERDAY;
 
-    // The date formats below use two %s because they are embedded in an sprintf()
-    $goal_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y-%%m-%%d')";
-
     if ($grouped_into == "date") {
-        $date_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y-%%m-%%d')";
+        $date_format = "%Y-%m-%d";
     } elseif ($grouped_into == "year_month") {
-        $date_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y-%%m')";
+        $date_format = "%Y-%m";
     } elseif ($grouped_into == "year") {
-        $date_expr = "FROM_UNIXTIME(timestamp - $SECONDS_TO_YESTERDAY, '%%Y')";
+        $date_format = "%Y";
     } else {
         throw new InvalidArgumentException("\$grouped_into is an invalid value");
     }
 
-    $where_time = "1 ";
+    $goal_where_time = "1 ";
+    $tally_where_time = "1 ";
     if (isset($min_timestamp)) {
-        $where_time .= sprintf("AND timestamp >= %d ", $min_timestamp + $SECONDS_TO_YESTERDAY);
+        $goal_where_time .= sprintf("AND UNIX_TIMESTAMP(date) >= %d ", $min_timestamp + $SECONDS_TO_YESTERDAY);
+        $tally_where_time .= sprintf("AND timestamp >= %d ", $min_timestamp + $SECONDS_TO_YESTERDAY);
     }
     if (isset($max_timestamp)) {
-        $where_time .= sprintf("AND timestamp < %d ", $max_timestamp + $SECONDS_TO_YESTERDAY);
+        $goal_where_time .= sprintf("AND UNIX_TIMESTAMP(date) < %d ", $max_timestamp + $SECONDS_TO_YESTERDAY);
+        $tally_where_time .= sprintf("AND timestamp < %d ", $max_timestamp + $SECONDS_TO_YESTERDAY);
     }
 
     if (!$sort) {
@@ -411,18 +411,17 @@ function get_site_tally_grouped(
     }
     $sort_direction = $sort_direction == strtolower("asc") ? SORT_ASC : SORT_DESC;
 
+    // get all the goals
     $sql = sprintf(
         "
-        SELECT $date_expr as dateunit, sum(goal) as goal
-        FROM tally_snapshot_times
-            LEFT OUTER JOIN site_tally_goals
-            ON (site_tally_goals.tally_name = '%s'
-                AND $goal_expr = site_tally_goals.date
-            )
+        SELECT DATE_FORMAT(date, '%s') as dateunit, sum(goal) as goal
+        FROM site_tally_goals
         WHERE
-            $where_time
+            $goal_where_time
+            AND tally_name = '%s'
         GROUP BY dateunit
         ",
+        $date_format,
         $tally_name
     );
     $result = DPDatabase::query($sql);
@@ -435,17 +434,20 @@ function get_site_tally_grouped(
         ];
     }
 
+    // get the tally deltas
     $sql = sprintf(
         "
-        SELECT $date_expr as dateunit, sum(tally_delta) as tally_delta
+        SELECT FROM_UNIXTIME(timestamp - %d, '%s') as dateunit, sum(tally_delta) as tally_delta
         FROM past_tallies
         WHERE
-            $where_time
+            $tally_where_time
             AND past_tallies.tally_name = '%s'
             AND holder_type = 'S'
             AND holder_id = 1
         GROUP BY dateunit
         ",
+        $SECONDS_TO_YESTERDAY,
+        $date_format,
         $tally_name
     );
     $result = DPDatabase::query($sql);
@@ -464,8 +466,8 @@ function get_site_tally_grouped(
     array_multisort(array_column($dataset, $sort_column), $sort_direction, $dataset);
 
     $rows = [];
-    foreach ($dataset as $dateunit => $data) {
-        $rows[] = [$dateunit, $data["tally_delta"], $data["goal"] ?? 0];
+    foreach ($dataset as $data) {
+        $rows[] = [$data["dateunit"], $data["tally_delta"], $data["goal"] ?? 0];
     }
 
     if ($limit) {

@@ -10,9 +10,8 @@ echo "Altering current_tallies and creating tally_snapshot_times...\n";
 
 $sql = "
     ALTER TABLE `current_tallies`
-        ADD COLUMN `last_snap_timestamp` int(10) unsigned NOT NULL default '0',
-        ADD COLUMN `last_snap_tally_delta` int(8) NOT NULL default '0',
-        ADD COLUMN `last_snap_tally_value` int(8) NOT NULL default '0'
+        ADD COLUMN `last_snap_tally_delta` int NOT NULL default '0',
+        ADD COLUMN `last_snap_tally_value` int NOT NULL default '0'
 ";
 
 mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));
@@ -21,7 +20,7 @@ $sql = "
     CREATE TABLE `tally_snapshot_times` (
       `tally_name` char(2) NOT NULL default '',
       `holder_type` char(1) NOT NULL default '',
-      `timestamp` int(10) unsigned NOT NULL default '0',
+      `timestamp` int unsigned NOT NULL default '0',
       PRIMARY KEY (`tally_name`, `holder_type`, `timestamp`)
     )
 ";
@@ -41,7 +40,7 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
     // iterate over all of our holders, this should be fast because of the index
     $sql = sprintf(
         "
-        SELECT holder_id, tally_value, tally_delta, timestamp
+        SELECT holder_id, tally_value, tally_delta
         FROM past_tallies
         WHERE tally_name = '%s' AND holder_type = '%s' AND timestamp = %d
         ORDER BY holder_id
@@ -121,9 +120,10 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
 
 echo "\nDone!\n";
 
-// We have to use our own function in the upgrade script rather than the one
-// in Tallyboard because it will already be trying to use the table we're
-// trying to populate!
+// In this script, we have to use our own function rather than the
+// Tallyboard::get_time_of_latest_snapshot() method, because the new code has
+// already been installed, so that method will try to use the
+// tally_snapshot_times table, which we haven't yet populated.
 function get_time_of_latest_snapshot($tallyboard)
 {
     $sql = sprintf(
@@ -141,7 +141,7 @@ function get_time_of_latest_snapshot($tallyboard)
 
     $row = mysqli_fetch_assoc($result);
     if (!$row) {
-        return null;
+        return 0;
     }
 
     return $row["max_timestamp"];

@@ -24,19 +24,18 @@
 // So the TallyBoard is prepared to answer questions about
 // holders it has never heard of before.
 
-// TallyBoards store and access data in 4 tables, 2 of which treat the
-// holder_type/holder_id/tally_name tuple as a primary key:
-// * current_tallies - stores the current tally and tallies from the last
-//                     snapshot, one per tuple
-// * best_tally_rank - stores the highest achieved tally per tuple
+// TallyBoards store and access data in 4 tables.
 //
-// One that adds timestamp to that tuple for the primary key:
-// * past_tallies - stores historical tallies of deltas, one row per tuple
-//                  per snapshot with a non-zero tally_delta
+// For each (tally_name, holder_type, holder_id) tuple,
+// * current_tallies - stores the holder's current tally and also their tally &
+//                     tally_delta from the latest snapshot.
+// * best_tally_rank - stores the highest 'rank' achieved by the holder, and
+//                     when they achieved it.
+// * past_tallies    - stores the holder's historical tally info, but only for
+//                     snapshots in which their tally changed (tally_delta != 0).
 //
-// And one table to track all of the snapshot times:
-// * tally_snapshot_times - records all the snapshot times per tally_name/holder_type
-// -----------------------------------------------------------------------------
+// For each (tally_name, holder_type) tuple,
+// * tally_snapshot_times - records the times of all past snapshots
 
 /**
  * Return an array of TallyBoard objects, representing all
@@ -417,10 +416,15 @@ class TallyBoard
             DPDatabase::query($query);
         }
 
+        // Now that we've captured everyone's current tally (into `last_snap_*`),
+        // `tally_value` is free to change, and we'll use `last_snap_*` to
+        // carry out the rest of this snapshot (updating `past_tallies` and
+        // `best_tally_rank`).
+
         // Get everyone's current tally, in rank order.
         $sql = sprintf(
             "
-            SELECT holder_id, tally_value, last_snap_tally_delta
+            SELECT holder_id, last_snap_tally_delta, last_snap_tally_value
             FROM current_tallies
             WHERE
                 tally_name      = '%s'
@@ -433,10 +437,10 @@ class TallyBoard
         $result = DPDatabase::query($sql);
 
         $ranker = new Ranker(true);
-        while ([$holder_id, $current_tally, $tally_delta] = mysqli_fetch_row($result)) {
-            $rank = $ranker->next($current_tally);
+        while ([$holder_id, $snap_tally_delta, $snap_tally_value] = mysqli_fetch_row($result)) {
+            $rank = $ranker->next($snap_tally_value);
 
-            if ($tally_delta <> 0) {
+            if ($snap_tally_delta <> 0) {
                 $query = sprintf(
                     "
                     INSERT INTO past_tallies
@@ -452,8 +456,8 @@ class TallyBoard
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type),
                     $holder_id,
-                    $tally_delta,
-                    $current_tally
+                    $snap_tally_delta,
+                    $snap_tally_value
                 );
                 if ($dry_run) {
                     // Normalize whitespace
@@ -502,7 +506,13 @@ class TallyBoard
             DPDatabase::escape($this->holder_type),
             $ascribe_time
         );
-        DPDatabase::query($sql);
+        if ($dry_run) {
+            // Normalize whitespace
+            $sql = preg_replace('/\s+/', ' ', trim($sql));
+            echo "$sql\n";
+        } else {
+            DPDatabase::query($sql);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -708,7 +718,6 @@ class TallyBoard
                 AND holder_id   = %d
                 AND timestamp  >= %d
                 $addl_where
-            ORDER BY timestamp ASC
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
@@ -748,12 +757,13 @@ class TallyBoard
                 tally_name      = '%s'
                 AND holder_type = '%s'
                 AND holder_id   = %d
-                AND $start_timestamp < timestamp
+                AND %d < timestamp
                 AND timestamp <= %d
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
             $holder_id,
+            $start_timestamp,
             $end_timestamp
         );
         $res = DPDatabase::query($sql);

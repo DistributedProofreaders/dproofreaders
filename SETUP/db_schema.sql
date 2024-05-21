@@ -421,7 +421,7 @@ CREATE TABLE `special_days` (
 CREATE TABLE `tally_snapshot_times` (
   `tally_name` char(2) NOT NULL default '',
   `holder_type` char(1) NOT NULL default '',
-  `timestamp` int(10) unsigned NOT NULL default '0',
+  `timestamp` int unsigned NOT NULL default '0',
   PRIMARY KEY (`tally_name`, `holder_type`, `timestamp`)
 );
 

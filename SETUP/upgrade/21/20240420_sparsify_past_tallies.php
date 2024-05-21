@@ -16,6 +16,20 @@ exit(1);
 
 // ------------------------------------------------------------
 
+/*
+This whole script could be accomplished with a single command:
+
+    DELETE FROM past_tallies
+    WHERE tally_delta = 0
+
+However, the DELETE command locks the past_tallies table, forcing any other
+queries on the table to wait. On pgdp.net, this wait would be so long that
+we'd have to disable the site to do it. We'd prefer to avoid down-time, so
+instead we take all that deleting and break it into many smaller chunks,
+first by tallyboard and then by holder_id. Each chunk should be fairly quick,
+and after each, we sleep a while to let the DB recover.
+*/
+
 echo "Deleting rows from past_tallies where tally_delta=0...\n";
 echo "Note: Progress will be reported every 100 holders per tallyboard\n";
 
