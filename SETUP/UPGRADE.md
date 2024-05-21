@@ -4,6 +4,21 @@ This document covers upgrading an existing installation of DP that
 contains data you want to bring forward to work with the new code
 release.
 
+## Disable the site and cron jobs
+Generally, it's important that when doing an upgrade _nothing else is
+changing your database_. To that end, it's best done offline during a
+maintenance window.
+
+You can disable the site by putting it into maintenance mode. Set the following
+two variables in `pinc/site_vars.php`:
+* `$maintenance = true;`
+* `$maintenance_message = '';` (optional; will be shown to the user if set)
+
+This will result in all site pages showing a maintenance message and all API
+calls will receive a server error message.
+
+Disable automated cron jobs by commenting them out in the crontab.
+
 ## Back up your data
 Before doing an upgrade, back up your data. The most important data
 is the one in your database.
@@ -128,3 +143,9 @@ Run the scripts in the following directories in order
 
 ## Install the modified `dp.cron`
 Install the modified `dp.cron`.
+
+## Re-enable the site and cron jobs
+Edit `pinc/site_vars.php` and set `$maintenance = false;` to bring the site
+back online.
+
+Also enable the cron jobs that you disabled at the beginning of the upgrade.
