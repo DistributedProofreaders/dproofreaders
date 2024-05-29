@@ -29,7 +29,7 @@ directories. The `.css` files are automatically generated from the `.less` files
 
 To create the `.css` files, use the Makefile in the SETUP directory:
 ```bash
-cd SETUP
+cd SETUP/ci
 make less
 ```
 
