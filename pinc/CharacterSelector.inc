@@ -60,7 +60,12 @@ class CharacterSelector
                 $row .= "<button type='button' class='picker invisible'></button>";
             } else {
                 $title_string = attr_safe(utf8_character_name($character));
-                $row .= "<button type='button' class='picker' title='$title_string'>" . html_safe($character) . "</button>";
+                if(str_contains($title_string, "GREEK CAPITAL") && (str_contains($title_string, "OXIA") || str_contains($title_string, "VARIA"))) {
+                    $align_style = "style='text-indent:0.4em'";
+                } else {
+                    $align_style = "";
+                }
+                $row .= "<button type='button' class='picker' title='$title_string' $align_style>" . html_safe($character) . "</button>";
             }
             $row .= "</div>";
         }
