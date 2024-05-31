@@ -90,19 +90,9 @@ $(function () {
 
     function addMru(char, titletext) {
         // is the character in MRU array?
-
-        // IE HACK - IE11 doesn't support .findIndex()
-        //var index = mru.findIndex(function (element) {
-        //   return element.character === char;
-        //});
-
-        var index = mru.length - 1;
-        while(index >= 0) {
-            if(mru[index].character === char) {
-                break;
-            }
-            index -= 1;
-        }
+        var index = mru.findIndex(function (element) {
+            return element.character === char;
+        });
 
         if(index >= 0) {
             // already in array, update time
