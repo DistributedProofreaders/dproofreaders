@@ -55,16 +55,26 @@ $(function () {
     const mruColumns = 12;
     const mruMax = 2 * mruColumns;
 
+    function setAlign(element, title) {
+        if(title.startsWith("GREEK CAPITAL") && (title.includes("OXIA") || title.includes("VARIA"))) {
+            element.style.textIndent = '0.35em';
+        } else {
+            element.style.textIndent = '0';
+        }
+    }
+
     function drawRow(mruRow) {
         // it is not necessary to escape the character or title
         var row = $('<div />').addClass('table-row');
         mruRow.forEach(function(element) {
+            let mruButton = $('<button />', {type: "button", title: element.title});
+            mruButton.addClass('picker')
+                .text(element.character);
+            setAlign(mruButton[0], element.title);
+
             row.append($('<div />')
                 .addClass('table-cell')
-                .append($('<button />', {type: "button", title: element.title})
-                    .addClass('picker')
-                    .text(element.character)
-                )
+                .append(mruButton)
             );
         });
         return row;
@@ -148,5 +158,6 @@ $(function () {
         })
         .on("mouseover", ".picker", function () {
             largeChar.value = this.textContent;
+            setAlign(largeChar, this.title);
         });
 });
