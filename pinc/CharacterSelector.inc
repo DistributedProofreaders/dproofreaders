@@ -60,6 +60,7 @@ class CharacterSelector
                 $row .= "<button type='button' class='picker invisible'></button>";
             } else {
                 $title_string = attr_safe(utf8_character_name($character));
+                // to ensure the accents for Greek capital letters are visible, add a text indent.
                 if (startswith($title_string, "GREEK CAPITAL") && (str_contains($title_string, "OXIA") || str_contains($title_string, "VARIA"))) {
                     $align_style = "style='text-indent:0.4em'";
                 } else {

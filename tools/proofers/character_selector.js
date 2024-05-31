@@ -56,8 +56,9 @@ $(function () {
     const mruMax = 2 * mruColumns;
 
     function setAlign(element, title) {
+        // to ensure the accents for Greek capital letters are visible, add a text indent.
         if(title.startsWith("GREEK CAPITAL") && (title.includes("OXIA") || title.includes("VARIA"))) {
-            element.style.textIndent = '0.35em';
+            element.style.textIndent = '0.4em';
         } else {
             element.style.textIndent = '0';
         }
