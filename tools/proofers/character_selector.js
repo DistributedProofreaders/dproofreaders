@@ -57,8 +57,9 @@ $(function () {
 
     function setAlign(element, title) {
         // to ensure the accents for Greek capital letters are visible, add a text indent.
+        // see also similar code in pinc/CharacterSelector.inc
         if(title.startsWith("GREEK CAPITAL") && (title.includes("OXIA") || title.includes("VARIA"))) {
-            element.style.textIndent = '0.4em';
+            element.style.textIndent = '0.35em';
         } else {
             element.style.textIndent = '0';
         }
