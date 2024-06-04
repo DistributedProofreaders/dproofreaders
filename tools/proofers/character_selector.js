@@ -55,16 +55,28 @@ $(function () {
     const mruColumns = 12;
     const mruMax = 2 * mruColumns;
 
+    function setAlign(element, title) {
+        // to ensure the accents for Greek capital letters are visible, add a text indent.
+        // see also similar code in pinc/CharacterSelector.inc
+        if(title.startsWith("GREEK CAPITAL") && (title.includes("OXIA") || title.includes("VARIA"))) {
+            element.style.textIndent = '0.35em';
+        } else {
+            element.style.textIndent = '0';
+        }
+    }
+
     function drawRow(mruRow) {
         // it is not necessary to escape the character or title
         var row = $('<div />').addClass('table-row');
         mruRow.forEach(function(element) {
+            let mruButton = $('<button />', {type: "button", title: element.title});
+            mruButton.addClass('picker')
+                .text(element.character);
+            setAlign(mruButton[0], element.title);
+
             row.append($('<div />')
                 .addClass('table-cell')
-                .append($('<button />', {type: "button", title: element.title})
-                    .addClass('picker')
-                    .text(element.character)
-                )
+                .append(mruButton)
             );
         });
         return row;
@@ -80,19 +92,9 @@ $(function () {
 
     function addMru(char, titletext) {
         // is the character in MRU array?
-
-        // IE HACK - IE11 doesn't support .findIndex()
-        //var index = mru.findIndex(function (element) {
-        //   return element.character === char;
-        //});
-
-        var index = mru.length - 1;
-        while(index >= 0) {
-            if(mru[index].character === char) {
-                break;
-            }
-            index -= 1;
-        }
+        var index = mru.findIndex(function (element) {
+            return element.character === char;
+        });
 
         if(index >= 0) {
             // already in array, update time
@@ -148,5 +150,6 @@ $(function () {
         })
         .on("mouseover", ".picker", function () {
             largeChar.value = this.textContent;
+            setAlign(largeChar, this.title);
         });
 });

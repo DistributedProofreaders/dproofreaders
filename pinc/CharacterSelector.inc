@@ -60,7 +60,14 @@ class CharacterSelector
                 $row .= "<button type='button' class='picker invisible'></button>";
             } else {
                 $title_string = attr_safe(utf8_character_name($character));
-                $row .= "<button type='button' class='picker' title='$title_string'>" . html_safe($character) . "</button>";
+                // to ensure the accents for Greek capital letters are visible, add a text indent.
+                // see also similar code in tools/proofers/character_selector.js
+                if (startswith($title_string, "GREEK CAPITAL") && (str_contains($title_string, "OXIA") || str_contains($title_string, "VARIA"))) {
+                    $align_style = "style='text-indent:0.35em'";
+                } else {
+                    $align_style = "";
+                }
+                $row .= "<button type='button' class='picker' title='$title_string' $align_style>" . html_safe($character) . "</button>";
             }
             $row .= "</div>";
         }
