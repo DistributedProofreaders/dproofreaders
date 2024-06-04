@@ -548,6 +548,7 @@
   background-color: white;
   color: black;
   padding: 3px;
+  text-indent: 0.5em;
   border: thin solid #6f6f6f;
 }
 #wordcheck_interface #wc_header input,
