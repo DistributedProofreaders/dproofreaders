@@ -237,7 +237,7 @@ class PPage
         if ($font_size != '') {
             $font_size_string = "font-size: $font_size;";
         }
-        echo "style=\"font-family: $font_family; $font_size_string padding-left: 0.5em;\" ";
+        echo "style=\"font-family: $font_family; $font_size_string\" ";
 
         if (!$line_wrap) {
             echo "wrap='off' ";
