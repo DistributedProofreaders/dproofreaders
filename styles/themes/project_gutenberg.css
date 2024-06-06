@@ -296,6 +296,7 @@
   background-color: white;
   color: black;
   outline: none;
+  padding-left: 0.5em;
 }
 /* ------------------------------------------------------------------------ */
 /* Enhanced Editing Interface */
@@ -548,6 +549,7 @@
   background-color: white;
   color: black;
   padding: 3px;
+  text-indent: 0.5em;
   border: thin solid #6f6f6f;
 }
 #wordcheck_interface #wc_header input,
@@ -974,7 +976,7 @@
 #page-browser .text-pane {
   width: 100%;
   box-sizing: border-box;
-  padding-left: 0.25em;
+  padding-left: 0.5em;
   resize: none;
   border: 0;
   margin: 0;
