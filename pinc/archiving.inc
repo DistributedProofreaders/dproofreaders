@@ -1,8 +1,7 @@
 <?php
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
-// connect.inc include()s udb_user.php but only in a local scope, so we
-// need to include it again to place $archive_db_name in this scope.
+// include udb_user.php to place $archive_db_name in this file's scope.
 include($relPath.'udb_user.php'); // $archive_db_name
 
 
@@ -219,7 +218,7 @@ function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_
     sleep($t_elapsed * $archival_recovery_multiplier);
 }
 
-$archival_recovery_multiplier = 6;
+$archival_recovery_multiplier = 1;
 // If you're running the script when the site is down (e.g., when upgrading),
 // you probably don't need to insert sleeps, so you can eliminate them
 // by setting this variable to zero.
