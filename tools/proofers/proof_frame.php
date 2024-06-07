@@ -3,7 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'LPage.inc');
 include_once($relPath.'abort.inc');
-include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc');
@@ -12,29 +11,14 @@ include_once('proof_frame.inc');
 
 require_login();
 
-/* $_GET from IN PROGRESS/DONE and from 'Edit' links on Images,Diffs screen
-url_for_pi_do_particular_page()
-$projectid, $proj_state, $imagefile, $page_state
-*/
+// This page is accessed one of two ways:
+// * requesting new page (start proofreading, save as done & proofread next page)
+// * requesting specific pages (done, in-progress)
+//
+// We can differentiate between the two using page_state and imagefile
+// parameters as they are only included when loading a specific page.
 
-/* $_GET from "Start Proofreading" etc.
-url_for_pi_do_whichever_page()
-$projectid, $proj_state
-*/
-
-if (isset($_GET['page_state'])) {
-    // The user clicked on a saved page.
-
-    // get_requested_PPage() expects a 'reverting' parameter.
-    $_GET['reverting'] = '0';
-
-    try {
-        $ppage = get_requested_PPage($_GET);
-        $ppage->lpage->resume_page($pguser);
-    } catch (ProjectException | ProjectPageException $exception) {
-        abort($exception->getMessage());
-    }
-} else {
+if (!isset($_GET['page_state'])) {
     // The user clicked "Start Proofreading" or "Save as 'Done' & Proofread Next Page".
 
     $projectid = get_projectID_param($_REQUEST, 'projectid');
@@ -113,8 +97,26 @@ if (isset($_GET['page_state'])) {
 
     setDebounceInfo($lpage->projectid);
 
-    $url = "$code_url/tools/proofers/proof_frame.php?projectid=$lpage->projectid&imagefile=$lpage->imagefile&proj_state=$proj_state&page_state=$lpage->page_state";
-    metarefresh(0, $url);
+    $input_params = [
+        "projectid" => $lpage->projectid,
+        "imagefile" => $lpage->imagefile,
+        "proj_state" => $proj_state,
+        "page_state" => $lpage->page_state,
+    ];
+
+} else {
+    // The user clicked on a saved page.
+    $input_params = $_GET;
+}
+
+// get_requested_PPage() expects a 'reverting' parameter.
+$input_params['reverting'] = '0';
+
+try {
+    $ppage = get_requested_PPage($input_params);
+    $ppage->lpage->resume_page($pguser);
+} catch (ProjectException | ProjectPageException $exception) {
+    abort($exception->getMessage());
 }
 
 echo_proof_frame($ppage);
