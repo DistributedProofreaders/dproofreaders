@@ -84,7 +84,6 @@ if (!$resolution) {
         "js_files" => [
             "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
             "$code_url/scripts/character_test.js",
-            "$code_url/scripts/text_validator.js",
             "$code_url/tools/project_manager/handle_bad_page.js",
         ],
         "js_data" => "
@@ -244,6 +243,10 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
 
 function show_text_update_form($projectid, $image, $prev_text, $text_column, $modify = 'current_text')
 {
+    global $code_url;
+
+    echo "<script src='$code_url/scripts/text_validator.js'></script>";
+
     echo "<h2>" . _("Update page text") . "</h2>";
 
     // look up the round_id from the $text_column
