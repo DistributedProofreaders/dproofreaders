@@ -109,9 +109,10 @@ echo ""
 echo "Applying all upgrade scripts..."
 cd $testing_code_setup_dir/upgrade/$upgrade_number
 for f in *.php; do
-    # comment out any immediate die()s -- we want to continue even if
+    # comment out any immediate die()s or exit()s -- we want to continue even if
     # a user might want to double-check on a real site
     sed -i 's/^die()/#die()/' $f
+    sed -i 's/^exit(/#exit(/' $f
 
     # now run the script
     echo ""

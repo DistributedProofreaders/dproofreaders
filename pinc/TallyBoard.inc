@@ -21,10 +21,21 @@
 
 // If a holder isn't explicitly recorded in a TallyBoard,
 // then it is implicitly recorded with a tally of zero.
-// So  the TallyBoard is prepared to answer questions about
+// So the TallyBoard is prepared to answer questions about
 // holders it has never heard of before.
 
-// -----------------------------------------------------------------------------
+// TallyBoards store and access data in 4 tables.
+//
+// For each (tally_name, holder_type, holder_id) tuple,
+// * current_tallies - stores the holder's current tally and also their tally &
+//                     tally_delta from the latest snapshot.
+// * best_tally_rank - stores the highest 'rank' achieved by the holder, and
+//                     when they achieved it.
+// * past_tallies    - stores the holder's historical tally info, but only for
+//                     snapshots in which their tally changed (tally_delta != 0).
+//
+// For each (tally_name, holder_type) tuple,
+// * tally_snapshot_times - records the times of all past snapshots
 
 /**
  * Return an array of TallyBoard objects, representing all
@@ -352,7 +363,6 @@ class TallyBoard
     {
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
-        $prev_tally_for_ = [];
         $best_rank_for_ = [];
         if (is_null($prev_ascribe_time)) {
             // No previous snapshot on this TallyBoard.
@@ -364,24 +374,6 @@ class TallyBoard
                 if ($prev_ascribe_time == $ascribe_time) {
                     return 'already';
                 }
-            }
-
-            // Get everyone's most recent saved tally.
-            $sql = sprintf(
-                "
-                SELECT holder_id, tally_value
-                FROM past_tallies
-                WHERE
-                    timestamp       = $prev_ascribe_time
-                    AND tally_name  = '%s'
-                    AND holder_type = '%s'
-                ",
-                DPDatabase::escape($this->tally_name),
-                DPDatabase::escape($this->holder_type)
-            );
-            $result = DPDatabase::query($sql);
-            while ([$holder_id, $prev_tally_value] = mysqli_fetch_row($result)) {
-                $prev_tally_for_[$holder_id] = $prev_tally_value;
             }
 
             // Get everyone's best tally-rank so far.
@@ -402,10 +394,37 @@ class TallyBoard
             }
         }
 
+        // update the last snapshot values for all holders of this Tallyboard
+        $query = sprintf(
+            "
+            UPDATE current_tallies
+            SET
+                last_snap_tally_delta = tally_value - last_snap_tally_value,
+                last_snap_tally_value = tally_value
+            WHERE
+                tally_name  = '%s'
+                AND holder_type = '%s'
+            ",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
+        );
+        if ($dry_run) {
+            // Normalize whitespace
+            $query = preg_replace('/\s+/', ' ', trim($query));
+            echo "$query\n";
+        } else {
+            DPDatabase::query($query);
+        }
+
+        // Now that we've captured everyone's current tally (into `last_snap_*`),
+        // `tally_value` is free to change, and we'll use `last_snap_*` to
+        // carry out the rest of this snapshot (updating `past_tallies` and
+        // `best_tally_rank`).
+
         // Get everyone's current tally, in rank order.
         $sql = sprintf(
             "
-            SELECT holder_id, tally_value
+            SELECT holder_id, last_snap_tally_delta, last_snap_tally_value
             FROM current_tallies
             WHERE
                 tally_name      = '%s'
@@ -418,31 +437,35 @@ class TallyBoard
         $result = DPDatabase::query($sql);
 
         $ranker = new Ranker(true);
-        while ([$holder_id, $current_tally] = mysqli_fetch_row($result)) {
-            $rank = $ranker->next($current_tally);
-            $previous_tally = array_get($prev_tally_for_, $holder_id, 0);
-            $tally_delta = $current_tally - $previous_tally;
-            $query = sprintf(
-                "
-                INSERT INTO past_tallies
-                SET
-                    timestamp   = $ascribe_time,
-                    tally_name  = '%s',
-                    holder_type = '%s',
-                    holder_id   = %d,
-                    tally_delta = $tally_delta,
-                    tally_value = $current_tally
-                ",
-                DPDatabase::escape($this->tally_name),
-                DPDatabase::escape($this->holder_type),
-                intval($holder_id)
-            );
-            if ($dry_run) {
-                // Normalize whitespace
-                $query = preg_replace('/\s+/', ' ', trim($query));
-                echo "$query\n";
-            } else {
-                DPDatabase::query($query);
+        while ([$holder_id, $snap_tally_delta, $snap_tally_value] = mysqli_fetch_row($result)) {
+            $rank = $ranker->next($snap_tally_value);
+
+            if ($snap_tally_delta <> 0) {
+                $query = sprintf(
+                    "
+                    INSERT INTO past_tallies
+                    SET
+                        timestamp   = %d,
+                        tally_name  = '%s',
+                        holder_type = '%s',
+                        holder_id   = %d,
+                        tally_delta = %d,
+                        tally_value = %d
+                    ",
+                    $ascribe_time,
+                    DPDatabase::escape($this->tally_name),
+                    DPDatabase::escape($this->holder_type),
+                    $holder_id,
+                    $snap_tally_delta,
+                    $snap_tally_value
+                );
+                if ($dry_run) {
+                    // Normalize whitespace
+                    $query = preg_replace('/\s+/', ' ', trim($query));
+                    echo "$query\n";
+                } else {
+                    DPDatabase::query($query);
+                }
             }
 
             if ($rank > 0 && (!isset($best_rank_for_[$holder_id]) || $rank < $best_rank_for_[$holder_id])) {
@@ -469,6 +492,27 @@ class TallyBoard
                 }
             }
         }
+
+        // insert this snapshot time into tally_snapshot_times
+        $sql = sprintf(
+            "
+            INSERT INTO tally_snapshot_times
+            SET
+                tally_name = '%s',
+                holder_type = '%s',
+                timestamp = %d
+            ",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
+            $ascribe_time
+        );
+        if ($dry_run) {
+            // Normalize whitespace
+            $sql = preg_replace('/\s+/', ' ', trim($sql));
+            echo "$sql\n";
+        } else {
+            DPDatabase::query($sql);
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -482,7 +526,7 @@ class TallyBoard
         $sql = sprintf(
             "
             SELECT MAX(timestamp) as max_timestamp
-            FROM past_tallies
+            FROM tally_snapshot_times
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
@@ -518,14 +562,14 @@ class TallyBoard
     {
         $sql = sprintf(
             "
-            SELECT timestamp, tally_delta, tally_value
-            FROM past_tallies
+            SELECT
+                last_snap_tally_delta as tally_delta,
+                last_snap_tally_value as tally_value
+            FROM current_tallies
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
                 AND holder_id   = %d
-            ORDER BY timestamp DESC
-            LIMIT 1
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
@@ -541,14 +585,13 @@ class TallyBoard
             //     his delta would have been zero, and also
             //     his rank would have been zero (null rank).
 
-            $timestamp = $this->get_time_of_latest_snapshot(0);
-
             $info = [
-                'timestamp' => $timestamp,
                 'tally_delta' => 0,
                 'tally_value' => 0,
             ];
         }
+        $info["timestamp"] = $this->get_time_of_latest_snapshot(0);
+
         return $info;
     }
 
@@ -641,6 +684,30 @@ class TallyBoard
     {
         $addl_where = $max_timestamp === null ? "" : sprintf("AND timestamp < %d", $max_timestamp);
 
+        // Initialize all of the snapshot times
+        $sql = sprintf(
+            "
+            SELECT timestamp
+            FROM tally_snapshot_times
+            WHERE
+                tally_name      = '%s'
+                AND holder_type = '%s'
+                AND timestamp  >= %d
+                $addl_where
+            ORDER BY timestamp ASC
+            ",
+            DPDatabase::escape($this->tally_name),
+            DPDatabase::escape($this->holder_type),
+            $min_timestamp
+        );
+        $result = DPDatabase::query($sql);
+
+        $delta_at_ = [];
+        while ([$timestamp] = mysqli_fetch_row($result)) {
+            $delta_at_[$timestamp] = 0;
+        }
+
+        // Fill in any actual deltas from past_tallies
         $sql = sprintf(
             "
             SELECT timestamp, tally_delta
@@ -649,20 +716,20 @@ class TallyBoard
                 tally_name      = '%s'
                 AND holder_type = '%s'
                 AND holder_id   = %d
-                AND timestamp  >= $min_timestamp
+                AND timestamp  >= %d
                 $addl_where
-            ORDER BY timestamp ASC
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id,
+            $min_timestamp
         );
         $result = DPDatabase::query($sql);
 
-        $delta_at_ = [];
         while ([$timestamp, $tally_delta] = mysqli_fetch_row($result)) {
             $delta_at_[$timestamp] = $tally_delta;
         }
+
         return $delta_at_;
     }
 
@@ -690,12 +757,14 @@ class TallyBoard
                 tally_name      = '%s'
                 AND holder_type = '%s'
                 AND holder_id   = %d
-                AND $start_timestamp < timestamp
-                AND timestamp <= $end_timestamp
+                AND %d < timestamp
+                AND timestamp <= %d
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id,
+            $start_timestamp,
+            $end_timestamp
         );
         $res = DPDatabase::query($sql);
         [$sum] = mysqli_fetch_row($res);
