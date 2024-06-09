@@ -67,15 +67,21 @@ window.addEventListener("DOMContentLoaded", function() {
 
     validateText = _validateText;
 
-    document.getElementById("cc-quit").addEventListener("click", function () {
-        document.getElementById("validator").classList.add("nodisp");
-        document.getElementById("proofdiv").classList.remove("nodisp");
-    });
+    let quitButton = document.getElementById("cc-quit");
+    if(quitButton) {
+        quitButton.addEventListener("click", function () {
+            document.getElementById("validator").classList.add("nodisp");
+            document.getElementById("proofdiv").classList.remove("nodisp");
+        });
+    }
 
-    document.getElementById("cc-remove").addEventListener("click", function () {
-        // textArea has already been normalised
-        textArea.value = processText(textArea.value, true).processedText;
-        document.getElementById("validator").classList.add("nodisp");
-        document.getElementById("proofdiv").classList.remove("nodisp");
-    });
+    let removeButton = document.getElementById("cc-remove");
+    if(removeButton) {
+        removeButton.addEventListener("click", function () {
+            // textArea has already been normalised
+            textArea.value = processText(textArea.value, true).processedText;
+            document.getElementById("validator").classList.add("nodisp");
+            document.getElementById("proofdiv").classList.remove("nodisp");
+        });
+    }
 });
