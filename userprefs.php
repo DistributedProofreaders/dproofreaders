@@ -954,12 +954,12 @@ function _show_credit_name_adhoc()
     $credit_names = ['real_name', 'username', 'other'];
     $credit_names_labels = [_('Real Name'), _('Username'), _('Other') . ":"];
     $credit_name_value = $userSettings->get_value('credit_name', 'real_name');
-    $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
+    $on_change = "document.getElementById('credit_other').hidden = (t.options[t.selectedIndex].value!='other');";
     dropdown_select_values_and_labels('credit_name', $credit_name_value, $credit_names, $credit_names_labels, $on_change);
     echo " ";
 
     $credit_other_value = attr_safe($userSettings->get_value('credit_other', ''));
-    echo "<input type='text' name='credit_other' value='$credit_other_value'>\n";
+    echo "<input type='text' name='credit_other' id='credit_other' value='$credit_other_value'>\n";
 }
 
 // The third argument should be a 'real' array.
@@ -984,7 +984,7 @@ function dropdown_select_values_and_labels($field_name, $current_value, $values,
     global $event_id, $window_onload_event;
 
     $function_name = 'event' . ++$event_id;
-    $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
+    $jscode = "let t = document.getElementById('$field_name');\n$on_change";
 
     echo "<script><!--\nfunction $function_name() { $jscode }\n--></script>\n";
 
