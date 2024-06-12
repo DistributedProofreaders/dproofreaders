@@ -43,6 +43,7 @@ $sections = [
         "manage_special_days.php" => _("Manage Special Days"),
         "manage_site_charsuites.php" => _("Manage Site Character Suites"),
         "manage_site_word_lists.php" => _("Manage Site Word Lists"),
+        "show_job_log.php" => _("Show Job Log"),
         "../../locale/translators/index.php" => _("Translation Center"),
     ],
 ];
