@@ -10,7 +10,7 @@ function insert_job_log_entry($filename, $event, $comments, $succeeded = null)
         DPDatabase::escape($filename),
         time(),
         DPDatabase::escape($event),
-        DPDatabase::escape($comments),
+        substr(DPDatabase::escape($comments), 0, 255),
         $succeeded === null ? "null" : ($succeeded ? 1 : 0)
     );
     DPDatabase::query($sql);
