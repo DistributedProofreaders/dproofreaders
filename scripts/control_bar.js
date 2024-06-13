@@ -274,6 +274,7 @@ function makeImageWidget(container, align = "C") {
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
+
     function dragMove(event) {
         content.scrollTop = scrollDiffY - event.pageY;
         content.scrollLeft = scrollDiffX - event.pageX;
@@ -312,6 +313,21 @@ function makeImageWidget(container, align = "C") {
         dragStart(event.touches[0]);
         document.addEventListener("touchmove", dragTouchMove);
         document.addEventListener("touchend", dragTouchEnd);
+    });
+
+    // content.scrollLeft is rounded down to a whole number of pixels so if
+    // as a result of changing the window size its changes can get lost
+    // so keep these unrounded values.
+    let leftScroll, topScroll;
+
+    content.addEventListener("scroll", function() {
+        // to avoid rounding creep, only change if not just rounded down
+        if(Math.floor(leftScroll) != content.scrollLeft) {
+            leftScroll = content.scrollLeft;
+        }
+        if(Math.floor(topScroll) != content.scrollTop) {
+            topScroll = content.scrollTop;
+        }
     });
 
     let imageKey;
@@ -379,13 +395,14 @@ function makeImageWidget(container, align = "C") {
     function initScroll() {
         if(align == "C") {
             // centre horizontally
-            content.scrollLeft = 0.5 * (imDivWidth - contentWidth);
+            leftScroll = 0.5 * (imDivWidth - contentWidth);
         } else {
             // align left
-            content.scrollLeft = 0.5 * (imDivWidth - imageWidth);
+            leftScroll = 0.5 * (imDivWidth - imageWidth);
         }
+        content.scrollLeft = leftScroll;
         // top of image at top of window
-        content.scrollTop = vertOffset;
+        content.scrollTop = topScroll = vertOffset;
     }
 
     function initAll() {
@@ -406,19 +423,36 @@ function makeImageWidget(container, align = "C") {
 
     function setDrawSave() {
         setZoom();
-        setImageStyle();
+        if(align == "C") {
+            let id2 = (imDivWidth / 2);
+            setImageStyle();
+            // imDivWidth could have changed
+            leftScroll += (imDivWidth / 2) - id2;
+        } else {
+            // the +1 fixes a problem with iPad for some unknown reason
+            leftScroll = content.scrollLeft + 1;
+            setImageStyle();
+        }
+        content.scrollLeft = leftScroll;
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
     }
 
     function reScroll () {
-        // keep image stationary when window changes size
-        // x is distance of left edge of image to left of window etc.
-        let x = contentWidth - content.scrollLeft;
-        let y = contentHeight - content.scrollTop;
-        setImageStyle();
-        // contentWidth and height have changed
-        content.scrollLeft = contentWidth - x;
-        content.scrollTop = contentHeight - y;
+        //  when window changes size let top hold still
+        let y = contentHeight - topScroll;
+        if(align == "C") {
+            let id4 = (imDivWidth / 4);
+            setImageStyle();
+            // contentWidth has changed
+            leftScroll += (imDivWidth / 4) - id4;
+        } else {
+            // hold left edge
+            let cw = contentWidth;
+            setImageStyle();
+            leftScroll += contentWidth - cw;
+        }
+        content.scrollLeft = leftScroll;
+        content.scrollTop = topScroll = contentHeight - y;
     }
 
     percentInput.change(function() {
