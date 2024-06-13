@@ -7,7 +7,7 @@
 05 * * * * JOB=SendSmoothreadingNotifications; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 
 # daily:
-01  0 * * * URL=<<CODE_URL>>/crontab/take_tally_snapshots.php; <<URL_DUMP_PROGRAM>> $URL
+01  0 * * * JOB=TakeTallySnapshots; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 01  0 * * * URL=<<CODE_URL>>/crontab/log_project_states.php; <<URL_DUMP_PROGRAM>> $URL
 # See SETUP/ARCHIVING.md to set up archiving before enabling the line below
 #10  0 * * * URL=<<CODE_URL>>/crontab/archive_projects.php; <<URL_DUMP_PROGRAM>> $URL

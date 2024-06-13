@@ -359,7 +359,7 @@ class TallyBoard
      *
      * If `$dry_run` is true, merely echo queries that would change db.
      */
-    public function take_snapshot($ascribe_time, $dry_run)
+    public function take_snapshot($ascribe_time, $dry_run = false)
     {
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
