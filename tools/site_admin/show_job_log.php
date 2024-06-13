@@ -45,13 +45,13 @@ echo "<hr>";
 echo "<table class='themed theme_striped'>";
 echo "<tr>";
 echo "<th>" . _("Timestamp") . "</th>";
-echo "<th>" . _("Filename") . "</th>";
+echo "<th>" . _("Job") . "</th>";
 echo "<th>" . _("Event") . "</th>";
 echo "<th>" . _("Comments") . "</th>";
 echo "</tr>";
 foreach (get_job_log_entries($start_timestamp, $filename, $event) as $row) {
     echo "<tr>";
-    echo "<td>" . date("Y-h-d H:i:s", $row["tracetime"]) . "</td>";
+    echo "<td>" . date("Y-m-d H:i:s", $row["tracetime"]) . "</td>";
     echo "<td>" . $row["filename"] . "</td>";
     echo "<td>" . $row["event"] . "</td>";
     echo "<td>" . $row["comments"] . "</td>";
