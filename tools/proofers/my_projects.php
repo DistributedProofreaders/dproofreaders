@@ -597,10 +597,14 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
             }
         }
 
-        $avail_state_clause = sprintf(
-            "AND projects.state in (%s)",
-            surround_and_join($avail_states, "'", "'", ',')
-        );
+        if ($avail_states) {
+            $avail_state_clause = sprintf(
+                "AND projects.state in (%s)",
+                surround_and_join($avail_states, "'", "'", ',')
+            );
+        } else {
+            $avail_state_clause = "AND 0";
+        }
         $t_latest_page_event = 0;
         unset($round_column_specs['postednum']);
     } elseif ($round_view == "recent") {
