@@ -114,7 +114,7 @@ if (array_get($_POST, "insertdb", "") != "") {
 
 // header, start of table, form, etc. common to all tabs
 $header = _("Personal Preferences");
-$theme_extra_args["js_files"] = ["$code_url/userprefs.js"];
+$theme_extra_args["js_files"] = ["$code_url/scripts/userprefs.js"];
 $theme_extra_args["js_data"] =
     get_newHelpWin_javascript("$code_url/pophelp.php?category=prefs&name=set_") . "
 
@@ -948,7 +948,7 @@ function _show_credit_name_adhoc()
     $credit_options = [
         'real_name' => _('Real Name'),
         'username' => _('Username'),
-        'other' => _('Other:'),
+        'other' => _('Other') . ':',
     ];
 
     $credit_name_value = $userSettings->get_value('credit_name', 'real_name');
