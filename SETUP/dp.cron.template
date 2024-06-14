@@ -4,7 +4,7 @@
 
 # hourly:
 03 * * * * URL=<<CODE_URL>>/crontab/update_user_counts.php; <<URL_DUMP_PROGRAM>> $URL
-05 * * * * URL=<<CODE_URL>>/crontab/finish_smoothreading.php; <<URL_DUMP_PROGRAM>> $URL
+05 * * * * JOB=SendSmoothreadingNotifications; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 
 # daily:
 01  0 * * * URL=<<CODE_URL>>/crontab/take_tally_snapshots.php; <<URL_DUMP_PROGRAM>> $URL
