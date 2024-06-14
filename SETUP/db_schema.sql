@@ -114,10 +114,11 @@ CREATE TABLE `image_sources` (
 --
 
 CREATE TABLE `job_logs` (
-  `filename` varchar(40) NOT NULL default ''' ''',
+  `filename` varchar(40) NOT NULL default '',
   `tracetime` int(12) unsigned NOT NULL default '0',
-  `event` varchar(20) NOT NULL default ''' ''',
-  `comments` varchar(255) default NULL
+  `event` varchar(20) NOT NULL default '',
+  `comments` varchar(255) default NULL,
+  KEY `timestamp` (`tracetime`)
 );
 
 --
