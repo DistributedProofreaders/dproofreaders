@@ -11,7 +11,6 @@
 01  0 * * * URL=<<CODE_URL>>/crontab/log_project_states.php; <<URL_DUMP_PROGRAM>> $URL
 # See SETUP/ARCHIVING.md to set up archiving before enabling the line below
 #10  0 * * * URL=<<CODE_URL>>/crontab/archive_projects.php; <<URL_DUMP_PROGRAM>> $URL
-50  0 * * * URL=<<CODE_URL>>/crontab/clean_tmp.php; <<URL_DUMP_PROGRAM>> $URL
 50  0 * * * URL=<<CODE_URL>>/crontab/clean_uploads_trash.php; <<URL_DUMP_PROGRAM>> $URL
 55  0 * * * URL=<<CODE_URL>>/crontab/extend_site_tally_goals.php; <<URL_DUMP_PROGRAM>> $URL
 00  4 * * * URL=<<CODE_URL>>/crontab/onoff_special_event_queues.php; <<URL_DUMP_PROGRAM>> $URL
