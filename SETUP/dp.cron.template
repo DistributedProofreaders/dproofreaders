@@ -8,7 +8,7 @@
 
 # daily:
 01  0 * * * JOB=TakeTallySnapshots; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
-01  0 * * * URL=<<CODE_URL>>/crontab/log_project_states.php; <<URL_DUMP_PROGRAM>> $URL
+01  0 * * * JOB=RecordProjectStateCounts; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 # See SETUP/ARCHIVING.md to set up archiving before enabling the line below
 #10  0 * * * JOB=ArchiveProjects; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 50  0 * * * JOB=CleanUploadsTrash; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
