@@ -533,8 +533,9 @@ function AP_setup($round)
     $sql = "
         CREATE TEMPORARY TABLE active_page_counts
         (
-            projectid  varchar(22),
-            pages      INT(4)
+            projectid  varchar(22) NOT NULL,
+            pages      int,
+            PRIMARY KEY(projectid)
         )";
     DPDatabase::query($sql);
 
