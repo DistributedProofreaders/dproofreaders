@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let creditOtherInput = document.getElementById('credit_other');
 
     function maybeShowOther() {
-        creditOtherInput.hidden = (creditNameSelector.value != 'other');
+        creditOtherInput.hidden = (creditNameSelector.value !== 'other');
     }
 
     if(creditNameSelector) {
