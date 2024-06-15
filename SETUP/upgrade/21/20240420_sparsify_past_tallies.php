@@ -31,7 +31,6 @@ and after each, we sleep a while to let the DB recover.
 */
 
 echo "Deleting rows from past_tallies where tally_delta=0...\n";
-echo "Note: Progress will be reported every 100 holders per tallyboard\n";
 
 $watch = new Stopwatch();
 
@@ -57,9 +56,7 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
     while ($row = mysqli_fetch_assoc($res)) {
         $holder_id = intval($row['holder_id']);
 
-        if ($progress_index % 100 == 0) {
-            echo sprintf("    %s: holder_id %d\n", $progress_index, $holder_id);
-        }
+        echo sprintf("    %s: holder_id %d...", $progress_index, $holder_id);
 
         // time how long the delete takes and sleep for the same amount of time
         // to not overwhelm the DB
@@ -79,7 +76,13 @@ foreach (get_all_current_tallyboards() as $tallyboard) {
         );
         DPDatabase::query($sql);
         $watch->stop();
-        sleep(round($watch->read()));
+        $sleep_time = round($watch->read());
+        if ($sleep_time > 0) {
+            echo " sleeping $sleep_time";
+            sleep($sleep_time);
+        }
+        $watch->reset();
+        echo "\n";
         $progress_index += 1;
     }
 }
