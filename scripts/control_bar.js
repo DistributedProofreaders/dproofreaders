@@ -358,8 +358,8 @@ function makeImageWidget(container, align = "C") {
         // (2 * windowWidth): half left to half right,
         // (2 * windowWidth + imageWidth): scroll to far edges,
         // similarly for vertical
-        contentWidth = parseFloat(getComputedStyle(content).width);
-        contentHeight = parseFloat(getComputedStyle(content).height);
+        contentWidth = content.clientWidth;
+        contentHeight = content.clientHeight;
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
         let imageHeight, xOffset, yOffset, imDivHeight;
