@@ -287,8 +287,8 @@ function get_site_page_tally_summary($tally_name)
     $site_stats->curr_month_goal =
         get_site_tally_goal_summed(
             $tally_name,
-            "YEAR(date) = YEAR(CURRENT_DATE) AND
-            MONTH(date) = MONTH(CURRENT_DATE)"
+            "date >= DATE_FORMAT(CURRENT_DATE, '%%Y-%%m-01') AND
+            date <= LAST_DAY(CURRENT_DATE)"
         );
 
     // Actuals
