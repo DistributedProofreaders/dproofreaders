@@ -11,6 +11,7 @@
 01  0 * * * URL=<<CODE_URL>>/crontab/log_project_states.php; <<URL_DUMP_PROGRAM>> $URL
 # See SETUP/ARCHIVING.md to set up archiving before enabling the line below
 #10  0 * * * URL=<<CODE_URL>>/crontab/archive_projects.php; <<URL_DUMP_PROGRAM>> $URL
+50  0 * * * JOB=CleanUploadsTrash; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 50  0 * * * URL=<<CODE_URL>>/crontab/clean_uploads_trash.php; <<URL_DUMP_PROGRAM>> $URL
 55  0 * * * URL=<<CODE_URL>>/crontab/extend_site_tally_goals.php; <<URL_DUMP_PROGRAM>> $URL
 00  4 * * * JOB=ToggleSpecialDayQueues; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
