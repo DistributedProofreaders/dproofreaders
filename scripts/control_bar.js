@@ -429,8 +429,7 @@ function makeImageWidget(container, align = "C") {
             // imDivWidth could have changed
             leftScroll += (imDivWidth / 2) - id2;
         } else {
-            // the +1 fixes a problem with iPad for some unknown reason
-            leftScroll = content.scrollLeft + 1;
+            leftScroll = content.scrollLeft;
             setImageStyle();
         }
         content.scrollLeft = leftScroll;
