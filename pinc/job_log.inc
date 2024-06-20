@@ -1,20 +1,17 @@
 <?php
 
-function insert_job_log_entry($filename, $event, $comments, $tracetime = null)
+function insert_job_log_entry($filename, $event, $comments, $succeeded = null)
 {
-    if (!$tracetime) {
-        $tracetime = time();
-    }
-
     $sql = sprintf(
         "
-        INSERT INTO job_logs (filename, tracetime, event, comments)
-        VALUES ('%s', %d, '%s', '%s')
+        INSERT INTO job_logs (filename, tracetime, event, comments, succeeded)
+        VALUES ('%s', %d, '%s', '%s', %s)
         ",
         DPDatabase::escape($filename),
-        $tracetime,
+        time(),
         DPDatabase::escape($event),
-        DPDatabase::escape($comments)
+        DPDatabase::escape($comments),
+        $succeeded === null ? "null" : ($succeeded ? 1 : 0)
     );
     DPDatabase::query($sql);
 }

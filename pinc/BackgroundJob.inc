@@ -28,7 +28,7 @@ abstract class BackgroundJob
         }
     }
 
-    public function stop(?string $message = null)
+    public function stop(?string $message = null, ?bool $succeeded = null)
     {
         $this->output = ob_get_contents();
         ob_end_clean();
@@ -39,7 +39,7 @@ abstract class BackgroundJob
         } else {
             $message .= " ($append)";
         }
-        insert_job_log_entry(get_class($this), "END", $message);
+        insert_job_log_entry(get_class($this), "END", $message, $succeeded);
     }
 
     public function go()
@@ -53,7 +53,7 @@ abstract class BackgroundJob
             $hit_error = true;
             $status = "ERROR: " . $exception->getMessage();
         } finally {
-            $this->stop($status);
+            $this->stop($status, !$hit_error);
         }
 
         if ($this->stdout_on_success || $hit_error && $this->stdout_on_error) {

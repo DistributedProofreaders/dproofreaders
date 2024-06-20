@@ -118,7 +118,8 @@ CREATE TABLE `job_logs` (
   `tracetime` int(12) unsigned NOT NULL default '0',
   `event` varchar(20) NOT NULL default '',
   `comments` varchar(255) default NULL,
-  KEY `timestamp` (`tracetime`)
+  `succeeded` tinyint DEFAULT NULL,
+  KEY `timestamp` (`tracetime`, `succeeded`)
 );
 
 --
