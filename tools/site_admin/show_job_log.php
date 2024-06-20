@@ -6,7 +6,7 @@ include_once($relPath.'job_log.inc');
 
 $days_ago = get_integer_param($_GET, 'days_ago', 1, 0, 365);
 $filename = array_get($_GET, 'filename', null);
-$event = array_get($_GET, 'event', 'BEGIN');
+$event = array_get($_GET, 'event', '');
 
 $start_timestamp = time() - (60 * 60 * 24 * $days_ago);
 
@@ -46,13 +46,22 @@ echo "<table class='themed theme_striped'>";
 echo "<tr>";
 echo "<th>" . _("Timestamp") . "</th>";
 echo "<th>" . _("Job") . "</th>";
+echo "<th>" . _("Status") . "</th>";
 echo "<th>" . _("Event") . "</th>";
 echo "<th>" . _("Comments") . "</th>";
 echo "</tr>";
 foreach (get_job_log_entries($start_timestamp, $filename, $event) as $row) {
+    if ($row["succeeded"] === null) {
+        $status = "";
+    } elseif ($row["succeeded"]) {
+        $status = "succeeded";
+    } else {
+        $status = "<p class='error'>failed</p>";
+    }
     echo "<tr>";
     echo "<td>" . date("Y-m-d H:i:s", $row["tracetime"]) . "</td>";
     echo "<td>" . $row["filename"] . "</td>";
+    echo "<td>" . $status . "</td>";
     echo "<td>" . $row["event"] . "</td>";
     echo "<td>" . $row["comments"] . "</td>";
     echo "</tr>";
