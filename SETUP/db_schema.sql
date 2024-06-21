@@ -708,7 +708,6 @@ CREATE TABLE `wordcheck_events` (
   `round_id` char(2) NOT NULL,
   `username` varchar(25) NOT NULL,
   `suggestions` text,
-  `corrections` text,
   PRIMARY KEY (`check_id`),
   KEY `pc_compound` (`projectid`,`timestamp`,`image`)
 );

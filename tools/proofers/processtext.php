@@ -132,9 +132,7 @@ try {
     abort($exception->getMessage());
 }
 
-// $_SESSION key name for storing WordCheck corrections
 $page = $ppage->lpage->imagefile;
-$wcTempCorrections = "WC_temp_corrections-$projectid-$page";
 
 // BUTTON CODE
 
@@ -194,11 +192,6 @@ try {
             $accepted_words = [];
             $text_data = $_POST["text_data"];
 
-            // to retain corrections across multiple language checks, we save the
-            // corrections in a page-specific session variable
-            // here we unset it before beginning, just in case
-            unset($_SESSION[$wcTempCorrections]);
-
             $is_changed = 0;
 
             slim_header(_("WordCheck"), get_wordcheck_page_header_args($user, $ppage));
@@ -211,14 +204,6 @@ try {
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
 
-            // the user is submitting corrections, so pull any temporary corrections
-            // they made long the way for saving in WordCheck (they've already been
-            // applied to the text itself)
-            if (isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections])) {
-                $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
-            }
-            unset($_SESSION[$wcTempCorrections]);
-
             // for the record, PPage (or at least LPage) should provide
             // functions for returning the round ID and the page number
             // without the mess below
@@ -227,8 +212,7 @@ try {
                 $ppage->lpage->round->id,
                 $page,
                 $pguser,
-                $accepted_words,
-                $corrections
+                $accepted_words
             );
 
             $ppage->saveAsInProgress($correct_text, $pguser);
@@ -241,17 +225,12 @@ try {
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
 
-            // the user wants to quit, so clear out the temporary variable
-            // storing the corrections
-            unset($_SESSION[$wcTempCorrections]);
-
             save_wordcheck_event(
                 $projectid,
                 $ppage->lpage->round->id,
                 $page,
                 $pguser,
-                $accepted_words,
-                []
+                $accepted_words
             );
 
             $ppage->saveAsInProgress($correct_text, $pguser);
@@ -268,25 +247,12 @@ try {
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
 
-            // 1. Quit the wordcheck interface:
-            // Discard the session state holding current wordcheck corrections
-            // since we don't want to submit them and subsequent page loads will
-            // not need the state.
-            //
-            // NB: Within wordcheck, the markPageChanged() javascript function
-            // disables the Save as 'Done' & Proofread Next button if the user makes
-            // any corrections, so we should only get here if the user has no
-            // corrections to submit, so all we're discarding is wordcheck's
-            // unmodified input fields.
-            unset($_SESSION[$wcTempCorrections]);
-
             save_wordcheck_event(
                 $projectid,
                 $ppage->lpage->round->id,
                 $page,
                 $pguser,
-                $accepted_words,
-                []
+                $accepted_words
             );
 
             // 2. Save the current page as done
@@ -320,13 +286,6 @@ try {
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);
             [$text_data, $corrections] = spellcheck_apply_corrections();
-
-            // save the already-made corrections in a temporary session variable
-            // so we can later save or trash them based on their final decision
-            if (isset($_SESSION[$wcTempCorrections]) && is_array($_SESSION[$wcTempCorrections]) && count($_SESSION[$wcTempCorrections])) {
-                $corrections = array_merge($_SESSION[$wcTempCorrections], $corrections);
-            }
-            $_SESSION[$wcTempCorrections] = $corrections;
 
             $is_changed = get_integer_param($_POST, 'is_changed', 0, 0, 1);
 
