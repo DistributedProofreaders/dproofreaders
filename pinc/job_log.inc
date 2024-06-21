@@ -38,3 +38,17 @@ function get_job_log_entries($timestamp, $filename = null, $event = null)
     }
     return $entries;
 }
+
+function prune_job_log_entries(int $days_to_keep)
+{
+    $cutoff = new DateTimeImmutable(sprintf("%d days ago", $days_to_keep));
+    $sql = sprintf(
+        "
+        DELETE
+        FROM job_logs
+        WHERE tracetime < %d
+        ",
+        $cutoff->format("U")
+    );
+    DPDatabase::query($sql);
+}
