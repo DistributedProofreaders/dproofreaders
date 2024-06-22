@@ -26,7 +26,7 @@ show_news_for_page("FRONT");
 
 echo "\n"
     . "<h2>"
-    . _("Site Concept")
+    . _("Site Concept mrducky")
     . "</h2>"
     . "\n";
 

@@ -3,23 +3,10 @@ $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 
-$content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
-// Time in seconds for how often the feeds get refreshed
-// Disable delay if we are on the test server
-$refreshDelay = $testing ? 0 : 30 * 60;
-$refreshAge = time() - $refreshDelay; // How long ago $refreshDelay was in UNIX time
-$limit = 20; // Number of rows we query from the table, number of items in RSS feed
+function generateRssFeed($content, $site_name, $code_url, $charset, $site_manager_email_addr)
+{
+    $limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
-// Determine if we should display a 0.91 compliant RSS feed or our own feed
-$intlang = get_desired_language();
-if (isset($_GET['type'])) {
-    $xmlfile = "$xmlfeeds_dir/{$content}_rss.$intlang.xml";
-} else {
-    $xmlfile = "$xmlfeeds_dir/{$content}.$intlang.xml";
-}
-
-// If the file does not exist or is stale, let's (re)create it
-if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
     $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
     $absolute_url .= $_SERVER['HTTP_HOST'];
     $absolute_url .= $_SERVER['REQUEST_URI'];
@@ -76,70 +63,42 @@ if (!file_exists($xmlfile) || filemtime($xmlfile) < $refreshAge) {
         $result = DPDatabase::query($query);
         while ($row = mysqli_fetch_array($result)) {
             $posteddate = date("r", ($row['modifieddate']));
-            if (isset($_GET['type'])) {
-                $data .= "<item>
-                <title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
-                <link>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</link>
-                <guid>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</guid>
-                <description>".xmlencode(sprintf(_("Language: %1\$s - Genre: %2\$s"), $row['language'], $row['genre']))."</description>
-                </item>
-                ";
-            } else {
-                $data .= "<project id=\"".$row['projectid']."\">
-                <nameofwork>".xmlencode($row['nameofwork'])."</nameofwork>
-                <authorsname>".xmlencode($row['authorsname'])."</authorsname>
-                <language>".xmlencode($row['language'])."</language>
-                <posteddate>".$posteddate."</posteddate>
-                <genre>".xmlencode($row['genre'])."</genre>
-                <links>";
-                if ($row['postednum']) {
-                    $data .= "<PG_catalog>".xmlencode(get_pg_catalog_url_for_etext($row['postednum']))."</PG_catalog>";
-                }
-                $data .= "<library>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</library>
-                </links>
-                </project>
-                ";
-            }
+            $data .= "<item>
+            <title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
+            <link>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</link>
+            <guid>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</guid>
+            <description>".xmlencode(sprintf(_("Language: %1\$s - Genre: %2\$s"), $row['language'], $row['genre']))."</description>
+            </item>
+            ";
         }
-
+    
         $lastupdated = date("r");
-        if (isset($_GET['type'])) {
-            $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-                <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
-                <channel>
-                <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
-                <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
-                <link>".xmlencode($link)."</link>
-                <description>".xmlencode($desc)."</description>
-                <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
-                <pubDate>".xmlencode($lastupdated)."</pubDate>
-                <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
-                $data
-                </channel>
-                </rss>";
-        } else {
-            $xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
-                <!-- Last Updated: $lastupdated -->
-                <projects xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"projects.xsd\">
-                $data
-                </projects>";
-        }
+        $rssfeed = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
+            <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
+            <channel>
+            <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
+            <title>".xmlencode($site_name)." - " . _("Latest Releases") . "</title>
+            <link>".xmlencode($link)."</link>
+            <description>".xmlencode($desc)."</description>
+            <webMaster>".xmlencode($site_manager_email_addr)." (" . xmlencode(_("Site Manager")) . ")</webMaster>
+            <pubDate>".xmlencode($lastupdated)."</pubDate>
+            <lastBuildDate>".xmlencode($lastupdated)."</lastBuildDate>
+            $data
+            </channel>
+            </rss>";
     }
-
-    $file = fopen($xmlfile, "w");
-    fwrite($file, $xmlpage);
-    $file = fclose($file);
+    return $rssfeed;
 }
 
-// If we're here, the file exists and is fresh, output it
+$content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
+$rssfeed = generateRssFeed($content, $site_name, $code_url, $charset, $site_manager_email_addr);
 
-$fileModifiedTime = filemtime($xmlfile);
-$secondsOfFreshnessRemaining = $fileModifiedTime + $refreshDelay - time();
-
-// Let the browser cache it until the local cache becomes stale
+// Let the browser cache it for $cache_duration seconds
+$cache_duration = 30 * 60;
+$now = time();
 header("Content-Type: text/xml; charset=$charset");
-header("Expires: " . gmdate("D, d M Y H:i:s", $fileModifiedTime + $refreshDelay) . " GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s", $fileModifiedTime) . " GMT");
-header("Cache-Control: max-age=$secondsOfFreshnessRemaining, public, must-revalidate");
+header("Expires: " . gmdate("D, d M Y H:i:s", $now + $cache_duration) . " GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s", $now) . " GMT");
+header("Cache-Control: max-age=$cache_duration, public, must-revalidate");
 
-readfile($xmlfile);
+echo $rssfeed;
