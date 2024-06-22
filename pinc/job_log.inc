@@ -52,3 +52,19 @@ function prune_job_log_entries(int $days_to_keep)
     );
     DPDatabase::query($sql);
 }
+
+function count_job_log_failures(int $days_ago): int
+{
+    $cutoff = new DateTimeImmutable(sprintf("%d days ago", $days_ago));
+    $sql = sprintf(
+        "
+        SELECT count(*)
+        FROM job_logs
+        WHERE tracetime > %d AND succeeded = 0
+        ",
+        $cutoff->format("U")
+    );
+    $result = DPDatabase::query($sql);
+    [$count] = mysqli_fetch_row($result);
+    return $count;
+}
