@@ -312,7 +312,7 @@ class BadWordAccumulator
 function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 {
     global $aspell_temp_dir;
-    global $aspell_executable, $aspell_prefix, $charset;
+    global $aspell_executable, $aspell_prefix;
 
     $messages = [];
 
@@ -343,7 +343,7 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
                     "list",
                     "--prefix=" . escapeshellarg($aspell_prefix),
                     "-d " . escapeshellarg($dict_file),
-                    "--encoding " . escapeshellarg($charset),
+                    "--encoding=UTF-8",
                 ]);
                 //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
                 // build our list of possible misspellings

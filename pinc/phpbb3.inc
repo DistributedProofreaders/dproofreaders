@@ -25,7 +25,7 @@ $this_is_top_level_cli_invocation = (
 if ($this_is_top_level_cli_invocation) {
     // We assume it was invoked from the pinc/ directory.
     $relPath = './';
-    include_once($relPath.'site_vars.php'); // $forums_phpbb_dir, $charset
+    include_once($relPath.'site_vars.php'); // $forums_phpbb_dir
 }
 
 // PHPBB includes (from the standard installation)
@@ -182,7 +182,7 @@ function _insert_post(
     $poster_is_real,
     $watch_topic = null
 ) {
-    global $charset, $forums_phpbb_table_prefix;
+    global $forums_phpbb_table_prefix;
 
     // see: https://phpbbmodders.net/articles/3.0/create_post/
     global $db, $user, $auth;
@@ -241,8 +241,8 @@ function _insert_post(
     $forum_name = $row["forum_name"];
 
     // Build other data variables
-    $post_subject = utf8_recode($post_subject, $charset);
-    $post_text = utf8_recode($post_text, $charset);
+    $post_subject = utf8_recode($post_subject, 'UTF-8');
+    $post_text = utf8_recode($post_text, 'UTF-8');
 
     // see: https://wiki.phpbb.com/Function.submit_post
     $subject = utf8_normalize_nfc($post_subject);

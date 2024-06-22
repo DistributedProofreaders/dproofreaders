@@ -33,8 +33,8 @@ if (isset($bio_id)) {
     $wrap_in_big_tag = true;
 }
 
-header("Content-Type: text/xml; charset=$charset");
-echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
+header("Content-Type: text/xml; charset=UTF-8");
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 
 $sql = "SELECT * FROM biographies $clause";
 $result = DPDatabase::query($sql);

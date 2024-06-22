@@ -568,10 +568,8 @@ function output_wordcheck_language_buttons($languages)
 
 function get_page_js($interface_type_init_value)
 {
-    global $charset;
-
-    $show_wc_header_label = javascript_safe(_("Show WordCheck Header"), $charset);
-    $hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"), $charset);
+    $show_wc_header_label = javascript_safe(_("Show WordCheck Header"));
+    $hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"));
 
     return <<<PAGE_JS
                 function ldAll() {

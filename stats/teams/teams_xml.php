@@ -21,7 +21,7 @@ if (empty($_GET["id"])) {
 $req_team_id = get_integer_param($_GET, 'id', null, 0, null);
 
 //Try our best to make sure no browser caches the page
-header("Content-Type: text/xml; charset=$charset");
+header("Content-Type: text/xml; charset=UTF-8");
 header("Expires: Sat, 1 Jan 2000 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");
@@ -103,7 +103,7 @@ while ($curMbr = mysqli_fetch_assoc($mbrQuery)) {
 $data .= "</teammembers>";
 
 
-$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
+$xmlpage = "<"."?"."xml version=\"1.0\" encoding=\"UTF-8\" ?".">
 <teamstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"teamstats.xsd\">
 $data
 </teamstats>";
