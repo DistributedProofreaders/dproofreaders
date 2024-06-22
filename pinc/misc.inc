@@ -494,28 +494,18 @@ function get_param_matching_regex(array $arr, string $key, ?string $default, str
  * Return a copy of a string correctly encoded for inclusion in an HTML
  * document.
  *
- * This is essentially a wrapper around htmlspecialchars() but it
- * is aware of the global character set. Using this wrapper means we don't
- * have to rely on the global $charset variable being accessible everywhere
- * we need to call htmlspecialchars().
+ * This is essentially a wrapper around htmlspecialchars() but it ensures
+ * that it always uses UTF-8.
  *
  * By default this escapes all quotes with ENT_QUOTES. This can be changed
  * with the $flags argument which is passed directly into htmlspecailchars().
- *
- * If the $charset global isn't defined, use whatever the PHP default_charset
- * is. Note that using default_charset is the default behavior for
- * htmlspecialchars in PHP >= 5.6, whereas 5.4 and 5.5 use UTF-8.
  */
 function html_safe($string, $flags = ENT_QUOTES)
 {
-    $charset = @$GLOBALS['charset'];
-    if (!@$charset) {
-        $charset = ini_get("default_charset");
-    }
     if ($string === null) {
         return "";
     }
-    return htmlspecialchars($string, $flags, $charset);
+    return htmlspecialchars($string, $flags, 'UTF-8');
 }
 
 // -----------------------------------------------------------------------------
@@ -548,14 +538,13 @@ function html_safe($string, $flags = ENT_QUOTES)
  */
 function attr_safe($string)
 {
-    global $charset;
     if ($string === null) {
         return "";
     }
     return htmlspecialchars(
         $string,
         ENT_QUOTES,
-        $charset,
+        'UTF-8',
         false // $double_encode
     );
 }
@@ -571,10 +560,10 @@ function attr_safe($string)
  *
  * Example usage:
  * ```
- * echo '<script>alert("' . javascript_safe($string, $charset) . '"); </script>';
- * echo "<script>alert('" . javascript_safe($string, $charset) . "'); </script>";
- * echo '<a ... onClick=\'confirm("' . javascript_safe($string, $charset) . '")\'>';
- * echo "<a ... onClick=\"confirm('" . javascript_safe($string, $charset) . '")\">";
+ * echo '<script>alert("' . javascript_safe($string) . '"); </script>';
+ * echo "<script>alert('" . javascript_safe($string) . "'); </script>";
+ * echo '<a ... onClick=\'confirm("' . javascript_safe($string) . '")\'>';
+ * echo "<a ... onClick=\"confirm('" . javascript_safe($string) . '")\">";
  * ```
  *
  * Here are the detailed conversions applied:
@@ -598,9 +587,8 @@ function attr_safe($string)
  */
 function javascript_safe($str, $encoding = null)
 {
-    global $charset;
     if (!$encoding) {
-        $encoding = $charset;
+        $encoding = 'UTF-8';
     }
 
     if (!strcasecmp($encoding, 'UTF-8')) {
@@ -701,11 +689,10 @@ function normalize_whitespace($str)
  */
 function xmlencode($string)
 {
-    global $charset;
     if ($string === null) {
         return "";
     }
-    return htmlspecialchars($string, ENT_COMPAT, $charset);
+    return htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
 }
 
 // -----------------------------------------------------------------------------

@@ -15,13 +15,13 @@ $user = new User($username);
 $forum_profile = get_forum_user_details($username);
 
 //Try our best to make sure no browser caches the page
-header("Content-Type: text/xml; charset=$charset");
+header("Content-Type: text/xml; charset=UTF-8");
 header("Expires: Sat, 1 Jan 2000 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . "GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
 
-echo "<?xml version=\"1.0\" encoding=\"$charset\" ?>\n";
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 echo "<memberstats xmlns:xsi=\"http://www.w3.org/2000/10/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"memberstats.xsd\">\n";
 
 $now = time();

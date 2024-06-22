@@ -18,7 +18,6 @@ define('PREVIEW', 'S');
 
 function echo_button($button_id, $which_interface)
 {
-    global $charset;
     $CRLF = '\r\n';
     if ($which_interface == 's') {
         $label = 'value';
@@ -54,7 +53,7 @@ function echo_button($button_id, $which_interface)
                 $label => attr_safe(_("Stop Proofreading")),
                 'title' => attr_safe(_("Stop Proofreading")),
                 'onclick' => "return(confirm('"
-                    . javascript_safe(_("Are you sure you want to stop proofreading?"), $charset)
+                    . javascript_safe(_("Are you sure you want to stop proofreading?"))
                     . "'));",
                 'src' => "gfx/bt1.png",
             ];
@@ -77,8 +76,8 @@ function echo_button($button_id, $which_interface)
                 $label => attr_safe(_("Return Page to Round")),
                 'title' => attr_safe(_("Return Page to Round")),
                 'onclick' => "return(confirm('"
-                     . javascript_safe(_("This will discard all changes you have made on this page."), $charset)
-                     . $CRLF . javascript_safe(_("Are you sure you want to return this page to the current round?"), $charset)
+                     . javascript_safe(_("This will discard all changes you have made on this page."))
+                     . $CRLF . javascript_safe(_("Are you sure you want to return this page to the current round?"))
                      . "'));",
                 'src' => "gfx/bt15.png",
             ];
@@ -90,7 +89,7 @@ function echo_button($button_id, $which_interface)
                 $label => attr_safe(_("Revert to Last Save")),
                 'title' => attr_safe(_("Revert to Last Save")),
                 'onclick' => "return(confirm('"
-                    . javascript_safe(_("Are you sure you want to revert to your last save?"), $charset)
+                    . javascript_safe(_("Are you sure you want to revert to your last save?"))
                     . "'));",
                 'src' => "gfx/bt7.png",
             ];

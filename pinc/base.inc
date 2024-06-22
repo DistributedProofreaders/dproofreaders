@@ -18,7 +18,7 @@
 include_once($relPath."bootstrap.inc");
 
 if (!headers_sent()) {
-    header("Content-Type: text/html; charset=$charset");
+    header("Content-Type: text/html; charset=UTF-8");
 
     // Disallow other sites from embedding pages in frames/iframes
     header("Content-Security-Policy: frame-ancestors 'self'", false);
@@ -30,7 +30,7 @@ if (DPDatabase::get_connection()) {
     $user_is_logged_in = dpsession_resume();
 }
 
-configure_gettext($charset, get_desired_language(), $dyn_locales_dir, $system_locales_dir);
+configure_gettext(get_desired_language(), $dyn_locales_dir, $system_locales_dir);
 
 // Load the site structure. We do this here and not in bootstrap.inc because
 // it uses _() on some strings but we need to configure_gettext() first

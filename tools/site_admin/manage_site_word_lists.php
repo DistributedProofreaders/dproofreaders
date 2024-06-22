@@ -192,7 +192,7 @@ function _handle_action($action, $list_type, $language, $word_string)
             // the above set mirrors the clean-up code in save_word_list
             // TODO: other good checks might be ensuring that the words are
             // recognized by WordCheck, that they don't have spaces within
-            // them, that they are all in $charset, etc
+            // them, etc
 
             // calculate the differences
             $unchanged = count(array_intersect($old_words, $new_words));

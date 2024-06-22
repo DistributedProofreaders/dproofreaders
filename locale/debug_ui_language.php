@@ -59,8 +59,8 @@ if (user_is_a_sitemanager()) {
     $set_locale = setlocale(LC_ALL, $locale);
     $bind1 = bindtextdomain($gettext_domain, $dyn_locales_dir);
     $bind2 = bindtextdomain("iso_639", $system_locales_dir);
-    $bind3 = bind_textdomain_codeset($gettext_domain, $charset);
-    $bind4 = bind_textdomain_codeset("iso_639", $charset);
+    $bind3 = bind_textdomain_codeset($gettext_domain, 'UTF-8');
+    $bind4 = bind_textdomain_codeset("iso_639", 'UTF-8');
     $textdomain = textdomain($gettext_domain);
 
     echo <<<ADMIN
@@ -77,7 +77,7 @@ if (user_is_a_sitemanager()) {
 
         <p>gettext variables:</p>
         <ul>
-            <li>charset: <b>$charset</b></li>
+            <li>charset: <b>UTF-8</b></li>
             <li>dyn_locales_dir: <b>$dyn_locales_dir</b></li>
             <li>system_locales_dir: <b>$system_locales_dir</b></li>
             <li>locale: <b>$locale</b></li>
@@ -88,8 +88,8 @@ if (user_is_a_sitemanager()) {
             <li>setlocale(LC_ALL, $locale) returned <b>$set_locale</b></li>
             <li>bindtextdomain($gettext_domain, $dyn_locales_dir) returned <b>$bind1</b></li>
             <li>bindtextdomain("iso_639", $system_locales_dir) returned <b>$bind2</b></li>
-            <li>bind_textdomain_codeset($gettext_domain, $charset) returned <b>$bind3</b></li>
-            <li>bind_textdomain_codeset("iso_639", $charset) returned <b>$bind4</b></li>
+            <li>bind_textdomain_codeset($gettext_domain, "UTF-8") returned <b>$bind3</b></li>
+            <li>bind_textdomain_codeset("iso_639", "UTF-8") returned <b>$bind4</b></li>
             <li>textdomain($gettext_domain) returned <b>$textdomain</b></li>
         </ul>
 

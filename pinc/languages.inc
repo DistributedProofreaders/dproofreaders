@@ -120,8 +120,6 @@ function lang_direction($langcode = false)
  */
 function get_installed_system_locales()
 {
-    global $charset;
-
     static $system_locales = [];
     if ($system_locales) {
         return $system_locales;
@@ -129,18 +127,15 @@ function get_installed_system_locales()
 
     exec("locale -a", $system_locales);
 
-    // if $charset is UTF-8, exclude all non-UTF-8 locales
-    if ($charset == 'UTF-8') {
-        $utf8_locales = [];
-        foreach ($system_locales as $locale) {
-            if (endswith($locale, '.utf8')) {
-                $utf8_locales[] = substr($locale, 0, strpos($locale, '.utf8'));
-            }
+    // exclude all non-UTF-8 locales
+    $utf8_locales = [];
+    foreach ($system_locales as $locale) {
+        if (endswith($locale, '.utf8')) {
+            $utf8_locales[] = substr($locale, 0, strpos($locale, '.utf8'));
         }
-        $system_locales = $utf8_locales;
     }
 
-    return $system_locales;
+    return $utf8_locales;
 }
 
 /**

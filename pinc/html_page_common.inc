@@ -15,7 +15,6 @@ define('SHOW_STATSBAR', true);
 function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
 {
     global $code_url, $site_abbreviation;
-    global $charset;
 
     static $was_output = false;
     if ($was_output) {
@@ -34,17 +33,9 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
 
     $intlang = get_desired_language();
 
-    // HTML 5 dictates that ISO-8859-1 documents should declare their charset
-    // as windows-1252 (which is what web browsers actually treat ISO-8859-1 as).
-    if (strcasecmp($charset, 'ISO-8859-1') == 0) {
-        $output_charset = 'windows-1252';
-    } else {
-        $output_charset = $charset;
-    }
-
     echo "<!DOCTYPE html>\n"; // HTML 5
     echo "<html ".lang_html_header($intlang).">\n<head>\n";
-    echo "<meta charset='$output_charset'>\n";
+    echo "<meta charset='UTF-8'>\n";
     echo "<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n";
 
     // iOS and Android icons

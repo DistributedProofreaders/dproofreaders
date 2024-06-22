@@ -10,7 +10,7 @@ include_once($relPath.'project_quick_check.inc'); // needed for gate_on_pqc() ca
 
 require_login();
 
-header("Content-Type: text/html; charset=$charset");
+header("Content-Type: text/html; charset=UTF-8");
 
 // Get Passed parameters to code
 $projectid = get_projectID_param($_POST, 'projectid');

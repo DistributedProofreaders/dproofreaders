@@ -334,7 +334,7 @@ function main_form()
 
 function manage_form($locale)
 {
-    global $dyn_locales_dir, $translate_url, $charset;
+    global $dyn_locales_dir, $translate_url;
 
     $system_locales = get_installed_system_locales();
     $translation_enabled = is_locale_translation_enabled($locale);
@@ -424,8 +424,7 @@ function manage_form($locale)
         echo "<form action='$translate_url?func=delete' method='POST'>";
         echo "<input type='hidden' name='locale' value='$locale'>";
         $confirm = javascript_safe(
-            _("Are you sure you want to delete this locale and its translation file?"),
-            $charset
+            _("Are you sure you want to delete this locale and its translation file?")
         );
         echo "<input type='submit' onClick='return confirm(\"$confirm\");' value='"
             . attr_safe(_("Delete this locale")) . "'> ";

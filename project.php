@@ -1938,7 +1938,7 @@ function do_ppv_report()
 
 function do_change_state()
 {
-    global $project, $pguser, $code_url, $charset;
+    global $project, $pguser, $code_url;
 
     $valid_transitions = get_valid_transitions($project, $pguser);
     if (count($valid_transitions) == 0) {
@@ -1998,7 +1998,7 @@ function do_change_state()
             $onClick_condition = "return true;";
         } else {
             $onClick_condition = "return confirm(\""
-                . javascript_safe($question, $charset) . "\");";
+                . javascript_safe($question) . "\");";
         }
         $onclick_attr = "onClick='$onClick_condition'";
         echo "<input type='submit' value='", attr_safe($transition->action_name), "' $onclick_attr $optional_btn_attr>";
