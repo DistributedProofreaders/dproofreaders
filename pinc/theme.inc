@@ -549,8 +549,7 @@ function html_statsbar($nameofpage)
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";
             echo "<h2>" . _("Recently Completed Titles") . "</h2>\n";
-            $state = SQL_CONDITION_GOLD;
-            list_projects_tersely($state, "ORDER BY modifieddate DESC", "LIMIT 7");
+            list_projects_tersely("gold", "ORDER BY modifieddate DESC", "LIMIT 7");
 
             // Show "More..." link
             echo "<p class='more-link'>";
@@ -562,9 +561,8 @@ function html_statsbar($nameofpage)
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
             echo "<div id='recent-titles'>";
             echo "<h2>" . _("Recently Begun") . "</h2>\n";
-            $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
-            list_projects_tersely($state, "ORDER BY modifieddate DESC", $limit_phrase);
+            list_projects_tersely("bronze", "ORDER BY modifieddate DESC", $limit_phrase);
 
             // Show "More..." link
             echo "<p class='more-link'>";
