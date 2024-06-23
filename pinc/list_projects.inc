@@ -184,3 +184,20 @@ function total_completed_projects()
     ";
     return mysqli_fetch_row(DPDatabase::query($sql))[0];
 }
+
+/**
+ * Return the number of projects for a given star metal type.
+ */
+function get_star_texts_count(string $metal): int
+{
+    if ($metal == "bronze") {
+        $state = SQL_CONDITION_BRONZE;
+        return mysqli_fetch_row(DPDatabase::query("SELECT count(*) FROM projects WHERE $state"))[0];
+    } elseif ($metal == "silver") {
+        $state = SQL_CONDITION_SILVER;
+        return mysqli_fetch_row(DPDatabase::query("SELECT count(*) FROM projects WHERE $state"))[0];
+    } elseif ($metal == "gold") {
+        return total_completed_projects();
+    }
+    throw new InvalidArgumentException("\$metal is not a valid value");
+}
