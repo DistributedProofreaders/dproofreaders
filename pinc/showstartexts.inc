@@ -7,26 +7,21 @@ function showstartexts($etext_limit, $type)
 
     if ($type == "bronze") {
         $aria_label_attr = attr_safe(_("Bronze Star"));
-        $state = SQL_CONDITION_BRONZE;
-        $total = mysqli_fetch_row(DPDatabase::query("SELECT count(*) FROM projects WHERE $state"))[0];
         $content = "proofing";
         $category = _("%s in Proofreading");
         $description = _("These books are currently being processed through our site; sign in and start helping!");
     } elseif ($type == "silver") {
         $aria_label_attr = attr_safe(_("Silver Star"));
-        $state = SQL_CONDITION_SILVER;
-        $total = mysqli_fetch_row(DPDatabase::query("SELECT count(*) FROM projects WHERE $state"))[0];
         $content = "postprocessing";
         $category = _("%s In Progress");
         $description = _("These books are undergoing their final checks before being assembled into a completed e-book.");
     } elseif ($type == "gold") {
         $aria_label_attr = attr_safe(_("Gold Star"));
-        $state = SQL_CONDITION_GOLD;
-        $total = total_completed_projects();
         $content = "posted";
         $category = _("%s in Completed");
         $description = _("These books have been processed through our site and posted to the Project Gutenberg archive.");
     }
+    $total = memoize_function("get_star_texts_count", [$type]);
 
     echo "<div class='star-text-summary'>";
 
