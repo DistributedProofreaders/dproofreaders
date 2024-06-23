@@ -29,7 +29,6 @@ $ok_files = [
     "faq/default.php",
     "faq/doc-copy.php",
     "faq/faq_central.php",
-    "faq/feeds_sdk/index.php",
     "faq/font_sample.php",
     "faq/privacy.php",
     "faq/prooffacehelp.php",

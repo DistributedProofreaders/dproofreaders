@@ -67,7 +67,6 @@ API_TESTS = [
 
 FAQ_TESTS = [
     {'path': 'faq/doc-copy.php'},
-    {'path': 'faq/feeds_sdk/index.php'},
     {'path': 'faq/font_sample.php'},
     {'path': 'faq/privacy.php'},
     {'path': 'faq/prooffacehelp.php'},
