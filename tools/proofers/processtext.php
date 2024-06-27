@@ -347,7 +347,7 @@ try {
 function switch_layout()
 {
     $user = User::load_current();
-    $user->profile->i_layout = $user->profile->i_layout == 1 ? 0 : 1;
+    $user->profile->i_layout = $user->profile->i_layout == true ? false : true;
     $user->profile->save();
 }
 
