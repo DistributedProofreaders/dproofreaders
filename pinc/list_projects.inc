@@ -184,7 +184,7 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
         // Download info
         if (!is_null($postednum)) {
             echo get_pg_catalog_link_for_etext($postednum);
-            if ($project['formats']) {
+            if ($project['formats'] ?? false) {
                 echo " [{$project['formats']}]";
             }
             echo "<br>";
