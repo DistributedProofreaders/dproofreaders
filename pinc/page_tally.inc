@@ -622,5 +622,16 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
         $pages_per_day[$date] = $tally_delta;
     }
 
+    // skip initial zeros on "all" days back
+    if ($min_timestamp == 0) {
+        foreach (array_keys($pages_per_day) as $key) {
+            if ($pages_per_day[$key] == 0) {
+                unset($pages_per_day[$key]);
+            } else {
+                break;
+            }
+        }
+    }
+
     return $pages_per_day;
 }
