@@ -58,7 +58,10 @@ abstract class BackgroundJob
 
         if ($this->stdout_on_success || $hit_error && $this->stdout_on_error) {
             echo "Background job: " . get_class($this) . "\n";
-            echo "Status: $status\n";
+            echo "Succeeded: " . (!$hit_error ? "true" : "false") . "\n";
+            if ($status) {
+                echo "Message: $status\n";
+            }
             if ($this->output) {
                 echo "Output:\n";
                 echo $this->output;

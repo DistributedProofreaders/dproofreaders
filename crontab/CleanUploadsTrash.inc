@@ -11,7 +11,8 @@ class CleanUploadsTrash extends BackgroundJob
 
         $trash_dir = realpath("$uploads_dir/$uploads_subdir_trash");
         if (! is_dir($trash_dir)) {
-            throw new RuntimeException("Invalid or non-existent uploads trash subdirectory.");
+            $this->stop_message = "No trash directory found, nothing to do.";
+            return;
         }
 
         // remove files from TRASH subdirectory older than 30 days
