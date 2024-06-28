@@ -411,7 +411,7 @@ class User
     /**
      * Return the username of the currently-logged-in user
      */
-    public static function current_username()
+    public static function current_username(): ?string
     {
         global $pguser;
         return $pguser;
