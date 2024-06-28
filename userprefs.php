@@ -226,7 +226,7 @@ echo "<br>";
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-function echo_general_tab($user)
+function echo_general_tab(User $user): void
 {
     global $userSettings;
 
@@ -411,7 +411,7 @@ function echo_general_tab($user)
     echo_bottom_button_row();
 }
 
-function save_general_tab($user)
+function save_general_tab(User $user): void
 {
     global $userSettings;
 
@@ -452,7 +452,7 @@ function save_general_tab($user)
     $userSettings->set_value('project_detail', $_POST["project_detail"]);
 }
 
-function echo_proofreading_tab($user)
+function echo_proofreading_tab(User $user): void
 {
     global $i_resolutions;
 
@@ -751,7 +751,7 @@ function echo_proofreading_tab($user)
     echo "</td></tr>\n";
 }
 
-function save_proofreading_tab($user)
+function save_proofreading_tab(User $user): void
 {
     $create_new_profile = false;
     if (isset($_POST["mkProfile"]) || isset($_POST["mkProfileAndQuit"])) {
@@ -783,7 +783,7 @@ function save_proofreading_tab($user)
     }
 }
 
-function echo_pm_tab($user)
+function echo_pm_tab(User $user): void
 {
     global $userSettings;
 
@@ -835,7 +835,7 @@ function echo_pm_tab($user)
     echo_bottom_button_row();
 }
 
-function save_pm_tab($user)
+function save_pm_tab(User $user): void
 {
     global $userSettings;
 
