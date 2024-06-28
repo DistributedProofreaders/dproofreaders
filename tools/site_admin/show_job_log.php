@@ -5,7 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'job_log.inc');
 
 $days_ago = get_integer_param($_GET, 'days_ago', 1, 0, 365);
-$filename = array_get($_GET, 'filename', null);
+$job = array_get($_GET, 'job', null);
 $event = array_get($_GET, 'event', '');
 
 $start_timestamp = time() - (60 * 60 * 24 * $days_ago);
@@ -29,8 +29,8 @@ echo "  <th>" . _("Days to show") . "</th>";
 echo "  <td><input name='days_ago' type='number' value='$days_ago''></td>";
 echo "</tr>";
 echo "<tr>";
-echo "  <th>" . _("Filename") . "</th>";
-echo "  <td><input name='filename' type='text' value='" . attr_safe($filename) . "'></td>";
+echo "  <th>" . _("Job") . "</th>";
+echo "  <td><input name='job' type='text' value='" . attr_safe($job) . "'></td>";
 echo "</tr>";
 echo "<tr>";
 echo "  <th>" . _("Event") . "</th>";
@@ -50,7 +50,7 @@ echo "<th>" . _("Status") . "</th>";
 echo "<th>" . _("Event") . "</th>";
 echo "<th>" . _("Comments") . "</th>";
 echo "</tr>";
-foreach (get_job_log_entries($start_timestamp, $filename, $event) as $row) {
+foreach (get_job_log_entries($start_timestamp, $job, $event) as $row) {
     if ($row["succeeded"] === null) {
         $status = "";
     } elseif ($row["succeeded"]) {
