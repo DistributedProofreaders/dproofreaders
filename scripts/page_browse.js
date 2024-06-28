@@ -204,6 +204,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                     const imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv);
                     imageWidget.setup(storageKey);
+                    window.addEventListener("resize", imageWidget.reScroll);
                     stretchDiv.append(imageDiv);
                     showImageText();
                 } else {
@@ -232,7 +233,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                             } else {
                                 textWidget = makeTextWidget(textDiv);
                             }
-                            theSplitter.setSplitDirCallback.push(imageWidget.setup, textWidget.setup);
+                            theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
+                            theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
+                            theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
                             controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
                             theSplitter.fireSetSplitDir();
                             break;
