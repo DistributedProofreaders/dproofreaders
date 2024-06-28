@@ -194,11 +194,12 @@ function show_projects_for_stage(
     }
     echo "\n<p>{$stage->description}</p>";
 
+    $filtered_project_selector = $initial_project_selector;
     if ($show_filter_block) {
         process_and_display_project_filter_form($pguser, $stage->id, $stage->name, $_POST, $initial_project_selector, $filter_custom_display_fields);
+        $projects_filter = get_project_filter_sql($pguser, $stage->id);
+        $filtered_project_selector .= " $projects_filter";
     }
-    $projects_filter = get_project_filter_sql($pguser, $stage->id);
-    $filtered_project_selector = "$initial_project_selector $projects_filter";
 
     $ext_sort_param_name = "order{$stage->id}";
     $ext_sort_setting_name = "{$stage->id}_order";
