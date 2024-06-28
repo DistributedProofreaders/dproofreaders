@@ -78,7 +78,7 @@ if ($username) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_username_form($username)
+function show_username_form(?string $username): void
 {
     echo "<form method='GET'>\n";
     echo "<p>" . _("Username") . ": ";
@@ -90,7 +90,7 @@ function show_username_form($username)
 
 // ------------------------------------------------
 
-function show_toggles_form($username, $user_settings)
+function show_toggles_form(?string $username, Settings $user_settings): void
 {
     global $boolean_user_settings, $value_user_settings, $freeform_user_settings;
 
@@ -166,7 +166,7 @@ function show_toggles_form($username, $user_settings)
 
 // -----------------------------------------------------------------------------
 
-function update_settings($user, $user_settings)
+function update_settings(User $user, Settings $user_settings): void
 {
     global $boolean_user_settings, $value_user_settings, $freeform_user_settings, $pguser;
 
