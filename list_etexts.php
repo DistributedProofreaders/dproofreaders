@@ -47,7 +47,7 @@ if ($x == "g") {
 // Tell RSS feed readers which RSS feed is connected to this page
 $attr_safe_title = attr_safe($title);
 $extra_args = [
-    "head_data" => "<link rel='alternate' type='application/rss+xml' href='$code_url/feeds/backend.php?content=$rss_content&type=rss' title='$attr_safe_title' />",
+    "head_data" => "<link rel='alternate' type='application/rss+xml' href='$code_url/feeds/backend.php?content=$rss_content' title='$attr_safe_title' />",
 ];
 
 output_header($title, NO_STATSBAR, $extra_args);

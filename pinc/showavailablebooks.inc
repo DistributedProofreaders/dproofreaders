@@ -118,16 +118,17 @@ function show_projects_for_smooth_reading()
     echo "\n<h2>$title</h2>";
 
     $content = 'smoothreading';
-    $xml_rss_images = "
+    $rss_image = "
         <a href='$code_url/feeds/backend.php?content=$content'>
-        <img src='$code_url/graphics/xml.gif' width='36' height='14' alt='[XML]'></a>
-        <a href='$code_url/feeds/backend.php?content=$content&amp;type=rss'>
-        <img src='$code_url/graphics/rss.gif' width='36' height='14' alt='[RSS]'></a>
+        <span style='color: #f26522;'>
+        <i class='fas fa-rss-square'></i>
+        </span>
+        </a>
     ";
 
     echo "<p>";
-    // TRANSLATORS: %s are image links to the XML and RSS feeds
-    echo sprintf(_("Feeds of projects currently available for Smooth Reading: %s"), $xml_rss_images);
+    // TRANSLATORS: %s is an image link to the RSS feed
+    echo sprintf(_("Feed of projects currently available for Smooth Reading: %s"), $rss_image);
     echo "</p>";
 
     // Only show the filters if the user is logged in.

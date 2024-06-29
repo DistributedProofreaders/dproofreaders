@@ -14,7 +14,7 @@ $ok_files = [
     "project.php",
     "list_etexts.php",
     "locale/debug_ui_language.php",
-    // RSS and XML feeds
+    // RSS feeds
     "feeds/backend.php",
     // Account login / registration pages
     "accounts/addproofer.php",

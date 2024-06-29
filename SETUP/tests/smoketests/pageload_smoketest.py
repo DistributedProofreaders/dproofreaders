@@ -75,7 +75,7 @@ FAQ_TESTS = [
 ]
 
 MISC_TESTS = [
-    # 'feeds/backend.php' # Disabled. It writes to a file
+    {'path': 'feeds/backend.php'},
     {'path': 'locale/debug_ui_language.php'},
     {'path': 'locale/translators/index.php'},
 ]
