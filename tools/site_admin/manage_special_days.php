@@ -141,7 +141,7 @@ class SpecialDay
     public string $image_url;
     public string $symbol;
 
-    public function __construct($spec_code = null)
+    public function __construct(?string $spec_code = null)
     {
         $this->new_source = true;
         $this->enable = 0;
@@ -168,7 +168,7 @@ class SpecialDay
         }
     }
 
-    public function show_listing_row($count, $current_month)
+    public function show_listing_row(int $count, int $current_month): int
     {
         global $page_url;
         $sid = html_safe($this->spec_code);
@@ -239,12 +239,12 @@ class SpecialDay
         return ($this->open_month);
     }
 
-    public function show_buttons()
+    public function show_buttons(): void
     {
         echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."'>\n";
     }
 
-    public function show_edit_form()
+    public function show_edit_form(): void
     {
         global $page_url;
         echo "<form method='post' action='$page_url'>
@@ -282,7 +282,7 @@ class SpecialDay
             </td></tr></table>\n</form>\n";
     }
 
-    public function _show_edit_row($field, $label, $type = 'text', $maxlength = null, $min = null, $max = null)
+    private function _show_edit_row(string $field, string $label, string $type = 'text', ?int $maxlength = null, ?int $min = null, ?int $max = null): void
     {
         $value = $this->new_source
             ? (empty($_POST[$field]) ? '' : $_POST[$field])
@@ -313,7 +313,7 @@ class SpecialDay
             "</tr>\n";
     }
 
-    public function save_from_post()
+    public function save_from_post(): void
     {
         global $errmsgs;
         $std_fields = ['display_name', 'enable', 'comment',
@@ -372,22 +372,7 @@ class SpecialDay
         DPDatabase::query($sql);
     }
 
-    public function _set_field($field, $value)
-    {
-        $sql = sprintf(
-            "
-            UPDATE special_days
-            SET $field = '%s'
-            WHERE spec_code = '%s'
-            ",
-            DPDatabase::escape($value),
-            DPDatabase::escape($this->spec_code)
-        );
-        DPDatabase::query($sql);
-        $this->$field = $value;
-    }
-
-    public function _show_summary_row($label, $value, $htmlspecialchars = true)
+    private function _show_summary_row(string $label, string $value, bool $htmlspecialchars = true): void
     {
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
@@ -395,7 +380,7 @@ class SpecialDay
             "</tr>\n";
     }
 
-    public function _get_status_cell($status, $class = '')
+    private function _get_status_cell(int $status, string $class = '')
     {
         switch ($status) {
             case 1:
@@ -417,7 +402,7 @@ class SpecialDay
 
 // ----------------------------------------------------------------------------
 
-function make_link($url, $label)
+function make_link(string $url, string $label): string
 {
     if (!$url) {
         return '';
@@ -430,7 +415,7 @@ function make_link($url, $label)
     return "<a href='". attr_safe($url). "'>$label</a>";
 }
 
-function show_sd_toolbar($action)
+function show_sd_toolbar(string $action): void
 {
     $pages = [
         'add_special' => _('Add New Special Day'),
@@ -451,7 +436,7 @@ function show_sd_toolbar($action)
     echo "<p style='text-align: center; margin: 5px 0 5px 0;'>" . implode(" | ", $toolbar_items) . "</p>";
 }
 
-function output_table_headers()
+function output_table_headers(): void
 {
     echo "<tr>";
     echo "<th class='headers'>" . _("Special Day Code") . "</th>";
