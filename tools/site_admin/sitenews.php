@@ -76,7 +76,7 @@ if (isset($news_page_id)) {
 
 // Everything else is just function declarations.
 
-function output_page_links($current_page_id)
+function output_page_links(string $current_page_id): void
 {
     global $NEWS_PAGES;
 
@@ -94,7 +94,8 @@ function output_page_links($current_page_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_selection($name, $options, $value_selected)
+// @param array<string, string> $options
+function echo_selection(string $name, array $options, string $value_selected): void
 {
     echo "<select name='$name'>";
     foreach ($options as $value => $option) {
@@ -107,7 +108,7 @@ function echo_selection($name, $options, $value_selected)
     echo "</select>";
 }
 
-function handle_any_requested_db_updates($news_page_id, $action, $item_id, $header, $content, $locale, $item_status, $item_type)
+function handle_any_requested_db_updates(string $news_page_id, ?string $action, ?string $item_id, string $header, string $content, ?string $locale, ?string $item_status, ?string $item_type): void
 {
     $allowed_tags = '<a><b><i><u><span><img><p><div><br><iframe>';
     switch ($action) {
@@ -235,7 +236,7 @@ function handle_any_requested_db_updates($news_page_id, $action, $item_id, $head
 /**
  * Show a form to edit a news item
  */
-function show_item_editor($news_page_id, $action, $item_id)
+function show_item_editor(string $news_page_id, ?string $action, ?string $item_id): void
 {
     global $locale_options;
     global $status_options;
@@ -312,7 +313,7 @@ function show_item_editor($news_page_id, $action, $item_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_all_news_items_for_page($news_page_id)
+function show_all_news_items_for_page(string $news_page_id): void
 {
     // three categories:
     // 1) current  (currently displayed on page every time)
@@ -419,7 +420,7 @@ function show_all_news_items_for_page($news_page_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function update_news_item_status($item_id, $status)
+function update_news_item_status(string $item_id, string $status): void
 {
     $sql = sprintf(
         "
@@ -435,7 +436,7 @@ function update_news_item_status($item_id, $status)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function news_change_made($news_page_id)
+function news_change_made(string $news_page_id): void
 {
     $sql = sprintf(
         "
@@ -450,7 +451,7 @@ function news_change_made($news_page_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function move_news_item($news_page_id, $id_of_item_to_move, $direction)
+function move_news_item(string $news_page_id, string $id_of_item_to_move, string $direction): void
 {
     $sql = sprintf(
         "
