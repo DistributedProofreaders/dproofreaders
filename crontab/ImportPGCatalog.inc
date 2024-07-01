@@ -115,7 +115,6 @@ class ImportPGCatalog extends BackgroundJob
 
     private function process_catalog()
     {
-        $etexts = [];
         $mime_types_not_in_display_mapping = [];
 
         echo "Scanning files in {$this->local_catalog_dir}...\n";
@@ -231,14 +230,21 @@ class ImportPGCatalog extends BackgroundJob
                         $display_format .= " ($sub_type)";
                     }
                 }
+                // the $display_format may show up more than once and we only
+                // want one copy, so we use it as a hash key to weed out dups
                 $display_formats[$display_format] = 1;
             }
+            unset($nodes);
 
-            if (isset($etexts[$etext_number])) {
-                echo "Error: Found duplicate etext_number $etext_number, skipping duplicate record\n";
-                continue;
-            }
-            $etexts[$etext_number] = $display_formats;
+            ksort($display_formats); // sort alphabetically by format string
+            $formats_string = implode('; ', array_keys($display_formats));
+
+            $sql = sprintf("
+                REPLACE INTO pg_books
+                SET etext_number = %d, formats='%s'
+            ", $etext_number, DPDatabase::escape($formats_string));
+            DPDatabase::query($sql);
+
             $n_rdf_files_processed += 1;
         }
 
@@ -254,20 +260,6 @@ class ImportPGCatalog extends BackgroundJob
             }
         }
 
-        echo "Putting the data into the table...\n";
-
-        ksort($etexts); // sort numerically by $etext_number
-        foreach ($etexts as $etext_number => $formats) {
-            ksort($formats); // sort alphabetically by format string
-            $formats_string = implode('; ', array_keys($formats));
-
-            $sql = sprintf("
-                REPLACE INTO pg_books
-                SET etext_number = %d, formats='%s'
-            ", $etext_number, DPDatabase::escape($formats_string));
-            DPDatabase::query($sql);
-        }
-
-        $this->stop_message = sprintf("Processed %d etexts", count($etexts));
+        $this->stop_message = sprintf("Processed %d etexts", $n_rdf_files_processed);
     }
 }
