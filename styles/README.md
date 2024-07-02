@@ -5,15 +5,9 @@ This easily allows the creation of different themes with a common set of CSS
 code.
 
 ## Installing less
-less is a node.js application, so start by making sure you have a somewhat
-recent version of [node.js](https://nodejs.org). They have
-[packages](https://nodejs.org/en/download/package-manager) for different
-operating systems, including Ubuntu.
-
-After you have a recent version of node.js installed, use npm to install less:
-```bash
-sudo npm install -g less
-```
+less is a node.js application and is part of our npm development requirements.
+See the [DEVELOPMENT](../SETUP/DEVELOPMENT.md) docs for information on installing
+it.
 
 ## File layout
 CSS is broken down into three major sections:
@@ -33,6 +27,12 @@ cd SETUP/ci
 make less
 ```
 
+or run the script directly:
+```bash
+cd SETUP
+./generate_css_from_less.sh
+```
+
 Check in both the `.css` and `.less` files. While it isn't ideal to have generated
 code checked into source control, doing so means that consumers of the DP code
 don't also have to install and use less to generate the CSS.
@@ -44,4 +44,3 @@ at:
 
 * [Design Philosophy](https://www.pgdp.net/c/styles/design_philosophy.php)
 * [Style Demo](https://www.pgdp.net/c/styles/style_demo.php)
-

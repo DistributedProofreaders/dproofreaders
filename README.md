@@ -40,11 +40,9 @@ If you need assistance with the code, inquire within the
 ## Code development
 
 To get involved with development on this code base, see
-[DP Code Development](https://www.pgdp.net/wiki/DP_Code_Development) in the
-pgdp.net wiki.
-
-See also our [coding standards](SETUP/CODE_STYLE.md) and
-[coding documentation](SETUP/CODE_DOCS.md).
+[DP Code Development](https://www.pgdp.net/wiki/DP_Code_Development:_dproofreaders)
+in the pgdp.net wiki. See also the [development](SETUP/DEVELOPMENT.md) document
+in this repo.
 
 ## License
 
