@@ -169,7 +169,7 @@ class SpecialDay
         }
     }
 
-    public function show_listing_row(int $count, int $current_month): ?int
+    public function show_listing_row(int $count, ?int $current_month): ?int
     {
         global $page_url;
         $sid = html_safe($this->spec_code);
@@ -373,7 +373,7 @@ class SpecialDay
         DPDatabase::query($sql);
     }
 
-    private function _show_summary_row(string $label, string $value, bool $htmlspecialchars = true): void
+    private function _show_summary_row(string $label, ?string $value, bool $htmlspecialchars = true): void
     {
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
@@ -381,7 +381,7 @@ class SpecialDay
             "</tr>\n";
     }
 
-    private function _get_status_cell(int $status, string $class = '')
+    private function _get_status_cell(int $status, string $class = ''): string
     {
         switch ($status) {
             case 1:
@@ -403,7 +403,7 @@ class SpecialDay
 
 // ----------------------------------------------------------------------------
 
-function make_link(string $url, string $label): string
+function make_link(?string $url, ?string $label): string
 {
     if (!$url) {
         return '';
