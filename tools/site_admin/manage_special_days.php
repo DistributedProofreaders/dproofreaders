@@ -127,19 +127,20 @@ if ($action == 'show_specials') {
 class SpecialDay
 {
     public bool $new_source;
+    // Note: spec_code cannot be null in the DB but this class makes it optional.
     public ?string $spec_code;
     public string $display_name;
     public int $enable;
-    public string $comment;
+    public ?string $comment;
     public string $color;
-    public int $open_day;
-    public int $open_month;
-    public int $close_day;
-    public int $close_month;
-    public string $date_changes;
-    public string $info_url;
-    public string $image_url;
-    public string $symbol;
+    public ?int $open_day;
+    public ?int $open_month;
+    public ?int $close_day;
+    public ?int $close_month;
+    public ?string $date_changes;
+    public ?string $info_url;
+    public ?string $image_url;
+    public ?string $symbol;
 
     public function __construct(?string $spec_code = null)
     {
@@ -168,7 +169,7 @@ class SpecialDay
         }
     }
 
-    public function show_listing_row(int $count, int $current_month): int
+    public function show_listing_row(int $count, int $current_month): ?int
     {
         global $page_url;
         $sid = html_safe($this->spec_code);
