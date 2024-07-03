@@ -51,9 +51,13 @@ and development) run the following in the repo base:
 composer install
 ```
 
-The code also uses [npm](https://www.npmjs.com/) for some _development only_
-dependencies, such as linting (eslint) and CSS creation (less). To install
-nodejs dependencies (runtime and development) run the following in the repo base:
+The code also uses [nodejs](https://nodejs.org/) for some _development only_
+dependencies, such as linting (eslint) and CSS creation (less). Packages are
+installed with npm that comes with nodejs. For Linux distros, you can find
+packages for recent nodejs versions from
+[nodesource](https://github.com/nodesource/distributions).
+
+To install nodejs dependencies run the following in the repo base:
 ```bash
 npm install
 ```
