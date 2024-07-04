@@ -127,7 +127,10 @@ if ($action == 'show_specials') {
 class SpecialDay
 {
     public bool $new_source;
-    // Note: spec_code cannot be null in the DB but this class makes it optional.
+    // spec_code cannot be null in the DB. However to reuse the HTML form generation
+    // logic the first time the page is loaded, we do allow a null value in this class.
+    // Thus when reading the value from the form to store in the DB, we must ensure
+    // that it is not null.
     public ?string $spec_code;
     public string $display_name;
     public int $enable;
