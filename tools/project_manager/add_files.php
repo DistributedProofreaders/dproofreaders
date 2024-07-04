@@ -198,7 +198,7 @@ class Loader
     private int $n_warnings;
     private int $n_errors;
 
-    public function __construct($source_project_dir, $dest_project_dir, $projectid)
+    public function __construct(string $source_project_dir, string $dest_project_dir, string $projectid)
     {
         $this->source_project_dir = $source_project_dir;
         $this->dest_project_dir = $dest_project_dir;
@@ -207,7 +207,7 @@ class Loader
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    public function analyze()
+    public function analyze(): void
     {
         $this->n_errors = 0;
         $this->n_warnings = 0;
@@ -477,7 +477,7 @@ class Loader
      * Check if there is any reason to exclude the file from the load and
      * return it as a string or the empty string if not.
      */
-    public function _check_file($filename)
+    public function _check_file(string $filename): string
     {
         if (!is_file($filename)) {
             return _('not a regular file');
@@ -524,7 +524,19 @@ class Loader
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    public function _get_action($base, $toi, $db_exts, $src_exts)
+    /**
+     * Return the action to take for a specific base file
+     *
+     * This function returns an array containing 2 values:
+     * - The first one is the action (either error, add, replace, same).
+     * - The second one is only meaningful when action == 'error'.
+     *   It is a longer string describing the actual error.
+     *
+     * @param string[] $db_exts
+     * @param string[] $src_exts
+     * @return string[]
+     */
+    public function _get_action(string $base, string $toi, array $db_exts, array $src_exts): array
     {
         // First, consider error conditions.
 
@@ -623,24 +635,24 @@ class Loader
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    public function has_errors()
+    public function has_errors(): bool
     {
         return ($this->n_errors > 0);
     }
 
-    public function has_warnings()
+    public function has_warnings(): bool
     {
         return ($this->n_warnings > 0);
     }
 
-    public function would_do_nothing()
+    public function would_do_nothing(): bool
     {
         return ($this->n_ops == 0);
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    public function display()
+    public function display(): void
     {
         global $code_url, $projectid;
         echo "<p><b>";
@@ -788,7 +800,7 @@ class Loader
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    public function execute()
+    public function execute(): void
     {
         global $pguser;
 
@@ -911,7 +923,7 @@ class Loader
         }
     }
 
-    public function _do_command($cmd)
+    public function _do_command(string $cmd): void
     {
         if ($this->dry_run) {
             echo "$cmd<br>";
@@ -930,10 +942,16 @@ class Loader
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function split_filename($filename)
-// Return an array of two strings:
-// -- the part of $filename before the rightmost dot, and
-// -- the part from the rightmost dot to the end.
+/**
+ * Split a filename into its base and extension.
+ *
+ * This function returns an array of two strings:
+ *  - the part of $filename before the rightmost dot, and
+ *  - the part from the rightmost dot to the end.
+ *
+ * @return string[]
+ */
+function split_filename(string $filename): array
 {
     $p = strrpos($filename, '.');
     if ($p === false) {
