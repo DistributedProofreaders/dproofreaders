@@ -835,7 +835,7 @@ class Loader
             $src_text_file_path = "$this->source_project_dir/$src_text_file_name";
 
             if ($text_a == 'add' && $image_a == 'add') {
-                if ($this->dry_run) { /** @phpstan-ignore-line */
+                if ($this->dry_run) {
                     echo "
                         project_add_page(
                             $this->projectid,
@@ -869,7 +869,7 @@ class Loader
                 ));
             } else {
                 if ($text_a == 'replace') {
-                    if ($this->dry_run) { /** @phpstan-ignore-line */
+                    if ($this->dry_run) {
                         echo "
                             Page_replaceText(
                                 $this->projectid,
@@ -891,7 +891,7 @@ class Loader
                     if ($src_image_file_name != $db_image_file_name) {
                         // e.g., replacing 001.png with 001.jpg
 
-                        if ($this->dry_run) { /** @phpstan-ignore-line */
+                        if ($this->dry_run) {
                             echo "
                                 Page_replaceImage(
                                     $this->projectid,
