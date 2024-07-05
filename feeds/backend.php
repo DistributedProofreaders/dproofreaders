@@ -18,22 +18,22 @@ echo $rssfeed;
 
 /**
  * Generate an RSS feed for a category of eBooks
- * 
+ *
  * @param string $content
  *   The category for the feed: posted, postprocessing, proofing, or smoothreading
- * 
+ *
  * @param string $site_name
  *   The name of the site serving the feed
- * 
+ *
  * @param string $code_url
  *   The base URL for the site
- * 
+ *
  * @param string $charset
  *   The character set of the feed, such as "UTF-8"
- * 
+ *
  * @param string $site_manager_email_addr
  *   Contact info for the feed <webMaster> element
- * 
+ *
  * @return string
  *   The XML document for the RSS feed
  */
@@ -105,7 +105,7 @@ function generate_rss_feed($content, $site_name, $code_url, $charset, $site_mana
             </item>
             ";
         }
-    
+
         $lastupdated = date("r");
         $rssfeed = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
             <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
