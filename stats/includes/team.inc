@@ -389,7 +389,7 @@ function showTeamMbrs($curTeam, $tally_name)
             $member_url = "$code_url/stats/members/mdetail.php?id=" . $curMbr['u_id'];
             $t->row(
                 "<a href='$member_url'>$username</a>",
-                number_format($curMbr['current_tally']),
+                number_format((int)$curMbr['current_tally']),
                 date("m/d/Y", (int)$curMbr['date_created'])
             );
         }

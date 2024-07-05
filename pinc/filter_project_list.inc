@@ -195,7 +195,7 @@ class DifficultyElement extends ProjectFilterElement
     }
 }
 
-function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, $custom_display_fields = null)
+function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, ?array $custom_display_fields = null)
 {
     $display_fields = [
         "language" => true,
