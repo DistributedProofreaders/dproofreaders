@@ -231,8 +231,20 @@ class ProjectSearchForm
     public static function language_options()
     {
         $lang_options[''] = _('Any');
+
+        $langs_with_dicts = array_flip(get_languages_with_dictionaries());
+        ksort($langs_with_dicts);
+
+        // start with the languages with dictionaries
+        foreach ($langs_with_dicts as $lang_name => $lang_code) {
+            $lang_options[$lang_name] = $lang_name;
+        }
+
+        // then everything else
         foreach (get_iso_language_list() as $k => $v) {
-            $lang_options[$v['lang_name']] = $v['lang_name'];
+            if (!isset($lang_options[$v['lang_name']])) {
+                $lang_options[$v['lang_name']] = $v['lang_name'];
+            }
         }
         return $lang_options;
     }

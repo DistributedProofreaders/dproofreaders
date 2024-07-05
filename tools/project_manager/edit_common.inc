@@ -48,6 +48,10 @@ function language_list($language)
     $pri_language = $languages[0];
     $sec_language = $languages[1] ?? '';
 
+    echo html_safe(_("Languages are both shown to the user to select a project and used as dictionaries for WordCheck."));
+    echo "<br>";
+    echo html_safe(_("Languages without dictionaries will give the proofreader a warning that no dictionary exists in WordCheck."));
+    echo "<br><br>";
     echo html_safe(_("Primary")), ": <select name='pri_language' required>\n";
     maybe_echo_placeholder_option($pri_language);
     echo_language_options($pri_language);
@@ -60,11 +64,29 @@ function language_list($language)
 
 function echo_language_options($default)
 {
-    foreach (get_iso_language_list() as $language) {
-        $lang_name = $language['lang_name'];
+    $langs_with_dicts = array_flip(get_languages_with_dictionaries());
+    ksort($langs_with_dicts);
+
+    // output the languages with dictionaries first
+    echo "<optgroup label='" . attr_safe(_("Languages with dictionaries")) . "'>";
+    foreach ($langs_with_dicts as $lang_name => $lang_code) {
         $selected_string = ($default == $lang_name) ? " selected" : "";
         echo "<option value='", attr_safe($lang_name), "'$selected_string>", html_safe($lang_name), "</option>\n";
     }
+    echo "</optgroup>";
+
+    // then everything else
+    echo "<optgroup label='" . attr_safe(_("Languages without dictionaries")) . "'>";
+    foreach (get_iso_language_list() as $language) {
+        $lang_name = $language['lang_name'];
+        // skip the language if it was output in the group above
+        if (isset($langs_with_dicts[$lang_name])) {
+            continue;
+        }
+        $selected_string = ($default == $lang_name) ? " selected" : "";
+        echo "<option value='", attr_safe($lang_name), "'$selected_string>", html_safe($lang_name), "</option>\n";
+    }
+    echo "</optgroup>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

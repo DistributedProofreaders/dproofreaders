@@ -127,9 +127,20 @@ class LanguageElement extends ProjectFilterElement
     protected function get_options()
     {
         $options = [];
+
+        // start with the languages with dictionaries
+        $langs_with_dicts = array_flip(get_languages_with_dictionaries());
+        ksort($langs_with_dicts);
+        foreach ($langs_with_dicts as $lang_name => $lang_code) {
+            $options[$lang_name] = $lang_name;
+        }
+
+        // then everything else
         foreach (get_iso_language_list() as $name_code) {
             $lang = $name_code["lang_name"];
-            $options[$lang] = $lang;
+            if (!isset($options[$lang])) {
+                $options[$lang] = $lang;
+            }
         }
         return $options;
     }
