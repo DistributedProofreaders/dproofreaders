@@ -190,7 +190,7 @@ class Loader
     private array $ignored_files;
     /** @var string[] */
     private array $non_page_files;
-    /** @var array<string, array<string, array<string, string>>> */
+    /** @var array<string, array{'text': array{'src'?: string[], 'db'?: string[], 'action': string}, 'image': array{'src'?: string[], 'db'?: string[], 'action': string}, 'error_msgs': string[], 'warning_msgs': string[]}> */
     private array $page_file_table;
     /** @var array<string, string> */
     private array $db_text_for_base;

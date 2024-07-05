@@ -167,7 +167,7 @@ function show_projects_for_smooth_reading()
  *   user's filter.
  * @param bool $show_filter_block
  *   Should we show the filter widget?
- * @param array $filter_custom_display_fields
+ * @param ?array $filter_custom_display_fields
  *   An array naming any custom fields that should appear in the filter widget.
  * @param bool $allow_special_colors_legend
  *   Should we show the special colors legend?

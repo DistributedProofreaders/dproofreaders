@@ -73,7 +73,7 @@ class Round extends Stage
     /**
      * Round constructor
      *
-     * @param array<string, string[]> $pi_tools
+     * @param array<string, string|string[]> $pi_tools
      *   A list of which tools should be available in the proofreading
      *   interface's toolbox when proofreading a page in this round.
      *   The format is:
