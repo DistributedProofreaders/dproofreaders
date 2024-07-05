@@ -51,6 +51,9 @@ function language_list($language)
     echo html_safe(_("Languages are both shown to the user to select a project and used as dictionaries for WordCheck."));
     echo "<br>";
     echo html_safe(_("Languages without dictionaries will give the proofreader a warning that no dictionary exists in WordCheck."));
+    echo "<br>";
+    echo new_window_link("../../faq/wordcheck_data.php", _("WordCheck Site Data"));
+
     echo "<br><br>";
     echo html_safe(_("Primary")), ": <select name='pri_language' required>\n";
     maybe_echo_placeholder_option($pri_language);
