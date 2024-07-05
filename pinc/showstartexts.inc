@@ -43,9 +43,8 @@ function showstartexts($etext_limit, $type)
     // Display feed buttons
     echo "
         <a href='$code_url/feeds/backend.php?content=$content'>
-        <span style='color: #f26522;'>
-        <i class='fas fa-rss-square'></i>
-        </span></a>
+        <i class='fas fa-rss-square rss-icon'></i>
+        </a>
         \n";
 
     echo "</div>";
