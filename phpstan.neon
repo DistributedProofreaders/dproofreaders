@@ -16,7 +16,7 @@ parameters:
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
-    level: 4
+    level: 5
 
     ignoreErrors:
         # Errors in third party code, and our interfaces to it
@@ -24,9 +24,288 @@ parameters:
           path: pinc/3rdparty/mediawiki/DairikiDiff.php
         - message: '#Comparison operation .* results in an error#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
+        - message: '#^Parameter \#2 \$num of function array_fill expects int, float given\.$#'
+          path: pinc/3rdparty/mediawiki/DiffEngine.php
+          # This only applies to PHP7, remove this rule when we use PHP8.
+          reportUnmatched: false
         - message: '#Instantiated class DiffFormatter is abstract#'
           path: pinc/DifferenceEngineWrapper.inc
 
         - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
+
+        # Low value and frequent L5 errors that are ignored by default.
+        - message: "#^Parameter \\#1 \\$array1 of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          # This only applies to PHP7, remove this rule when we use PHP8.
+          reportUnmatched: false
+        - message: '#^Parameter \#\d+ .* of (static )?(function|method) .* expects string(\|null)?, int.* given\.$#'
+
+        # Temporary baseline while switching PHPStan to level 5.
+        # TODO(jchaffraix): Fix and remove all those entries.
+        # For PHP7:
+        - message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+          count: 1
+          path: activity_hub.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#5 \\$day of function mktime expects int, string given\\.$#"
+          count: 1
+          path: activity_hub.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+          count: 1
+          path: activity_hub.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$month of function checkdate expects int, string given\\.$#"
+          count: 1
+          path: pinc/Project.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$day of function checkdate expects int, string given\\.$#"
+          count: 1
+          path: pinc/Project.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#3 \\$length of function array_slice expects int\\|null, float given\\.$#"
+          count: 1
+          path: pinc/Project.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#4 \\$filter_custom_display_fields of function show_projects_for_stage expects array, null given\\.$#"
+          count: 1
+          path: pinc/showavailablebooks.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$id of class Pool constructor expects int, string given\\.$#"
+          count: 2
+          path: pinc/stages.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#9 \\$pi_tools of class Round constructor expects array\\<string, array\\<string\\>\\>, array\\<string, string\\> given\\.$#"
+          count: 2
+          path: pinc/stages.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+          count: 2
+          path: pinc/theme.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#5 \\$day of function mktime expects int, string given\\.$#"
+          count: 1
+          path: pinc/theme.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+          count: 4
+          path: pinc/theme.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 1
+          path: sitemap.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#3 \\$n of function ngettext expects int, float given\\.$#"
+          count: 1
+          path: stats/includes/member.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$number of function number_format expects float, string given\\.$#"
+          count: 1
+          path: stats/includes/team.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 1
+          path: stats/includes/team.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 1
+          path: stats/members/mbr_list.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#3 \\$min_timestamp of function get_site_tally_grouped expects int\\|null, string given\\.$#"
+          count: 1
+          path: stats/misc_stats1.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#4 \\$max_timestamp of function get_site_tally_grouped expects int\\|null, string given\\.$#"
+          count: 1
+          path: stats/misc_stats1.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#4 \\$mon of function mktime expects int, string given\\.$#"
+          count: 1
+          path: stats/pp_stage_goal.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#6 \\$year of function mktime expects int, string given\\.$#"
+          count: 1
+          path: stats/pp_stage_goal.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 2
+          path: stats/teams/teams_xml.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 1
+          path: tasks.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 1
+          path: tools/post_proofers/ppv_report.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$pieces of function implode expects array, string given\\.$#"
+          count: 2
+          path: tools/project_manager/add_files.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int, string given\\.$#"
+          count: 1
+          path: tools/site_admin/edit_mail_address_for_non_activated_user.php
+          reportUnmatched: false
+
+        # For PHP8:
+        - message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
+          count: 1
+          path: activity_hub.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#5 \\$day of function mktime expects int\\|null, string given\\.$#"
+          count: 1
+          path: activity_hub.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
+          count: 1
+          path: activity_hub.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$count of function array_fill expects int, float given\\.$#"
+          count: 1
+          path: pinc/3rdparty/mediawiki/DiffEngine.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: pinc/page_tally.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: pinc/special_colors.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
+          count: 2
+          path: pinc/theme.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#5 \\$day of function mktime expects int\\|null, string given\\.$#"
+          count: 1
+          path: pinc/theme.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
+          count: 4
+          path: pinc/theme.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 1
+          path: sitemap.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#3 \\$count of function ngettext expects int, float given\\.$#"
+          count: 1
+          path: stats/includes/member.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$num of function number_format expects float, string given\\.$#"
+          count: 1
+          path: stats/includes/team.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 1
+          path: stats/includes/team.inc
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 1
+          path: stats/members/mbr_list.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#4 \\$month of function mktime expects int\\|null, string given\\.$#"
+          count: 1
+          path: stats/pp_stage_goal.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#6 \\$year of function mktime expects int\\|null, string given\\.$#"
+          count: 1
+          path: stats/pp_stage_goal.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 2
+          path: stats/teams/teams_xml.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 1
+          path: tasks.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 1
+          path: tools/post_proofers/ppv_report.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$array of function implode expects array\\|null, string given\\.$#"
+          count: 2
+          path: tools/project_manager/add_files.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: tools/project_manager/show_adhoc_word_details.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: tools/project_manager/show_all_good_word_suggestions.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: tools/project_manager/show_current_flagged_words.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 2
+          path: tools/project_manager/show_good_word_suggestions.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: tools/project_manager/show_project_possible_bad_words.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#1 \\$array of function array_multisort is passed by reference, so it expects variables only\\.$#"
+          count: 1
+          path: tools/project_manager/show_project_stealth_scannos.php
+          reportUnmatched: false
+
+        - message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, string given\\.$#"
+          count: 1
+          path: tools/site_admin/edit_mail_address_for_non_activated_user.php
+          reportUnmatched: false
