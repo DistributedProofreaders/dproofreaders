@@ -3,7 +3,41 @@ $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 
-function generateRssFeed($content, $site_name, $code_url, $charset, $site_manager_email_addr)
+$content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
+$rssfeed = generate_rss_feed($content, $site_name, $code_url, $charset, $site_manager_email_addr);
+
+// Let the browser cache it for $cache_duration seconds
+$cache_duration = 30 * 60;
+$now = time();
+header("Content-Type: text/xml; charset=$charset");
+header("Expires: " . gmdate("D, d M Y H:i:s", $now + $cache_duration) . " GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s", $now) . " GMT");
+header("Cache-Control: max-age=$cache_duration, public, must-revalidate");
+
+echo $rssfeed;
+
+/**
+ * Generate an RSS feed for a category of eBooks
+ * 
+ * @param string $content
+ *   The category for the feed: posted, postprocessing, proofing, or smoothreading
+ * 
+ * @param string $site_name
+ *   The name of the site serving the feed
+ * 
+ * @param string $code_url
+ *   The base URL for the site
+ * 
+ * @param string $charset
+ *   The character set of the feed, such as "UTF-8"
+ * 
+ * @param string $site_manager_email_addr
+ *   Contact info for the feed <webMaster> element
+ * 
+ * @return string
+ *   The XML document for the RSS feed
+ */
+function generate_rss_feed($content, $site_name, $code_url, $charset, $site_manager_email_addr)
 {
     $limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
@@ -89,16 +123,3 @@ function generateRssFeed($content, $site_name, $code_url, $charset, $site_manage
     }
     return $rssfeed;
 }
-
-$content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
-$rssfeed = generateRssFeed($content, $site_name, $code_url, $charset, $site_manager_email_addr);
-
-// Let the browser cache it for $cache_duration seconds
-$cache_duration = 30 * 60;
-$now = time();
-header("Content-Type: text/xml; charset=$charset");
-header("Expires: " . gmdate("D, d M Y H:i:s", $now + $cache_duration) . " GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s", $now) . " GMT");
-header("Cache-Control: max-age=$cache_duration, public, must-revalidate");
-
-echo $rssfeed;

@@ -120,9 +120,7 @@ function show_projects_for_smooth_reading()
     $content = 'smoothreading';
     $rss_image = "
         <a href='$code_url/feeds/backend.php?content=$content'>
-        <span style='color: #f26522;'>
-        <i class='fas fa-rss-square'></i>
-        </span>
+        <i class='fas fa-rss-square rss-icon'></i>
         </a>
     ";
 
