@@ -137,12 +137,13 @@ class Activity
      *   where $change is one of `[ "grant", "revoke", "request", "deny_request_for" ]`
      */
     public function __construct(
-        $id,
-        $name,
-        $access_minima,
-        $after_satisfying_minima,
-        $evaluation_criteria,
-        $access_change_callback
+        string $id,
+        string $name,
+        /** @var array<string,int> */
+        array $access_minima,
+        string $after_satisfying_minima,
+        string $evaluation_criteria,
+        ?string $access_change_callback
     ) {
         $this->id = $id;
         $this->name = $name;

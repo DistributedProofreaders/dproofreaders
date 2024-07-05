@@ -40,7 +40,7 @@ $totalTeams = $row["totalTeams"];
 
 $data = "<teaminfo id='$team_id'>
         <teamname>".xmlencode($curTeam['teamname'])."</teamname>
-        <datecreated>".date("m/d/Y", $curTeam['created'])."</datecreated>
+        <datecreated>".date("m/d/Y", (int)$curTeam['created'])."</datecreated>
         <createdby>".xmlencode($curTeam['createdby'])."</createdby>
         <leader>".xmlencode(get_username_for_uid($curTeam['owner']))."</leader>
         <description>".xmlencode($curTeam['team_info'])."</description>
@@ -95,7 +95,7 @@ while ($curMbr = mysqli_fetch_assoc($mbrQuery)) {
     if ($curMbr['u_privacy'] == PRIVACY_PRIVATE) {
         $data .= "<member id=\"".$curMbr['u_id']."\">
             <username>".xmlencode($curMbr['username'])."</username>
-            <datejoined>".date("m/d/Y", $curMbr['date_created'])."</datejoined>
+            <datejoined>".date("m/d/Y", (int)$curMbr['date_created'])."</datejoined>
         </member>
         ";
     }

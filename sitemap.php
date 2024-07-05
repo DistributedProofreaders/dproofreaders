@@ -62,12 +62,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 
     // skip entries with no modifieddate
-    if ($row["modifieddate"] == 0) {
+    $modified_date = (int)$row["modifieddate"];
+    if ($modified_date == 0) {
         continue;
     }
 
     $url = "$code_url/project.php?id=" . $row["projectid"];
-    $lastmod = date("Y-m-d", $row["modifieddate"]);
+    $lastmod = date("Y-m-d", $modified_date);
 
     echo <<<URL
             <url>

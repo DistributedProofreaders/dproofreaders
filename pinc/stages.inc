@@ -259,7 +259,7 @@ $ELR_round = get_Round_for_round_number(1);
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 new Pool(
-    'PP',
+    'PP', // @phpstan-ignore-line PHPStan 1.10 reports a string-to-int conv here, seems like a bug
     _('Post-Processing'),
     ['F1' => 400],
     'REQ-AUTO',
@@ -307,7 +307,7 @@ new Stage(
 // -----------------------------------------------------------------------------
 
 new Pool(
-    'PPV',
+    'PPV', // @phpstan-ignore-line PHPStan 1.10 reports a string-to-int conv here, seems like a bug
     _('Post-Processing Verification'),
     [],
     'NOREQ', // "Peer approval. Also gives F2 access."

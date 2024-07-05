@@ -77,7 +77,7 @@ function days_to_now($timestamp)
         $now = time();
     }
 
-    $days = floor(($now - $timestamp) / 86400);
+    $days = (int)floor(($now - $timestamp) / 86400);
     if ($days == 0) {
         return _("Today");
     } elseif ($days == 1) {

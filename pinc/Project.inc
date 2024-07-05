@@ -427,7 +427,7 @@ class Project
                  startswith($this->special_code, 'Otherday')
             ) {
                 if (preg_match("/\w+ (\d{2})(\d{2})/", $this->special_code, $matches)) {
-                    if (!checkdate($matches[1], $matches[2], 2000)) {
+                    if (!checkdate((int)$matches[1], (int)$matches[2], 2000)) {
                         $errors[] = _("Invalid date supplied for Birthday or Otherday Special.");
                     }
                 } else {
@@ -1006,7 +1006,7 @@ class Project
         $proj_suite = new CharSuite($this->projectid, _("Custom"), $codepoints, true);
 
         $pickerset = new PickerSet();
-        $row1 = array_slice($codepoints, 0, round(count($codepoints) / 2));
+        $row1 = array_slice($codepoints, 0, (int)round(count($codepoints) / 2));
         $row2 = array_slice($codepoints, count($row1));
         $pickerset->add_subset("Proj", [$row1, $row2]);
         $proj_suite->pickerset = $pickerset;
