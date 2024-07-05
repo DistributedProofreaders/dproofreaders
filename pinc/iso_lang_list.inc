@@ -114,17 +114,6 @@ function get_script_for_langcode($langcode)
 function get_iso_language_list()
 {
     return [
-        ["lang_name" => "English", "lang_code" => "eng"],
-        ["lang_name" => "Dutch", "lang_code" => "dut/nld"],
-        ["lang_name" => "Esperanto", "lang_code" => "epo"],
-        ["lang_name" => "Finnish", "lang_code" => "fin"],
-        ["lang_name" => "French", "lang_code" => "fre/fra"],
-        ["lang_name" => "German", "lang_code" => "ger/deu"],
-        ["lang_name" => "Italian", "lang_code" => "ita"],
-        ["lang_name" => "Latin", "lang_code" => "lat"],
-        ["lang_name" => "Portuguese", "lang_code" => "por"],
-        ["lang_name" => "Spanish", "lang_code" => "spa"],
-        ["lang_name" => "Swedish", "lang_code" => "swe"],
         ["lang_name" => "Abkhazian", "lang_code" => "abk"],
         ["lang_name" => "Achinese", "lang_code" => "ace"],
         ["lang_name" => "Acoli", "lang_code" => "ach"],
