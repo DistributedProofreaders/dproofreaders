@@ -65,7 +65,7 @@ if ($action == 'default') {
             echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
             echo "<td>" . html_safe($row['real_name']) . "</td>\n";
             echo "<td>" . html_safe($row['email']) . "</td>\n";
-            echo "<td>" . date("Y-m-d H:i", $row['date_created']) . "</td>\n";
+            echo "<td>" . date("Y-m-d H:i", (int)$row['date_created']) . "</td>\n";
             echo "</tr>\n";
         }
         echo "</table>\n";

@@ -151,7 +151,7 @@ if ($row) {
     $row = mysqli_fetch_assoc($result);
     mysqli_free_result($result);
     if ($row) {
-        $pp_date = date("d-M-Y", $row["timestamp"]);
+        $pp_date = date("d-M-Y", (int)$row["timestamp"]);
     }
 }
 

@@ -37,15 +37,16 @@ class Stage extends Activity
      *   The "home" location (relative to `$code_url/`) of the stage.
      */
     public function __construct(
-        $id,
-        $name,
-        $access_minima,
-        $after_satisfying_minima,
-        $evaluation_criteria,
-        $access_change_callback,
-        $description,
-        $document,
-        $relative_url
+        string $id,
+        string $name,
+        /** @var array<string,int> */
+        array $access_minima,
+        string $after_satisfying_minima,
+        string $evaluation_criteria,
+        ?string $access_change_callback,
+        string $description,
+        ?string $document,
+        string $relative_url
     ) {
         parent::__construct(
             $id,

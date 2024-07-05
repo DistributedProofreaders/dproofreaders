@@ -62,7 +62,7 @@ foreach (Rounds::get_all() as $round) {
 
 // Get the project transitions for the number of projects completed today
 // set the timestamp representing the start of today
-$t_start_of_today = mktime(0, 0, 0, date('m'), date('d'), date('y'));
+$t_start_of_today = mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('y'));
 
 // For transition events (event_type = 'transition'), details2 gives
 // the project's new state.

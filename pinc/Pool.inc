@@ -35,17 +35,18 @@ class Pool extends Stage
      *   An array of strings to echo on the pool's home page.
      */
     public function __construct(
-        $id,
-        $name,
-        $access_minima,
-        $after_satisfying_minima,
-        $evaluation_criteria,
-        $access_change_callback,
-        $description,
-        $document,
-        $foo_Header,
-        $foo_field_name,
-        $blather
+        string $id,
+        string $name,
+        /** @var array<string,int> */
+        array $access_minima,
+        string $after_satisfying_minima,
+        string $evaluation_criteria,
+        ?string $access_change_callback,
+        string $description,
+        ?string $document,
+        string $foo_Header,
+        string $foo_field_name,
+        array $blather
     ) {
         parent::__construct(
             $id,

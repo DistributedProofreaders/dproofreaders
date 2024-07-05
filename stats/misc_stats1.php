@@ -25,9 +25,9 @@ $title = sprintf(_("Miscellaneous Statistics for Round %s"), $tally_name);
 $js_data = "";
 if (isset($start) && isset($end)) {
     $start_date = new DateTime("$start-01");
-    $start_timestamp = $start_date->format("U");
+    $start_timestamp = (int)$start_date->format("U");
     $end_date = new DateTime("last day of $end-01");
-    $end_timestamp = $end_date->format("U");
+    $end_timestamp = (int)$end_date->format("U");
     $data = get_site_tally_grouped($tally_name, 'year_month', $start_timestamp, $end_timestamp);
     $datax = array_column($data, 0);
     $datay = array_column($data, 1);

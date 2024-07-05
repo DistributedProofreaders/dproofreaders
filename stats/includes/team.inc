@@ -390,7 +390,7 @@ function showTeamMbrs($curTeam, $tally_name)
             $t->row(
                 "<a href='$member_url'>$username</a>",
                 number_format($curMbr['current_tally']),
-                date("m/d/Y", $curMbr['date_created'])
+                date("m/d/Y", (int)$curMbr['date_created'])
             );
         }
     }
