@@ -10,6 +10,7 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'languages.inc');
 include_once($relPath.'post_processing.inc'); // count_pp_projects_past_threshold()
 include_once($relPath.'faq.inc');
+include_once($relPath.'job_log.inc');
 
 /**
  * Emit the opening markup and theme tags, and register a callback
@@ -226,20 +227,33 @@ function html_logobar()
 
     html_navbar();
 
-    if ($testing || $maintenance || $alert_message) {
-        $id = 'alertbar';
-        $messages = [];
-        if ($testing) {
-            $messages[] = _("This is a test site!");
-            $id = 'testbar';
+    // determine and output any important site-wide messages
+    $messages = [];
+    $id = 'alertbar';
+    if ($testing) {
+        $messages[] = _("This is a test site!");
+        $id = 'testbar';
+    }
+    if ($maintenance) {
+        $messages[] = "<span class='error'>" . _("Site is in maintenance mode.") . "</span>";
+        $id = 'testbar';
+    }
+    if ($alert_message) {
+        $messages[] = $alert_message;
+    }
+    if (user_is_a_sitemanager()) {
+        $failed_jobs = count_job_log_failures(1);
+        if ($failed_jobs) {
+            $id = 'alertbar';
+            $messages[] = sprintf(
+                _("%d <a href='%s'>background jobs</a> failed in the past day."),
+                $failed_jobs,
+                "$code_url/tools/site_admin/show_job_log.php"
+            );
         }
-        if ($maintenance) {
-            $messages[] = "<span class='error'>" . _("Site is in maintenance mode.") . "</span>";
-            $id = 'testbar';
-        }
-        if ($alert_message) {
-            $messages[] = $alert_message;
-        }
+    }
+
+    if ($messages) {
         echo "<div id='$id-outer'>";
         echo "<div id='$id'>";
         echo "<p><span>" . implode(" | ", $messages) . "</span></p>";
@@ -549,8 +563,7 @@ function html_statsbar($nameofpage)
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";
             echo "<h2>" . _("Recently Completed Titles") . "</h2>\n";
-            $state = SQL_CONDITION_GOLD;
-            list_projects_tersely($state, "ORDER BY modifieddate DESC", "LIMIT 7");
+            list_projects_tersely("gold", "ORDER BY modifieddate DESC", "LIMIT 7");
 
             // Show "More..." link
             echo "<p class='more-link'>";
@@ -562,9 +575,8 @@ function html_statsbar($nameofpage)
             // Show 3 (random) of the 10 most recently arrived (most recent P1)
             echo "<div id='recent-titles'>";
             echo "<h2>" . _("Recently Begun") . "</h2>\n";
-            $state = SQL_CONDITION_BRONZE;
             $limit_phrase = "LIMIT 3 OFFSET " . rand(0, 7);
-            list_projects_tersely($state, "ORDER BY modifieddate DESC", $limit_phrase);
+            list_projects_tersely("bronze", "ORDER BY modifieddate DESC", $limit_phrase);
 
             // Show "More..." link
             echo "<p class='more-link'>";

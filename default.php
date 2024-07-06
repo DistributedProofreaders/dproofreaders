@@ -134,18 +134,9 @@ echo _("Our community of proofreaders, project managers, developers, etc. is com
 echo "<br>\n";
 
 // Show the number of users that have been active over various recent timescales.
-foreach ([1, 7, 30] as $days_back) {
-    $sql = sprintf(
-        "
-        SELECT COUNT(*)
-        FROM users
-        WHERE t_last_activity > UNIX_TIMESTAMP() - %d * 24*60*60
-        ",
-        $days_back
-    );
-    $res = DPDatabase::query($sql);
-    [$num_users] = mysqli_fetch_row($res);
+$active_users = memoize_function("_get_user_counts", [[1, 7, 30]]);
 
+foreach ($active_users as $days_back => $num_users) {
     $template = (
         $days_back == 1
         ? _('%s active users in the past twenty-four hours.')
@@ -163,3 +154,21 @@ echo sprintf(
     $general_help_email_addr
 );
 echo "</p>\n";
+
+function _get_user_counts(array $days_back_set)
+{
+    $results = [];
+    foreach ($days_back_set as $days_back) {
+        $sql = sprintf(
+            "
+            SELECT COUNT(*)
+            FROM users
+            WHERE t_last_activity > UNIX_TIMESTAMP() - %d * 24*60*60
+            ",
+            $days_back
+        );
+        $res = DPDatabase::query($sql);
+        [$results[$days_back]] = mysqli_fetch_row($res);
+    }
+    return $results;
+}

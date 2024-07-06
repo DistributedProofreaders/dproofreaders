@@ -290,12 +290,6 @@ if ($verbose) {
 echo "</pre>\n";
 
 if (!$one_project) {
-    insert_job_log_entry(
-        'automodify.php',
-        'MIDDLE',
-        sprintf("pre autorelease, %d seconds so far", time() - $start_time)
-    );
-
     autorelease();
 
     insert_job_log_entry(

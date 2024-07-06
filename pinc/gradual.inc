@@ -25,7 +25,7 @@ include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
  * to pretend to have a different number of pages. In production only allow
  * users to adjust down; during testing allow adjusting higher or lower.
  */
-function get_pages_proofed_maybe_simulated($username = null)
+function get_pages_proofed_maybe_simulated(?string $username = null): int
 {
     global $testing;
 
@@ -40,7 +40,7 @@ function get_pages_proofed_maybe_simulated($username = null)
     return $pagesproofed;
 }
 
-function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
+function welcome_see_beginner_forum(int $pagesproofed, $page_id, ?string $username = null): void
 {
     global $code_url, $ELR_round, $beginners_site_forum_idx;
 
@@ -117,7 +117,7 @@ function welcome_see_beginner_forum($pagesproofed, $page_id, $username = null)
     }
 }
 
-function thoughts_re_mentor_feedback($pagesproofed)
+function thoughts_re_mentor_feedback(int $pagesproofed): void
 {
     if ($pagesproofed >= 20 && $pagesproofed < 300) {
         echo "<p>";
@@ -126,7 +126,7 @@ function thoughts_re_mentor_feedback($pagesproofed)
     }
 }
 
-function alert_re_unread_messages($pagesproofed)
+function alert_re_unread_messages(int $pagesproofed): void
 {
     global $pguser;
 
@@ -150,7 +150,7 @@ function alert_re_unread_messages($pagesproofed)
     }
 }
 
-function maybe_output_new_proofer_message()
+function maybe_output_new_proofer_message(): void
 {
     global $code_url, $ELR_round;
 
@@ -174,7 +174,7 @@ function maybe_output_new_proofer_message()
 /**
  * Help direct new proofers to projects to proof.
  */
-function maybe_output_new_proofer_project_message($project)
+function maybe_output_new_proofer_project_message(Project $project): void
 {
     global $code_url, $ELR_round;
 
@@ -249,7 +249,7 @@ function maybe_output_new_proofer_project_message($project)
  * Output a callout and encourage the user to work in the round with the
  * highest backlog that they can work in.
  */
-function encourage_highest_round($username, $round_id = null)
+function encourage_highest_round(?string $username, $round_id = null): void
 {
     global $code_url, $ELR_round, $ACCESS_CRITERIA;
 

@@ -644,8 +644,8 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
     $sql = sprintf(
         "
         INSERT INTO wordcheck_events
-            (projectid, timestamp, image, round_id, username, suggestions, corrections)
-        SELECT '%s', timestamp, image, round_id, username, suggestions, corrections
+            (projectid, timestamp, image, round_id, username, suggestions)
+        SELECT '%s', timestamp, image, round_id, username, suggestions
         FROM wordcheck_events
         WHERE projectid = '%s'
         ",
@@ -658,14 +658,8 @@ function copy_project_wordcheck_events($from_projectid, $to_projectid)
 
 // -----------------------------------------------------------------------------
 
-function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions, $corrections)
+function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions)
 {
-    // save the corrections in wdiff format
-    $correction_list = [];
-    foreach ($corrections as [$orig, $new]) {
-        $correction_list[] = "[-$orig-] {+$new+}";
-    }
-
     $setters = join(", ", [
         set_col_str("projectid", $projectid),
         set_col_num("timestamp", time()),
@@ -673,7 +667,6 @@ function save_wordcheck_event($projectid, $round, $page, $proofer, $suggestions,
         set_col_str("round_id", $round),
         set_col_str("username", $proofer),
         set_col_str("suggestions", join("\n", $suggestions)),
-        set_col_str("corrections", join("\n", $correction_list)),
     ]);
     $sql = "
         INSERT INTO wordcheck_events
@@ -731,12 +724,10 @@ function load_wordcheck_events($projectid, $start_time = 0)
         $page = $resultSet["image"];
         $proofer = $resultSet["username"];
         $words = $resultSet["suggestions"];
-        $corrections = $resultSet["corrections"];
 
         $words = _explode_no_empty("\n", $words);
-        $corrections = _explode_no_empty("\n", $corrections);
 
-        $eventArray[] = [$time, $round, $page, $proofer, $words, $corrections];
+        $eventArray[] = [$time, $round, $page, $proofer, $words];
     }
 
     mysqli_free_result($res);
@@ -756,7 +747,7 @@ function load_project_good_word_suggestions($projectid, $start_time = 0)
     }
 
     foreach ($eventArray as $event) {
-        [$time, $round, $page, $proofer, $words, $corrections] = $event;
+        [$time, $round, $page, $proofer, $words] = $event;
 
         if (count($words)) {
             if (!is_array(@$wordsArray[$round][$page])) {

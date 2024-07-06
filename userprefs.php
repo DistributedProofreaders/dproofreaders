@@ -63,10 +63,6 @@ if (isset($_POST["swProfile"])) {
     metarefresh(0, $eURL, _('Profile Selection'), _('Loading Selected Profile....'));
 }
 
-
-$event_id = 0;
-$window_onload_event = '';
-
 //just a way to get them back to someplace on quit button
 if (isset($_POST["quitnc"])) {
     metarefresh(0, $origin, _("Quit"), "");
@@ -118,6 +114,7 @@ if (array_get($_POST, "insertdb", "") != "") {
 
 // header, start of table, form, etc. common to all tabs
 $header = _("Personal Preferences");
+$theme_extra_args["js_files"] = ["$code_url/scripts/userprefs.js"];
 $theme_extra_args["js_data"] =
     get_newHelpWin_javascript("$code_url/pophelp.php?category=prefs&name=set_") . "
 
@@ -225,14 +222,11 @@ if ($selected_tab == 1) {
 echo "</table></form>\n";
 echo "<br>";
 
-// When the window loads, run all the event handlers that e.g disable preferences.
-echo "\n\n<script><!--\nwindow.onload = function() { $window_onload_event };\n--></script>\n\n";
-
 // End main code. Functions below.
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-function echo_general_tab($user)
+function echo_general_tab(User $user): void
 {
     global $userSettings;
 
@@ -417,7 +411,7 @@ function echo_general_tab($user)
     echo_bottom_button_row();
 }
 
-function save_general_tab($user)
+function save_general_tab(User $user): void
 {
     global $userSettings;
 
@@ -458,7 +452,7 @@ function save_general_tab($user)
     $userSettings->set_value('project_detail', $_POST["project_detail"]);
 }
 
-function echo_proofreading_tab($user)
+function echo_proofreading_tab(User $user): void
 {
     global $i_resolutions;
 
@@ -757,7 +751,7 @@ function echo_proofreading_tab($user)
     echo "</td></tr>\n";
 }
 
-function save_proofreading_tab($user)
+function save_proofreading_tab(User $user): void
 {
     $create_new_profile = false;
     if (isset($_POST["mkProfile"]) || isset($_POST["mkProfileAndQuit"])) {
@@ -789,7 +783,7 @@ function save_proofreading_tab($user)
     }
 }
 
-function echo_pm_tab($user)
+function echo_pm_tab(User $user): void
 {
     global $userSettings;
 
@@ -841,7 +835,7 @@ function echo_pm_tab($user)
     echo_bottom_button_row();
 }
 
-function save_pm_tab($user)
+function save_pm_tab(User $user): void
 {
     global $userSettings;
 
@@ -951,54 +945,18 @@ function _show_credit_name_adhoc()
 {
     global $userSettings;
 
-    $credit_names = ['real_name', 'username', 'other'];
-    $credit_names_labels = [_('Real Name'), _('Username'), _('Other') . ":"];
+    $credit_options = [
+        'real_name' => _('Real Name'),
+        'username' => _('Username'),
+        'other' => _('Other') . ':',
+    ];
+
     $credit_name_value = $userSettings->get_value('credit_name', 'real_name');
-    $on_change = "f.credit_other.disabled = (t.options[t.selectedIndex].value!='other');";
-    dropdown_select_values_and_labels('credit_name', $credit_name_value, $credit_names, $credit_names_labels, $on_change);
-    echo " ";
+
+    _show_dropdown('credit_name', $credit_name_value, $credit_options);
 
     $credit_other_value = attr_safe($userSettings->get_value('credit_other', ''));
-    echo "<input type='text' name='credit_other' value='$credit_other_value'>\n";
-}
-
-// The third argument should be a 'real' array.
-// The labels will be displayed to the user,
-// one of the values will be passed back from the browser as the selected value.
-//
-// The fifth (optional argument), $on_change, is used as a javascript event handler
-// on the dropdown. It will be made into a function so quote marks should not
-// be any problems.
-// Example value: "alert('Hi'+\"!\");"
-// Using this as the $on_change-argument will popup an alert displaying the string
-// 'Hi!' (without quotes).
-// The use of these event handlers are foremost to enable/disable certain preferences
-// depending on the values set in other preferences.
-//
-// The event handler will also be run on page-load and in order to achieve this,
-// something resembling a hack has been introduced. Always refer to the form
-// as the variable f, and always use the variable t to refer to the dropdown.
-// DO NOT USE this.form and this, respectively!!!
-function dropdown_select_values_and_labels($field_name, $current_value, $values, $labels, $on_change = '')
-{
-    global $event_id, $window_onload_event;
-
-    $function_name = 'event' . ++$event_id;
-    $jscode = "var f=document.forms[0];\nvar t=f.$field_name;\n$on_change";
-
-    echo "<script><!--\nfunction $function_name() { $jscode }\n--></script>\n";
-
-    echo "<select name='$field_name' ID='$field_name' onChange=\"$function_name()\">";
-    for ($i = 0; $i < count($values); $i++) {
-        echo "<option value='$values[$i]'";
-        if ($current_value == $values[$i]) {
-            echo " SELECTED";
-        }
-        echo ">".html_safe($labels[$i])."</option>";
-    }
-    echo "</select>";
-
-    $window_onload_event .= "$function_name();\n";
+    echo " <input type='text' name='credit_other' id='credit_other' value='$credit_other_value'>\n";
 }
 
 // ---------------------------------------------------------

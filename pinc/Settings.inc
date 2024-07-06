@@ -312,7 +312,7 @@ class Settings
      *
      * @return Settings
      */
-    public static function & get_Settings($username)
+    public static function & get_Settings($username): Settings
     {
         static $Settings_for_ = [];
         if (array_key_exists($username, $Settings_for_)) {

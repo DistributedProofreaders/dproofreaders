@@ -5,35 +5,38 @@ include_once($relPath.'graph_data.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'page_tally.inc');
 
-// Get start of current month as unixtime
-$m_start = mktime(0, 0, 0, date('m'), 1, date('Y'));
-
 // We want the "PP pages goal" to be equal to the current month's last round before PP (F2) actuals
-$page_offset = 0;
 $round_before_PP = null;
-foreach (Rounds::get_all() as $round) {
-    if ($round->id == "PP") {
+foreach (Activities::get_all() as $activity) {
+    if ($activity->id == "PP") {
         break;
     }
-    $round_before_PP = $round->id;
+    $round_before_PP = $activity->id;
 }
 $site_stats = get_site_page_tally_summary($round_before_PP);
-$pp_page_goal = $site_stats->curr_month_actual + $page_offset;
+$pp_page_goal = $site_stats->curr_month_actual;
 
-// Get the total pages for projects that have posted
-$page_res = DPDatabase::query(sprintf(
-    "
-    SELECT SUM(n_pages)
-    FROM projects
-    WHERE state='%s'
-        AND modifieddate >= %d
-    ",
-    PROJ_SUBMIT_PG_POSTED,
-    $m_start
-));
+function _get_pages_posted_data($start_timestamp)
+{
+    $page_res = DPDatabase::query(sprintf(
+        "
+        SELECT SUM(n_pages)
+        FROM projects
+        WHERE state='%s'
+            AND modifieddate >= %d
+        ",
+        PROJ_SUBMIT_PG_POSTED,
+        $start_timestamp
+    ));
 
-$row = mysqli_fetch_row($page_res);
-$pp_pages_total = $row[0];
+    $row = mysqli_fetch_row($page_res);
+    return $row[0];
+}
+
+// Get the total pages for projects that have posted in current month
+$start_timestamp = mktime(0, 0, 0, date('m'), 1, date('Y'));
+// cache pages posted data for 1 day
+$pp_pages_total = query_graph_cache("_get_pages_posted_data", [$start_timestamp], 60 * 60 * 24);
 
 // calculate the goal percent as long as $pp_page_goal isn't zero
 if ($pp_page_goal != 0) {

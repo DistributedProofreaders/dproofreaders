@@ -18,8 +18,10 @@ var viewSplitter = function(container, storageKey) {
     splitButton.type = 'button';
     splitButton.innerHTML = "&nbsp;";
     let splitKey;
-    const setSplitDirCallback = [];
-    setSplitDirCallback.push(function(storageKey) {
+    const preSetSplitDirCallback = [];
+    const postSetSplitDirCallback = new Set();
+
+    preSetSplitDirCallback.push(function(storageKey) {
         // get the split percent for vertical or horizontal
         splitKey = storageKey + "-split";
         let directionData = JSON.parse(localStorage.getItem(splitKey));
@@ -39,10 +41,13 @@ var viewSplitter = function(container, storageKey) {
     }
 
     function fireSetSplitDir() {
-        setSplitDirCallback.forEach(function (setSplitDirCallbackFunction) {
-            setSplitDirCallbackFunction(storageKey + "-" + layout.splitDirection);
+        preSetSplitDirCallback.forEach(function (preSetSplitDirCallbackFunction) {
+            preSetSplitDirCallbackFunction(storageKey + "-" + layout.splitDirection);
         });
         mainSplit.reLayout();
+        postSetSplitDirCallback.forEach(function (postSetSplitDirCallbackFunction) {
+            postSetSplitDirCallbackFunction();
+        });
     }
 
     splitButton.addEventListener("click", function () {
@@ -63,7 +68,8 @@ var viewSplitter = function(container, storageKey) {
     return {
         mainSplit,
         button: splitButton,
-        setSplitDirCallback,
+        preSetSplitDirCallback,
+        postSetSplitDirCallback,
         fireSetSplitDir,
     };
 };

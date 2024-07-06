@@ -114,10 +114,12 @@ CREATE TABLE `image_sources` (
 --
 
 CREATE TABLE `job_logs` (
-  `filename` varchar(40) NOT NULL default ''' ''',
+  `filename` varchar(40) NOT NULL default '',
   `tracetime` int(12) unsigned NOT NULL default '0',
-  `event` varchar(20) NOT NULL default ''' ''',
-  `comments` varchar(255) default NULL
+  `event` varchar(20) NOT NULL default '',
+  `comments` varchar(255) default NULL,
+  `succeeded` tinyint DEFAULT NULL,
+  KEY `timestamp` (`tracetime`, `succeeded`)
 );
 
 --
@@ -706,7 +708,6 @@ CREATE TABLE `wordcheck_events` (
   `round_id` char(2) NOT NULL,
   `username` varchar(25) NOT NULL,
   `suggestions` text,
-  `corrections` text,
   PRIMARY KEY (`check_id`),
   KEY `pc_compound` (`projectid`,`timestamp`,`image`)
 );

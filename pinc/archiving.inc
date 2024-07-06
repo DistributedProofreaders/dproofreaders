@@ -1,9 +1,10 @@
 <?php
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
-// include udb_user.php to place $archive_db_name in this file's scope.
-include($relPath.'udb_user.php'); // $archive_db_name
 
+// include udb_user.php to place $archive_db_name in this file's scope.
+global $archive_projects_dir, $archive_db_name;
+include($relPath.'udb_user.php'); // $archive_db_name
 
 /**
  * Archive a project
@@ -15,7 +16,7 @@ include($relPath.'udb_user.php'); // $archive_db_name
  *   (for later off-site migration).
  * - Mark the project as having been archived.
  */
-function archive_project($project, $dry_run)
+function archive_project($project, $dry_run = false)
 {
     global $archive_projects_dir, $archive_db_name;
 
@@ -50,15 +51,15 @@ function archive_project($project, $dry_run)
         }
     }
 
-    if ($dry_run) {
-        echo "    Write project metadata.\n";
-    } else {
-        $project->generate_metadata_json();
-    }
-
     $project_dir = $project->dir;
     $new_dir = "$archive_projects_dir/$projectid";
     if (file_exists($project_dir)) {
+        if ($dry_run) {
+            echo "    Write project metadata.\n";
+        } else {
+            $project->generate_metadata_json();
+        }
+
         if ($dry_run) {
             echo "    Move $project_dir to $new_dir.\n";
         } else {

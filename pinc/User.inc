@@ -107,6 +107,8 @@ class DailyLimitExceededException extends UserAccessException
  * @property string $u_intlang;
  * @property bool $u_privacy;
  * @property string $api_key;
+ * @property UserProfile $profile;
+ * @property int $navbar_activity_menu;
  */
 class User
 {
@@ -409,7 +411,7 @@ class User
     /**
      * Return the username of the currently-logged-in user
      */
-    public static function current_username()
+    public static function current_username(): ?string
     {
         global $pguser;
         return $pguser;
@@ -418,7 +420,7 @@ class User
     /**
      * Load the current user object
      */
-    public static function load_current()
+    public static function load_current(): ?User
     {
         static $current_user = null;
 

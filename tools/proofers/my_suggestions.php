@@ -556,7 +556,7 @@ function compare_array_by_priority($a, $b)
     return ($a["priority"] < $b["priority"]) ? -1 : 1;
 }
 
-function get_user_suggestion_criteria($username, $flush_cache = false)
+function get_user_suggestion_criteria(?string $username, $flush_cache = false)
 {
     global $testing;
 

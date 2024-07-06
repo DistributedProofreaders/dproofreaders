@@ -287,8 +287,8 @@ function get_site_page_tally_summary($tally_name)
     $site_stats->curr_month_goal =
         get_site_tally_goal_summed(
             $tally_name,
-            "YEAR(date) = YEAR(CURRENT_DATE) AND
-            MONTH(date) = MONTH(CURRENT_DATE)"
+            "date >= DATE_FORMAT(CURRENT_DATE, '%%Y-%%m-01') AND
+            date <= LAST_DAY(CURRENT_DATE)"
         );
 
     // Actuals
@@ -620,6 +620,17 @@ function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id
     foreach ($deltas as $timestamp => $tally_delta) {
         $date = date("Y-m-d", $timestamp - $SECONDS_TO_YESTERDAY);
         $pages_per_day[$date] = $tally_delta;
+    }
+
+    // skip initial zeros on "all" days back
+    if ($min_timestamp == 0) {
+        foreach (array_keys($pages_per_day) as $key) {
+            if ($pages_per_day[$key] == 0) {
+                unset($pages_per_day[$key]);
+            } else {
+                break;
+            }
+        }
     }
 
     return $pages_per_day;
