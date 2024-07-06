@@ -4,12 +4,12 @@ include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 
 $content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
-$rssfeed = generate_rss_feed($content, $site_name, $code_url, $charset, $site_manager_email_addr);
+$rssfeed = generate_rss_feed($content, $site_name, $code_url, $site_manager_email_addr);
 
 // Let the browser cache it for $cache_duration seconds
 $cache_duration = 30 * 60;
 $now = time();
-header("Content-Type: text/xml; charset=$charset");
+header("Content-Type: text/xml; charset=UTF-8");
 header("Expires: " . gmdate("D, d M Y H:i:s", $now + $cache_duration) . " GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s", $now) . " GMT");
 header("Cache-Control: max-age=$cache_duration, public, must-revalidate");
@@ -28,16 +28,13 @@ echo $rssfeed;
  * @param string $code_url
  *   The base URL for the site
  *
- * @param string $charset
- *   The character set of the feed, such as "UTF-8"
- *
  * @param string $site_manager_email_addr
  *   Contact info for the feed <webMaster> element
  *
  * @return string
  *   The XML document for the RSS feed
  */
-function generate_rss_feed($content, $site_name, $code_url, $charset, $site_manager_email_addr)
+function generate_rss_feed(string $content, string $site_name, string $code_url, string $site_manager_email_addr)
 {
     $limit = 20; // Number of rows we query from the table, number of items in RSS feed
 
@@ -107,7 +104,7 @@ function generate_rss_feed($content, $site_name, $code_url, $charset, $site_mana
         }
 
         $lastupdated = date("r");
-        $rssfeed = "<"."?"."xml version=\"1.0\" encoding=\"$charset\" ?".">
+        $rssfeed = "<"."?"."xml version=\"1.0\" encoding=\"UTF-8\" ?".">
             <rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">
             <channel>
             <atom:link href=\"$encoded_url\" rel=\"self\" type=\"application/rss+xml\" />
