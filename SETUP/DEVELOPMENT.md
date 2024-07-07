@@ -29,6 +29,14 @@ We use the "fork, branch, develop, merge" model, where developers are expected t
 3. develop code on the branch
 4. generate a merge/pull request when ready to merge
 
+Several CI tests will run when the PR is opened, including things like linting,
+security checks, phpstan, and more. Most of these can be run locally with:
+
+```bash
+# run the base set of linting and static analysis checks
+make -C SETUP/ci
+```
+
 See also [DP Code Development Using git](https://www.pgdp.net/wiki/DP_Code_Development_Using_git)
 and a similar guide specific to the [dproofreaders](https://www.pgdp.net/wiki/DP_Code_Development_Using_git:_dproofreaders)
 repo.
@@ -53,8 +61,9 @@ composer install
 
 The code also uses [nodejs](https://nodejs.org/) for some _development only_
 dependencies, such as linting (eslint) and CSS creation (less). Packages are
-installed with npm that comes with nodejs. For Linux distros, you can find
-packages for recent nodejs versions from
+installed with npm that comes with nodejs. In addition to the
+[nodejs download site](https://nodejs.org/en/download/package-manager), Linux
+users can find packages for recent nodejs versions from
 [nodesource](https://github.com/nodesource/distributions).
 
 To install nodejs dependencies run the following in the repo base:
@@ -62,7 +71,7 @@ To install nodejs dependencies run the following in the repo base:
 npm install
 ```
 
-## Organizing principals
+## Organizing Principles
 
 The code is loosely organized around the following ideas:
 * PHP pages end in `.php` extensions. As site entry points, all `.php` pages
@@ -84,7 +93,7 @@ The code is loosely organized around the following ideas:
 * `styles/` - CSS scripts which include `.less` source files and the rendered
   `.css` files. See [CSS / style documentation](../style/README.md).
 * `SETUP/` - Non-runtime code, such as site admin docs, development docs, tests,
-  tooling and other miscellanea. The expectations is that this directory
+  tooling and other miscellanea. The expectation is that this directory
   will not, and should not be, accessible via the web context on a live site.
   * `SETUP/tests/` - Tests, mostly automated but some manual. See the
     [tests README](tests/README.md).
