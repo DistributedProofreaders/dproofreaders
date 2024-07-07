@@ -1790,6 +1790,9 @@ hr.divider {
   text-align: center;
   text-shadow: 3px 2px 5px black;
 }
+.rss-icon {
+  color: #fd9205;
+}
 @media only screen and (max-width: 481px) {
   .star-text-summary {
     width: 100%;

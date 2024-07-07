@@ -43,6 +43,8 @@
 @text-base-mediumc: #666666; // medium contrast theme page-text color
 @text-base-lowc: #9a9a9a;    // low contrast theme page-text color
 
+@rss-icon: #f26522;          // RSS Icon
+
 /* Border colors. Based on the basic theme background and text
  * colors, various levels of contrast. For themes with white
  * page-background and black page-text, the default border color
@@ -679,6 +681,10 @@ hr.divider {
 
 .star-bronze {
     .star-metal(@star-bronze);
+}
+
+.rss-icon {
+    color: @rss-icon;
 }
 
 @media only screen and (max-width: 481px) {

@@ -14,7 +14,7 @@ $ok_files = [
     "project.php",
     "list_etexts.php",
     "locale/debug_ui_language.php",
-    // RSS and XML feeds
+    // RSS feeds
     "feeds/backend.php",
     // Account login / registration pages
     "accounts/addproofer.php",
@@ -29,7 +29,6 @@ $ok_files = [
     "faq/default.php",
     "faq/doc-copy.php",
     "faq/faq_central.php",
-    "faq/feeds_sdk/index.php",
     "faq/font_sample.php",
     "faq/privacy.php",
     "faq/prooffacehelp.php",
