@@ -73,6 +73,11 @@ foreach ($files as $file) {
         continue;
     }
 
+    // If it's in the phpstan cache directory, skip it
+    if (startswith($file, ".phpstan.cache/")) {
+        continue;
+    }
+
     // If it's in the node_modules directory, skip it
     if (startswith($file, "node_modules/")) {
         continue;

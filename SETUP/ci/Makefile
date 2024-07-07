@@ -1,8 +1,8 @@
-.PHONY: all less security_checks best_practice_checks lint_charsuites lint_css lint_code lint tests
+.PHONY: all less security_checks best_practice_checks static_checks lint_charsuites lint_css lint_code lint less tests shellcheck
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-all: less security_checks best_practice_checks lint
+all: security_checks best_practice_checks lint static_checks
 
 #----------------------------------------------------------------------------
 # Security checks
@@ -14,6 +14,11 @@ security_checks:
 # Best Practice checks
 best_practice_checks:
 	$(SELF_DIR)check_includes.php
+
+#----------------------------------------------------------------------------
+# Static code checks
+static_checks:
+	cd $(SELF_DIR)../../ && ./vendor/bin/phpstan --memory-limit=512M
 
 #----------------------------------------------------------------------------
 # File linting
@@ -38,7 +43,7 @@ less:
 #----------------------------------------------------------------------------
 # Unit tests
 tests:
-	cd $(SELF_DIR)/tests/unittests && phpunit
+	cd $(SELF_DIR)/../tests/unittests && ../../../vendor/bin/phpunit
 
 #----------------------------------------------------------------------------
 # Shellcheck: Shell script linter

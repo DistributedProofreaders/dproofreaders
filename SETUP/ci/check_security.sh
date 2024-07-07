@@ -14,7 +14,7 @@ fi
 
 echo "Checking PHP files for known security issues..."
 
-for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v vendor); do
+for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v vendor | grep -v .phpstan.cache); do
     # skip files in SETUP
     [[ "$file" =~ SETUP ]] && continue
 
