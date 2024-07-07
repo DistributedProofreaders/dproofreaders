@@ -86,19 +86,20 @@ function get_script_for_langcode($langcode)
 // For instance in case of language variants in the standard, we sometimes
 // have duplicate entries, i.e. where ISO says
 //     "Adygei; Adyghe"
-// we have:
-//     array("lang_name" => "Adygei", "lang_code" => "ady"),
-//     array("lang_name" => "Adyghe", "lang_code" => "ady"),
+// we have the following, indicating which of the two is the "preferred" option
+// if we need to return a name given the code.
+//     ["lang_name" => "Adygei", "lang_code" => "ady"],
+//     ["lang_name" => "Adyghe", "lang_code" => "ady", "preferred" => true],
 // and sometimes we rename the language completely, e.g. when ISO has
 //     "Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)"
 // we have the simple
-//     array("lang_name" => "Aramaic", "lang_code" => "arc"),
+//     ["lang_name" => "Aramaic", "lang_code" => "arc"],
 //
 // We also have other differences in the language names, e.g. where
 // ISO has
 //     "Afro-Asiatic languages"
 // we have:
-//     array("lang_name" => "Afro-Asiatic (Other)", "lang_code" => "afa"),
+//     ["lang_name" => "Afro-Asiatic (Other)", "lang_code" => "afa"],
 //
 // This is a reason why using the raw ISO entries as a language name
 // is not a good idea, since nobody wants a ridiculously long name like
@@ -119,7 +120,7 @@ function get_iso_language_list()
         ["lang_name" => "Acoli", "lang_code" => "ach"],
         ["lang_name" => "Adangme", "lang_code" => "ada"],
         ["lang_name" => "Adygei", "lang_code" => "ady"],
-        ["lang_name" => "Adyghe", "lang_code" => "ady"],
+        ["lang_name" => "Adyghe", "lang_code" => "ady", "preferred" => true],
         ["lang_name" => "Afar", "lang_code" => "aar"],
         ["lang_name" => "Afrihili", "lang_code" => "afh"],
         ["lang_name" => "Afrikaans", "lang_code" => "afr"],
@@ -140,7 +141,7 @@ function get_iso_language_list()
         ["lang_name" => "Arawak", "lang_code" => "arw"],
         ["lang_name" => "Armenian", "lang_code" => "arm/hye"],
         ["lang_name" => "Artificial (Other)", "lang_code" => "art"],
-        ["lang_name" => "Asturian", "lang_code" => "ast"],
+        ["lang_name" => "Asturian", "lang_code" => "ast", "preferred" => true],
         ["lang_name" => "Assamese", "lang_code" => "asm"],
         ["lang_name" => "Athapascan languages", "lang_code" => "ath"],
         ["lang_name" => "Australian languages", "lang_code" => "aus"],
@@ -197,13 +198,13 @@ function get_iso_language_list()
         ["lang_name" => "Chewa", "lang_code" => "nya"],
         ["lang_name" => "Cheyenne", "lang_code" => "chy"],
         ["lang_name" => "Chibcha", "lang_code" => "chb"],
-        ["lang_name" => "Chichewa", "lang_code" => "nya"],
+        ["lang_name" => "Chichewa", "lang_code" => "nya", "preferred" => true],
         ["lang_name" => "Chinese", "lang_code" => "chi/zho"],
         ["lang_name" => "Chinook jargon", "lang_code" => "chn"],
         ["lang_name" => "Chipewyan", "lang_code" => "chp"],
         ["lang_name" => "Choctaw", "lang_code" => "cho"],
         ["lang_name" => "Chuang", "lang_code" => "zha"],
-        ["lang_name" => "Church Slavic", "lang_code" => "chu"],
+        ["lang_name" => "Church Slavic", "lang_code" => "chu", "preferred" => true],
         ["lang_name" => "Church Slavonic", "lang_code" => "chu"],
         ["lang_name" => "Chuukese", "lang_code" => "chk"],
         ["lang_name" => "Chuvash", "lang_code" => "chv"],
@@ -216,7 +217,7 @@ function get_iso_language_list()
         ["lang_name" => "Creoles and pidgins (English)", "lang_code" => "cpe"],
         ["lang_name" => "Creoles and pidgins (French)", "lang_code" => "cpf"],
         ["lang_name" => "Creoles and pidgins (Portuguese)", "lang_code" => "cpp"],
-        ["lang_name" => "Crimean Tatar", "lang_code" => "crh"],
+        ["lang_name" => "Crimean Tatar", "lang_code" => "crh", "preferred" => true],
         ["lang_name" => "Crimean Turkish", "lang_code" => "crh"],
         ["lang_name" => "Croatian", "lang_code" => "scr/hrv"],
         ["lang_name" => "Cushitic (Other)", "lang_code" => "cus"],
@@ -286,7 +287,7 @@ function get_iso_language_list()
         ["lang_name" => "Gujarati", "lang_code" => "guj"],
         ["lang_name" => "Gwich´in", "lang_code" => "gwi"],
         ["lang_name" => "Haida", "lang_code" => "hai"],
-        ["lang_name" => "Haitian", "lang_code" => "hat"],
+        ["lang_name" => "Haitian", "lang_code" => "hat", "preferred" => true],
         ["lang_name" => "Haitian Creole", "lang_code" => "hat"],
         ["lang_name" => "Hausa", "lang_code" => "hau"],
         ["lang_name" => "Hawaiian", "lang_code" => "haw"],
@@ -344,7 +345,7 @@ function get_iso_language_list()
         ["lang_name" => "Khmer", "lang_code" => "khm"],
         ["lang_name" => "Khoisan (Other)", "lang_code" => "khi"],
         ["lang_name" => "Khotanese", "lang_code" => "kho"],
-        ["lang_name" => "Kikuyu", "lang_code" => "kik"],
+        ["lang_name" => "Kikuyu", "lang_code" => "kik", "preferred" => true],
         ["lang_name" => "Kimbundu", "lang_code" => "kmb"],
         ["lang_name" => "Kinyarwanda", "lang_code" => "kin"],
         ["lang_name" => "Kirghiz", "lang_code" => "kir"],
@@ -355,7 +356,7 @@ function get_iso_language_list()
         ["lang_name" => "Kosraean", "lang_code" => "kos"],
         ["lang_name" => "Kpelle", "lang_code" => "kpe"],
         ["lang_name" => "Kru", "lang_code" => "kro"],
-        ["lang_name" => "Kuanyama", "lang_code" => "kua"],
+        ["lang_name" => "Kuanyama", "lang_code" => "kua", "preferred" => true],
         ["lang_name" => "Kumyk", "lang_code" => "kum"],
         ["lang_name" => "Kurdish", "lang_code" => "kur"],
         ["lang_name" => "Kurukh", "lang_code" => "kru"],
@@ -367,13 +368,13 @@ function get_iso_language_list()
         ["lang_name" => "Lao", "lang_code" => "lao"],
         ["lang_name" => "Latin", "lang_code" => "lat"],
         ["lang_name" => "Latvian", "lang_code" => "lav"],
-        ["lang_name" => "Letzeburgesch", "lang_code" => "ltz"],
+        ["lang_name" => "Letzeburgesch", "lang_code" => "ltz", "preferred" => true],
         ["lang_name" => "Lezghian", "lang_code" => "lez"],
         ["lang_name" => "Limburgish", "lang_code" => "lim"],
         ["lang_name" => "Lingala", "lang_code" => "lin"],
         ["lang_name" => "Lithuanian", "lang_code" => "lit"],
         ["lang_name" => "Lojban", "lang_code" => "jbo"],
-        ["lang_name" => "Low German", "lang_code" => "nds"],
+        ["lang_name" => "Low German", "lang_code" => "nds", "preferred" => true],
         ["lang_name" => "Low Saxon", "lang_code" => "nds"],
         ["lang_name" => "Lower Sorbian", "lang_code" => "dsb"],
         ["lang_name" => "Lozi", "lang_code" => "loz"],
@@ -422,10 +423,10 @@ function get_iso_language_list()
         ["lang_name" => "Munda languages", "lang_code" => "mun"],
         ["lang_name" => "Nahuatl", "lang_code" => "nah"],
         ["lang_name" => "Nauru", "lang_code" => "nau"],
-        ["lang_name" => "Navaho", "lang_code" => "nav"],
+        ["lang_name" => "Navaho", "lang_code" => "nav", "preferred" => true],
         ["lang_name" => "Navajo", "lang_code" => "nav"],
-        ["lang_name" => "Ndebele, North", "lang_code" => "nde"],
-        ["lang_name" => "Ndebele, South", "lang_code" => "nbl"],
+        ["lang_name" => "Ndebele, North", "lang_code" => "nde", "preferred" => true],
+        ["lang_name" => "Ndebele, South", "lang_code" => "nbl", "preferred" => true],
         ["lang_name" => "Ndonga", "lang_code" => "ndo"],
         ["lang_name" => "Neapolitan", "lang_code" => "nap"],
         ["lang_name" => "Nepali", "lang_code" => "nep"],
@@ -440,8 +441,8 @@ function get_iso_language_list()
         ["lang_name" => "Northern Sami", "lang_code" => "sme"],
         ["lang_name" => "North Ndebele", "lang_code" => "nde"],
         ["lang_name" => "Norwegian", "lang_code" => "nor"],
-        ["lang_name" => "Norwegian Bokmål", "lang_code" => "nob"],
-        ["lang_name" => "Norwegian Nynorsk", "lang_code" => "nno"],
+        ["lang_name" => "Norwegian Bokmål", "lang_code" => "nob", "preferred" => true],
+        ["lang_name" => "Norwegian Nynorsk", "lang_code" => "nno", "preferred" => true],
         ["lang_name" => "Nubian languages", "lang_code" => "nub"],
         ["lang_name" => "Nyamwezi", "lang_code" => "nym"],
         ["lang_name" => "Nyanja", "lang_code" => "nya"],
@@ -457,7 +458,7 @@ function get_iso_language_list()
         ["lang_name" => "Oriya", "lang_code" => "ori"],
         ["lang_name" => "Oromo", "lang_code" => "orm"],
         ["lang_name" => "Osage", "lang_code" => "osa"],
-        ["lang_name" => "Ossetian", "lang_code" => "oss"],
+        ["lang_name" => "Ossetian", "lang_code" => "oss", "preferred" => true],
         ["lang_name" => "Ossetic", "lang_code" => "oss"],
         ["lang_name" => "Otomian languages", "lang_code" => "oto"],
         ["lang_name" => "Pahlavi", "lang_code" => "pal"],
@@ -477,7 +478,7 @@ function get_iso_language_list()
         ["lang_name" => "Polish", "lang_code" => "pol"],
         ["lang_name" => "Portuguese", "lang_code" => "por"],
         ["lang_name" => "Prakrit languages", "lang_code" => "pra"],
-        ["lang_name" => "Provençal", "lang_code" => "oci"],
+        ["lang_name" => "Provençal", "lang_code" => "oci", "preferred" => true],
         ["lang_name" => "Provençal, Old (to 1500)", "lang_code" => "pro"],
         ["lang_name" => "Pushto", "lang_code" => "pus"],
         ["lang_name" => "Quechua", "lang_code" => "que"],
@@ -503,7 +504,7 @@ function get_iso_language_list()
         ["lang_name" => "Sasak", "lang_code" => "sas"],
         ["lang_name" => "Saxon, Low", "lang_code" => "nds"],
         ["lang_name" => "Scots", "lang_code" => "sco"],
-        ["lang_name" => "Scottish Gaelic", "lang_code" => "gla"],
+        ["lang_name" => "Scottish Gaelic", "lang_code" => "gla", "preferred" => true],
         ["lang_name" => "Selkup", "lang_code" => "sel"],
         ["lang_name" => "Semitic (Other)", "lang_code" => "sem"],
         ["lang_name" => "Serbian", "lang_code" => "scc/srp"],
@@ -534,7 +535,7 @@ function get_iso_language_list()
         ["lang_name" => "South American Indian (Other)", "lang_code" => "sai"],
         ["lang_name" => "Southern Sami", "lang_code" => "sma"],
         ["lang_name" => "South Ndebele", "lang_code" => "nbl"],
-        ["lang_name" => "Spanish", "lang_code" => "spa"],
+        ["lang_name" => "Spanish", "lang_code" => "spa", "preferred" => true],
         ["lang_name" => "Sukuma", "lang_code" => "suk"],
         ["lang_name" => "Sumerian", "lang_code" => "sux"],
         ["lang_name" => "Sundanese", "lang_code" => "sun"],
@@ -605,7 +606,7 @@ function get_iso_language_list()
         ["lang_name" => "Zande", "lang_code" => "znd"],
         ["lang_name" => "Zapotec", "lang_code" => "zap"],
         ["lang_name" => "Zenaga", "lang_code" => "zen"],
-        ["lang_name" => "Zhuang", "lang_code" => "zha"],
+        ["lang_name" => "Zhuang", "lang_code" => "zha", "preferred" => true],
         ["lang_name" => "Zulu", "lang_code" => "zul"],
         ["lang_name" => "Zuni", "lang_code" => "zun"],
     ];
@@ -617,11 +618,22 @@ function get_iso_language_list()
  */
 function langname_for_langcode3($langcode3)
 {
+    $found_languages = [];
     foreach (get_iso_language_list() as $entry) {
         if (in_array($langcode3, explode("/", $entry['lang_code']))) {
-            return $entry['lang_name'];
+            $found_languages[] = $entry;
         }
     }
+
+    if (count($found_languages)) {
+        foreach ($found_languages as $entry) {
+            if ($entry["preferred"] ?? false) {
+                return $entry['lang_name'];
+            }
+        }
+        return $found_languages[0]['lang_name'];
+    }
+
     return null;
 }
 
