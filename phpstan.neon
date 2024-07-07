@@ -13,6 +13,7 @@ parameters:
     bootstrapFiles:
         - SETUP/phpstan_bootstrap.inc
         - pinc/bootstrap.inc
+    tmpDir: .phpstan.cache
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.

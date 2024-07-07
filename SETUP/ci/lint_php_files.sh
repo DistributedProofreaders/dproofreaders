@@ -34,7 +34,7 @@ function lint_file()
 echo "Checking all .php and .inc files under $BASE_DIR for linting errors..."
 N=$(nproc)
 # shellcheck disable=SC2044
-for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v /vendor/); do
+for file in $(find $BASE_DIR -name "*.php" -o -name "*.inc" | grep -v /vendor/ | grep -v /.phpstan.cache/); do
    lint_file "$file" &
    # Run at most N at a time.
    [[ $(jobs -r -p | wc -l) -ge $N ]] && wait -n
