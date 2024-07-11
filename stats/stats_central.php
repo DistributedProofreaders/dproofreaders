@@ -231,7 +231,7 @@ foreach (['created', 'proofed', 'PPd', 'posted'] as $which) {
 
     $table->row(
         $psd->projects_Xed_title,
-        number_format($num_so_far),
+        number_format($num_so_far ?? 0.0),
         "<a href='projects_Xed_graphs.php?which=$which'>$psd->graphs_title</a>"
     );
 }

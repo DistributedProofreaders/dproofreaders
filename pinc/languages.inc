@@ -277,7 +277,7 @@ function get_locale_translation_selection_options()
 function get_locale_matching_browser_accept_language($http_accept)
 {
     // split the languages into their respective parts
-    $browser_accepts = explode(",", $http_accept);
+    $browser_accepts = explode(",", $http_accept ?? '');
 
     // pull out q-values
     $browser_langs = [];

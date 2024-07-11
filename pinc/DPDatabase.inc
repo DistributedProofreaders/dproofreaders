@@ -82,7 +82,7 @@ final class DPDatabase
 
     public static function escape(?string $value): string
     {
-        return mysqli_real_escape_string(self::$_connection, $value);
+        return mysqli_real_escape_string(self::$_connection, $value ?? '');
     }
 
     public static function escape_like_wildcards(?string $value): string
