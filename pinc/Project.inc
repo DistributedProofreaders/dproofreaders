@@ -386,7 +386,7 @@ class Project
 
         foreach ($user_fields as $field) {
             // only check non-empty fields
-            if (!preg_match('/^\s*$/', $this->$field) && !User::is_valid_user($this->$field)) {
+            if (!preg_match('/^\s*$/', $this->$field ?? '') && !User::is_valid_user($this->$field)) {
                 $errors[] = sprintf(
                     _("%s must be an existing user - check case and spelling and ensure there is no trailing whitespace."),
                     $labels[$field]

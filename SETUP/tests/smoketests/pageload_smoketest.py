@@ -194,6 +194,7 @@ TOOLS_TESTS = [
             'curr_state': 'P3.proj_avail',
             'next_state': 'P3.proj_unavail',
             'confirmed': 'yes',
+            'return_uri': 'http://127.0.0.1:12345/',
         },
     },
     {'path': 'tools/charsuites.php'},
