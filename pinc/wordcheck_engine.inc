@@ -3,6 +3,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'iso_lang_list.inc'); // langcode3_for_langname, langcode2_for_langname
 include_once($relPath.'unicode.inc');
 
+use Symfony\Component\Process\Process;
 use voku\helper\UTF8;
 
 // Handle dp-specific notation for non-Latin-1 characters
@@ -311,21 +312,11 @@ class BadWordAccumulator
  */
 function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 {
-    global $aspell_temp_dir;
     global $aspell_executable, $aspell_prefix;
 
-    $messages = [];
-
-    $tmp_file_path = tempnam($aspell_temp_dir, "pagetext-");
-
     $tmp_file_text = join("\n", array_keys($input_words_w_freq));
-    $wasWritten = file_put_contents($tmp_file_path, $tmp_file_text);
-    unset($tmp_file_text);
-    if ($wasWritten === false) {
-        $messages[] = sprintf(_("Error: unable to write text to temp file: %s"), $tmp_file_path);
-        return [[], $messages];
-    }
 
+    $messages = [];
     $misspellings = [];
     foreach ($languages as $language) {
         $langcode = langcode2_for_langname($language);
@@ -334,23 +325,26 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
             if (is_file($dict_file)) {
                 // run aspell using this language
 
-                // create the aspell command
-                $aspell_command = join(" ", [
-                    "cat",
-                    escapeshellarg($tmp_file_path),
-                    "|",
+                $process = new Process([
                     $aspell_executable,
                     "list",
-                    "--prefix=" . escapeshellarg($aspell_prefix),
-                    "-d " . escapeshellarg($dict_file),
-                    "--encoding=UTF-8",
+                    "--prefix",
+                    $aspell_prefix,
+                    "-d",
+                    $dict_file,
+                    "--encoding",
+                    "UTF-8",
                 ]);
-                //echo "<!-- aspell command: $aspell_command -->\n"; // Very useful for debugging
+                $process->setInput($tmp_file_text);
+                $process->run();
+
+                if (!$process->isSuccessful()) {
+                    $messages[] = sprintf(_("Warning: error running aspell for language '%s'"), $language);
+                    continue;
+                }
+
                 // build our list of possible misspellings
-                $misspellings[$langcode] = explode(
-                    "\n",
-                    str_replace("\r", "", shell_exec($aspell_command))
-                );
+                $misspellings[$langcode] = explode("\n", $process->getOutput());
 
                 // Reduce the set to only words that use characters in our
                 // expected script. This is necessary for some aspell
@@ -366,11 +360,6 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
         } else {
             $messages[] = sprintf(_("Warning: unknown language '%s'"), $language);
         }
-    }
-
-    // now remove the temporary file
-    if (is_file($tmp_file_path)) {
-        unlink($tmp_file_path);
     }
 
     if (count($misspellings) == 0) {
