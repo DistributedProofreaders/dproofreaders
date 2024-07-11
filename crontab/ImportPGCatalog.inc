@@ -1,6 +1,8 @@
 <?php
 include_once($relPath.'pg.inc');
 
+use Symfony\Component\Process\Process;
+
 // Timing requirements: This script can run anytime, but probably daily.
 
 /*
@@ -87,16 +89,21 @@ class ImportPGCatalog extends BackgroundJob
         }
 
         echo "Extracting files from $local_compressed_file to {$this->local_catalog_dir}...\n";
-        $cmd = join(" ", [
+        $process = new Process([
             "tar",
             "--extract",
             "--bzip2",
-            "--file=" . escapeshellarg($local_compressed_file),
-            "--strip-components=3",
-            "--directory=" . escapeshellarg($this->local_catalog_dir),
+            "--file",
+            $local_compressed_file,
+            "--strip-components",
+            3,
+            "--directory",
+            $this->local_catalog_dir,
             "--overwrite",
         ]);
-        system($cmd, $ret);
+        $process->setTimeout(600);
+        $process->run();
+
         // Each file in the tar archive describes one ebook in the PG collection,
         // and has a path of the form:
         //     cache/epub/NNN/pgNNN.rdf
@@ -105,7 +112,7 @@ class ImportPGCatalog extends BackgroundJob
         //     cache/epub/NNN
         // part, and --directory=$local_catalog_dir so that we end up with
         //     $local_catalog_dir/pgNNN.rdf
-        if ($ret) {
+        if (!$process->isSuccessful()) {
             throw new RuntimeException("Unable to extract files from $local_compressed_file to {$this->local_catalog_dir}");
         }
 
