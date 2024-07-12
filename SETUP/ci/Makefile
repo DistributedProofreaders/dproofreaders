@@ -7,7 +7,7 @@ all: security_checks best_practice_checks lint static_checks
 #----------------------------------------------------------------------------
 # Security checks
 security_checks:
-	$(SELF_DIR)check_security.sh
+	$(SELF_DIR)check_security.php
 	$(SELF_DIR)check_require_login.php
 
 #----------------------------------------------------------------------------
