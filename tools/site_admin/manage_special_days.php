@@ -134,16 +134,16 @@ class SpecialDay
     public ?string $spec_code;
     public string $display_name;
     public int $enable;
-    public ?string $comment;
+    public string $comment;
     public string $color;
-    public ?int $open_day;
-    public ?int $open_month;
-    public ?int $close_day;
-    public ?int $close_month;
-    public ?string $date_changes;
-    public ?string $info_url;
-    public ?string $image_url;
-    public ?string $symbol;
+    public int $open_day;
+    public int $open_month;
+    public int $close_day;
+    public int $close_month;
+    public string $date_changes;
+    public string $info_url;
+    public string $image_url;
+    public string $symbol;
 
     public function __construct(?string $spec_code = null)
     {
@@ -257,14 +257,14 @@ class SpecialDay
 
         if ($this->new_source) {
             echo "<table class='edit_special_day'>";
-            $this->_show_edit_row('spec_code', _('Special Day ID'), 'text', 20);
+            $this->_show_edit_row('spec_code', _('Special Day ID'), 'text', 20, null, null, true);
         } else {
             echo "<input type='hidden' name='editing' value='true'>" .
                 "<input type='hidden' name='spec_code' value='" . attr_safe($this->spec_code) ."'>
                 <table class='edit_special_day'>";
             $this->_show_summary_row(_('Special Day ID'), $this->spec_code);
         }
-        $this->_show_edit_row('display_name', _('Display Name'), 'text', 80);
+        $this->_show_edit_row('display_name', _('Display Name'), 'text', 80, null, null, true);
         $this->_show_edit_row('symbol', _('Symbol'), 'text', 4);
         echo "  <tr><th class='label'>Enable</th><td><input type='checkbox' name='enable'";
         if ($this->enable) {
@@ -273,10 +273,10 @@ class SpecialDay
         echo "></td></tr>\n";
         $this->_show_edit_row('comment', _('Comment'), 'textarea');
         $this->_show_edit_row('color', _('Color'), 'text', 8);
-        $this->_show_edit_row('open_month', _('Open Month'), 'number', null, 1, 12);
-        $this->_show_edit_row('open_day', _('Open Day'), 'number', null, 1, 31);
-        $this->_show_edit_row('close_month', _('Close Month'), 'number', null, 1, 12);
-        $this->_show_edit_row('close_day', _('Close Day'), 'number', null, 1, 31);
+        $this->_show_edit_row('open_month', _('Open Month'), 'number', null, 1, 12, true);
+        $this->_show_edit_row('open_day', _('Open Day'), 'number', null, 1, 31, true);
+        $this->_show_edit_row('close_month', _('Close Month'), 'number', null, 1, 12, true);
+        $this->_show_edit_row('close_day', _('Close Day'), 'number', null, 1, 31, true);
         $this->_show_edit_row('date_changes', _('Date Changes'));
         $this->_show_edit_row('info_url', _('Info URL'));
         $this->_show_edit_row('image_url', _('Image URL'));
@@ -286,23 +286,25 @@ class SpecialDay
             </td></tr></table>\n</form>\n";
     }
 
-    private function _show_edit_row(string $field, string $label, string $type = 'text', ?int $maxlength = null, ?int $min = null, ?int $max = null): void
+    private function _show_edit_row(string $field, string $label, string $type = 'text', ?int $maxlength = null, ?int $min = null, ?int $max = null, bool $required = false): void
     {
         $value = $this->new_source
             ? (empty($_POST[$field]) ? '' : $_POST[$field])
             : $this->$field;
 
+        $required = $required ? " required" : "";
+
         $value = html_safe($value);
 
         if ($type == "textarea") {
-            $editing = "<textarea style='width: 40em; height: 5em' name='$field'>$value</textarea>";
+            $editing = "<textarea style='width: 40em; height: 5em' name='$field' $required>$value</textarea>";
         } elseif ($type == "text") {
             $maxlength_attr = is_null($maxlength) ? '' : "maxlength='$maxlength'";
-            $editing = "<input type='text' style='width: 40em' name='$field' value='$value' $maxlength_attr>";
+            $editing = "<input type='text' style='width: 40em' name='$field' value='$value' $maxlength_attr $required>";
         } elseif ($type == "number") {
             $min_attr = is_null($min) ? '' : "min='$min'";
             $max_attr = is_null($max) ? '' : "max='$max'";
-            $editing = "<input type='number' style='width: 4em' name='$field' size='60' value='$value' $min_attr $max_attr>";
+            $editing = "<input type='number' style='width: 4em' name='$field' size='60' value='$value' $min_attr $max_attr $required>";
         }
         $addl_data = '';
         if ($field == "symbol") {
@@ -406,7 +408,7 @@ class SpecialDay
 
 // ----------------------------------------------------------------------------
 
-function make_link(?string $url, ?string $label): string
+function make_link(string $url, string $label): string
 {
     if (!$url) {
         return '';

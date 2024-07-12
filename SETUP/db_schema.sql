@@ -403,17 +403,17 @@ CREATE TABLE `special_days` (
   `spec_code` varchar(20) NOT NULL default '',
   `display_name` varchar(80) NOT NULL default '',
   `enable` tinyint(1) NOT NULL default '1',
-  `comment` varchar(255) default NULL,
+  `comment` varchar(255) NOT NULL default '',
   `color` varchar(8) NOT NULL default '',
-  `open_day` tinyint(2) default NULL,
-  `open_month` tinyint(2) default NULL,
-  `close_day` tinyint(2) default NULL,
-  `close_month` tinyint(2) default NULL,
-  `date_changes` varchar(100) default NULL,
-  `info_url` varchar(255) default NULL,
-  `image_url` varchar(255) default NULL,
-  `symbol` varchar(2) default '',
-  UNIQUE KEY `spec_code` (`spec_code`)
+  `open_day` tinyint NOT NULL default '0',
+  `open_month` tinyint NOT NULL default '0',
+  `close_day` tinyint NOT NULL default '0',
+  `close_month` tinyint NOT NULL default '0',
+  `date_changes` varchar(100) NOT NULL default '',
+  `info_url` varchar(255) NOT NULL default '',
+  `image_url` varchar(255) NOT NULL default '',
+  `symbol` varchar(2) NOT NULL default '',
+  PRIMARY KEY (`spec_code`)
 ) COMMENT='definitions of SPECIAL days';
 
 --
