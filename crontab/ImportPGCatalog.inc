@@ -14,6 +14,7 @@ use Symfony\Component\Process\Process;
 class ImportPGCatalog extends BackgroundJob
 {
     private string $local_catalog_dir;
+    private int $time_limit_seconds = 300;
 
     private array $display_mapping = [
         'application/epub+zip' => 'EPUB',
@@ -56,7 +57,7 @@ class ImportPGCatalog extends BackgroundJob
 
     public function work()
     {
-        set_time_limit(300);
+        set_time_limit($this->time_limit_seconds);
 
         // determine temporary directory for download and extraction
         $this->local_catalog_dir = sys_get_temp_dir() . "/pg-catalog-files";
@@ -101,7 +102,7 @@ class ImportPGCatalog extends BackgroundJob
             $this->local_catalog_dir,
             "--overwrite",
         ]);
-        $process->setTimeout(600);
+        $process->setTimeout($this->time_limit_seconds);
         $process->run();
 
         // Each file in the tar archive describes one ebook in the PG collection,
