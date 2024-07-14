@@ -36,6 +36,7 @@ $projectid = get_projectID_param($_GET, 'id');
 $expected_state = get_enumerated_param($_GET, 'expected_state', null, ProjectStates::get_states(), true);
 $detail_levels = get_project_detail_levels();
 $detail_level = get_enumerated_param($_GET, 'detail_level', $userSettings->get_value('project_detail', 2), array_keys($detail_levels));
+$mark_bookmark = get_bool_param($_POST, 'bookmark', null, true);
 
 $project = new Project($projectid);
 
@@ -46,7 +47,11 @@ $project = new Project($projectid);
 // project) first.
 $title_for_theme = sprintf(_('"%s" project page'), $project->nameofwork);
 
-$title = sprintf(_("Project Page for '%s'"), $project->nameofwork);
+$title = $project->nameofwork;
+
+if ($user_is_logged_in && $mark_bookmark !== null) {
+    upi_set_bookmark($pguser, $project->projectid, $mark_bookmark);
+}
 
 // -----------------------------------------------------------------------------
 
@@ -72,7 +77,7 @@ $extra_args = [
 
 output_header($title_for_theme, NO_STATSBAR, $extra_args);
 
-echo "<h1>" . html_safe($title) . "</h1>\n";
+echo "<h1>" . get_bookmark_form() . html_safe($title)  . "</h1>\n";
 
 maybe_output_new_proofer_project_message($project);
 
@@ -107,8 +112,8 @@ if ($detail_level == 1) {
     // that is usually wanted by the people who usually work with
     // the project in its current state.
 
-    do_detail_level_switch();
     do_expected_state();
+    do_detail_level_switch();
 
     [$top_blurb, $bottom_blurb] = decide_blurbs();
 
@@ -164,6 +169,38 @@ function do_detail_level_switch()
     echo "</p>\n";
 }
 
+function get_bookmark_form(): string
+{
+    global $project, $pguser;
+
+    // only allow bookmarks for logged-in users
+    if (!$pguser) {
+        return '';
+    }
+
+    $is_bookmarked = upi_get_bookmark($pguser, $project->projectid);
+    $bookmark_value = $is_bookmarked ? 0 : 1;
+    $icon = $is_bookmarked ? 'fas fa-bookmark' : 'far fa-bookmark';
+    $label = attr_safe(_("Bookmark"));
+    $tooltip = attr_safe(
+        $is_bookmarked ? _("Remove bookmark from this project") : _("Bookmark this project")
+    );
+
+    return <<<FORM
+        <form method='POST' style='display: inline;'>
+        <input type='hidden' name='id' value='$project->projectid'>
+        <input type='hidden' name='bookmark' value='$bookmark_value'>
+        <a
+            href='#'
+            onClick='this.closest("form").submit();'
+            aria-label='$label'
+            title='$tooltip'
+            style='font-size: 60%'
+        ><i class='$icon' aria-hidden='true'></i></a>
+        </form>
+        FORM;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function do_expected_state()
@@ -179,7 +216,6 @@ function do_expected_state()
             project_states_text($project->state)
         );
         echo "</p>";
-        echo "<br>\n";
     }
 }
 
