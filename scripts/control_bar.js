@@ -173,12 +173,12 @@ function makeControlDiv(container, content, controls) {
         menu.hide();
     });
 
-    let onChangeCompassPoint = new Set();
+    let onChange = new Set();
     function newPoint(newP) {
         compassPoint = newP;
         saveLocation();
         setCompassPoint();
-        onChangeCompassPoint.forEach(function (onChangeCallback) {
+        onChange.forEach(function (onChangeCallback) {
             onChangeCallback();
         });
         menu.hide();
@@ -251,83 +251,57 @@ function makeControlDiv(container, content, controls) {
             setCompassPoint();
             setBegMidEnd();
         },
-        onChange: onChangeCompassPoint,
+        onChange: onChange,
     };
 }
 
 function makeImageWidget(container, align = "C") {
+    const alignment = {
+        L: "left",
+        C: "center",
+        R: "right"
+    };
     const content = document.createElement("div");
-    const grabCursor = "grab";
+    content.style.textAlign = alignment[align];
+
+    const imageCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
     image.classList.add("middle-align");
-
+    image.style.cursor = imageCursor;
     // When the image is rotated it has width and height as if it were not
     // rotated. To make scroll work correctly, enclose it in a div with the
     //actual width and height.
     const imageDiv = document.createElement("div");
-    imageDiv.classList.add("middle-align", "center-align");
+    imageDiv.classList.add("middle-align", "left-align");
+    imageDiv.style.overflow = "hidden";
     imageDiv.style.display = "inline-block";
-    imageDiv.style.cursor = grabCursor;
     content.append(imageDiv);
     imageDiv.appendChild(image);
 
     let scrollDiffX = 0;
     let scrollDiffY = 0;
-
-    function dragMove(event) {
+    function mousemove(event) {
         content.scrollTop = scrollDiffY - event.pageY;
         content.scrollLeft = scrollDiffX - event.pageX;
     }
 
-    function mouseUp() {
-        document.removeEventListener("mousemove", dragMove);
-        document.removeEventListener("mouseup", mouseUp);
-        imageDiv.style.cursor = grabCursor;
+    function mouseup() {
+        document.removeEventListener("mousemove", mousemove);
+        document.removeEventListener("mouseup", mouseup);
+        image.style.cursor = imageCursor;
     }
 
-    function dragStart(event) {
+    image.addEventListener("mousedown", function(event) {
+        event.preventDefault();
+
+        // so image can be moved with arrow keys
+        content.focus();
+        image.style.cursor = "grabbing";
         scrollDiffX = event.pageX + content.scrollLeft;
         scrollDiffY = event.pageY + content.scrollTop;
-    }
-
-    imageDiv.addEventListener("mousedown", function(event) {
-        event.preventDefault();
-        imageDiv.style.cursor = "grabbing";
-        dragStart(event);
-        document.addEventListener("mousemove", dragMove);
-        document.addEventListener("mouseup", mouseUp);
-    });
-
-    function dragTouchMove(event) {
-        dragMove(event.touches[0]);
-    }
-
-    function dragTouchEnd() {
-        document.removeEventListener("touchmove", dragTouchMove);
-        document.removeEventListener("touchend", dragTouchEnd);
-    }
-
-    imageDiv.addEventListener("touchstart", function(event) {
-        event.preventDefault();
-        dragStart(event.touches[0]);
-        document.addEventListener("touchmove", dragTouchMove);
-        document.addEventListener("touchend", dragTouchEnd);
-    });
-
-    // content.scrollLeft is rounded down to a whole number of pixels so if
-    // as a result of changing the window size its changes can get lost
-    // so keep these unrounded values.
-    let leftScroll, topScroll;
-
-    content.addEventListener("scroll", function() {
-        // to avoid rounding creep, only change if not just rounded down
-        if(Math.floor(leftScroll) != content.scrollLeft) {
-            leftScroll = content.scrollLeft;
-        }
-        if(Math.floor(topScroll) != content.scrollTop) {
-            topScroll = content.scrollTop;
-        }
+        document.addEventListener("mousemove", mousemove);
+        document.addEventListener("mouseup", mouseup);
     });
 
     let imageKey;
@@ -348,69 +322,27 @@ function makeImageWidget(container, align = "C") {
     let cosine = 1;
 
     const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
-    let contentWidth, contentHeight, imageWidth, imDivWidth, vertOffset;
 
     function setImageStyle() {
-        // To allow scrolling when image does not overflow the window
-        // make imageDiv bigger than image, different options are:
-        // windowWidth: no extra scrolling,
-        // (2 * windowWidth - imageWidth): scroll to edges,
-        // (2 * windowWidth): half left to half right,
-        // (2 * windowWidth + imageWidth): scroll to far edges,
-        // similarly for vertical
-        contentWidth = content.clientWidth;
-        contentHeight = content.clientHeight;
+        // when this is called in 'setImage' we will not know the dimensions
+        // of the image but it is not rotated (sine=0) so we do not need to.
+        let offset;
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
-        let imageHeight, xOffset, yOffset, imDivHeight;
         if(sine != 0) {
             // rotated 90 or 270 degrees
-            imageWidth = image.height;
-            imageHeight = image.width;
-            yOffset = - (image.height - image.width) / 2;
+            imageDiv.style.height = `${image.width}px`;
+            imageDiv.style.width = `${image.height}px`;
+            offset = (image.height - image.width) / 2;
         } else {
             // rotated 0 or 180 degrees
-            imageWidth = image.width;
-            imageHeight = image.height;
-            yOffset = 0;
+            imageDiv.style.height = "auto";
+            imageDiv.style.width = "auto";
+            offset = 0;
         }
-        // center aligned so:
-        xOffset = 0;
-        imDivWidth = Math.max(2 * (contentWidth - 60) + imageWidth, imageWidth);
-        imageDiv.style.width = `${imDivWidth}px`;
-        imDivHeight = Math.max(2 * (contentHeight - 60) + imageHeight, imageHeight);
-        imageDiv.style.height = `${imDivHeight}px`;
-        // adjust yOffset to be able to scroll downwards
-        vertOffset = Math.max(0.5 * (imDivHeight - imageHeight), 0);
-        yOffset += vertOffset;
         // image rotates about centre. Offset moves it to correct position
-        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`;
-
-        // show scrollbar only if image is bigger than window
-        content.style.overflowX = (imageWidth > contentWidth) ? "auto" : "hidden";
-        // seems to need +1 to hide bar when fitting to height
-        content.style.overflowY = (imageHeight > contentHeight + 1) ? "auto" : "hidden";
+        image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${offset}, ${-offset})`;
     }
-
-    function initScroll() {
-        if(align == "C") {
-            // centre horizontally
-            leftScroll = 0.5 * (imDivWidth - contentWidth);
-        } else {
-            // align left
-            leftScroll = 0.5 * (imDivWidth - imageWidth);
-        }
-        content.scrollLeft = leftScroll;
-        // top of image at top of window
-        content.scrollTop = topScroll = vertOffset;
-    }
-
-    function initAll() {
-        setImageStyle();
-        initScroll();
-    }
-
-    image.addEventListener("load", initAll);
 
     function setZoom() {
         if(percent < minPercent) {
@@ -419,39 +351,12 @@ function makeImageWidget(container, align = "C") {
             percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
+        setImageStyle();
     }
 
     function setDrawSave() {
         setZoom();
-        if(align == "C") {
-            let id2 = (imDivWidth / 2);
-            setImageStyle();
-            // imDivWidth could have changed
-            leftScroll += (imDivWidth / 2) - id2;
-        } else {
-            leftScroll = content.scrollLeft;
-            setImageStyle();
-        }
-        content.scrollLeft = leftScroll;
         localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
-    }
-
-    function reScroll () {
-        //  when window changes size let top hold still
-        let y = contentHeight - topScroll;
-        if(align == "C") {
-            let id4 = (imDivWidth / 4);
-            setImageStyle();
-            // contentWidth has changed
-            leftScroll += (imDivWidth / 4) - id4;
-        } else {
-            // hold left edge
-            let cw = contentWidth;
-            setImageStyle();
-            leftScroll += contentWidth - cw;
-        }
-        content.scrollLeft = leftScroll;
-        content.scrollTop = topScroll = contentHeight - y;
     }
 
     percentInput.change(function() {
@@ -472,7 +377,6 @@ function makeImageWidget(container, align = "C") {
         }
         percent = image.width / 10;
         setDrawSave();
-        initScroll();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
 
@@ -486,7 +390,6 @@ function makeImageWidget(container, align = "C") {
         }
         percent = image.width / 10;
         setDrawSave();
-        initScroll();
     })
         .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
 
@@ -506,14 +409,14 @@ function makeImageWidget(container, align = "C") {
         .append($("<i>", {class: 'fas fa-redo-alt'}))
         .click( function () {
             [sine, cosine] = [-cosine, sine];
-            initAll();
+            setImageStyle();
         });
 
     const counterclockRotateInput = $("<button>", {title: texts.counterclockRotate})
         .append($("<i>", {class: 'fas fa-undo-alt'}))
         .click( function () {
             [sine, cosine] = [cosine, -sine];
-            initAll();
+            setImageStyle();
         });
 
     const controls = [
@@ -529,10 +432,6 @@ function makeImageWidget(container, align = "C") {
         counterclockRotateInput,
     ];
     const controlDiv = makeControlDiv(container, $(content), controls);
-    // content width can change when moving controls
-    controlDiv.onChange.add(function () {
-        initAll();
-    });
 
     return {
         setup: function (storageKey) {
@@ -548,14 +447,14 @@ function makeImageWidget(container, align = "C") {
             controlDiv.setupControls(imageWidgetKey);
         },
 
-        initAll,
-
         setImage: function (src) {
             sine = 0;
             cosine = 1;
             image.src = src;
-        },
-
-        reScroll: reScroll,
+            setImageStyle();
+            // reset scroll to top left
+            content.scrollTop = 0;
+            content.scrollLeft = 0;
+        }
     };
 }
