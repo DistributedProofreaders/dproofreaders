@@ -107,7 +107,9 @@ function file_includes_system_call(string $filename): bool
     return preg_match("/\b(?:exec|system|passthru|shell_exec|escapeshellcmd)\(/", $contents, $matches);
 }
 
-function abort($message)
+// @return never
+// TODO: Add never as a return value once we switch to PHP 8.1.
+function abort(string $message)
 {
     echo "    ERROR: $message\n";
     exit(1);
