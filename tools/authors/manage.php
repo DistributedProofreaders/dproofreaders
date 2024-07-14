@@ -132,7 +132,7 @@ if ($_POST) {
     $count = count($enable_author_values);
     for ($i = 0; $i < $count; $i++) {
         $sql = sprintf(
-            "UPDATE authors SET enabled = '%d' WHERE author_id = %d",
+            "UPDATE authors SET enabled = %d WHERE author_id = %d",
             $enable_author_values[$i],
             $enable_author_ids[$i]
         );
