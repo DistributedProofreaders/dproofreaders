@@ -87,7 +87,7 @@ function get_all_php_files(string $basedir): array
     return $php_files;
 }
 
-function file_includes_mysqli_error($filename)
+function file_includes_mysqli_error(string $filename): bool
 {
     // mysqli_error() can leak database information in the error message
     // so we don't want to use it except under specifically vetted uses.
