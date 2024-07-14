@@ -34,7 +34,7 @@ $sql = "
         MODIFY COLUMN `date_changes` varchar(100) NOT NULL default '',
         MODIFY COLUMN `info_url` varchar(255) NOT NULL default '',
         MODIFY COLUMN `image_url` varchar(255) NOT NULL default '',
-        MODIFY COLUMN `symbol` varchar(2) NOT NULL default '',
+        MODIFY COLUMN `symbol` varchar(4) NOT NULL default '',
         DROP INDEX `spec_code`,
         ADD PRIMARY KEY (spec_code);
 ";
