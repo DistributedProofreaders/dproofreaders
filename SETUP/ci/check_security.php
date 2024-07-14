@@ -32,27 +32,21 @@ $ok_mysqli_error_calls = [
     "pinc/DPDatabase.inc",
 ];
 
+// Skip files that start with a specific prefix
+$skip_file_prefixes = [
+    "SETUP/",
+    "vendor/",
+    ".phpstan.cache/",
+    "node_modules/",
+];
+
 $basedir .= endswith($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
 foreach ($files as $file) {
-    // If it's in the SETUP directory, skip it
-    if (startswith($file, "SETUP/")) {
-        continue;
-    }
-
-    // If it's in the vendor directory, skip it
-    if (startswith($file, "vendor/")) {
-        continue;
-    }
-
-    // If it's in the phpstan cache directory, skip it
-    if (startswith($file, ".phpstan.cache/")) {
-        continue;
-    }
-
-    // If it's in the node_modules directory, skip it
-    if (startswith($file, "node_modules/")) {
-        continue;
+    foreach ($skip_file_prefixes as $prefix) {
+        if (startswith($file, $prefix)) {
+            continue 2;
+        }
     }
 
     echo "$file\n";
