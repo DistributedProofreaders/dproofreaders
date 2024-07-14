@@ -289,11 +289,11 @@ if (!isset($action)) {
 }
 
 /**
- * Return filename or false if there is no file
+ * Return filename or null if there is no file
  *
  * If an exception is thrown any file will have been deleted.
  */
-function process_file($project, $indicator, $stage, $returning_to_pool)
+function process_file(Project $project, string $indicator, string $stage, bool $returning_to_pool): ?string
 {
     $temporary_path = "";
     try {
@@ -359,7 +359,7 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
         }
         throw $e;
     } catch (NoFileUploadedException $e) {
-        $name = false;
+        $name = null;
         if (!$returning_to_pool) {
             throw new FileUploadException($e->getMessage());
         }
@@ -372,7 +372,7 @@ function process_file($project, $indicator, $stage, $returning_to_pool)
 /**
  * Rename file with the next available serial number
  */
-function make_backup_file($file_name, $ext)
+function make_backup_file(string $file_name, string $ext): void
 {
     for ($serial = 1; ; $serial += 1) {
         $backup_file_name = "{$file_name}_$serial$ext";
