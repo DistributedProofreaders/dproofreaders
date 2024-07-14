@@ -433,9 +433,9 @@ class ImageSource
             DPDatabase::escape($this->full_name),
             DPDatabase::escape($this->url),
             DPDatabase::escape($this->credit),
-            DPDatabase::escape($this->ok_keep_images),
-            DPDatabase::escape($this->ok_show_images),
-            DPDatabase::escape($this->info_page_visibility),
+            $this->ok_keep_images,
+            $this->ok_show_images,
+            $this->info_page_visibility,
             DPDatabase::escape($this->public_comment),
             DPDatabase::escape($this->internal_comment),
             $this->is_active
