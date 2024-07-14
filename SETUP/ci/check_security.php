@@ -96,7 +96,7 @@ function file_includes_mysqli_error(string $filename): bool
     return preg_match("/mysqli_error\(/", $contents);
 }
 
-function file_includes_system_call($filename)
+function file_includes_system_call(string $filename): bool
 {
     // It's easy to get system calls wrong so prevent adding more, preferring
     // to use Symfony Process() instead. We don't really care about
