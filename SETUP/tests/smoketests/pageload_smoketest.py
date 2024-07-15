@@ -549,7 +549,7 @@ def start_server(host_port: str):
     # is less elegant, but easier in practice.
     with open(SERVER_LOG, "w+") as logfile:
         return Popen(
-            ['php', '-S', host_port],
+            ['php', '-d', 'error_reporting=32767', '-d', 'display_errors=On', '-S', host_port],
             bufsize=1,
             stdin=DEVNULL,
             stdout=DEVNULL,
@@ -615,7 +615,7 @@ def request(req: Request, data=None) -> Tuple[
 
 def test_failed(logs: List[str]) -> bool:
     """Are there are any PHP messages in the logs?"""
-    return any(re.search('PHP (Notice|Warning|Fatal error)', l) for l in logs)
+    return any(re.search('PHP (Notice|Warning|Fatal error|Deprecated)', l) for l in logs)
 
 def login(config, username: str, password: str) -> bool:
     """Try to log in to the website and save the session cookie
@@ -634,7 +634,7 @@ def login(config, username: str, password: str) -> bool:
 def check_error_detect(config) -> bool:
     """Does the log parsing correctly detect PHP notices, warnings, errors?"""
     url_base = config['site_url'] + '/SETUP/tests/smoketests/'
-    for script in ['notice.php', 'warning.php', 'error.php']:
+    for script in ['notice.php', 'warning.php', 'error.php', 'deprecated.php']:
         _, _, _, logs = request(Request(url_base + script))
         if not test_failed(logs):
             print(f"{script} PHP log wasn't detected!")
