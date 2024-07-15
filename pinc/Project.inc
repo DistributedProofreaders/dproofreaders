@@ -225,6 +225,7 @@ class Project
     public string $comments;
     public string $scannercredit;
     public string $extra_credits;
+    public int $int_level;
 
     public function __construct($arg = null)
     {

@@ -19,6 +19,10 @@ class Pool extends Stage
     public string $foo_field_name;
     /** @var string[] */
     public array $blather;
+    public string $project_available_state;
+    public string $project_checkedout_state;
+    /** @var string[] */
+    public array $states = [];
 
     /**
      * Pool constructor
