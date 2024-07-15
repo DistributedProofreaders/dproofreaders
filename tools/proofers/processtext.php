@@ -303,14 +303,14 @@ try {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function switch_layout()
+function switch_layout(): void
 {
     $user = User::load_current();
     $user->profile->i_layout = $user->profile->i_layout == 1 ? 0 : 1;
     $user->profile->save();
 }
 
-function leave_spellcheck_mode($ppage)
+function leave_spellcheck_mode(PPage $ppage): void
 {
     $user = User::load_current();
 
@@ -333,7 +333,7 @@ function leave_spellcheck_mode($ppage)
     }
 }
 
-function leave_proofing_interface($title)
+function leave_proofing_interface(string $title): void
 {
     global $code_url, $projectid, $proj_state;
 

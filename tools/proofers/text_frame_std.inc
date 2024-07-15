@@ -4,7 +4,7 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'codepoint_validator.inc');
 include_once('preview.inc');
 
-function echo_text_frame_std($ppage)
+function echo_text_frame_std(PPage $ppage): void
 {
     global $code_url;
 

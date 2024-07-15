@@ -6,7 +6,7 @@
 include_once('proof_frame_std.inc');
 include_once('proof_frame_enh.inc');
 
-function echo_proof_frame($ppage)
+function echo_proof_frame(PPage $ppage): void
 {
     $user = User::load_current();
 

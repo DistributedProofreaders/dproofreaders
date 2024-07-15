@@ -386,7 +386,10 @@ $word_check_messages = [
     "rerun" => _("Check page against an additional language"),
 ];
 
-function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $accepted_words, $languages)
+// @param $accepted_words string[]
+// @param $languages string[]
+// TODO: Switch $is_changed to a bool once we have `get_bool_param`.
+function output_wordcheck_interface(User $user, PPage $ppage, string $text_data, int $is_changed, array $accepted_words, array $languages): void
 {
     global $code_url, $word_check_messages;
 
@@ -553,7 +556,8 @@ function output_wordcheck_interface($user, $ppage, $text_data, $is_changed, $acc
     echo '</div>';
 }
 
-function output_wordcheck_language_buttons($languages)
+// @param $languages string[]
+function output_wordcheck_language_buttons(array $languages): void
 {
     foreach ($languages as $language) {
         $name = attr_safe("remove_language[$language]");
@@ -566,7 +570,7 @@ function output_wordcheck_language_buttons($languages)
     }
 }
 
-function get_page_js($interface_type_init_value)
+function get_page_js(int $interface_type_init_value): string
 {
     $show_wc_header_label = javascript_safe(_("Show WordCheck Header"));
     $hide_wc_header_label = javascript_safe(_("Hide WordCheck Header"));
@@ -597,7 +601,8 @@ function get_page_js($interface_type_init_value)
         PAGE_JS;
 }
 
-function get_wordcheck_page_header_args($user, $ppage)
+// @return array<"js_files" => string[], "js_data" => string, "body_attributes" => string, "css_data"? = string
+function get_wordcheck_page_header_args(User $user, PPage $ppage): array
 {
     global $code_url, $word_check_messages;
 
