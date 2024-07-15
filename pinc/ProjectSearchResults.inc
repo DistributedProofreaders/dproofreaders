@@ -469,6 +469,12 @@ class ColumnData
     }
 }
 
+class ProjectSearchResultEntry extends Project
+{
+    public ?string $trans_genre;
+    public bool $hold;
+}
+
 class ProjectSearchResults
 {
     private Settings $userSettings;
@@ -665,8 +671,9 @@ class ProjectSearchResults
         echo "</tr>\n";
 
         while ($project_assoc = mysqli_fetch_assoc($result)) {
-            $project = new Project($project_assoc);
-            $projectid = $project->projectid;
+            // TODO: rename this $project_result_entry or similar when we add type
+            // defs to this file and change all of the function definitions anyway.
+            $project = new ProjectSearchResultEntry($project_assoc);
 
             echo "<tr>\n";
 
