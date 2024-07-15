@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import re
 import signal
 import sys
 import time
 
 from http.cookiejar import CookieJar, DefaultCookiePolicy
-from subprocess import Popen, DEVNULL
+from subprocess import Popen, DEVNULL, run, STDOUT, PIPE
 from urllib.error import URLError
 from urllib.parse import urlencode, urlparse
 from urllib.request import build_opener, HTTPCookieProcessor, HTTPErrorProcessor, Request
@@ -394,6 +395,7 @@ TOOLS_PROOFERS_TESTS = [
     {'path': 'tools/proofers/round.php?round_id=P3'},
     {'path': 'tools/proofers/srchrep.php'},
 ]
+
 TOOLS_SITE_ADMIN_TESTS = [
     {'path': 'tools/site_admin/convert_project_table_utf8.php?projectid=projectID5e23a810ef693'},
     {
@@ -466,7 +468,7 @@ TOOLS_SITE_ADMIN_TESTS = [
     {'path': 'tools/site_admin/sitenews.php'},
 ]
 
-TESTS = (
+WEB_TESTS = (
     NOLOGIN_TESTS +
     BASE_TESTS +
     API_TESTS +
@@ -484,6 +486,21 @@ TESTS = (
     TOOLS_SITE_ADMIN_TESTS
 )
 
+CRON_JOBS = [
+    # TODO requires archive database
+    #"ArchiveProjects",
+    # TODO requires uploads trash configured
+    #"CleanUploadsTrash",
+    "ExtendSiteTallyGoals",
+    #"ImportPGCatalog",  # moves a lot of data, don't run this
+    "NotifyOldPP",
+    "PruneJobLogs",
+    "RecordProjectStateCounts",
+    "RecordUserCounts",
+    "SendSmoothreadingNotifications",
+    "TakeTallySnapshots",
+    "ToggleSpecialDayQueues",
+];
 
 def get_site_config() -> dict:
     config = {}
@@ -497,6 +514,10 @@ def get_site_config() -> dict:
                     'scheme': u.scheme,
                     'netloc': u.netloc, # hostname:port
                 })
+                continue
+            m = re.match(r"\$code_dir\s*=\s*'(.*?)';", l)
+            if m:
+                config.update({'code_dir': m[1]})
                 continue
     return config
 
@@ -638,7 +659,7 @@ def main() -> int:
     for c in jar:
         print(f"    {c}")
 
-    for test in TESTS:
+    for test in WEB_TESTS:
         method = test.get('method', 'GET')
         req_data = test.get('data')
         path = test['path']
@@ -664,6 +685,25 @@ def main() -> int:
         if status not in expect_status or test_failed(logs):
             print(f'Status: {status} (expected {expect_status})')
             print('\n'.join(logs))
+            ret = 1
+            break
+
+    for test in CRON_JOBS:
+        print(f"Cronjob: {test}")
+        cmd_result = run(
+            [
+                "php",
+                os.path.join(config['code_dir'], "crontab", "run_background_job.php"),
+                test,
+                "true"
+            ],
+            stdout=PIPE,
+            stderr=STDOUT,
+            encoding='utf-8'
+        )
+        if cmd_result.returncode != 0 or not 'Succeeded: true' in cmd_result.stdout or test_failed([cmd_result.stdout]):
+            print(f'Return code: {cmd_result.returncode}')
+            print(f'Output:\n', cmd_result.stdout)
             ret = 1
             break
 
