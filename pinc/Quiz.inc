@@ -38,6 +38,7 @@ class Quiz
     public string $short_name;       // appears in the righthand frame during the quiz
     public string $description;
     public string $thread;           // forum thread for quiz questions & comments, if other than the default
+    public string $activity_type;    // "proof" or "format"
     public array $pages;
     // Currently supported pass_requirements:
     // ['maximum_age'] => time_in_seconds:
