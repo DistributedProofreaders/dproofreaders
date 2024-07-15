@@ -22,6 +22,9 @@ NOLOGIN_TESTS = [
     {'path': 'credits.php'},
     {'path': 'default.php'},
     {'path': 'list_etexts.php'},
+    {'path': 'list_etexts.php?x=g'},
+    {'path': 'list_etexts.php?x=s'},
+    {'path': 'list_etexts.php?x=b'},
     {'path': 'sitemap.php'},
 ]
 
@@ -30,6 +33,10 @@ BASE_TESTS = [
     {'path': 'pastnews.php'},
     {'path': 'pophelp.php?category=teams&name=edit_teamname'},
     {'path': 'project.php?id=projectID5e23a810ef693'},
+    {'path': 'project.php?id=projectID5e23a810ef693&detail_level=1'},
+    {'path': 'project.php?id=projectID5e23a810ef693&detail_level=2'},
+    {'path': 'project.php?id=projectID5e23a810ef693&detail_level=3'},
+    {'path': 'project.php?id=projectID5e23a810ef693&detail_level=4'},
     {'path': 'tasks.php'},
     {'path': 'userprefs.php'},
     {'path': 'accounts/login_failure.php', 'expect_status': 302},
@@ -190,6 +197,7 @@ TOOLS_TESTS = [
         },
     },
     {'path': 'tools/charsuites.php'},
+    {'path': 'tools/charsuites.php?projectid=projectID5e23a810ef693'},
     {
         'path': 'tools/download_images.php?projectid=projectID5e23a810ef693',
         'expect_status': 302,
@@ -356,8 +364,16 @@ TOOLS_PROOFERS_TESTS = [
     {'path': 'tools/proofers/mktable.php'},
     # TODO make non-empty
     {'path': 'tools/proofers/my_projects.php'},
+    {'path': 'tools/proofers/my_projects.php?round_view=available'},
+    {'path': 'tools/proofers/my_projects.php?round_view=recent'},
+    {'path': 'tools/proofers/my_projects.php?round_view=active'},
+    {'path': 'tools/proofers/my_projects.php?round_view=posted'},
     # TODO make non-empty
     {'path': 'tools/proofers/my_suggestions.php'},
+    {'path': 'tools/proofers/my_suggestions.php?round_view=impact'},
+    {'path': 'tools/proofers/my_suggestions.php?round_view=familiar'},
+    {'path': 'tools/proofers/my_suggestions.php?round_view=style'},
+    {'path': 'tools/proofers/my_suggestions.php?round_view=different'},
     # TODO make a valid state
     {
         'method': 'POST',
