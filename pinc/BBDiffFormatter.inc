@@ -66,7 +66,7 @@ class BBDiffFormatter extends DiffFormatter
         $linenum = preg_replace('/^(\d+).*/', 'Line $1', $header);
         $difflabel = $this->make_safe(preg_replace('/.*image=(.+\.png).*/', '$1', $this->diffurl));
         $safeurl = $this->make_safe($this->diffurl);
-        $this->writeOutput("\n----- [b]$linenum, page [url=$safeurl]${difflabel}[/url][/b] -----\n");
+        $this->writeOutput("\n----- [b]$linenum, page [url=$safeurl]{$difflabel}[/url][/b] -----\n");
     }
 
     /**
