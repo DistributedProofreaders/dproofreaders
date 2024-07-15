@@ -8,7 +8,7 @@ include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('preview.inc');
 
-function echo_proof_frame_enh($ppage)
+function echo_proof_frame_enh(PPage $ppage): void
 {
     global $code_url;
 
