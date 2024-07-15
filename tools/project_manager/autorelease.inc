@@ -82,7 +82,7 @@ function autorelease_for_round($round)
             null,
             false, // $observe_release_restrictions
             // Mind you, there's no reason it *couldn't* observe release restrictions.
-            // We'd just have to create $round->release_restrictor earlier.
+            // We'd just have to create release_restrictor earlier.
             false // $release_at_most_one
         );
 
@@ -96,7 +96,7 @@ function autorelease_for_round($round)
 
     // Some queue definitions do exist for this round.
 
-    $round->release_restrictor = new ReleaseRestrictor($round);
+    new ReleaseRestrictor($round);
 
     AP_setup($round);
 
@@ -266,9 +266,10 @@ function maybe_release_projects(
         $n_projects->considered++;
 
         if ($observe_release_restrictions) {
-            assert(isset($round->release_restrictor));
+            $release_restrictor = ReleaseRestrictor::$restrictors[$round->id] ?? null;
+            assert($release_restrictor !== null);
 
-            if (!$round->release_restrictor->approves_project($project)) {
+            if (!$release_restrictor->approves_project($project)) {
                 // Messages have been echoed.
                 $n_projects->blocked++;
                 // Go to the next project in the list.
@@ -289,8 +290,9 @@ function maybe_release_projects(
 
         $n_projects->released++;
 
-        if (isset($round->release_restrictor)) {
-            $round->release_restrictor->update_for_released_project($project);
+        $release_restrictor = ReleaseRestrictor::$restrictors[$round->id] ?? null;
+        if ($release_restrictor) {
+            $release_restrictor->update_for_released_project($project);
 
             // Note that we must update the release_restrictor
             // whether or not $observe_release_restrictions is set:
@@ -352,6 +354,9 @@ function maybe_release_projects(
  */
 class ReleaseRestrictor
 {
+    /** @var array<string, ReleaseRestrictor> */
+    public static array $restrictors = [];
+
     public $this_round_authors;
     public $this_round_pms;
     public $fresh_released_pms;
@@ -407,6 +412,8 @@ class ReleaseRestrictor
         // ----------------------------------------------------------
         // Keep track of which PMs get a book released in this particular execution of the script
         $this->fresh_released_pms = [];
+
+        ReleaseRestrictor::$restrictors[$round->id] = $this;
     }
 
     // =========================================================================
