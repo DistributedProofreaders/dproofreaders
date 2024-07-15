@@ -74,7 +74,7 @@ if (!$imso_code) {
             $link_name = "";
         }
 
-        echo "<td class='title'>$source_fullname ${link_name}</td>";
+        echo "<td class='title'>$source_fullname {$link_name}</td>";
 
         $row['projects_total'] = $image_sources_stats[$image_source_id]['projects_total'] ?? 0;
         $row['projects_completed'] = $image_sources_stats[$image_source_id]['projects_completed'] ?? 0;

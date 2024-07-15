@@ -51,7 +51,7 @@ $page_text .= " ";
 $page_text .= _("The results list also shows how many times each word occurs in the project text and how many times each word was suggested by proofreaders.");
 
 if ($format == "file") {
-    $filename = "${projectid}_proofer_suggestions.txt";
+    $filename = "{$projectid}_proofer_suggestions.txt";
     header("Content-type: text/plain");
     header('Content-Disposition: attachment; filename="' . $filename . '"');
     // The cache-control and pragma is a hack for IE not accepting filenames
