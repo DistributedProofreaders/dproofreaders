@@ -200,8 +200,8 @@ class Project
     public string $checkedoutby;
     public string $difficulty;
     public string $username;
-    public ?string $postednum; // TODO: Should be int
-    public ?string $topic_id; // TODO: Should be int
+    public ?int $postednum;
+    public ?int $topic_id;
     public float $days_checkedout;
     public int $n_available_pages;
     public int $n_pages;
@@ -452,19 +452,12 @@ class Project
             $errors[] = _("This project is checked out and must specify a PPer/PPVer");
         }
 
-        if ($this->postednum) {
-            if (! preg_match('/^[1-9][0-9]*$/', $this->postednum)) {
-                $errors[] = sprintf(
-                    _("Posted Number \"%s\" is not of the correct format."),
-                    $this->postednum
-                );
-                // Occasionally, there will be a PG ebook that is still
-                // under U.S. copyright. This is indicated in their system
-                // by appending a 'C' to the etext number. The link to
-                // the etext, however, does not include the 'C', nor should
-                // the DP link. If this changes, update the pattern here.
-            }
-        }
+        // $this->postednum is either null or an integer by type definition.
+        // Occasionally, there will be a PG ebook that is still
+        // under U.S. copyright. This is indicated in their system
+        // by appending a 'C' to the etext number. The link to
+        // the etext, however, does not include the 'C', nor should
+        // the DP link.
 
         $custom_chars = utf8_normalize($this->custom_chars);
         if ($custom_chars) {
@@ -506,7 +499,7 @@ class Project
         }
 
         // handle possibly-null fields
-        $postednum_str = ($this->postednum == null) ? "NULL" : sprintf("%d", $this->postednum);
+        $postednum_str = ($this->postednum == null) ? "NULL" : $this->postednum;
         $ppverifier_str = ($this->ppverifier == null) ? "NULL" : "'" . DPDatabase::escape($this->ppverifier) . "'";
 
         $project_settings = "

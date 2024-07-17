@@ -451,7 +451,7 @@ function topic_create(
     $poster_name,
     $poster_is_real,
     $make_poster_watch_topic
-) {
+): ?int {
     $postManager = new ForumJsonPost();
     $topic = $postManager->add_topic($post_subject, $post_text, $poster_name);
     return $topic["topic_id"];

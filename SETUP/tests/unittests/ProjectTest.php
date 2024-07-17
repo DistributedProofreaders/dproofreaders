@@ -251,10 +251,9 @@ class ProjectTest extends ProjectUtils
 
     public function test_validate_postedenum_invalid()
     {
+        $this->expectException(TypeError::class);
         $project = new Project($this->valid_project_data);
         $project->postednum = "invalid";
-        $errors = $project->validate();
-        $this->assertStringContainsString("not of the correct format", $errors[0]);
     }
 
     public function test_validate_custom_chars_positive_path()
