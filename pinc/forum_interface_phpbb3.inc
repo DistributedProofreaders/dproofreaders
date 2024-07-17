@@ -721,12 +721,14 @@ function topic_create(
     $poster_name,
     $poster_is_real,
     $make_poster_watch_topic
-) {
+): ?int {
     $args = func_get_args();
     $topic_id = call_phpbb_function('create_topic', $args);
 
     if (!preg_match('/^\d+$/', $topic_id)) {
         $topic_id = null;
+    } else {
+        $topic_id = (int)$topic_id;
     }
 
     return $topic_id;

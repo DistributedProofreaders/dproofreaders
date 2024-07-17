@@ -275,12 +275,12 @@ class ProjectInfoHolder
             }
         }
 
-        // postednum needs to either be a valid number or null, not an empty string
+        // postednum needs to either be a valid int or null, not an empty string
         if (isset($_POST["postednum"])) {
             if ($_POST["postednum"] == "") {
                 $this->project->postednum = null;
             } else {
-                $this->project->postednum = sprintf("%d", $_POST["postednum"]);
+                $this->project->postednum = (int)$_POST["postednum"];
             }
         }
 
