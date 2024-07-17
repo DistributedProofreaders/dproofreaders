@@ -420,6 +420,65 @@ function get_numeric_param(string $type, array $arr, string $key, $default, $min
 }
 
 /**
+ * Get and validate a boolean value from an array
+ *
+ * Accepts various reasonably "truthy" values, like 0, 1, "0", "1", "true",
+ * "false" and various capitalizations thereof.
+ *
+ * @param array<string, mixed> $arr
+ * @param string $key
+ * @param bool|null $default
+ * @param bool $allownull
+ *
+ * @return bool|null
+ *
+ * @throws InvalidArgumentException
+ */
+function get_bool_param(array $arr, string $key, ?bool $default, bool $allownull = false): ?bool
+{
+    if (!is_null($default) && $allownull) {
+        throw new InvalidArgumentException("\$allownull = true but \$default is specified");
+    }
+
+    if (isset($arr[$key])) {
+        $s = $arr[$key];
+
+        if (is_string($s)) {
+            // Trim whitespace from both ends of the string and make it lowercase
+            $s = strtolower(trim($s));
+            if ($s === "true" || $s === "1") {
+                return true;
+            } elseif ($s === "false" || $s === "0") {
+                return false;
+            }
+
+            // fall through to handle other strings as an exception
+        } elseif (is_int($s) && $s === 0 || $s === 1) {
+            return $s === 1;
+        } elseif (is_bool($s)) {
+            return $s;
+        }
+
+        throw new InvalidArgumentException(sprintf(
+            _("Parameter '%1\$s' ('%2\$s') is not a valid bool"),
+            $key,
+            $s
+        ));
+    } else {
+        // not set, use default
+        if (is_null($default) && !$allownull) {
+            // There is no default. The parameter is required.
+            throw new InvalidArgumentException(sprintf(
+                _("Parameter '%1\$s' is required"),
+                $key
+            ));
+        } else {
+            return $default;
+        }
+    }
+}
+
+/**
  * Get and validate a value from an array using a regex
  *
  * If `$arr[$key]` is defined and matches `$regex`, return it.
