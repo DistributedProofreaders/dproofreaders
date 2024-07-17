@@ -336,7 +336,7 @@ class ProjectTransition
             // Ensure it's in the appropriate forum for the project's new state.
             topic_change_forum(
                 $project->topic_id,
-                get_forum_id_for_project_state($this->to_state)
+                ProjectStates::get_forum($this->to_state)
             );
         }
 

@@ -121,9 +121,9 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("PP: Available", get_medium_label_for_project_state(PROJ_POST_FIRST_AVAILABLE));
         $this->assertEquals("PP: Checked out", get_medium_label_for_project_state(PROJ_POST_FIRST_CHECKED_OUT));
         $this->assertEquals("Post-Processing: Available", project_states_text(PROJ_POST_FIRST_AVAILABLE));
-        $this->assertEquals($waiting_projects_forum_idx, get_forum_id_for_project_state(PROJ_P1_WAITING_FOR_RELEASE));
-        $this->assertEquals($projects_forum_idx, get_forum_id_for_project_state(PROJ_P2_WAITING_FOR_RELEASE));
-        $this->assertEquals($pp_projects_forum_idx, get_forum_id_for_project_state(PROJ_POST_FIRST_AVAILABLE));
+        $this->assertEquals($waiting_projects_forum_idx, ProjectStates::get_forum(PROJ_P1_WAITING_FOR_RELEASE));
+        $this->assertEquals($projects_forum_idx, ProjectStates::get_forum(PROJ_P2_WAITING_FOR_RELEASE));
+        $this->assertEquals($pp_projects_forum_idx, ProjectStates::get_forum(PROJ_POST_FIRST_AVAILABLE));
 
         $this->assertEquals("PPV: Available", get_medium_label_for_project_state(PROJ_POST_SECOND_AVAILABLE));
         $this->assertEquals("Post-Processing Verification: Available", project_states_text(PROJ_POST_SECOND_AVAILABLE));

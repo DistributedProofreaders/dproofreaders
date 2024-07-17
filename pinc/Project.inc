@@ -1410,7 +1410,7 @@ class Project
         $sign_PM_up = $userSettings->get_boolean("auto_proj_thread");
 
         // determine appropriate forum to create thread in
-        $forum_id = get_forum_id_for_project_state($this->state);
+        $forum_id = ProjectStates::get_forum($this->state);
 
         $post_subject = "\"{$this->nameofwork}\" by {$this->authorsname}";
 
