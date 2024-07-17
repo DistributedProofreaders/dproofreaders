@@ -48,13 +48,11 @@ class ProjectStates
         return self::$states;
     }
 
-    // TODO: We should ensure that `$state` is never null. For now, we allow it.
     public static function get_medium_label(?string $state): string
     {
         return self::$states[$state]->medium_label ?? '';
     }
 
-    // TODO: We should ensure that `$state` is never null. For now, we allow it.
     public static function get_label(?string $state): string
     {
         return self::$states[$state]->label ?? '';
@@ -62,13 +60,11 @@ class ProjectStates
 
     /** @return string|int */
     // TODO: Switch the return to ?string but would need to inspect usage of the function.
-    // TODO: We should ensure that `$state` is never null. For now, we allow it.
     public static function get_forum(?string $state)
     {
         return self::$states[$state]->forum ?? -1;
     }
 
-    // TODO: We should ensure that `$state` is never null. For now, we allow it.
     public static function get_phase(?string $state): string
     {
         return self::$states[$state]->phase ?? 'NONE';
