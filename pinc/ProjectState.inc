@@ -5,7 +5,7 @@ class ProjectState
     public string $name;
     public string $medium_label;
     public string $label;
-    public string $forum;
+    public int $forum;
     public string $phase;
     public string $star_metal;
 
@@ -13,7 +13,7 @@ class ProjectState
         string $name,
         string $medium_label,
         string $label,
-        string $forum,
+        int $forum,
         string $phase,
         string $star_metal
     ) {
@@ -58,9 +58,7 @@ class ProjectStates
         return self::$states[$state]->label ?? '';
     }
 
-    /** @return string|int */
-    // TODO: Switch the return to ?string but would need to inspect usage of the function.
-    public static function get_forum(?string $state)
+    public static function get_forum(?string $state): int
     {
         return self::$states[$state]->forum ?? -1;
     }

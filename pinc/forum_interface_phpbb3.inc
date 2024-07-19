@@ -486,7 +486,7 @@ function get_url_to_compose_message_to_user($username)
 /**
  * Given a forum id, return a URL that can be used to view the forum.
  */
-function get_url_to_view_forum($forum_id)
+function get_url_to_view_forum(int $forum_id): string
 {
     return get_url_for_forum() . "/viewforum.php?f=$forum_id";
 }
