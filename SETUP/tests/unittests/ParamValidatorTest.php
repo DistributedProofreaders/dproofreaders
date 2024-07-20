@@ -330,7 +330,8 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(false, $result);
     }
 
-    public function testBoolDefaultToNull() {
+    public function testBoolDefaultToNull()
+    {
         $default = null;
         $allow_null = true;
         $result = get_bool_param($this->GET, 'none', $default, $allow_null);
