@@ -8,7 +8,18 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         "f10" => "10.0",
         "s10" => "ten",
         "date" => "2024-02-10",
+        "zero" => 0,
         "one" => 1,
+        "zero_str" => "0",
+        "one_str" => "1",
+        "true" => true,
+        "false" => false,
+        "true_str" => "true",
+        "TRUE_str" => "TRUE",
+        "True_str" => "True",
+        "false_str" => "false",
+        "FALSE_str" => "FALSE",
+        "False_str" => "False",
     ];
     private $ENUM_CHOICES = ["a", "b"];
     private $ENUM_INT_CHOICES = [1, 3, 5, 9];
@@ -307,6 +318,79 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $min = 0;
         $max = 9;
         get_float_param($this->GET, 'f10', $default, $min, $max);
+    }
+
+    //------------------------------------------------------------------------
+    // get_bool_param() tests
+
+    public function testBoolDefault()
+    {
+        $default = false;
+        $result = get_bool_param($this->GET, 'none', $default);
+        $this->assertEquals(false, $result);
+    }
+
+    public function testBoolDefaultToNull()
+    {
+        $default = null;
+        $allow_null = true;
+        $result = get_bool_param($this->GET, 'none', $default, $allow_null);
+        $this->assertEquals(null, $result);
+    }
+
+    public function testBoolTrueVariants()
+    {
+        $default = null;
+        $result = get_bool_param($this->GET, 'true', $default);
+        $this->assertEquals(true, $result);
+        $result = get_bool_param($this->GET, 'true_str', $default);
+        $this->assertEquals(true, $result);
+        $result = get_bool_param($this->GET, 'TRUE_str', $default);
+        $this->assertEquals(true, $result);
+        $result = get_bool_param($this->GET, 'True_str', $default);
+        $this->assertEquals(true, $result);
+        $result = get_bool_param($this->GET, 'one', $default);
+        $this->assertEquals(true, $result);
+        $result = get_bool_param($this->GET, 'one_str', $default);
+        $this->assertEquals(true, $result);
+    }
+
+    public function testBoolFalseVariants()
+    {
+        $default = null;
+        $result = get_bool_param($this->GET, 'false', $default);
+        $this->assertEquals(false, $result);
+        $result = get_bool_param($this->GET, 'false_str', $default);
+        $this->assertEquals(false, $result);
+        $result = get_bool_param($this->GET, 'FALSE_str', $default);
+        $this->assertEquals(false, $result);
+        $result = get_bool_param($this->GET, 'False_str', $default);
+        $this->assertEquals(false, $result);
+        $result = get_bool_param($this->GET, 'zero', $default);
+        $this->assertEquals(false, $result);
+        $result = get_bool_param($this->GET, 'zero_str', $default);
+        $this->assertEquals(false, $result);
+    }
+
+    public function testBoolDefaultNotBool()
+    {
+        // Shockingly, PHP 7.4 (at least) will not throw a TypeError if a
+        // non-boolean is passed into a function with a bool type. It instead
+        // coerces it into a bool. Maybe later versions will?
+        $this->markTestSkipped('PHP will not enforce a bool type');
+
+        $this->expectException(TypeError::class);
+        $this->expectExceptionMessage("must be of");
+        $default = "string";
+        get_bool_param($this->GET, 'none', $default);
+    }
+
+    public function testBoolNotABool()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("is not a");
+        $default = true;
+        get_bool_param($this->GET, 'i10', $default);
     }
 
     //------------------------------------------------------------------------
