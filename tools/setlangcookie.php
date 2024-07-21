@@ -3,9 +3,12 @@ $relPath = "../pinc/";
 include_once($relPath."base.inc");
 include_once($relPath."metarefresh.inc");
 
+$lang_options = array_keys(get_locale_translation_selection_options());
+$lang_options[] = '';
+
 // These should always be set if the user got here correctly.
 // They won't be set if someone accesses this URL directly.
-$language = array_get($_POST, 'lang', '');
+$language = get_enumerated_param($_POST, 'lang', '', $lang_options);
 $location = array_get($_POST, 'returnto', "$code_url/default.php");
 
 if ($language) {
