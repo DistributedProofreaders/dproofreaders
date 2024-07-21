@@ -445,7 +445,6 @@ function enforce_edit_authorization($projectid)
         $message .= " ";
         $message .= sprintf(_("Redirecting you to the project page in %d seconds."), 5);
         metarefresh(5, "$code_url/project.php?id=$projectid", _("Redirect to Project"), $message);
-        exit;
     }
 }
 

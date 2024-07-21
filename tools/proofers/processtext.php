@@ -164,8 +164,8 @@ try {
             $ppage->attempt_to_save_as_done($text_data);
             $url = $ppage->url_for_do_another_page();
             metarefresh(1, $url, _("Save as 'Done' & Proofread Next Page"), _("Page Saved."));
-            break;
 
+            // no break, metarefresh exits
         case B_SAVE_AND_QUIT:
             $ppage->attempt_to_save_as_done($text_data);
             leave_proofing_interface(_("Save as 'Done'"));

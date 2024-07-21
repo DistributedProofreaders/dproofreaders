@@ -32,7 +32,6 @@ if (($user->u_id != $curTeam['owner']) && (!user_is_a_sitemanager())) {
     $title = _("Authorization Failed");
     $desc = _("You are not authorized to edit this team....");
     metarefresh(4, "tdetail.php?tid=$tid", $title, $desc);
-    exit;
 }
 
 if (isset($_GET['tid'])) {
@@ -45,7 +44,6 @@ if (isset($_GET['tid'])) {
     $title = _("Quit Without Saving");
     $desc = _("Quitting without saving...");
     metarefresh(0, "tdetail.php?tid=$tid", $title, $desc);
-    exit;
 } elseif (isset($_POST['edPreview'])) {
     $preview = _("Preview");
     output_header($preview . " " . $teamname, SHOW_STATSBAR, $theme_extra_args);

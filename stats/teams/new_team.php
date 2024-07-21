@@ -117,7 +117,6 @@ if (isset($_POST['mkPreview'])) {
     $title = _("Quit Without Saving");
     $desc = _("Quitting without saving...");
     metarefresh(0, "$code_url/activity_hub.php", $title, $desc);
-    exit;
 } else {
     $name = _("Create a New Team");
     output_header($name, SHOW_STATSBAR, $theme_extra_args);

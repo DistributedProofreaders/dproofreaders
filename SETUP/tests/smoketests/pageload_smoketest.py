@@ -252,7 +252,7 @@ TOOLS_TESTS = [
     {
         'method': 'POST',
         'path': 'tools/setlangcookie.php',
-        'data': {'lang': 'en-US'},
+        'data': {'lang': 'en_US'},
         'expect_status': 302,
     },
 ]

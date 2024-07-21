@@ -65,7 +65,7 @@ if (isset($_POST["swProfile"])) {
 
 //just a way to get them back to someplace on quit button
 if (isset($_POST["quitnc"])) {
-    metarefresh(0, $origin, _("Quit"), "");
+    metarefresh(0, $origin, _("Quit"));
 }
 
 if (array_get($_POST, "insertdb", "") != "") {
@@ -84,7 +84,7 @@ if (array_get($_POST, "insertdb", "") != "") {
 
     if (isset($_POST["saveAndQuit"]) || isset($_POST["mkProfileAndQuit"])) {
         // Quit immediately after saving
-        metarefresh(0, $origin, _("Quit"), "");
+        metarefresh(0, $origin, _("Quit"));
     } elseif (isset($_POST["deletenc"])) {
         // Delete the profile which was displayed on the previous screen.
         // This is slightly cumbersome because the user has to switch to a profile

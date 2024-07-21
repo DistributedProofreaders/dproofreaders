@@ -10,7 +10,8 @@
  * client (determined if headers have been sent or if the output buffer
  * has contents in it).
  */
-function metarefresh($seconds, $url, $title = "", $body = "", $allow_external = false)
+/** @return never */
+function metarefresh(int $seconds, string $url, string $title = "", string $body = "", bool $allow_external = false)
 {
     global $testing, $code_url;
 

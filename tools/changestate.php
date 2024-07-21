@@ -17,7 +17,7 @@ $projectid = get_projectID_param($_POST, 'projectid');
 $curr_state = get_enumerated_param($_POST, 'curr_state', null, ProjectStates::get_states());
 $next_state = get_enumerated_param($_POST, 'next_state', null, array_merge(ProjectStates::get_states(), ['automodify']));
 $confirmed = get_enumerated_param($_POST, 'confirmed', null, ['yes'], true);
-$return_uri = @$_POST['return_uri'];
+$return_uri = @$_POST['return_uri'] ?? '';
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -100,10 +100,8 @@ if (!empty($transition->detour)) {
         // or output content and exit
     } else {
         $title = _("Transferring...");
-        $body = "";
         $refresh_url = prepare_url($transition->detour);
-        metarefresh(2, $refresh_url, $title, $body);
-        exit;
+        metarefresh(2, $refresh_url, $title);
     }
 }
 

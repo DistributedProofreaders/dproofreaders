@@ -26,12 +26,10 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
         [$good_word_conflict, $bad_word_conflict, $errors] = $pwlh->save_to_files();
         if (!$errors) {
             if (isset($_POST['saveAndProject'])) {
-                metarefresh(0, "$code_url/project.php?id=$pwlh->projectid", _("Save and Go To Project"), "");
-                exit;
+                metarefresh(0, "$code_url/project.php?id=$pwlh->projectid", _("Save and Go To Project"));
             } elseif (isset($_POST['saveAndPM'])) {
                 // TRANSLATORS: PM = project manager
-                metarefresh(0, "$code_url/tools/project_manager/projectmgr.php", _("Save and Go To PM Page"), "");
-                exit;
+                metarefresh(0, "$code_url/tools/project_manager/projectmgr.php", _("Save and Go To PM Page"));
             }
         } elseif (isset($_POST['save'])) {
             // No errors, but fall through.
@@ -48,8 +46,7 @@ if (isset($_POST['saveAndProject']) || isset($_POST['saveAndPM']) || isset($_POS
     }
 
     // do the redirect
-    metarefresh(0, $return, _("Quit Without Saving"), "");
-    exit;
+    metarefresh(0, $return, _("Quit Without Saving"));
 } elseif (isset($_POST['reload'])) {
     // fall through
 }
