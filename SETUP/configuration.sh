@@ -404,10 +404,11 @@ _WIKI_URL=$base_url/wiki
 # If there's a wiki or a blog that you want your users to use, set the
 # above variables to their URLs and links will appear on the navigation
 # bar. If you don't have a blog or wiki, set either or both of them to
-# zero, and they won't appear in the navigation bar.
+# the empty string, and they won't appear in the navigation bar.
 
 _FORUMS_TEAMS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # Each team gets an automatically-created discussion topic in this forum
+# Setting the index to -1 will prevent posting.
 
 _FORUMS_PROJECT_WAITING_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 _FORUMS_PROJECT_AVAIL_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
@@ -416,17 +417,20 @@ _FORUMS_PROJECT_POSTED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # Each project gets an automatically-created discussion topic, which
 # moves around among these 4 forums, depending on its state.
 # (The exact correspondence is defined in pinc/project_states.inc.)
+# Setting any index to -1 will prevent posting to it.
 
 _FORUMS_PROJECT_DELETED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 _FORUMS_PROJECT_COMPLETED_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # Projects that are deleted or completed and not posted (rare)
 # have a forum of their own. Consider putting these in the same
 # hidden forum.
+# Setting any index to -1 will prevent posting to it.
 
 _FORUMS_BEGIN_SITE_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 _FORUMS_POST_PROCESSORS_IDX=THE_INDEX_NUMBER_OF_THIS_FORUM
 # These forums aren't involved in the operation of the site,
 # they just show up in various links.
+# Setting any index to -1 will prevent posting to it.
 
 _AUTO_POST_TO_PROJECT_TOPIC=false
 # If you set this to `true`, the code will automatically add a post to a
