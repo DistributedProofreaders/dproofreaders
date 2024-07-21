@@ -34,9 +34,9 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         }
         if (isset($_POST['saveAndQuit'])) {
             // TRANSLATORS: PM = project manager
-            metarefresh(0, "projectmgr.php", _("Save and Go To PM Page"), "");
+            metarefresh(0, "projectmgr.php", _("Save and Go To PM Page"));
         } elseif (isset($_POST['saveAndProject'])) {
-            metarefresh(0, "$code_url/project.php?id={$pih->project->projectid}", _("Save and Go To Project"), "");
+            metarefresh(0, "$code_url/project.php?id={$pih->project->projectid}", _("Save and Go To Project"));
         }
     }
 
@@ -72,7 +72,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
     }
 
     // do the redirect
-    metarefresh(0, $return, _("Quit Without Saving"), "");
+    metarefresh(0, $return, _("Quit Without Saving"));
 } else {
     $requested_action = get_enumerated_param($_REQUEST, 'action', null, ['createnew', 'clone', 'create_from_marc_record', 'edit']);
 

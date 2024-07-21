@@ -109,7 +109,7 @@ if (!empty($destination) && !endswith($destination, "login_failure.php") &&
 } else {
     $url = "$code_url/activity_hub.php";
 }
-metarefresh(0, $url, "", "");
+metarefresh(0, $url);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -129,5 +129,5 @@ function login_failure($error_code, $destination)
 {
     global $code_url;
 
-    metarefresh(0, "$code_url/accounts/login_failure.php?error_code=$error_code&destination=" . urlencode($destination), "", "");
+    metarefresh(0, "$code_url/accounts/login_failure.php?error_code=$error_code&destination=" . urlencode($destination));
 }

@@ -606,21 +606,19 @@ if (!isset($_REQUEST['task_id'])) {
                 //   the page to clear the POST data and make sure that
                 //   reloading does not lead to duplicated tasks.
                 metarefresh(0, $tasks_url);
-                break;
             }
 
-            // no break
+            // no break, metarefresh exits
         case 'notify_new':
             $userSettings = & Settings::get_Settings($pguser);
             $userSettings->add_value('taskctr_notice', 'notify_new');
             metarefresh(0, $tasks_url);
-            break;
 
+            // no break, metarefresh exits
         case 'unnotify_new':
             $userSettings = & Settings::get_Settings($pguser);
             $userSettings->remove_value('taskctr_notice', 'notify_new');
             metarefresh(0, $tasks_url);
-            break;
     }
 } else {
     handle_action_on_a_specified_task();

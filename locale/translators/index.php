@@ -130,7 +130,7 @@ elseif ($func == "newtranslation2") {
     try {
         $po_file->create_from_template("$dyn_locales_dir/messages.pot", $locale);
 
-        metarefresh(0, "$translate_url?func=manage&amp;locale=$locale", "", "");
+        metarefresh(0, "$translate_url?func=manage&amp;locale=$locale");
     } catch (Exception $exception) {
         echo "<p>" . _("An error occurred during translation initialization.") ."</p>";
         echo "<pre>" . $exception->getMessage() . "</pre>";
