@@ -386,8 +386,12 @@ $word_check_messages = [
     "rerun" => _("Check page against an additional language"),
 ];
 
-// @param $accepted_words string[]
-// @param $languages string[]
+/**
+ * output_wordcheck_interface outputs all the buttons used by WordCheck
+ *
+ * @param string[] $accepted_words
+ * @param string[] $languages
+ */
 // TODO: Switch $is_changed to a bool once we have `get_bool_param`.
 function output_wordcheck_interface(User $user, PPage $ppage, string $text_data, int $is_changed, array $accepted_words, array $languages): void
 {
@@ -556,7 +560,7 @@ function output_wordcheck_interface(User $user, PPage $ppage, string $text_data,
     echo '</div>';
 }
 
-// @param $languages string[]
+/** @param string[] $languages */
 function output_wordcheck_language_buttons(array $languages): void
 {
     foreach ($languages as $language) {
@@ -601,7 +605,7 @@ function get_page_js(int $interface_type_init_value): string
         PAGE_JS;
 }
 
-// @return array<"js_files" => string[], "js_data" => string, "body_attributes" => string, "css_data"? = string
+/** @return array{"js_files": string[], "js_data": string, "body_attributes": string, "css_data"?: string} */
 function get_wordcheck_page_header_args(User $user, PPage $ppage): array
 {
     global $code_url, $word_check_messages;
