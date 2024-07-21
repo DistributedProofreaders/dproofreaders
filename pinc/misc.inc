@@ -426,11 +426,6 @@ function get_numeric_param(string $type, array $arr, string $key, $default, $min
  * "false" and various capitalizations thereof.
  *
  * @param array<string, mixed> $arr
- * @param string $key
- * @param bool|null $default
- * @param bool $allownull
- *
- * @return bool|null
  *
  * @throws InvalidArgumentException
  */
