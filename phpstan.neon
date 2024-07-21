@@ -41,7 +41,10 @@ parameters:
         # TODO(jchaffraix): Temporarily disabling those as they are dynamically created (see comment in Pool's constructor).
         - message: "#^Access to an undefined property Pool::\\$project_available_state.$#"
           path: pinc/ProjectState.inc
+          reportUnmatched: false
         - message: "#^Access to an undefined property Pool::\\$project_checkedout_state.$#"
           path: pinc/ProjectState.inc
+          reportUnmatched: false
         - message: "#^Access to an undefined property Pool::\\$states.$#"
           path: pinc/ProjectState.inc
+          reportUnmatched: false
