@@ -387,7 +387,7 @@ $word_check_messages = [
 ];
 
 /**
- * output_wordcheck_interface outputs all the buttons used by WordCheck
+ * Output all the buttons used by WordCheck.
  *
  * @param string[] $accepted_words
  * @param string[] $languages
