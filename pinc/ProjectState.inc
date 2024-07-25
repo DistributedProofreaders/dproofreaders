@@ -72,6 +72,7 @@ class ProjectStates
 // Note that the order in which these project states are declared
 // is the order in which they will be displayed in various contexts
 // (via ProjectStates::get_states()).
+
 /**
  * @param Round[] $rounds
  * @param Pool[] $pools
