@@ -63,6 +63,7 @@ foreach ($files as $file) {
 
 }
 
+/** @return string[] */
 function get_all_php_files(string $basedir): array
 {
     $php_files = [];
