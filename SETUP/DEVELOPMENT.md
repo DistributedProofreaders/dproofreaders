@@ -108,7 +108,7 @@ The code is loosely organized around the following ideas:
 * [coding standards](CODE_STYLE.md)
 * [coding best practices](https://www.pgdp.net/wiki/DP_Code_Best_Practices)
 * [automated tests](tests/README.md)
-* [CSS / style documentation](../style/README.md)
+* [CSS / style documentation](../styles/README.md)
 * [API documentation](../api/README.md)
 * [coding documentation](CODE_DOCS.md)
 * [graphs design](GRAPHS.md)
