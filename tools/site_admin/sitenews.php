@@ -94,7 +94,7 @@ function output_page_links(string $current_page_id): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-// @param array<string, string> $options
+/** @param array<string, string> $options */
 function echo_selection(string $name, array $options, string $value_selected): void
 {
     echo "<select name='$name'>";

@@ -63,7 +63,7 @@ foreach ($files as $file) {
 
 }
 
-// @param $basedir string[]
+/** @return string[] */
 function get_all_php_files(string $basedir): array
 {
     $php_files = [];
@@ -101,7 +101,7 @@ function file_includes_system_call(string $filename): bool
     return preg_match("/\b(?:exec|system|passthru|shell_exec|escapeshellcmd)\(/", $contents, $matches);
 }
 
-// @return never
+/** @return never */
 // TODO: Add never as a return value once we switch to PHP 8.1.
 function abort(string $message)
 {
