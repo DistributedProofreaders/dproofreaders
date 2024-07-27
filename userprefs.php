@@ -856,7 +856,7 @@ function save_pm_tab(User $user): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_bottom_button_row()
+function echo_bottom_button_row(): void
 {
     echo "<tr><td colspan='6' class='center-align'>";
     echo "<input type='submit' value='".attr_safe(_("Save Preferences"))."' name='change'> &nbsp;";
@@ -867,14 +867,21 @@ function echo_bottom_button_row()
 
 // ---------------------------------------------------------
 
+/**
+ * Shows a single user preference of a specific type (e.g. dropdown or font selection)
+ *
+ * @param mixed $current_value
+ * @param mixed $extras
+ */
 function show_preference(
-    $label,
-    $field_name,
-    $pophelp_name,
+    string $label,
+    ?string $field_name,
+    string $pophelp_name,
     $current_value,
-    $type,
+    string $type,
+    // Extras is untyped as it varies based on $type.
     $extras
-) {
+): void {
     th_label($label);
 
     echo "<td>";
@@ -889,7 +896,7 @@ function show_preference(
 
 // ---------------------------------------------------------
 
-function _show_fontface_selection($field_name, $current_value, $font_other)
+function _show_fontface_selection(string $field_name, string $current_value, string $font_other): void
 {
     $available_fonts = get_available_proofreading_font_faces();
     foreach ($available_fonts as $index => $font_name) {
@@ -914,7 +921,7 @@ function _show_fontface_selection($field_name, $current_value, $font_other)
 
 // ---------------------------------------------------------
 
-function _show_credits_wanted_adhoc()
+function _show_credits_wanted_adhoc(): void
 {
     global $userSettings;
 
@@ -941,7 +948,7 @@ function _show_credits_wanted_adhoc()
 // ---------------------------------------------------------
 
 // Handles 'credit_name' and 'credit_other'.
-function _show_credit_name_adhoc()
+function _show_credit_name_adhoc(): void
 {
     global $userSettings;
 
@@ -961,7 +968,8 @@ function _show_credit_name_adhoc()
 
 // ---------------------------------------------------------
 
-function _show_dropdown($field_name, $current_value, $options)
+/** @param array<string|int, string> $options */
+function _show_dropdown(string $field_name, string $current_value, array $options): void
 {
     echo "<select name='$field_name' ID='$field_name'>";
     foreach ($options as $option_value => $option_label) {
@@ -974,7 +982,8 @@ function _show_dropdown($field_name, $current_value, $options)
     echo "</select>";
 }
 
-function _show_radio_group($field_name, $current_value, $options)
+/** @param array<int, string> $options */
+function _show_radio_group(string $field_name, string $current_value, array $options): void
 {
     foreach ($options as $option_value => $option_label) {
         echo "<input type='radio' name='$field_name' value='$option_value'";
@@ -985,7 +994,8 @@ function _show_radio_group($field_name, $current_value, $options)
     }
 }
 
-function _show_text_input_field($field_type, $field_name, $current_value, $extras)
+/** @param string[] $extras */
+function _show_text_input_field(string $field_type, string $field_name, string $current_value, array $extras): void
 {
     [$size, $required, $rest] = $extras;
     $current_value_esc = attr_safe($current_value);
@@ -997,17 +1007,20 @@ function _show_text_input_field($field_type, $field_name, $current_value, $extra
     echo "<input type='$field_type' style='width: {$size}' name='$field_name' value='$current_value_esc' $min_attr $required>$rest";
 }
 
-function _show_textfield($field_name, $current_value, $extras)
+/** @param string[] $extras */
+function _show_textfield(string $field_name, string $current_value, array $extras): void
 {
     _show_text_input_field('text', $field_name, $current_value, $extras);
 }
 
-function _show_emailfield($field_name, $current_value, $extras)
+/** @param string[] $extras */
+function _show_emailfield(string $field_name, string $current_value, array $extras): void
 {
     _show_text_input_Field('email', $field_name, $current_value, $extras);
 }
 
-function _show_numberfield($field_name, $current_value, $extras)
+/** @param string[] $extras */
+function _show_numberfield(string $field_name, string $current_value, array $extras): void
 {
     _show_text_input_field('number', $field_name, $current_value, $extras);
 }
@@ -1015,11 +1028,11 @@ function _show_numberfield($field_name, $current_value, $extras)
 // ---------------------------------------------------------
 
 function show_link_as_if_preference(
-    $label,
-    $pophelp_name,
-    $link_url,
-    $link_text
-) {
+    string $label,
+    string $pophelp_name,
+    string $link_url,
+    string $link_text
+): void {
     th_label($label);
     echo "<td>";
     echo "<a href='$link_url'>$link_text</a>";
@@ -1027,7 +1040,7 @@ function show_link_as_if_preference(
     td_pophelp($pophelp_name);
 }
 
-function show_blank()
+function show_blank(): void
 {
     th_label("&nbsp;");
     echo "<td>&nbsp;</td>";
@@ -1036,17 +1049,17 @@ function show_blank()
 
 // ---------------------------------------------------------
 
-function th_label($label)
+function th_label(string $label): void
 {
     echo "<th class='label'>$label</th>";
 }
 
-function th_label_long($colspan, $label)
+function th_label_long(int $colspan, string $label): void
 {
     echo "<th class='longlabel' colspan='$colspan'>$label</th>";
 }
 
-function td_pophelp($pophelp_name)
+function td_pophelp(string $pophelp_name): void
 {
     echo "<td class='center-align'>";
     echo "<b>&nbsp;<a href=\"javascript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
