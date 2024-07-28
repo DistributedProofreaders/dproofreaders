@@ -18,7 +18,6 @@ include_once('./quiz_defaults.inc');
 // $quiz_page_id must be defined and valid.
 assert(isset($quiz_page_id));
 $quiz = get_Quiz_containing_page($quiz_page_id);
-assert(!is_null($quiz));
 
 // Load the particulars of the requested quiz page.
 // (Set a bunch of global variables.)

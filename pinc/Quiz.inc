@@ -14,7 +14,8 @@ class QuizLevel
 
     public static $map_quiz_level_id_to_QuizLevel = [];
 
-    public function __construct($level_id, $level_name, $activity_type, $info, $quizzes)
+    /** @param Quiz[] $quizzes */
+    public function __construct(string $level_id, string $level_name, string $activity_type, string $info, array $quizzes)
     {
         $this->level_id = $level_id;
         $this->level_name = $level_name;
@@ -45,11 +46,14 @@ class Quiz
     //     Passes recorded longer than time_in_seconds ago are not valid.
     public array $pass_requirements;
 
+    /** @var string[] */
     public static $valid_quiz_page_ids = [];
+    /** @var array<string, Quiz> */
     public static $map_quiz_page_id_to_Quiz = [];
+    /** @var array<string, Quiz> */
     public static $map_quiz_id_to_Quiz = [];
 
-    public function __construct($id, $name, $short_name, $description, $thread, $pages, $pass_requirements)
+    public function __construct(string $id, string $name, string $short_name, string $description, string $thread, array $pages, array $pass_requirements)
     {
         $this->id = $id;
         $this->name = $name;
@@ -77,8 +81,10 @@ class Quiz
      * The date will be null if the user did not attempt or pass the page
      * (because we don't store non-passed attempts, we can't distinguish not
      * passed from not attempted).
+     *
+     * @return array<string, ?int>
      */
-    private function get_user_page_passes($username, $use_pass_requirements = true)
+    private function get_user_page_passes(string $username, bool $use_pass_requirements = true): array
     {
         foreach (array_keys($this->pages) as $quiz_page_id) {
             $pages_required_results[$quiz_page_id] = null;
@@ -111,7 +117,7 @@ class Quiz
         return $pages_required_results;
     }
 
-    public function user_has_passed($username)
+    public function user_has_passed(string $username): bool
     {
         $pages_required_results = $this->get_user_page_passes($username);
 
@@ -126,7 +132,7 @@ class Quiz
         }
     }
 
-    public function show_results_table($username)
+    public function show_results_table(string $username): void
     {
         global $code_url;
         global $code_dir;
@@ -253,7 +259,8 @@ class QuizCharSuites
 {
     use CharSuiteSet;
 
-    public function get_charsuites()
+    /** @return CharSuite[] */
+    public function get_charsuites(): array
     {
         $charsuites[] = CharSuites::get('basic-latin');
         $charsuites[] = CharSuites::get('extended-european-latin-b');
@@ -268,8 +275,10 @@ class QuizCharSuites
  *
  * If $arr[$key] is defined and is a valid quiz id, return it.
  * Otherwise, die with an error message.
+ *
+ * @param array<string, mixed> $arr
  */
-function get_quiz_id_param($arr, $key)
+function get_quiz_id_param(array $arr, string $key): string
 {
     return get_enumerated_param($arr, $key, null, array_keys(Quiz::$map_quiz_id_to_Quiz));
 }
@@ -279,27 +288,35 @@ function get_quiz_id_param($arr, $key)
  *
  * If $arr[$key] is defined and is a valid quiz page id, return it.
  * Otherwise, die with an error message.
+ *
+ * @param array<string, mixed> $arr
  */
-function get_quiz_page_id_param($arr, $key)
+function get_quiz_page_id_param(array $arr, string $key): string
 {
     return get_enumerated_param($arr, $key, null, Quiz::$valid_quiz_page_ids);
 }
 
 // -----------------------------------------------------------------------------
 
-function get_Quiz_with_id($quiz_id)
+/**
+ * Returns a quiz with the specific ID or throw an exception
+ */
+function get_Quiz_with_id(string $quiz_id): Quiz
 {
     return Quiz::$map_quiz_id_to_Quiz[$quiz_id];
 }
 
-function get_Quiz_containing_page($quiz_page_id)
+/**
+ * Returns a quiz with the Quiz page ID or throw an exception
+ */
+function get_Quiz_containing_page(string $quiz_page_id): Quiz
 {
     return Quiz::$map_quiz_page_id_to_Quiz[$quiz_page_id];
 }
 
 // -----------------------------------------------------------------------------
 
-function record_quiz_attempt($username, $quiz_page_id, $result)
+function record_quiz_attempt(string $username, string $quiz_page_id, string $result): void
 {
     $sql = sprintf(
         "
