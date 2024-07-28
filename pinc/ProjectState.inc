@@ -5,17 +5,17 @@ class ProjectState
     public string $name;
     public string $medium_label;
     public string $label;
-    public string $forum;
+    public int $forum;
     public string $phase;
     public string $star_metal;
 
     public function __construct(
-        $name,
-        $medium_label,
-        $label,
-        $forum,
-        $phase,
-        $star_metal
+        string $name,
+        string $medium_label,
+        string $label,
+        int $forum,
+        string $phase,
+        string $star_metal
     ) {
         $this->name = $name;
         $this->medium_label = $medium_label;
@@ -28,39 +28,42 @@ class ProjectState
 
 class ProjectStates
 {
-    private static $states = [];
+    /** @var array<string, ProjectState> */
+    private static array $states = [];
 
-    public static function add_state($state)
+    public static function add_state(ProjectState $state): void
     {
         self::$states[$state->name] = $state;
     }
 
-    public static function get_states()
+    /** @return string[] */
+    public static function get_states(): array
     {
         return array_keys(self::$states);
     }
 
-    public static function get_all()
+    /** @return array<string, ProjectState> */
+    public static function get_all(): array
     {
         return self::$states;
     }
 
-    public static function get_medium_label($state)
+    public static function get_medium_label(?string $state): string
     {
         return self::$states[$state]->medium_label ?? '';
     }
 
-    public static function get_label($state)
+    public static function get_label(?string $state): string
     {
         return self::$states[$state]->label ?? '';
     }
 
-    public static function get_forum($state)
+    public static function get_forum(?string $state): int
     {
         return self::$states[$state]->forum ?? -1;
     }
 
-    public static function get_phase($state)
+    public static function get_phase(?string $state): string
     {
         return self::$states[$state]->phase ?? 'NONE';
     }
@@ -69,7 +72,12 @@ class ProjectStates
 // Note that the order in which these project states are declared
 // is the order in which they will be displayed in various contexts
 // (via ProjectStates::get_states()).
-function declare_project_states($rounds, $pools)
+
+/**
+ * @param Round[] $rounds
+ * @param Pool[] $pools
+ */
+function declare_project_states(array $rounds, array $pools): void
 {
     global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
     $completed_projects_forum_idx, $deleted_projects_forum_idx;
@@ -248,7 +256,7 @@ function declare_project_states($rounds, $pools)
 * SQL_CONDITION_SILVER
 * SQL_CONDITION_GOLD
 */
-function construct_star_metal_sql()
+function construct_star_metal_sql(): void
 {
     foreach (ProjectStates::get_all() as $state_name => $project_state) {
         if ($project_state->star_metal) {
@@ -272,22 +280,17 @@ function construct_star_metal_sql()
 
 // -----------------------------------------------------------------------------
 // these functions can be removed later
-function get_medium_label_for_project_state($state)
+function get_medium_label_for_project_state(?string $state): string
 {
     return ProjectStates::get_medium_label($state);
 }
 
-function project_states_text($state)
+function project_states_text(?string $state): string
 {
     return ProjectStates::get_label($state);
 }
 
-function get_forum_id_for_project_state($state)
-{
-    return ProjectStates::get_forum($state);
-}
-
-function get_phase_containing_project_state($state)
+function get_phase_containing_project_state(?string $state): string
 {
     return ProjectStates::get_phase($state);
 }
@@ -301,7 +304,7 @@ function get_phase_containing_project_state($state)
  * which is not very useful. Instead, ORDER BY the result of this function,
  * and it will use the canonical order-of-declaration for project states.
  */
-function sql_collator_for_project_state($state_column)
+function sql_collator_for_project_state(string $state_column): string
 {
     return sprintf(
         "FIELD($state_column, %s)",
@@ -311,7 +314,8 @@ function sql_collator_for_project_state($state_column)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_project_status_descriptors()
+/** @return string[] */
+function get_project_status_descriptors(): array
 {
     return ['posted', 'PPd', 'proofed', 'created'];
 }
