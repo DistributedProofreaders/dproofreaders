@@ -48,7 +48,7 @@ class UserProfile
         "h_fntf_other",
     ];
 
-    public function __construct($id = null)
+    public function __construct(?int $id = null)
     {
         if ($id !== null) {
             $this->load($id);
@@ -58,7 +58,9 @@ class UserProfile
     // The __set() and __get() methods allow access to user fields without
     // creating accessors for them all individually.
     // See the PHP docs for "magic methods".
-    public function __set($name, $value)
+
+    /** @param mixed $value */
+    public function __set(string $name, $value)
     {
         if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
             throw new DomainException(
@@ -72,17 +74,18 @@ class UserProfile
         $this->table_row[$name] = $value;
     }
 
-    public function __get($name)
+    /** @return mixed */
+    public function __get(string $name)
     {
         return $this->table_row[$name];
     }
 
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return isset($this->table_row[$name]);
     }
 
-    private function load($id)
+    private function load(int $id): void
     {
         $sql = sprintf(
             "
@@ -107,7 +110,7 @@ class UserProfile
         mysqli_free_result($result);
     }
 
-    public function save()
+    public function save(): void
     {
         if (!isset($this->id)) {
             // validate that we have a u_ref
@@ -146,7 +149,7 @@ class UserProfile
         }
     }
 
-    public function delete()
+    public function delete(): void
     {
         if (!isset($this->id)) {
             throw new NonexistentUserProfileException(
@@ -165,7 +168,8 @@ class UserProfile
     }
 
     // static functions
-    public static function load_user_profiles($u_ref)
+    /** @return UserProfile[] */
+    public static function load_user_profiles(int $u_ref): array
     {
         $sql = sprintf(
             "
@@ -180,7 +184,7 @@ class UserProfile
         $profiles = [];
         $result = DPDatabase::query($sql);
         while ($row = mysqli_fetch_assoc($result)) {
-            $profiles[] = new UserProfile($row["id"]);
+            $profiles[] = new UserProfile((int)$row["id"]);
         }
         mysqli_free_result($result);
         return $profiles;
