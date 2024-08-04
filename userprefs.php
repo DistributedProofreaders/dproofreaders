@@ -476,7 +476,7 @@ function echo_proofreading_tab(User $user): void
         foreach ($profiles as $profile) {
             echo "<option value='$profile->id'";
             if ($profile->id == $user->profile->id) {
-                echo " SELECTED disabled";
+                echo " SELECTED";
             }
             echo ">$profile->profilename</option>";
         }
