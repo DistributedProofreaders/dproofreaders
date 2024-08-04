@@ -280,7 +280,7 @@ class ProjectInfoHolder
             if ($_POST["postednum"] == "") {
                 $this->project->postednum = null;
             } else {
-                $this->project->postednum = (int)$_POST["postednum"];
+                $this->project->postednum = get_integer_param($_POST, "postednum");
             }
         }
 
