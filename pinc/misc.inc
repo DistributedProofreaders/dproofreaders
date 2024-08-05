@@ -257,7 +257,7 @@ function get_enumerated_param(array $arr, string $key, $default, array $choices,
  *
  * @see get_float_param()
  */
-function get_integer_param(array $arr, string $key, ?int $default, ?int $min, ?int $max, bool $allownull = false): ?int
+function get_integer_param(array $arr, string $key, ?int $default = null, ?int $min = null, ?int $max = null, bool $allownull = false): ?int
 {
     return get_numeric_param("integer", $arr, $key, $default, $min, $max, $allownull);
 }
@@ -283,7 +283,7 @@ function get_integer_param(array $arr, string $key, ?int $default, ?int $min, ?i
  *
  * @see get_integer_param()
  */
-function get_float_param(array $arr, string $key, ?float $default, ?float $min, ?float $max, bool $allownull = false): ?float
+function get_float_param(array $arr, string $key, ?float $default = null, ?float $min = null, ?float $max = null, bool $allownull = false): ?float
 {
     return get_numeric_param("float", $arr, $key, $default, $min, $max, $allownull);
 }
@@ -309,7 +309,7 @@ function get_float_param(array $arr, string $key, ?float $default, ?float $min, 
  * @see get_integer_param()
  * @see get_float_param()
  */
-function get_numeric_param(string $type, array $arr, string $key, $default, $min, $max, bool $allownull)
+function get_numeric_param(string $type, array $arr, string $key, $default = null, $min = null, $max = null, bool $allownull = false)
 {
     // sanity checks on the args
     if ($type == 'integer') {
@@ -429,7 +429,7 @@ function get_numeric_param(string $type, array $arr, string $key, $default, $min
  *
  * @throws InvalidArgumentException
  */
-function get_bool_param(array $arr, string $key, ?bool $default, bool $allownull = false): ?bool
+function get_bool_param(array $arr, string $key, ?bool $default = null, bool $allownull = false): ?bool
 {
     if (!is_null($default) && $allownull) {
         throw new InvalidArgumentException("\$allownull = true but \$default is specified");
