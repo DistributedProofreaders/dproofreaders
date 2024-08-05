@@ -23,9 +23,11 @@ function text_field($field_value, $field_name, $args = [])
     $required = array_get($args, "required", false);
     $required_attr = $required ? " required" : "";
     $field_type = array_get($args, "type", "text");
+    $min = array_get($args, "min", null);
+    $min_attr = isset($min) ? " min='$min'" : "";
 
     $enc_field_value = attr_safe($field_value);
-    echo "<input type='$field_type' style='width: 30em;' name='$field_name' value='$enc_field_value' $maxlength_attr$required_attr>";
+    echo "<input type='$field_type' style='width: 30em;' name='$field_name' value='$enc_field_value' $maxlength_attr$required_attr$min_attr>";
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

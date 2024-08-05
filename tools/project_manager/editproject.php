@@ -533,7 +533,7 @@ class ProjectInfoHolder
             $this->row(_("Scanner Credit (deprecated)"), 'text_field', $this->project->scannercredit, 'scannercredit');
         }
         $this->row(_("Clearance Line"), 'text_field', $this->project->clearance, 'clearance');
-        $this->row(_("PG etext number"), 'text_field', $this->project->postednum, 'postednum', '', ["type" => "number"]);
+        $this->row(_("PG etext number"), 'text_field', $this->project->postednum, 'postednum', '', ["type" => "number", "min" => 1]);
         $this->row(_("Project Comments Format"), 'proj_comments_format', $this->project->comment_format);
         $this->row(_("Project Comments"), 'proj_comments_field', $this->project->comments);
 
