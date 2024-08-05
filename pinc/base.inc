@@ -20,9 +20,22 @@ include_once($relPath."bootstrap.inc");
 if (!headers_sent()) {
     header("Content-Type: text/html; charset=UTF-8");
 
-    // Disallow other sites from embedding pages in frames/iframes
-    header("Content-Security-Policy: frame-ancestors 'self'", false);
-    header("X-Frame-Options: SAMEORIGIN");
+    // Set CSP for security
+    $policies = [
+        // default is to just load from self
+        "default-src 'self'",
+        // allow inline styles
+        "style-src 'self' 'unsafe-inline'",
+        // allow inline scripts until we remove them, and cdn.jsdelivr.net
+        // for MathJAX
+        "script-src 'self' 'unsafe-inline' cdn.jsdelivr.net",
+        // allow images from anywhere (due to project comments)
+        "img-src 'self' *",
+        // Disallow other sites from embedding pages in frames/iframes;
+        // unlike other params it does not fallback to default-src
+        "frame-ancestors 'self'",
+    ];
+    header("Content-Security-Policy: " . join("; ", $policies), false);
 }
 
 // If we don't have a database connection, don't try to resume the session.
