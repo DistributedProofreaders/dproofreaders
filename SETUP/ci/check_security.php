@@ -12,8 +12,6 @@ $basedir = $argv[1] ?? "../../";
 //       opting for Symfony Process() instead -- but this ensures that no
 //       others are added from the current set until they get updated.
 $ok_system_calls = [
-    "crontab/CleanUploadsTrash.inc",
-    "locale/translators/index.php",
     "pinc/archiving.inc",
     "pinc/forum_interface_phpbb3.inc",
     "pinc/languages.inc",

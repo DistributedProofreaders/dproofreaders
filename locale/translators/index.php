@@ -7,6 +7,8 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'POFile.inc');
 include_once($relPath.'faq.inc');
 
+use Symfony\Component\Process\Process;
+
 require_login();
 
 $translate_url = "$code_url/locale/translators/index.php";
@@ -143,7 +145,12 @@ elseif ($func == "newtranslation2") {
 elseif ($func == "delete") {
     $locale = validate_locale($_REQUEST['locale']);
     assert(is_dir("$dyn_locales_dir/$locale"));
-    exec("rm -r " . escapeshellarg("$dyn_locales_dir/$locale"));
+    $process = new Process([
+        "rm",
+        "-r",
+        "$dyn_locales_dir/$locale",
+    ]);
+    $process->run();
 
     echo "<p>" . sprintf(_("Locale %s deleted."), $locale) . "</p>";
 
