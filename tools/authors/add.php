@@ -328,9 +328,6 @@ if (year == "" || year == 0) {
 return true;
 }
 
-function setComments(bd, comments) {
-eval("document.addform."+bd+"comments.value=comments;");
-}
 // -->
 </script>
 <?php
@@ -377,14 +374,7 @@ function echo_date_fields($bd)
 <input type="number" name="<?php echo $bd; ?>year" min="1" style='width: 4em;'<?php echo(_var($bd, 'yearRadio') == '1' ? ' VALUE="'.abs(_var($bd, 'year')).'"' : ''); ?> onFocus="this.form.<?php echo $bd; ?>yearRadio[1].checked=true;">
 <input type="checkbox" name="<?php echo $bd; ?>bc" value="yes"<?php echo(_var($bd, 'bc') ? ' CHECKED' : ''); ?>><?php echo _('B. C.'); ?>
 </td></tr><tr><td><?php echo _('Comments (in<br>English, please)'); ?>:</td><td><input type="text" size="20" maxlength="20" name="<?php echo $bd; ?>comments" value="<?php echo attr_safe(_var($bd, 'comments')); ?>"> 
-<?php echo _('Handy links:').' '; ?>
-<a href="javascript:setComments('<?php echo $bd; ?>', '');" onClick="false">Empty (Unknown)</A> | 
-<a href="javascript:setComments('<?php echo $bd; ?>', '(circa)');" onClick="false">(circa)</A>
 <?php
-    // 'Still alive' only if death-field.
-    if ($bd == 'd') {
-        echo " | <a href=\"javascript:setComments('$bd', 'Still alive');\" onClick=\"false\">Still alive</A>";
-    }
     echo '</td></tr></table>';
 }
 
