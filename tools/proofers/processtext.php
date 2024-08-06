@@ -267,7 +267,7 @@ try {
             $body = _("Page Saved.");
             slim_header($title);
             echo "<script><!--\n";
-            echo "setTimeout(\"top.proofframe.location.href='$url';\", 1000);\n";
+            echo "setTimeout(function() {top.proofframe.location.href='$url';}, 1000);\n";
             echo "// --></script>\n";
             echo $body;
             break;
@@ -346,6 +346,6 @@ function leave_proofing_interface(string $title): void
     $text = _("You will be returned to the <a href='%s' target='_top'>project page</a> in one second.");
     echo sprintf($text, $safe_url);
     echo "<script><!--\n";
-    echo "setTimeout(\"top.location.href='$raw_url';\", 1000);\n";
+    echo "setTimeout(function() {top.location.href='$raw_url';}, 1000);\n";
     echo "// --></script>\n";
 }

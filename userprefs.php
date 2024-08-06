@@ -125,10 +125,11 @@ $theme_extra_args["js_data"] =
     // The code checks that a checkbox really exists
     // before accessing it.
     function check_boxes(value) {
-        var f = document.forms[0];
         for (var i = 1; i < arguments.length; i++) {
-            var name = arguments[i];
-            eval('if (f.'+name+') f.'+name+'.checked=value');
+            var elements = document.getElementsByName(arguments[i]);
+            if (elements.length > 0) {
+                elements[0].checked = value;
+            }
         }
     }
 

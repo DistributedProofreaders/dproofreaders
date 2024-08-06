@@ -183,12 +183,12 @@ function deleteAuthor(check, author) {
             check.checked = false;
             return;
         }
-        eval("form.new_enabled_author_"+author+".disabled=true;");
+        document.getElementsByName("new_enabled_author_" + author)[0].disabled = true;
         setMoveToAuthorDisabled(form, author, true);
         setAuthorsBiosChecksDisabled(form, author, true);
     }
     else {
-        eval("form.new_enabled_author_"+author+".disabled=false;");
+        document.getElementsByName("new_enabled_author_" + author)[0].disabled = false;
         setMoveToAuthorDisabled(form, author, false);
         setAuthorsBiosChecksDisabled(form, author, false);
     }
@@ -200,8 +200,8 @@ function allAuthorsBiosAreMarkedForMovalOrRemoval(form, author) {
     var authorsBios = bios[author];
     for (var i=0;i<authorsBios.length;i++) {
         var bio = authorsBios[i];
-        if (!(  eval('form.delete_bio_'+bio+'.checked')
-              ||eval('form.move_bio_'+bio+'.checked'))) {
+        if (!document.getElementsByName("delete_bio_" + bio)[0].checked ||
+             document.getElementsByName("move_bio_" + bio)[0].checked) {
             return false;
         }
     }
@@ -214,18 +214,18 @@ function setAuthorsBiosChecksDisabled(form, author, disabled) {
         // simply disable all
         for (var i=0;i<authorsBios.length;i++) {
             var bio = authorsBios[i];
-            eval('form.delete_bio_'+bio+'.disabled=true');
-            eval('form.move_bio_'+bio+'.disabled=true');
+            document.getElementsByName("delete_bio_" + bio)[0].disabled = true;
+            document.getElementsByName("move_bio_" + bio)[0].disabled = true;
         }
     }
     else {
         // only disable the one that's checked
         for (var i=0;i<authorsBios.length;i++) {
             var bio = authorsBios[i];
-            if (eval('form.delete_bio_'+bio+'.checked'))
-                eval('form.delete_bio_'+bio+'.disabled=false');
+            if (document.getElementsByName("delete_bio_" + bio)[0].checked)
+                document.getElementsByName("delete_bio_" + bio)[0].disabled = false;
             else
-                eval('form.move_bio_'+bio+'.disabled=false');
+                document.getElementsByName("move_bio_" + bio)[0].disabled = false;
         }
     }
 }
@@ -262,12 +262,12 @@ function moveToHere(check, author) {
     if (author == 0) {
         check.checked = false;
         if (selectedMoveToHere != 0)
-            eval('form.delete_author_'+selectedMoveToHere+'.disabled=!allAuthorsBiosAreMarkedForMovalOrRemoval(form, selectedMoveToHere)')
+            document.getElementsByName("delete_author_" + selectedMoveToHere)[0].disabled = !allAuthorsBiosAreMarkedForMovalOrRemoval(form, selectedMoveToHere);
         selectedMoveToHere = 0;
         return;
     }
 
-    if (eval('form.delete_author_'+author+'.checked')) {
+    if (document.getElementsByName("delete_author_" + author)[0].checked) {
         // undo, reset
         check.checked = false;
         if (selectedMoveToHere != 0)
@@ -275,9 +275,9 @@ function moveToHere(check, author) {
     }
     else {
         if (selectedMoveToHere != 0)
-            eval('form.delete_author_'+selectedMoveToHere+'.disabled=!allAuthorsBiosAreMarkedForMovalOrRemoval(form, selectedMoveToHere)')
+            document.getElementsByName("delete_author_" + selectedMoveToHere)[0].disabled = !allAuthorsBiosAreMarkedForMovalOrRemoval(form, selectedMoveToHere);
         selectedMoveToHere = getSelectedRadioBox(form.move_to_author).value;
-        eval('form.delete_author_'+author+'.disabled=true')
+        document.getElementsByName("delete_author_" + author)[0].disabled = true;
     }
 }
 
@@ -285,8 +285,8 @@ function moveToHere(check, author) {
 function moveBio(check, author, bio) {
     var form = check.form;
 
-    var deleteChk = eval("form.delete_bio_"+bio);
-    var authorChk = eval("form.delete_author_"+author);
+    var deleteChk = document.getElementsByName("delete_bio_" + bio)[0];
+    var authorChk = document.getElementsByName("delete_author_" + author)[0];
 
     // the two values currently selected for the "delete" and "move"-checkboxes for this bio
     var move = check.checked;
@@ -303,7 +303,7 @@ function moveBio(check, author, bio) {
         }
     }
     else if (!move) {
-        if (!del && eval("form.delete_author_"+author+".checked"))
+        if (!del && document.getElementsByName("delete_author_" + author)[0].checked)
             // author is marked for removal
             // undo -- keep the bio selected for removal
             check.checked = true;
@@ -318,8 +318,8 @@ function moveBio(check, author, bio) {
 function deleteBio(check, author, bio) {
     var form = check.form;
 
-    var moveChk = eval("form.move_bio_"+bio);
-    var authorChk = eval("form.delete_author_"+author);
+    var moveChk = document.getElementsByName("move_bio_" + bio);
+    var authorChk = document.getElementsByName("delete_author_" + author);
 
     // the two values currently selected for the "delete" and "move"-checkboxes for this bio
     var del = check.checked;
@@ -336,7 +336,7 @@ function deleteBio(check, author, bio) {
         }
     }
     else if (!del) {
-        if (!move && eval("form.delete_author_"+author+".checked"))
+        if (!move && document.getElementsByName("delete_author_" + author)[0].checked)
             // author is marked for removal
             // undo -- keep the bio selected for moval
             check.checked = true;
