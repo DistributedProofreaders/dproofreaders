@@ -203,7 +203,7 @@ class User
                 // different browsers/devices.
                 if ($this->username == User::current_username() && @$_COOKIE["profile"]) {
                     try {
-                        $profile = new UserProfile($_COOKIE["profile"]);
+                        $profile = new UserProfile((int)$_COOKIE["profile"]);
                         if ($profile->u_ref != $this->u_id) {
                             throw new NonexistentUserProfileException(
                                 "Profile does not belong to user"
