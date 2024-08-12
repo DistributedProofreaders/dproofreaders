@@ -69,6 +69,8 @@ $extra_args = [
     '</script>',
 ];
 
+$extra_args["js_files"] = ["$code_url/scripts/page_table.js"];
+
 output_header($title_for_theme, NO_STATSBAR, $extra_args);
 
 echo "<h1>" . html_safe($title) . "</h1>\n";
