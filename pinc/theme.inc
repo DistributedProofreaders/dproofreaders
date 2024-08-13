@@ -119,6 +119,74 @@ function output_footer($nameofpage, $show_statsbar = true)
     output_html_footer();
 }
 
+class actionIcon
+{
+    protected string $name;
+    protected string $icon;
+
+    public function __construct(string $name, string $icon)
+    {
+        $this->name = $name;
+        $this->icon = $icon;
+    }
+
+    public function draw() {
+        echo "<div class='icon-menu-item'>";
+        $this->draw_action();
+        echo "</div>";
+    }
+
+    public function draw_icon() {
+        echo "<i aria-hidden='true' class='$this->icon' title='$this->name'></i>";
+        $this->draw_extra();
+        echo "<br><span class='icon-menu-item-name'>$this->name</span>";
+    }
+
+    public function draw_extra()
+    {
+    }
+}
+
+class linkIcon extends actionIcon
+{
+    protected string $link;
+
+    public function __construct(string $name, string $icon, string $url)
+    {
+        $this->url = $url;
+        parent::__construct($name, $icon);
+    }
+
+    public function draw_action()
+    {
+        echo "<a href='$this->url' aria-label='$this->name'>";
+        $this->draw_icon();
+        echo "</a>";
+    }
+}
+
+class searchIcon extends actionIcon
+{
+    public function draw_action()
+    {
+        echo "<div id='site_search' aria-label='$this->name'>";
+        $this->draw_icon();
+        echo "</div>\n";
+    }
+}
+
+class inboxIcon extends linkIcon
+{
+    public function draw_extra()
+    {
+        $user = User::load_current();
+        $numofPMs = get_number_of_unread_messages($user->username);
+        if ($numofPMs > 0) {
+            echo "<span class='inbox-badge'>$numofPMs</span>";
+        }
+    }
+}
+
 function html_logobar()
 {
     global $code_url, $site_name;
@@ -150,67 +218,25 @@ function html_logobar()
         echo "</span>";
         echo "</div>\n";
     } else {
-        $icon_links = [];
-        if (get_url_for_forum()) {
-            $icon_links[] = [
-                "name" => _("Inbox"),
-                "class" => "fas fa-envelope fa-2x",
-                "url" => get_url_for_inbox(),
-            ];
+        $action_icons = [];
 
-            $icon_links[] = [
-                "name" => _("Forums"),
-                "class" => "fas fa-comments fa-2x",
-                "url" => get_url_for_forum(),
-            ];
+        if (get_url_for_forum()) {
+            $action_icons[] = new inboxIcon(_("Inbox"), "fas fa-envelope fa-2x", get_url_for_inbox());
+            $action_icons[] = new linkIcon(_("Forums"), "fas fa-comments fa-2x", get_url_for_forum());
         }
         if (!empty($wiki_url)) {
-            $icon_links[] = [
-                "name" => _("Wiki"),
-                "class" => "fas fa-scroll fa-2x",
-                "url" => $wiki_url,
-            ];
+            $action_icons[] = new linkIcon(_("Wiki"), "fas fa-scroll fa-2x", $wiki_url);
         }
         if (!empty($blog_url)) {
-            $icon_links[] = [
-                "name" => _("Blog"),
-                "class" => "fab fa-wordpress fa-2x",
-                "url" => $blog_url,
-            ];
+            $action_icons[] = new linkIcon(_("Blog"), "fab fa-wordpress fa-2x", $blog_url);
         }
-        $icon_links[] = [
-            "name" => _("Help"),
-            "class" => "fas fa-question fa-2x",
-            "url" => get_faq_url("faq_central.php"),
-        ];
-        $icon_links[] = [
-            "name" => _("Search"),
-            "class" => "fas fa-search fa-2x",
-            "onclick" => "showSiteSearch(); return false;",
-        ];
-        $links = [];
-        foreach ($icon_links as $data) {
-            $name = attr_safe($data["name"]);
-            $class = $data["class"];
-            $url = $data["url"] ?? "";
-            $onclick = isset($data["onclick"]) ? "onclick='" . attr_safe($data["onclick"]) . "'" : "";
-            $text = "<div class='icon-menu-item'>";
-            $text .= "<a href='$url' aria-label='$name' $onclick>";
-            $text .= "<i aria-hidden='true' class='$class' title='$name'></i>";
-            if ($data["name"] == _("Inbox")) {
-                $numofPMs = get_number_of_unread_messages($user->username);
-                if ($numofPMs > 0) {
-                    $text .= "<span class='inbox-badge'>$numofPMs</span>";
-                }
-            }
-            $text .= "<br><span class='icon-menu-item-name' $onclick>$name</span>";
-            $text .= "</a>";
-            $text .= "</div>";
-            $links[] = $text;
-        }
+        $action_icons[] = new linkIcon(_("Help"), "fas fa-question fa-2x", get_faq_url("faq_central.php"));
+        $action_icons[] = new searchIcon(_("Search"), "fas fa-search fa-2x");
 
         echo "<div id='icon-menu'>";
-        echo join("", $links);
+        foreach($action_icons as $action_icon) {
+            $action_icon->draw();
+        }
         echo "</div>"; // icon-menu
 
         echo "<div id='search-menu' class='nodisp'>";
