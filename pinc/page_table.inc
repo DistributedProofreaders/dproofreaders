@@ -360,8 +360,8 @@ function echo_page_table(
         // --------------------------------------------
         // Selector
         if ($can_edit) {
-            $avail_class = page_state_is_a($page_state, "page_avail_state") ? " availbox" : "";
-            echo "<td><input type='checkbox' class='selectorbox$avail_class' name='selected_pages[$imagename]'></td>\n";
+            $avail_class = page_state_is_a($page_state, "page_avail_state") ? "availbox" : "";
+            echo "<td><input type='checkbox' class='selectorbox $avail_class' name='selected_pages[$imagename]'></td>\n";
         }
 
         // --------------------------------------------

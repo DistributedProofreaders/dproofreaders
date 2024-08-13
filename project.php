@@ -67,9 +67,8 @@ $extra_args = [
     "head_data" => '<script type="application/ld+json">' .
         json_encode($ld_json_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
     '</script>',
+    "js_files" => ["$code_url/scripts/page_table.js"],
 ];
-
-$extra_args["js_files"] = ["$code_url/scripts/page_table.js"];
 
 output_header($title_for_theme, NO_STATSBAR, $extra_args);
 
