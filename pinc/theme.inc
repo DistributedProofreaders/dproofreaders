@@ -144,7 +144,7 @@ abstract class actionIcon
         echo "<br><span class='icon-menu-item-name'>$this->name</span>";
     }
 
-    abstract function draw_action();
+    abstract public function draw_action();
 
     public function draw_extra()
     {
