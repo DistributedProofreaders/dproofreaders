@@ -1,8 +1,5 @@
-/* exported toggleMenu */
-
 // Toggle a menu contents to visible and rotate the menu icon
-function toggleMenu(menuId) {
-    let menu = document.getElementById(menuId);
+function toggleMenu(menu) {
     for (const element of menu.getElementsByClassName('menu-contents')) {
         element.classList.toggle("invisible");
         element.classList.toggle("transparent");
@@ -46,6 +43,13 @@ function hideSiteSearch() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+    const menuSelectors = document.getElementsByClassName('menu-selector');
+    for(const menuSelector of menuSelectors) {
+        menuSelector.addEventListener('click', function () {
+            toggleMenu(this.parentElement);
+        });
+    }
+
     // if the page has the search menu, add some listeners for it
     if (document.getElementById('search-menu')) {
         document.getElementById('search-menu').addEventListener('keydown', (event) => {
