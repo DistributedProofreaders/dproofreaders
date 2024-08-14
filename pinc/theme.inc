@@ -130,13 +130,15 @@ class actionIcon
         $this->icon = $icon;
     }
 
-    public function draw() {
+    public function draw()
+    {
         echo "<div class='icon-menu-item'>";
         $this->draw_action();
         echo "</div>";
     }
 
-    public function draw_icon() {
+    public function draw_icon()
+    {
         echo "<i aria-hidden='true' class='$this->icon' title='$this->name'></i>";
         $this->draw_extra();
         echo "<br><span class='icon-menu-item-name'>$this->name</span>";
@@ -234,7 +236,7 @@ function html_logobar()
         $action_icons[] = new searchIcon(_("Search"), "fas fa-search fa-2x");
 
         echo "<div id='icon-menu'>";
-        foreach($action_icons as $action_icon) {
+        foreach ($action_icons as $action_icon) {
             $action_icon->draw();
         }
         echo "</div>"; // icon-menu
