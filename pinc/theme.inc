@@ -169,7 +169,7 @@ class searchIcon extends actionIcon
 {
     public function draw_action()
     {
-        echo "<div id='site_search' aria-label='$this->name'>";
+        echo "<div tabindex='0' id='site_search' aria-label='$this->name'>";
         $this->draw_icon();
         echo "</div>\n";
     }
