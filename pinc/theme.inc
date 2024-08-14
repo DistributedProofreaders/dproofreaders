@@ -119,7 +119,7 @@ function output_footer($nameofpage, $show_statsbar = true)
     output_html_footer();
 }
 
-class actionIcon
+abstract class actionIcon
 {
     protected string $name;
     protected string $icon;
@@ -144,6 +144,8 @@ class actionIcon
         echo "<br><span class='icon-menu-item-name'>$this->name</span>";
     }
 
+    abstract function draw_action();
+
     public function draw_extra()
     {
     }
@@ -151,7 +153,7 @@ class actionIcon
 
 class linkIcon extends actionIcon
 {
-    protected string $link;
+    protected string $url;
 
     public function __construct(string $name, string $icon, string $url)
     {
