@@ -186,16 +186,16 @@ function html_logobar()
         $icon_links[] = [
             "name" => _("Search"),
             "class" => "fas fa-search fa-2x",
-            "onclick" => "showSiteSearch(); return false;",
+            "identifier" => "id='site_search'",
         ];
         $links = [];
         foreach ($icon_links as $data) {
             $name = attr_safe($data["name"]);
             $class = $data["class"];
-            $url = $data["url"] ?? "";
-            $onclick = isset($data["onclick"]) ? "onclick='" . attr_safe($data["onclick"]) . "'" : "";
+            $url = $data["url"] ?? "#";
+            $identifier = $data["identifier"] ?? "";
             $text = "<div class='icon-menu-item'>";
-            $text .= "<a href='$url' aria-label='$name' $onclick>";
+            $text .= "<a href='$url' aria-label='$name' $identifier>";
             $text .= "<i aria-hidden='true' class='$class' title='$name'></i>";
             if ($data["name"] == _("Inbox")) {
                 $numofPMs = get_number_of_unread_messages($user->username);
@@ -203,7 +203,7 @@ function html_logobar()
                     $text .= "<span class='inbox-badge'>$numofPMs</span>";
                 }
             }
-            $text .= "<br><span class='icon-menu-item-name' $onclick>$name</span>";
+            $text .= "<br><span class='icon-menu-item-name'>$name</span>";
             $text .= "</a>";
             $text .= "</div>";
             $links[] = $text;

@@ -1,4 +1,4 @@
-/* exported toggleMenu showSiteSearch hideSiteSearch */
+/* exported toggleMenu hideSiteSearch */
 
 // Toggle a menu contents to visible and rotate the menu icon
 function toggleMenu(menuId) {
@@ -53,6 +53,8 @@ window.addEventListener('DOMContentLoaded', function() {
                 hideSiteSearch();
             }
         });
+
+        document.getElementById('site_search').addEventListener('click', showSiteSearch);
 
         document.addEventListener('keydown', (event) => {
             if (event.key === '/' && document.activeElement.tagName == "BODY") {
