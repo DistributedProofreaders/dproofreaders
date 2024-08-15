@@ -1,4 +1,7 @@
-/* exported makePreview analyse processExMath defaultStyles */
+/* exported makePreview */
+/* exported analyse */
+/* exported processExMath */
+/* exported defaultStyles */
 /* global XRegExp */
 
 // The formatting rules are applied as if proofers' notes were

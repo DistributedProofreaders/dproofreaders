@@ -1,5 +1,7 @@
 /*global codeUrl */
-/* exported ajax ajaxAlert AJAX_ERROR_CODES */
+/* exported ajax */
+/* exported ajaxAlert */
+/* exported AJAX_ERROR_CODES */
 
 const AJAX_ERROR_CODES = {
     UNKNOWN_ERROR: 999,
@@ -48,7 +50,7 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
                 reject({error: "Network error", code: AJAX_ERROR_CODES.NETWORK_ERROR});
             });
     });
-}
+};
 
 function ajaxAlert(data) {
     alert(data.error);

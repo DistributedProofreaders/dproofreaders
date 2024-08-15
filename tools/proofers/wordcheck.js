@@ -1,4 +1,7 @@
-/* exported acceptWord evaluateWordChange markBox confirmExit */
+/* exported acceptWord */
+/* exported evaluateWordChange */
+/* exported markBox */
+/* exported confirmExit */
 /* global testText wordCheckMessages */
 
 // the number of edit boxes with bad characters
