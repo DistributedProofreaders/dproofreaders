@@ -298,10 +298,13 @@ function do_upload()
     global $pguser, $despecialed_username;
     global $commons_dir;
 
-    // Disable gzip compression so we can flush the buffer after each step
+    // Disable compression so we can flush the buffer after each step
     // in the process to give the user some progress details. Note that this
     // doesn't necessarily work for all browsers.
-    apache_setenv('no-gzip', '1');
+    if (function_exists("apache_setenv")) {
+        apache_setenv('no-gzip', '1');
+        apache_setenv('no-brotli', '1');
+    }
 
     $page_title = "Upload status";
     slim_header($page_title);

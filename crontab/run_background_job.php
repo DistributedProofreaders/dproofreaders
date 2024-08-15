@@ -10,8 +10,9 @@
 // possible. This lets us detect timeouts and gather other stream-based metadata.
 // To that end we disable deflate plugin for fast-flushing, we want to do this
 // before we send headers so do it before the include.
-if (php_sapi_name() != "cli") {
+if (php_sapi_name() != "cli" && function_exists("apache_setenv")) {
     apache_setenv('no-gzip', '1');
+    apache_setenv('no-brotli', '1');
 }
 
 $relPath = dirname(__FILE__) . "/../pinc/";
