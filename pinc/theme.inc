@@ -218,7 +218,7 @@ function html_logobar()
         echo "<form action='$code_url/tools/site_search.php'>";
         echo "<input id='search-menu-input' type='text' placeholder='$placeholder' name='q' autocapitalize='none'>";
         echo "&nbsp;<a href='$code_url/tools/site_search.php'><i aria-hidden='true' class='fas fa-info-circle fa-lg'></i></a>";
-        echo "&nbsp;<i aria-hidden='true' class='far fa-window-close fa-lg' onclick='hideSiteSearch()'></i>";
+        echo "&nbsp;<i aria-hidden='true' class='far fa-window-close fa-lg' id='hide_site_search'></i>";
         echo "</form>";
         echo "</div>"; // search-menu
     }
