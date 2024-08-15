@@ -1,3 +1,7 @@
+/* exported toggleMenu */
+/* exported showSiteSearch */
+/* exported hideSiteSearch */
+
 // Toggle a menu contents to visible and rotate the menu icon
 function toggleMenu(menu) {
     for (const element of menu.getElementsByClassName('menu-contents')) {
