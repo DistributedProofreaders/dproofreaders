@@ -431,10 +431,9 @@ function headerbar_menu(string $menu_title, array $links, bool $align_right = fa
         $menu_contents_style = "style='right: 0;'";
     }
 
-    $menu_id = 'menu' . md5($menu_title);
     $output = [
-        "<div id='$menu_id' class='menu' $menu_style>",
-        "<div class='menu-selector' onclick='toggleMenu(\"$menu_id\")'>",
+        "<div class='menu' $menu_style>",
+        "<div class='menu-selector'>",
         "<i class='menu-icon fas fa-caret-right'></i>",
         " " . html_safe($menu_title),
         "</div>",
