@@ -192,6 +192,7 @@ function html_logobar()
         foreach ($icon_links as $data) {
             $name = attr_safe($data["name"]);
             $class = $data["class"];
+            // '#' prevents page refresh when selecting 'search'
             $url = $data["url"] ?? "#";
             $identifier = $data["identifier"] ?? "";
             $text = "<div class='icon-menu-item'>";
