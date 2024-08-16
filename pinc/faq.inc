@@ -35,7 +35,7 @@ $external_faq_overrides = [
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_fourniture_de_contenu",
         "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Fornecimento_de_Conte%C3%BAdos",
     ],
-    "faq_central.php" => [
+    "faq_central" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central",
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ",
     ],
@@ -97,7 +97,8 @@ $Stealth_Scannos_URL = make_forum_url("t", $Stealth_Scannos_id, 1563);
 $Proofing_Interface_Help_URL = make_forum_url("t", $Proofing_Interface_Help_id, 2739);
 $XHTML_suggestion_URL = make_forum_url("t", $XHTML_suggestion_id, 4405);
 
-function make_forum_url($type, $id, $default)
+/** @param string|int $id */
+function make_forum_url(string $type, $id, string $default): string
 {
     // If $id is non-zero, return a URL to a local forum/topic/post
     if ($id) {
@@ -127,7 +128,7 @@ function make_forum_url($type, $id, $default)
     return "";
 }
 
-function get_faq_url($faq, $langcode = null)
+function get_faq_url(string $faq, ?string $langcode = null): string
 {
     global $code_dir, $code_url;
 
@@ -158,7 +159,8 @@ function get_faq_url($faq, $langcode = null)
     return "";
 }
 
-function get_all_urls_for_faq($faq)
+/** @return array<string, string> */
+function get_all_urls_for_faq(string $faq): array
 {
     global $code_dir, $code_url;
     global $external_faq_overrides;
@@ -193,7 +195,7 @@ function get_all_urls_for_faq($faq)
     return $urls;
 }
 
-function get_external_faq($faq, $langcode)
+function get_external_faq(string $faq, string $langcode): ?string
 {
     global $external_faq_overrides;
 
@@ -204,14 +206,11 @@ function get_external_faq($faq, $langcode)
     return null;
 }
 
-function maybe_redirect_to_external_faq($langcode = null)
+/** @return never */
+function redirect_to_external_faq(): void
 {
-    $faq = basename($_SERVER['PHP_SELF']);
-
-    // if no langcode was passed in, try to get the user's language
-    if (!$langcode) {
-        $langcode = substr(get_desired_language(), 0, 2);
-    }
+    $faq = "faq_central";
+    $langcode = substr(get_desired_language(), 0, 2);
 
     $url = get_external_faq($faq, $langcode);
 
@@ -220,7 +219,5 @@ function maybe_redirect_to_external_faq($langcode = null)
         $url = get_external_faq($faq, "en");
     }
 
-    if ($url) {
-        metarefresh(0, $url, '', '', true);
-    }
+    metarefresh(0, $url, '', '', true);
 }
