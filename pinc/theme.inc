@@ -632,19 +632,13 @@ function maybe_show_language_selector()
     $options = get_locale_translation_selection_options();
     if (count($options) <= 1) {
         return;
-    } ?>
-    <script><!--
-        function submitLang(i) {
-            top.document.forms.langform.submit();
-        }
-    // --></script>
-    <?php
+    }
 
     $intlang = get_desired_language();
     echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method='POST'>";
     echo "<div>\n";
     echo "<label for='langform-lang'>" . _("Set language") . ": </label>";
-    echo "<select id='langform-lang' name='lang' onChange='submitLang(this)'>\n";
+    echo "<select id='langform-lang' name='lang'>\n";
     echo "<option value=''>" . _("Browser default") . "</option>";
     foreach ($options as $locale => $label) {
         echo "<option value='$locale'".(($locale == $intlang) ? " selected" : "").">$label</option>\n";

@@ -68,4 +68,12 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // if the page has a language selector, listen for a change
+    let langSelector = document.getElementById('langform-lang');
+    if (langSelector) {
+        langSelector.addEventListener("change", function() {
+            document.getElementById('langform').submit();
+        });
+    }
 });
