@@ -151,6 +151,9 @@ elseif ($func == "delete") {
         "$dyn_locales_dir/$locale",
     ]);
     $process->run();
+    if (!$process->isSuccessful()) {
+        throw new RuntimeException(sprintf(_("Unable to delete locale %s"), $locale));
+    }
 
     echo "<p>" . sprintf(_("Locale %s deleted."), $locale) . "</p>";
 

@@ -19,38 +19,34 @@ class CleanUploadsTrash extends BackgroundJob
         // remove files from TRASH subdirectory older than 30 days
         $process = new Process([
             "/usr/bin/find",
-            "$trash_dir",
+            $trash_dir,
             "-type", "f",
             "-mtime", "+30",
             "-delete",
         ]);
         $process->run();
-        $output = $process->getOutput();
-        $exitcode = $process->getExitCode();
         if (!$process->isSuccessful()) {
             echo "An error occurred while cleaning up files.\n";
-            echo "Return value: {$exitcode}\n";
+            echo "Return value: {$process->getExitCode()}\n";
             echo "Command output:\n";
-            echo $output;
+            echo $process->getOutput();
             throw new RuntimeException("An error occurred while removing files");
         }
 
         // remove empty directories
         $process = new Process([
             "/usr/bin/find",
-            "$trash_dir",
+            $trash_dir,
             "-type", "d",
             "-empty",
             "-delete",
         ]);
         $process->run();
-        $output = $process->getOutput();
-        $exitcode = $process->getExitCode();
         if (!$process->isSuccessful()) {
             echo "An error occurred while cleaning up files.\n";
-            echo "Return value: {$exitcode}\n";
+            echo "Return value: {$process->getExitCode()}\n";
             echo "Command output:\n";
-            echo $output;
+            echo $process->getOutput();
             throw new RuntimeException("An error occurred while removing empty directories");
         }
     }
