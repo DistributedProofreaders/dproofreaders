@@ -35,7 +35,7 @@ $external_faq_overrides = [
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_fourniture_de_contenu",
         "pt" => "https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Portuguese/Fornecimento_de_Conte%C3%BAdos",
     ],
-    "faq_central" => [
+    "faq_central.php" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/FAQ_Central",
         "fr" => "https://www.pgdp.net/wiki/DP_Official_Documentation:General/French/Centre_des_FAQ",
     ],
@@ -204,20 +204,4 @@ function get_external_faq(string $faq, string $langcode): ?string
     }
 
     return null;
-}
-
-/** @return never */
-function redirect_to_external_faq(): void
-{
-    $faq = "faq_central";
-    $langcode = substr(get_desired_language(), 0, 2);
-
-    $url = get_external_faq($faq, $langcode);
-
-    // fall back to English
-    if (!$url) {
-        $url = get_external_faq($faq, "en");
-    }
-
-    metarefresh(0, $url, '', '', true);
 }
