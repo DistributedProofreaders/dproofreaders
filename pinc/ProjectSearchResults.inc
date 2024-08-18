@@ -117,11 +117,11 @@ class Column
                     $switch_sort = ['sec_sort' => $sort_column_id];
                 } else {
                     $sec_sort_array = ['sec_sort' => $this->id, 'results_offset' => 0];
-                    $sec_sorter = "&nbsp;" . make_link($sec_sort_array, "^", "#head");
+                    $sec_sorter = "&nbsp;" . make_search_page_link($sec_sort_array, "^", "#head");
                 }
             }
             $pri_sort_array = array_merge(['sort' => "$this->id$dir_code", 'results_offset' => 0], $switch_sort);
-            $label = make_link($pri_sort_array, $label, "#head") . "$marker$sec_sorter";
+            $label = make_search_page_link($pri_sort_array, $label, "#head") . "$marker$sec_sorter";
         }
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
@@ -521,7 +521,7 @@ class ProjectSearchResults
     {
         if ($results_offset > 0) {
             $prev_offset = max(0, $results_offset - $this->page_size);
-            echo make_link(['results_offset' => $prev_offset], _('Previous'), "#head") . " | ";
+            echo make_search_page_link(['results_offset' => $prev_offset], _('Previous'), "#head") . " | ";
         }
         echo sprintf(
             // TRANSLATORS: these are paging results: eg: "Projects 1 to 100 of 495"
@@ -534,7 +534,7 @@ class ProjectSearchResults
 
         if ($results_offset + $numrows < $num_found_rows) {
             $next_offset = $results_offset + $this->page_size;
-            echo " | " . make_link(['results_offset' => $next_offset], _('Next'), "#head");
+            echo " | " . make_search_page_link(['results_offset' => $next_offset], _('Next'), "#head");
         }
     }
 
@@ -717,23 +717,23 @@ function get_search_configure_link()
     return "<a href='?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
 }
 
-function make_url($new_array, $anchor = '')
+function make_search_page_url(array $new_array, string $anchor = ''): string
 {
     return "?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
 }
 
-function make_link($new_array, $text, $anchor = '')
+function make_search_page_link(array $new_array, string $text, string $anchor = ''): string
 {
-    $url = make_url($new_array, $anchor);
+    $url = make_search_page_url($new_array, $anchor);
     return "<a href='" . attr_safe($url) . "'>$text</a>";
 }
 
-function get_refine_search_url()
+function get_refine_search_url(): string
 {
-    return make_url(['show' => 'search_form']);
+    return make_search_page_url(['show' => 'search_form']);
 }
 
-function get_refine_search_link($label = null)
+function get_refine_search_link($label = null): string
 {
     if (!$label) {
         $label = _("Refine Search");
