@@ -17,7 +17,7 @@ include($relPath.'udb_user.php'); // $archive_db_name
  *   write out project's metadata to a JSON file.
  *   (for later off-site migration).
  * - Mark the project as having been archived.
- * 
+ *
  * @param Project $project
  *   the Project to archive
  * @param bool $dry_run
