@@ -717,11 +717,13 @@ function get_search_configure_link()
     return "<a href='?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
 }
 
+/** @param array<string, mixed> $new_array */
 function make_search_page_url(array $new_array, string $anchor = ''): string
 {
     return "?" . http_build_query(array_replace($_GET, $new_array)) . "$anchor";
 }
 
+/** @param array<string, mixed> $new_array */
 function make_search_page_link(array $new_array, string $text, string $anchor = ''): string
 {
     $url = make_search_page_url($new_array, $anchor);
