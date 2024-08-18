@@ -224,10 +224,10 @@ class SpecialDay
         echo "</tr>\n";
 
         echo "<tr class='$row_class'>";
-        echo "<th class='right'>" . _("Info URL") . ":</th><td colspan='7'>" . make_link($this->info_url, $this->info_url) . "</td>";
+        echo "<th class='right'>" . _("Info URL") . ":</th><td colspan='7'><a href='". attr_safe($this->info_url) . "'>" . html_safe($this->info_url) . "</a></td>";
         echo "</tr>";
         echo "<tr class='$row_class'>";
-        echo "<th class='right'>" . _("Image URL") . ":</th><td colspan='7'>" . make_link($this->image_url, $this->image_url) . "</td>";
+        echo "<th class='right'>" . _("Image URL") . ":</th><td colspan='7'><a href='". attr_safe($this->image_url) . "'>" . html_safe($this->image_url) . "</a></td>";
         echo "</tr>\n";
 
         if ($this->date_changes) {
@@ -407,19 +407,6 @@ class SpecialDay
 }
 
 // ----------------------------------------------------------------------------
-
-function make_link(string $url, string $label): string
-{
-    if (!$url) {
-        return '';
-    }
-    $start = substr($url, 0, 3);
-    $label = html_safe($label);
-    if ($start != 'htt') {
-        $url = "http://" . $url;
-    }
-    return "<a href='". attr_safe($url). "'>$label</a>";
-}
 
 function show_sd_toolbar(string $action): void
 {
