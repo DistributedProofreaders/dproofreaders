@@ -221,7 +221,7 @@ class ImageSource
         if ($this->url == "") {
             echo "<span class='error'>" . _("Missing URL") . "</span>";
         } else {
-            echo make_link($this->url, $this->url);
+            echo "<a href='" . attr_safe($this->url) . "'>" . html_safe($this->url) . "</a>";
         }
         echo "</td>";
 
@@ -577,16 +577,6 @@ class ImageSource
 }
 
 // ----------------------------------------------------------------------------
-
-function make_link($url, $label)
-{
-    $start = substr($url, 0, 3);
-    if ($start == 'htt') {
-        return "<a href='$url'>$label</a>";
-    } else {
-        return "<a href='http://$url'>$label</a>";
-    }
-}
 
 function show_is_toolbar($action)
 {
