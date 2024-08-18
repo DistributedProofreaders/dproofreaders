@@ -2,6 +2,8 @@
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 
+use Symfony\Component\Process\Process;
+
 // include udb_user.php to place $archive_db_name in this file's scope.
 global $archive_projects_dir, $archive_db_name;
 include($relPath.'udb_user.php'); // $archive_db_name
@@ -15,13 +17,18 @@ include($relPath.'udb_user.php'); // $archive_db_name
  *   write out project's metadata to a JSON file.
  *   (for later off-site migration).
  * - Mark the project as having been archived.
+ * 
+ * @param Project $project
+ *   the Project to archive
+ * @param bool $dry_run
+ *   if true, do not actually archive, but rather echo information about what would happen
  */
-function archive_project($project, $dry_run = false)
+function archive_project(Project $project, bool $dry_run = false)
 {
     global $archive_projects_dir, $archive_db_name;
 
     if (!is_dir($archive_projects_dir)) {
-        throw new RuntimeException("Error: archive directory $archive_projects_dir does not exist.\n");
+        throw new RuntimeException(sprintf(_("Error: archive directory %s does not exist."), $archive_projects_dir));
     }
 
     $projectid = $project->projectid;
@@ -47,7 +54,11 @@ function archive_project($project, $dry_run = false)
         if ($dry_run) {
             echo "    Remove $smooth_dir directory.\n";
         } else {
-            exec("rm -rf " . escapeshellarg($smooth_dir));
+            $process = new Process(["rm", "-rf", $smooth_dir]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new RuntimeException(sprintf(_("Unable to delete %s"), $smooth_dir));
+            }
         }
     }
 
@@ -64,9 +75,13 @@ function archive_project($project, $dry_run = false)
             echo "    Move $project_dir to $new_dir.\n";
         } else {
             // Remove uncompressed versions of whole-project texts, leaving zips.
-            exec("rm $project_dir/projectID*.txt");
+            $process = new Process(["rm", "$project_dir/projectID*.txt"]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new RuntimeException(sprintf(_("Unable to delete %s"), "$project_dir/projectID*.txt"));
+            }
             if (!rename($project_dir, $new_dir)) {
-                throw new RuntimeException("Unable to move $project_dir to $new_dir");
+                throw new RuntimeException(sprintf(_('Unable to move %1$s to %2$s', $project_dir, $new_dir)));
             }
         }
     } else {
@@ -97,8 +112,15 @@ function archive_project($project, $dry_run = false)
 /**
  * Archive the ancillary info relating to $project
  * or to any project that was merged into it (and then deleted).
+ *
+ * @param Project $project
+ *   the project to archive
+ * @param string $indent
+ *   text to place at the beginning of output lines
+ * @param bool $dry_run
+ *   if true, do not actually archive, but rather echo information about what would happen
  */
-function archive_ancillary_data_for_project_etc($project, $indent, $dry_run)
+function archive_ancillary_data_for_project_etc(Project $project, string $indent, bool $dry_run)
 {
     archive_ancillary_data_for_project($project, $indent, $dry_run);
 
@@ -121,7 +143,17 @@ function archive_ancillary_data_for_project_etc($project, $indent, $dry_run)
     }
 }
 
-function archive_ancillary_data_for_project($project, $indent, $dry_run)
+/**
+ * Archive the ancillary info relating to $project
+ *
+ * @param Project $project
+ *   the project to archive
+ * @param string $indent
+ *   text to place at the beginning of output lines
+ * @param bool $dry_run
+ *   if true, do not actually archive, but rather echo information about what would happen
+ */
+function archive_ancillary_data_for_project(Project $project, string $indent, bool $dry_run)
 {
     $projectid = $project->projectid;
 
@@ -155,8 +187,17 @@ function archive_ancillary_data_for_project($project, $indent, $dry_run)
  * from $table_name in the main db to $table_name in the archive db.
  *
  * Assumes that the table has a column named 'projectid'.
+ *
+ * @param string $projectid
+ *   the project ID
+ * @param string $table_name
+ *   name of the database table to modify
+ * @param string $indent
+ *   text to place at the beginning of output lines
+ * @param bool $dry_run
+ *   if true, do not actually archive, but rather echo information about what would happen
  */
-function move_project_rows_to_archive_db($projectid, $table_name, $indent, $dry_run)
+function move_project_rows_to_archive_db(string $projectid, string $table_name, string $indent, bool $dry_run)
 {
     global $archive_db_name;
 
@@ -223,30 +264,3 @@ $archival_recovery_multiplier = 1;
 // If you're running the script when the site is down (e.g., when upgrading),
 // you probably don't need to insert sleeps, so you can eliminate them
 // by setting this variable to zero.
-
-// -----------------------------------------------------------------------------
-
-function archival_skip_logs_init()
-{
-    global $skipped_due_to_state, $skipped_due_to_page_table;
-
-    $skipped_due_to_state = [];
-    $skipped_due_to_page_table = [];
-}
-
-function archival_skip_logs_dump()
-{
-    global $skipped_due_to_state, $skipped_due_to_page_table;
-
-    echo "\n";
-    echo count($skipped_due_to_state), " skipped_due_to_state:\n";
-    foreach ($skipped_due_to_state as $str) {
-        echo "    $str\n";
-    }
-
-    echo "\n";
-    echo count($skipped_due_to_page_table), " skipped_due_to_page_table:\n";
-    foreach ($skipped_due_to_page_table as $str) {
-        echo "    $str\n";
-    }
-}
