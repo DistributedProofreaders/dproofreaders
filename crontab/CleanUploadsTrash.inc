@@ -1,4 +1,5 @@
 <?php
+use Symfony\Component\Process\Process;
 
 // Clean the Uploads/TRASH subdirectory.
 class CleanUploadsTrash extends BackgroundJob
@@ -16,42 +17,36 @@ class CleanUploadsTrash extends BackgroundJob
         }
 
         // remove files from TRASH subdirectory older than 30 days
-        $cmd = join(" ", [
+        $process = new Process([
             "/usr/bin/find",
-            escapeshellarg($trash_dir),
-            "-type f",
-            "-mtime +30",
+            $trash_dir,
+            "-type", "f",
+            "-mtime", "+30",
             "-delete",
         ]);
-        $output = $return = null;
-        exec($cmd, $output, $return);
-        if ($return != 0) {
+        $process->run();
+        if (!$process->isSuccessful()) {
             echo "An error occurred while cleaning up files.\n";
-            echo "Return value: $return\n";
+            echo "Return value: {$process->getExitCode()}\n";
             echo "Command output:\n";
-            foreach ($output as $line) {
-                echo "    $line\n";
-            }
+            echo $process->getOutput();
             throw new RuntimeException("An error occurred while removing files");
         }
 
         // remove empty directories
-        $output = $return = null;
-        $cmd = join(" ", [
+        $process = new Process([
             "/usr/bin/find",
-            escapeshellarg($trash_dir),
-            "-type d",
+            $trash_dir,
+            "-type", "d",
             "-empty",
             "-delete",
         ]);
-        exec($cmd, $output, $return);
-        if ($return != 0) {
+        $process->run();
+        if (!$process->isSuccessful()) {
             echo "An error occurred while cleaning up files.\n";
-            echo "Return value: $return\n";
+            echo "Return value: {$process->getExitCode()}\n";
             echo "Command output:\n";
-            foreach ($output as $line) {
-                echo "    $line\n";
-            }
+            echo $process->getOutput();
             throw new RuntimeException("An error occurred while removing empty directories");
         }
     }
