@@ -15,9 +15,10 @@ fi
 function lint_file()
 {
     local file=$1
-    echo "$file"
-    OUTPUT=$(php -l "$file")
+    echo -n .
+    OUTPUT=$(php -l "$file" 2> /dev/null || true)
     if ! echo "$OUTPUT" | grep -q 'No syntax errors detected'; then
+        echo 
         echo "ERROR: PHP lint failure in $file"
         echo "$OUTPUT"
         exit 1
@@ -25,6 +26,7 @@ function lint_file()
 
     OUTPUT=$(file "$file")
     if ! echo "$OUTPUT" | grep -Eq 'ASCII|UTF-8'; then
+        echo
         echo "ERROR: Unexpected encoding in $file"
         echo "$OUTPUT"
         exit 1
@@ -42,3 +44,6 @@ done
 
 # Wait for all jobs to finish
 wait
+
+echo
+echo "No PHP linting errors found."

@@ -17,8 +17,9 @@ echo "Checking all .json files under $BASE_DIR excluding node_modules/ and vendo
 function lint_json()
 {
     local file=$1
-    echo "$file"
+    echo -n .
     if ! OUT=$(php -r "exit(json_decode(file_get_contents('$file')) === NULL);" 2>&1) || [ "$OUT" = 1 ]; then
+        echo
         echo "ERROR: JSON lint failure in $file"
         exit 1
     fi
@@ -34,3 +35,6 @@ done
 
 # Wait for all jobs to finish
 wait
+
+echo
+echo "No JSON linting errors found."

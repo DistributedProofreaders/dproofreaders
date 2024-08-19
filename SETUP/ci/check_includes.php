@@ -59,6 +59,7 @@ $ok_includes_site_structure = [
     "api/index.php",
 ];
 
+echo "Checking files for include() best practices...\n";
 
 $basedir .= endswith($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
@@ -88,34 +89,37 @@ foreach ($files as $file) {
         continue;
     }
 
-    echo "$file\n";
+    echo ".";
+    flush();
 
     // All .php files should include base.inc, but no .inc file should
     if (file_includes_base("$basedir/$file")) {
         if (endswith($file, ".inc")) {
-            abort(".inc files should not include base.inc");
+            abort($file, ".inc files should not include base.inc");
         }
     } elseif (in_array($file, $ok_not_includes_base)) {
         // it's in our exception list
     } elseif (endswith($file, ".php")) {
-        abort("file does not include base.inc");
+        abort($file, "file does not include base.inc");
     }
 
     // No file should include site_vars.php
     if (file_includes_site_vars("$basedir/$file") && !in_array($file, $ok_includes_site_vars)) {
-        abort("no file should include site_vars.php");
+        abort($file, "no file should include site_vars.php");
     }
 
     // No file should include misc.inc
     if (file_includes_misc("$basedir/$file") && !in_array($file, $ok_includes_misc)) {
-        abort("no file should include misc.inc");
+        abort($file, "no file should include misc.inc");
     }
 
     // No file should include site structure code
     if (file_includes_site_structure("$basedir/$file") && !in_array($file, $ok_includes_site_structure)) {
-        abort("no file should include site structure code (" . join(", ", $site_structure_includes) . ")");
+        abort($file, "no file should include site structure code (" . join(", ", $site_structure_includes) . ")");
     }
 }
+
+echo "\nAll files follow include() best practices.\n";
 
 function get_all_php_files($basedir)
 {
@@ -168,8 +172,9 @@ function file_includes_site_structure($filename)
     return false;
 }
 
-function abort($message)
+function abort(string $file, string $message)
 {
+    echo "\n$file\n";
     echo "    ERROR: $message\n";
     exit(1);
 }
