@@ -38,6 +38,8 @@ $skip_file_prefixes = [
     "node_modules/",
 ];
 
+echo "Checking PHP files for security issues...\n";
+
 $basedir .= endswith($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
 foreach ($files as $file) {
@@ -47,19 +49,22 @@ foreach ($files as $file) {
         }
     }
 
-    echo "$file\n";
+    echo ".";
+    flush();
 
     // No file should include mysqli_error()
     if (file_includes_mysqli_error("$basedir/$file") && !in_array($file, $ok_mysqli_error_calls)) {
-        abort("file includes mysqli_error()");
+        abort($file, "file includes mysqli_error()");
     }
 
     // No file should include a system call (use Symfony Process instead)
     if (file_includes_system_call("$basedir/$file") && !in_array($file, $ok_system_calls)) {
-        abort("file includes system(), exec(), passthru(), shell_exec(), or escapeshellcmd()");
+        abort($file, "file includes system(), exec(), passthru(), shell_exec(), or escapeshellcmd()");
     }
 
 }
+
+echo "\nNo security issues found.\n";
 
 /** @return string[] */
 function get_all_php_files(string $basedir): array
@@ -101,8 +106,9 @@ function file_includes_system_call(string $filename): bool
 
 /** @return never */
 // TODO: Add never as a return value once we switch to PHP 8.1.
-function abort(string $message)
+function abort(string $file, string $message)
 {
+    echo "\n$file\n";
     echo "    ERROR: $message\n";
     exit(1);
 }

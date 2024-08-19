@@ -67,6 +67,8 @@ $ok_files = [
     ".php-cs-fixer.dist.php",
 ];
 
+echo "Checking PHP files for proper login requirements...\n";
+
 $basedir .= endswith($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
 foreach ($files as $file) {
@@ -90,7 +92,8 @@ foreach ($files as $file) {
         continue;
     }
 
-    echo "$file\n";
+    echo ".";
+    flush();
 
     // If it requires authentication, skip it
     if (file_requires_auth("../../$file")) {
@@ -102,9 +105,12 @@ foreach ($files as $file) {
         continue;
     }
 
-    echo "ERROR: file does not require authentication and is not on the known-good list\n";
+    echo "\n$file\n";
+    echo "    ERROR: file does not require authentication and is not on the known-good list\n";
     exit(1);
 }
+
+echo "\nNo login requirement issues found.\n";
 
 function get_all_php_files($basedir)
 {
