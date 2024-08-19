@@ -15,8 +15,8 @@ function testText(text) {
     text = text.normalize("NFC");
     let result;
     charMatch.lastIndex = 0;
-    while(null != (result = charMatch.exec(text))) {
-        if(!validCharRegex.test(result[0])) {
+    while (null != (result = charMatch.exec(text))) {
+        if (!validCharRegex.test(result[0])) {
             return false;
         }
     }

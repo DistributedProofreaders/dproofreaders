@@ -1,5 +1,5 @@
 /* global */
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     var langSelector = document.getElementById("language");
     var langMatch = document.getElementById("lang-match");
@@ -20,14 +20,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
     if (diffAll) {
         diffAll.addEventListener("change", function () {
-            diffOpt.forEach(diffOption => {
+            diffOpt.forEach((diffOption) => {
                 diffOption.checked = false;
             });
         });
     }
 
-    diffOpt.forEach(diffOption => {
-        diffOption.addEventListener("change", function() {
+    diffOpt.forEach((diffOption) => {
+        diffOption.addEventListener("change", function () {
             diffAll.checked = false;
         });
     });

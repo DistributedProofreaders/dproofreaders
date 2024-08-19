@@ -1,31 +1,31 @@
-/*global*/
+/* global*/
 
 function AddProofer() {
     "use strict";
 
     var that = this;
-    this.initForm = function() {
+    this.initForm = function () {
         "use strict";
 
-        that.referrerOption = document.querySelector('select[name=referrer]');
-        that.referrerDetails = document.getElementById('referrer_details');
+        that.referrerOption = document.querySelector("select[name=referrer]");
+        that.referrerDetails = document.getElementById("referrer_details");
         if (that.referrerOption) {
             that.setOtherDetails();
-            that.referrerOption.addEventListener('change', that.setOtherDetails);
+            that.referrerOption.addEventListener("change", that.setOtherDetails);
         }
     };
 
-    this.setOtherDetails = function() {
+    this.setOtherDetails = function () {
         "use strict";
 
-        if (that.referrerOption.value !== 'other') {
-            that.referrerDetails.style.display = 'none';
+        if (that.referrerOption.value !== "other") {
+            that.referrerDetails.style.display = "none";
         } else {
-            that.referrerDetails.style.display = '';
+            that.referrerDetails.style.display = "";
         }
     };
 }
 
 var addProofer = new AddProofer();
 
-window.addEventListener('DOMContentLoaded', addProofer.initForm);
+window.addEventListener("DOMContentLoaded", addProofer.initForm);

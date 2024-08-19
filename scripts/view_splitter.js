@@ -3,32 +3,30 @@
 
 // Construct the button for horizontal/vertical split
 // and return a splitter variable.
-var viewSplitter = function(container, storageKey) {
+var viewSplitter = function (container, storageKey) {
     const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
-    if(!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
-        layout = {splitDirection: "horizontal"};
+    if (!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
+        layout = { splitDirection: "horizontal" };
     }
-    let splitVertical = (layout.splitDirection === "vertical");
+    let splitVertical = layout.splitDirection === "vertical";
 
-    const mainSplit = splitControl(container, {splitVertical: splitVertical});
+    const mainSplit = splitControl(container, { splitVertical: splitVertical });
     window.addEventListener("resize", mainSplit.reLayout);
 
-    const splitButton = document.createElement('button');
-    splitButton.type = 'button';
+    const splitButton = document.createElement("button");
+    splitButton.type = "button";
     splitButton.innerHTML = "&nbsp;";
     let splitKey;
     const preSetSplitDirCallback = [];
     const postSetSplitDirCallback = new Set();
 
-    preSetSplitDirCallback.push(function(storageKey) {
+    preSetSplitDirCallback.push(function (storageKey) {
         // get the split percent for vertical or horizontal
         splitKey = storageKey + "-split";
         let directionData = JSON.parse(localStorage.getItem(splitKey));
-        if(!directionData ||
-           (typeof directionData.splitPercent !== 'number' &&
-            typeof directionData.splitPercent !== 'string')) {
-            directionData = {splitPercent: 50};
+        if (!directionData || (typeof directionData.splitPercent !== "number" && typeof directionData.splitPercent !== "string")) {
+            directionData = { splitPercent: 50 };
         }
         mainSplit.setSplitPercent(directionData.splitPercent);
     });
@@ -62,7 +60,7 @@ var viewSplitter = function(container, storageKey) {
     setSplitControls();
 
     mainSplit.onDragEnd.add(function (percent) {
-        localStorage.setItem(splitKey, JSON.stringify({splitPercent: percent}));
+        localStorage.setItem(splitKey, JSON.stringify({ splitPercent: percent }));
     });
 
     return {

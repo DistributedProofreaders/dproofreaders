@@ -7,57 +7,56 @@ function makeControlDiv(container, content, controls) {
     let begMidEnd;
 
     function saveLocation() {
-        const barData = {location: compassPoint + begMidEnd};
+        const barData = { location: compassPoint + begMidEnd };
         localStorage.setItem(barKey, JSON.stringify(barData));
     }
 
-    content.addClass('overflow-auto').css({flex: 'auto'});
-    container.css({display: 'flex', height: "100%"});
+    content.addClass("overflow-auto").css({ flex: "auto" });
+    container.css({ display: "flex", height: "100%" });
     container.append(content);
 
-    const controlBar = $("<div>", {class: 'page-interface control-bar'});
+    const controlBar = $("<div>", { class: "page-interface control-bar" });
     // control2 contains the controls, control1 & control3 adjust the layout
-    const control1 = $("<div>", {class: 'left-align'});
-    const control2 = $("<div>").css({flex: '0 1 auto'});
+    const control1 = $("<div>", { class: "left-align" });
+    const control2 = $("<div>").css({ flex: "0 1 auto" });
     const control3 = $("<div>");
     controlBar.append(control1, control2, control3);
 
-    const menu = $("<div>", {class: "control-bar-menu"});
-    const menuButton = $("<button>", {title: texts.adjustPanel})
-        .append($("<i>", {class: 'fas fa-cog'}))
+    const menu = $("<div>", { class: "control-bar-menu" });
+    const menuButton = $("<button>", { title: texts.adjustPanel })
+        .append($("<i>", { class: "fas fa-cog" }))
         .click(function () {
-            if(menu.is(":hidden")) {
+            if (menu.is(":hidden")) {
                 // find the position of the menu button and set position of
                 // menu relative to it
                 const menuWidth = menu.outerWidth();
                 let buttonRect = menuButton[0].getBoundingClientRect();
-                switch(compassPoint) {
-                case "N":
-                    menu.css({top: buttonRect.top, left: buttonRect.right});
-                    break;
-                case "W":
-                    menu.css({top: buttonRect.top, left: buttonRect.right});
-                    break;
-                case "S":
-                    menu.css({top: buttonRect.bottom - menuWidth, left: buttonRect.right});
-                    break;
-                default: // E
-                    menu.css({top: buttonRect.top, left: buttonRect.left - menuWidth});
-                    break;
+                switch (compassPoint) {
+                    case "N":
+                        menu.css({ top: buttonRect.top, left: buttonRect.right });
+                        break;
+                    case "W":
+                        menu.css({ top: buttonRect.top, left: buttonRect.right });
+                        break;
+                    case "S":
+                        menu.css({ top: buttonRect.bottom - menuWidth, left: buttonRect.right });
+                        break;
+                    default: // E
+                        menu.css({ top: buttonRect.top, left: buttonRect.left - menuWidth });
+                        break;
                 }
             }
             menu.toggle();
         });
 
-
     // build navBox
     const navBox = $("<table>");
     const navCell = [];
     let cellIndex = 0;
-    for(let rowIndex = 0; rowIndex < 3; rowIndex++) {
+    for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
         const row = $("<tr>");
         navBox.append(row);
-        for(let columnIndex = 0; columnIndex < 3; columnIndex++) {
+        for (let columnIndex = 0; columnIndex < 3; columnIndex++) {
             navCell[cellIndex] = $("<td>");
             row.append(navCell[cellIndex]);
             cellIndex += 1;
@@ -65,7 +64,7 @@ function makeControlDiv(container, content, controls) {
     }
 
     function fillNavBox(cells) {
-        for(let cellIndex = 0; cellIndex < 9; cellIndex++) {
+        for (let cellIndex = 0; cellIndex < 9; cellIndex++) {
             navCell[cellIndex].append(cells[cellIndex]);
         }
     }
@@ -85,87 +84,79 @@ function makeControlDiv(container, content, controls) {
     }
 
     function controlHoriz() {
-        container.css({flexDirection: 'column'});
+        container.css({ flexDirection: "column" });
         // controlBar so only our's if there are others
-        $(".condiv", controlBar).css({display: "inline", padding: "0 0.1em"});
-        controlBar.css({"text-align": "", "flex-direction": "row"});
+        $(".condiv", controlBar).css({ display: "inline", padding: "0 0.1em" });
+        controlBar.css({ "text-align": "", "flex-direction": "row" });
     }
 
     function controlVert() {
-        container.css({flexDirection: 'row'});
-        $(".condiv", controlBar).css({display: "block", padding: "0.1em 0"});
-        controlBar.css({"text-align": "center", "flex-direction": "column"});
+        container.css({ flexDirection: "row" });
+        $(".condiv", controlBar).css({ display: "block", padding: "0.1em 0" });
+        controlBar.css({ "text-align": "center", "flex-direction": "column" });
     }
 
-    const leftButton = $("<button>", {class: 'navbutton', title: texts.controlLeft})
-        .append($("<i>", {class: 'fas fa-caret-left'}));
-    const centerButton = $("<button>", {class: 'navbutton', title: texts.controlCenter}).append('|');
-    const rightButton = $("<button>", {class: 'navbutton', title: texts.controlRight})
-        .append($("<i>", {class: 'fas fa-caret-right'}));
-    const topButton = $("<button>", {class: 'navbutton', title: texts.controlTop})
-        .append($("<i>", {class: 'fas fa-caret-up'}));
-    const midButton = $("<button>", {class: 'navbutton', title: texts.controlMid}).append('−');
-    const botButton = $("<button>", {class: 'navbutton', title: texts.controlBot})
-        .append($("<i>", {class: 'fas fa-caret-down'}));
+    const leftButton = $("<button>", { class: "navbutton", title: texts.controlLeft }).append($("<i>", { class: "fas fa-caret-left" }));
+    const centerButton = $("<button>", { class: "navbutton", title: texts.controlCenter }).append("|");
+    const rightButton = $("<button>", { class: "navbutton", title: texts.controlRight }).append($("<i>", { class: "fas fa-caret-right" }));
+    const topButton = $("<button>", { class: "navbutton", title: texts.controlTop }).append($("<i>", { class: "fas fa-caret-up" }));
+    const midButton = $("<button>", { class: "navbutton", title: texts.controlMid }).append("−");
+    const botButton = $("<button>", { class: "navbutton", title: texts.controlBot }).append($("<i>", { class: "fas fa-caret-down" }));
 
-    const westButton = $("<button>", {class: 'navbutton', title: texts.dockLeft})
-        .append($("<i>", {class: 'fas fa-arrow-left'}));
-    const northButton = $("<button>", {class: 'navbutton', title: texts.dockTop})
-        .append($("<i>", {class: 'fas fa-arrow-up'}));
-    const southButton = $("<button>", {class: 'navbutton', title: texts.dockBot})
-        .append($("<i>", {class: 'fas fa-arrow-down'}));
-    const eastButton = $("<button>", {class: 'navbutton', title: texts.dockRight})
-        .append($("<i>", {class: 'fas fa-arrow-right'}));
+    const westButton = $("<button>", { class: "navbutton", title: texts.dockLeft }).append($("<i>", { class: "fas fa-arrow-left" }));
+    const northButton = $("<button>", { class: "navbutton", title: texts.dockTop }).append($("<i>", { class: "fas fa-arrow-up" }));
+    const southButton = $("<button>", { class: "navbutton", title: texts.dockBot }).append($("<i>", { class: "fas fa-arrow-down" }));
+    const eastButton = $("<button>", { class: "navbutton", title: texts.dockRight }).append($("<i>", { class: "fas fa-arrow-right" }));
 
-    const hideButton = $("<button>", {class: 'navbutton', title: texts.hideMenu}).append('×');
+    const hideButton = $("<button>", { class: "navbutton", title: texts.hideMenu }).append("×");
 
     menu.append(navBox);
-    control1.append($("<div>", {class: "condiv center-align"}).append(menuButton), menu);
+    control1.append($("<div>", { class: "condiv center-align" }).append(menuButton), menu);
 
     function setCompassPoint() {
         $(".navbutton", navBox).detach();
-        switch(compassPoint) {
-        case "N":
-            controlFirst();
-            controlHoriz();
-            controlBar.css({borderWidth: "0 0 1px 0"});
-            fillNavBox([leftButton, centerButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
-            break;
-        case "W":
-            controlFirst();
-            controlVert();
-            controlBar.css({borderWidth: "0 1px 0 0"});
-            fillNavBox([topButton, northButton, "", midButton, hideButton, eastButton, botButton, southButton, ""]);
-            break;
-        case "E":
-            controlLast();
-            controlVert();
-            controlBar.css({borderWidth: "0 0 0 1px"});
-            fillNavBox(["", northButton, topButton, westButton, hideButton, midButton, "", southButton, botButton]);
-            break;
-        case "S":
-            controlLast();
-            controlHoriz();
-            controlBar.css({borderWidth: "1px 0 0 0"});
-            fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
-            break;
+        switch (compassPoint) {
+            case "N":
+                controlFirst();
+                controlHoriz();
+                controlBar.css({ borderWidth: "0 0 1px 0" });
+                fillNavBox([leftButton, centerButton, rightButton, westButton, hideButton, eastButton, "", southButton, ""]);
+                break;
+            case "W":
+                controlFirst();
+                controlVert();
+                controlBar.css({ borderWidth: "0 1px 0 0" });
+                fillNavBox([topButton, northButton, "", midButton, hideButton, eastButton, botButton, southButton, ""]);
+                break;
+            case "E":
+                controlLast();
+                controlVert();
+                controlBar.css({ borderWidth: "0 0 0 1px" });
+                fillNavBox(["", northButton, topButton, westButton, hideButton, midButton, "", southButton, botButton]);
+                break;
+            case "S":
+                controlLast();
+                controlHoriz();
+                controlBar.css({ borderWidth: "1px 0 0 0" });
+                fillNavBox(["", northButton, "", westButton, hideButton, eastButton, leftButton, centerButton, rightButton]);
+                break;
         }
     }
 
     function setBegMidEnd() {
-        switch(begMidEnd) {
-        case "B":
-            control1.css({flex: '0 0 auto'});
-            control3.css({flex: '1 0 auto'});
-            break;
-        case "M":
-            control1.css({flex: '1 0 auto'});
-            control3.css({flex: '1 0 auto'});
-            break;
-        case "E":
-            control1.css({flex: '1 0 auto'});
-            control3.css({flex: '0 0 auto'});
-            break;
+        switch (begMidEnd) {
+            case "B":
+                control1.css({ flex: "0 0 auto" });
+                control3.css({ flex: "1 0 auto" });
+                break;
+            case "M":
+                control1.css({ flex: "1 0 auto" });
+                control3.css({ flex: "1 0 auto" });
+                break;
+            case "E":
+                control1.css({ flex: "1 0 auto" });
+                control3.css({ flex: "0 0 auto" });
+                break;
         }
     }
 
@@ -188,7 +179,7 @@ function makeControlDiv(container, content, controls) {
         newPoint("N");
     });
 
-    southButton.click(() =>{
+    southButton.click(() => {
         newPoint("S");
     });
 
@@ -208,40 +199,39 @@ function makeControlDiv(container, content, controls) {
     }
 
     leftButton.click(() => {
-        newBME('B');
+        newBME("B");
     });
 
     centerButton.click(() => {
-        newBME('M');
+        newBME("M");
     });
 
     rightButton.click(() => {
-        newBME('E');
+        newBME("E");
     });
 
     topButton.click(() => {
-        newBME('B');
+        newBME("B");
     });
 
     midButton.click(() => {
-        newBME('M');
+        newBME("M");
     });
 
     botButton.click(() => {
-        newBME('E');
+        newBME("E");
     });
 
-    controls.forEach(function(control) {
-        control2.append($("<div>").addClass("condiv")
-            .append(control));
+    controls.forEach(function (control) {
+        control2.append($("<div>").addClass("condiv").append(control));
     });
 
     return {
         setupControls: function (storageKey) {
             barKey = storageKey + "-bar";
             let barData = JSON.parse(localStorage.getItem(barKey));
-            if (!barData || typeof barData.location !== 'string') {
-                barData = {location: "NM"};
+            if (!barData || typeof barData.location !== "string") {
+                barData = { location: "NM" };
             }
             // location is two letters:
             // 1st compass point of bar: North East South West,
@@ -291,7 +281,7 @@ function makeImageWidget(container, align = "C") {
         scrollDiffY = event.pageY + content.scrollTop;
     }
 
-    imageDiv.addEventListener("mousedown", function(event) {
+    imageDiv.addEventListener("mousedown", function (event) {
         event.preventDefault();
         imageDiv.style.cursor = "grabbing";
         dragStart(event);
@@ -308,7 +298,7 @@ function makeImageWidget(container, align = "C") {
         document.removeEventListener("touchend", dragTouchEnd);
     }
 
-    imageDiv.addEventListener("touchstart", function(event) {
+    imageDiv.addEventListener("touchstart", function (event) {
         event.preventDefault();
         dragStart(event.touches[0]);
         document.addEventListener("touchmove", dragTouchMove);
@@ -320,12 +310,12 @@ function makeImageWidget(container, align = "C") {
     // so keep these unrounded values.
     let leftScroll, topScroll;
 
-    content.addEventListener("scroll", function() {
+    content.addEventListener("scroll", function () {
         // to avoid rounding creep, only change if not just rounded down
-        if(Math.floor(leftScroll) != content.scrollLeft) {
+        if (Math.floor(leftScroll) != content.scrollLeft) {
             leftScroll = content.scrollLeft;
         }
-        if(Math.floor(topScroll) != content.scrollTop) {
+        if (Math.floor(topScroll) != content.scrollTop) {
             topScroll = content.scrollTop;
         }
     });
@@ -347,7 +337,7 @@ function makeImageWidget(container, align = "C") {
     let sine = 0;
     let cosine = 1;
 
-    const percentInput = $("<input>", {type: 'number', value: percent, title: texts.zoomPercent});
+    const percentInput = $("<input>", { type: "number", value: percent, title: texts.zoomPercent });
     let contentWidth, contentHeight, imageWidth, imDivWidth, vertOffset;
 
     function setImageStyle() {
@@ -363,11 +353,11 @@ function makeImageWidget(container, align = "C") {
         image.style.width = `${10 * percent}px`;
         image.style.height = "auto";
         let imageHeight, xOffset, yOffset, imDivHeight;
-        if(sine != 0) {
+        if (sine != 0) {
             // rotated 90 or 270 degrees
             imageWidth = image.height;
             imageHeight = image.width;
-            yOffset = - (image.height - image.width) / 2;
+            yOffset = -(image.height - image.width) / 2;
         } else {
             // rotated 0 or 180 degrees
             imageWidth = image.width;
@@ -387,13 +377,13 @@ function makeImageWidget(container, align = "C") {
         image.style.transform = `matrix(${cosine}, ${-sine}, ${sine}, ${cosine}, ${xOffset}, ${yOffset})`;
 
         // show scrollbar only if image is bigger than window
-        content.style.overflowX = (imageWidth > contentWidth) ? "auto" : "hidden";
+        content.style.overflowX = imageWidth > contentWidth ? "auto" : "hidden";
         // seems to need +1 to hide bar when fitting to height
-        content.style.overflowY = (imageHeight > contentHeight + 1) ? "auto" : "hidden";
+        content.style.overflowY = imageHeight > contentHeight + 1 ? "auto" : "hidden";
     }
 
     function initScroll() {
-        if(align == "C") {
+        if (align == "C") {
             // centre horizontally
             leftScroll = 0.5 * (imDivWidth - contentWidth);
         } else {
@@ -413,9 +403,9 @@ function makeImageWidget(container, align = "C") {
     image.addEventListener("load", initAll);
 
     function setZoom() {
-        if(percent < minPercent) {
+        if (percent < minPercent) {
             percent = minPercent;
-        } else if(percent > maxPercent) {
+        } else if (percent > maxPercent) {
             percent = maxPercent;
         }
         percentInput.val(Math.round(percent));
@@ -423,27 +413,27 @@ function makeImageWidget(container, align = "C") {
 
     function setDrawSave() {
         setZoom();
-        if(align == "C") {
-            let id2 = (imDivWidth / 2);
+        if (align == "C") {
+            let id2 = imDivWidth / 2;
             setImageStyle();
             // imDivWidth could have changed
-            leftScroll += (imDivWidth / 2) - id2;
+            leftScroll += imDivWidth / 2 - id2;
         } else {
             leftScroll = content.scrollLeft;
             setImageStyle();
         }
         content.scrollLeft = leftScroll;
-        localStorage.setItem(imageKey, JSON.stringify({zoom: percent}));
+        localStorage.setItem(imageKey, JSON.stringify({ zoom: percent }));
     }
 
-    function reScroll () {
+    function reScroll() {
         //  when window changes size let top hold still
         let y = contentHeight - topScroll;
-        if(align == "C") {
-            let id4 = (imDivWidth / 4);
+        if (align == "C") {
+            let id4 = imDivWidth / 4;
             setImageStyle();
             // contentWidth has changed
-            leftScroll += (imDivWidth / 4) - id4;
+            leftScroll += imDivWidth / 4 - id4;
         } else {
             // hold left edge
             let cw = contentWidth;
@@ -454,64 +444,68 @@ function makeImageWidget(container, align = "C") {
         content.scrollTop = topScroll = contentHeight - y;
     }
 
-    percentInput.change(function() {
+    percentInput.change(function () {
         percent = parseInt(this.value);
-        if(isNaN(percent)) {
+        if (isNaN(percent)) {
             percent = defaultPercent;
         }
         setDrawSave();
     });
 
-    const fitWidth = $("<button>", {title: texts.fitWidth}).click(function () {
-        const contentWidth = getComputedStyle(content).width;
-        if(sine == 0) {
-            image.style.width = contentWidth;
-        } else {
-            image.style.height = contentWidth;
-            image.style.width = "auto";
-        }
-        percent = image.width / 10;
-        setDrawSave();
-        initScroll();
-    })
-        .append($("<i>", {class: 'fas fa-arrows-alt-h'}));
+    const fitWidth = $("<button>", { title: texts.fitWidth })
+        .click(function () {
+            const contentWidth = getComputedStyle(content).width;
+            if (sine == 0) {
+                image.style.width = contentWidth;
+            } else {
+                image.style.height = contentWidth;
+                image.style.width = "auto";
+            }
+            percent = image.width / 10;
+            setDrawSave();
+            initScroll();
+        })
+        .append($("<i>", { class: "fas fa-arrows-alt-h" }));
 
-    const fitHeight = $("<button>", {title: texts.fitHeight}).click(function () {
-        const contentHeight = getComputedStyle(content).height;
-        if(sine == 0) {
-            image.style.height = contentHeight;
-            image.style.width = "auto";
-        } else {
-            image.style.width = contentHeight;
-        }
-        percent = image.width / 10;
-        setDrawSave();
-        initScroll();
-    })
-        .append($("<i>", {class: 'fas fa-arrows-alt-v'}));
+    const fitHeight = $("<button>", { title: texts.fitHeight })
+        .click(function () {
+            const contentHeight = getComputedStyle(content).height;
+            if (sine == 0) {
+                image.style.height = contentHeight;
+                image.style.width = "auto";
+            } else {
+                image.style.width = contentHeight;
+            }
+            percent = image.width / 10;
+            setDrawSave();
+            initScroll();
+        })
+        .append($("<i>", { class: "fas fa-arrows-alt-v" }));
 
-    const zoomIn = $("<button>", {title: texts.zoomIn}).click(function () {
-        percent *= 1.1;
-        setDrawSave();
-    })
-        .append($("<i>", {class: 'fas fa-search-plus'}));
+    const zoomIn = $("<button>", { title: texts.zoomIn })
+        .click(function () {
+            percent *= 1.1;
+            setDrawSave();
+        })
+        .append($("<i>", { class: "fas fa-search-plus" }));
 
-    const zoomOut = $("<button>", {title: texts.zoomOut}).click(function () {
-        percent /= 1.1;
-        setDrawSave();
-    })
-        .append($("<i>", {class: 'fas fa-search-minus'}));
+    const zoomOut = $("<button>", { title: texts.zoomOut })
+        .click(function () {
+            percent /= 1.1;
+            setDrawSave();
+        })
+        .append($("<i>", { class: "fas fa-search-minus" }));
 
-    const clockRotateInput = $("<button>", {title: texts.clockRotate})
-        .append($("<i>", {class: 'fas fa-redo-alt'}))
-        .click( function () {
+    const clockRotateInput = $("<button>", { title: texts.clockRotate })
+        .append($("<i>", { class: "fas fa-redo-alt" }))
+        .click(function () {
             [sine, cosine] = [-cosine, sine];
             initAll();
         });
 
-    const counterclockRotateInput = $("<button>", {title: texts.counterclockRotate})
-        .append($("<i>", {class: 'fas fa-undo-alt'}))
-        .click( function () {
+    const counterclockRotateInput = $("<button>", { title: texts.counterclockRotate })
+        .append($("<i>", { class: "fas fa-undo-alt" }))
+        .click(function () {
             [sine, cosine] = [cosine, -sine];
             initAll();
         });
@@ -520,7 +514,7 @@ function makeImageWidget(container, align = "C") {
         fitHeight,
         fitWidth,
         " ",
-        $("<span>", {class: "nowrap"}).append(percentInput, "%"),
+        $("<span>", { class: "nowrap" }).append(percentInput, "%"),
         " ",
         zoomIn,
         zoomOut,
@@ -540,8 +534,8 @@ function makeImageWidget(container, align = "C") {
 
             imageKey = imageWidgetKey + "-image";
             let imageData = JSON.parse(localStorage.getItem(imageKey));
-            if (!imageData || typeof imageData.zoom !== 'number') {
-                imageData = {zoom: defaultPercent};
+            if (!imageData || typeof imageData.zoom !== "number") {
+                imageData = { zoom: defaultPercent };
             }
             percent = imageData.zoom;
             setZoom();

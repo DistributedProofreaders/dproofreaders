@@ -56,6 +56,8 @@ jobs:
         run: make -C SETUP/ci lint_code
       - name: Run JS lint
         run: npm run lint
+      - name: Run JS format check
+        run: npm run format-check
       - name: Run PHP-CS-Fixer and confirm no changes
         run: ./vendor/bin/php-cs-fixer fix --show-progress=none --dry-run --diff
   phpstan:
