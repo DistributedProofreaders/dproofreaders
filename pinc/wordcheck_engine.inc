@@ -293,6 +293,12 @@ class BadWordAccumulator
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // World-Level
 
+function get_dictionary_for_langcode(string $langcode): ?string
+{
+    $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
+    return is_file($dict_file) ? $dict_file : null;
+}
+
 /**
  * Returns a list of 'bad' words on a page
  *
@@ -320,9 +326,15 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
     $misspellings = [];
     foreach ($languages as $language) {
         $langcode = langcode2_for_langname($language);
+        $dict_file = null;
         if ($langcode) {
-            $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
-            if (is_file($dict_file)) {
+            if ("de" === $langcode) {
+                $dict_file = get_dictionary_for_langcode("de_DE-1901");
+            }
+            if (!$dict_file) {
+                $dict_file = get_dictionary_for_langcode($langcode);
+            }
+            if ($dict_file) {
                 // run aspell using this language
 
                 $process = new Process([
