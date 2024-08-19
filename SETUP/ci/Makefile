@@ -37,6 +37,7 @@ lint_css:
 lint_code:
 	$(SELF_DIR)lint_php_files.sh
 	$(SELF_DIR)lint_json_files.sh
+	cd $(SELF_DIR)../../ && npm run lint
 
 lint: lint_code lint_css lint_charsuites
 
