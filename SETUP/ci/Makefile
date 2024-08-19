@@ -2,7 +2,7 @@
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-all: security_checks best_practice_checks lint static_checks code_style
+all: lint code_style static_checks security_checks best_practice_checks
 
 #----------------------------------------------------------------------------
 # Security checks
@@ -38,7 +38,7 @@ lint_code:
 	$(SELF_DIR)lint_php_files.sh
 	$(SELF_DIR)lint_json_files.sh
 
-lint: lint_charsuites lint_css lint_code
+lint: lint_code lint_css lint_charsuites
 
 #----------------------------------------------------------------------------
 # CSS compilation
