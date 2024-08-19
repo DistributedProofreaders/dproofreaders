@@ -295,6 +295,8 @@ class BadWordAccumulator
 
 function get_dictionary_for_langcode(string $langcode): ?string
 {
+    global $aspell_prefix;
+
     $dict_file = "$aspell_prefix/lib/aspell/$langcode.multi";
     return is_file($dict_file) ? $dict_file : null;
 }
