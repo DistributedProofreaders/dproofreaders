@@ -1,8 +1,5 @@
-/* exported toggleMenu showSiteSearch hideSiteSearch */
-
 // Toggle a menu contents to visible and rotate the menu icon
-function toggleMenu(menuId) {
-    let menu = document.getElementById(menuId);
+function toggleMenu(menu) {
     for (const element of menu.getElementsByClassName('menu-contents')) {
         element.classList.toggle("invisible");
         element.classList.toggle("transparent");
@@ -46,6 +43,13 @@ function hideSiteSearch() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+    const menuSelectors = document.getElementsByClassName('menu-selector');
+    for (const menuSelector of menuSelectors) {
+        menuSelector.addEventListener('click', function () {
+            toggleMenu(this.parentElement);
+        });
+    }
+
     // if the page has the search menu, add some listeners for it
     if (document.getElementById('search-menu')) {
         document.getElementById('search-menu').addEventListener('keydown', (event) => {
@@ -54,11 +58,22 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        document.getElementById('site_search').addEventListener('click', showSiteSearch);
+        document.getElementById('hide_site_search').addEventListener('click', hideSiteSearch);
+
         document.addEventListener('keydown', (event) => {
             if (event.key === '/' && document.activeElement.tagName == "BODY") {
                 event.preventDefault();
                 showSiteSearch();
             }
+        });
+    }
+
+    // if the page has a language selector, listen for a change
+    let langSelector = document.getElementById('langform-lang');
+    if (langSelector) {
+        langSelector.addEventListener("change", function() {
+            document.getElementById('langform').submit();
         });
     }
 });

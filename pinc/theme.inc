@@ -186,16 +186,17 @@ function html_logobar()
         $icon_links[] = [
             "name" => _("Search"),
             "class" => "fas fa-search fa-2x",
-            "onclick" => "showSiteSearch(); return false;",
+            "identifier" => "id='site_search'",
         ];
         $links = [];
         foreach ($icon_links as $data) {
             $name = attr_safe($data["name"]);
             $class = $data["class"];
-            $url = $data["url"] ?? "";
-            $onclick = isset($data["onclick"]) ? "onclick='" . attr_safe($data["onclick"]) . "'" : "";
+            // '#' prevents page refresh when selecting 'search'
+            $url = $data["url"] ?? "#";
+            $identifier = $data["identifier"] ?? "";
             $text = "<div class='icon-menu-item'>";
-            $text .= "<a href='$url' aria-label='$name' $onclick>";
+            $text .= "<a href='$url' aria-label='$name' $identifier>";
             $text .= "<i aria-hidden='true' class='$class' title='$name'></i>";
             if ($data["name"] == _("Inbox")) {
                 $numofPMs = get_number_of_unread_messages($user->username);
@@ -203,7 +204,7 @@ function html_logobar()
                     $text .= "<span class='inbox-badge'>$numofPMs</span>";
                 }
             }
-            $text .= "<br><span class='icon-menu-item-name' $onclick>$name</span>";
+            $text .= "<br><span class='icon-menu-item-name'>$name</span>";
             $text .= "</a>";
             $text .= "</div>";
             $links[] = $text;
@@ -218,7 +219,7 @@ function html_logobar()
         echo "<form action='$code_url/tools/site_search.php'>";
         echo "<input id='search-menu-input' type='text' placeholder='$placeholder' name='q' autocapitalize='none'>";
         echo "&nbsp;<a href='$code_url/tools/site_search.php'><i aria-hidden='true' class='fas fa-info-circle fa-lg'></i></a>";
-        echo "&nbsp;<i aria-hidden='true' class='far fa-window-close fa-lg' onclick='hideSiteSearch()'></i>";
+        echo "&nbsp;<i aria-hidden='true' class='far fa-window-close fa-lg' id='hide_site_search'></i>";
         echo "</form>";
         echo "</div>"; // search-menu
     }
@@ -431,10 +432,9 @@ function headerbar_menu(string $menu_title, array $links, bool $align_right = fa
         $menu_contents_style = "style='right: 0;'";
     }
 
-    $menu_id = 'menu' . md5($menu_title);
     $output = [
-        "<div id='$menu_id' class='menu' $menu_style>",
-        "<div class='menu-selector' onclick='toggleMenu(\"$menu_id\")'>",
+        "<div class='menu' $menu_style>",
+        "<div class='menu-selector'>",
         "<i class='menu-icon fas fa-caret-right'></i>",
         " " . html_safe($menu_title),
         "</div>",
@@ -632,19 +632,13 @@ function maybe_show_language_selector()
     $options = get_locale_translation_selection_options();
     if (count($options) <= 1) {
         return;
-    } ?>
-    <script><!--
-        function submitLang(i) {
-            top.document.forms.langform.submit();
-        }
-    // --></script>
-    <?php
+    }
 
     $intlang = get_desired_language();
     echo "<form id='langform' action='$code_url/tools/setlangcookie.php' method='POST'>";
     echo "<div>\n";
     echo "<label for='langform-lang'>" . _("Set language") . ": </label>";
-    echo "<select id='langform-lang' name='lang' onChange='submitLang(this)'>\n";
+    echo "<select id='langform-lang' name='lang'>\n";
     echo "<option value=''>" . _("Browser default") . "</option>";
     foreach ($options as $locale => $label) {
         echo "<option value='$locale'".(($locale == $intlang) ? " selected" : "").">$label</option>\n";
