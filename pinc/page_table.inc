@@ -348,20 +348,20 @@ function echo_page_table(
 
     echo "</tr>";
 
-    $avail_pages = [];
-
     $row_count = 0;
     foreach (fetch_page_table_data($project, $page_selector, $proofed_in_round) as $page_res) {
         $row_count += 1;
 
         $imagename = $page_res['image'];
+        $page_state = $page_res['state'];
 
         echo "<tr>";
 
         // --------------------------------------------
         // Selector
         if ($can_edit) {
-            echo "<td><input type='checkbox' name='selected_pages[$imagename]'></td>\n";
+            $avail_class = page_state_is_a($page_state, "page_avail_state") ? "availbox" : "";
+            echo "<td><input type='checkbox' class='selectorbox $avail_class' name='selected_pages[$imagename]'></td>\n";
         }
 
         // --------------------------------------------
@@ -395,12 +395,7 @@ function echo_page_table(
         // --------------------------------------------
 
         // Page State
-        $page_state = $page_res['state'];
         echo "<td>$page_state</td>\n";
-
-        if (page_state_is_a($page_state, "page_avail_state")) {
-            $avail_pages[] = $row_count;
-        }
 
         // --------------------------------------------
         // Per-Round Info
@@ -476,38 +471,8 @@ function echo_page_table(
     echo "</table>";
 
     if ($can_edit) {
-        ?>
-<script><!--
-let avail_pages = <?php echo json_encode($avail_pages); ?>;
-let num_rows = <?php echo $row_count; ?>;
-
-function changeSelection(sel) {
-    switch(sel) {
-        case "all":
-            for(i=1; i<=num_rows; i++)
-                document.pagesform.elements[i].checked=true;
-            break;
-        case "unproofed":
-            changeSelection("clear");
-            for(i in avail_pages)
-                document.pagesform.elements[avail_pages[i]].checked=true;
-            break;
-        case "invert":
-            for(i=1; i<=num_rows; i++)
-                document.pagesform.elements[i].checked=!document.pagesform.elements[i].checked;
-            break;
-        case "clear":
-            for(i=1; i<=num_rows; i++)
-                document.pagesform.elements[i].checked=false;
-            break;
-        default:
-            break;
-    }
-}
-// --></script>
-<?php
         echo "<br>\n";
-        echo "<select name='select' onChange='changeSelection(this.options[this.selectedIndex].value)'>\n";
+        echo "<select name='select' id='option_selector'>\n";
         echo "<option value='0'>"._("Select...")."</option>";
         echo "<option value='all'>"._("Select all")."</option>";
         echo "<option value='unproofed'>"._("Select all unproofread")."</option>";

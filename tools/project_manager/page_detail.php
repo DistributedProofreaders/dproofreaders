@@ -57,7 +57,9 @@ $state = $project->state;
 $title = $project->nameofwork;
 $page_details_str = _('Page Detail');
 
-output_header("$page_details_str: $title", NO_STATSBAR);
+$extra_args["js_files"] = ["$code_url/scripts/page_table.js"];
+
+output_header("$page_details_str: $title", NO_STATSBAR, $extra_args);
 
 // NB We use a flexbox to position the linkbox div rather than just using
 // `float: right` like the other linkboxes in the codebase do because on

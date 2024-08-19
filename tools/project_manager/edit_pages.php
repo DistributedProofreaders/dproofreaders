@@ -19,7 +19,9 @@ foreach ($selected_pages as $image => $setting) {
     validate_page_image($image);
 }
 
-output_header(_("Edit Pages Confirmation"), NO_STATSBAR);
+$extra_args["js_files"] = ["$code_url/scripts/page_table.js"];
+
+output_header(_("Edit Pages Confirmation"), NO_STATSBAR, $extra_args);
 echo "<br>\n";
 
 $project = new Project($projectid);
