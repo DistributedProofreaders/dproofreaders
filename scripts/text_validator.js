@@ -15,15 +15,12 @@ function htmlSafe(str) {
     //    >  ->  &gt;
     // This should be equivalent to PHP's
     //     htmlspecialchars($str,ENT_NOQUOTES)
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 var validateText;
 
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function () {
     var textArea = document.getElementById("text_data");
     let validCharRegex = new RegExp(validCharacterPattern, "u");
 
@@ -32,10 +29,10 @@ window.addEventListener("DOMContentLoaded", function() {
         var bad = false;
 
         function charReplacer(match) {
-            if(validCharRegex.test(match)) {
+            if (validCharRegex.test(match)) {
                 return match;
             }
-            if(clean) {
+            if (clean) {
                 return "";
             }
             bad = true;
@@ -43,7 +40,7 @@ window.addEventListener("DOMContentLoaded", function() {
         }
 
         text = text.replace(charMatch, charReplacer);
-        return {processedText: text, valid: !bad};
+        return { processedText: text, valid: !bad };
     }
 
     function _validateText() {
@@ -55,7 +52,7 @@ window.addEventListener("DOMContentLoaded", function() {
         text = htmlSafe(text);
 
         let procResult = processText(text, false);
-        if(procResult.valid) {
+        if (procResult.valid) {
             return true;
         }
         document.getElementById("validator").classList.remove("nodisp");
@@ -68,7 +65,7 @@ window.addEventListener("DOMContentLoaded", function() {
     validateText = _validateText;
 
     let quitButton = document.getElementById("cc-quit");
-    if(quitButton) {
+    if (quitButton) {
         quitButton.addEventListener("click", function () {
             document.getElementById("validator").classList.add("nodisp");
             document.getElementById("proofdiv").classList.remove("nodisp");
@@ -76,7 +73,7 @@ window.addEventListener("DOMContentLoaded", function() {
     }
 
     let removeButton = document.getElementById("cc-remove");
-    if(removeButton) {
+    if (removeButton) {
         removeButton.addEventListener("click", function () {
             // textArea has already been normalised
             textArea.value = processText(textArea.value, true).processedText;

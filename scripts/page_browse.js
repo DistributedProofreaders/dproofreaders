@@ -4,40 +4,40 @@
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
     const pageSelector = document.createElement("select");
-    const controls = $("<span>", {class: "nowrap"}).append(proofIntData.strings.page + " ", pageSelector);
+    const controls = $("<span>", { class: "nowrap" }).append(proofIntData.strings.page + " ", pageSelector);
 
-    if(!selectedImageFileName) {
+    if (!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
         pageSelector.required = true;
         const firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
         firstOption.disabled = true;
         pageSelector.add(firstOption);
-        pages.forEach(function(page, index) {
+        pages.forEach(function (page, index) {
             pageSelector.add(new Option(page.image, index, false, false));
         });
 
-        pageSelector.addEventListener("change", function() {
+        pageSelector.addEventListener("change", function () {
             changePage(pages[pageSelector.value]);
         });
 
         return controls;
     }
 
-    pages.forEach(function(page, index) {
+    pages.forEach(function (page, index) {
         const imageFilename = page.image;
-        const selected = (selectedImageFileName === imageFilename);
+        const selected = selectedImageFileName === imageFilename;
         pageSelector.add(new Option(imageFilename, index, selected, selected));
     });
 
-    const prevButton = $("<input>", {type: 'button', value: proofIntData.strings.previous});
-    const nextButton = $("<input>", {type: 'button', value: proofIntData.strings.next});
+    const prevButton = $("<input>", { type: "button", value: proofIntData.strings.previous });
+    const nextButton = $("<input>", { type: "button", value: proofIntData.strings.next });
 
     function prevEnabled() {
         return pageSelector.selectedIndex > 0;
     }
 
     function nextEnabled() {
-        return pageSelector.selectedIndex < (pageSelector.length - 1);
+        return pageSelector.selectedIndex < pageSelector.length - 1;
     }
 
     function enableButtons() {
@@ -62,20 +62,20 @@ function makePageControl(pages, selectedImageFileName, changePage) {
         pageChange();
     });
 
-    document.addEventListener("keydown", function(event) {
-        if(event.altKey === true) {
-            if(event.key === "Up" || event.key === "ArrowUp") {
+    document.addEventListener("keydown", function (event) {
+        if (event.altKey === true) {
+            if (event.key === "Up" || event.key === "ArrowUp") {
                 // up arrow
                 // prevent another simultaneous action if a control has focus
                 event.preventDefault();
-                if(prevEnabled()) {
+                if (prevEnabled()) {
                     pageSelector.selectedIndex -= 1;
                     pageChange();
                 }
-            } else if(event.key === "Down" || event.key === "ArrowDown") {
+            } else if (event.key === "Down" || event.key === "ArrowDown") {
                 // down arrow
                 event.preventDefault();
-                if(nextEnabled()) {
+                if (nextEnabled()) {
                     pageSelector.selectedIndex += 1;
                     pageChange();
                 }
@@ -92,8 +92,8 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     // parameters will be null if not defined
     let projectId = params.get("project");
     let displayMode = params.get("mode");
-    if(!['image', 'text', 'imageText'].includes(displayMode)) {
-        displayMode = 'image';
+    if (!["image", "text", "imageText"].includes(displayMode)) {
+        displayMode = "image";
     }
     // if round_id is not defined or invalid, first option will be used
     const currentRound = params.get("round_id");
@@ -103,7 +103,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
 
     const topDiv = $("#page-browser");
     // the non-scrolling area which will contain the page controls
-    const fixHead = $("<div>", {class: 'fixed-box control-pane'});
+    const fixHead = $("<div>", { class: "fixed-box control-pane" });
     // replace any previous content of topDiv
     topDiv.html(fixHead);
 
@@ -114,20 +114,20 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     // this allows rounds to be obtained from server only once when needed
     // the roundSelector retains its selected item so we do not have to
     function getRoundSelector() {
-        const gotRoundSelector = new Promise(function(resolve, reject) {
-            if(roundSelector) {
+        const gotRoundSelector = new Promise(function (resolve, reject) {
+            if (roundSelector) {
                 resolve();
             } else {
                 roundSelector = document.createElement("select");
                 ajax("GET", "v1/projects/pagerounds")
-                    .then(function(rounds) {
-                        rounds.forEach(function(round) {
-                            let selected = (currentRound === round);
+                    .then(function (rounds) {
+                        rounds.forEach(function (round) {
+                            let selected = currentRound === round;
                             roundSelector.add(new Option(round, round, selected, selected));
                         });
                         resolve();
                     })
-                    .catch(function(data) {
+                    .catch(function (data) {
                         ajaxAlert(data);
                         reject();
                     });
@@ -137,14 +137,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     }
 
     function displayPages(pages) {
-        const textButton = $("<input>", {type: 'button', value: proofIntData.strings.showText});
-        const imageButton = $("<input>", {type: 'button', value: proofIntData.strings.showImage});
-        const imageTextButton = $("<input>", {type: 'button', value: proofIntData.strings.showImageText});
+        const textButton = $("<input>", { type: "button", value: proofIntData.strings.showText });
+        const imageButton = $("<input>", { type: "button", value: proofIntData.strings.showImage });
+        const imageTextButton = $("<input>", { type: "button", value: proofIntData.strings.showImageText });
         let imageWidget = null;
         let textWidget = null;
 
         function getRoundControls() {
-            return $("<span>", {class: "nowrap"}).append(proofIntData.strings.round + " ", roundSelector);
+            return $("<span>", { class: "nowrap" }).append(proofIntData.strings.round + " ", roundSelector);
         }
 
         function showCurrentPage(page) {
@@ -157,20 +157,19 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 const imageFileName = page.image;
                 params.set("imagefile", imageFileName);
                 document.title = proofIntData.strings.displayPageX.replace("%s", imageFileName);
-                if(displayMode !== "text") {
-                    if(imageWidget) {
+                if (displayMode !== "text") {
+                    if (imageWidget) {
                         imageWidget.setImage(page.image_url);
                     }
                 }
-                if(displayMode !== "image") {
+                if (displayMode !== "image") {
                     // if the supplied round_id was invalid it will be replaced
                     // by the shown (first) option
                     const round = roundSelector.value;
                     params.set("round_id", round);
-                    ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`)
-                        .then(function(data) {
-                            textWidget.setText(data.text);
-                        }, ajaxAlert);
+                    ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`).then(function (data) {
+                        textWidget.setText(data.text);
+                    }, ajaxAlert);
                 }
                 replaceUrl();
             }
@@ -189,13 +188,13 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 // and emptying it here because the view splitter manipulates its
                 // style causing side-effects if re-using it
                 $(".imtext").remove();
-                const stretchDiv = $("<div>", {class: 'imtext stretch-box'});
+                const stretchDiv = $("<div>", { class: "imtext stretch-box" });
                 topDiv.append(stretchDiv);
                 // remove any old controls from controlSpan
                 controlSpan.children().detach();
 
-                if(displayMode === "image") {
-                    if(simpleHeader) {
+                if (displayMode === "image") {
+                    if (simpleHeader) {
                         controlSpan.append(pageControls);
                     } else {
                         controlSpan.append(textButton, imageTextButton, pageControls);
@@ -214,32 +213,32 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                         const roundControls = getRoundControls();
                         $(roundSelector).change(showImageText);
                         const textDiv = $("<div>");
-                        switch(displayMode) {
-                        case "text":
-                            textWidget = makeTextWidget(textDiv);
-                            textWidget.setup(storageKey);
-                            controlSpan.append(imageButton, imageTextButton, pageControls, roundControls);
-                            stretchDiv.append(textDiv);
-                            break;
-                        case "imageText": {
-                            const imageDiv = $("<div>");
-                            imageWidget = makeImageWidget(imageDiv);
-                            stretchDiv.append(imageDiv, textDiv);
-                            const theSplitter = viewSplitter(stretchDiv, storageKey);
-                            if(mentorMode) {
-                                // make a text widget with splitter
-                                textWidget = makeTextWidget(textDiv, true);
-                                theSplitter.mainSplit.onResize.add(textWidget.reLayout);
-                            } else {
+                        switch (displayMode) {
+                            case "text":
                                 textWidget = makeTextWidget(textDiv);
+                                textWidget.setup(storageKey);
+                                controlSpan.append(imageButton, imageTextButton, pageControls, roundControls);
+                                stretchDiv.append(textDiv);
+                                break;
+                            case "imageText": {
+                                const imageDiv = $("<div>");
+                                imageWidget = makeImageWidget(imageDiv);
+                                stretchDiv.append(imageDiv, textDiv);
+                                const theSplitter = viewSplitter(stretchDiv, storageKey);
+                                if (mentorMode) {
+                                    // make a text widget with splitter
+                                    textWidget = makeTextWidget(textDiv, true);
+                                    theSplitter.mainSplit.onResize.add(textWidget.reLayout);
+                                } else {
+                                    textWidget = makeTextWidget(textDiv);
+                                }
+                                theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
+                                theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
+                                theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
+                                controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
+                                theSplitter.fireSetSplitDir();
+                                break;
                             }
-                            theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
-                            theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
-                            theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
-                            controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
-                            theSplitter.fireSetSplitDir();
-                            break;
-                        }
                         }
                         showImageText();
                     });
@@ -270,26 +269,26 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 showCurrentPage(page);
             });
             controlSpan.append(initialPageControls);
-            if(displayMode !== "image") {
-                getRoundSelector().then(function() {
+            if (displayMode !== "image") {
+                getRoundSelector().then(function () {
                     controlSpan.append(getRoundControls());
                 });
             }
         }
 
         // if there are no pages in the project show alert message
-        if(pages.length === 0) {
+        if (pages.length === 0) {
             alert(proofIntData.strings.noPages);
             return;
         }
 
         function showCurrentImageFile(currentImageFileName) {
-            if(currentImageFileName) {
+            if (currentImageFileName) {
                 // does filename exist in the project?
-                const currentPage = pages.find( function(page) {
-                    return (currentImageFileName === page.image);
+                const currentPage = pages.find(function (page) {
+                    return currentImageFileName === page.image;
                 });
-                if(currentPage) {
+                if (currentPage) {
                     showCurrentPage(currentPage);
                 } else {
                     alert(proofIntData.strings.noPageX.replace("%s", currentImageFileName));
@@ -317,12 +316,12 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
         $(".imtext").remove();
         document.title = proofIntData.strings.browsePages;
 
-        const projectSelectButton = $("<input>", {type: 'button', value: proofIntData.strings.selectProject});
-        const projectInput = $("<input>", {type: 'text', required: true});
+        const projectSelectButton = $("<input>", { type: "button", value: proofIntData.strings.selectProject });
+        const projectInput = $("<input>", { type: "text", required: true });
 
         projectSelectButton.click(function () {
             projectId = projectInput.val();
-            if("" === projectId) {
+            if ("" === projectId) {
                 alert(proofIntData.strings.enterID);
                 return;
             }
@@ -331,39 +330,36 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
             getProjectData();
         });
 
-        fixHead.append($("<span>", {class: "nowrap"})
-            .append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
+        fixHead.append($("<span>", { class: "nowrap" }).append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
     }
 
     function getPages() {
         fixHead.append(controlSpan);
-        ajax("GET", `v1/projects/${projectId}/pages`)
-            .then(displayPages, ajaxAlert);
+        ajax("GET", `v1/projects/${projectId}/pages`).then(displayPages, ajaxAlert);
     }
 
     function showProjectInfo(projectData) {
         fixHead.empty();
         // show project name and button to select another
-        const resetButton = $("<input>", {type: 'button', value: proofIntData.strings.reset});
+        const resetButton = $("<input>", { type: "button", value: proofIntData.strings.reset });
         resetButton.click(function () {
             selectAProject();
         });
         const projectRef = new URL(proofIntData.projectFile);
         projectRef.searchParams.append("id", projectId);
-        fixHead.append($("<p>").append($("<a>", {href: projectRef}).append(projectData.title)), resetButton);
+        fixHead.append($("<p>").append($("<a>", { href: projectRef }).append(projectData.title)), resetButton);
         getPages();
     }
 
-    getProjectData = function() {
-        ajax("GET", `v1/projects/${projectId}`)
-            .then(showProjectInfo, function(data) {
-                ajaxAlert(data);
-                selectAProject();
-            });
+    getProjectData = function () {
+        ajax("GET", `v1/projects/${projectId}`).then(showProjectInfo, function (data) {
+            ajaxAlert(data);
+            selectAProject();
+        });
     };
 
-    if(projectId) {
-        if(!simpleHeader) {
+    if (projectId) {
+        if (!simpleHeader) {
             getProjectData();
         } else {
             getPages();

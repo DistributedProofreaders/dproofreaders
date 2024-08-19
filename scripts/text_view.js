@@ -24,7 +24,7 @@ function makeTextWidget(container, splitter = false) {
 
     // set up the font selector
     const fontFaces = proofIntData.font.faces;
-    Object.keys(fontFaces).forEach(function(index) {
+    Object.keys(fontFaces).forEach(function (index) {
         fontFaceSelector.add(new Option(fontFaces[index], index));
     });
 
@@ -36,12 +36,12 @@ function makeTextWidget(container, splitter = false) {
     });
 
     function setFontSize(fontSize) {
-        const fontSizeCss = (fontSize === '') ? 'unset' : fontSize;
+        const fontSizeCss = fontSize === "" ? "unset" : fontSize;
         textArea.style.fontSize = fontSizeCss;
     }
 
-    proofIntData.font.sizes.forEach(function(fontSize) {
-        const displayFontSize = (fontSize === '') ? proofIntData.strings.browserDefault : fontSize;
+    proofIntData.font.sizes.forEach(function (fontSize) {
+        const displayFontSize = fontSize === "" ? proofIntData.strings.browserDefault : fontSize;
         fontSizeSelector.add(new Option(displayFontSize, fontSize));
     });
 
@@ -53,10 +53,10 @@ function makeTextWidget(container, splitter = false) {
     });
 
     function setWrap(textWrap) {
-        textArea.wrap = textWrap ? 'soft' : 'off';
+        textArea.wrap = textWrap ? "soft" : "off";
     }
 
-    const wrapCheck = $("<input>", {type: 'checkbox'});
+    const wrapCheck = $("<input>", { type: "checkbox" });
 
     wrapCheck.change(function () {
         const textWrap = wrapCheck.prop("checked");
@@ -65,7 +65,7 @@ function makeTextWidget(container, splitter = false) {
         setWrap(textWrap);
     });
 
-    const wrapControl = $("<label>", {class: "nowrap", text: proofIntData.strings.wrap}).append(wrapCheck);
+    const wrapControl = $("<label>", { class: "nowrap", text: proofIntData.strings.wrap }).append(wrapCheck);
 
     const content = $("<div>");
     const controls = [fontFaceSelector, fontSizeSelector, wrapControl];
@@ -73,12 +73,12 @@ function makeTextWidget(container, splitter = false) {
     let subSplitter;
     let splitterKey;
     let textSplitData;
-    if(splitter) {
-        const topTextDiv = $("<div>", {class: "display-flex"}).append(textArea);
+    if (splitter) {
+        const topTextDiv = $("<div>", { class: "display-flex" }).append(textArea);
         const bottomTextDiv = $("<div>");
         content.append(topTextDiv, bottomTextDiv);
 
-        subSplitter = splitControl(content, {splitVertical: false});
+        subSplitter = splitControl(content, { splitVertical: false });
         controlDiv.onChange.add(subSplitter.reLayout);
 
         subSplitter.onDragEnd.add(function (percent) {
@@ -89,29 +89,28 @@ function makeTextWidget(container, splitter = false) {
         content.addClass("display-flex").append(textArea);
     }
     return {
-        setup: function(storageKey) {
+        setup: function (storageKey) {
             const textWidgetKey = storageKey + "-textwidget";
-            if(splitter) {
+            if (splitter) {
                 splitterKey = textWidgetKey + "-split";
                 textSplitData = JSON.parse(localStorage.getItem(splitterKey));
-                if(!textSplitData ||
-                   (typeof textSplitData.splitPercent !== 'number' &&
-                    typeof textSplitData.splitPercent !== 'string')) {
-                    textSplitData = {splitPercent: 100};
+                if (!textSplitData || (typeof textSplitData.splitPercent !== "number" && typeof textSplitData.splitPercent !== "string")) {
+                    textSplitData = { splitPercent: 100 };
                 }
                 subSplitter.setSplitPercent(textSplitData.splitPercent);
             }
             textKey = textWidgetKey + "-text";
             textData = JSON.parse(localStorage.getItem(textKey));
-            if(!textData ||
+            if (
+                !textData ||
                 typeof textData.textWrap !== "string" ||
-                (typeof textData.fontFaceIndex !== "number" &&
-                typeof textData.fontFaceIndex !== "string") ||
-                typeof textData.fontSize !== "string") {
+                (typeof textData.fontFaceIndex !== "number" && typeof textData.fontFaceIndex !== "string") ||
+                typeof textData.fontSize !== "string"
+            ) {
                 textData = {
                     textWrap: "N",
                     fontFaceIndex: 0,
-                    fontSize: ""
+                    fontSize: "",
                 };
             }
             // find the corresponding selector option and select it
@@ -125,7 +124,7 @@ function makeTextWidget(container, splitter = false) {
             setFontSize(currentFontSize);
 
             // stored value is "W" or "N", if not set textWrap will be false
-            const textWrap = ("W" === textData.textWrap);
+            const textWrap = "W" === textData.textWrap;
             wrapCheck.prop("checked", textWrap);
             setWrap(textWrap);
 
@@ -139,7 +138,7 @@ function makeTextWidget(container, splitter = false) {
         },
 
         reLayout: function () {
-            if(splitter) {
+            if (splitter) {
                 subSplitter.reLayout();
             }
         },

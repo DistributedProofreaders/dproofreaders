@@ -29,9 +29,24 @@ guide in the wiki.
 
 ## Javascript
 
-We use [eslint](https://eslint.org/) for basic JS code styling and linting.
+We use [prettier](https://prettier.io/) for JS
+code formatting.
 
-To run the linter: `npm run lint`
+prettier is included as an npm development dependency and can be installed
+with:
+```bash
+npm install
+```
 
-To have eslint auto-fix linting issues where it can: `npm run lint-fix`
+Npm can be installed with node as documented in [DEVELOPMENT](DEVELOPMENT.md).
+
+To run the linter:
+```bash
+npm run format-check
+```
+
+To have prettier auto-fix formatting issues where it can run:
+```bash
+npm run format
+```
 

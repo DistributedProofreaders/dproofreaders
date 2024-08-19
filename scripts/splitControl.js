@@ -18,7 +18,7 @@
  * setSplit(vertical): a function to change the splitDirection.
  * reLayout(): a function to re-draw the panes, this should be called after
  *     drawing any divs surrounding the container. If this splitter is
-*      inside another splitter it should be called by onResize of the
+ *      inside another splitter it should be called by onResize of the
  *     parent splitter. If this is the top level splitter it should be
  *     called when the window is resized.
  * onResize: a set of functions which are called when relayout has been called
@@ -28,18 +28,18 @@
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
-var splitControl = function(container, {splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray", splitLimit = 0.1} = {}) {
+var splitControl = function (container, { splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray", splitLimit = 0.1 } = {}) {
     let splitRatio = splitPercent / 100;
     // base, splitPos, range units in principal direction
     let base;
     let splitPos;
     let range;
-    container = $(container).css({display: 'flex'});
+    container = $(container).css({ display: "flex" });
     let children = container.children();
-    let pane1 = $(children[0]).css({overflow: 'auto'});
-    let pane2 = $(children[1]).css({flex: '1 1 1px', overflow: 'auto'});
+    let pane1 = $(children[0]).css({ overflow: "auto" });
+    let pane2 = $(children[1]).css({ flex: "1 1 1px", overflow: "auto" });
 
-    let dragBar = $("<div>").css({"background-color": dragBarColor, flex: `0 0 ${dragBarSize}px`});
+    let dragBar = $("<div>").css({ "background-color": dragBarColor, flex: `0 0 ${dragBarSize}px` });
     pane1.after(dragBar);
 
     // coordinates of the container
@@ -52,27 +52,27 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
     function moveSplit() {
         splitRatio = Math.max(splitRatio, splitLimit);
         splitRatio = Math.min(splitRatio, 1 - splitLimit);
-        splitPos = base + (range * splitRatio);
-        pane1.css({flex: `0 0 ${splitPos - base}px`});
+        splitPos = base + range * splitRatio;
+        pane1.css({ flex: `0 0 ${splitPos - base}px` });
         onResize.forEach(function (reSizeCallback) {
             reSizeCallback();
         });
     }
 
     function reLayout() {
-        container.css('overflow', 'hidden');
+        container.css("overflow", "hidden");
         height = container.height();
         width = container.width();
         let containerOffset = container.offset();
         let divTop = containerOffset.top;
         let divLeft = containerOffset.left;
         if (splitVertical) {
-            container.css({flexDirection: 'row'});
+            container.css({ flexDirection: "row" });
             range = width;
             base = divLeft;
             dragBar.css("cursor", "ew-resize");
         } else {
-            container.css({flexDirection: 'column'});
+            container.css({ flexDirection: "column" });
             range = height;
             base = divTop;
             dragBar.css("cursor", "ns-resize");
@@ -90,8 +90,8 @@ var splitControl = function(container, {splitVertical = true, splitPercent = 50,
     }
 
     function dragMove(event) {
-        splitPos = (splitVertical) ? event.pageX : event.pageY;
-        if(range > 0) {
+        splitPos = splitVertical ? event.pageX : event.pageY;
+        if (range > 0) {
             splitRatio = (splitPos - base) / range;
         }
         moveSplit();
