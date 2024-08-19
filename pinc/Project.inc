@@ -182,6 +182,7 @@ class ProjectPage
  * @property-read string $PPVer
  * @property-read bool $PPer_is_current_user
  * @property-read bool $PPVer_is_current_user
+ * @property-read bool $forum_url
  */
 class Project
 {
@@ -707,6 +708,8 @@ class Project
                 return is_null($pguser) ? false : $this->PPer == $pguser;
             case "PPVer_is_current_user":
                 return is_null($pguser) ? false : $this->PPVer == $pguser;
+            case "forum_url":
+                return $this->topic_id ? get_url_to_view_topic($this->topic_id) : "";
         }
 
         // If we don't recognize the property, raise a notice and return null

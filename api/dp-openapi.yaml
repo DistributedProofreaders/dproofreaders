@@ -1277,6 +1277,9 @@ components:
           type: string
           format: dateTime
           readOnly: true
+        forum_url:
+          type: string
+          readOnly: true
       description: A project represents a unique project object in the system. It
         includes a great deal of information, some fields of which are calculated
         and not directly modifiable. Not all fields are available to all users. Fields

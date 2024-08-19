@@ -185,6 +185,7 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
         "last_page_done_time" => ["sql_name" => "t_last_page_done"],
         "last_edit_time" => ["sql_name" => "t_last_edit"],
         "smoothread_deadline" => ["sql_name" => "smoothread_deadline"],
+        "forum_url" => ["sql_name" => "forum_url"],
     ];
 
     // If accessing a single project using the api/v1/projects/:id endpoint,
@@ -357,6 +358,7 @@ function render_project_json(Project $project, ?array $return_fields = null)
             "last_page_done_time" => date(DATE_ATOM, $project->t_last_page_done),
             "last_edit_time" => date(DATE_ATOM, $project->t_last_edit),
             "smoothread_deadline" => date(DATE_ATOM, $project->smoothread_deadline),
+            "forum_url" => $project->forum_url,
         ]
     );
 
