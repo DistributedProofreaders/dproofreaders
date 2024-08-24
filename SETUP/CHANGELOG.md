@@ -7,13 +7,30 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R??????
+## R202409
 Scripts supporting this upgrade are in `SETUP/upgrade/21`
 
-**This is the last release to support PHP 7.4. Future releases will only
-support PHP 8.0 and later.**
+### Notices & Deprecations
+
+This is the last release to support PHP 7.4. Future releases will only
+support PHP 8.1 and later.
+
+This is the last release to support the Hieroglyphs tool. WikiHiero which backs
+the tool has been unsupported for 20+ years and was written for PHP 4.3.3.
+
+### Changes
 
 * Updated minimum middleware to MySQL 8.0 (cpeel)
+* The deprecated globals mentioned in the last release notes were removed (cpeel)
+* Most `faq/*` content has been deleted (cpeel)
+* A `metadata.json` file has replaced `dc.xml` in the project directory (cpeel)
+* New API endpoints for proofreading (70ray)
+* Cronjobs now run through common interface with SA UI to show job status (cpeel)
+* Typing added to numerous functions and classes (bpfoley, jchaffraix)
+* XML feed types removed and feed backend improved (mrducky4)
+* Navigation bar updates for smaller screens (cpeel)
+* New site search page (cpeel)
+* `past_tallies` is now a sparse table (cpeel)
 
 ## R202403
 Scripts supporting this upgrade are in `SETUP/upgrade/20`
