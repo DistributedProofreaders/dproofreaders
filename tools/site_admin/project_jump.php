@@ -29,22 +29,22 @@ echo "<p>" . _("Jump a project to a specific state.") . "</p>\n";
 
 switch ($action) {
     case 'showform':
-        display_form("showform", $projectid, $new_state);
+        display_project_jump_form("showform", $projectid, $new_state);
         break;
 
     case 'check':
-        do_stuff($projectid, $new_state, true);
-        display_form("check", $projectid, $new_state);
+        jump_project($projectid, $new_state, true);
+        display_project_jump_form("check", $projectid, $new_state);
         break;
 
     case 'dojump':
-        do_stuff($projectid, $new_state, false);
+        jump_project($projectid, $new_state, false);
         echo "\n\n" . return_to_project_page_link($projectid) . "\n";
         break;
 }
 
 
-function display_form($action, $projectid, $new_state)
+function display_project_jump_form(string $action, ?string $projectid, ?string $new_state)
 {
     echo "<form method='post'>\n";
     echo "<table>\n";
@@ -84,7 +84,7 @@ function display_form($action, $projectid, $new_state)
     echo "</form>";
 }
 
-function do_stuff($projectid, $new_state, $just_checking)
+function jump_project(string $projectid, string $new_state, bool $just_checking)
 {
     global $pguser;
     $project = new Project($projectid);

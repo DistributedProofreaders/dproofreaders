@@ -41,14 +41,14 @@ if (is_array($from_image_)) {
 
 $action = get_enumerated_param($_POST, 'action', 'showform', ['showform', 'showagain', 'check', 'docopy']);
 $page_name_handling = get_enumerated_param($_POST, 'page_name_handling', null, ['PRESERVE_PAGE_NAMES', 'RENUMBER_PAGES'], true);
-$transfer_notifications = get_integer_param($_POST, 'transfer_notifications', 0, 0, 1);
-$add_deletion_reason = get_integer_param($_POST, 'add_deletion_reason', 0, 0, 1);
-$merge_wordcheck_data = get_integer_param($_POST, 'merge_wordcheck_data', 0, 0, 1);
+$transfer_notifications = get_bool_param($_POST, 'transfer_notifications', false);
+$add_deletion_reason = get_bool_param($_POST, 'add_deletion_reason', false);
+$merge_wordcheck_data = get_bool_param($_POST, 'merge_wordcheck_data', false);
 $repeat_project = get_enumerated_param($_POST, 'repeat_project', null, ['TO', 'FROM', 'NONE'], true);
 
 switch ($action) {
     case 'showform':
-        display_form(
+        display_copy_pages_form(
             $projectid_,
             $from_image_,
             $page_name_handling,
@@ -61,7 +61,7 @@ switch ($action) {
         break;
 
     case 'showagain':
-        display_form(
+        display_copy_pages_form(
             $projectid_,
             $from_image_,
             $page_name_handling,
@@ -74,7 +74,7 @@ switch ($action) {
         break;
 
     case 'check':
-        do_stuff(
+        copy_pages(
             $projectid_,
             $from_image_,
             $page_name_handling,
@@ -100,7 +100,7 @@ switch ($action) {
         break;
 
     case 'docopy':
-        do_stuff(
+        copy_pages(
             $projectid_,
             $from_image_,
             $page_name_handling,
@@ -145,15 +145,15 @@ switch ($action) {
         break;
 }
 
-function display_form(
-    $projectid_,
-    $from_image_,
-    $page_name_handling,
-    $transfer_notifications,
-    $add_deletion_reason,
-    $merge_wordcheck_data,
-    $repeat_project,
-    $repeating
+function display_copy_pages_form(
+    ?array $projectid_,
+    ?array $from_image_,
+    ?string $page_name_handling,
+    bool $transfer_notifications,
+    bool $add_deletion_reason,
+    bool $merge_wordcheck_data,
+    ?string $repeat_project,
+    bool $repeating
 ) {
     echo "<form method='post'>\n";
     echo "<table class='copy'>\n";
@@ -233,7 +233,7 @@ function display_form(
 
 // Display table row with a fieldset containing a pair of radio buttons, one selected.
 // NB $input_name must be a valid HTML ID (i.e. no spaces and shouldn't start with a number)
-function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checked)
+function do_radio_button_pair(string $prompt, string $input_name, bool $repeating, bool $first_is_checked)
 {
     if (!$repeating || $first_is_checked) {
         $checked1 = 'CHECKED';
@@ -257,34 +257,34 @@ function do_radio_button_pair($prompt, $input_name, $repeating, $first_is_checke
 }
 
 function display_hiddens(
-    $projectid_,
-    $from_image_,
-    $page_name_handling,
-    $transfer_notifications,
-    $add_deletion_reason,
-    $merge_wordcheck_data
+    array $projectid_,
+    array $from_image_,
+    string $page_name_handling,
+    bool $transfer_notifications,
+    bool $add_deletion_reason,
+    bool $merge_wordcheck_data
 ) {
     echo "\n<input type='hidden' name='from_image_[lo]'        value='" . attr_safe($from_image_['lo']) . "'>";
     echo "\n<input type='hidden' name='from_image_[hi]'        value='" . attr_safe($from_image_['hi']) . "'>";
     echo "\n<input type='hidden' name='projectid_[from]'       value='" . attr_safe($projectid_['from']) . "'>";
     echo "\n<input type='hidden' name='projectid_[to]'         value='" . attr_safe($projectid_['to']) . "'>";
     echo "\n<input type='hidden' name='page_name_handling'     value='" . attr_safe($page_name_handling) . "'>";
-    echo "\n<input type='hidden' name='transfer_notifications' value='" . attr_safe($transfer_notifications) . "'>";
-    echo "\n<input type='hidden' name='add_deletion_reason'    value='" . attr_safe($add_deletion_reason) . "'>";
-    echo "\n<input type='hidden' name='merge_wordcheck_data'   value='" . attr_safe($merge_wordcheck_data) . "'>";
+    echo "\n<input type='hidden' name='transfer_notifications' value='" . ($transfer_notifications ? 1 : 0) . "'>";
+    echo "\n<input type='hidden' name='add_deletion_reason'    value='" . ($add_deletion_reason ? 1 : 0) . "'>";
+    echo "\n<input type='hidden' name='merge_wordcheck_data'   value='" . ($merge_wordcheck_data ? 1 : 0) . "'>";
 }
 
-function do_stuff(
-    $projectid_,
-    $from_image_,
-    $page_name_handling,
-    $transfer_notifications,
-    $add_deletion_reason,
-    $merge_wordcheck_data,
-    $just_checking
+function copy_pages(
+    ?array $projectid_,
+    ?array $from_image_,
+    string $page_name_handling,
+    bool $transfer_notifications,
+    bool $add_deletion_reason,
+    bool $merge_wordcheck_data,
+    bool $just_checking
 ) {
     if (is_null($projectid_)) {
-        throw new RuntimeException("No projectid data supplied to do_stuff()");
+        throw new RuntimeException("No projectid data supplied to copy_pages()");
     }
 
     $project_obj = [
@@ -741,7 +741,7 @@ function do_stuff(
     }
 }
 
-function str_max(& $arr)
+function str_max(array & $arr)
 {
     $max_so_far = null;
     foreach ($arr as $s) {
