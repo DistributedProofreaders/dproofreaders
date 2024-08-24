@@ -284,7 +284,7 @@ function do_stuff(
     $just_checking
 ) {
     if (is_null($projectid_)) {
-        error_and_die("No projectid data supplied to do_stuff()");
+        throw new RuntimeException("No projectid data supplied to do_stuff()");
     }
 
     $project_obj = [
@@ -293,18 +293,18 @@ function do_stuff(
     ];
 
     if ($projectid_['from'] == $projectid_['to']) {
-        error_and_die("You can't copy a project into itself.");
+        throw new RuntimeException("You can't copy a project into itself.");
     }
 
     foreach (['from', 'to'] as $which) {
         $project = $project_obj[$which];
 
         if (!$project->check_pages_table_exists($message)) {
-            error_and_die("Project {$project->projectid}: $message");
+            throw new RuntimeException("Project {$project->projectid}: $message");
         }
 
         if (!$project->is_utf8) {
-            error_and_die("Project table {$project->projectid} is not UTF-8.");
+            throw new RuntimeException("Project table {$project->projectid} is not UTF-8.");
         }
 
         $sql = "DESCRIBE {$project->projectid}";
@@ -358,7 +358,7 @@ function do_stuff(
         echo "</h3>";
 
         if ($which == 'from' && $n_pages == 0) {
-            error_and_die("Project {$project->projectid} has no page data to extract");
+            throw new RuntimeException("Project {$project->projectid} has no page data to extract");
         }
 
         echo "<table class='copy'>";
@@ -410,15 +410,15 @@ function do_stuff(
             $hi_i = array_search($hi, $all_image_values);
 
             if ($lo_i === false) {
-                error_and_die("Project {$project->projectid} does not have a page with image='$lo'");
+                throw new RuntimeException("Project {$project->projectid} does not have a page with image='$lo'");
             }
 
             if ($hi_i === false) {
-                error_and_die("Project {$project->projectid} does not have a page with image='$hi'");
+                throw new RuntimeException("Project {$project->projectid} does not have a page with image='$hi'");
             }
 
             if ($lo_i > $hi_i) {
-                error_and_die("Low end of range ($lo) is greater than high end ($hi)");
+                throw new RuntimeException("Low end of range ($lo) is greater than high end ($hi)");
             }
 
             $n_pages_to_copy = 1 + $hi_i - $lo_i;
@@ -477,7 +477,7 @@ function do_stuff(
             $c_dst_start_b = 1 + intval($max_dst_base);
         }
     } else {
-        error_and_die("Bad \$page_name_handling");
+        throw new ValueError("Bad \$page_name_handling");
     }
 
     // The c_ prefix means that it only pertains to *copied* pages.
@@ -520,7 +520,7 @@ function do_stuff(
             echo html_safe("    $clashing_image_value\n");
         }
         echo "</pre>\n";
-        error_and_die(_("Aborting due to page name collisions!"));
+        throw new RuntimeException(_("Aborting due to page name collisions!"));
     }
 
     $clashing_fileid_values = array_intersect($c_dst_fileid_, $all_fileid_values_['to']);
@@ -534,7 +534,7 @@ function do_stuff(
             echo html_safe("    $clashing_fileid_value\n");
         }
         echo "</pre>\n";
-        error_and_die(_("Aborting due to page name collisions!"));
+        throw new RuntimeException(_("Aborting due to page name collisions!"));
     }
 
     echo "<p>";
@@ -596,7 +596,7 @@ function do_stuff(
     echo "<p>" . _("Changing into projects directory:");
     echo " (<code>cd " . html_safe($projects_dir) . "</code>)" . "</p>\n";
     if (! chdir($projects_dir)) {
-        error_and_die("Unable to 'cd " . html_safe($projects_dir) . "'");
+        throw new RuntimeException("Unable to 'cd " . html_safe($projects_dir) . "'");
     }
 
     $items_array = [];
@@ -663,7 +663,7 @@ function do_stuff(
             $n = DPDatabase::affected_rows();
             echo sprintf(_("%d rows inserted."), $n) . "\n";
             if ($n != 1) {
-                error_and_die("unexpected number of rows inserted");
+                throw new RuntimeException("unexpected number of rows inserted");
             }
         }
 
@@ -750,10 +750,4 @@ function str_max(& $arr)
         }
     }
     return $s;
-}
-
-function error_and_die($message)
-{
-    echo "<p class='error'>" . html_safe($message) . "</p>";
-    exit();
 }

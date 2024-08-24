@@ -96,11 +96,11 @@ function do_stuff($projectid, $new_state, $just_checking)
     // ----------------------
 
     if ($project->state == $new_state) {
-        error_and_die("Project is already in {$new_state}");
+        throw new RuntimeException("Project is already in {$new_state}");
     }
 
     if (!$project->pages_table_exists) {
-        error_and_die("Project does not have a pages table and cannot be jumped to a new state");
+        throw new RuntimeException("Project does not have a pages table and cannot be jumped to a new state");
     }
 
     if ($just_checking) {
@@ -133,11 +133,4 @@ function do_stuff($projectid, $new_state, $just_checking)
         'Project jumped to correct state'
     );
     echo "</pre>";
-}
-
-function error_and_die($message)
-{
-    echo "</pre>";
-    echo "<p class='error'>" . html_safe($message) . "</p>";
-    die();
 }
