@@ -98,7 +98,7 @@ $Proofing_Interface_Help_URL = make_forum_url("t", $Proofing_Interface_Help_id, 
 $XHTML_suggestion_URL = make_forum_url("t", $XHTML_suggestion_id, 4405);
 
 /** @param string|int $id */
-function make_forum_url(string $type, $id, string $default): string
+function make_forum_url(string $type, int $id, string $default): string
 {
     // If $id is non-zero, return a URL to a local forum/topic/post
     if ($id) {
