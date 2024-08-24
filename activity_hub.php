@@ -13,7 +13,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'mentorbanner.inc');
+include_once($relPath.'mentoring.inc');
 include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'Settings.inc');
 include_once($relPath.'faq.inc');
