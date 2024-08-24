@@ -38,17 +38,17 @@ $action = get_enumerated_param($_POST, 'action', 'showform', ['showform', 'check
 
 switch ($action) {
     case 'showform':
-        display_form('showform', $projectid, $from_image_);
+        display_delete_pages_form('showform', $projectid, $from_image_);
         break;
 
     case 'check':
-        do_stuff($projectid, $from_image_, true);
-        display_form('check', $projectid, $from_image_);
+        delete_pages($projectid, $from_image_, true);
+        display_delete_pages_form('check', $projectid, $from_image_);
 
         break;
 
     case 'dodelete':
-        do_stuff($projectid, $from_image_, false);
+        delete_pages($projectid, $from_image_, false);
 
         $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid}&amp;show_image_size=0";
         echo "<a href='$url'>" . _("Project's detail page") . "</a>\n";
@@ -56,7 +56,7 @@ switch ($action) {
         break;
 }
 
-function display_form($action, $projectid, $from_image_)
+function display_delete_pages_form(string $action, ?string $projectid, ?array $from_image_)
 {
     echo "<form method='post'>\n";
     echo "<table class='delete'>\n";
@@ -97,7 +97,7 @@ function display_form($action, $projectid, $from_image_)
     echo "<p><b>Note:</b> 'pages' are specified by their designation in the project table: e.g., '001.png'</p>\n";
 }
 
-function do_stuff($projectid, $from_image_, $just_checking)
+function delete_pages(?string $projectid, ?array $from_image_, bool $just_checking)
 {
     echo "<pre>";
 
