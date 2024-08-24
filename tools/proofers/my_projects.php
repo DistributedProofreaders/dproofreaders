@@ -111,7 +111,7 @@ if (mysqli_num_rows($res) == 0) {
 
     $n_rows_displayed = 0;
     while ($row = mysqli_fetch_object($res)) {
-        if ($row->state == PROJ_DELETE) {
+        if ($row->state == PROJ_DELETE && $round_view != "bookmark") {
             // it's been deleted. see if it's been merged into another one.
             if (str_contains($row->deletion_reason, 'merged') &&
                 (1 == preg_match(

@@ -77,7 +77,7 @@ $extra_args = [
 
 output_header($title_for_theme, NO_STATSBAR, $extra_args);
 
-echo "<h1>" . get_bookmark_form() . html_safe($title)  . "</h1>\n";
+echo "<h1>" . get_bookmark_form() . html_safe($title) . "</h1>\n";
 
 maybe_output_new_proofer_project_message($project);
 
