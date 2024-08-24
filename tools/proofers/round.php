@@ -8,7 +8,7 @@ include_once($relPath.'showavailablebooks.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'gradual.inc');
 include_once($relPath.'site_news.inc');
-include_once($relPath.'mentorbanner.inc');
+include_once($relPath.'mentoring.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'faq.inc');
 
