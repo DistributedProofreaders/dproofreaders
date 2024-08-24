@@ -1,13 +1,6 @@
 <?php
-/*
-     Displays information useful to Mentors.
-    (i.e. those who are second-round proofreading projects with difficulty = "BEGINNER")
-
-    ************************************
-*/
 $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
-include_once($relPath.'dpsql.inc');          // for dpsql_dump_query
 include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
@@ -169,13 +162,13 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
     output_project_label("<a href='$proj_url'>" . html_safe($nameofwork) . "</a>", html_safe($authorsname));
     echo "</p>" ;
 
-    dpsql_dump_query(page_summary_sql($mentored_round, $projectid));
+    output_page_summary_table($mentored_round, $projectid);
 
     echo "<p>" ;
     echo _('Which proofreader did each page...') ;
     echo "</p>";
 
-    dpsql_dump_query(page_list_sql($mentored_round, $projectid));
+    output_page_list_table($mentored_round, $projectid);
 }
 
 // -------------------------------------------------------------------
@@ -214,7 +207,7 @@ function get_beginner_projects_in_state(string $state, Round $mentored_round): a
 
 // -------------------------------------------------------------------
 
-function page_summary_sql($mentored_round, $projectid)
+function output_page_summary_table(Round $mentored_round, string $projectid)
 {
     global $code_url;
 
@@ -223,32 +216,54 @@ function page_summary_sql($mentored_round, $projectid)
     [$joined_with_user_page_tallies, $user_page_tally_column] =
             $round_tallyboard->get_sql_joinery_for_current_tallies('u.u_id');
 
-
-    $mdetail_a_href = "<a href=\"{$code_url}/stats/members/mdetail.php?&id=";
-    $proofreader = DPDatabase::escape(_("Proofreader"));
-    $pages_this_project = DPDatabase::escape(_("Pages this project"));
+    echo "<table class='striped basic'>";
+    echo "<tr>";
+    echo "<th>" . _("Proofreader") . "</th>";
+    echo "<th>" . _("Pages this project") . "</th>";
     // TRANSLATORS: %s is a round ID
-    $total_pages = DPDatabase::escape(sprintf(_("Total %s Pages"), $mentored_round->id));
-    $joined = DPDatabase::escape(_("Joined"));
-    return "
+    echo "<th>" . sprintf(_("Total %s Pages"), $mentored_round->id) . "</th>";
+    echo "<th>" . _("Joined") . "</th>";
+    echo "</tr>";
+
+    validate_projectID($projectid);
+    $sql = "
         SELECT
-            CASE WHEN u.u_privacy = " . PRIVACY_ANONYMOUS . " THEN u.username
-            ELSE CONCAT('$mdetail_a_href', u.u_id, '\">', u.username,'</a>')
-            END AS '$proofreader',
-            COUNT(1) AS '$pages_this_project',
-            $user_page_tally_column AS '$total_pages',
-            DATE_FORMAT(FROM_UNIXTIME(u.date_created),'%Y %b %d %H:%i') AS '$joined'
-        FROM $projectid  AS p
+            u.username AS username,
+            u.u_id as u_id,
+            COUNT(1) AS pages_this_project,
+            $user_page_tally_column AS total_pages,
+            u.date_created AS joined
+        FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             $joined_with_user_page_tallies
         GROUP BY p.{$mentored_round->user_column_name}
     ";
+    $res = DPDatabase::query($sql);
+    while ($row = mysqli_fetch_assoc($res)) {
+        echo "<tr>";
+        echo "<td>" . sprintf("<a href='{$code_url}/stats/members/mdetail.php?&id=%d'>%s</a>", $row["u_id"], $row["username"]) . "</td>";
+        echo "<td>" . $row["pages_this_project"] . "</td>";
+        echo "<td>" . $row["total_pages"] . "</td>";
+        echo "<td>" . icu_date("yyyy MMM dd HH:mm", $row["joined"]) . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 }
 
 // -------------------------------------------------------------------
 
-function page_list_sql($mentored_round, $projectid)
+function output_page_list_table(Round $mentored_round, string $projectid)
 {
+    echo "<table class='striped basic'>";
+    echo "<tr>";
+    echo "<th>" . _("Page") . "</th>";
+    echo "<th>" . _("Saved") . "</th>";
+    echo "<th>" . _("Proofreader") . "</th>";
+    echo "<th>" . _("WordCheck Events") . "</th>";
+    echo "</tr>";
+
+    validate_projectID($projectid);
+
     // copied from pinc/LPage.inc:
     $order = "
         (
@@ -261,25 +276,30 @@ function page_list_sql($mentored_round, $projectid)
         image
     ";
 
-    $page = DPDatabase::escape(_("Page"));
-    $saved = DPDatabase::escape(_("Saved"));
-    $proofreader = DPDatabase::escape(_("Proofreader"));
-    $wc_events = DPDatabase::escape(_("WordCheck Events"));
-
-    return "
+    $sql = "
         SELECT
-            p.fileid AS '$page',
-            DATE_FORMAT(FROM_UNIXTIME(p.{$mentored_round->time_column_name}),'%Y %b %d %H:%i') AS '$saved',
-            p.{$mentored_round->user_column_name} AS '$proofreader',
+            p.fileid AS page,
+            p.{$mentored_round->time_column_name} AS saved_date,
+            p.{$mentored_round->user_column_name} AS username,
             (SELECT count(*)
              FROM wordcheck_events
              WHERE projectid = '$projectid'
                 AND round_id = '$mentored_round->id'
                 AND username = p.{$mentored_round->user_column_name}
                 AND SUBSTRING_INDEX(image, '.', 1)=p.fileid
-            ) AS '$wc_events'
+            ) AS wc_events
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY $order
     ";
+    $res = DPDatabase::query($sql);
+    while ($row = mysqli_fetch_assoc($res)) {
+        echo "<tr>";
+        echo "<td>" . $row["page"] . "</td>";
+        echo "<td>" . icu_date("yyyy MMM dd HH:mm", $row["saved_date"]) . "</td>";
+        echo "<td>" . $row["username"] . "</td>";
+        echo "<td>" . $row["wc_events"] . "</td>";
+        echo "</tr>";
+    }
+    echo "</table>";
 }
