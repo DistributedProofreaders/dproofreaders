@@ -26,9 +26,7 @@ $ok_files = [
     // API
     "api/index.php",
     // FAQs
-    "faq/default.php",
     "faq/doc-copy.php",
-    "faq/faq_central.php",
     "faq/font_sample.php",
     "faq/privacy.php",
     "faq/prooffacehelp.php",
