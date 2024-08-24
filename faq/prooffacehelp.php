@@ -666,13 +666,3 @@ Below the tags are several links to both popup tools and documentation.
 <p>
 Opens this help page.
 </p>
-
-<hr>
-
-<p>
-    If you have suggestions for how this documentation can be improved,
-    or find an error in it,
-    or can make a clarification,
-    please post a message in
-    <a href='<?php echo $Proofing_Interface_Help_URL; ?>'>this forum topic</a>.
-</p>
