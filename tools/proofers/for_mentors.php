@@ -12,12 +12,13 @@ include_once($relPath.'prefs_options.inc');  // for PRIVACY_* constants
 include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
 include_once($relPath.'Project.inc');
+include_once($relPath.'mentoring.inc');
 
 require_login();
 
 // Display page header.
 $title = _("For Mentors");
-output_header($title);
+output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
@@ -40,14 +41,10 @@ if (!$mentoring_round) {
     }
 
     if (!isset($mentoring_round)) {
-        // Just take the first.
-        foreach (Rounds::get_all() as $round) {
-            if ($round->is_a_mentor_round()) {
-                $mentoring_round = $round;
-                break;
-            }
-        }
-        if (!isset($mentoring_round)) {
+        $mentoring_rounds = get_mentoring_rounds();
+        if ($mentoring_rounds) {
+            $mentoring_round = $mentoring_rounds[0];
+        } else {
             die("There are no mentoring rounds!");
         }
     }

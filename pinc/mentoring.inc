@@ -1,5 +1,17 @@
 <?php
-function mentor_banner($round)
+function get_mentoring_rounds(): array
+{
+    $mentoring_rounds = [];
+    foreach (Rounds::get_all() as $round) {
+        if ($round->is_a_mentor_round()) {
+            $mentoring_rounds[] = $round;
+            break;
+        }
+    }
+    return $mentoring_rounds;
+}
+
+function mentor_banner(Round $round)
 {
     global $code_url;
 
