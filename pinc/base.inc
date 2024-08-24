@@ -99,12 +99,22 @@ function production_exception_handler($exception)
         exit(1);
     }
 
-    echo "<br>\n";
+    echo "<p class='error'>\n";
     echo html_safe($exception->getMessage());
+    echo "\n</p>";
 }
 
 function test_exception_handler($exception)
 {
+    // Show what users would see on PROD. We don't want to call
+    // production_exception_handler() here because we don't want the special
+    // handling on DB connection error.
+    echo "<p class='error'>\n";
+    echo html_safe($exception->getMessage());
+    echo "\n</p>";
+
+    // Output the stacktrace in a preformatted block
+    echo "<pre>\n";
     throw $exception;
 }
 
