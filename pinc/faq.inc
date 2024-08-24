@@ -97,7 +97,6 @@ $Stealth_Scannos_URL = make_forum_url("t", $Stealth_Scannos_id, 1563);
 $Proofing_Interface_Help_URL = make_forum_url("t", $Proofing_Interface_Help_id, 2739);
 $XHTML_suggestion_URL = make_forum_url("t", $XHTML_suggestion_id, 4405);
 
-/** @param string|int $id */
 function make_forum_url(string $type, int $id, string $default): string
 {
     // If $id is non-zero, return a URL to a local forum/topic/post
@@ -157,42 +156,6 @@ function get_faq_url(string $faq, ?string $langcode = null): string
     }
 
     return "";
-}
-
-/** @return array<string, string> */
-function get_all_urls_for_faq(string $faq): array
-{
-    global $code_dir, $code_url;
-    global $external_faq_overrides;
-
-    $urls = [];
-
-    if (is_file("$code_dir/faq/$faq")) {
-        $urls["en"] = "$code_url/faq/$faq";
-    }
-
-    $subdirs = scandir("$code_dir/faq");
-    foreach ($subdirs as $dir) {
-        if ($dir == "." or $dir == ".." or is_file("$code_dir/faq/$dir")) {
-            continue;
-        }
-
-        $files = scandir("$code_dir/faq/$dir");
-        foreach ($files as $file) {
-            if (endswith($file, $faq)) {
-                $urls[$dir] = "$code_url/faq/$dir/$faq";
-            }
-        }
-    }
-
-    // Override with any external links
-    if (isset($external_faq_overrides[$faq])) {
-        foreach ($external_faq_overrides[$faq] as $langcode => $url) {
-            $urls[$langcode] = $url;
-        }
-    }
-
-    return $urls;
 }
 
 function get_external_faq(string $faq, string $langcode): ?string
