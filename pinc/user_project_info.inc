@@ -76,6 +76,43 @@ function upi_set_t_latest_page_event($username, $projectid, $timestamp)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+function upi_set_bookmark(string $username, string $projectid, bool $bookmark = true)
+{
+    $sql = sprintf(
+        "
+        INSERT INTO user_project_info
+        SET
+            username  = '%s',
+            projectid = '%s',
+            bookmark  = %d
+        ON DUPLICATE KEY UPDATE
+            bookmark = %d
+        ",
+        DPDatabase::escape($username),
+        DPDatabase::escape($projectid),
+        $bookmark ? 1 : 0,
+        $bookmark ? 1 : 0
+    );
+    DPDatabase::query($sql);
+}
+
+function upi_get_bookmark(string $username, string $projectid)
+{
+    $sql = sprintf(
+        "
+        SELECT bookmark
+        FROM user_project_info
+        WHERE username = '%s' AND projectid = '%s'
+        ",
+        DPDatabase::escape($username),
+        DPDatabase::escape($projectid)
+    );
+    $result = DPDatabase::query($sql);
+    [$bookmark] = mysqli_fetch_row($result);
+    return $bookmark;
+}
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function get_subscribable_project_events()
 {

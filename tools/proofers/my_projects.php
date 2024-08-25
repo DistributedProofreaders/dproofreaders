@@ -111,7 +111,7 @@ if (mysqli_num_rows($res) == 0) {
 
     $n_rows_displayed = 0;
     while ($row = mysqli_fetch_object($res)) {
-        if ($row->state == PROJ_DELETE) {
+        if ($row->state == PROJ_DELETE && $round_view != "bookmark") {
             // it's been deleted. see if it's been merged into another one.
             if (str_contains($row->deletion_reason, 'merged') &&
                 (1 == preg_match(
@@ -184,7 +184,9 @@ if (mysqli_num_rows($res) == 0) {
 
         if (isset($colspecs['time'])) {
             echo "<td class='nowrap'>";
-            echo date('Y-m-d H:i', $row->max_timestamp);
+            if ($row->max_timestamp > 0) {
+                echo date('Y-m-d H:i', $row->max_timestamp);
+            }
             echo "</td>\n";
         }
 
@@ -464,6 +466,12 @@ function get_view_options($username)
             "text_other" => sprintf(_("All projects that are not yet posted in which %s has proofread or formatted a page."), $username),
             "text_none" => _("No projects found that have not yet been posted."),
         ],
+        "bookmark" => [
+            "label" => _("Bookmarks"),
+            "text_self" => _("Projects you've bookmarked on the project's page."),
+            "text_other" => sprintf(_("Projects that %s bookmarked on the project's page."), $username),
+            "text_none" => _("No projects bookmarked."),
+        ],
         "posted" => [
             "label" => _("Posted to PG"),
             "text_self" => _("All projects that have been posted to Project Gutenberg in which you have proofread or formatted a page."),
@@ -588,6 +596,10 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
     }
 
     if ($round_view == "available") {
+        $selection_clause = "
+            AND user_project_info.t_latest_page_event > 0
+        ";
+
         // create an array of available states for rounds the user can work in
         // and select on those
         $avail_states = [];
@@ -598,35 +610,42 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         }
 
         if ($avail_states) {
-            $avail_state_clause = sprintf(
+            $selection_clause .= sprintf(
                 "AND projects.state in (%s)",
                 surround_and_join($avail_states, "'", "'", ',')
             );
         } else {
-            $avail_state_clause = "AND 0";
+            $selection_clause = "AND 0";
         }
-        $t_latest_page_event = 0;
         unset($round_column_specs['postednum']);
     } elseif ($round_view == "recent") {
-        $t_latest_page_event = strtotime("100 days ago");
-        $avail_state_clause = "
+        $selection_clause = sprintf(
+            "
             AND NOT $posted->state_selector
-        ";
+            AND user_project_info.t_latest_page_event > %d
+            ",
+            strtotime("100 days ago")
+        );
         unset($round_column_specs['postednum']);
     } elseif ($round_view == "posted") {
-        $t_latest_page_event = 0;
-        $avail_state_clause = "
+        $selection_clause = "
             AND $posted->state_selector
+            AND user_project_info.t_latest_page_event > 0
         ";
         unset($round_column_specs['time']);
         unset($round_column_specs['n_available_pages']);
         unset($round_column_specs['percent_done']);
         unset($round_column_specs['days_checkedout']);
         unset($round_column_specs['state']);
+    } elseif ($round_view == "bookmark") {
+        $selection_clause = "
+            AND user_project_info.bookmark = 1
+        ";
+        unset($round_column_specs['postednum']);
     } else {
-        $t_latest_page_event = 0;
-        $avail_state_clause = "
+        $selection_clause = "
             AND NOT $posted->state_selector
+            AND user_project_info.t_latest_page_event > 0
         ";
         unset($round_column_specs['postednum']);
     }
@@ -648,8 +667,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
             (unix_timestamp() - projects.modifieddate)/(24 * 60 * 60) AS days_checkedout
         FROM user_project_info LEFT OUTER JOIN projects USING (projectid)
         WHERE user_project_info.username='$escaped_username'
-            AND user_project_info.t_latest_page_event > $t_latest_page_event
-            $avail_state_clause
+            $selection_clause
         ORDER BY $sql_order
     ";
     return [DPDatabase::query($sql), $round_column_specs];
