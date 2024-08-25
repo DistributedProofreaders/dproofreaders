@@ -6,12 +6,13 @@ include_once($relPath.'theme.inc');          // for page marginalia
 include_once($relPath.'TallyBoard.inc');     // for TallyBoard
 include_once($relPath.'Project.inc');
 include_once($relPath.'mentoring.inc');
+include_once($relPath.'LPage.inc');
 
 require_login();
 
 // Display page header.
 $title = _("For Mentors");
-output_header($title, NO_STATSBAR);
+output_header($title);
 
 echo "<h1>$title</h1>";
 
@@ -131,7 +132,7 @@ if ($projects_waiting) {
 
 // output details about each available project
 foreach ($projects_available as $proj_obj) {
-    output_project_details($mentored_round, $proj_obj->projectid, $proj_obj->nameofwork, $proj_obj->authorsname);
+    output_project_details($mentoring_round, $mentored_round, $proj_obj->projectid, $proj_obj->nameofwork, $proj_obj->authorsname);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -150,7 +151,7 @@ function output_project_label($nameofwork, $authorsname, $date = null)
  * For each mentorable project (in this round), show a summary (one line per mentee)
  * and then a listing (one line per page).
  */
-function output_project_details($mentored_round, $projectid, $nameofwork, $authorsname)
+function output_project_details($mentoring_round, $mentored_round, $projectid, $nameofwork, $authorsname)
 {
     global $code_url;
 
@@ -162,6 +163,8 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
     output_project_label("<a href='$proj_url'>" . html_safe($nameofwork) . "</a>", html_safe($authorsname));
     echo "</p>" ;
 
+    checkout_return_project_pages($mentoring_round, $mentored_round, $projectid);
+
     output_page_summary_table($mentored_round, $projectid);
 
     echo "<p>" ;
@@ -169,6 +172,103 @@ function output_project_details($mentored_round, $projectid, $nameofwork, $autho
     echo "</p>";
 
     output_page_list_table($mentored_round, $projectid);
+}
+
+/**
+ * Checkout/return pages for a project.
+ *
+ * We do this per-project instead of at the top so that messages about the
+ * checkout are included with the project on the page.
+ */
+function checkout_return_project_pages(Round $mentoring_round, Round $mentored_round, string $projectid)
+{
+    // return if the user hasn't requested checkouts/returns for this project
+    if ((!isset($_POST["checkout_proofreader"]) && !isset($_POST["return_proofreader"]))
+        || get_projectID_param($_POST, "projectid") != $projectid) {
+        return;
+    }
+
+    // get the list of pages to checkout/return for the given user
+    $checkout_pages = [];
+    $return_pages = [];
+    if (isset($_POST["checkout_proofreader"])) {
+        // pages for proofreader
+        validate_projectID($projectid);
+        $sql = sprintf(
+            "
+            SELECT image
+            FROM $projectid
+            WHERE $mentored_round->user_column_name = '%s'
+                AND state = '%s'
+            ",
+            DPDatabase::escape($_POST["proofreader"]),
+            DPDatabase::escape($mentoring_round->page_avail_state)
+        );
+        $res = DPDatabase::query($sql);
+        while ([$image] = mysqli_fetch_row($res)) {
+            $checkout_pages[] = $image;
+        }
+    } elseif (isset($_POST["return_proofreader"])) {
+        // pages for proofreader
+        validate_projectID($projectid);
+        $sql = sprintf(
+            "
+            SELECT image
+            FROM $projectid
+            WHERE $mentored_round->user_column_name = '%s'
+                AND state = '%s'
+                AND {$mentored_round->mentor_round->user_column_name} = '%s'
+            ",
+            DPDatabase::escape($_POST["proofreader"]),
+            DPDatabase::escape($mentoring_round->page_out_state),
+            DPDatabase::escape(User::current_username())
+        );
+        $res = DPDatabase::query($sql);
+        while ([$image] = mysqli_fetch_row($res)) {
+            $return_pages[] = $image;
+        }
+    }
+
+    // try to check out / return each one for the current user
+    // LPage enforces that the user has the ability to checkout or return the
+    // page, including that the page is in a valid state for that action
+    $project = new Project($projectid);
+    $pages_checked_out = 0;
+    $pages_returned = 0;
+    $errors = [];
+    foreach ($checkout_pages as $image) {
+        try {
+            $lpage = get_indicated_LPage($project->projectid, $project->state, $image, $mentoring_round->page_avail_state, 0);
+            $lpage->checkout(User::current_username());
+            $pages_checked_out += 1;
+        } catch (Exception $exception) {
+            $errors[] = "$image: " . $exception->getMessage();
+        }
+    }
+    foreach ($return_pages as $image) {
+        try {
+            $lpage = get_indicated_LPage($project->projectid, $project->state, $image, $mentoring_round->page_out_state, 0);
+            $lpage->returnToRound(User::current_username());
+            $pages_returned += 1;
+        } catch (Exception $exception) {
+            $errors[] = "$image: " . $exception->getMessage();
+        }
+    }
+
+    if ($pages_checked_out) {
+        echo "<p>" . sprintf(_("Successfully checked out %d page(s) in this project."), $pages_checked_out) . "</p>";
+    }
+    if ($pages_returned) {
+        echo "<p>" . sprintf(_("Successfully returned %d page(s) in this project."), $pages_returned) . "</p>";
+    }
+    if ($errors) {
+        echo "<p class='error'>" . _("Encountered errors checking out/returning the requested pages") . ":</p>";
+        echo "<ul>";
+        foreach ($errors as $error) {
+            echo "<li>" . html_safe($error) . "</li>";
+        }
+        echo "</ul>";
+    }
 }
 
 // -------------------------------------------------------------------
@@ -220,29 +320,67 @@ function output_page_summary_table(Round $mentored_round, string $projectid)
     echo "<tr>";
     echo "<th>" . _("Proofreader") . "</th>";
     echo "<th>" . _("Pages this project") . "</th>";
+    echo "<th>" . _("Pages available") . "</th>";
+    echo "<th>" . _("Checkout") . "</th>";
+    echo "<th>" . _("Return") . "</th>";
     // TRANSLATORS: %s is a round ID
     echo "<th>" . sprintf(_("Total %s Pages"), $mentored_round->id) . "</th>";
     echo "<th>" . _("Joined") . "</th>";
     echo "</tr>";
 
     validate_projectID($projectid);
-    $sql = "
+    $sql = sprintf(
+        "
         SELECT
             u.username AS username,
             u.u_id as u_id,
             COUNT(1) AS pages_this_project,
             $user_page_tally_column AS total_pages,
-            u.date_created AS joined
+            u.date_created AS joined,
+            (
+                SELECT count(*)
+                FROM $projectid
+                WHERE $mentored_round->user_column_name = u.username
+                    AND state like '%%avail'
+            ) AS pages_avail,
+            (
+                SELECT count(*)
+                FROM $projectid
+                WHERE $mentored_round->user_column_name = u.username
+                    AND state like '%%out'
+                    AND {$mentored_round->mentor_round->user_column_name} = '%s'
+            ) AS pages_out
         FROM $projectid AS p
             INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
             $joined_with_user_page_tallies
         GROUP BY p.{$mentored_round->user_column_name}
-    ";
+        ",
+        DPDatabase::escape(User::current_username())
+    );
     $res = DPDatabase::query($sql);
     while ($row = mysqli_fetch_assoc($res)) {
         echo "<tr>";
         echo "<td>" . sprintf("<a href='{$code_url}/stats/members/mdetail.php?&id=%d'>%s</a>", $row["u_id"], $row["username"]) . "</td>";
         echo "<td>" . $row["pages_this_project"] . "</td>";
+        echo "<td>" . $row["pages_avail"] . "</td>";
+        echo "<td>";
+        if ($row["username"] != User::current_username() && $row["pages_avail"]) {
+            echo "<form method='POST' action='#$projectid'>";
+            echo "<input type='hidden' name='projectid' value='$projectid'>";
+            echo "<input type='hidden' name='proofreader' value='" . attr_safe($row["username"]) . "'>";
+            echo "<input type='submit' name='checkout_proofreader' value='" . attr_safe(_("Checkout available pages")) . "'>";
+            echo "</form>";
+        }
+        echo "</td>";
+        echo "<td>";
+        if ($row["username"] != User::current_username() && $row["pages_out"]) {
+            echo "<form method='POST' action='#$projectid'>";
+            echo "<input type='hidden' name='projectid' value='$projectid'>";
+            echo "<input type='hidden' name='proofreader' value='" . attr_safe($row["username"]) . "'>";
+            echo "<input type='submit' name='return_proofreader' value='" . attr_safe(_("Return out pages")) . "'>";
+            echo "</form>";
+        }
+        echo "</td>";
         echo "<td>" . $row["total_pages"] . "</td>";
         echo "<td>" . icu_date("yyyy MMM dd HH:mm", $row["joined"]) . "</td>";
         echo "</tr>";
@@ -254,12 +392,15 @@ function output_page_summary_table(Round $mentored_round, string $projectid)
 
 function output_page_list_table(Round $mentored_round, string $projectid)
 {
+    echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<table class='striped basic'>";
     echo "<tr>";
     echo "<th>" . _("Page") . "</th>";
     echo "<th>" . _("Saved") . "</th>";
     echo "<th>" . _("Proofreader") . "</th>";
     echo "<th>" . _("WordCheck Events") . "</th>";
+    echo "<th>" . _("Current Page State") . "</th>";
+    echo "<th>" . _("Current Proofreader") . "</th>";
     echo "</tr>";
 
     validate_projectID($projectid);
@@ -276,20 +417,23 @@ function output_page_list_table(Round $mentored_round, string $projectid)
         image
     ";
 
+    validate_projectID($projectid);
     $sql = "
         SELECT
-            p.fileid AS page,
+            p.image AS page,
             p.{$mentored_round->time_column_name} AS saved_date,
             p.{$mentored_round->user_column_name} AS username,
-            (SELECT count(*)
-             FROM wordcheck_events
-             WHERE projectid = '$projectid'
-                AND round_id = '$mentored_round->id'
-                AND username = p.{$mentored_round->user_column_name}
-                AND SUBSTRING_INDEX(image, '.', 1)=p.fileid
+            p.{$mentored_round->mentor_round->user_column_name} AS current_username,
+            p.state,
+            (
+                SELECT count(*)
+                FROM wordcheck_events
+                WHERE projectid = '$projectid'
+                    AND round_id = '$mentored_round->id'
+                    AND username = p.{$mentored_round->user_column_name}
+                    AND image = p.image
             ) AS wc_events
         FROM $projectid AS p
-            INNER JOIN users AS u ON p.{$mentored_round->user_column_name} = u.username
         ORDER BY $order
     ";
     $res = DPDatabase::query($sql);
@@ -299,6 +443,8 @@ function output_page_list_table(Round $mentored_round, string $projectid)
         echo "<td>" . icu_date("yyyy MMM dd HH:mm", $row["saved_date"]) . "</td>";
         echo "<td>" . $row["username"] . "</td>";
         echo "<td>" . $row["wc_events"] . "</td>";
+        echo "<td>" . $row["state"] . "</td>";
+        echo "<td>" . $row["current_username"] . "</td>";
         echo "</tr>";
     }
     echo "</table>";
