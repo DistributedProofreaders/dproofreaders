@@ -4,7 +4,8 @@ window.addEventListener('DOMContentLoaded', function() {
         '“': '"',
         '’': '\'',
         '”': '"',
-        '—': '--'
+        '—': '--',
+        '…': '...'
     };
 
     document.getElementById('text_data').addEventListener('input', (event) => {
