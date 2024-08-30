@@ -40,6 +40,26 @@ foreach (["round_view"] as $setting) {
     }
 }
 
+/**
+ * Wrapper around the Project class for suggestion attributes.
+ */
+class ProjectSuggestion extends Project
+{
+    public float $percent_done;
+    public int $created;
+    public float $priority;
+    public string $round;
+
+    public function __construct(array $project_array)
+    {
+        foreach (["percent_done", "created", "priority", "round"] as $field) {
+            $this->$field = $project_array[$field];
+            unset($project_array[$field]);
+        }
+        parent::__construct($project_array);
+    }
+}
+
 $selection_criteria = get_user_suggestion_criteria($username, $flush_cache);
 
 if ($username == User::current_username()) {
@@ -534,7 +554,7 @@ function get_suggestions($round_view, $username, $selection_criteria)
         // Build the project from the row so we don't have to go back to
         // the database again for every project. This requires all the necessary
         // fields used here, and in dependent functions, be populated in the row.
-        $project = new Project($project_row);
+        $project = new ProjectSuggestion($project_row);
 
         try {
             $round = Rounds::get_by_project_state($project->state);
