@@ -75,11 +75,14 @@ function archive_project(Project $project, bool $dry_run = false)
             echo "    Move $project_dir to $new_dir.\n";
         } else {
             // Remove uncompressed versions of whole-project texts, leaving zips.
-            $process = new Process(["rm", "$project_dir/projectID*.txt"]);
-            $process->run();
-            if (!$process->isSuccessful()) {
-                throw new RuntimeException(sprintf(_("Unable to delete %s"), "$project_dir/projectID*.txt"));
+            if (glob("$project_dir/projectID*.txt")) {
+                $process = new Process(["rm", "$project_dir/projectID*.txt"]);
+                $process->run();
+                if (!$process->isSuccessful()) {
+                    throw new RuntimeException(sprintf(_("Unable to delete %s"), "$project_dir/projectID*.txt"));
+                }
             }
+
             if (!rename($project_dir, $new_dir)) {
                 throw new RuntimeException(sprintf(_('Unable to move %1$s to %2$s', $project_dir, $new_dir)));
             }
