@@ -75,11 +75,9 @@ function archive_project(Project $project, bool $dry_run = false)
             echo "    Move $project_dir to $new_dir.\n";
         } else {
             // Remove uncompressed versions of whole-project texts, leaving zips.
-            if (glob("$project_dir/projectID*.txt")) {
-                $process = new Process(["rm", "$project_dir/projectID*.txt"]);
-                $process->run();
-                if (!$process->isSuccessful()) {
-                    throw new RuntimeException(sprintf(_("Unable to delete %s"), "$project_dir/projectID*.txt"));
+            foreach (glob("$project_dir/projectID*.txt") as $filename) {
+                if (!unlink($filename)) {
+                    throw new RuntimeException(sprintf(_("Unable to delete %s"), $filename));
                 }
             }
 
@@ -131,7 +129,7 @@ function archive_ancillary_data_for_project_etc(Project $project, string $indent
     // and archive their ancillary info too.
     $sql = sprintf(
         "
-        SELECT projectid, modifieddate, state
+        SELECT projectid
         FROM projects
         WHERE state = '%s'
             AND deletion_reason = '%s'
@@ -141,7 +139,8 @@ function archive_ancillary_data_for_project_etc(Project $project, string $indent
         DPDatabase::escape("merged into $project->projectid")
     );
     $res2 = DPDatabase::query($sql);
-    while ($project2 = mysqli_fetch_object($res2)) {
+    while ([$projectid] = mysqli_fetch_row($res2)) {
+        $project2 = new Project($projectid);
         archive_ancillary_data_for_project($project2, $indent, $dry_run);
     }
 }
