@@ -112,12 +112,12 @@ function jump_project(string $projectid, string $new_state, bool $just_checking)
     }
 
     if ('proj_post_first_checked_out' == $new_state && '' == $project->checkedoutby) {
-        error_and_die("project must have a PPer assigned to jump to $new_state");
+        throw new RuntimeException("project must have a PPer assigned to jump to $new_state");
     } elseif ('proj_post_first_checked_out' == $new_state) {
         echo "    PPer      : $project->checkedoutby\n";
     }
     if ('proj_post_first_available' == $new_state && '' != $project->checkedoutby) {
-        error_and_die("project has a PPer assigned ($project->checkedoutby) so can't jump to $new_state");
+        throw new RuntimeException("project has a PPer assigned ($project->checkedoutby) so can't jump to $new_state");
     }
 
 
