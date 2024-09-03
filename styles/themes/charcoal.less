@@ -224,7 +224,8 @@ textarea {
  * (medium contrast with @page-text) is the darker colored odd
  * cell color. In theme-charcoal, @table-cell-base-mediumc is
  * actually lighter than @page-background, so the two have to
- * be flipped */
+ * be flipped.
+ */
 
 table.striped {
     tr:nth-child(odd) {
@@ -241,7 +242,8 @@ table.striped {
 
 /*--------------------------------------------------------*/
 /* Diff styling */
-/* Override default MediaWiki styling */
+/* Override default MediaWiki styling
+ */
 
 .diff-context {
     color: @page-text;
@@ -255,3 +257,16 @@ table.striped {
         opacity: 70%;
     }
 }
+
+/*--------------------------------------------------------*/
+/* The defaults for the following are in page_interfaces.less
+ * Eventually, once it's time to sort out the dark themed
+ * PI, that stuff will go in here, too, and I'll change this
+ * comment block, but for now, the main thing is to provide
+ * a dark theme background for WC management for PMs.
+ */
+ 
+/* WordCheck */
+@preWC: #666666;
+@noWC: #996300;
+@WC: #036309;

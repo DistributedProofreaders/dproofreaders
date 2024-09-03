@@ -156,14 +156,19 @@
 /* ======================================================================== */
 /* Page Interface Structures */
 /*
- * The following classes all relate to various page interfaces, such as the
- * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
- * toolbox, code point validator, display image interface, etc.
+ * The following variables and classes all relate to various page
+ * interfaces, such as the proofreading interfaces (standard and
+ * enhanced), WordCheck, the proofreading toolbox, code point
+ * validator, display image interface, etc.
  */
+/* variables */
 /* Base layer for page interface */
 /* Text pane */
 /* Control panes */
 /* Links */
+/* WordCheck*/
+/* Other colors */
+/* Classes*/
 .page-interface {
   background-color: #CDCDC1;
   color: black;
@@ -437,7 +442,7 @@
   background-color: Bisque;
 }
 #enhanced_interface #tdbottom {
-  background-color: #EEDFCC;
+  background-color: #CDC0B0;
 }
 #enhanced_interface #tdbottom .text-link-disabled {
   color: #666666;

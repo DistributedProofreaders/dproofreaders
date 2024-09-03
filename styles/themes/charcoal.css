@@ -156,14 +156,19 @@
 /* ======================================================================== */
 /* Page Interface Structures */
 /*
- * The following classes all relate to various page interfaces, such as the
- * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
- * toolbox, code point validator, display image interface, etc.
+ * The following variables and classes all relate to various page
+ * interfaces, such as the proofreading interfaces (standard and
+ * enhanced), WordCheck, the proofreading toolbox, code point
+ * validator, display image interface, etc.
  */
+/* variables */
 /* Base layer for page interface */
 /* Text pane */
 /* Control panes */
 /* Links */
+/* WordCheck*/
+/* Other colors */
+/* Classes*/
 .page-interface {
   background-color: #CDCDC1;
   color: black;
@@ -437,7 +442,7 @@
   background-color: Bisque;
 }
 #enhanced_interface #tdbottom {
-  background-color: #EEDFCC;
+  background-color: #CDC0B0;
 }
 #enhanced_interface #tdbottom .text-link-disabled {
   color: #666666;
@@ -599,14 +604,14 @@
   color: red;
 }
 .preWC {
-  background-color: #c2c2c2;
+  background-color: #666666;
 }
 .noWC {
-  background-color: #ffb321;
+  background-color: #996300;
   font-weight: bold;
 }
 .WC {
-  background-color: #97fc9e;
+  background-color: #036309;
 }
 /* ------------------------------------------------------------------------ */
 /* Format Preview */
@@ -3080,7 +3085,8 @@ textarea {
  * (medium contrast with @page-text) is the darker colored odd
  * cell color. In theme-charcoal, @table-cell-base-mediumc is
  * actually lighter than @page-background, so the two have to
- * be flipped */
+ * be flipped.
+ */
 table.striped tr:nth-child(odd) td {
   background-color: #262626;
 }
@@ -3089,7 +3095,8 @@ table.striped tr:nth-child(even) td {
 }
 /*--------------------------------------------------------*/
 /* Diff styling */
-/* Override default MediaWiki styling */
+/* Override default MediaWiki styling
+ */
 .diff-context {
   color: #e2e2e2;
   background-color: #3a3a3a;
@@ -3103,3 +3110,11 @@ table.striped tr:nth-child(even) td {
   color: black;
   opacity: 70%;
 }
+/*--------------------------------------------------------*/
+/* The defaults for the following are in page_interfaces.less
+ * Eventually, once it's time to sort out the dark themed
+ * PI, that stuff will go in here, too, and I'll change this
+ * comment block, but for now, the main thing is to provide
+ * a dark theme background for WC management for PMs.
+ */
+/* WordCheck */

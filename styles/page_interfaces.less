@@ -2,10 +2,13 @@
 /* Page Interface Structures */
 
 /*
- * The following classes all relate to various page interfaces, such as the
- * proofreading interfaces (standard and enhanced), WordCheck, the proofreading
- * toolbox, code point validator, display image interface, etc.
+ * The following variables and classes all relate to various page
+ * interfaces, such as the proofreading interfaces (standard and
+ * enhanced), WordCheck, the proofreading toolbox, code point
+ * validator, display image interface, etc.
  */
+
+/* variables */
 
 /* Base layer for page interface */
 @page-interface-background: #CDCDC1;
@@ -24,6 +27,16 @@
 @page-interface-link-color: #0000ff;
 @page-interface-visited-color: #990099;
 @page-interface-active-color: #ff0000;
+
+/* WordCheck*/
+@preWC: #c2c2c2;
+@noWC: #ffb321;
+@WC: #97fc9e;
+
+/* Other colors */
+@pi-text-link-disabled: #666666;
+
+/* Classes*/
 
 .page-interface {
     background-color: @page-interface-background;
@@ -153,10 +166,10 @@
         .page-interface;
     }
     #tdbottom {
-        background-color: #EEDFCC;
-	.text-link-disabled {
-	    color: #666666;  // will need to be themed
-	}
+        background-color: @control-pane-background;
+        .text-link-disabled {
+            color: @pi-text-link-disabled;
+        }
     }
     #text_data, #text_data:focus {
         padding: 2px;
@@ -247,14 +260,14 @@
 }
 
 .preWC {
-    background-color: #c2c2c2;
+    background-color: @preWC;
 }
 .noWC {
-    background-color: #ffb321;
+    background-color: @noWC;
     .bold;
 }
 .WC {
-    background-color: #97fc9e;
+    background-color: @WC;
 }
 
 /* ------------------------------------------------------------------------ */
