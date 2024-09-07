@@ -137,7 +137,7 @@ foreach ($projects_available as $proj_obj) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function output_project_label($nameofwork, $authorsname, $date = null)
+function output_project_label(string $nameofwork, string $authorsname, ?int $date = null)
 {
     // TRANSLATORS: format is <title> by <author>.
     echo sprintf(_("%1\$s by %2\$s"), $nameofwork, $authorsname);
@@ -151,7 +151,7 @@ function output_project_label($nameofwork, $authorsname, $date = null)
  * For each mentorable project (in this round), show a summary (one line per mentee)
  * and then a listing (one line per page).
  */
-function output_project_details($mentoring_round, $mentored_round, $projectid, $nameofwork, $authorsname)
+function output_project_details(Round $mentoring_round, Round $mentored_round, string $projectid, string $nameofwork, string $authorsname)
 {
     global $code_url;
 
