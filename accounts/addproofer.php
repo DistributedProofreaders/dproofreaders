@@ -14,7 +14,7 @@ $userpass = array_get($_POST, 'userPW', '');
 $userpass2 = array_get($_POST, 'userPW2', '');
 $email = array_get($_POST, 'email', '');
 $email2 = array_get($_POST, 'email2', '');
-$email_updates = array_get($_POST, 'email_updates', 1);
+$email_updates = get_bool_param($_POST, 'email_updates', true);
 $referrer = array_get($_POST, 'referrer', '');
 $referrer_details = array_get($_POST, 'referrer_details', '');
 
@@ -49,7 +49,7 @@ if (count($_POST)) {
     // Run all form validators against the data
     foreach ($form_validators as $func) {
         $error = $func($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details);
-        if (!empty($error)) {
+        if ($error) {
             break;
         }
     }
@@ -214,10 +214,19 @@ include($relPath.'/../faq/privacy.php');
 /**
  * Validate the user input fields for the page.
  *
- * Returns an empty string upon success and an error message upon failure.
+ * Returns an empty string or Null upon success and an error message upon failure.
  */
-function _validate_fields($real_name, $username, $userpass, $userpass2, $email, $email2, $email_updates, $referrer, $referrer_details)
-{
+function _validate_fields(
+    string $real_name,
+    string $username,
+    string $userpass,
+    string $userpass2,
+    string $email,
+    string $email2,
+    bool $email_updates,
+    string $referrer,
+    string $referrer_details
+) {
     global $testing, $general_help_email_addr;
 
     // Make sure that password and confirmed password are equal.
