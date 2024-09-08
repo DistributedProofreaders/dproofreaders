@@ -21,77 +21,77 @@ class UTF8ConversionException extends Exception
  */
 class ProjectException extends Exception
 {
-    public function __construct($message, $code = 100)
+    public function __construct(string $message, int $code = 100)
     {
         parent::__construct($message, $code);
     }
 }
 class NonexistentProjectException extends ProjectException
 {
-    public function __construct($message, $code = 101)
+    public function __construct(string $message, int $code = 101)
     {
         parent::__construct($message, $code);
     }
 }
 class InvalidProjectIDException extends ProjectException
 {
-    public function __construct($message, $code = 102)
+    public function __construct(string $message, int $code = 102)
     {
         parent::__construct($message, $code);
     }
 }
 class InvalidRoundException extends ProjectException
 {
-    public function __construct($message, $code = 103)
+    public function __construct(string $message, int $code = 103)
     {
         parent::__construct($message, $code);
     }
 }
 class NonexistentPageException extends ProjectException
 {
-    public function __construct($message, $code = 104)
+    public function __construct(string $message, int $code = 104)
     {
         parent::__construct($message, $code);
     }
 }
 class InvalidPageRoundException extends ProjectException
 {
-    public function __construct($message, $code = 105)
+    public function __construct(string $message, int $code = 105)
     {
         parent::__construct($message, $code);
     }
 }
 class InvalidPageException extends ProjectException
 {
-    public function __construct($message, $code = 106)
+    public function __construct(string $message, int $code = 106)
     {
         parent::__construct($message, $code);
     }
 }
 class NoProjectPageTable extends ProjectException
 {
-    public function __construct($message, $code = 107)
+    public function __construct(string $message, int $code = 107)
     {
         parent::__construct($message, $code);
     }
 }
 class NoProjectDirectory extends ProjectException
 {
-    public function __construct($message, $code = 108)
+    public function __construct(string $message, int $code = 108)
     {
         parent::__construct($message, $code);
     }
 }
 class ProjectPageException extends ProjectException
 {
-    public function __construct($message, $code = 109)
+    public function __construct(string $message, int $code = 109)
     {
         parent::__construct($message, $code);
     }
 }
 class ProjectNotInRoundException extends ProjectException
 {
-    public function __construct($message, $code = 110)
+    public function __construct(string $message, int $code = 110)
     {
         parent::__construct($message, $code);
     }
@@ -99,7 +99,7 @@ class ProjectNotInRoundException extends ProjectException
 
 class ProjectRequiresMaintenanceException extends ProjectException
 {
-    public function __construct($message, $code = 111)
+    public function __construct(string $message, int $code = 111)
     {
         parent::__construct($message, $code);
     }
@@ -107,7 +107,7 @@ class ProjectRequiresMaintenanceException extends ProjectException
 
 class ProjectNotAvailableException extends ProjectException
 {
-    public function __construct($message, $code = 112)
+    public function __construct(string $message, int $code = 112)
     {
         parent::__construct($message, $code);
     }
@@ -115,7 +115,7 @@ class ProjectNotAvailableException extends ProjectException
 
 class ProjectNoMorePagesException extends ProjectException
 {
-    public function __construct($message, $code = 113)
+    public function __construct(string $message, int $code = 113)
     {
         parent::__construct($message, $code);
     }
@@ -123,7 +123,7 @@ class ProjectNoMorePagesException extends ProjectException
 
 class ProjectPageStateException extends ProjectException
 {
-    public function __construct($message, $code = 115)
+    public function __construct(string $message, int $code = 115)
     {
         parent::__construct($message, $code);
     }
@@ -131,7 +131,7 @@ class ProjectPageStateException extends ProjectException
 
 class ProjectPageInconsistentStateException extends ProjectException
 {
-    public function __construct($message, $code = 119)
+    public function __construct(string $message, int $code = 119)
     {
         parent::__construct($message, $code);
     }
@@ -139,7 +139,7 @@ class ProjectPageInconsistentStateException extends ProjectException
 
 class ProjectNotInRequiredStateException extends ProjectException
 {
-    public function __construct($message, $code = 120)
+    public function __construct(string $message, int $code = 120)
     {
         parent::__construct($message, $code);
     }
@@ -147,7 +147,7 @@ class ProjectNotInRequiredStateException extends ProjectException
 
 class ProjectInvalidTextException extends ProjectException
 {
-    public function __construct($message, $code = 125)
+    public function __construct(string $message, int $code = 125)
     {
         parent::__construct($message, $code);
     }

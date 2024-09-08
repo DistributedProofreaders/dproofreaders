@@ -7,7 +7,7 @@
  */
 class ApiException extends Exception
 {
-    public function __construct($message = "API exception", $code = 1)
+    public function __construct(string $message = "API exception", int $code = 1)
     {
         parent::__construct($message, $code);
     }
@@ -23,7 +23,7 @@ class ApiException extends Exception
 
 class BadRequest extends ApiException
 {
-    public function __construct($message = "Bad request", $code = 2)
+    public function __construct(string $message = "Bad request", int $code = 2)
     {
         parent::__construct($message, $code);
     }
@@ -31,7 +31,7 @@ class BadRequest extends ApiException
 
 class UnauthorizedError extends ApiException
 {
-    public function __construct($message = "Unauthorized", $code = 3)
+    public function __construct(string $message = "Unauthorized", int $code = 3)
     {
         parent::__construct($message, $code);
     }
@@ -44,7 +44,7 @@ class UnauthorizedError extends ApiException
 
 class NotFoundError extends ApiException
 {
-    public function __construct($message = "Object not found", $code = 4)
+    public function __construct(string $message = "Object not found", int $code = 4)
     {
         parent::__construct($message, $code);
     }
@@ -57,7 +57,7 @@ class NotFoundError extends ApiException
 
 class RateLimitExceeded extends ApiException
 {
-    public function __construct($message = "Rate limit exceeded", $code = 5)
+    public function __construct(string $message = "Rate limit exceeded", int $code = 5)
     {
         parent::__construct($message, $code);
     }
@@ -70,7 +70,7 @@ class RateLimitExceeded extends ApiException
 
 class InvalidValue extends ApiException
 {
-    public function __construct($message = "Request contained an invalid value for a parameter", $code = 6)
+    public function __construct(string $message = "Request contained an invalid value for a parameter", int $code = 6)
     {
         parent::__construct($message, $code);
     }
@@ -83,7 +83,7 @@ class InvalidValue extends ApiException
 
 class ForbiddenError extends ApiException
 {
-    public function __construct($message = "Forbidden", $code = 7)
+    public function __construct(string $message = "Forbidden", int $code = 7)
     {
         parent::__construct($message, $code);
     }
@@ -100,7 +100,7 @@ class ForbiddenError extends ApiException
 
 class UnexpectedError extends ApiException
 {
-    public function __construct($message = "Unexpected error", $code = 7)
+    public function __construct(string $message = "Unexpected error", int $code = 7)
     {
         parent::__construct($message, $code);
     }
@@ -108,7 +108,7 @@ class UnexpectedError extends ApiException
 
 class InvalidAPI extends ApiException
 {
-    public function __construct($message = "Invalid API path", $code = 8)
+    public function __construct(string $message = "Invalid API path", int $code = 8)
     {
         parent::__construct($message, $code);
     }
@@ -121,7 +121,7 @@ class InvalidAPI extends ApiException
 
 class MethodNotAllowed extends ApiException
 {
-    public function __construct($message = "API endpoint doesn't support this method", $code = 9)
+    public function __construct(string $message = "API endpoint doesn't support this method", int $code = 9)
     {
         parent::__construct($message, $code);
     }
@@ -134,7 +134,7 @@ class MethodNotAllowed extends ApiException
 
 class NotImplementedError extends ApiException
 {
-    public function __construct($message = "API not implemented", $code = 10)
+    public function __construct(string $message = "API not implemented", int $code = 10)
     {
         parent::__construct($message, $code);
     }
@@ -142,7 +142,7 @@ class NotImplementedError extends ApiException
 
 class ServerError extends ApiException
 {
-    public function __construct($message = "An unhandled error happened on the server", $code = 11)
+    public function __construct(string $message = "An unhandled error happened on the server", int $code = 11)
     {
         parent::__construct($message, $code);
     }
