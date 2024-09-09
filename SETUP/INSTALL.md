@@ -17,7 +17,7 @@ components.
 
 ### PHP
 PHP version 7.4 is the minimum supported version. Limited testing has been done
-on PHP 8.0 and 8.1.
+on PHP 8.1 and 8.3.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
@@ -77,6 +77,8 @@ assuming it isn't already.
 Any web server that supports PHP should work, although all testing has
 been done using Apache 2. All known deployments, including pgdp.net,
 are using Apache 2 as well.
+
+The code will function with Apache's `mod_php` as well as `php-fpm`.
 
 See `apache2.conf.example` for an example Apache config file, including
 examples on enabling page compression and caching.
