@@ -368,7 +368,7 @@ function output_page_summary_table(Round $mentored_round, string $projectid)
             echo "<form method='POST' action='#$projectid'>";
             echo "<input type='hidden' name='projectid' value='$projectid'>";
             echo "<input type='hidden' name='proofreader' value='" . attr_safe($row["username"]) . "'>";
-            echo "<input type='submit' name='checkout_proofreader' value='" . attr_safe(_("Checkout available pages")) . "'>";
+            echo "<input type='submit' name='checkout_proofreader' value='" . attr_safe(_("Check out available pages")) . "'>";
             echo "</form>";
         }
         echo "</td>";
