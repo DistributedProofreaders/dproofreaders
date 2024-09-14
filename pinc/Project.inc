@@ -820,7 +820,7 @@ class Project
     // common place for encoding / decoding them.
 
     /** @param array{0: string, 1?: string} $languages */
-    public static function encode_languages($languages): string
+    public static function encode_languages(array $languages): string
     {
         if (!is_array($languages)) {
             throw new ValueError("languages must be an array");
