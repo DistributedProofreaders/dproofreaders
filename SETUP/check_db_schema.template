@@ -62,11 +62,16 @@ echo "
     _DEFAULT_CHAR_SUITES='[ \"basic-latin\" ]'
     _PHPMAILER_SMTP_CONFIG='[]'
 
-    # For update_phpbb_posts_text.php
+    # Integer values that must be filled in
     _FORUMS_PROJECT_WAITING_IDX=99
     _FORUMS_PROJECT_AVAIL_IDX=99
     _FORUMS_PROJECT_PP_IDX=99
     _FORUMS_PROJECT_POSTED_IDX=99
+    _FORUMS_BEGIN_SITE_IDX=99
+    _FORUMS_PROJECT_DELETED_IDX=99
+    _FORUMS_PROJECT_COMPLETED_IDX=99
+    _FORUMS_POST_PROCESSORS_IDX=99
+    _FORUMS_TEAMS_IDX=99
 " > $testing_dir/config.sh
 
 echo "Getting a test copy of the '$curr_tag' code..."
