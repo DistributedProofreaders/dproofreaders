@@ -200,14 +200,12 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
             $start_time = time();
         }
 
-        // Extend the deadline to the next whole hour after $days
+        // Extend the deadline to just before the next hour after $days
         $datetime = new DateTime("@$start_time");
         // Add our days
         $datetime->modify("+{$days} day");
-        // round up to the next hour
-        $datetime = $datetime->modify("next hour");
-        // replace the time with just the hour
-        $datetime->modify($datetime->format('H:00:00'));
+        // replace the time to just before the start of the hour; see Task 2079
+        $datetime->modify($datetime->format('H:59:s'));
         $deadline = $datetime->format('U');
 
         $details1 = $extend ? "deadline extended" : "text available";
