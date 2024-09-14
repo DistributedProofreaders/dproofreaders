@@ -822,10 +822,6 @@ class Project
     /** @param array{0: string, 1?: string} $languages */
     public static function encode_languages(array $languages): string
     {
-        if (!is_array($languages)) {
-            throw new ValueError("languages must be an array");
-        }
-
         // handle the case where the second language is empty
         if (count($languages) == 2 && $languages[1] == '') {
             return $languages[0];
