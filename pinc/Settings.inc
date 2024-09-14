@@ -10,12 +10,13 @@ class Settings
     // Multi-dimensional array containing all user settings. Each setting
     // may have one or more value associated with it. Format is:
     //     $settings_array[$setting] = array($value1, ...);
-    private $settings_array = [];
+    /** @var array<string, mixed[]> */
+    private array $settings_array = [];
 
     // username of subject user.
-    private $username = null;
+    private ?string $username = null;
 
-    public function __construct($name)
+    public function __construct(?string $name)
     {
         if ($name == '') {
             // Note that that's a "loose equals", so $name could be:
@@ -48,7 +49,7 @@ class Settings
         mysqli_free_result($result);
     }
 
-    public function UserName()
+    public function UserName(): string
     {
         return $this->username ? $this->username : "[none]";
     }
@@ -107,17 +108,22 @@ class Settings
 
     // -------------------------------------------------------------------------
 
-    private function _clear_setting($settingCode)
+    private function _clear_setting(string $settingCode): void
     {
-        $sql = "
+        $sql = sprintf(
+            "
             DELETE FROM usersettings 
-            WHERE username = '$this->username'
-                AND setting = '$settingCode'
-        " ;
+            WHERE username = '%s'
+                AND setting = '%s'
+            ",
+            DPDatabase::escape($this->username),
+            DPDatabase::escape($settingCode),
+        );
         DPDatabase::query($sql);
     }
 
-    private function _insert_setting_value($settingCode, $value)
+    /** @param mixed $value */
+    private function _insert_setting_value(string $settingCode, $value): void
     {
         $sql = sprintf(
             "
@@ -132,7 +138,8 @@ class Settings
         DPDatabase::query($sql);
     }
 
-    private function _delete_setting_value($settingCode, $value)
+    /** @param mixed $value */
+    private function _delete_setting_value(string $settingCode, $value): void
     {
         $sql = sprintf(
             "
@@ -331,9 +338,9 @@ class Settings
      * @param string $setting
      * @param mixed $value
      *
-     * @return array
+     * @return string[]
      */
-    public static function get_users_with_setting($setting, $value = null)
+    public static function get_users_with_setting($setting, $value = null): array
     {
         $usernames = [];
         $sql = sprintf(
