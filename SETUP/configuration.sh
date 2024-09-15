@@ -163,7 +163,7 @@ _JSON_POSTS=
 # suites must be installed and enabled on the system.
 # See SETUP/UNICODE.md for more information.
 
-_DEFAULT_CHAR_SUITES='[ "basic-latin" ]'
+_DEFAULT_CHAR_SUITES='["basic-latin"]'
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
