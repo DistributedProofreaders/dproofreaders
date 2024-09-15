@@ -357,7 +357,6 @@ TOOLS_PROOFERS_TESTS = [
     {'path': 'tools/proofers/for_mentors.php?round_id=P3'},
     {'path': 'tools/proofers/greek2ascii.php'},
     # TODO not installed
-    {'path': 'tools/proofers/hiero/index.php'},
     {'path': 'tools/proofers/ctrl_frame.php?round_id=P3&project_id=projectID5e23a810ef693'},
     {'path': 'tools/proofers/image_frame_std.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail&imagefile=001.png&page_state=P3.page_saved'},
     {'path': 'tools/proofers/text_frame_std.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail&imagefile=001.png&page_state=P3.page_saved'},

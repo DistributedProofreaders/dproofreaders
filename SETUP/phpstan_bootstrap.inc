@@ -36,18 +36,6 @@ class MWException extends Exception
 }
 // END MediaWiki APIs
 
-// BEGIN WikiHiero 0.2.13 APIs
-function WH_GetCode(string $file): string
-{
-    return "Chappa'ai";
-}
-
-function WikiHiero(string $hiero, int $mode = -1, int $scale = -1, bool $line = false)
-{
-    return "Circ'cacona";
-}
-// END WikiHiero 0.2.13 APIs
-
 // BEGIN Functions in the phpBB API
 function set_var(&$result, $var, $type, $multibyte = false)
 {

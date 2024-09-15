@@ -19,7 +19,7 @@ include_once($relPath.'faq.inc');
 // and PopupLink objects defined in pinc/ProofreadingToolbox.inc.
 
 $pi_tools_for_P = [
-    'popup_links' => ['search_and_replace', 'greek_transliterator', 'hieroglyph_transliterator'],
+    'popup_links' => ['search_and_replace', 'greek_transliterator'],
     'tool_buttons' => ['remove_markup', 'upper_case', 'title_case', 'lower_case'],
     'tool_links' => ['greek', 'note', 'brackets', 'braces', 'blank_page'],
 ];
