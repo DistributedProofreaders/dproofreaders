@@ -99,13 +99,13 @@ CREATE TABLE `image_sources` (
   `full_name` varchar(100) NOT NULL default '',
   `info_page_visibility` tinyint(3) unsigned NOT NULL default '0',
   `is_active` tinyint(3) NOT NULL default '-1',
-  `url` varchar(200) default NULL,
-  `credit` varchar(200) default NULL,
+  `url` varchar(255) NOT NULL default '',
+  `credit` varchar(255) NOT NULL default '',
   `ok_keep_images` tinyint(4) NOT NULL default '-1',
   `ok_show_images` tinyint(4) NOT NULL default '-1',
-  `public_comment` varchar(255) default NULL,
+  `public_comment` varchar(255) NOT NULL default '',
   `internal_comment` text,
-  UNIQUE KEY `code_name` (`code_name`),
+  PRIMARY KEY (`code_name`),
   UNIQUE KEY `display_name` (`display_name`)
 );
 
