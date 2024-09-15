@@ -160,29 +160,6 @@ diff analysis" in `c/tools/project_manager/show_project_stealth_scannos.php`).
 If `wdiff` is not installed this one tool will fail but the rest of
 WordCheck will operate correctly.
 
-#### WikiHiero
-To enable the hieroglyph transliteration tool, download
-[WikiHiero](http://aoineko.free.fr/) and extract it somewhere in your web
-server's document hierarchy. WikiHiero 0.2.13 needs to be patched with
-`wikihiero-0.2.13.patch` to make it work with PHP 7.0.
-
-For example:
-```bash
-# Download and extract
-wget http://aoineko.free.fr/wikihiero.zip
-unzip -d /var/www/htdocs/wikihiero wikihiero.zip
-rm wikihiero.zip
-
-# Patch
-cd /var/www/htdocs/wikihiero
-dos2unix wikihiero.php
-patch -p1 < /path/to/wikihiero-0.2.13.patch
-unix2dos wikihiero.php
-```
-
-Then set `_WIKIHIERO_DIR` and `_WIKIHIERO_URL` in your `configuration.sh` file
-discussed below.
-
 #### pngcheck
 Project Quick Check will use `pngcheck` for PNG image validation if it is
 installed.

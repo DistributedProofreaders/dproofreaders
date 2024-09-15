@@ -40,9 +40,6 @@ $blog_url = '<<BLOG_URL>>';
 
 $wiki_url = '<<WIKI_URL>>';
 
-$wikihiero_dir = '<<WIKIHIERO_DIR>>';
-$wikihiero_url = '<<WIKIHIERO_URL>>';
-
 $archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
 
 global $forum_type;
