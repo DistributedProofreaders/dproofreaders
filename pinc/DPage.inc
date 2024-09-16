@@ -155,7 +155,7 @@ function load_page_from_file($file_path, $projectid)
     // If not UTF-8, attempt to detect and convert it
     if (!UTF8::is_utf8($text)) {
         $encoding = guess_string_encoding($text);
-        if ($encoding === false) {
+        if ($encoding === null) {
             $text = mb_convert_encoding($text, "UTF-8", "ISO-8859-1");
         } elseif ($encoding != 'UTF-8') {
             $text = mb_convert_encoding($text, "UTF-8", $encoding);
@@ -742,7 +742,7 @@ function get_load_page_from_file_changes($filename, $projectid)
 
     if (!UTF8::is_utf8($text)) {
         $encoding = guess_string_encoding($text);
-        if ($encoding === false) {
+        if ($encoding === null) {
             $changes[] = _("Unable to determine file encoding, will convert from ISO-8859-1");
             $text = mb_convert_encoding($text, "UTF-8", "ISO-8859-1");
         } elseif ($encoding != 'UTF-8') {
