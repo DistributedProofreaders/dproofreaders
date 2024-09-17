@@ -4,6 +4,7 @@ use voku\helper\UTF8;
 
 /**
  * Normalize UTF-8 strings to NFC
+ *
  * @return string|false
  */
 function utf8_normalize(string $string)
@@ -26,6 +27,7 @@ function utf8_combined_chr(string $codepoint): string
 
 /**
  * Given a character, return the Unicode script it belongs to
+ *
  * @param $char int|string
  */
 function utf8_char_script($char): string
@@ -36,6 +38,7 @@ function utf8_char_script($char): string
 
 /**
  * Given a string, return an array of Unicode scripts used within the string.
+ *
  * @return string[]
  */
 function utf8_string_scripts(string $string): array
@@ -92,6 +95,7 @@ function get_nonnormalized_codepoints($codepoints)
 
 /**
  * Given a single character, or a combined character, return its name
+ *
  * @param string $characters
  */
 function utf8_character_name($characters): string
@@ -108,10 +112,9 @@ function utf8_character_name($characters): string
  *
  * Inherited characters are included in the chunk with the base character
  *
- * @param string $string
  * @return string[]
  */
-function split_multiscript_string($string): array
+function split_multiscript_string(string $string): array
 {
     $chunks = [];
     $chunk = null;
@@ -278,6 +281,7 @@ function build_character_regex_filter($codepoints, $lang = 'php')
  * Take an array of Unicode codepoints (U+####), codepoint ranges
  * (U+####-U+####), or combined characters (U+####>U+####) and
  * return an array of unicode characters.
+ *
  * @param $codepoints string|string[]
  * @return string[]
  */
@@ -308,6 +312,7 @@ function convert_codepoint_ranges_to_characters($codepoints): array
 
 /**
  * Return an array of invalid characters and their count
+ *
  * @return array<string, int>
  */
 function get_invalid_characters(string $string, $codepoints): array
@@ -368,9 +373,9 @@ function convert_text_file_to_utf8(string $filename)
  * * Windows-1252
  * * ISO-8859-1
  *
- * These strings match what mb_detect_encoding() would return. The function
- * returns null if it's unable to guess, although it will readily return
- * ISO-8859-1 in many circumstances.
+ * These strings works similarly to mb_detect_encoding() except that it returns
+ * null rather than false. The function returns null if it's unable to guess,
+ * although it will readily return ISO-8859-1 in many circumstances.
  */
 function guess_string_encoding(string $text): ?string
 {
