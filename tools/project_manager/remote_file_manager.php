@@ -204,14 +204,13 @@ switch ($action) {
     default:
         // no matching $action in input
         fatal_error(sprintf(_("Invalid action: '%s'"), html_safe($action)));
-        exit;
 }
 
 do_showdir($action_message);
 
 //---------------------------------------------------------------------------
 
-function do_showdir($action_message)
+function do_showdir(string $action_message): void
 {
     global $curr_relpath, $hce_curr_displaypath, $home_dirname, $commons_rel_dir;
     global $pguser, $home_dir_created, $autoprefix_message;
@@ -270,7 +269,7 @@ function do_showdir($action_message)
     show_caveats();
 }
 
-function do_showupload()
+function do_showupload(): void
 {
     global $curr_relpath, $hce_curr_displaypath;
     global $pguser, $autoprefix_message;
@@ -292,7 +291,7 @@ function do_showupload()
     show_return_link();
 }
 
-function do_upload()
+function do_upload(): void
 {
     global $curr_abspath, $hce_curr_displaypath;
     global $pguser, $despecialed_username;
@@ -360,7 +359,7 @@ function do_upload()
     show_return_link();
 }
 
-function do_showmkdir()
+function do_showmkdir(): void
 {
     global $curr_relpath, $hce_curr_displaypath;
 
@@ -379,7 +378,7 @@ function do_showmkdir()
     show_return_link();
 }
 
-function do_mkdir()
+function do_mkdir(): string
 {
     global $curr_abspath, $curr_relpath;
 
@@ -405,7 +404,7 @@ function do_mkdir()
     return sprintf(_("Created folder %s"), html_safe($new_dir_name));
 }
 
-function do_showrename()
+function do_showrename(): void
 {
     global $curr_relpath;
 
@@ -433,7 +432,7 @@ function do_showrename()
     show_return_link();
 }
 
-function do_rename()
+function do_rename(): string
 {
     global $curr_abspath;
 
@@ -478,7 +477,7 @@ function do_rename()
     return sprintf(_('Item %1$s has been renamed as %2$s.'), html_safe($item_name), html_safe($new_item_name));
 }
 
-function do_showmove()
+function do_showmove(): void
 {
     global $uploads_dir, $commons_dir, $users_dir, $curr_abspath, $curr_relpath, $home_path;
 
@@ -545,7 +544,7 @@ function do_showmove()
     show_return_link();
 }
 
-function do_move()
+function do_move(): string
 {
     global $uploads_dir, $curr_abspath, $curr_relpath;
 
@@ -556,7 +555,7 @@ function do_move()
 
     $dst_dir_relpath = canonicalize_path(trim(@$_POST['target_dir'], '/'));
 
-    if ($dst_dir_relpath === false || !is_valid_move_destination($dst_dir_relpath)) {
+    if ($dst_dir_relpath === null || !is_valid_move_destination($dst_dir_relpath)) {
         fatal_error(_("Invalid target folder"));
     }
 
@@ -583,7 +582,7 @@ function do_move()
     return sprintf(_('File %1$s has been moved to folder %2$s'), html_safe($item_name), html_safe($dst_dir_relpath));
 }
 
-function do_download()
+function do_download(): void
 {
     global $curr_abspath;
 
@@ -610,7 +609,7 @@ function do_download()
     }
 }
 
-function do_showdelete()
+function do_showdelete(): void
 {
     global $curr_abspath, $curr_relpath, $hce_curr_displaypath;
 
@@ -651,7 +650,7 @@ function do_showdelete()
     show_return_link();
 }
 
-function do_delete()
+function do_delete(): string
 {
     global $curr_abspath, $trash_dir, $trash_rel_dir;
 
@@ -681,7 +680,7 @@ function do_delete()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function user_may_access_all_upload_dirs()
+function user_may_access_all_upload_dirs(): bool
 {
     return user_is_a_sitemanager();
 }
@@ -689,7 +688,7 @@ function user_may_access_all_upload_dirs()
 /**
  * Is this a subdirectory of the user's home dir?
  */
-function is_subdir_of_home($dir)
+function is_subdir_of_home(string $dir): bool
 {
     global $home_dirname;
     // Does the path start with the home dir?
@@ -707,7 +706,7 @@ function is_subdir_of_home($dir)
 /**
  * May the user move files to the specified relative directory?
  */
-function is_valid_move_destination($dir)
+function is_valid_move_destination(string $dir): bool
 {
     global $commons_rel_dir, $users_rel_dir, $home_dirname;
 
@@ -737,14 +736,14 @@ function is_valid_move_destination($dir)
  * removing empty components, rejecting parent traversal,
  * and re-joining them.
  *
- * Returns False is path contains invalid components.
+ * Returns null is path contains invalid components.
  */
-function canonicalize_path($relpath)
+function canonicalize_path(string $relpath): ?string
 {
     $canonical_path = [];
     foreach (explode('/', $relpath) as $c) {
         if ($c == '..') {
-            return false;
+            return null;
         }
         if ($c == '' || $c == '.') {
             continue;
@@ -757,7 +756,7 @@ function canonicalize_path($relpath)
 /**
  * Ascertain the current directory, validate it, and return the relative path
  */
-function get_current_dir_relative_path($home_dirname)
+function get_current_dir_relative_path(string $home_dirname): string
 {
     global $uploads_dir, $commons_rel_dir;
     $abs_uploads_dir = realpath($uploads_dir);
@@ -796,20 +795,20 @@ function get_current_dir_relative_path($home_dirname)
     return preg_replace("#^$abs_uploads_dir/*#", "", $abspath);
 }
 
-function get_access_mode($username)
+function get_access_mode(string $username)
 {
     $userSettings = & Settings::get_settings($username);
     return $userSettings->get_value("remote_file_manager");
 }
 
 // Function for displaying directory contents
-function show_content()
+function show_content(): void
 {
     global $curr_relpath, $hae_curr_relpath, $curr_abspath, $hce_curr_displaypath;
 
     $item_names = get_directory_items_sorted($curr_abspath);
 
-    if ($item_names === false) {
+    if ($item_names === null) {
         // XXX fatal_error(_("Unable to open folder")) ?
         return;
     }
@@ -887,11 +886,12 @@ function show_content()
     echo "</table>\n";
 }
 
-function get_directory_items_sorted($curr_abspath)
+/** @return string[] */
+function get_directory_items_sorted(string $curr_abspath): ?array
 {
     $handle = @opendir($curr_abspath);
     if ($handle === false) {
-        return false;
+        return null;
     }
 
     $items_files = [];
@@ -914,7 +914,8 @@ function get_directory_items_sorted($curr_abspath)
     return array_merge($items_dirs, $items_files);
 }
 
-function get_actions_block($item_name, $valid_actions)
+/** @param string[] $valid_actions */
+function get_actions_block(string $item_name, array $valid_actions): string
 {
     global $hae_curr_relpath;
     $hae_item_name = attr_safe($item_name);
@@ -991,12 +992,12 @@ function get_actions_block($item_name, $valid_actions)
  * and names a file in the current directory, return.
  * Otherwise, print an error message and exit.
  */
-function confirm_is_local_file($filename)
+function confirm_is_local_file(string $filename): void
 {
     confirm_is_local('F', $filename);
 }
 
-function confirm_is_local($type, $item_name)
+function confirm_is_local(string $type, string $item_name): void
 {
     global $curr_abspath, $hce_curr_displaypath;
 
@@ -1038,7 +1039,8 @@ function confirm_is_local($type, $item_name)
     }
 }
 
-function fatal_error($message)
+/** @return noreturn */
+function fatal_error(string $message): void
 {
     show_message('error', $message);
 
@@ -1054,7 +1056,7 @@ function fatal_error($message)
 /**
  * Return or echo a formatted informational or error message
  */
-function get_message($type, $message)
+function get_message(string $type, string $message): string
 {
     if ($type == 'error') {
         $prefix = _("Error") . ":";
@@ -1066,7 +1068,7 @@ function get_message($type, $message)
     return "<div class='$class'><b>$prefix</b> $message</div>\n";
 }
 
-function show_message($type, $message)
+function show_message(string $type, string $message): void
 {
     echo get_message($type, $message);
     flush();
@@ -1075,25 +1077,22 @@ function show_message($type, $message)
 /**
  * Display a return link (to the 'showdir' view)
  */
-function show_return_link($relpath = null)
+function show_return_link(): void
 {
     global $curr_relpath;
-    if ($relpath === null) {
-        $relpath = $curr_relpath;
-    }
 
-    $url = "?cdrp=" . urlencode($relpath);
-    $text = sprintf(_("Go to folder %s"), attr_safe($relpath));
+    $url = "?cdrp=" . urlencode($curr_relpath);
+    $text = sprintf(_("Go to folder %s"), attr_safe($curr_relpath));
     echo "<p><a href='$url'>$text</a></p>\n";
 }
 
-function show_home_link()
+function show_home_link(): void
 {
     $text = sprintf(_("Go to your home folder"));
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
 }
 
-function show_commons_link()
+function show_commons_link(): void
 {
     global $commons_rel_dir;
     $text = sprintf(_("Go to Commons folder"));
@@ -1101,7 +1100,8 @@ function show_commons_link()
     echo "<p><a href='$url'>$text</a></p>\n";
 }
 
-function searchdir($dir_path, $maxdepth = -1, $mode = "FULL", $d = 0)
+/** @return string[] */
+function searchdir(string $dir_path, int $maxdepth = -1, string $mode = "FULL", int $d = 0): array
 {
     // $dir_path : path to browse
     // $maxdepth : how deep to browse (-1=unlimited)
@@ -1138,7 +1138,7 @@ function searchdir($dir_path, $maxdepth = -1, $mode = "FULL", $d = 0)
 }
 
 // ===================================================================================
-function show_form($action, $cdrp, $form_content, $submit_label)
+function show_form(string $action, string $cdrp, string $form_content, string $submit_label): void
 {
     // Display a div with a form containing action and cdrp hidden inputs; some content,
     // which can be arbitrary HTML/other inputs; and finally a labeled submit button
@@ -1151,7 +1151,7 @@ function show_form($action, $cdrp, $form_content, $submit_label)
     echo "</div>\n";
 }
 
-function show_caveats()
+function show_caveats(): void
 {
     echo "<p><b>" . _("Current file and directory management features") . ":</b></p>\n";
     echo "<ul>\n";
