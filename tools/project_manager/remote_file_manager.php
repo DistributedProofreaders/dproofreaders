@@ -736,7 +736,7 @@ function is_valid_move_destination(string $dir): bool
  * removing empty components, rejecting parent traversal,
  * and re-joining them.
  *
- * Returns null is path contains invalid components.
+ * Returns null if `$relpath` contains any invalid component.
  */
 function canonicalize_path(string $relpath): ?string
 {
