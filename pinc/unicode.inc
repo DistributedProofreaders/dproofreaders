@@ -373,9 +373,10 @@ function convert_text_file_to_utf8(string $filename)
  * * Windows-1252
  * * ISO-8859-1
  *
- * These strings works similarly to mb_detect_encoding() except that it returns
- * null rather than false. The function returns null if it's unable to guess,
- * although it will readily return ISO-8859-1 in many circumstances.
+ * This function works similarly to mb_detect_encoding() -- returning the same
+ * encoding strings, except that it returns null rather than false.
+ * The function returns null if it's unable to guess, although it will readily
+ * return ISO-8859-1 in many circumstances.
  */
 function guess_string_encoding(string $text): ?string
 {
