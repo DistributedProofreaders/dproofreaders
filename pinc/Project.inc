@@ -259,8 +259,10 @@ class Project
      *
      * Note that the value types given here are enforced in validate() except
      * for nulls.
+     *
+     * @return array<string, ?string>
      */
-    private function _get_field_defaults()
+    private function _get_field_defaults(): array
     {
         return [
             "projectid" => null,
@@ -295,14 +297,14 @@ class Project
      *
      * These alone aren't sufficient to validate() and persist the project.
      */
-    private function _init_fields_to_defaults()
+    private function _init_fields_to_defaults(): void
     {
         foreach ($this->_get_field_defaults() as $key => $value) {
             $this->$key = $value;
         }
     }
 
-    private function _load_from_db($projectid)
+    private function _load_from_db(string $projectid): void
     {
         $sql = sprintf(
             "
@@ -322,7 +324,7 @@ class Project
         }
     }
 
-    public function populate_from_marc_record($encoded_marc_array)
+    public function populate_from_marc_record(string $encoded_marc_array): void
     {
         $yaz_array = unserialize(base64_decode($encoded_marc_array));
         if (!$yaz_array) {
@@ -338,7 +340,8 @@ class Project
         $this->genre = $marc_record->literary_form;
     }
 
-    public function validate($throw_on_error = false)
+    /** @return string[] */
+    public function validate(bool $throw_on_error = false): array
     {
         $labels = self::get_field_labels();
 
@@ -491,7 +494,7 @@ class Project
         return $errors;
     }
 
-    public function save()
+    public function save(): void
     {
         // Disallow save if the object was created from an array. There's too
         // great a chance that there might be missing fields.
@@ -637,7 +640,7 @@ class Project
         }
     }
 
-    public function delete()
+    public function delete(): void
     {
         // validate the projectID to ensure we are pointing to a valid
         // project directory
@@ -723,7 +726,7 @@ class Project
         return null;
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, $value): void
     {
         switch ($name) {
             case "languages":
@@ -735,7 +738,7 @@ class Project
         }
     }
 
-    private function _load_image_source()
+    private function _load_image_source(): void
     {
         $this->_image_source_name = '';
         $this->image_source_credit = '';
@@ -752,7 +755,7 @@ class Project
         }
     }
 
-    private function _get_credits_line()
+    private function _get_credits_line(): string
     {
         $credits_line = $this->_create_credit_line();
 
@@ -775,8 +778,10 @@ class Project
     /**
      * Return an associative array of project fields with localized labels
      * for use in the UI.
+     *
+     * @return array<string, string>
      */
-    public static function get_field_labels()
+    public static function get_field_labels(): array
     {
         return [
             "projectid" => _("Project ID"),
@@ -814,12 +819,9 @@ class Project
     // by joining them with the string " with ". These functions provide a
     // common place for encoding / decoding them.
 
-    public static function encode_languages($languages)
+    /** @param array{0: string, 1?: string} $languages */
+    public static function encode_languages(array $languages): string
     {
-        if (!is_array($languages)) {
-            throw new ValueError("languages must be an array");
-        }
-
         // handle the case where the second language is empty
         if (count($languages) == 2 && $languages[1] == '') {
             return $languages[0];
@@ -828,14 +830,15 @@ class Project
         return join(" with ", $languages);
     }
 
-    public static function decode_language($language)
+    /** @return string[] */
+    public static function decode_language(string $language): array
     {
         return explode(" with ", $language);
     }
 
     // -------------------------------------------------------------------------
 
-    public function convert_to_utf8()
+    public function convert_to_utf8(): bool
     {
         // nothing to do if the project table doesn't exist
         // this covers archived projects which are moved into a different DB
@@ -867,7 +870,8 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public static function projects_using_charsuite($charsuite)
+    /** @return string[] */
+    public static function projects_using_charsuite($charsuite): array
     {
         $charsuite = CharSuites::resolve($charsuite);
 
@@ -889,7 +893,7 @@ class Project
         return $projectids;
     }
 
-    public function set_charsuites($charsuites)
+    public function set_charsuites($charsuites): void
     {
         // We want to allow the project to keep any character suites
         // it already had, even if the character suite was disabled
@@ -918,7 +922,7 @@ class Project
         }
     }
 
-    public function add_charsuite($charsuite)
+    public function add_charsuite($charsuite): void
     {
         $charsuite = CharSuites::resolve($charsuite);
 
@@ -945,7 +949,7 @@ class Project
         DPDatabase::query($sql);
     }
 
-    public function remove_charsuite($charsuite)
+    public function remove_charsuite($charsuite): void
     {
         $charsuite = CharSuites::resolve($charsuite);
 
@@ -993,7 +997,7 @@ class Project
         return $charsuites;
     }
 
-    public function get_custom_charsuite()
+    public function get_custom_charsuite(): ?CharSuite
     {
         if (!$this->custom_chars) {
             return null;
@@ -1322,7 +1326,7 @@ class Project
      * The string will not be localized, since it should be ready
      * to be included with the finished project.
      */
-    private function _create_credit_line()
+    private function _create_credit_line(): string
     {
         global $site_url;
 
