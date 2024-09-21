@@ -4,8 +4,10 @@ use voku\helper\UTF8;
 
 /**
  * Normalize UTF-8 strings to NFC
+ *
+ * @return string|false
  */
-function utf8_normalize($string)
+function utf8_normalize(string $string)
 {
     $normalizer = new Normalizer();
     return $normalizer->normalize($string);
@@ -17,7 +19,7 @@ function utf8_normalize($string)
  * This is very similar to UTF8::hex_to_chr(), except if $codepoint contains
  * a > it is assumed to represent a combined character.
  */
-function utf8_combined_chr($codepoint)
+function utf8_combined_chr(string $codepoint): string
 {
     $codepoints = explode('>', $codepoint);
     return implode('', array_map('voku\helper\UTF8::hex_to_chr', $codepoints));
@@ -25,8 +27,10 @@ function utf8_combined_chr($codepoint)
 
 /**
  * Given a character, return the Unicode script it belongs to
+ *
+ * @param $char int|string
  */
-function utf8_char_script($char)
+function utf8_char_script($char): string
 {
     $enum = IntlChar::getIntPropertyValue($char, IntlChar::PROPERTY_SCRIPT);
     return IntlChar::getPropertyValueName(IntlChar::PROPERTY_SCRIPT, $enum);
@@ -34,8 +38,10 @@ function utf8_char_script($char)
 
 /**
  * Given a string, return an array of Unicode scripts used within the string.
+ *
+ * @return string[]
  */
-function utf8_string_scripts($string)
+function utf8_string_scripts(string $string): array
 {
     $scripts = [];
 
@@ -89,8 +95,10 @@ function get_nonnormalized_codepoints($codepoints)
 
 /**
  * Given a single character, or a combined character, return its name
+ *
+ * @param string $characters
  */
-function utf8_character_name($characters)
+function utf8_character_name($characters): string
 {
     $title_pieces = [];
     foreach (UTF8::str_split($characters) as $char) {
@@ -103,8 +111,10 @@ function utf8_character_name($characters)
  * Split a string into chunks on Unicode script boundaries.
  *
  * Inherited characters are included in the chunk with the base character
+ *
+ * @return string[]
  */
-function split_multiscript_string($string)
+function split_multiscript_string(string $string): array
 {
     $chunks = [];
     $chunk = null;
@@ -271,8 +281,11 @@ function build_character_regex_filter($codepoints, $lang = 'php')
  * Take an array of Unicode codepoints (U+####), codepoint ranges
  * (U+####-U+####), or combined characters (U+####>U+####) and
  * return an array of unicode characters.
+ *
+ * @param $codepoints string|string[]
+ * @return string[]
  */
-function convert_codepoint_ranges_to_characters($codepoints)
+function convert_codepoint_ranges_to_characters($codepoints): array
 {
     $return_array = [];
     if (!is_array($codepoints)) {
@@ -299,8 +312,10 @@ function convert_codepoint_ranges_to_characters($codepoints)
 
 /**
  * Return an array of invalid characters and their count
+ *
+ * @return array<string, int>
  */
-function get_invalid_characters($string, $codepoints)
+function get_invalid_characters(string $string, $codepoints): array
 {
     $string = utf8_filter_out_codepoints($string, $codepoints);
     $char_count = [];
@@ -322,12 +337,12 @@ function get_invalid_characters($string, $codepoints)
  * Returns `[ $success, $message ]` where $success is TRUE if the file is
  * already UTF-8 or was successfully converted. $message is a more detailed message.
  */
-function convert_text_file_to_utf8($filename)
+function convert_text_file_to_utf8(string $filename)
 {
     $text = file_get_contents($filename);
     $encoding = guess_string_encoding($text);
 
-    if ($encoding === false) {
+    if ($encoding === null) {
         return [false, "Unable to detect coding for $filename."];
     }
 
@@ -358,11 +373,12 @@ function convert_text_file_to_utf8($filename)
  * * Windows-1252
  * * ISO-8859-1
  *
- * These strings match what mb_detect_encoding() would return. The function
- * returns False if it's unable to guess, although it will readily return
- * ISO-8859-1 in many circumstances.
+ * This function works similarly to mb_detect_encoding() -- returning the same
+ * encoding strings, except that it returns null rather than false.
+ * The function returns null if it's unable to guess, although it will readily
+ * return ISO-8859-1 in many circumstances.
  */
-function guess_string_encoding($text)
+function guess_string_encoding(string $text): ?string
 {
     if (preg_match('//u', $text)) {
         return 'UTF-8';
@@ -385,7 +401,7 @@ function guess_string_encoding($text)
     // if there are any characters in ranges that are either control characters
     // or invalid for ISO-8859-1 or CP-1252, return False
     if (preg_match('/[\x00-\x08\x0E-\x1F\x81\x8D\x8F\x90\x9D]/', $text, $matches)) {
-        return false;
+        return null;
     }
 
     // if we get here, we're going to assume it's either Windows-1252 or ISO-8859-1.
@@ -403,8 +419,10 @@ function guess_string_encoding($text)
  * Return a list of Unicode codepoints we want to replace with some ASCII
  * equivalence. We convert these codepoints to ASCII up on page save in
  * DPage.inc.
+ *
+ * @return array<string, string[]>
  */
-function get_utf8_to_ascii_codepoints()
+function get_utf8_to_ascii_codepoints(): array
 {
     return [
         '-' => [
@@ -461,8 +479,10 @@ function get_utf8_to_ascii_codepoints()
 /**
  * Return a list of disallowed codepoints. These codepoints are converted
  * to ASCII upon page save and are not valid in character suites.
+ *
+ * @return string[]
  */
-function get_disallowed_codepoints()
+function get_disallowed_codepoints(): array
 {
     $invalid_codepoints = [];
     foreach (get_utf8_to_ascii_codepoints() as $ascii => $codepoints) {
@@ -471,7 +491,7 @@ function get_disallowed_codepoints()
     return $invalid_codepoints;
 }
 
-function utf8_url_slug($str)
+function utf8_url_slug(string $str): string
 {
     $str = preg_replace('/[^\\p{L}\\p{Nd}\-_]+/u', '-', $str);
     $str = trim($str, '_-');
