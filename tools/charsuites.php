@@ -189,7 +189,7 @@ function output_characters_table(array $characters, int $table_width = 16): void
     }
 }
 
-/** @param string[] $slice */
+/** @param (string|null)[] $slice */
 function output_characters_slice(array $slice): void
 {
     foreach ($slice as $char) {
@@ -201,7 +201,7 @@ function output_characters_slice(array $slice): void
             echo "<span class='gs-char'>$char</span><br>";
             echo "<span class='gs-codepoint'>$codepoint</span>";
             echo "</td>";
-        } else { /** @phpstan-ignore-line */
+        } else {
             // this is just a placeholder
             echo "<td></td>";
         }

@@ -8,12 +8,12 @@ class CharSuiteNotEnabledException extends Exception
 class PickerSet
 {
     public string $name;
-    /** @var array<string, string[]> */
+    /** @var array<string, (string|null)[]> */
     private array $subsets;
     /** @var string[] */
     private array $titles;
 
-    /** @param $codepoints string[] */
+    /** @param $codepoints (string|null)[] */
     public function add_subset(string $name, array $codepoints, ?string $title = null)
     {
         $this->subsets[$name] = $codepoints;

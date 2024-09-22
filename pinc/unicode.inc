@@ -282,8 +282,8 @@ function build_character_regex_filter($codepoints, $lang = 'php')
  * (U+####-U+####), or combined characters (U+####>U+####) and
  * return an array of unicode characters.
  *
- * @param $codepoints string|string[]
- * @return string[]
+ * @param $codepoints string|(string|null)[]
+ * @return (string|null)[]
  */
 function convert_codepoint_ranges_to_characters($codepoints): array
 {
