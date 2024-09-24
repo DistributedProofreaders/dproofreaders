@@ -842,6 +842,17 @@ function get_project_word_file($projectid, $code)
 }
 
 /**
+ * Get paths to the site good and bad word dir/url.
+ *
+ * @return string[]
+ */
+function get_site_word_paths()
+{
+    global $dyn_dir, $dyn_url;
+    return ["$dyn_dir/words", "$dyn_url/words"];
+}
+
+/**
  * Get a file info object for a site word list
  *
  * @param string $code
@@ -851,7 +862,7 @@ function get_project_word_file($projectid, $code)
  */
 function get_site_word_file($langcode3, $code)
 {
-    global $dyn_dir, $dyn_url;
+    [$site_words_dir, $site_words_url] = get_site_word_paths();
 
     $filename_for_code = [
         'good' => "good_words.$langcode3.txt",
@@ -862,8 +873,8 @@ function get_site_word_file($langcode3, $code)
 
     return get_file_info_object(
         $filename_for_code[$code],
-        "$dyn_dir/words",
-        "$dyn_url/words"
+        $site_words_dir,
+        $site_words_url
     );
 }
 
@@ -1066,8 +1077,8 @@ function get_site_possible_bad_word_lists(): array
 /**
  * Get site word files that match a pattern
  *
- * Returns an associative array of words ifiles in the site's words
- * with their corresponding URL.
+ * Returns an associative array of word files in the site's word list
+ * dir with their corresponding URL.
  *
  * Note: 'empty' files (2 bytes in size or smaller) are not returned
  * regardless of the pattern specified
@@ -1075,28 +1086,16 @@ function get_site_possible_bad_word_lists(): array
  * @param string $pattern
  *   Regex that files must match to be included in the returned array.
  *   If blank all files will be returned.
- * @param bool $urlbase
- *   If TRUE files will be turned as a URL,
- *   If FALSE absolute filesystem paths are returned
  *
  * @return array<string, string>
  */
-function get_site_word_files(string $pattern = "", bool $urlbase = true): array
+function get_site_word_files(string $pattern = "/txt$/"): array
 {
-    global $dyn_dir;
-    global $dyn_url;
-
-    if ($urlbase) {
-        $base = $dyn_url;
-    } else {
-        $base = $dyn_dir;
-    }
+    [$site_words_dir, $site_words_url] = get_site_word_paths();
 
     $wordLists = [];
-
-    $wordsDir = "$dyn_dir/words";
-    if (is_dir($wordsDir)) {
-        foreach (scandir($wordsDir) as $filename) {
+    if (is_dir($site_words_dir)) {
+        foreach (scandir($site_words_dir) as $filename) {
             // skip files that don't match the pattern
             if (!empty($pattern) && !preg_match($pattern, $filename)) {
                 continue;
@@ -1104,11 +1103,11 @@ function get_site_word_files(string $pattern = "", bool $urlbase = true): array
 
             // skip files that are only two bytes or smaller
             // as these usually contain just \r and/or \n
-            if (filesize("$wordsDir/$filename") <= 2) {
+            if (filesize("$site_words_dir/$filename") <= 2) {
                 continue;
             }
 
-            $wordLists["$wordsDir/$filename"] = "$base/words/$filename";
+            $wordLists["$site_words_dir/$filename"] = "$site_words_url/$filename";
         }
     }
 
