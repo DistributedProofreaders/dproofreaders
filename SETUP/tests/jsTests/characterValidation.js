@@ -3,8 +3,7 @@
 
 var validCharacterPattern;
 
-QUnit.module("Character validation test", function() {
-
+QUnit.module("Character validation test", function () {
     let basicLatin = "^(?:[\n\r -~¡-¬®-ÿŒœŠšŽžŸƒ‹›])$";
 
     QUnit.test("In basic latin basic latin character is valid", function (assert) {
@@ -53,6 +52,6 @@ QUnit.module("Character validation test", function() {
         assert.strictEqual(testText("\u{13000}"), true);
         assert.strictEqual(testText("𓀂"), true);
         assert.strictEqual(testText("𓀁"), true);
-        assert.strictEqual(testText("𓀉"),false);
+        assert.strictEqual(testText("𓀉"), false);
     });
 });

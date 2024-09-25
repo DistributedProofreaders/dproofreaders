@@ -1,17 +1,18 @@
 /*global splitControl pageBrowse showWordContext proofIntData */
 
-window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function () {
     let storageKeyLayout = showWordContext.storageKey + "-layout";
     let layout;
     try {
         layout = JSON.parse(localStorage.getItem(storageKeyLayout));
-    } catch(error) { // eslint-disable-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
+    } catch (error) {
         layout = null;
     }
-    if(!layout || !layout.splitDirection || !layout.splitPercent) {
-        layout = {splitPercent: 30, splitDirection: "horizontal"};
+    if (!layout || !layout.splitDirection || !layout.splitPercent) {
+        layout = { splitPercent: 30, splitDirection: "horizontal" };
     }
-    let splitVertical = (layout.splitDirection === "vertical");
+    let splitVertical = layout.splitDirection === "vertical";
 
     function saveLayout() {
         localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
@@ -21,7 +22,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
     let mainSplit = splitControl("#show_word_context_container", {
         splitVertical: splitVertical,
-        splitPercent: layout.splitPercent
+        splitPercent: layout.splitPercent,
     });
     window.addEventListener("resize", mainSplit.reLayout);
     mainSplit.reLayout();
@@ -65,7 +66,7 @@ window.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    document.querySelectorAll(".page-select").forEach(pageSelect => {
+    document.querySelectorAll(".page-select").forEach((pageSelect) => {
         pageSelect.addEventListener("click", function () {
             showImage(this.dataset.value);
         });

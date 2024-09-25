@@ -33,22 +33,22 @@ $(function () {
     if (mruString) {
         mru = JSON.parse(mruString);
     }
-    if(!Array.isArray(mru)) {
+    if (!Array.isArray(mru)) {
         // this should only happen during development changes
         mru = [];
     }
 
     var pickerChars = {};
-    $('.picker').each(function() {
+    $(".picker").each(function () {
         pickerChars[$(this).text()] = true;
     });
 
     // filter out invalid characters
-    mru = mru.filter(function(mruCharacter) {
+    mru = mru.filter(function (mruCharacter) {
         return pickerChars[mruCharacter.character] === true;
     });
 
-    window.addEventListener('beforeunload', function() {
+    window.addEventListener("beforeunload", function () {
         localStorage.setItem(storageKey, JSON.stringify(mru));
     });
 
@@ -58,26 +58,22 @@ $(function () {
     function setAlign(element, title) {
         // to ensure the accents for Greek capital letters are visible, add a text indent.
         // see also similar code in pinc/CharacterSelector.inc
-        if(title.startsWith("GREEK CAPITAL") && (title.includes("OXIA") || title.includes("VARIA"))) {
-            element.style.textIndent = '0.35em';
+        if (title.startsWith("GREEK CAPITAL") && (title.includes("OXIA") || title.includes("VARIA"))) {
+            element.style.textIndent = "0.35em";
         } else {
-            element.style.textIndent = '0';
+            element.style.textIndent = "0";
         }
     }
 
     function drawRow(mruRow) {
         // it is not necessary to escape the character or title
-        var row = $('<div />').addClass('table-row');
-        mruRow.forEach(function(element) {
-            let mruButton = $('<button />', {type: "button", title: element.title});
-            mruButton.addClass('picker')
-                .text(element.character);
+        var row = $("<div />").addClass("table-row");
+        mruRow.forEach(function (element) {
+            let mruButton = $("<button />", { type: "button", title: element.title });
+            mruButton.addClass("picker").text(element.character);
             setAlign(mruButton[0], element.title);
 
-            row.append($('<div />')
-                .addClass('table-cell')
-                .append(mruButton)
-            );
+            row.append($("<div />").addClass("table-cell").append(mruButton));
         });
         return row;
     }
@@ -96,18 +92,18 @@ $(function () {
             return element.character === char;
         });
 
-        if(index >= 0) {
+        if (index >= 0) {
             // already in array, update time
             mru[index].time = Date.now();
         } else {
             // add new element and check length
-            if(mruMax < mru.unshift({character: char, time: Date.now(), title: titletext})) {
+            if (mruMax < mru.unshift({ character: char, time: Date.now(), title: titletext })) {
                 // remove oldest element
                 let oldTime = Number.MAX_VALUE;
                 let oldIndex;
-                mru.forEach(function(element, index) {
+                mru.forEach(function (element, index) {
                     let elTime = element.time;
-                    if(elTime < oldTime) {
+                    if (elTime < oldTime) {
                         oldTime = elTime;
                         oldIndex = index;
                     }
@@ -120,13 +116,8 @@ $(function () {
 
     // Draw the MRU selector button and empty block
     // this duplicates the html code defined in CharacterSelector.inc
-    $("#selector_row").prepend($('<button />', {type: "button", id: 'mru_code', title: mruTitle})
-        .addClass('selector_button')
-        .text(mruAbbrev)
-    );
-    $("#char-selector").append($('<div />')
-        .addClass('mru_code key-block')
-    );
+    $("#selector_row").prepend($("<button />", { type: "button", id: "mru_code", title: mruTitle }).addClass("selector_button").text(mruAbbrev));
+    $("#char-selector").append($("<div />").addClass("mru_code key-block"));
 
     // draw the picker buttons
     drawMru();
@@ -135,10 +126,9 @@ $(function () {
     var initialCode = $("#selector_row > button")[0].id;
     enableBoard(initialCode);
 
-    $("#selector_row")
-        .on("click", ".selector_button", charSelector, function () {
-            enableBoard(this.id);
-        });
+    $("#selector_row").on("click", ".selector_button", charSelector, function () {
+        enableBoard(this.id);
+    });
 
     // attach handlers to key-block so will respond to dynamically created MRU buttons
     $(".key-block", charSelector)
