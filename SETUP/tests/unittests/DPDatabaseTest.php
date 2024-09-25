@@ -40,7 +40,7 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
         }
         $this->assertSame(1, $r->num_rows);
         $this->assertSame(1, DPDatabase::affected_rows());
-        $row = $r->fetch_array();
+        $row = mysqli_fetch_array($r);
         $this->assertSame('0', $row['id']);
         $this->assertSame('test', $row['comment']);
 
