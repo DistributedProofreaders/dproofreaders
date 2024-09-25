@@ -18,12 +18,12 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
         }
     }
 
-    public function test_does_table_exit_existing_table(): void
+    public function test_does_table_exist_existing_table(): void
     {
         $this->assertSame(true, DPDatabase::does_table_exist("dpdb_tests"));
     }
 
-    public function test_does_table_exit_inexistent_table(): void
+    public function test_does_table_exist_inexistent_table(): void
     {
         $this->assertSame(false, DPDatabase::does_table_exist("inexistent_for_sure"));
     }
