@@ -116,7 +116,15 @@ $(function () {
 
     // Draw the MRU selector button and empty block
     // this duplicates the html code defined in CharacterSelector.inc
-    $("#selector_row").prepend($("<button />", { type: "button", id: "mru_code", title: mruTitle }).addClass("selector_button").text(mruAbbrev));
+    $("#selector_row").prepend(
+        $("<button />", {
+            type: "button",
+            id: "mru_code",
+            title: mruTitle,
+        })
+            .addClass("selector_button")
+            .text(mruAbbrev),
+    );
     $("#char-selector").append($("<div />").addClass("mru_code key-block"));
 
     // draw the picker buttons

@@ -5,8 +5,7 @@ window.addEventListener("DOMContentLoaded", function () {
     let layout;
     try {
         layout = JSON.parse(localStorage.getItem(storageKeyLayout));
-        // eslint-disable-next-line no-unused-vars
-    } catch (error) {
+    } catch {
         layout = null;
     }
     if (!layout || !layout.splitDirection || !layout.splitPercent) {
