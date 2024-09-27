@@ -1,10 +1,10 @@
 /*global validateText standardInterface switchConfirm revertConfirm */
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener("DOMContentLoaded", function () {
     // special handling for certain buttons
     // switch layout - validate before confirm
-    document.getElementById("button4").addEventListener("click", function(event) {
-        if(validateText() && confirm(switchConfirm)) {
+    document.getElementById("button4").addEventListener("click", function (event) {
+        if (validateText() && confirm(switchConfirm)) {
             return;
         } else {
             event.preventDefault();
@@ -13,8 +13,8 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // revert to original - validate before confirm
     if (document.getElementById("button8")) {
-        document.getElementById("button8").addEventListener("click", function(event) {
-            if(validateText() && confirm(revertConfirm)) {
+        document.getElementById("button8").addEventListener("click", function (event) {
+            if (validateText() && confirm(revertConfirm)) {
                 return;
             } else {
                 event.preventDefault();
@@ -25,21 +25,21 @@ window.addEventListener('DOMContentLoaded', function() {
     // word check -- for standard interface:
     // Direct the (text-only) spellcheck doc to 'textframe'
     // (rather than 'proofframe', the statically defined target).
-    document.getElementById("button10").addEventListener("click", function(event) {
-        if(!validateText()) {
+    document.getElementById("button10").addEventListener("click", function (event) {
+        if (!validateText()) {
             event.preventDefault();
             return;
         }
-        if(standardInterface) {
-            document.getElementById('editform').target = 'textframe';
+        if (standardInterface) {
+            document.getElementById("editform").target = "textframe";
         }
     });
 
     // this applies to "Save as 'Done'", "Save as 'In Progress'"
     // and "Save as 'Done' & Proofread Next Page"
-    document.querySelectorAll(".check_button").forEach(checkButton => {
-        checkButton.addEventListener("click", function(event) {
-            if(!validateText()) {
+    document.querySelectorAll(".check_button").forEach((checkButton) => {
+        checkButton.addEventListener("click", function (event) {
+            if (!validateText()) {
                 event.preventDefault();
             }
         });

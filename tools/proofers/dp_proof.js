@@ -5,7 +5,7 @@ var docRef = null;
 
 // picker character selection
 function insertCharacter(wM) {
-    insertTags(wM, '', true, false);
+    insertTags(wM, "", true, false);
 }
 
 // standard tag selection
@@ -61,7 +61,7 @@ function showNW() {
     // SENDING PAGE-TEXT TO USER
     // We're sending it in a HTML document,
     // so we entity-encode its HTML-special characters.
-    nW.document.write('<PRE>' + showNW_safe(docRef.editform.text_data.value) + '</PRE>');
+    nW.document.write("<PRE>" + showNW_safe(docRef.editform.text_data.value) + "</PRE>");
     nW.document.close();
 }
 
@@ -71,9 +71,9 @@ function showNW() {
 // Also convert <sc></sc> to <spans> that do the right thing.
 function showNW_safe(str) {
     return html_safe(str)
-        .replace(/&lt;(\/?)(i|b|hr)&gt;/ig, '<$1$2>')
-        .replace(/&lt;sc&gt;/ig, '<span style="font-variant: small-caps;">')
-        .replace(/&lt;\/sc&gt;/ig, '</span>');
+        .replace(/&lt;(\/?)(i|b|hr)&gt;/gi, "<$1$2>")
+        .replace(/&lt;sc&gt;/gi, '<span style="font-variant: small-caps;">')
+        .replace(/&lt;\/sc&gt;/gi, "</span>");
 }
 
 // Return a version of str that is safe to send as element-content
@@ -85,10 +85,7 @@ function showNW_safe(str) {
 // This should be equivalent to PHP's
 //     htmlspecialchars($str,ENT_NOQUOTES)
 function html_safe(str) {
-    return str
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function replaceAllText(wM) {
@@ -98,7 +95,7 @@ function replaceAllText(wM) {
 // apply tagOpen/tagClose to selection in textarea,
 function insertTags(tagOpen, tagClose, replace, retainSelection) {
     var txtArea;
-    if(inFace < 2) {
+    if (inFace < 2) {
         txtArea = docRef.editform.text_data;
     } else {
         // we're in wordcheck
@@ -108,11 +105,10 @@ function insertTags(tagOpen, tagClose, replace, retainSelection) {
     var endPos = txtArea.selectionEnd;
 
     // move end fwd if spaces at end
-    while ((startPos < endPos) && (txtArea.value.charAt(endPos - 1) === ' ')) {
+    while (startPos < endPos && txtArea.value.charAt(endPos - 1) === " ") {
         endPos -= 1;
     }
-    var selection = (
-        replace ? '' : (txtArea.value).substring(startPos, endPos));
+    var selection = replace ? "" : txtArea.value.substring(startPos, endPos);
 
     // When wrapping body text in markup or tags.
     // Modify the opening and closing tags and selection depending
@@ -121,39 +117,39 @@ function insertTags(tagOpen, tagClose, replace, retainSelection) {
     // If there's no selected text:
     // * Illustration markup may appear w/o a title, so remove the ': '.
     // * Formatting markup is redundant w/o any content, so don't produce it.
-    if (selection === '') {
-        if (tagOpen === '[Illustration: ') {
-            tagOpen = '[Illustration';
-        } else if ((tagOpen[0] === '<') && (tagOpen.length > 1)) {
+    if (selection === "") {
+        if (tagOpen === "[Illustration: ") {
+            tagOpen = "[Illustration";
+        } else if (tagOpen[0] === "<" && tagOpen.length > 1) {
             // do not tag empty strings but insert a single '<'
-            tagOpen = '';
-            tagClose = '';
+            tagOpen = "";
+            tagClose = "";
         }
     }
 
     // Handle footnote label substitution
-    if (tagOpen === '[Footnote #: ') {
+    if (tagOpen === "[Footnote #: ") {
         // Split the selected text on the first space in the string.
         // If the first part is a label use it in the opening tag in
         // place of '#', otherwise remove the ' #' from the opening tag.
-        var label = '';
-        var i = selection.indexOf(' ');
+        var label = "";
+        var i = selection.indexOf(" ");
         if (i !== -1) {
             var first = selection.substr(0, i);
 
             // A string is a footnote label if it's a letter A-Z, or an integer > 0
-            if ((/^[A-Za-z]$|^[1-9]\d*$/).test(first)) {
-                label = ' ' + first;
+            if (/^[A-Za-z]$|^[1-9]\d*$/.test(first)) {
+                label = " " + first;
                 selection = selection.substr(i + 1);
             }
         }
-        tagOpen = tagOpen.replace(' #', label);
+        tagOpen = tagOpen.replace(" #", label);
 
         // If there's no selection, remove the label entirely.
-        if (selection === '') {
-            tagOpen = tagOpen.replace(': ', '');
+        if (selection === "") {
+            tagOpen = tagOpen.replace(": ", "");
         }
-    } else if (tagOpen === '[** ' && selection) {
+    } else if (tagOpen === "[** " && selection) {
         tagOpen = selection + tagOpen;
     }
 
@@ -166,35 +162,36 @@ function insertTags(tagOpen, tagClose, replace, retainSelection) {
 }
 
 function lc_common(str) {
-    var words = str.split(' ');
-    var common_lc_words = ':At:Under:Near:Upon:By:Of:In:On:For' + // prepositions
-                      ':Is:Was:Are' +    // 'small' verbs
-                      ':But:And:Or' +    // conjunctions
-                      ':A:An:The' +      // articles
-                      ':Am:Pm:Bc:Ad' +   // small caps abbreviations
-                      ':De:Van:La:Le:';  // LOTE
+    var words = str.split(" ");
+    var common_lc_words =
+        ":At:Under:Near:Upon:By:Of:In:On:For" + // prepositions
+        ":Is:Was:Are" + // 'small' verbs
+        ":But:And:Or" + // conjunctions
+        ":A:An:The" + // articles
+        ":Am:Pm:Bc:Ad" + // small caps abbreviations
+        ":De:Van:La:Le:"; // LOTE
 
     // Start at i=1 to avoid changing the first word (leave it Titlecased).
     // E.g. if str is "A Winter's Tale", we don't want to lowercase the "A".
     var i;
-    for(i = 1; i < words.length; i += 1) {
+    for (i = 1; i < words.length; i += 1) {
         // If the word appears in the :-delimited list above, it should be lower case
-        if (common_lc_words.indexOf(':' + words[i] + ':') !== -1) {
+        if (common_lc_words.indexOf(":" + words[i] + ":") !== -1) {
             words[i] = words[i].toLowerCase();
         }
     }
 
-    return words.join(' ');
+    return words.join(" ");
 }
 
 function title_case(str) {
     str = str.toLowerCase();
-    var newStr = '';
+    var newStr = "";
     var i;
 
     for (i = 0; i < str.length; i += 1) {
         // Capitalise the first letter, or anything after a space, newline or period.
-        if (i === 0 || ' \n.'.indexOf(str.charAt(i - 1)) !== -1) {
+        if (i === 0 || " \n.".indexOf(str.charAt(i - 1)) !== -1) {
             newStr += str.charAt(i).toUpperCase();
         } else {
             newStr += str.charAt(i);
@@ -209,20 +206,20 @@ function transformText(transformType) {
     var txtArea = docRef.editform.text_data;
     var startPos = txtArea.selectionStart;
     var endPos = txtArea.selectionEnd;
-    var selection = (txtArea.value).substring(startPos, endPos);
-    switch(transformType) {
-    case 'title-case':
-        selection = title_case(selection);
-        break;
-    case 'upper-case':
-        selection = selection.toUpperCase();
-        break;
-    case 'lower-case':
-        selection = selection.toLowerCase();
-        break;
-    case 'remove_markup':
-        selection = selection.replace(/<\/?([ibfg]|sc)>/gi, '');
-        break;
+    var selection = txtArea.value.substring(startPos, endPos);
+    switch (transformType) {
+        case "title-case":
+            selection = title_case(selection);
+            break;
+        case "upper-case":
+            selection = selection.toUpperCase();
+            break;
+        case "lower-case":
+            selection = selection.toLowerCase();
+            break;
+        case "remove_markup":
+            selection = selection.replace(/<\/?([ibfg]|sc)>/gi, "");
+            break;
     }
     txtArea.value = txtArea.value.substring(0, startPos) + selection + txtArea.value.substring(endPos);
     var curPos = startPos + selection.length;
@@ -236,11 +233,11 @@ function submitForm(form) {
         // disable after form submits (setTimeout) since disabled form values aren't sent and we
         // need the submit button to submit to determine which submit button was clicked
         // standard interface buttons have type 'submit'
-        form.querySelectorAll('input[type=submit]').forEach(inputSubmit => {
+        form.querySelectorAll("input[type=submit]").forEach((inputSubmit) => {
             inputSubmit.disabled = true;
         });
         // enhanced interface buttons have type 'image'
-        form.querySelectorAll('input[type=image]').forEach(inputSubmit => {
+        form.querySelectorAll("input[type=image]").forEach((inputSubmit) => {
             inputSubmit.disabled = true;
         });
     }, 0);

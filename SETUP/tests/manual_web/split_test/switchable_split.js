@@ -1,9 +1,8 @@
 /* global $ splitControl */
 $(function () {
-
     function appendControlButton(controlDiv, theSplit, splitVert) {
-        let vSwitchButton = $("<input>", {type: 'button', value: 'Switch to Vertical Split'});
-        let hSwitchButton = $("<input>", {type: 'button', value: 'Switch to Horizontal Split'});
+        let vSwitchButton = $("<input>", { type: "button", value: "Switch to Vertical Split" });
+        let hSwitchButton = $("<input>", { type: "button", value: "Switch to Horizontal Split" });
 
         function setSplitControls(splitVertical) {
             if (splitVertical) {
@@ -34,7 +33,7 @@ $(function () {
     }
 
     function appendIndicator(controlDiv, theSplit) {
-        let indicator = $("<input>", {readonly: 'true'});
+        let indicator = $("<input>", { readonly: "true" });
         $(controlDiv).append(indicator);
         theSplit.onDragEnd.add(function (percent) {
             indicator.val(percent);
@@ -42,7 +41,7 @@ $(function () {
     }
 
     let initialSplitVertical = false;
-    let mainSplit = splitControl("#container", {splitVertical: initialSplitVertical});
+    let mainSplit = splitControl("#container", { splitVertical: initialSplitVertical });
     window.addEventListener("resize", mainSplit.reLayout);
     appendControlButton("#control-div", mainSplit, initialSplitVertical);
     appendIndicator("#control-div", mainSplit);

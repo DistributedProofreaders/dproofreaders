@@ -16,7 +16,7 @@ var previewControl;
 
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
-    var supp_set = ['charBeforeStart', 'sideNoteBlank'];
+    var supp_set = ["charBeforeStart", "sideNoteBlank"];
     // this is a wrapper round text_preview which enables the padding
     // on the right to appear correctly
     var outerPrev = document.getElementById("id_tp_outer");
@@ -38,7 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
     let fontSelector = document.getElementById("id_font_sel");
     let previewStyles = defaultStyles;
 
-    const previewColorStyle = document.createElement('style');
+    const previewColorStyle = document.createElement("style");
     document.head.appendChild(previewColorStyle);
 
     var suppCheckBox = [];
@@ -62,8 +62,8 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function makeColorStyles(config) {
-        let styleString = '';
-        Object.keys(tagNames).forEach(function(tag) {
+        let styleString = "";
+        Object.keys(tagNames).forEach(function (tag) {
             let tagStyle = config[tag];
             let innerString = "";
             if (tagStyle.fg !== "") {
@@ -80,16 +80,12 @@ window.addEventListener("DOMContentLoaded", () => {
     function writePreviewText() {
         // makePreview is defined in preview.js
         preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles, getMessage);
-        prevWin.style.whiteSpace = (
-            (preview.ok && wrapMode)
-                ? "normal"
-                : "pre"
-        );
+        prevWin.style.whiteSpace = preview.ok && wrapMode ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         if (preview.ok && previewStyles.allowMathPreview) {
             try {
                 MathJax.typeset([prevWin]);
-            } catch(exception) {
+            } catch (exception) {
                 alert("MathJax error: " + exception);
             }
         }
@@ -101,11 +97,7 @@ window.addEventListener("DOMContentLoaded", () => {
         var warn = Object.keys(previewStyles.suppress).some(function (key) {
             return previewStyles.suppress[key];
         });
-        someSupp.style.display = (
-            warn
-                ? "inline"
-                : "none"
-        );
+        someSupp.style.display = warn ? "inline" : "none";
     }
 
     // this makes a copy of the style data
@@ -120,13 +112,9 @@ window.addEventListener("DOMContentLoaded", () => {
     // the destination will not then exist, so check before copying.
     // If keep is false then an exact copy is made.
     function deepCopy(dest, source, keep) {
-        if (source && typeof source === 'object') {
+        if (source && typeof source === "object") {
             if (!keep) {
-                dest = (
-                    Array.isArray(source)
-                        ? []
-                        : {}
-                );
+                dest = Array.isArray(source) ? [] : {};
             }
             if (dest) {
                 Object.keys(source).forEach(function (i) {
@@ -139,11 +127,9 @@ window.addEventListener("DOMContentLoaded", () => {
         return dest;
     }
 
-
-
     function initStyle() {
         var style0;
-        if (localStorage.getItem('preview_data')) {
+        if (localStorage.getItem("preview_data")) {
             style0 = JSON.parse(localStorage.preview_data);
             previewStyles = deepCopy(previewStyles, style0, true);
         }
@@ -158,9 +144,9 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function setupFont() {
-        Object.keys(fontStyles).forEach(function(index) {
+        Object.keys(fontStyles).forEach(function (index) {
             let fontStyle = fontStyles[index];
-            let selected = (index === previewStyles.defFontIndex);
+            let selected = index === previewStyles.defFontIndex;
             let option = new Option(fontStyle, index, selected, selected);
             fontSelector.add(option, null);
         });
@@ -169,7 +155,7 @@ window.addEventListener("DOMContentLoaded", () => {
         setSelectedFont();
     }
 
-    fontSelector.addEventListener("change", function() {
+    fontSelector.addEventListener("change", function () {
         setSelectedFont();
     });
 
@@ -180,11 +166,11 @@ window.addEventListener("DOMContentLoaded", () => {
         viewMode = previewStyles.initialViewMode;
         document.getElementById(viewMode).checked = true;
         // check if MathJax already loaded. Will break if load more than once
-        if(previewStyles.allowMathPreview && (typeof(MathJax) === 'undefined')) {
-            const mathJaxScriptElement = document.createElement('script');
+        if (previewStyles.allowMathPreview && typeof MathJax === "undefined") {
+            const mathJaxScriptElement = document.createElement("script");
             mathJaxScriptElement.type = "text/javascript";
             mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
-            const scriptLoadPromise = new Promise(function(resolve) {
+            const scriptLoadPromise = new Promise(function (resolve) {
                 mathJaxScriptElement.onload = function () {
                     resolve();
                 };
@@ -210,7 +196,7 @@ window.addEventListener("DOMContentLoaded", () => {
         const tag = event.data.tag;
         const ground = event.data.ground;
         const colorInput = event.data.colorInput;
-        if(this.checked) {
+        if (this.checked) {
             // show the color input, set and save its color
             const defaultColor = tempStyle.t[ground];
             colorInput.val(defaultColor);
@@ -225,7 +211,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     // select the view mode
-    document.querySelectorAll("[name='viewSel']").forEach(function(viewSel) {
+    document.querySelectorAll("[name='viewSel']").forEach(function (viewSel) {
         viewSel.addEventListener("click", function () {
             viewMode = this.id;
             writePreviewText();
@@ -242,30 +228,35 @@ window.addEventListener("DOMContentLoaded", () => {
         testDiv.style.backgroundColor = tempStyle.t.bg;
         testDiv.style.color = tempStyle.t.fg;
         makeColorStyles(tempStyle);
-        preview = makePreview(previewStrings.previewDemo, 'no_tags', false, tempStyle, getMessage);
+        preview = makePreview(previewStrings.previewDemo, "no_tags", false, tempStyle, getMessage);
         testDiv.innerHTML = preview.txtout;
     }
 
     function initColorSelector() {
         const foreBackGround = ["fg", "bg"];
-        colorTable.append($("<tr>").append("<th>", $("<th>", {colspan: '2', text: previewStrings.text}), $("<th>", {colspan: '2', text: previewStrings.background})));
+        colorTable.append(
+            $("<tr>").append("<th>", $("<th>", { colspan: "2", text: previewStrings.text }), $("<th>", { colspan: "2", text: previewStrings.background })),
+        );
 
-        Object.keys(tagNames).forEach(function(tag) {
+        Object.keys(tagNames).forEach(function (tag) {
             let dataRow = $("<tr>");
-            dataRow.append($("<td>", {text: tagNames[tag]}));
-            foreBackGround.forEach(function(ground) {
+            dataRow.append($("<td>", { text: tagNames[tag] }));
+            foreBackGround.forEach(function (ground) {
                 const color = tempStyle[tag][ground];
-                let colorInput = $("<input>", {type: 'color'}).change({tag: tag, ground: ground}, colorChange);
+                let colorInput = $("<input>", { type: "color" }).change({ tag: tag, ground: ground }, colorChange);
                 // HACK for safari, setting value: color in the constructor doesn't work
                 colorInput.val(color);
-                if(tag == 't') {
+                if (tag == "t") {
                     // no checkbox
                     dataRow.append("<td>");
                 } else {
-                    const hideColor = ("" === color);
-                    const checkBox = $("<input>", {type: 'checkbox', 'checked': !hideColor}).change({tag: tag, ground: ground, colorInput: colorInput}, boxChange);
+                    const hideColor = "" === color;
+                    const checkBox = $("<input>", { type: "checkbox", checked: !hideColor }).change(
+                        { tag: tag, ground: ground, colorInput: colorInput },
+                        boxChange,
+                    );
                     dataRow.append($("<td>").append(checkBox));
-                    if(hideColor) {
+                    if (hideColor) {
                         colorInput.hide();
                     }
                 }
@@ -314,8 +305,9 @@ window.addEventListener("DOMContentLoaded", () => {
             prevWin.style.fontSize = font_size.toFixed(1) + "px";
         },
 
-        show: function () { // called when preview is first shown
-            if(!validateText()) {
+        show: function () {
+            // called when preview is first shown
+            if (!validateText()) {
                 return;
             }
             var msie = document.documentMode;
@@ -335,7 +327,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
         hide: previewToProof,
 
-        configure: function () {    // show the configuration screen
+        configure: function () {
+            // show the configuration screen
             leavePreview();
             configPan.style.display = "block";
             // make a copy of the styles so that if we cancel we can go back

@@ -7,7 +7,7 @@ frameRef = null; // used by dp_proof.js
 
 function focusText(noScroll = false) {
     if (isLded && inProof) {
-        docRef.editform.text_data.focus({preventScroll: noScroll});
+        docRef.editform.text_data.focus({ preventScroll: noScroll });
     }
 }
 
@@ -16,7 +16,7 @@ function initializeStuff(wFace) {
     isLded = 1;
     inProof = 1;
     inFace = wFace;
-    if(wFace == 1) {
+    if (wFace == 1) {
         // enhanced interface, non-spellcheck
         docRef = top.proofframe.document;
     } else if (wFace == 0) {
