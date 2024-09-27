@@ -88,7 +88,7 @@ if ($charsuite) {
 
 //----------------------------------------------------------------------------
 
-function output_charsuite($charsuite, $show_detail = false)
+function output_charsuite(CharSuite $charsuite, bool $show_detail = false): void
 {
     $slug = utf8_url_slug($charsuite->title);
     echo "<h2 id='$slug'>" . html_safe($charsuite->title) . "</h2>";
@@ -117,7 +117,8 @@ function output_charsuite($charsuite, $show_detail = false)
     }
 }
 
-function output_pickerset($pickerset, $all_codepoints)
+/** @param string[] $all_codepoints */
+function output_pickerset(?PickerSet $pickerset, array $all_codepoints): void
 {
     echo "<h2>" . _("Character Picker Sets") . "</h2>";
     if (!$pickerset) {
@@ -159,7 +160,8 @@ function output_pickerset($pickerset, $all_codepoints)
     }
 }
 
-function output_characters_table($characters, $table_width = 16)
+/** @param string[] $characters */
+function output_characters_table(array $characters, int $table_width = 16): void
 {
     // maximum number of codepoints to output
     $MAX_CODEPOINTS = 2048;
@@ -187,7 +189,8 @@ function output_characters_table($characters, $table_width = 16)
     }
 }
 
-function output_characters_slice($slice)
+/** @param (string|null)[] $slice */
+function output_characters_slice(array $slice): void
 {
     foreach ($slice as $char) {
         if ($char !== null) {
