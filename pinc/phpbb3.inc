@@ -20,7 +20,7 @@ $this_is_top_level_cli_invocation = (
 );
 // i.e., this file is being executed because it was the
 // script argument to a command-line invocation of php,
-// probably invoked by DP code via exec() or system().
+// probably invoked by DP code via Process().
 
 if ($this_is_top_level_cli_invocation) {
     // We assume it was invoked from the pinc/ directory.
@@ -356,6 +356,6 @@ if ($this_is_top_level_cli_invocation) {
     $result = call_user_func_array($func_name, $args);
     echo $result;
     // So that $result will show up as the last line of input,
-    // which is captured & returned by exec() and system(),
+    // which is captured & returned by Process(),
     // assuming that's how this is being invoked.
 }
