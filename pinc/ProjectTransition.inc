@@ -190,7 +190,7 @@ class ProjectTransition
      * It should perhaps also be the only place that modifies these columns:
      *     modifieddate checkedoutby postproofer postcomments
      */
-    public function do_state_change(Project $project, string $who, $extras): string
+    public function do_state_change(Project $project, string $who, array $extras): string
     {
         global $testing;
 
