@@ -33,7 +33,7 @@ class CharacterSelector
             }
 
             foreach ($picker_set->get_subsets() as $code => $picker) {
-                $safe_code = bin2hex($code);
+                $safe_code = uniqid();
                 $title = $prefix . $picker_set->get_title($code);
                 $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
                 $row_string .= "<div class='_$safe_code key-block'>\n";
