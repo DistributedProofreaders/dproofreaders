@@ -10,7 +10,7 @@ include_once($relPath.'ProjectTransition.inc');
  *
  * This function produces no output except for debugging messages.
  */
-function project_transition($projectid, $new_state, $who, $extras = [])
+function project_transition(string $projectid, string $new_state, string $who, array $extras = [])
 {
     global $testing;
 

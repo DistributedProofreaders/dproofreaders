@@ -42,10 +42,10 @@ class ProjectTransition
      *   - disabled_during_SR
      */
     public function __construct(
-        $from_state,
-        $to_state,
-        $who_restriction,
-        $options
+        string $from_state,
+        string $to_state,
+        string $who_restriction,
+        array $options
     ) {
         $this->from_state = $from_state;
         $this->to_state = $to_state;
@@ -70,7 +70,7 @@ class ProjectTransition
         }
     }
 
-    public function is_valid_for($project, $who)
+    public function is_valid_for(Project $project, string $who): bool
     {
         if ($this->from_state != $project->state) {
             return false;
@@ -87,7 +87,7 @@ class ProjectTransition
         return any($restrictions, fn ($r) => $this->is_valid_for_who($project, $r, $who));
     }
 
-    public function is_valid_for_who($project, $simple_who_restriction, $who)
+    public function is_valid_for_who(Project $project, string $simple_who_restriction, string $who): bool
     {
         if ($simple_who_restriction == 'holder') {
             // The user (if any) who currently has the project checked out
@@ -149,7 +149,7 @@ class ProjectTransition
     /**
      * Returns whether the transition is currently disabled
      */
-    public function is_disabled($project)
+    public function is_disabled(Project $project): bool
     {
         return ($this->why_disabled($project) != '');
     }
@@ -160,13 +160,8 @@ class ProjectTransition
      * Returns one of:
      * - "" - no reason why it is disabled
      * - "SR" - Disabled during Smooth Reading
-     *
-     * @param object $project
-     *   Project object
-     *
-     * @return string
      */
-    public function why_disabled($project)
+    public function why_disabled(Project $project): string
     {
         if ($project->is_available_for_smoothreading() &&
             isset($this->disabled_during_SR) &&
@@ -195,7 +190,7 @@ class ProjectTransition
      * It should perhaps also be the only place that modifies these columns:
      *     modifieddate checkedoutby postproofer postcomments
      */
-    public function do_state_change($project, $who, $extras)
+    public function do_state_change(Project $project, string $who, array $extras): string
     {
         global $testing;
 
@@ -363,8 +358,10 @@ class ProjectTransition
  *
  * If it is, return an empty array.
  * If it has problems, return an array of detailed error messages.
+ *
+ * @return string[]
  */
-function project_pre_release_check($project, $round)
+function project_pre_release_check(Project $project, Round $round): array
 {
     if (!$project->pages_table_exists) {
         return [_("There is no page-table.")];
@@ -417,7 +414,8 @@ class ProjectTransitions
 {
     private static $_project_transitions = [];
 
-    public static function get_all()
+    /** @return ProjectTransition[] */
+    public static function get_all(): array
     {
         if (!self::$_project_transitions) {
             self::$_project_transitions = create_project_transitions();
@@ -431,8 +429,10 @@ class ProjectTransitions
 /**
  * Return an array of transitions that the given user
  * can perform on the project (in its current state).
+ *
+ * @return ProjectTransition[]
  */
-function get_valid_transitions($project, $username)
+function get_valid_transitions(Project $project, string $username): array
 {
     // Keep a cache of viable transitions for a given "from" state
     // so we don't have to iterate over every transition for every project/user
@@ -461,7 +461,7 @@ function get_valid_transitions($project, $username)
 
 // -----------------------------------------------------------------------------
 
-function get_transition($from_state, $to_state)
+function get_transition(string $from_state, string $to_state): ?ProjectTransition
 {
     foreach (ProjectTransitions::get_all() as $transition) {
         if ($transition->from_state == $from_state &&
@@ -475,7 +475,8 @@ function get_transition($from_state, $to_state)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function create_project_transitions()
+/** @return ProjectTransition[] */
+function create_project_transitions(): array
 {
     global $code_url;
 
@@ -1206,7 +1207,7 @@ function create_project_transitions()
 // The functions below are used as callbacks for ProjectTransitions, either
 // as the project_restriction or the collateral_actions.
 
-function round_release_collateral($old_project, $project, $transition, $who)
+function round_release_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     $round = get_Round_for_project_state($transition->to_state);
     assert(!is_null($round));
@@ -1247,7 +1248,7 @@ function round_release_collateral($old_project, $project, $transition, $who)
     }
 }
 
-function bad_project_collateral($old_project, $project, $transition, $who)
+function bad_project_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     configure_gettext_for_user($project->username);
     $body_blurb_messages[] = _("This project has been shut down. This is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.");
@@ -1257,7 +1258,7 @@ function bad_project_collateral($old_project, $project, $transition, $who)
     configure_gettext_for_user();
 }
 
-function round_complete_collateral($old_project, $project, $transition, $who)
+function round_complete_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     $round = get_Round_for_project_state($transition->to_state);
     assert(!is_null($round));
@@ -1282,19 +1283,19 @@ function round_complete_collateral($old_project, $project, $transition, $who)
     }
 }
 
-function proj_would_go_to_PP_avail($project, $transition)
+function proj_would_go_to_PP_avail(Project $project, ProjectTransition $transition): bool
 {
     assert($project->state == $transition->from_state);
     return is_null(project_get_auto_PPer($project->projectid));
 }
 
-function proj_would_go_to_PP_out($project, $transition)
+function proj_would_go_to_PP_out(Project $project, ProjectTransition $transition): bool
 {
     assert($project->state == $transition->from_state);
     return !is_null(project_get_auto_PPer($project->projectid));
 }
 
-function round_to_PP_avail_collateral($old_project, $project, $transition, $who)
+function round_to_PP_avail_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
@@ -1337,7 +1338,7 @@ function round_to_PP_avail_collateral($old_project, $project, $transition, $who)
 }
 
 // From either PP Checked out or PP Unavailable to PP Available
-function to_PP_available_collateral($old_project, $project, $transition, $who)
+function to_PP_available_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1354,7 +1355,7 @@ function to_PP_available_collateral($old_project, $project, $transition, $who)
     notify_project_event_subscribers($project, 'pp_enter');
 }
 
-function round_to_PP_out_collateral($old_project, $project, $transition, $who)
+function round_to_PP_out_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
@@ -1411,7 +1412,7 @@ function round_to_PP_out_collateral($old_project, $project, $transition, $who)
 }
 
 // From PP Un/Available to PP Checked out
-function PP_to_PP_out_collateral($old_project, $project, $transition, $who)
+function PP_to_PP_out_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1426,12 +1427,12 @@ function PP_to_PP_out_collateral($old_project, $project, $transition, $who)
     configure_gettext_for_user();
 }
 
-function to_PPV_available_collateral($old_project, $project, $transition, $who)
+function to_PPV_available_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     notify_project_event_subscribers($project, 'ppv_enter');
 }
 
-function return_to_PP_collateral($old_project, $project, $transition, $who)
+function return_to_PP_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     global $site_abbreviation;
 
@@ -1448,19 +1449,19 @@ function return_to_PP_collateral($old_project, $project, $transition, $who)
     send_mail($PPer_email_addr, $subject, $body_blurb);
 }
 
-function project_was_returned_from_PPV($project, $transition)
+function project_was_returned_from_PPV(Project $project, ProjectTransition $transition): bool
 {
     assert($project->state == $transition->from_state);
     return $project->ppverifier != null;
 }
 
-function project_was_not_returned_from_PPV($project, $transition)
+function project_was_not_returned_from_PPV(Project $project, ProjectTransition $transition): bool
 {
     assert($project->state == $transition->from_state);
     return $project->ppverifier == null;
 }
 
-function return_from_PP_to_PPV_collateral($old_project, $project, $transition, $who)
+function return_from_PP_to_PPV_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     global $site_abbreviation;
 
@@ -1479,7 +1480,7 @@ function return_from_PP_to_PPV_collateral($old_project, $project, $transition, $
 
 // From either PP Checked out or PP Available to PP Unavailable
 // Or to Unavailable in a round
-function to_unavailable_collateral($old_project, $project, $transition, $who)
+function to_unavailable_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1495,7 +1496,7 @@ function to_unavailable_collateral($old_project, $project, $transition, $who)
     configure_gettext_for_user();
 }
 
-function pg_posted_collateral($old_project, $project, $transition, $who)
+function pg_posted_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     notify_project_event_subscribers($project, 'posted');
 }
