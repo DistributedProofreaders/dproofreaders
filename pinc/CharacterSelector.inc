@@ -21,6 +21,7 @@ class CharacterSelector
         $selector_string = "<div id='selector_row'>";
         $row_string = "";
 
+        $pickerid = 1;
         foreach ($this->picker_sets as $picker_set) {
             if (!$picker_set) {
                 continue;
@@ -33,10 +34,11 @@ class CharacterSelector
             }
 
             foreach ($picker_set->get_subsets() as $code => $picker) {
-                $safe_code = uniqid();
+                $safe_code = "picker_$pickerid";
+                $pickerid++;
                 $title = $prefix . $picker_set->get_title($code);
-                $selector_string .= "<button type='button' id='_$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
-                $row_string .= "<div class='_$safe_code key-block'>\n";
+                $selector_string .= "<button type='button' id='$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
+                $row_string .= "<div class='$safe_code key-block'>\n";
                 foreach ($picker as $row) {
                     $row_string .= $this->draw_row(convert_codepoint_ranges_to_characters($row));
                 }
