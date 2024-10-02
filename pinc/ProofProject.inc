@@ -18,7 +18,7 @@ class ProofProjectPage extends LPage
     {
         global $pguser;
 
-        $this->validate_text($page_text);
+        $this->project->validate_text($page_text);
         // see comment in LPage.inc
         [$saved, $dpl_reached] = $this->attemptSaveAsDone($page_text, $pguser);
 
@@ -46,7 +46,7 @@ class ProofProjectPage extends LPage
     public function save(string $page_text): array
     {
         global $pguser;
-        $this->validate_text($page_text);
+        $this->project->validate_text($page_text);
         $this->saveAsInProgress($page_text, $pguser);
         return $this->get_page_text_data();
     }
@@ -54,7 +54,7 @@ class ProofProjectPage extends LPage
     public function save_and_revert(string $page_text): array
     {
         global $pguser;
-        $this->validate_text($page_text);
+        $this->project->validate_text($page_text);
         $this->saveAsInProgress($page_text, $pguser);
         $this->revertToOriginal();
         return $this->get_page_text_data();
@@ -88,16 +88,6 @@ class ProofProjectPage extends LPage
             "pagestate" => $this->page_state,
             "saved" => $this->can_be_reverted_to_last_save(),
         ];
-    }
-
-    private function validate_text(string $text): void
-    {
-        $pattern_string = build_character_regex_filter($this->project->get_valid_codepoints());
-        foreach (split_graphemes($text) as $grapheme) {
-            if (1 != preg_match("/$pattern_string/u", $grapheme)) {
-                throw new ProjectInvalidTextException(_("The text contains characters which are not allowed for this project"));
-            }
-        }
     }
 }
 
