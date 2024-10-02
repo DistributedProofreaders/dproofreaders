@@ -1797,6 +1797,16 @@ class Project
 
         return new ProjectPage($pagename, $pagestate);
     }
+
+    public function validate_text(string $text): void
+    {
+        $pattern_string = build_character_regex_filter($this->get_valid_codepoints());
+        foreach (split_graphemes($text) as $grapheme) {
+            if (1 != preg_match("/$pattern_string/u", $grapheme)) {
+                throw new ProjectInvalidTextException(_("The text contains characters which are not allowed for this project"));
+            }
+        }
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
