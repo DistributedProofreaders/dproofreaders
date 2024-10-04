@@ -150,7 +150,7 @@ if ($detail_level == 1) {
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_detail_level_switch()
+function do_detail_level_switch(): void
 {
     global $project, $detail_level, $detail_levels;
 
@@ -203,7 +203,7 @@ function get_bookmark_form(): string
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_expected_state()
+function do_expected_state(): void
 {
     global $project, $expected_state;
 
@@ -221,7 +221,8 @@ function do_expected_state()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function decide_blurbs()
+/** @return array{0:?string, 1:?string} */
+function decide_blurbs(): array
 {
     global $project, $pguser, $code_url;
 
@@ -380,7 +381,7 @@ function decide_blurbs()
 
 // -----------------------------------------------
 
-function do_blurb_box($blurb)
+function do_blurb_box(?string $blurb): void
 {
     if (is_null($blurb)) {
         return;
@@ -397,7 +398,7 @@ function do_blurb_box($blurb)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_project_info_table()
+function do_project_info_table(): void
 {
     global $project, $code_url;
     global $user_is_logged_in;
@@ -734,7 +735,7 @@ function do_project_info_table()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_row_a($left, $right, $escape_right = false)
+function echo_row_a(string $left, string $right, ?bool $escape_right = false): void
 {
     if ($escape_right) {
         $right = html_safe($right);
@@ -745,7 +746,7 @@ function echo_row_a($left, $right, $escape_right = false)
     echo "</tr>\n";
 }
 
-function echo_row_b($top, $bottom, $class = '')
+function echo_row_b(string $top, string $bottom, string $class = ''): void
 {
     echo "<tr>";
     echo "<td colspan='5' class='$class center-align'>";
@@ -757,7 +758,7 @@ function echo_row_b($top, $bottom, $class = '')
     echo "</tr>\n";
 }
 
-function echo_row_c($content)
+function echo_row_c(string $content): void
 {
     echo "<tr>";
     echo "<td colspan='5'>";
@@ -768,7 +769,7 @@ function echo_row_c($content)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function recentlyproofed($wlist)
+function recentlyproofed(int $wlist): void
 {
     global $project, $pguser;
 
@@ -864,7 +865,7 @@ function recentlyproofed($wlist)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_edit_above()
+function do_edit_above(): void
 {
     global $project, $code_url;
 
@@ -908,7 +909,7 @@ function do_edit_above()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_early_uploads()
+function do_early_uploads(): void
 {
     global $project, $code_url, $pguser;
     global $uploads_host, $uploads_account, $uploads_password;
@@ -967,7 +968,7 @@ function do_early_uploads()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_waiting_queues()
+function do_waiting_queues(): void
 {
     global $project, $code_url;
 
@@ -1038,7 +1039,7 @@ function do_waiting_queues()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_event_subscriptions()
+function do_event_subscriptions(): void
 {
     global $project, $code_url, $pguser;
 
@@ -1096,7 +1097,7 @@ function do_event_subscriptions()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_holds()
+function do_holds(): void
 // Display a project's current holds, and allow authorized users to change them.
 {
     global $project, $code_url;
@@ -1153,7 +1154,7 @@ function do_holds()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_history()
+function do_history(): void
 {
     global $project;
 
@@ -1250,7 +1251,7 @@ function do_history()
             echo "<td>{$event['details1']}</td>\n";
             $spare_cols = 2;
             if (($event['details1'] == 'text available') || ($event['details1'] == 'deadline extended')) {
-                $deadline_f = date('Y-m-d H:i:s', $event['details2']);
+                $deadline_f = date('Y-m-d H:i:s', (int)$event['details2']);
                 echo "<td>until $deadline_f</td>\n";
                 $spare_cols = 1;
             }
@@ -1313,15 +1314,18 @@ function do_history()
 
 /**
  * If the project's event-history has gaps, fill them with pseudo-events.
+ *
+ * @return array{'timestamp':int, 'who':string, 'event_type':string, 'details1':string, 'details2':string, 'details3':string}[]
  */
-function fill_gaps_in_events($in_events)
+// TODO(jchaffraix): Add a class for ProjectEvent and switch to this function to it.
+function fill_gaps_in_events(array $in_events): array
 {
     $out_events = [];
 
     // Creation at the start
     if (count($in_events) == 0 || $in_events[0]['event_type'] != 'creation') {
         $pseudo_event = [
-            'timestamp' => '?',
+            'timestamp' => 0,
             'who' => '?',
             'event_type' => 'creation',
         ];
@@ -1341,7 +1345,7 @@ function fill_gaps_in_events($in_events)
                 $to_state = $event['details2'];
                 if ($running_state != $from_state) {
                     $pseudo_event = [
-                        'timestamp' => '?',
+                        'timestamp' => 0,
                         'who' => '?',
                         'event_type' => 'transition(s)',
                         'details1' => $running_state,
@@ -1363,7 +1367,7 @@ function fill_gaps_in_events($in_events)
     global $project;
     if ($running_state != $project->state) {
         $pseudo_event = [
-            'timestamp' => '?',
+            'timestamp' => 0,
             'who' => '?',
             'event_type' => 'transition(s)',
             'details1' => $running_state,
@@ -1377,7 +1381,7 @@ function fill_gaps_in_events($in_events)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_images()
+function do_images(): void
 {
     global $project;
     global $code_url;
@@ -1404,7 +1408,7 @@ function do_images()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_extra_files()
+function do_extra_files(): void
 {
     global $project;
 
@@ -1458,7 +1462,7 @@ function do_extra_files()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_post_files()
+function do_post_files(): void
 {
     global $project, $pguser;
 
@@ -1595,7 +1599,7 @@ function do_post_files()
 }
 
 // -----------------------------------------------------------------------------
-function echo_upload_backup($projectid, $text, $stage)
+function echo_upload_backup(?string $projectid, string $text, string $stage): void
 {
     global $code_url;
     echo "<li class='spaced'>";
@@ -1604,7 +1608,7 @@ function echo_upload_backup($projectid, $text, $stage)
 }
 
 // -----------------------------------------------------------------------------
-function echo_uploaded_zips($discriminator, $upload_type)
+function echo_uploaded_zips(string $discriminator, string $upload_type): void
 {
     global $project;
 
@@ -1626,7 +1630,7 @@ function echo_uploaded_zips($discriminator, $upload_type)
 }
 // -----------------------------------------------------------------------------
 
-function echo_download_zip($link_text, $discriminator)
+function echo_download_zip(string $link_text, string $discriminator): void
 {
     global $project, $code_url;
 
@@ -1682,7 +1686,7 @@ function echo_download_zip($link_text, $discriminator)
     echo "\n";
 }
 
-function echo_last_modified($last_modified)
+function echo_last_modified(?int $last_modified): void
 {
     if (isset($last_modified)) {
         echo " (", icu_date_template("long+time", $last_modified), ")";
@@ -1691,7 +1695,7 @@ function echo_last_modified($last_modified)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_postcomments()
+function do_postcomments(): void
 {
     global $project, $code_url;
 
@@ -1718,7 +1722,7 @@ function do_postcomments()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_smooth_reading()
+function do_smooth_reading(): void
 {
     global $project, $code_url, $pguser;
 
@@ -1855,7 +1859,7 @@ function do_smooth_reading()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend = false)
+function sr_echo_time_form(string $label, int $min_days, int $max_days, int $default_days, bool $extend = false): void
 {
     // $label is an sprintf formatting string with three placement values:
     // * %1$s will be replaced with a form field for number-of-days input
@@ -1876,7 +1880,7 @@ function sr_echo_time_form($label, $min_days, $max_days, $default_days, $extend 
     echo "</form>\n";
 }
 
-function echo_smoothreading_options($project)
+function echo_smoothreading_options(Project $project): void
 {
     $smooth_dir = "$project->dir/smooth";
     $smooth_url = "$project->url/smooth";
@@ -1932,7 +1936,8 @@ function echo_smoothreading_options($project)
     }
 }
 
-function echo_file_downloads($files, $smooth_url)
+/** @param string[] $files */
+function echo_file_downloads(array $files, string $smooth_url): void
 {
     foreach ($files as $file) {
         // filename with extension
@@ -1941,7 +1946,7 @@ function echo_file_downloads($files, $smooth_url)
     }
 }
 
-function echo_download_item($url, $file, $file_base_name, $link_text, $extra_text = "")
+function echo_download_item(string $url, string $file, string $file_base_name, string $link_text, string $extra_text = ""): void
 {
     $url = "$url/$file_base_name";
     echo "<li>";
@@ -1950,12 +1955,12 @@ function echo_download_item($url, $file, $file_base_name, $link_text, $extra_tex
     echo "</li>\n";
 }
 
-function echo_byte_size($size)
+function echo_byte_size(int $size): void
 {
     echo " (", humanize_bytes($size), ")";
 }
 
-function do_ppv_report()
+function do_ppv_report(): void
 {
     global $project, $code_url;
 
@@ -1973,7 +1978,7 @@ function do_ppv_report()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_change_state()
+function do_change_state(): void
 {
     global $project, $pguser, $code_url;
 
@@ -2048,7 +2053,7 @@ function do_change_state()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_page_summary()
+function do_page_summary(): void
 {
     global $project;
     $projectid = $project->projectid;
@@ -2077,7 +2082,7 @@ function do_page_summary()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_page_table()
+function do_page_table(): void
 {
     global $project;
 
@@ -2107,7 +2112,7 @@ function do_page_table()
  * and should give (site-specific) instructions to the post-processor
  * on how to use (or not use) the postcomments field.
  */
-function echo_postcomments_instructions()
+function echo_postcomments_instructions(): void
 {
     global $wiki_url;
 
