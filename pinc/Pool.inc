@@ -7,7 +7,7 @@ include_once($relPath.'Stage.inc');
  */
 class Pools extends Stages
 {
-    public static function get_by_state($state)
+    public static function get_by_state(string $state): ?Pool
     {
         return self::_get("states", $state);
     }
@@ -77,12 +77,12 @@ class Pool extends Stage
 
 // ---------------------------
 
-function get_Pool_for_id($pool_id)
+function get_Pool_for_id(string $pool_id): ?Pool
 {
     return Pools::get_by_id($pool_id);
 }
 
-function get_Pool_for_state($state)
+function get_Pool_for_state(string $state): ?Pool
 {
     return Pools::get_by_state($state);
 }
