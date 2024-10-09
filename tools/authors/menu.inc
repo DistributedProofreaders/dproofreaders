@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'user_is.inc');
 
-function echo_menu($id = null)
+function echo_menu(?int $id = null): void
 {
     // the current file
     $script = $_SERVER['SCRIPT_FILENAME'];
@@ -27,7 +27,7 @@ function echo_menu($id = null)
     echo '<p>' . implode(" | ", $menu_entries) . '</p>';
 }
 
-function newMenuItem($label, $url, $current_file)
+function newMenuItem(string $label, string $url, string $current_file): string
 {
     if (startswith($url, $current_file)) {
         return "<b>" . html_safe($label) . "</b>";

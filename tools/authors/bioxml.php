@@ -51,7 +51,7 @@ if ($wrap_in_big_tag) {
     echo '</biographies>';
 }
 
-function create_bio_data($sql_row)
+function create_bio_data(array $sql_row): string
 {
     $bio = $sql_row['bio'];
     // in case the bio data contains ']]>' (without quote marks)
