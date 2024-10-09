@@ -13,7 +13,7 @@ use voku\helper\UTF8;
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_allow_pages($projectid)
+function project_allow_pages(string $projectid): void
 {
     validate_projectID($projectid);
     $columns_for_rounds = "";
@@ -53,7 +53,7 @@ function project_allow_pages($projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_drop_pages($projectid)
+function project_drop_pages(string $projectid): void
 {
     validate_projectID($projectid);
     $result = DPDatabase::query("DROP TABLE $projectid");
@@ -64,7 +64,7 @@ function project_drop_pages($projectid)
 
 // -----------------------------------------------------------------------------
 
-function Pages_prepForRound($projectid, $round_number)
+function Pages_prepForRound(string $projectid, $round_number): void
 {
     validate_projectID($projectid);
     $round = get_Round_for_round_number($round_number);
@@ -98,13 +98,13 @@ function Pages_prepForRound($projectid, $round_number)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function project_add_page(
-    $projectid,
-    $fileid,
-    $image_file_name,
-    $txt_file_path,
-    $user,
-    $now
-) {
+    string $projectid,
+    string $fileid,
+    string $image_file_name,
+    string $txt_file_path,
+    string $user,
+    int $now
+): void {
     validate_projectID($projectid);
     $txt_expr = file_content_expr($txt_file_path, $projectid);
 
@@ -145,7 +145,7 @@ function project_add_page(
  * This function should always be used to load page contents from a file to
  * ensure consistency.
  */
-function load_page_from_file($file_path, $projectid)
+function load_page_from_file(string $file_path, string $projectid): ?string
 {
     $text = file_get_contents($file_path);
     if ($text === false) {
@@ -172,7 +172,7 @@ function load_page_from_file($file_path, $projectid)
  * @param string $file_path Absolute file path
  * @param string $projectid Project ID
  */
-function file_content_expr($file_path, $projectid)
+function file_content_expr(string $file_path, string $projectid): string
 {
     $txt = load_page_from_file($file_path, $projectid);
     if ($txt === null) {
@@ -183,7 +183,7 @@ function file_content_expr($file_path, $projectid)
 
 // -----------------------------------------------------------------------------
 
-function Page_delete($projectid, $image, $user)
+function Page_delete(string $projectid, string $image, string $user): void
 {
     validate_projectID($projectid);
 
@@ -214,7 +214,7 @@ function Page_delete($projectid, $image, $user)
  *
  * For example, replace 001.png with 001.jpg.
  */
-function Page_replaceImage($projectid, $image, $new_image, $user)
+function Page_replaceImage(string $projectid, string $image, string $new_image, string $user): void
 {
     $setter = set_col_str("image", $new_image);
     _Page_UPDATE($projectid, $image, $setter);
@@ -224,7 +224,7 @@ function Page_replaceImage($projectid, $image, $new_image, $user)
 
 // -----------------------------------------------------------------------------
 
-function Page_replaceText($projectid, $image, $text_file_path, $user)
+function Page_replaceText(string $projectid, string $image, string $text_file_path, string $user): void
 {
     $text_file_content_expr = file_content_expr($text_file_path, $projectid);
     $setter = "master_text=$text_file_content_expr";
@@ -235,7 +235,7 @@ function Page_replaceText($projectid, $image, $text_file_path, $user)
 
 // -----------------------------------------------------------------------------
 
-function Page_modifyText($projectid, $image, $page_text, $text_column, $user)
+function Page_modifyText(string $projectid, string $image, string $page_text, string $text_column, string $user): void
 {
     $page_text = _normalize_page_text($page_text, $projectid);
     $setter = set_col_str($text_column, $page_text);
@@ -266,7 +266,7 @@ function Page_getText(string $projectid, string $image, string $text_column): st
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function Page_checkout($projectid, $image, $round, $user)
+function Page_checkout(string $projectid, string $image, Round $round, string $user): string
 {
     _Page_require(
         $projectid,
@@ -294,7 +294,7 @@ function Page_checkout($projectid, $image, $round, $user)
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsInProgress($projectid, $image, $round, $user, $page_text)
+function Page_saveAsInProgress(string $projectid, string $image, Round $round, string $user, string $page_text): string
 {
     _Page_require(
         $projectid,
@@ -324,7 +324,7 @@ function Page_saveAsInProgress($projectid, $image, $round, $user, $page_text)
 
 // -----------------------------------------------------------------------------
 
-function Page_saveAsDone($projectid, $image, $round, $user, $page_text)
+function Page_saveAsDone(string $projectid, string $image, Round $round, string $user, string $page_text): string
 {
     _Page_require(
         $projectid,
@@ -356,7 +356,7 @@ function Page_saveAsDone($projectid, $image, $round, $user, $page_text)
 
 // -----------------------------------------------------------------------------
 
-function Page_reopen($projectid, $image, $round, $user)
+function Page_reopen(string $projectid, string $image, Round $round, string $user): string
 {
     _Page_require(
         $projectid,
@@ -382,7 +382,7 @@ function Page_reopen($projectid, $image, $round, $user)
 
 // -----------------------------------------------------------------------------
 
-function Page_returnToRound($projectid, $image, $round, $user)
+function Page_returnToRound(string $projectid, string $image, Round $round, string $user)
 {
     _Page_require(
         $projectid,
@@ -410,7 +410,7 @@ function Page_returnToRound($projectid, $image, $round, $user)
 
 // -----------------------------------------------------------------------------
 
-function Page_reclaim($projectid, $image, $round, $user)
+function Page_reclaim(string $projectid, string $image, Round $round, string $user): void
 {
     _Page_require(
         $projectid,
@@ -434,7 +434,7 @@ function Page_reclaim($projectid, $image, $round, $user)
 
 // -----------------------------------------------------------------------------
 
-function Page_clearRound($projectid, $image, $round, $user)
+function Page_clearRound(string $projectid, string $image, Round $round, string $user): void
 {
     _Page_require(
         $projectid,
@@ -470,7 +470,7 @@ $PAGE_BADNESS_REASONS = [
     _('Other'),
 ];
 
-function Page_markAsBad($projectid, $image, $round, $user, $reason)
+function Page_markAsBad(string $projectid, string $image, Round $round, string $user, string $reason): void
 {
     _Page_require(
         $projectid,
@@ -494,7 +494,7 @@ function Page_markAsBad($projectid, $image, $round, $user, $reason)
 
 // -----------------------------------------------------------------------------
 
-function Page_eraseBadMark($projectid, $image, $round, $user)
+function Page_eraseBadMark(string $projectid, string $image, Round $round, string $user): void
 {
     _Page_require(
         $projectid,
@@ -520,14 +520,15 @@ function Page_eraseBadMark($projectid, $image, $round, $user)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/** @param string[] $allowed_states */
 function _Page_require(
-    $projectid,
-    $image,
-    $allowed_states,
-    $allowed_user_colname,
-    $requesting_user,
-    $op_name
-) {
+    string $projectid,
+    string $image,
+    array $allowed_states,
+    ?string $allowed_user_colname,
+    ?string $requesting_user,
+    string $op_name
+): void {
     validate_projectID($projectid);
     $user_item = (is_null($allowed_user_colname) ? '0' : $allowed_user_colname);
     $sql = "
@@ -564,7 +565,7 @@ function _Page_require(
     }
 }
 
-function _Page_UPDATE($projectid, $image, $settings)
+function _Page_UPDATE(string $projectid, string $image, string $settings): void
 {
     validate_projectID($projectid);
     $sql = "
@@ -590,7 +591,7 @@ function _Page_UPDATE($projectid, $image, $settings)
  *
  * @see get_normalize_page_text_changes()
  */
-function _normalize_page_text($page_text, $projectid)
+function _normalize_page_text(string $page_text, string $projectid): string
 {
     // Filter characters to just the Latin-1 set
     $project = new Project($projectid);
@@ -644,8 +645,10 @@ function _normalize_page_text($page_text, $projectid)
  * This should be updated when `_normalize_page_text()` is updated.
  *
  * @see _normalize_page_text()
+ *
+ * @return string[]
  */
-function get_normalize_page_text_changes($text, $projectid)
+function get_normalize_page_text_changes(string $text, string $projectid): array
 {
     $project = new Project($projectid);
 
@@ -730,8 +733,10 @@ function get_normalize_page_text_changes($text, $projectid)
  * This should be updated if `load_page_from_file()` is updated.
  *
  * @see load_page_from_file()
+ *
+ * @return string[]
  */
-function get_load_page_from_file_changes($filename, $projectid)
+function get_load_page_from_file_changes(string $filename, string $projectid): array
 {
     $changes = [];
 
@@ -756,7 +761,7 @@ function get_load_page_from_file_changes($filename, $projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function _log_page_event($projectid, $image, $event_type, $username, $round)
+function _log_page_event(string $projectid, string $image, string $event_type, string $username, ?Round $round): void
 {
     assert(strlen($event_type) <= 16);
 
@@ -788,7 +793,7 @@ function _log_page_event($projectid, $image, $event_type, $username, $round)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function _project_set_t_last_page_done($projectid, $timestamp)
+function _project_set_t_last_page_done(string $projectid, int $timestamp): void
 {
     $sql = sprintf(
         "
@@ -802,7 +807,8 @@ function _project_set_t_last_page_done($projectid, $timestamp)
     DPDatabase::query($sql);
 }
 
-function _project_adjust_n_pages($projectid, $adjustment)
+/** @param int|string $adjustment */
+function _project_adjust_n_pages(string $projectid, $adjustment): void
 {
     if ($adjustment === 'NONE') {
         $expr = '0';
@@ -816,13 +822,14 @@ function _project_adjust_n_pages($projectid, $adjustment)
         SET n_pages = %s
         WHERE projectid='%s'
         ",
-        $expr,
+        DPDatabase::escape($expr),
         DPDatabase::escape($projectid)
     );
     DPDatabase::query($sql);
 }
 
-function _project_adjust_n_available_pages($projectid, $adjustment)
+/** @param int|string $adjustment */
+function _project_adjust_n_available_pages(string $projectid, $adjustment): void
 {
     if ($adjustment === 'NONE') {
         $expr = '0';
@@ -857,7 +864,7 @@ function _project_adjust_n_available_pages($projectid, $adjustment)
 /**
  * Calculate the project's n_pages and n_available_pages from scratch.
  */
-function project_recalculate_page_counts($projectid)
+function project_recalculate_page_counts(string $projectid): void
 {
     validate_projectID($projectid);
     $sql = "
