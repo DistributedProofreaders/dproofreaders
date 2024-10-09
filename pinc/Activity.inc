@@ -29,24 +29,22 @@ $ACCESS_CRITERIA = [
  */
 class Activities
 {
-    /*
-     * `$_activities` contains a mapping from a specific type of Activity (e.g. an
-     * Activity, a Stage, a Round or a Pool) to the instances of those. They are mapped
-     * by their name, called IDs). The logic accounts for the class hierarchy:
-     * Stage derives from Activity so any instance will be on both the Stage and
-     * the Activity lists.
-     *
-     * This poses a fundamental issue with adding types to this logic:
-     * the type of each list depends on its name.
-     *
-     * A simple solution would be to return the top-level class Activity (to match how
-     * `$_activities` is typed) but that confuses (rightly) PHPStan and would require a
-     * lot of new type checks whenever callers manipulate these classes.
-     *
-     * Thus for now, we don't return types for several getters that manipulate
-     * `$_activities`. Over time, we will have to find a way to disentangle
-     * the different lists to add proper types.
-     */
+    // `$_activities` contains a mapping from a specific type of Activity (e.g. an
+    // Activity, a Stage, a Round or a Pool) to the instances of those. They are mapped
+    // by their name, called IDs). The logic accounts for the class hierarchy:
+    // Stage derives from Activity so any instance will be on both the Stage and
+    // the Activity lists.
+    //
+    // This poses a fundamental issue with adding types to this logic:
+    // the type of each list depends on its name.
+    //
+    // A simple solution would be to return the top-level class Activity (to match how
+    // `$_activities` is typed) but that confuses (rightly) PHPStan and would require a
+    // lot of new type checks whenever callers manipulate these classes.
+    //
+    // Thus for now, we don't return types for several getters that manipulate
+    // `$_activities`. Over time, we will have to find a way to disentangle
+    // the different lists to add proper types.
     /** @var array<string, array<string, Activity>> */
     private static array $_activities = [];
 
