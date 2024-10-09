@@ -1599,7 +1599,7 @@ function do_post_files(): void
 }
 
 // -----------------------------------------------------------------------------
-function echo_upload_backup(?string $projectid, string $text, string $stage): void
+function echo_upload_backup(string $projectid, string $text, string $stage): void
 {
     global $code_url;
     echo "<li class='spaced'>";
