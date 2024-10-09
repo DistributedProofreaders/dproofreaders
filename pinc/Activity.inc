@@ -383,7 +383,7 @@ class Activity
 
 /**
   * @param array<string, int|string> $criteria
-  * @return array<string, int>
+  * @return array<string, float>
   */
 function get_user_scores(string $username, array $criteria): array
 {
@@ -400,7 +400,7 @@ function get_user_scores(string $username, array $criteria): array
     return $user_scores;
 }
 
-function get_user_score(User $user_obj, string $criterion_code): int
+function get_user_score(User $user_obj, string $criterion_code): float
 {
     if ($criterion_code == 'days since reg') {
         $user_score = round((time() - $user_obj->date_created) / 86400, 1);
