@@ -14,7 +14,7 @@
 // columns. URL '?orderby=dead' sorts by 'dead', i.e. the
 // db-table-columns 'dyear, dmonth, dday'
 
-function prepare_search()
+function prepare_search(): void
 {
     global $last_name, $other_names,
     $sql_what_to_list, $human_what_to_list, $human_order,
@@ -114,7 +114,7 @@ function prepare_search()
 /**
  * Prepare a string for use with LIKE
  */
-function sql_like_encode($str)
+function sql_like_encode(string $str): string
 {
     // escape quotes -- note: does not encode % and _ !
     $str = DPDatabase::escape($str);
@@ -141,7 +141,7 @@ function sql_like_encode($str)
     return $str;
 }
 
-function echo_search_form()
+function echo_search_form(): void
 {
     global $last_name, $other_names;
     $view = array_get($_REQUEST, 'view', null);
@@ -181,13 +181,13 @@ function echo_search_form()
 }
 
 // e.g. "All sorted by Last name"
-function get_search_title()
+function get_search_title(): string
 {
     global $human_what_to_list, $human_order;
     return $human_what_to_list . ' ' . _('sorted by') . ' ' . $human_order;
 }
 
-function search()
+function search(): mysqli_result
 {
     global $sortUtility, $sql_what_to_list, $search_result;
     $orderby = $sortUtility->getOrderBy();
@@ -200,7 +200,7 @@ function search()
  * Builds a query string by joining the arguments by '&',
  * ignoring arguments that are blank strings.
  */
-function build_query_string()
+function build_query_string(): string
 {
     $count = func_num_args();
     $non_empty = [];

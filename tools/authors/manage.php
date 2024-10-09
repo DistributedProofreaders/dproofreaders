@@ -531,7 +531,7 @@ while ($i++ < $count && $author = @mysqli_fetch_array($result)) {
 echo "<SCRIPT LANGUAGE='JavaScript'><!--\n$javascript_to_build_bios_array\n";
 echo "$javascript_to_disable_delete_authors\n--></SCRIPT>";
 
-function write_bio_links($author_id, $bio_id)
+function write_bio_links(int $author_id, string $bio_id): void
 {
     global $bios_for_this_author;
     echo "<td><a href=\"bio.php?bio_id=$bio_id\">" . _('Biography') . " $bio_id</a></td>\n    " .

@@ -188,7 +188,7 @@ echo "<h1>$title</h1>";
 
 echo_menu();
 
-function write_months_list($bd, $selected)
+function write_months_list(string $bd, int $selected): void
 {
     global $months;
     echo "<select name=\"$bd" . "month\" size=\"1\">\n";
@@ -201,7 +201,7 @@ function write_months_list($bd, $selected)
     }
     echo "</select>\n";
 }
-function write_days_list($bd, $selected)
+function write_days_list(string $bd, int $selected): void
 {
     echo "<select name=\"$bd" . "day\" size=\"1\">\n";
     echo "<option value=\"0\"" . ($selected == '0' ? ' SELECTED' : '') . ">" . _('Unknown');
@@ -354,20 +354,25 @@ if (isset($author_id)) {
     echo "<input type='hidden' name='author_id' value='$author_id'>\n";
 }
 
-function _var($bd, $name)
+// Unfortunately the result of this function depends on the variable being accessed
+// so we can't type it. The way forward would be to add some class to encapsulate a
+// birth/death date with some meta-data.
+/** @return mixed */
+function _var(string $bd, string $name)
 {
     $var = $bd . $name;
     global $$var;
     return $$var;
 }
-function echo_date_fields($bd)
+
+function echo_date_fields(string $bd): void
 {
     ?>
 <table class='no-border'>
 <tr><td><?php echo _('Month'); ?>:</td><td>
-<?php echo write_months_list($bd, _var($bd, 'month')); ?></td></tr>
+<?php write_months_list($bd, _var($bd, 'month')); ?></td></tr>
 <tr><td><?php echo _('Day'); ?>:</td><td>
-<?php echo write_days_list($bd, _var($bd, 'day')); ?></td></tr>
+<?php write_days_list($bd, _var($bd, 'day')); ?></td></tr>
 <tr><td><?php echo _('Year'); ?>:</td><td>
 <input type="radio" name="<?php echo $bd; ?>yearRadio" value="0"<?php echo(_var($bd, 'yearRadio') == '0' ? ' CHECKED' : ''); ?>><?php echo _('Unknown'); ?>
 <br><input type="radio" name="<?php echo $bd; ?>yearRadio" value="1"<?php echo(_var($bd, 'yearRadio') == '1' ? ' CHECKED' : ''); ?> onClick="this.form.<?php echo $bd; ?>year.focus();" ><?php echo _('As entered'); ?>:

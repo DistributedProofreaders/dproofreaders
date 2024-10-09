@@ -44,7 +44,7 @@ if ($wrap_in_big_tag) {
     echo '</authors>';
 }
 
-function create_author_data($sql_row)
+function create_author_data(array $sql_row): string
 {
     $xml = "<author id=\"{$sql_row['author_id']}\" last_modified=\"{$sql_row['last_modified']}\">\n";
     $xml .= "<lastname>{$sql_row['last_name']}</lastname>\n";
@@ -60,7 +60,7 @@ function create_author_data($sql_row)
 }
 
 // $bd is 'b' or 'd'
-function create_birth_or_death_data($bd, $sql_row)
+function create_birth_or_death_data(string $bd, array $sql_row): string
 {
     $res = '<date year="' . $sql_row[$bd . 'year'] .
               '" month="' . $sql_row[$bd . 'month'] .
