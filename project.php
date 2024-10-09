@@ -1193,7 +1193,7 @@ function do_history(): void
 
         echo "<td>";
         echo(
-            $event['timestamp'] == '?'
+            is_null($event['timestamp'])
             ? '?'
             : date('Y-m-d H:i:s', $event['timestamp'])
         );
@@ -1315,7 +1315,7 @@ function do_history(): void
 /**
  * If the project's event-history has gaps, fill them with pseudo-events.
  *
- * @return array{'timestamp':int, 'who':string, 'event_type':string, 'details1':string, 'details2':string, 'details3':string}[]
+ * @return array{'timestamp':?int, 'who':string, 'event_type':string, 'details1':string, 'details2':string, 'details3':string}[]
  */
 // TODO(jchaffraix): Add a class for ProjectEvent and switch to this function to it.
 function fill_gaps_in_events(array $in_events): array
@@ -1325,7 +1325,7 @@ function fill_gaps_in_events(array $in_events): array
     // Creation at the start
     if (count($in_events) == 0 || $in_events[0]['event_type'] != 'creation') {
         $pseudo_event = [
-            'timestamp' => 0,
+            'timestamp' => null,
             'who' => '?',
             'event_type' => 'creation',
         ];
@@ -1345,7 +1345,7 @@ function fill_gaps_in_events(array $in_events): array
                 $to_state = $event['details2'];
                 if ($running_state != $from_state) {
                     $pseudo_event = [
-                        'timestamp' => 0,
+                        'timestamp' => null,
                         'who' => '?',
                         'event_type' => 'transition(s)',
                         'details1' => $running_state,
@@ -1367,7 +1367,7 @@ function fill_gaps_in_events(array $in_events): array
     global $project;
     if ($running_state != $project->state) {
         $pseudo_event = [
-            'timestamp' => 0,
+            'timestamp' => null,
             'who' => '?',
             'event_type' => 'transition(s)',
             'details1' => $running_state,
