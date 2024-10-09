@@ -396,7 +396,7 @@ function get_user_scores(string $username, array $criteria): array
     $user_obj = $username == User::current_username() ? User::load_current() : new User($username);
 
     $user_scores = [];
-    foreach ($criteria as $criterion_code => $_) {
+    foreach (array_keys($criteria) as $criterion_code) {
         $user_scores[$criterion_code] = get_user_score($user_obj, $criterion_code);
     }
     return $user_scores;
