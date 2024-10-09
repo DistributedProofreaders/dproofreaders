@@ -595,7 +595,7 @@ function get_user_suggestion_criteria(?string $username, $flush_cache = false)
     $states_can_work_in = [];
     foreach (get_stages_user_can_work_in($username) as $stage_id => $stage) {
         // only include rounds
-        if (Rounds::get_by_id($stage_id)) {
+        if ($stage instanceof Round) {
             $states_can_work_in[$stage_id] = $stage->project_available_state;
         }
     }

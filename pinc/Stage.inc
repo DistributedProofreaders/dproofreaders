@@ -67,12 +67,12 @@ class Stage extends Activity
      * Display a page-header, either an image (if available) or a textual title
      * for this stage.
      */
-    public function page_header($title)
+    public function page_header(string $title): void
     {
         echo "<h1>$title</h1>\n" . get_page_header_image($this->id);
     }
 
-    public function page_top($uao)
+    public function page_top(object $uao): void
     {
         $this->page_header("{$this->id}: {$this->name}");
 
@@ -97,14 +97,14 @@ class Stage extends Activity
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_Stage_for_id($id)
+function get_Stage_for_id(string $id): ?Stage
 {
     return Stages::get_by_id($id);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function user_can_work_in_stage($username, $stage_id)
+function user_can_work_in_stage(string $username, string $stage_id): bool
 {
     $stage = get_Stage_for_id($stage_id);
     $uao = $stage->user_access($username);
@@ -113,7 +113,8 @@ function user_can_work_in_stage($username, $stage_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function get_stages_user_can_work_in($username)
+/** @return Stage[] */
+function get_stages_user_can_work_in(string $username): array
 {
     $accessible_stages = [];
     foreach (Stages::get_all() as $stage) {
@@ -131,8 +132,10 @@ function get_stages_user_can_work_in($username)
  *
  * If $include_accessible_stages is true, this array also includes
  * stages the user has access to.
+ *
+ * @return Stage[]
  */
-function get_stages_for_which_user_has_access_to_prereqs($username, $include_accessible_stages = false)
+function get_stages_for_which_user_has_access_to_prereqs(string $username, bool $include_accessible_stages = false): array
 {
     $satisfied_prereq_stages = [];
 
