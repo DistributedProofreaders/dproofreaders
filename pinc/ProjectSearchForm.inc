@@ -397,8 +397,13 @@ class ProjectSearchForm
             </table>
             <div class='center-align' style='clear: both;'></div>
             <input type='submit' value='", attr_safe(_("Search")), "'>
-            <input type='button' onclick=\"window.location.assign('?show=search_form');\" value='", attr_safe(_("Clear form")), "'>
             </form>";
+        echo "
+            <form style='display: inline;' method='GET'>
+            <input type='submit' value='", attr_safe(_("Clear form")), "'>
+            <input type='hidden' name='show' value='search_form'>
+            </form>";
+
         echo get_search_configure_button();
         echo "</div>";
         echo "<p>
