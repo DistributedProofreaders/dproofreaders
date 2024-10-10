@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     function showTime() {
-        if(timeSpan) {
+        if (timeSpan) {
             timeSpan.textContent = dateTimeFormat.format(Date.now());
         }
     }
