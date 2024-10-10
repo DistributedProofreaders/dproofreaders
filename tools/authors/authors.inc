@@ -13,7 +13,7 @@ $months = [_('Unknown'),
  * If $author_id is not FALSE, all biographies that apply to that author id
  * will be listed and a link to the xml data will be provided.
  */
-function echo_author($last_name, $other_names, $born, $dead, $author_id)
+function echo_author(string $last_name, string $other_names, string $born, string $dead, int $author_id): void
 {
     global $code_url;
 
@@ -49,7 +49,7 @@ function echo_author($last_name, $other_names, $born, $dead, $author_id)
 // end echo_author
 
 // $bd is 'b' or 'd'
-function format_date_from_sqlset($row, $bd)
+function format_date_from_sqlset(array $row, string $bd): string
 {
     $date = format_ymd($row[$bd.'year'], $row[$bd.'month'], $row[$bd.'day']);
     $comments = $row[$bd."comments"];
@@ -70,7 +70,7 @@ function format_date_from_sqlset($row, $bd)
 }
 
 // $bd is 'b' or 'd'
-function format_date_from_array($row, $bd)
+function format_date_from_array(array $row, string $bd): string
 {
     return format_date(
         $row[$bd.'year'],
@@ -80,7 +80,7 @@ function format_date_from_array($row, $bd)
     );
 }
 
-function format_date($year, $month, $day, $comments)
+function format_date(int $year, int $month, int $day, string $comments): string
 {
     $date = format_ymd($year, $month, $day);
 
@@ -108,7 +108,7 @@ function format_date($year, $month, $day, $comments)
 //   null
 // Years < 0 : Add B. C.
 // Years > 0 : Add A. D. if it's year 150 or earlier (this limit is very subjective).
-function format_ymd($y, $m, $d)
+function format_ymd(int $y, int $m, int $d): ?string
 {
     global $months;
     // one-letter variables contain database data
@@ -148,7 +148,7 @@ function format_ymd($y, $m, $d)
 
 // $echo_header-argument should be true if the calling script has not yet output a header.
 
-function abort_if_not_authors_db_manager($echo_header = false)
+function abort_if_not_authors_db_manager(bool $echo_header = false): void
 {
     if (!user_is_authors_db_manager()) {
         if ($echo_header) {
@@ -161,7 +161,7 @@ function abort_if_not_authors_db_manager($echo_header = false)
     }
 }
 
-function abort_if_not_authors_db_editor($echo_header = false)
+function abort_if_not_authors_db_editor(bool $echo_header = false): void
 {
     if (!user_is_authors_db_editor()) {
         if ($echo_header) {
