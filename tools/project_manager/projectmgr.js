@@ -13,7 +13,9 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     function showTime() {
-        timeSpan.textContent = dateTimeFormat.format(Date.now());
+        if(timeSpan) {
+            timeSpan.textContent = dateTimeFormat.format(Date.now());
+        }
     }
 
     setInterval(showTime, 60000);
