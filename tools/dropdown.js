@@ -1,17 +1,14 @@
 "use strict";
 window.addEventListener("DOMContentLoaded", () => {
-
-/*
-* When the user clicks on a button,
-* toggle between hiding and showing the dropdown content
-* if off close all the others before turning on
-*/
+    /*
+     * When the user clicks on a button,
+     * toggle between hiding and showing the dropdown content
+     * if off close all the others before turning on
+     */
 
     function closeAll() {
         var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i, openDropdown;
-        for (i = 0; i < dropdowns.length; i++) {
-            openDropdown = dropdowns[i];
+        for (let openDropdown of dropdowns) {
             if (openDropdown.classList.contains("dropdown-show")) {
                 openDropdown.classList.remove("dropdown-show");
             }
