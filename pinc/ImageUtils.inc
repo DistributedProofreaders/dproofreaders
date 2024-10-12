@@ -62,6 +62,8 @@ class ImageUtils
             $checker = ["pngcheck"];
         } elseif ($extension == "jpeg" || $extension == "jpg") {
             $checker = ["jpeginfo", "--check"];
+        } else {
+            throw new LogicException("Unsupported extension found, update can_validate()");
         }
 
         $checker[] = $filename;
