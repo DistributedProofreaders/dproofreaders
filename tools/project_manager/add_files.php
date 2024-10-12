@@ -485,8 +485,7 @@ class Loader
 
         // Filenames starting with a hyphen are excluded because
         // they may be mistaken with command line options of
-        // shell utilities such zip
-        // (when generating zips to download image files)
+        // shell utilities.
         if (preg_match('/^-/', $filename)) {
             return _('filename starts with a hyphen');
         }
