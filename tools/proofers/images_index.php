@@ -5,6 +5,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 
+use Symfony\Component\Process\Process;
+
 require_login();
 
 $projectid = get_projectID_param($_GET, 'project');
@@ -24,10 +26,6 @@ if (!is_null($zip_type)) {
         default:
             throw new InvalidArgumentException("Invalid image type specified");
     }
-    $files = implode("\n", $files_list);
-    $list_name = "{$projectid}_{$zip_type}_flist.txt";
-    chdir($project->dir);
-    file_put_contents($list_name, $files);
 
     // Create the zip on-the-fly and stream it back
     $zipfile = "{$projectid}_{$zip_type}.zip";
@@ -35,17 +33,19 @@ if (!is_null($zip_type)) {
     header("Content-Disposition: attachment; filename=\"$zipfile\"");
     header("Cache-Control: no-cache, must-revalidate");
     header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-    $cmd = join(" ", [
-        "cat",
-        escapeshellarg($list_name),
-        "|",
-        "zip",
-        "-q", // quiet so output doesn't go to Apache error logs
-        "-@",
-        "-",
-    ]);
-    passthru($cmd);
-    unlink($list_name);
+    chdir($project->dir);
+    $process = new Process(["zip", "-q", "-@", "-"]);
+    $process->setInput(implode("\n", $files_list));
+    $process->run(function ($type, $buffer) {
+        if (Process::OUT === $type) {
+            echo $buffer;
+
+            // flush the buffers. we don't know for sure there's an output
+            // buffer enabled, so suppress any warnings it outputs
+            flush();
+            @ob_flush();
+        }
+    });
     exit();
 } else {
     $image_index_str = _('Image Index');
