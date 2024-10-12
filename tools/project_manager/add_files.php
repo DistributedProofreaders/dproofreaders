@@ -178,6 +178,7 @@ class Loader
     /** @var array<string, string> */
     private array $ignored_files;
     /** @var string[] */
+    /** @var array<string, array{'error_msgs': string[], 'warning_msgs': string[]}> */
     private array $non_page_files;
     /** @var array<string, array{'text': array{'src'?: string[], 'db'?: string[], 'action': string}, 'image': array{'src'?: string[], 'db'?: string[], 'action': string}, 'error_msgs': string[], 'warning_msgs': string[]}> */
     private array $page_file_table;
@@ -186,12 +187,14 @@ class Loader
     private int $n_ops;
     private int $n_warnings;
     private int $n_errors;
+    private ImageUtils $checker;
 
     public function __construct(string $source_project_dir, string $dest_project_dir, string $projectid)
     {
         $this->source_project_dir = $source_project_dir;
         $this->dest_project_dir = $dest_project_dir;
         $this->projectid = $projectid;
+        $this->checker = new ImageUtils();
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -283,7 +286,22 @@ class Loader
             if (array_key_exists($base, $page_related_bases)) {
                 $page_files[] = $loadable_file;
             } else {
-                $this->non_page_files[] = $loadable_file;
+                $error_msgs = [];
+                $warning_msgs = [];
+
+                [$check_status, $check_message] = $this->checker->validate_integrity($loadable_file);
+                if ($check_status == ImageUtils::IMAGE_CORRUPT) {
+                    $this->n_errors += 1;
+                    $error_msgs[] = $check_message;
+                } elseif ($check_status == ImageUtils::IMAGE_WARNING) {
+                    $this->n_warnings += 1;
+                    $warning_msgs[] = $check_message;
+                }
+
+                $this->non_page_files[$loadable_file] = [
+                    "error_msgs" => $error_msgs,
+                    "warning_msgs" => $warning_msgs,
+                ];
             }
         }
 
@@ -384,6 +402,15 @@ class Loader
                         $this->n_warnings += 1;
                         array_push($warning_msgs, $warning_msg);
                     }
+                }
+
+                [$check_status, $check_message] = $this->checker->validate_integrity($image_filename);
+                if ($check_status == ImageUtils::IMAGE_CORRUPT) {
+                    $this->n_errors += 1;
+                    $error_msgs[] = $check_message;
+                } elseif ($check_status == ImageUtils::IMAGE_WARNING) {
+                    $this->n_warnings += 1;
+                    $warning_msgs[] = $check_message;
                 }
             }
 
@@ -688,8 +715,22 @@ class Loader
             echo _("They will simply be copied into the project directory."),
             "</p>\n";
             echo "<table class='basic striped'>";
-            foreach ($this->non_page_files as $filename) {
-                echo "<tr><td>$filename</td></tr>\n";
+            echo "<tr>";
+            echo "<th>", _("Image"), "</th>";
+            echo "<th>", _("Warnings"), "</th>";
+            echo "<th>", _("Errors"), "</th>";
+            echo "</tr>";
+            foreach ($this->non_page_files as $filename => $details) {
+                echo "<tr>";
+                echo "<td>$filename</td>";
+
+                $warning_msgs = nl2br(implode("\n", $details['warning_msgs']));
+                echo "<td>$warning_msgs</td>";
+
+                $error_msgs = nl2br(implode("\n", $details['error_msgs']));
+                echo "<td>$error_msgs</td>";
+
+                echo "</tr>\n";
             }
             echo "</table>\n";
         }
@@ -794,7 +835,7 @@ class Loader
         assert($this->n_errors == 0);
 
         // Non-page files
-        foreach ($this->non_page_files as $filename) {
+        foreach ($this->non_page_files as $filename => $details) {
             if (!copy($filename, "$this->dest_project_dir/$filename")) {
                 $this->error("Error copying $filename");
             }

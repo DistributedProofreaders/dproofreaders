@@ -5,13 +5,25 @@ use Symfony\Component\Process\Process;
 class ImageUtils
 {
     public const IMAGE_OK = 1;
-    public const IMAGE_CORRUPT = 2;
-    public const IMAGE_SKIPPED = 3;
+    public const IMAGE_WARNING = 2;
+    public const IMAGE_CORRUPT = 3;
+    public const IMAGE_SKIPPED = 4;
 
     /** @var array<string, bool> */
     protected array $external_tools = [
         "pngcheck" => false,
         "jpeginfo" => false,
+    ];
+
+    // These strings are returned from the validation tools but don't
+    // prevent the image from being loaded/used. Let's treat these substrings
+    // as warnings, not errors.
+    /** @var string[] */
+    public array $warning_strings = [
+        "illegal (unless recently approved) unknown, public chunk eXIf",
+        "invalid gAMA value (0.0000)",
+        "invalid tIME year (1969)",
+        "tEXt text contains NULL character(s)",
     ];
 
     public function __construct()
@@ -71,7 +83,18 @@ class ImageUtils
         $process->run();
         if (!$process->isSuccessful()) {
             $output = explode("\n", $process->getOutput());
-            return [ImageUtils::IMAGE_CORRUPT, $output[0]];
+
+            // remove the filename from the string, it doesn't add value
+            $output = str_replace($filename, "", $output[0]);
+
+            // if its one of our known warning strings, downgrade the severity
+            foreach ($this->warning_strings as $string) {
+                if (stripos($string, $output) !== false) {
+                    return [ImageUtils::IMAGE_WARNING, $output];
+                }
+            }
+
+            return [ImageUtils::IMAGE_CORRUPT, $output];
         }
 
         return [ImageUtils::IMAGE_OK, ""];

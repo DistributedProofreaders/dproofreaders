@@ -226,7 +226,7 @@ function _test_project_for_corrupt_pngs($projectid)
             if ($image_status == ImageUtils::IMAGE_CORRUPT) {
                 $details .= "<tr>";
                 $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
-                $details .= "<td>" . str_replace($file_info->abs_path, "", $image_message) . "</td>";
+                $details .= "<td>" . html_safe($image_message) . "</td>";
                 $details .= "</tr>";
 
                 $error_pngs++;
@@ -343,7 +343,7 @@ function _test_project_for_illo_images($projectid)
                 if ($image_status == ImageUtils::IMAGE_CORRUPT) {
                     $details .= "<tr>";
                     $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
-                    $details .= "<td>" . str_replace($file_info->abs_path, "", $image_message) . "</td>";
+                    $details .= "<td>" . html_safe($image_message) . "</td>";
                     $details .= "</tr>";
 
                     $errors++;
