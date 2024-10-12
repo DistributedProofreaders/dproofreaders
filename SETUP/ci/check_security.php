@@ -20,7 +20,6 @@ $ok_system_calls = [
     "pinc/upload_file.inc",
     "tools/project_manager/add_files.php",
     "tools/project_manager/show_project_stealth_scannos.php",
-    "tools/proofers/images_index.php",
 ];
 
 // List of files that can contain mysqli_error() calls
