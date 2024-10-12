@@ -828,9 +828,7 @@ class Loader
                         $now
                     );
                 } catch (DBQueryError $error) {
-                    echo "<p class='error'>";
-                    echo "for base=$base, project_add_page raised a DB error";
-                    echo "</p>";
+                    $this->error("for base=$base, project_add_page raised a DB error");
                 }
 
                 if (!copy($src_image_file_name, "$this->dest_project_dir/$src_image_file_name")) {
