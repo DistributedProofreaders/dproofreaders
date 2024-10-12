@@ -7,17 +7,15 @@ window.addEventListener("DOMContentLoaded", () => {
      */
 
     function closeAll() {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
+        const dropdowns = document.getElementsByClassName("dropdown-content");
         for (let openDropdown of dropdowns) {
-            if (openDropdown.classList.contains("dropdown-show")) {
-                openDropdown.classList.remove("dropdown-show");
-            }
+            openDropdown.classList.remove("dropdown-show");
         }
     }
 
     function toggleList() {
-        var thisDropdown = this.nextElementSibling;
-        var turnOn = !thisDropdown.classList.contains("dropdown-show");
+        const thisDropdown = this.nextElementSibling;
+        const turnOn = !thisDropdown.classList.contains("dropdown-show");
         closeAll();
         if (turnOn) {
             thisDropdown.classList.add("dropdown-show");
