@@ -8,6 +8,7 @@ class ImageUtils
     public const IMAGE_CORRUPT = 2;
     public const IMAGE_SKIPPED = 3;
 
+    /** @var array<string, bool> */
     protected array $external_tools = [
         "pngcheck" => false,
         "jpeginfo" => false,
