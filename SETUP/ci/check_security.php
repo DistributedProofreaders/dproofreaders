@@ -13,7 +13,6 @@ $basedir = $argv[1] ?? "../../";
 //       others are added from the current set until they get updated.
 $ok_system_calls = [
     "pinc/POFile.inc",
-    "pinc/Project.inc",
     "pinc/upload_file.inc",
 ];
 
