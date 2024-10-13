@@ -7,7 +7,7 @@ class Stopwatch
 // (start/stop button can also be seen as a pause/resume button)
 {
     private bool $running;
-    private int $seconds_from_completed_runs;
+    private float $seconds_from_completed_runs;
     private array $run_start_tod;
 
     // The time between a 'start' ('resume') and the subsequent 'stop' ('pause')

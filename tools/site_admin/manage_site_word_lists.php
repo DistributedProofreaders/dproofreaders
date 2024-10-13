@@ -77,7 +77,7 @@ if ($display_list) {
     echo "<th>" . _("Number of Words") . "</th>";
     echo "</tr>";
 
-    $site_lists = get_site_word_files("/txt$/");
+    $site_lists = get_site_word_files();
     asort($site_lists);
     foreach ($site_lists as $full_filename => $url) {
         $filename = basename($full_filename);
@@ -216,6 +216,13 @@ function _handle_action($action, $list_type, $language, $word_string)
 
         case "saveconfirmed":
             // save the list if requested
+
+            // if the $site_words_dir doesn't exist already, create it
+            [$site_words_dir, $site_words_url] = get_site_word_paths();
+            if (!is_dir($site_words_dir) && !mkdir($site_words_dir)) {
+                throw new RuntimeException(sprintf(_("Unable to create site word list dir %s"), $site_words_dir));
+            }
+
             $fileObject = get_site_word_file($langcode3, $list_type);
             $words = explode("\n", $word_string);
             save_word_list($fileObject->abs_path, $words);

@@ -7,11 +7,14 @@ class CharSuiteNotEnabledException extends Exception
 
 class PickerSet
 {
-    public $name;
+    public string $name;
+    /** @var array<string, (string|null)[]> */
     private array $subsets;
+    /** @var string[] */
     private array $titles;
 
-    public function add_subset($name, $codepoints, $title = null)
+    /** @param $codepoints (string|null)[] */
+    public function add_subset(string $name, array $codepoints, ?string $title = null)
     {
         $this->subsets[$name] = $codepoints;
 
@@ -22,12 +25,13 @@ class PickerSet
         }
     }
 
-    public function get_subsets()
+    /** @return array<string, string[]> */
+    public function get_subsets(): array
     {
         return $this->subsets;
     }
 
-    public function get_title($name)
+    public function get_title(string $name): string
     {
         return $this->titles[$name];
     }
@@ -38,15 +42,17 @@ class PickerSet
  */
 class CharSuite
 {
-    public $name;
-    public $title;
-    public $codepoints;
-    public $description;
-    public $adhoc;
+    public string $name;
+    public string $title;
+    /** @var string[] */
+    public ?array $codepoints;
+    public ?string $description = null;
+    public bool $adhoc;
     public $reference_urls = [];
-    private $_pickerset = null;
+    private ?PickerSet $_pickerset = null;
 
-    public function __construct($name, $title, $codepoints = null, $adhoc = false)
+    /** @param $codepoints ?string[] */
+    public function __construct(string $name, string $title, ?array $codepoints = null, bool $adhoc = false)
     {
         $this->name = $name;
         $this->title = $title;
@@ -54,7 +60,7 @@ class CharSuite
         $this->adhoc = $adhoc;
     }
 
-    public function __get($name)
+    public function __get(string $name): ?PickerSet
     {
         if ($name == 'pickerset') {
             return $this->_pickerset;
@@ -71,7 +77,7 @@ class CharSuite
         return null;
     }
 
-    public function __set($name, $value)
+    public function __set(string $name, PickerSet $value)
     {
         if ($name == 'pickerset') {
             $this->_pickerset = $value;
@@ -88,7 +94,7 @@ class CharSuite
         }
     }
 
-    public function is_enabled()
+    public function is_enabled(): bool
     {
         if ($this->adhoc) {
             return true;
@@ -106,9 +112,10 @@ class CharSuite
 
 class CharSuites
 {
-    private static $_available_charsuites = [];
+    /** @var array<string, CharSuite> */
+    private static array $_available_charsuites = [];
 
-    private static function load()
+    private static function load(): void
     {
         // load all available charsuites if not already loaded
 
@@ -124,12 +131,12 @@ class CharSuites
         }
     }
 
-    public static function add($charsuite)
+    public static function add(CharSuite $charsuite): void
     {
         self::$_available_charsuites[$charsuite->name] = $charsuite;
     }
 
-    public static function get($name)
+    public static function get(string $name): CharSuite
     {
         self::load();
 
@@ -139,14 +146,16 @@ class CharSuites
         return self::$_available_charsuites[$name];
     }
 
-    public static function get_all()
+    /** @return CharSuite[] */
+    public static function get_all(): array
     {
         self::load();
 
         return array_values(self::$_available_charsuites);
     }
 
-    public static function get_enabled()
+    /** @return CharSuite[] */
+    public static function get_enabled(): array
     {
         $sql = "
             SELECT name
@@ -164,7 +173,7 @@ class CharSuites
         return $charsuites;
     }
 
-    public static function enable($name)
+    public static function enable(string $name): void
     {
         // Validate we have a valid charsuite
         $charsuite = CharSuites::get($name);
@@ -182,7 +191,7 @@ class CharSuites
         DPDatabase::query($sql);
     }
 
-    public static function disable($name)
+    public static function disable(string $name): void
     {
         // We don't validate the charsuite is installed in case it was
         // uninstalled before being disabled.
@@ -204,11 +213,9 @@ class CharSuites
      * Check to see if `$charsuite` is a real CharSuite object or a charsuite
      * name and if the latter, return a CharSuite object of that name.
      *
-     * @param string|object $charsuite Character suite name or object
-     *
-     * @return object
+     * @param string|CharSuite $charsuite Character suite name or object
      */
-    public static function resolve($charsuite)
+    public static function resolve($charsuite): CharSuite
     {
         if ($charsuite instanceof CharSuite) {
             return $charsuite;
@@ -222,7 +229,8 @@ class CharSuites
 
 trait CharSuiteSet
 {
-    public function get_pickersets()
+    /** @return PickerSet[] */
+    public function get_pickersets(): array
     {
         $pickersets = [];
         foreach ($this->get_charsuites() as $charsuite) {
@@ -231,7 +239,8 @@ trait CharSuiteSet
         return $pickersets;
     }
 
-    public function get_valid_codepoints()
+    /** @return string[] */
+    public function get_valid_codepoints(): array
     {
         // Codepoints applicable to all projects
         $global_codepoints = [
@@ -248,7 +257,8 @@ trait CharSuiteSet
     }
 }
 
-function get_project_or_quiz($identifier)
+/** @return QuizCharSuites|Project */
+function get_project_or_quiz(string $identifier)
 {
     if ($identifier == "quiz") {
         return new QuizCharSuites();

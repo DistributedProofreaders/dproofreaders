@@ -152,7 +152,7 @@ class ImageSource
     public int $ok_keep_images; // TODO: bool
     public int $ok_show_images; // TODO: bool
     public string $public_comment;
-    public string $internal_comment;
+    public ?string $internal_comment;
     public int $is_active;
 
     public function __construct($code_name = null)
@@ -286,8 +286,8 @@ class ImageSource
         }
         $this->_show_edit_row('display_name', _('Display Name'), false, 30, true);
         $this->_show_edit_row('full_name', _('Full Name'), false, 100, true);
-        $this->_show_edit_row('url', _('Website'), false, 200);
-        $this->_show_edit_row('credit', _('Credits Line (no URLs)'), true, 200);
+        $this->_show_edit_row('url', _('Website'), false, 255);
+        $this->_show_edit_row('credit', _('Credits Line (no URLs)'), true, 255);
         $this->_show_edit_permissions_row();
         $this->_show_edit_row('public_comment', _('Description (public comments)'), true, 255);
         $this->_show_edit_row('internal_comment', _('Notes (internal comments)'), true);
@@ -419,8 +419,8 @@ class ImageSource
                 code_name = LEFT('%s', 10),
                 display_name = LEFT('%s', 30),
                 full_name = LEFT('%s', 100),
-                url = LEFT('%s', 200),
-                credit = LEFT('%s', 200),
+                url = LEFT('%s', 255),
+                credit = LEFT('%s', 255),
                 ok_keep_images = %d,
                 ok_show_images = %d,
                 info_page_visibility = %d,

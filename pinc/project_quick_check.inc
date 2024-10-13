@@ -198,9 +198,8 @@ function _test_project_for_corrupt_pngs($projectid)
 
     $project = new Project($projectid);
 
-    // see if pngcheck is installed
-    exec('pngcheck', $output, $return_code);
-    if ($return_code != 2) {
+    $checker = new ImageUtils();
+    if (!$checker->can_validate("png")) {
         $status = _("Skipped");
         $summary = _("pngcheck program not available on this system.");
         $details = "";
@@ -223,19 +222,14 @@ function _test_project_for_corrupt_pngs($projectid)
                 continue;
             }
 
-            $path_info = pathinfo($file_info->abs_path);
+            [$image_status, $image_message] = $checker->validate_integrity($file_info->abs_path);
+            if ($image_status == ImageUtils::IMAGE_CORRUPT) {
+                $details .= "<tr>";
+                $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
+                $details .= "<td>" . str_replace($file_info->abs_path, "", $image_message) . "</td>";
+                $details .= "</tr>";
 
-            if (strtolower($path_info["extension"]) == "png") {
-                $output = "";
-                exec('pngcheck -q ' . escapeshellarg($file_info->abs_path), $output, $return_code);
-                if ($return_code != 0) {
-                    $details .= "<tr>";
-                    $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
-                    $details .= "<td>" . str_replace($file_info->abs_path, "", $output[0]) . "</td>";
-                    $details .= "</tr>";
-
-                    $error_pngs++;
-                }
+                $error_pngs++;
             }
         }
 
@@ -271,7 +265,7 @@ function _test_project_for_small_images($projectid)
         $images = $project->get_page_names_from_db();
 
         foreach ($images as $image) {
-            // the the file's info
+            // get the file's info
             $file_info = get_file_info_object($image, $project->dir, $project->url);
 
             // if the file doesn't exist, skip it -- we're not testing for that
@@ -326,17 +320,62 @@ function _test_project_for_illo_images($projectid)
 
         $num_nonpage_image_files = count($nonpage_image_names);
         if ($num_nonpage_image_files > 0) {
-            $status = _("Success");
-            $summary = sprintf(_("%d illustration files found"), $num_nonpage_image_files);
+            $checker = new ImageUtils();
+
+            $details = "<table class='basic striped'>";
+            $details .= "<tr>";
+            $details .= "<th>" . _("Image") . "</th>";
+            $details .= "<th>" . _("Status") . "</th>";
+            $details .= "</tr>";
+
+            $errors = 0;
+            $skipped = 0;
+            foreach ($nonpage_image_names as $image) {
+                // get the file's info
+                $file_info = get_file_info_object($image, $project->dir, $project->url);
+
+                // if the file doesn't exist, skip it -- we're not testing for that
+                if (!$file_info->exists) {
+                    continue;
+                }
+
+                [$image_status, $image_message] = $checker->validate_integrity($file_info->abs_path);
+                if ($image_status == ImageUtils::IMAGE_CORRUPT) {
+                    $details .= "<tr>";
+                    $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
+                    $details .= "<td>" . str_replace($file_info->abs_path, "", $image_message) . "</td>";
+                    $details .= "</tr>";
+
+                    $errors++;
+                } elseif ($image_status == ImageUtils::IMAGE_SKIPPED) {
+                    $skipped++;
+                }
+            }
+
+            $details .= "</table>";
+
+            if ($skipped == $num_nonpage_image_files) {
+                $status = _("Skipped");
+                $summary = sprintf(_("%d illustration files found but no checker installed to check them"), $num_nonpage_image_files);
+                $details = "";
+            } elseif ($errors == 0) {
+                if ($skipped == 0) {
+                    $status = _("Success");
+                    $summary = sprintf(_("%d valid illustration files found"), $num_nonpage_image_files);
+                } else {
+                    $status = _("Warning");
+                    $summary = sprintf(_("%d valid illustration files found; unable to validate %d"), $num_nonpage_image_files - $skipped, $skipped);
+                }
+                $details = "";
+            } else {
+                $status = _("Error");
+                $summary = _("Some pages illustrations have corrupt images.");
+            }
         } else {
             $status = _("Warning");
             $summary = _("No illustration files found");
+            $details = "";
         }
-
-        $details = "
-            <p><a href='$code_url/tools/proofers/images_index.php?project=$projectid'>" . _("Image Index") . "</a></p>
-            <p>$summary</p>
-        ";
     } else {
         $status = _("Skipped");
         $summary = _("Page table does not exist.");

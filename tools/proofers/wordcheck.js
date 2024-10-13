@@ -12,7 +12,7 @@ function isWordChanged(wordID) {
     let wordText = input.value;
     let isBad = !testText(wordText);
     let wasBad = input.dataset.bad === "true"; // undefined will give false
-    if(!wasBad && isBad) {
+    if (!wasBad && isBad) {
         badBoxes += 1;
         let spCorrect = document.getElementById("spcorrect");
         spCorrect.disabled = true;
@@ -20,9 +20,9 @@ function isWordChanged(wordID) {
         let spRerun = document.getElementById("rerunauxlanguage");
         spRerun.disabled = true;
         spRerun.title = wordCheckMessages.badCharsError;
-    } else if(wasBad && !isBad) {
+    } else if (wasBad && !isBad) {
         badBoxes -= 1;
-        if(0 === badBoxes) {
+        if (0 === badBoxes) {
             let spCorrect = document.getElementById("spcorrect");
             spCorrect.title = wordCheckMessages.keepCorrections;
             spCorrect.disabled = false;
@@ -36,8 +36,8 @@ function isWordChanged(wordID) {
     } else {
         delete input.dataset.bad;
     }
-    input.style.border = isBad ? '2px solid red' : '';
-    return !(input && (wordText == input.defaultValue));
+    input.style.border = isBad ? "2px solid red" : "";
+    return !(input && wordText == input.defaultValue);
 }
 
 // function to mark the page as changed
@@ -56,7 +56,7 @@ function markPageChanged() {
 function enableAW(wordID) {
     var button = document.getElementById("button_" + wordID);
     var a = document.getElementById("a_" + wordID);
-    if(button && a) {
+    if (button && a) {
         button.src = "../../graphics/Book-Plus-Small.gif";
         button.title = wordCheckMessages.enableAwLabel;
         a.href = "#";
@@ -72,7 +72,7 @@ function disableAW(wordID) {
     if (!isWordChanged(wordID)) {
         // if the current and original values are the same
         // and the button has been disabled, re-enable it
-        if(a && !a.href) {
+        if (a && !a.href) {
             enableAW(wordID);
         }
         return false;
@@ -80,10 +80,10 @@ function disableAW(wordID) {
 
     // If we're here, we should be disabling the button
     var button = document.getElementById("button_" + wordID);
-    if(button && a && a.href) {
+    if (button && a && a.href) {
         button.src = "../../graphics/Book-Plus-Small-Disabled.gif";
         button.title = wordCheckMessages.disableAwLabel;
-        a.removeAttribute('href');
+        a.removeAttribute("href");
     }
 
     markPageChanged();
@@ -102,7 +102,7 @@ function acceptWord(wordIDprefix, wordNumber) {
     var input = document.getElementById("input_" + wordID);
 
     // Double-check that the value hadn't changed
-    if(input && input.value != input.defaultValue) {
+    if (input && input.value != input.defaultValue) {
         // what? it has? disable that button & bail!
         disableAW(wordID);
         return false;
@@ -112,14 +112,14 @@ function acceptWord(wordIDprefix, wordNumber) {
 
     // loop through all bad words
     var totalNumWords = document.getElementById("sptotal").value;
-    for(let wordIndex = 1; wordIndex <= totalNumWords; wordIndex++) {
+    for (let wordIndex = 1; wordIndex <= totalNumWords; wordIndex++) {
         // find occurrences of the word
         var wordOccurID = wordIDprefix + "_" + wordIndex;
 
         // check to see if this instance has been edited already
         // by comparing the before and after words
         input = document.getElementById("input_" + wordOccurID);
-        if(input && input.value == input.defaultValue) {
+        if (input && input.value == input.defaultValue) {
             // get the span
             var wordSpan = document.getElementById(wordOccurID);
             // set contents to be the word itself
@@ -130,7 +130,7 @@ function acceptWord(wordIDprefix, wordNumber) {
 
     // save the word in the accepted_words list
     var acceptedWordsInput = document.getElementById("accepted_words");
-    if(acceptedWordsInput.value == "") {
+    if (acceptedWordsInput.value == "") {
         acceptedWordsInput.value = wordOrig;
     } else {
         acceptedWordsInput.value = acceptedWordsInput.value + " " + wordOrig;
@@ -140,8 +140,7 @@ function acceptWord(wordIDprefix, wordNumber) {
 }
 
 function evaluateWordChange(wordID) {
-    if (isWordChanged(wordID))
-        markPageChanged();
+    if (isWordChanged(wordID)) markPageChanged();
 }
 
 // store wordID for char pickers to use
@@ -149,12 +148,11 @@ function markBox(wordID) {
     top.txtBoxID = wordID;
 }
 
-
 // Confirm exit if changes have been made
 function confirmExit() {
     // see if changes have been made
     var changesMade = document.getElementById("is_changed").value;
-    if(changesMade == 1) {
+    if (changesMade == 1) {
         return confirm(wordCheckMessages.confirmExitString);
     }
 

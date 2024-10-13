@@ -103,20 +103,10 @@ if (substr($abs_source, -4) == ".zip") {
     $source_project_dir = $abs_source;
 }
 
-// Attempt to make everything all-readable.
-// (This will probably only succeed if we have just unpacked
-// a zip file [above], but no harm in trying in all cases.)
-exec("chmod -R a+r " . escapeshellarg($source_project_dir));
-
-
 // Rather than performing commands from an arbitrary location,
-// using absolute paths, e.g.
-//     system("cp $source_project_dir/*.png $dest_project_dir");
-//     glob("$source_project_dir/*.txt"),
 // we chdir into $source_project_dir and do *local* commands from there.
 // That way, we don't have to worry about any shell-special or
 // glob-special characters in $source_project_dir.
-// (There don't appear to be any chdir-special characters.)
 $r = chdir($source_project_dir);
 if (!$r) {
     echo "<p class='error'>";
@@ -183,7 +173,6 @@ class Loader
     private string $source_project_dir;
     private string $dest_project_dir;
     private string $projectid;
-    private bool $dry_run;
     private bool $adding_pages;
     private int $image_field_len;
     /** @var array<string, string> */
@@ -496,8 +485,7 @@ class Loader
 
         // Filenames starting with a hyphen are excluded because
         // they may be mistaken with command line options of
-        // shell utilities such as cmp (in this file, below) and zip
-        // (when generating zips to download image files)
+        // shell utilities.
         if (preg_match('/^-/', $filename)) {
             return _('filename starts with a hyphen');
         }
@@ -621,8 +609,7 @@ class Loader
             $same = (
                 is_file($p_file)
                 &&
-                shell_exec("cmp " . escapeshellarg($src_file)
-                    . " " . escapeshellarg($p_file)) == ''
+                md5_file($src_file) == md5_file($p_file)
             );
         }
         if ($same) {
@@ -806,15 +793,11 @@ class Loader
 
         assert($this->n_errors == 0);
 
-        $this->dry_run = false;
-
         // Non-page files
         foreach ($this->non_page_files as $filename) {
-            $this->_do_command(sprintf(
-                "cp %s %s",
-                escapeshellarg($filename),
-                escapeshellarg($this->dest_project_dir)
-            ));
+            if (!copy($filename, "$this->dest_project_dir/$filename")) {
+                $this->error("Error copying $filename");
+            }
         }
 
         // Page files
@@ -835,108 +818,59 @@ class Loader
             $src_text_file_path = "$this->source_project_dir/$src_text_file_name";
 
             if ($text_a == 'add' && $image_a == 'add') {
-                if ($this->dry_run) {
-                    echo "
-                        project_add_page(
-                            $this->projectid,
-                            $base,
-                            $src_image_file_name,
-                            $src_text_file_path,
-                            $pguser,
-                            $now );<br>
-                    ";
-                } else {
-                    try {
-                        project_add_page(
-                            $this->projectid,
-                            $base,
-                            $src_image_file_name,
-                            $src_text_file_path,
-                            $pguser,
-                            $now
-                        );
-                    } catch (DBQueryError $error) {
-                        echo "<p class='error'>";
-                        echo "for base=$base, project_add_page raised a DB error";
-                        echo "</p>";
-                    }
+                try {
+                    project_add_page(
+                        $this->projectid,
+                        $base,
+                        $src_image_file_name,
+                        $src_text_file_path,
+                        $pguser,
+                        $now
+                    );
+                } catch (DBQueryError $error) {
+                    $this->error("for base=$base, project_add_page raised a DB error");
                 }
 
-                $this->_do_command(sprintf(
-                    "cp %s %s",
-                    escapeshellarg($src_image_file_name),
-                    escapeshellarg($this->dest_project_dir)
-                ));
+                if (!copy($src_image_file_name, "$this->dest_project_dir/$src_image_file_name")) {
+                    $this->error("Error copying $src_image_file_name");
+                }
             } else {
                 if ($text_a == 'replace') {
-                    if ($this->dry_run) {
-                        echo "
-                            Page_replaceText(
-                                $this->projectid,
-                                $db_image_file_name,
-                                $src_text_file_path,
-                                $pguser );
-                        ";
-                    } else {
-                        Page_replaceText(
-                            $this->projectid,
-                            $db_image_file_name,
-                            $src_text_file_path,
-                            $pguser
-                        );
-                    }
+                    Page_replaceText(
+                        $this->projectid,
+                        $db_image_file_name,
+                        $src_text_file_path,
+                        $pguser
+                    );
                 }
 
                 if ($image_a == 'replace') {
                     if ($src_image_file_name != $db_image_file_name) {
                         // e.g., replacing 001.png with 001.jpg
 
-                        if ($this->dry_run) {
-                            echo "
-                                Page_replaceImage(
-                                    $this->projectid,
-                                    $db_image_file_name,
-                                    $src_image_file_name,
-                                    $pguser );
-                            ";
-                        } else {
-                            Page_replaceImage(
-                                $this->projectid,
-                                $db_image_file_name,
-                                $src_image_file_name,
-                                $pguser
-                            );
-                        }
+                        Page_replaceImage(
+                            $this->projectid,
+                            $db_image_file_name,
+                            $src_image_file_name,
+                            $pguser
+                        );
 
-                        $this->_do_command("rm " . escapeshellarg(
-                            "$this->dest_project_dir/$db_image_file_name"
-                        ));
+                        if (!unlink("$this->dest_project_dir/$db_image_file_name")) {
+                            $this->error("Error deleting $db_image_file_name");
+                        }
                     }
 
-                    $this->_do_command(sprintf(
-                        "cp %s %s",
-                        escapeshellarg($src_image_file_name),
-                        escapeshellarg($this->dest_project_dir)
-                    ));
+                    if (!copy($src_image_file_name, "$this->dest_project_dir/$src_image_file_name")) {
+                        $this->error("Error copying $src_image_file_name");
+                    }
                 }
             }
         }
     }
 
-    public function _do_command(string $cmd): void
+    public function error(string $message): void
     {
-        if ($this->dry_run) {
-            echo "$cmd<br>";
-        } else {
-            system($cmd, $exit_status);
-            if ($exit_status != 0) {
-                error_log("add_files.php - error running \"$cmd\"; exit code: $exit_status");
-
-                echo "<p class='error'>";
-                echo "an error occurred during a filesystem operation, this has been logged for a site administrator to view";
-                echo "</p>";
-            }
-        }
+        echo "<p class='error'>" . html_safe($message) . "</p>";
     }
 }
 

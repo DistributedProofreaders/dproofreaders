@@ -3,16 +3,16 @@
 
 var openedToolboxPopups = [];
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener("DOMContentLoaded", function () {
     "use strict";
 
     function showPicker() {
-        document.getElementById("char-picker").style.display = 'inherit';
+        document.getElementById("char-picker").style.display = "inherit";
         document.getElementById("show-picker").classList.add("nodisp");
     }
 
     function hidePicker() {
-        document.getElementById("char-picker").style.display = 'none';
+        document.getElementById("char-picker").style.display = "none";
         document.getElementById("show-picker").classList.remove("nodisp");
     }
 
@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     var pickerState = localStorage.getItem("picker_data");
-    if (pickerState && (pickerState === "hide")) {
+    if (pickerState && pickerState === "hide") {
         hidePicker();
     }
 

@@ -58,9 +58,6 @@ _ASPELL_EXECUTABLE=/usr/bin/aspell
 _ASPELL_PREFIX=/usr
 _ASPELL_TEMP_DIR=/tmp
 
-_WIKIHIERO_DIR=
-_WIKIHIERO_URL=
-
 _PHPMAILER_SMTP_CONFIG='["Host" => "localhost", "Port" => 25]'
 _NO_REPLY_EMAIL_ADDR=no-reply@pgdp.org
 _GENERAL_HELP_EMAIL_ADDR=dphelp@pgdp.net

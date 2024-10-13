@@ -8,6 +8,7 @@ include_once($relPath.'base.inc');
 
 // Reconnect to the test DB
 DPDatabase::close();
+// Note: The values need to be kept in sync with other files in SETUP/tests/.
 DPDatabase::connect("localhost", "dp_test_db", "dp_test_user", "dp_test_password");
 
 include_once($relPath.'wordcheck_engine.inc');

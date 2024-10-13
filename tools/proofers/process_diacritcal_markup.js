@@ -1,6 +1,6 @@
 /*global validCharacterPattern */
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener("DOMContentLoaded", function () {
     var textArea = document.getElementById("text_data");
     let validCharRegex = new RegExp(validCharacterPattern, "u");
 
@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', function() {
         "^": "\u0302", // circumflex
         ")": "\u0306", // breve
         "~": "\u0303", // tilde
-        "v": "\u030C", // caron
+        v: "\u030C", // caron
         "*": "\u030A", // ring
         "(": "\u0311", // inverted breve
     };
@@ -28,19 +28,19 @@ window.addEventListener('DOMContentLoaded', function() {
         ")": "\u032E", // breve
         "~": "\u0330", // tilde
         ",": "\u0327", // cedilla
-        "v": "\u032C", // caron
+        v: "\u032C", // caron
         "*": "\u0325", // ring
         "(": "\u032F", // inverted breve
     };
 
     var ligatures = {
-        "ae": "\u00e6",
-        "AE": "\u00c6",
-        "oe": "\u0153",
-        "OE": "\u0152",
+        ae: "\u00e6",
+        AE: "\u00c6",
+        oe: "\u0153",
+        OE: "\u0152",
     };
 
-    textArea.addEventListener("input", function() {
+    textArea.addEventListener("input", function () {
         // Detect if the user has input one of the diacritical markups [..]
         // and convert it to a Unicode codepoint. If the codepoint is not
         // valid for the project, leave it as the markup. This also converts
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', function() {
         function maybeSubstitute() {
             // if replaceChar is good use it
             // this uses the local variables of the containing function
-            if(validCharRegex.test(replaceChar)) {
+            if (validCharRegex.test(replaceChar)) {
                 // replace markup with character and move caret back 4 places
                 // and forward by length of replaceChar
                 let newCaret = char0Index + replaceChar.length;
@@ -65,26 +65,26 @@ window.addEventListener('DOMContentLoaded', function() {
         }
 
         let char3Index = endIndex - 1;
-        if(text[char3Index] != "]") {
+        if (text[char3Index] != "]") {
             // if out of range would get ""
             return;
         }
         char0Index = endIndex - 4;
-        if(text[char0Index] === "[") {
+        if (text[char0Index] === "[") {
             let char1Index = endIndex - 3;
             replaceChar = ligatures[text.slice(char1Index, char3Index)];
-            if(replaceChar) {
+            if (replaceChar) {
                 maybeSubstitute();
                 return;
             }
             let char1 = text[char1Index];
             let char2 = text[endIndex - 2];
             var code = above[char1];
-            if(code) {
+            if (code) {
                 replaceChar = char2 + code;
             } else {
                 code = below[char2];
-                if(code) {
+                if (code) {
                     replaceChar = char1 + code;
                 } else {
                     return;

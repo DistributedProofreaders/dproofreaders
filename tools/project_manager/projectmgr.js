@@ -6,10 +6,10 @@ window.addEventListener("DOMContentLoaded", () => {
     const timeSpan = document.getElementById("server-time");
     const dateTimeFormat = new Intl.DateTimeFormat(userLanguage, {
         timeZone: serverTimezone,
-        hourCycle: 'h23',
-        hour: '2-digit',
-        minute: '2-digit',
-        weekday: 'short'
+        hourCycle: "h23",
+        hour: "2-digit",
+        minute: "2-digit",
+        weekday: "short",
     });
 
     function showTime() {

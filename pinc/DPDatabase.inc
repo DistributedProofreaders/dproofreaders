@@ -10,14 +10,14 @@ class DBQueryError extends Exception
 
 final class DPDatabase
 {
-    private static $_connection = false;
+    private static ?mysqli $_connection = null;
     private static ?string $_db_name = null;
     private static ?string $_default_db_charset = null;
     private static ?string $_default_db_collation = null;
     public static bool $skip_encoding_check = false;
     public static ?string $tracing_log = null;
 
-    public static function connect($db_server = null, $db_name = null, $db_user = null, $db_password = null)
+    public static function connect(?string $db_server = null, ?string $db_name = null, ?string $db_user = null, ?string $db_password = null): void
     {
         if (!isset($db_server)) {
             include('udb_user.php');
@@ -36,7 +36,7 @@ final class DPDatabase
         }
 
         try {
-            mysqli_select_db(self::$_connection, $db_name);
+            self::$_connection->select_db($db_name);
         } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to locate database.");
         }
@@ -48,7 +48,7 @@ final class DPDatabase
         // to not impact other database users (forum, wiki, etc).
         $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
         try {
-            mysqli_query(self::$_connection, $sql);
+            self::$_connection->query($sql);
         } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to set sql_mode");
         }
@@ -66,16 +66,17 @@ final class DPDatabase
         mysqli_set_charset(self::$_connection, "utf8mb4");
     }
 
-    public static function close()
+    public static function close(): void
     {
         if (!self::$_connection) {
             return;
         }
 
-        mysqli_close(self::$_connection);
+        self::$_connection->close();
+        self::$_connection = null;
     }
 
-    public static function get_connection()
+    public static function get_connection(): ?mysqli
     {
         return self::$_connection;
     }
@@ -90,10 +91,23 @@ final class DPDatabase
         return addcslashes($value, "%_");
     }
 
+    /**
+     * Execute a query against the MySQL server
+     *
+     * In the background, this calls mysqli_query and thus
+     * will return:
+     *  - on success, either a mysqli_result or true depending on
+     *    the SQL statement (see the documentation for mysqli_query).
+     *  - on failure, it depends on the value of `$throw_on_failure`:
+     *      - If it is true, it will throw an exception.
+     *      - If it is false, it will return false.
+     *
+     * @return mysqli_result|bool
+     */
     public static function query(string $sql, bool $throw_on_failure = true, bool $log_on_failure = true)
     {
         try {
-            $result = mysqli_query(self::$_connection, $sql);
+            $result = self::$_connection->query($sql);
             DPDatabase::log_trace($sql);
         } catch (mysqli_sql_exception $e) {
             if ($log_on_failure) {
@@ -105,13 +119,14 @@ final class DPDatabase
             if ($throw_on_failure) {
                 throw new DBQueryError($error);
             }
+            return false;
         }
         return $result;
     }
 
-    public static function affected_rows()
+    public static function affected_rows(): int
     {
-        return mysqli_affected_rows(self::$_connection);
+        return self::$_connection->affected_rows;
     }
 
     public static function log_error(int $backtrace_level = 0): string
@@ -125,7 +140,7 @@ final class DPDatabase
         return _("An error occurred during a database query and has been logged.");
     }
 
-    private static function get_db_defaults()
+    private static function get_db_defaults(): void
     {
         $sql = sprintf(
             "
@@ -137,10 +152,10 @@ final class DPDatabase
         );
         $result = self::query($sql);
 
-        $row = mysqli_fetch_assoc($result);
+        $row = $result->fetch_assoc();
         self::$_default_db_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
         self::$_default_db_collation = $row['DEFAULT_COLLATION_NAME'];
-        mysqli_free_result($result);
+        $result->free();
     }
 
     public static function get_default_db_charset(): string
@@ -171,9 +186,9 @@ final class DPDatabase
             self::escape($table_name)
         );
         $result = self::query($sql);
-        $row = mysqli_fetch_assoc($result);
+        $row = $result->fetch_assoc();
         $table_encoding = $row['TABLE_COLLATION'];
-        mysqli_free_result($result);
+        $result->free();
 
         return stripos($table_encoding, 'utf8mb4') === 0;
     }
@@ -190,10 +205,10 @@ final class DPDatabase
             self::escape($table_name)
         );
         $result = self::query($sql);
-        return mysqli_fetch_assoc($result) !== null;
+        return $result->fetch_assoc() !== null;
     }
 
-    private static function log_trace(string $sql)
+    private static function log_trace(string $sql): void
     {
         if (!DPDatabase::$tracing_log) {
             return;

@@ -23,30 +23,30 @@
 // and possible issues.
 // An empty color string means use default color
 const defaultStyles = {
-    t: {bg: "#fffcf4", fg: "#000000"},
-    i: {bg: "", fg: "#0000ff"},
-    b: {bg: "", fg: "#c55a1b"},
-    g: {bg: "", fg: "#8a2be2"},
-    sc: {bg: "", fg: "#009700"},
-    f: {bg: "", fg: "#ff0000"},
-    u: {bg: "", fg: ""},
-    etc: {bg: "#ffcaaf", fg: ""},
-    err: {bg: "#ff0000", fg: ""},
-    hlt: {bg: "#ceff09", fg: ""},
-    blockquote: {bg: "#fecafe", fg: ""},
-    nowrap: {bg: "#d1fcff", fg: ""},
+    t: { bg: "#fffcf4", fg: "#000000" },
+    i: { bg: "", fg: "#0000ff" },
+    b: { bg: "", fg: "#c55a1b" },
+    g: { bg: "", fg: "#8a2be2" },
+    sc: { bg: "", fg: "#009700" },
+    f: { bg: "", fg: "#ff0000" },
+    u: { bg: "", fg: "" },
+    etc: { bg: "#ffcaaf", fg: "" },
+    err: { bg: "#ff0000", fg: "" },
+    hlt: { bg: "#ceff09", fg: "" },
+    blockquote: { bg: "#fecafe", fg: "" },
+    nowrap: { bg: "#d1fcff", fg: "" },
     color: true, // colour the markup or not
     allowUnderline: false,
     defFontIndex: 0,
     suppress: {},
     initialViewMode: "no_tags",
-    allowMathPreview: false
+    allowMathPreview: false,
 };
 
 // processes the text by textFunction but in math mode only outside math markup
 // define this at top level so we can test it
 function processExMath(text, textFunction, allowMath) {
-    if(!allowMath) {
+    if (!allowMath) {
         return textFunction(text);
     } else {
         // find whole math strings \[ ... \] or \( ... \)
@@ -54,7 +54,7 @@ function processExMath(text, textFunction, allowMath) {
         let mathRegex = /\\\[[^]*?\\\]|\\\([^]*?\\\)/g;
         let result;
         let startIndex = 0;
-        while((result = mathRegex.exec(text)) !== null) {
+        while ((result = mathRegex.exec(text)) !== null) {
             txtOut += textFunction(text.slice(startIndex, result.index)) + result[0];
             startIndex = mathRegex.lastIndex;
         }
@@ -65,7 +65,7 @@ function processExMath(text, textFunction, allowMath) {
 }
 
 // find index of next unmatched ] return 0 if none found
-const re = /\[|\]/g;  // [ or ]
+const re = /\[|\]/g; // [ or ]
 function findClose(txt, index) {
     let result;
     let nestLevel = 0;
@@ -73,7 +73,8 @@ function findClose(txt, index) {
     while ((result = re.exec(txt)) !== null) {
         if ("[" === result[0]) {
             nestLevel += 1;
-        } else { // must be ]
+        } else {
+            // must be ]
             if (0 === nestLevel) {
                 return result.index;
             }
@@ -85,12 +86,12 @@ function findClose(txt, index) {
 
 function removeTrail(txt) {
     // Remove trailing whitespace on each line and trailing blank lines
-    txt = txt.replace(/ *$/mg, "");
+    txt = txt.replace(/ *$/gm, "");
     txt = txt.replace(/\s*$/, "");
     return txt;
 }
 
-const getILTags = function(configuration) {
+const getILTags = function (configuration) {
     let ILTags = "[ibfg]|sc";
     if (configuration.allowUnderline) {
         ILTags += "|u";
@@ -99,8 +100,8 @@ const getILTags = function(configuration) {
 };
 
 const analyse = function (txt, config) {
-// the default issue types, can be over-ridden
-// 1 means a definite issue, 0 a possible issue
+    // the default issue types, can be over-ridden
+    // 1 means a definite issue, 0 a possible issue
     const ILTags = getILTags(config);
     var issueType = {
         noStartTag: 1,
@@ -156,11 +157,11 @@ const analyse = function (txt, config) {
     // code: issue, optional type overrides issueType,
     // subText is text to substitute in some messages
     function reportIssue(start, len, code, type = null, subText = "") {
-        if (!(config.suppress[code])) {
-            if(type == null) {
+        if (!config.suppress[code]) {
+            if (type == null) {
                 type = issueType[code];
             }
-            issArray.push({start: start, len: len, code: code, type: type, subText: subText});
+            issArray.push({ start: start, len: len, code: code, type: type, subText: subText });
         }
     }
 
@@ -169,7 +170,7 @@ const analyse = function (txt, config) {
     function checkProoferNotes() {
         // look for [** then look for ] skipping matched [ ]
         let result, closeIndex;
-        while(null !== (result = reNoteStart.exec(txt))) {
+        while (null !== (result = reNoteStart.exec(txt))) {
             closeIndex = findClose(txt, reNoteStart.lastIndex);
             if (0 === closeIndex) {
                 // no ] found
@@ -208,15 +209,14 @@ const analyse = function (txt, config) {
             outNoteStart += noteStartIndex - beginIndex;
             // if note starts at beginning of a line and ends at the end of a line
             // remove any following nl character also so doesn't count as a blank line and include the nl in the note
-            if(((noteStartIndex === 0) || (txt.charAt(noteStartIndex - 1) === "\n"))
-                && ((noteEndIndex === maxIndex) || (txt.charAt(noteEndIndex + 1) === "\n"))) {
+            if ((noteStartIndex === 0 || txt.charAt(noteStartIndex - 1) === "\n") && (noteEndIndex === maxIndex || txt.charAt(noteEndIndex + 1) === "\n")) {
                 // let next copy begin after the ending \n
                 beginIndex = noteEndIndex + 2;
             } else {
                 // let next copy begin after the note
                 beginIndex = noteEndIndex + 1;
             }
-            notes.push({start: outNoteStart, text: txt.slice(noteStartIndex, beginIndex)});
+            notes.push({ start: outNoteStart, text: txt.slice(noteStartIndex, beginIndex) });
             reNoteStart.lastIndex = beginIndex;
         }
         // copy any remaining text
@@ -255,12 +255,12 @@ const analyse = function (txt, config) {
     // /*: */ pop, #/ -> mismatch, /# -> BQ not allowed inside NW, /* -> NW inside NW
     // /#: /# or /* -> push, #/ -> pop, */ mismatch
     function parseOol() {
-        var tagStack = [];  // holds start tag /* or /# and index
+        var tagStack = []; // holds start tag /* or /# and index
         var start;
         var tagString;
         var stackTop;
         var result;
-        var oolre = /\/\*|\/#|\*\/|#\//g;   // any out-of-line tag
+        var oolre = /\/\*|\/#|\*\/|#\//g; // any out-of-line tag
         var prevLin;
 
         // find previous line, assume ix > 0
@@ -278,7 +278,7 @@ const analyse = function (txt, config) {
 
         // check that no other characters are on the same line
         function chkAlone(start, len, descriptor) {
-            if(chkCharAfter(start, len, 1, descriptor)) {
+            if (chkCharAfter(start, len, 1, descriptor)) {
                 return;
             }
 
@@ -296,9 +296,9 @@ const analyse = function (txt, config) {
             // or an opening block quote tag
             // allow also an opening no-wrap to avoid giving a misleading message
             // that it is "normal text". The error will be caught elsewhere.
-            if ((tagString.charAt(0) === "/") && (start > 1) && (txt.charAt(start - 2) !== "\n")) {
+            if (tagString.charAt(0) === "/" && start > 1 && txt.charAt(start - 2) !== "\n") {
                 prevLin = findPrevLine(start);
-                if (!(("/#" === prevLin) || ("/*" === prevLin))) {
+                if (!("/#" === prevLin || "/*" === prevLin)) {
                     reportIssue(start, 2, "OolPrev");
                 }
             }
@@ -312,45 +312,49 @@ const analyse = function (txt, config) {
             }
 
             if (tagStack.length === 0) {
-                if ('/' === tagString.charAt(0)) {     // start tag
-                    tagStack.push({tag: tagString, start: start});
+                if ("/" === tagString.charAt(0)) {
+                    // start tag
+                    tagStack.push({ tag: tagString, start: start });
                 } else {
                     reportIssue(start, 2, "noStartTag");
                 }
-            } else {    // there are tags in the stack
+            } else {
+                // there are tags in the stack
                 stackTop = tagStack[tagStack.length - 1];
-                if (stackTop.tag.charAt(1) === "*") {  // open NW;
+                if (stackTop.tag.charAt(1) === "*") {
+                    // open NW;
                     switch (tagString) {
-                    case "*/":  // close NW ok
-                        tagStack.pop();
-                        break;
-                    case "#/": // close BQ
-                        tagStack.pop();
-                        reportIssue(start, 2, "misMatchTag");
-                        reportIssue(stackTop.start, 2, "misMatchTag");
-                        break;
-                    case "/*": // open NW
-                        reportIssue(start, 2, "NWinNW");
-                        tagStack.push({tag: tagString, start: start});
-                        break;
-                    default:    // open BQ
-                        reportIssue(start, 2, "BQinNW");
-                        tagStack.push({tag: tagString, start: start});
-                        break;
+                        case "*/": // close NW ok
+                            tagStack.pop();
+                            break;
+                        case "#/": // close BQ
+                            tagStack.pop();
+                            reportIssue(start, 2, "misMatchTag");
+                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            break;
+                        case "/*": // open NW
+                            reportIssue(start, 2, "NWinNW");
+                            tagStack.push({ tag: tagString, start: start });
+                            break;
+                        default: // open BQ
+                            reportIssue(start, 2, "BQinNW");
+                            tagStack.push({ tag: tagString, start: start });
+                            break;
                     }
-                } else {    // top of stack is /#
+                } else {
+                    // top of stack is /#
                     switch (tagString) {
-                    case "#/": // close BQ
-                        tagStack.pop();
-                        break;
-                    case "*/":  // close NW
-                        tagStack.pop();
-                        reportIssue(start, 2, "misMatchTag");
-                        reportIssue(stackTop.start, 2, "misMatchTag");
-                        break;
-                    default:    // open either
-                        tagStack.push({tag: tagString, start: start});
-                        break;
+                        case "#/": // close BQ
+                            tagStack.pop();
+                            break;
+                        case "*/": // close NW
+                            tagStack.pop();
+                            reportIssue(start, 2, "misMatchTag");
+                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            break;
+                        default: // open either
+                            tagStack.push({ tag: tagString, start: start });
+                            break;
                     }
                 }
             }
@@ -395,12 +399,12 @@ const analyse = function (txt, config) {
                 continue;
             }
             const possibleTag = possTagResult[0];
-            if(possibleTag.match(/^<tb>/)) {
+            if (possibleTag.match(/^<tb>/)) {
                 continue;
             }
             const goodTagResult = possibleTag.match(reGoodTag);
             start = possTagResult.index;
-            if(!goodTagResult) {
+            if (!goodTagResult) {
                 reportIssue(start, 1, "unRecTag");
                 // start next search after < in case another < follows
                 rePossTag.lastIndex = start + 1;
@@ -413,9 +417,10 @@ const analyse = function (txt, config) {
             tagString = goodTagResult[2];
             preChar = txt.charAt(start - 1);
             postChar = txt.charAt(end);
-            if (goodTagResult[1] === '/') {    // end tag
+            if (goodTagResult[1] === "/") {
+                // end tag
                 // check for , ; or : before end tag except at end of text
-                if (/[,;:]/.test(preChar) && (txt.length !== end)) {
+                if (/[,;:]/.test(preChar) && txt.length !== end) {
                     reportIssue(start - 1, 1, "puncBEnd");
                 }
                 if (preChar === " ") {
@@ -428,7 +433,8 @@ const analyse = function (txt, config) {
                 if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) {
                     reportIssue(end, 1, "charAfterEnd");
                 }
-                if (tagStack.length === 0) {    // missing start tag
+                if (tagStack.length === 0) {
+                    // missing start tag
                     reportIssue(start, tagLen, "noStartTag");
                     badParse();
                 } else {
@@ -437,13 +443,15 @@ const analyse = function (txt, config) {
                         reportIssue(start, tagLen, "misMatchTag");
                         reportIssue(stackTop.start, stackTop.tagLen, "misMatchTag");
                         badParse();
-                    } else if ((stackTop.start + stackTop.tagLen) === start) {
+                    } else if (stackTop.start + stackTop.tagLen === start) {
                         reportIssue(start, tagLen, "emptyTag");
                         reportIssue(stackTop.start, stackTop.tagLen, "emptyTag");
                     }
                 }
-            } else {    // startTag
-                if (tagStack.some(match)) { // check if any already in stack
+            } else {
+                // startTag
+                if (tagStack.some(match)) {
+                    // check if any already in stack
                     reportIssue(start, tagLen, "nestedTag");
                     badParse();
                 }
@@ -460,7 +468,7 @@ const analyse = function (txt, config) {
                 if (XRegExp("\\pL|[,.;:]", "Ag").test(preChar)) {
                     reportIssue(start - 1, 1, "charBeforeStart");
                 }
-                tagStack.push({tag: tagString, start: start, tagLen: tagLen});
+                tagStack.push({ tag: tagString, start: start, tagLen: tagLen });
             }
         }
         // if there are any tags on the stack mark them as errors
@@ -479,7 +487,7 @@ const analyse = function (txt, config) {
         while ((result = re.exec(txt)) !== null) {
             res1 = result[1];
             if (res1 === res1.toLowerCase()) {
-                if(res1.charAt(0) !== "*") {
+                if (res1.charAt(0) !== "*") {
                     // definite issue
                     reportIssue(result.index, 4, "scNoCap", 1);
                 } else {
@@ -491,7 +499,8 @@ const analyse = function (txt, config) {
         }
     }
 
-    function checkBlankNumber() { // only 1, 2 or 4 blank lines should appear
+    function checkBlankNumber() {
+        // only 1, 2 or 4 blank lines should appear
         var result;
         var end;
         var re = /^\n{3}.|.\n{4}.|^\n{5,}.|.\n{6,}./g;
@@ -520,9 +529,9 @@ const analyse = function (txt, config) {
         // 0 blank lines only occurs at start of page; continuation paragraph
         let headBlock = false;
 
-        for(;;) {
+        for (;;) {
             let result = beginRegex.exec(txt);
-            if(null === result) {
+            if (null === result) {
                 return;
             }
             let blockStart = result.index;
@@ -536,29 +545,29 @@ const analyse = function (txt, config) {
             prevEnd = blockEend;
 
             // decide type of block from preceding blank lines
-            switch(precedingBlanks) {
-            case 4:
-                // heading
-                headBlock = true;
-                break;
-            case 2:
-                // Section or paragraph
-                headBlock = false;
-                break;
-            default:
-                // headBlock state retained
-                break;
+            switch (precedingBlanks) {
+                case 4:
+                    // heading
+                    headBlock = true;
+                    break;
+                case 2:
+                    // Section or paragraph
+                    headBlock = false;
+                    break;
+                default:
+                    // headBlock state retained
+                    break;
             }
-            if((txt.indexOf("<b>", blockStart) === blockStart) && (txt.indexOf("</b>", blockStart) === (blockEend - "</b>".length))) {
+            if (txt.indexOf("<b>", blockStart) === blockStart && txt.indexOf("</b>", blockStart) === blockEend - "</b>".length) {
                 // heading: issue, paragraph: possible issue
-                if(headBlock) {
+                if (headBlock) {
                     reportIssue(blockStart, 3, "noBold");
                 } else {
                     // highlight after tags to avoid interleaved spans with style markup
                     let markPoint = blockStart + "<b>".length;
                     // if there is another start tag here advance past it.
-                    while(txt.charAt(markPoint) == '<') {
-                        markPoint = txt.indexOf('>', markPoint) + 1;
+                    while (txt.charAt(markPoint) == "<") {
+                        markPoint = txt.indexOf(">", markPoint) + 1;
                     }
                     reportIssue(markPoint, 1, "boldPara");
                 }
@@ -616,11 +625,12 @@ const analyse = function (txt, config) {
         // search for footnote anchors and put in an array
         let result;
         while ((result = anchorRegex.exec(txt)) !== null) {
-            if (result[1] === "*") {    // found [*]
+            if (result[1] === "*") {
+                // found [*]
                 reportIssue(result.index, 3, "starAnchor");
                 continue;
             }
-            anchorArray.push({index: result.index, id: result[1]});
+            anchorArray.push({ index: result.index, id: result[1] });
         }
         // search for footnotes, get text to end of line
         let footnoteRegex = /\[Footnote(.*)/g;
@@ -637,7 +647,8 @@ const analyse = function (txt, config) {
                 reportIssue(footnoteStartIndex, 9, "noColon");
                 continue;
             }
-            if (txt.charAt(footnoteStartIndex - 1) === "*") { // continuation
+            if (txt.charAt(footnoteStartIndex - 1) === "*") {
+                // continuation
                 if (colonIndex !== 0) {
                     reportIssue(footnoteStartIndex, 9, "colonNext");
                 } else if (footnoteArray.length > 0) {
@@ -645,11 +656,11 @@ const analyse = function (txt, config) {
                 }
                 continue;
             }
-            if (!(/^ [^ ]/).test(noteLine)) {
+            if (!/^ [^ ]/.test(noteLine)) {
                 reportIssue(footnoteStartIndex, 9, "spaceNext");
                 continue;
             }
-            noteLine = noteLine.slice(1, colonIndex);    // the id
+            noteLine = noteLine.slice(1, colonIndex); // the id
             if (!footnoteIDRegex.test(noteLine)) {
                 reportIssue(footnoteStartIndex, 9, "footnoteId");
                 continue;
@@ -658,7 +669,7 @@ const analyse = function (txt, config) {
                 reportIssue(footnoteStartIndex, 9, "dupNote");
                 continue;
             }
-            footnoteArray.push({index: footnoteStartIndex, id: noteLine});
+            footnoteArray.push({ index: footnoteStartIndex, id: noteLine });
         }
         anchorArray.forEach(checkAnchor);
         footnoteArray.forEach(checkNote);
@@ -673,7 +684,7 @@ const analyse = function (txt, config) {
         function chkBefore(start, len, checkBlank) {
             if (/./.test(txt.charAt(start - 1))) {
                 reportIssue(start, len, "charBefore");
-            } else if (checkBlank && (/./.test(txt.charAt(start - 2)))) {
+            } else if (checkBlank && /./.test(txt.charAt(start - 2))) {
                 reportIssue(start, len, "blankBefore");
             }
         }
@@ -685,10 +696,10 @@ const analyse = function (txt, config) {
                 if (txt.slice(pc, pc + 2) === "*/") {
                     return true;
                 }
-                return !(/./).test(txt.charAt(pc));
+                return !/./.test(txt.charAt(pc));
             }
 
-            if(chkCharAfter(start, len, type, descriptor)) {
+            if (chkCharAfter(start, len, type, descriptor)) {
                 return;
             }
 
@@ -707,12 +718,14 @@ const analyse = function (txt, config) {
             chkBefore(start, len, true);
 
             end1 = findClose(txt, end);
-            if (0 === end1) { // no ] found
+            if (0 === end1) {
+                // no ] found
                 reportIssue(start, len, "noCloseBrack");
             } else {
                 end = end1 + 1;
                 len = 1;
-                if (txt.charAt(end) === "*") { // allow * after Footnote
+                if (txt.charAt(end) === "*") {
+                    // allow * after Footnote
                     end += 1;
                     len += 1;
                 }
@@ -727,7 +740,8 @@ const analyse = function (txt, config) {
             chkBefore(start, len, true);
 
             end1 = findClose(txt, end);
-            if (0 === end1) { // no ] found
+            if (0 === end1) {
+                // no ] found
                 reportIssue(start, len, "noCloseBrack");
             } else {
                 end = end1 + 1;
@@ -743,7 +757,8 @@ const analyse = function (txt, config) {
             chkBefore(start, len, !config.suppress.sideNoteBlank);
 
             end1 = findClose(txt, end);
-            if (0 === end1) { // no ] found
+            if (0 === end1) {
+                // no ] found
                 reportIssue(start, len, "noCloseBrack");
             } else {
                 end = end1 + 1;
@@ -764,64 +779,64 @@ const analyse = function (txt, config) {
     // check that math delimiters \[ \], \( \) are matched
     // allow inline math inside display math (in text{})
     function checkMath() {
-        var tagStack = [];  // holds start tag [ or (
+        var tagStack = []; // holds start tag [ or (
         var stackTop;
         const mathRe = /\\\[|\\\]|\\\(|\\\)/g;
         let result;
         let tag;
         let start;
-        while((result = mathRe.exec(txt)) !== null) {
+        while ((result = mathRe.exec(txt)) !== null) {
             start = result.index;
             tag = result[0].charAt(1);
             if (tagStack.length === 0) {
                 // no tags on stack
-                if ((tag === '(') || (tag === '[')) {
-                    tagStack.push({tag: tag, start: start});
+                if (tag === "(" || tag === "[") {
+                    tagStack.push({ tag: tag, start: start });
                 } else {
                     reportIssue(start, 2, "noStartTag");
                 }
             } else {
                 // there are tags in the stack
                 stackTop = tagStack[tagStack.length - 1];
-                if(stackTop.tag === '[') {
+                if (stackTop.tag === "[") {
                     // ] or ( ok, [ or ) error
-                    switch(tag) {
-                    case ']':
-                        tagStack.pop();
-                        break;
-                    case '(':
-                        tagStack.push({tag: tag, start: start});
-                        break;
-                    case '[':
-                        // report error for stack tag push the new one
-                        tagStack.pop();
-                        tagStack.push({tag: tag, start: start});
-                        reportIssue(stackTop.start, 2, "noEndTag");
-                        break;
-                    case ')':
-                        tagStack.pop();
-                        reportIssue(stackTop.start, 2, "misMatchTag");
-                        reportIssue(start, 2, "misMatchTag");
-                        break;
+                    switch (tag) {
+                        case "]":
+                            tagStack.pop();
+                            break;
+                        case "(":
+                            tagStack.push({ tag: tag, start: start });
+                            break;
+                        case "[":
+                            // report error for stack tag push the new one
+                            tagStack.pop();
+                            tagStack.push({ tag: tag, start: start });
+                            reportIssue(stackTop.start, 2, "noEndTag");
+                            break;
+                        case ")":
+                            tagStack.pop();
+                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            reportIssue(start, 2, "misMatchTag");
+                            break;
                     }
                 } else {
                     // stacktop is (, ) ok else error
-                    switch(tag) {
-                    case ')':
-                        tagStack.pop();
-                        break;
-                    case '(':
-                    case '[':
-                        // report error for stack tag push the new one
-                        tagStack.pop();
-                        tagStack.push({tag: tag, start: start});
-                        reportIssue(stackTop.start, 2, "noEndTag");
-                        break;
-                    case ']':
-                        tagStack.pop();
-                        reportIssue(stackTop.start, 2, "misMatchTag");
-                        reportIssue(start, 2, "misMatchTag");
-                        break;
+                    switch (tag) {
+                        case ")":
+                            tagStack.pop();
+                            break;
+                        case "(":
+                        case "[":
+                            // report error for stack tag push the new one
+                            tagStack.pop();
+                            tagStack.push({ tag: tag, start: start });
+                            reportIssue(stackTop.start, 2, "noEndTag");
+                            break;
+                        case "]":
+                            tagStack.pop();
+                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            reportIssue(start, 2, "misMatchTag");
+                            break;
                     }
                 }
             }
@@ -834,7 +849,7 @@ const analyse = function (txt, config) {
     }
 
     checkProoferNotes();
-    if(parseOK) {
+    if (parseOK) {
         txt = removeAllNotes(txt);
         parseInLine();
         // if inline parse fails then checkSC might not work
@@ -843,13 +858,13 @@ const analyse = function (txt, config) {
         }
         checkBlankNumber();
         if (parseOK) {
-        // only do this if inline parse succeeded and blank lines ok
+            // only do this if inline parse succeeded and blank lines ok
             testBoldBlock();
         }
         parseOol();
         checkFootnotes();
         checkBlankLines();
-        if(config.allowMathPreview) {
+        if (config.allowMathPreview) {
             checkMath();
         }
     }
@@ -871,7 +886,7 @@ const analyse = function (txt, config) {
     // end0 is end of previous issue to check if 2 issues overlap
     let end0 = 0;
     let condensedIssues = [];
-    issArray.forEach(function(issue) {
+    issArray.forEach(function (issue) {
         // don't mark 2 issues in one place
         if (issue.start >= end0) {
             condensedIssues.push(issue);
@@ -901,9 +916,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     const endSpan = "</span>";
 
     function htmlEncode(s) {
-        return s.replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;");
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
     // add style and optional colouring for marked-up text
@@ -911,19 +924,20 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         const sc1 = "┌sc┐";
         const sc2 = "┌/sc┐";
         // a string of small capitals
-        let smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, 'g');
+        let smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, "g");
 
         function boxHtml(txt) {
-            return txt.replace(/┌/g, "&lt;").replace(/┐/g, "&gt;")
-                .replace(/▙/g, "&amp;");
+            return txt.replace(/┌/g, "&lt;").replace(/┐/g, "&gt;").replace(/▙/g, "&amp;");
         }
 
-        function transformSC(match, p1) { // if all upper case transform to lower
+        function transformSC(match, p1) {
+            // if all upper case transform to lower
             let scString = p1;
             // remove tags such as <i> within the string so that all
             // uppercase string is correctly identified, (only 1 char)
-            scString = scString.replace(/┌\/?.┐/g, '');
-            if (scString === scString.toUpperCase()) { // found no lower-case
+            scString = scString.replace(/┌\/?.┐/g, "");
+            if (scString === scString.toUpperCase()) {
+                // found no lower-case
                 return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
             } else {
                 return match;
@@ -938,32 +952,33 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
             if (viewMode !== "flat") {
                 classes.push(formatClass);
             }
-            return (classes.length > 0) ? ` class='${classes.join(" ")}'` : '';
+            return classes.length > 0 ? ` class='${classes.join(" ")}'` : "";
         }
 
         function spanStyle(match, p1, p2) {
-        // p1 is "/" or "", p2 is the tag id
+            // p1 is "/" or "", p2 is the tag id
             var tagMap = {
-                "i": "_",
-                "b": "=",
-                "f": "~",
-                "g": "$",
-                "sc": "",
-                "u": "%"
+                i: "_",
+                b: "=",
+                f: "~",
+                g: "$",
+                sc: "",
+                u: "%",
             };
 
             var tagMark = "";
             switch (viewMode) {
-            case "show_tags":
-                tagMark = boxHtml(match);
-                break;
-            case "flat":
-                tagMark = tagMap[p2];
-                break;
-            default: // no_tags
-                break;
+                case "show_tags":
+                    tagMark = boxHtml(match);
+                    break;
+                case "flat":
+                    tagMark = tagMap[p2];
+                    break;
+                default: // no_tags
+                    break;
             }
-            if (p1 === '/') {   // end tag
+            if (p1 === "/") {
+                // end tag
                 return tagMark + endSpan;
             }
             let styleClass = decideClass(p2, p2);
@@ -981,7 +996,8 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         txt = txt.replace(reTag, spanStyle);
 
         // out of line tags and <tb>
-        if (!wrapMode && styler.color) {    // not re-wrap and colouring
+        if (!wrapMode && styler.color) {
+            // not re-wrap and colouring
             txt = txt.replace(/┌tb┐/g, function replacer(match) {
                 return `<span class="etc_color">${boxHtml(match)}</span>`;
             });
@@ -997,7 +1013,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         function showSubSuper(text) {
             function ssReplace(regex, ssClass) {
                 let styleClass = decideClass("etc", ssClass);
-                let tagText = (viewMode === "no_tags") ? "$1" : "$&";
+                let tagText = viewMode === "no_tags" ? "$1" : "$&";
                 text = text.replace(regex, `<span${styleClass}>${tagText}</span>`);
             }
             ssReplace(/_\{(.+?)\}/g, "sub");
@@ -1025,11 +1041,11 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     // Mark thought breaks by a horizontal line.
 
     function reWrap() {
-        const lines = txt.split('\n');
+        const lines = txt.split("\n");
         let lineIndex = 0;
 
         function getNextLine() {
-            if(lineIndex >= lines.length) {
+            if (lineIndex >= lines.length) {
                 return null;
             }
             return lines[lineIndex++];
@@ -1061,43 +1077,43 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         let indent = 0;
         let blockType = CONT;
         let blockQuote = 0;
-        const noWrapColor = styler.color ? ' nowrap_color' : '';
+        const noWrapColor = styler.color ? " nowrap_color" : "";
 
         function terminate() {
-            if(inBlock) {
+            if (inBlock) {
                 txtOut += "</div>";
                 inBlock = false;
             }
             blanks += 1;
         }
 
-        for(;;) {
+        for (;;) {
             line = getNextLine();
-            if(null === line) {
+            if (null === line) {
                 terminate();
                 break;
-            } else if("" === line) {
+            } else if ("" === line) {
                 terminate();
             } else {
-                switch(blanks) {
-                case 4:
-                    blockType = HEAD1;
-                    break;
-                case 2:
-                    blockType = PARA;
-                    break;
-                case 1:
-                    if(blockType === CONT) {
+                switch (blanks) {
+                    case 4:
+                        blockType = HEAD1;
+                        break;
+                    case 2:
                         blockType = PARA;
-                    } else if(blockType === HEAD1) {
-                        // sub heading next
-                        blockType = HEAD2;
-                    }
-                    // else retain blockType
-                    break;
-                default:
-                    // 0, do nothing
-                    break;
+                        break;
+                    case 1:
+                        if (blockType === CONT) {
+                            blockType = PARA;
+                        } else if (blockType === HEAD1) {
+                            // sub heading next
+                            blockType = HEAD2;
+                        }
+                        // else retain blockType
+                        break;
+                    default:
+                        // 0, do nothing
+                        break;
                 }
                 blanks = 0;
                 if ("/#" === line) {
@@ -1106,12 +1122,12 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
                 } else if ("#/" === line) {
                     blockQuote -= 1;
                     indent -= 1;
-                } else if("/*" === line) {
+                } else if ("/*" === line) {
                     // no wrap
                     txtOut += `<div style='margin-left: ${indent}em;' class='no-wrap${noWrapColor}'>`;
-                    for(;;) {
+                    for (;;) {
                         line = getNextLine();
-                        if(processTB()) {
+                        if (processTB()) {
                             continue;
                         }
                         if (line === "*/") {
@@ -1121,31 +1137,31 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
                             txtOut += line + "\n";
                         }
                     }
-                } else if(processTB()) {
+                } else if (processTB()) {
                     continue;
                 } else {
                     // text line
-                    const paraColor = (styler.color && blockQuote) ? ' blockquote_color' : '';
-                    if(!inBlock) {
+                    const paraColor = styler.color && blockQuote ? " blockquote_color" : "";
+                    if (!inBlock) {
                         inBlock = true;
-                        switch(blockType) {
-                        case HEAD1:
-                            txtOut += '<div class="head1">';
-                            break;
-                        case HEAD2:
-                            if(blockQuote) {
-                                // use paragraph style
-                                txtOut += `<div style='margin-left: 1em;' class='para${paraColor}'>`;
-                            } else {
-                                txtOut += '<div class="head2">';
-                            }
-                            break;
-                        case PARA:
-                            txtOut += `<div style='margin-left: ${indent}em;' class='para${paraColor}'>`;
-                            break;
-                        case CONT:
-                            txtOut += `<div style='margin-left: ${indent}em;' class='cont-para${paraColor}'>`;
-                            break;
+                        switch (blockType) {
+                            case HEAD1:
+                                txtOut += '<div class="head1">';
+                                break;
+                            case HEAD2:
+                                if (blockQuote) {
+                                    // use paragraph style
+                                    txtOut += `<div style='margin-left: 1em;' class='para${paraColor}'>`;
+                                } else {
+                                    txtOut += '<div class="head2">';
+                                }
+                                break;
+                            case PARA:
+                                txtOut += `<div style='margin-left: ${indent}em;' class='para${paraColor}'>`;
+                                break;
+                            case CONT:
+                                txtOut += `<div style='margin-left: ${indent}em;' class='cont-para${paraColor}'>`;
+                                break;
                         }
                     }
                     txtOut += line + "\n";
@@ -1166,16 +1182,15 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     // dp convention it would make it appear as not all upper case.
     // So encode & to a box character ▙ and convert to &amp; later.
     function boxEncode(txt) {
-        return txt.replace(/</g, "┌").replace(/>/g, "┐")
-            .replace(/&/g, "▙");
+        return txt.replace(/</g, "┌").replace(/>/g, "┐").replace(/&/g, "▙");
     }
 
     let analysis = analyse(txt, styler);
     let issArray = analysis.issues;
     let issues = 0;
     let possIss = 0;
-    issArray.forEach(function(issue) {
-        if(issue.type === 1) {
+    issArray.forEach(function (issue) {
+        if (issue.type === 1) {
             issues += 1;
         } else {
             possIss += 1;
@@ -1183,31 +1198,31 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     });
 
     // ok true if no errors which would cause showstyle() or reWrap() to fail
-    let ok = (issues === 0);
+    let ok = issues === 0;
 
     let issueStarts = [];
     let issueEnds = [];
-    issArray.forEach(function(issue) {
-        let issueStyle = (issue.type === 0) ? "hlt_color" : "err_color";
+    issArray.forEach(function (issue) {
+        let issueStyle = issue.type === 0 ? "hlt_color" : "err_color";
         let message = getMessage(issue.code).replace("%s", issue.subText);
-        issueStarts.push({start: issue.start, text: `<span class='${issueStyle}' title='${message}'>`});
-        issueEnds.push({start: issue.start + issue.len, text: endSpan});
+        issueStarts.push({ start: issue.start, text: `<span class='${issueStyle}' title='${message}'>` });
+        issueEnds.push({ start: issue.start + issue.len, text: endSpan });
     });
 
     var tArray = analysis.text.split("");
 
     let noteArray;
-    if(ok && wrapMode) {
+    if (ok && wrapMode) {
         // leave out proofers' notes
         noteArray = [];
     } else {
         noteArray = analysis.noteArray;
-        noteArray.forEach(function(note) {
+        noteArray.forEach(function (note) {
             note.text = htmlEncode(note.text);
         });
     }
 
-    if(!ok) {
+    if (!ok) {
         tArray = tArray.map(htmlEncode);
     } else {
         tArray = tArray.map(boxEncode);
@@ -1220,7 +1235,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     // will have been discarded) but there can be more than one note, so
     // ensure order of notes is unchanged
     let allInserts = issueEnds.concat(noteArray).concat(issueStarts);
-    allInserts.sort(function(a, b) {
+    allInserts.sort(function (a, b) {
         // if starts are same return 0, order unchanged
         return a.start - b.start;
     });
@@ -1245,6 +1260,6 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
         ok: ok,
         txtout: txt,
         issues: issues,
-        possIss: possIss
+        possIss: possIss,
     };
 };

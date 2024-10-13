@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "eslint --max-warnings=0",
     "lint-fix": "eslint --fix",
-    "format-check": "prettier */**.js --check",
-    "format": "prettier */**.js --write",
+    "format-check": "prettier '**/*.js' --check",
+    "format": "prettier '**/*.js' --write",
     "test": "node ./SETUP/tests/jsTests/jsUnit.js"
   },
   "repository": {

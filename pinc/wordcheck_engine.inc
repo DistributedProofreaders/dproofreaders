@@ -251,7 +251,7 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
 
 class BadWordAccumulator
 {
-    /** @var string[] */
+    /** @var array<string, int> */
     public array $words;
     /** @var string[] */
     public array $messages;
@@ -266,7 +266,8 @@ class BadWordAccumulator
         $this->messages = [];
     }
 
-    public function add_bad_words($bad_words, $val)
+    /** @param string|string[] $bad_words */
+    public function add_bad_words($bad_words, int $val): void
     {
         if (is_string($bad_words)) {
             $this->messages[] = $bad_words;
@@ -277,7 +278,8 @@ class BadWordAccumulator
         }
     }
 
-    public function remove_good_words($good_words)
+    /** @param string|string[] $good_words */
+    public function remove_good_words($good_words): void
     {
         if (is_string($good_words)) {
             $this->messages[] = $good_words;
@@ -304,11 +306,11 @@ class BadWordAccumulator
  *
  * @param array $input_words_w_freq
  *   An array whose keys are the distinct words of the input text
- * @param array $languages
+ * @param string[] $languages
  *   Array of languages, used to load aspell dictionary
  *   for those languages if available
  *
- * @return array
+ * @return array{0:string[], 1:string[]}
  */
 function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 {
@@ -409,8 +411,10 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
  *
  * @param array $input_words_w_freq
  *   An array whose keys are the distinct words of the input text
+ *
+ * @return string[]
  */
-function get_bad_words_with_diacritical_markup($input_words_w_freq)
+function get_bad_words_with_diacritical_markup($input_words_w_freq): array
 {
     // Consider words that contain diacritical markup via []-notation.
     // For example, consider the oe ligature, which we represent as "[oe]",
@@ -457,7 +461,7 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq)
  * @param array $languages
  *   Array of languages to check against
  *
- * @return array
+ * @return string[]
  */
 function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
@@ -501,22 +505,42 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
 
 // -----------------------------------------------------------------------------
 
+/**
+ * @param string|string[] $langcode3s
+ *
+ * @return string[]
+ */
 function load_site_good_words($langcode3s)
 {
     return _load_site_words("good", $langcode3s);
 }
 
+/**
+ * @param string|string[] $langcode3s
+ *
+ * @return string[]
+ */
 function load_site_bad_words($langcode3s)
 {
     return _load_site_words("bad", $langcode3s);
 }
 
+/**
+ * @param string|string[] $langcode3s
+ *
+ * @return string[]
+ */
 function load_site_possible_bad_words($langcode3s)
 {
     return _load_site_words("possible_bad", $langcode3s);
 }
 
-function _load_site_words($type, $langcode3s)
+/**
+ * @param string|string[] $langcode3s
+ *
+ * @return string[]
+ */
+function _load_site_words(string $type, $langcode3s): array
 {
     if (!is_array($langcode3s)) {
         $langcode3s = [$langcode3s];
@@ -535,14 +559,15 @@ function _load_site_words($type, $langcode3s)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Project-Level
 
-function load_project_good_words($projectid)
+/** @return string|string[] */
+function load_project_good_words(string $projectid)
 {
     $fileObject = get_project_word_file($projectid, "good");
 
     return load_word_list($fileObject->abs_path);
 }
 
-function save_project_good_words($projectid, $words)
+function save_project_good_words(string $projectid, array $words): string
 {
     $fileObject = get_project_word_file($projectid, "good");
 
@@ -551,14 +576,15 @@ function save_project_good_words($projectid, $words)
 
 // -----------------------------------------------------------------------------
 
-function load_project_bad_words($projectid)
+/** @return string|string[] */
+function load_project_bad_words(string $projectid)
 {
     $fileObject = get_project_word_file($projectid, "bad");
 
     return load_word_list($fileObject->abs_path);
 }
 
-function save_project_bad_words($projectid, $words)
+function save_project_bad_words(string $projectid, array $words): string
 {
     $fileObject = get_project_word_file($projectid, "bad");
 
@@ -567,7 +593,12 @@ function save_project_bad_words($projectid, $words)
 
 // -----------------------------------------------------------------------------
 
-function normalize_word_list($words)
+/**
+ * @param string[] $words
+ *
+ * @return string[]
+ */
+function normalize_word_list(array $words): array
 {
     // normalize the strings
     $words = array_map('utf8_normalize', $words);
@@ -811,6 +842,17 @@ function get_project_word_file($projectid, $code)
 }
 
 /**
+ * Get paths to the site good and bad word dir/url.
+ *
+ * @return string[]
+ */
+function get_site_word_paths()
+{
+    global $dyn_dir, $dyn_url;
+    return ["$dyn_dir/words", "$dyn_url/words"];
+}
+
+/**
  * Get a file info object for a site word list
  *
  * @param string $code
@@ -820,7 +862,7 @@ function get_project_word_file($projectid, $code)
  */
 function get_site_word_file($langcode3, $code)
 {
-    global $dyn_dir, $dyn_url;
+    [$site_words_dir, $site_words_url] = get_site_word_paths();
 
     $filename_for_code = [
         'good' => "good_words.$langcode3.txt",
@@ -831,8 +873,8 @@ function get_site_word_file($langcode3, $code)
 
     return get_file_info_object(
         $filename_for_code[$code],
-        "$dyn_dir/words",
-        "$dyn_url/words"
+        $site_words_dir,
+        $site_words_url
     );
 }
 
@@ -874,8 +916,10 @@ function get_file_info_object($filename, $base_dir, $base_url)
  * Returns:
  * - on success: an array of words
  * - on error:   a string containing an error message
+ *
+ * @return string|string[]
  */
-function load_word_list($path)
+function load_word_list(string $path)
 {
     if (!is_file($path)) {
         // The file does not exist.
@@ -910,9 +954,9 @@ function load_word_list($path)
   * @param string $string
   *     The input string to split
   *
-  * @return array<string>
+  * @return string[]
   */
-function _explode_no_empty($sep, $string)
+function _explode_no_empty(string $sep, string $string): array
 {
     return empty($string) ? [] : explode($sep, $string);
 }
@@ -922,8 +966,10 @@ function _explode_no_empty($sep, $string)
  * Save a list of words (one per line) to a file.
  *
  * Return a string, either "Success" or an error message.
+ *
+ * @param string[] $words
  */
-function save_word_list($path, $words)
+function save_word_list(string $path, array $words): string
 {
     // standardize word list
     array_walk($words, 'rtrim_walk');
@@ -977,13 +1023,13 @@ function save_word_list($path, $words)
  *
  * @param string $projectid
  *   ID of project
- * @param array $aux_languages
+ * @param string[] $aux_languages
  *   Any additional languages to append to the list of project languages.
  *   This function will silently filter out any invalid values.
  *
- * @return array
+ * @return string[]
  */
-function get_project_languages($projectid, $aux_languages = [])
+function get_project_languages(string $projectid, array $aux_languages = []): array
 {
     $returnArray = [];
 
@@ -1009,8 +1055,10 @@ function get_project_languages($projectid, $aux_languages = [])
 /**
  * Returns an associative array of site word lists
  * with their corresponding URL
+ *
+ * @return array<string, string>
  */
-function get_site_good_bad_word_lists()
+function get_site_good_bad_word_lists(): array
 {
     return get_site_word_files("/^(good|bad)_words\.[a-z]{3}\.txt$/");
 }
@@ -1018,8 +1066,10 @@ function get_site_good_bad_word_lists()
 /**
  * Returns an associative array of site possible bad word lists
  * with their corresponding URL
+ *
+ * @return array<string, string>
  */
-function get_site_possible_bad_word_lists()
+function get_site_possible_bad_word_lists(): array
 {
     return get_site_word_files("/^possible_bad_words\.[a-z]{3}\.txt$/");
 }
@@ -1027,8 +1077,8 @@ function get_site_possible_bad_word_lists()
 /**
  * Get site word files that match a pattern
  *
- * Returns an associative array of words ifiles in the site's words
- * with their corresponding URL.
+ * Returns an associative array of word files in the site's word list
+ * dir with their corresponding URL.
  *
  * Note: 'empty' files (2 bytes in size or smaller) are not returned
  * regardless of the pattern specified
@@ -1036,26 +1086,16 @@ function get_site_possible_bad_word_lists()
  * @param string $pattern
  *   Regex that files must match to be included in the returned array.
  *   If blank all files will be returned.
- * @param bool $urlbase
- *   If TRUE files will be turned as a URL,
- *   If FALSE absolute filesystem paths are returned
+ *
+ * @return array<string, string>
  */
-function get_site_word_files($pattern = "", $urlbase = true)
+function get_site_word_files(string $pattern = "/txt$/"): array
 {
-    global $dyn_dir;
-    global $dyn_url;
-
-    if ($urlbase) {
-        $base = $dyn_url;
-    } else {
-        $base = $dyn_dir;
-    }
+    [$site_words_dir, $site_words_url] = get_site_word_paths();
 
     $wordLists = [];
-
-    $wordsDir = "$dyn_dir/words";
-    if (is_dir($wordsDir)) {
-        foreach (scandir($wordsDir) as $filename) {
+    if (is_dir($site_words_dir)) {
+        foreach (scandir($site_words_dir) as $filename) {
             // skip files that don't match the pattern
             if (!empty($pattern) && !preg_match($pattern, $filename)) {
                 continue;
@@ -1063,11 +1103,11 @@ function get_site_word_files($pattern = "", $urlbase = true)
 
             // skip files that are only two bytes or smaller
             // as these usually contain just \r and/or \n
-            if (filesize("$wordsDir/$filename") <= 2) {
+            if (filesize("$site_words_dir/$filename") <= 2) {
                 continue;
             }
 
-            $wordLists["$wordsDir/$filename"] = "$base/words/$filename";
+            $wordLists["$site_words_dir/$filename"] = "$site_words_url/$filename";
         }
     }
 
@@ -1169,7 +1209,7 @@ function get_distinct_words_in_text($text)
  * Note that it's *not* inefficient accessing an array with the same number
  * of items, but having consecutive integers as the keys!
  */
-function get_all_words_in_text($text, $with_offsets = false)
+function get_all_words_in_text(string $text, bool $with_offsets = false)
 {
     global $word_pattern;
     $flags = $with_offsets ? PREG_OFFSET_CAPTURE : 0;
@@ -1195,8 +1235,12 @@ function get_all_words_in_text($text, $with_offsets = false)
 
 /**
  * Given an array of words, calculate the frequency
+ *
+ * @param string[] $wordList
+ *
+ * @return array<string, int>
  */
-function generate_frequencies($wordList)
+function generate_frequencies(array $wordList): array
 {
     $wordCount = array_count_values($wordList);
     unset($wordCount['']);
@@ -1212,6 +1256,8 @@ function generate_frequencies($wordList)
  *
  * @param array $languages
  *   Array of language names
+ *
+ * @return array{0: string[], 1: string[]}
  */
 function get_langcode3s_for_languages($languages)
 {
@@ -1236,7 +1282,7 @@ function get_langcode3s_for_languages($languages)
  * the calling sort function would be non-deterministic based on PHP
  * docs (see online docs for usort()) and manual confirmation.
  */
-function deterministicStrnatcasecmp($a, $b)
+function deterministicStrnatcasecmp(string $a, string $b): int
 {
     return ($cmp = strnatcasecmp($a, $b)) != 0 ? $cmp : strnatcmp($a, $b);
 }
@@ -1244,15 +1290,19 @@ function deterministicStrnatcasecmp($a, $b)
 /**
  * rtrim version to use in array_walk
  */
-function rtrim_walk(&$item)
+function rtrim_walk(string &$item): void
 {
     $item = rtrim($item);
 }
 
 /**
  * Filter words to only those of a specific script + Inherited
+ *
+ * @param string[] $words
+ *
+ * @return string[]
  */
-function filter_words_to_script($words, $script)
+function filter_words_to_script(array $words, string $script): array
 {
     $script_words = [];
     foreach ($words as $word) {
@@ -1270,10 +1320,10 @@ function filter_words_to_script($words, $script)
  * Returns:
  * - the array: [words[], found_scripts[]]
  *
- * @param array $words
+ * @param string[] $words
  *   An array of words
  *
- * @return array
+ * @return array{0: string[], 1: string[]}
  */
 function get_words_with_uncommon_scripts($words)
 {

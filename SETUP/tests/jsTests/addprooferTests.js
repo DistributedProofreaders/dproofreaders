@@ -1,7 +1,7 @@
 /* global $ QUnit AddProofer */
 
 QUnit.module("addproofer tests", {
-    beforeEach: function() {
+    beforeEach: function () {
         $(document.body).append(`
         <table id='add-proofer-table'>
           <tr>
@@ -21,34 +21,24 @@ QUnit.module("addproofer tests", {
           </tr>
         </table>`);
     },
-    afterEach: function() {
-        $('#add-proofer-table').remove();
+    afterEach: function () {
+        $("#add-proofer-table").remove();
     },
 });
 
-QUnit.test("Referrer details hidden if other not selected", function(assert) {
+QUnit.test("Referrer details hidden if other not selected", function (assert) {
     var addProofer = new AddProofer();
-    assert.ok(
-        $('#referrer_details').is(':visible'),
-        'Referrer details should be visible before form init.');
+    assert.ok($("#referrer_details").is(":visible"), "Referrer details should be visible before form init.");
     addProofer.initForm();
-    assert.notOk(
-        $('#referrer_details').is(':visible'),
-        'Referrer details should be hidden after form init.');
+    assert.notOk($("#referrer_details").is(":visible"), "Referrer details should be hidden after form init.");
 });
 
-QUnit.test("Referrer details visible if other selected", function(assert) {
+QUnit.test("Referrer details visible if other selected", function (assert) {
     var addProofer = new AddProofer();
-    assert.ok(
-        $('#referrer_details').is(':visible'),
-        'Referrer details should be visible before form init.');
+    assert.ok($("#referrer_details").is(":visible"), "Referrer details should be visible before form init.");
     addProofer.initForm();
-    assert.notOk(
-        $('#referrer_details').is(':visible'),
-        'Referrer details should be hidden after form init.');
-    document.querySelector('select[name=referrer]').value = 'other';
-    document.querySelector('select[name=referrer]').dispatchEvent(new Event('change'));
-    assert.ok(
-        $('#referrer_details').is(':visible'),
-        'Referrer details should be visible after other selection.');
+    assert.notOk($("#referrer_details").is(":visible"), "Referrer details should be hidden after form init.");
+    document.querySelector("select[name=referrer]").value = "other";
+    document.querySelector("select[name=referrer]").dispatchEvent(new Event("change"));
+    assert.ok($("#referrer_details").is(":visible"), "Referrer details should be visible after other selection.");
 });

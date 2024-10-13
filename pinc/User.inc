@@ -17,7 +17,7 @@ class NonuniqueUserException extends Exception
  */
 class UserAccessException extends Exception
 {
-    public function __construct($message = "", $code = 300)
+    public function __construct(string $message = "", int $code = 300)
     {
         parent::__construct($message, $code);
     }
@@ -25,7 +25,7 @@ class UserAccessException extends Exception
 
 class UserNotLoggedInException extends UserAccessException
 {
-    public function __construct($message = "", $code = 301)
+    public function __construct(string $message = "", int $code = 301)
     {
         parent::__construct($message, $code);
     }
@@ -33,7 +33,7 @@ class UserNotLoggedInException extends UserAccessException
 
 class UserNotQualifiedForRoundException extends UserAccessException
 {
-    public function __construct($message = "", $code = 302)
+    public function __construct(string $message = "", int $code = 302)
     {
         parent::__construct($message, $code);
     }
@@ -41,7 +41,7 @@ class UserNotQualifiedForRoundException extends UserAccessException
 
 class BeginnersQuotaReachedException extends UserAccessException
 {
-    public function __construct($message = "", $code = 303)
+    public function __construct(string $message = "", int $code = 303)
     {
         parent::__construct($message, $code);
     }
@@ -49,7 +49,7 @@ class BeginnersQuotaReachedException extends UserAccessException
 
 class BeginnersProjectQuotaReachedException extends UserAccessException
 {
-    public function __construct($message = "", $code = 304)
+    public function __construct(string $message = "", int $code = 304)
     {
         parent::__construct($message, $code);
     }
@@ -57,7 +57,7 @@ class BeginnersProjectQuotaReachedException extends UserAccessException
 
 class NoAccessToMentorsOnlyException extends UserAccessException
 {
-    public function __construct($message = "", $code = 305)
+    public function __construct(string $message = "", int $code = 305)
     {
         parent::__construct($message, $code);
     }
@@ -65,7 +65,7 @@ class NoAccessToMentorsOnlyException extends UserAccessException
 
 class ReservedForNewProofreadersException extends UserAccessException
 {
-    public function __construct($message = "", $code = 306)
+    public function __construct(string $message = "", int $code = 306)
     {
         parent::__construct($message, $code);
     }
@@ -73,7 +73,7 @@ class ReservedForNewProofreadersException extends UserAccessException
 
 class PageNotOwnedException extends UserAccessException
 {
-    public function __construct($message = "", $code = 307)
+    public function __construct(string $message = "", int $code = 307)
     {
         parent::__construct($message, $code);
     }
@@ -81,7 +81,7 @@ class PageNotOwnedException extends UserAccessException
 
 class DailyLimitExceededException extends UserAccessException
 {
-    public function __construct($message = "", $code = 308)
+    public function __construct(string $message = "", int $code = 308)
     {
         parent::__construct($message, $code);
     }

@@ -34,8 +34,6 @@ class ProofreadingToolbox
 
     public function __construct()
     {
-        global $wikihiero_dir;
-
         $this->row1_buttons = [
             'italic' => new ToolButton('i', _('Italics'), '<i>i</i>', 'top.surroundSelection("<i>","</i>");'),
             'bold' => new ToolButton('b', _('Bold'), '<b>B</b>', 'top.surroundSelection("<b>","</b>");'),
@@ -67,9 +65,6 @@ class ProofreadingToolbox
             'table_maker' => new PopupLink(_('Table Maker'), 'mktable.php', 'dp_mktable', 600, 500),
             'greek_transliterator' => new PopupLink(_('Greek Transliterator'), 'greek2ascii.php', 'gkasciiWin', 640, 250),
         ];
-        if ($wikihiero_dir) {
-            $this->popup_links['hieroglyph_transliterator'] = new PopupLink(_("Hieroglyphs"), 'hiero/index.php', 'dp_hiero', 600, 400);
-        }
     }
 
     public function output($projectid, $round)

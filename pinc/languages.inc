@@ -7,6 +7,8 @@
 include_once($relPath.'lang_data.inc');
 include_once($relPath.'iso_lang_list.inc');
 
+use Symfony\Component\Process\Process;
+
 function lang_code($language_code)
 {
     global $locales;
@@ -120,14 +122,20 @@ function lang_direction($langcode = false)
  */
 function get_installed_system_locales()
 {
-    static $system_locales = [];
-    if ($system_locales) {
-        return $system_locales;
+    static $utf8_locales = [];
+    if ($utf8_locales) {
+        return $utf8_locales;
     }
 
-    exec("locale -a", $system_locales);
+    $process = new Process(["locale", "-a"]);
+    $process->run();
+    if (!$process->isSuccessful()) {
+        throw new RuntimeException("Failed loading system locales.");
+    }
 
-    // exclude all non-UTF-8 locales
+    $system_locales = explode("\n", $process->getOutput());
+
+    // only include UTF-8 locales, but strip the .utf8 off the end
     $utf8_locales = [];
     foreach ($system_locales as $locale) {
         if (endswith($locale, '.utf8')) {
