@@ -778,21 +778,18 @@ function call_phpbb_function($func_name, $args)
         return;
     }
 
-    // (cd into the pinc directory, so the script doesn't
-    // have to guess where it's being invoked from.)
+    // The phpbb3.inc assumes it's running from $code_dir/pinc/ so we need
+    // to run it from there specifically.
     global $code_dir, $php_cli_executable;
     $phpbb_include_file = "phpbb3.inc";
-    $cwd_saved = getcwd();
-    chdir("$code_dir/pinc");
-    $process = new Process(array_merge([$php_cli_executable, "-f", $phpbb_include_file, $func_name], $args));
-    $process->run();
-    chdir($cwd_saved);
+    $process = new Process(array_merge([$php_cli_executable, "-f", $phpbb_include_file, $func_name], $args), "$code_dir/pinc");
+    $exitcode = $process->run();
     $output = $process->getOutput();
     $output_lines = explode("\n", rtrim($output));
     $last_line = end($output_lines);
     if (!$process->isSuccessful() || $DEBUG) { /** @phpstan-ignore-line */
         echo "<pre>\n";
-        echo "$func_name command exited with status=$process->getExitCode()\n";
+        echo "$func_name command exited with status=$exitcode\n";
         echo "Here's its output:\n";
         echo $output;
         exit;
