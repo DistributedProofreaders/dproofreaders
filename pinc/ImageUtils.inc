@@ -85,11 +85,11 @@ class ImageUtils
             $output = explode("\n", $process->getOutput());
 
             // remove the filename from the string, it doesn't add value
-            $output = str_replace($filename, "", $output[0]);
+            $output = trim(str_replace($filename, "", $output[0]));
 
             // if its one of our known warning strings, downgrade the severity
             foreach ($this->warning_strings as $string) {
-                if (stripos($string, $output) !== false) {
+                if (stripos($output, $string) !== false) {
                     return [ImageUtils::IMAGE_WARNING, $output];
                 }
             }
