@@ -30,10 +30,6 @@ spl_autoload_register('dp_class_autoloader');
 // Load composer autoloader
 require_once($relPath.'../vendor/autoload.php');
 
-// Include misc.inc which contains useful functions that almost 90% of
-// the pages use in some way, including our exception handlers.
-include_once($relPath.'misc.inc');
-
 // Exception handlers are defined differently for HTML and the API
 set_exception_handler($testing ? 'test_exception_handler' : 'production_exception_handler');
 
@@ -62,6 +58,10 @@ if (!defined('SKIP_DB_CONNECT')) {
 // Load the session libraries, but allow base.inc and api/index.php to do
 // the start/resume.
 include_once($relPath.'dpsession.inc');
+
+// Include misc.inc which contains useful functions that almost 90% of
+// the pages use in some way.
+include_once($relPath.'misc.inc');
 
 //----------------------------------------------------------------------------
 
