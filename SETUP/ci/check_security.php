@@ -12,7 +12,6 @@ $basedir = $argv[1] ?? "../../";
 //       opting for Symfony Process() instead -- but this ensures that no
 //       others are added from the current set until they get updated.
 $ok_system_calls = [
-    "pinc/POFile.inc",
     "pinc/upload_file.inc",
 ];
 

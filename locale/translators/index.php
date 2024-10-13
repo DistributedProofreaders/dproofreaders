@@ -132,14 +132,17 @@ elseif ($func == "newtranslation2") {
     try {
         $po_file->create_from_template("$dyn_locales_dir/messages.pot", $locale);
 
-        metarefresh(0, "$translate_url?func=manage&amp;locale=$locale");
+        echo "<p>" . _("Translation file created successfully.") . "</p>";
+
+        echo "<p><a href='$translate_url?func=manage&amp;locale=$locale'>"
+            . _("Manage translation") . "</a></p>";
     } catch (Exception $exception) {
         echo "<p>" . _("An error occurred during translation initialization.") ."</p>";
         echo "<pre>" . $exception->getMessage() . "</pre>";
-
-        echo "<p><a href='$translate_url'>"
-            . _("Back to the Translation Center") . "</a></p>";
     }
+
+    echo "<p><a href='$translate_url'>"
+        . _("Back to the Translation Center") . "</a></p>";
 }
 // Perform language delete and redirect to Translation Center
 elseif ($func == "delete") {
