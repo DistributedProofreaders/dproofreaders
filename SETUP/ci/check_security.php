@@ -7,14 +7,6 @@ include_once($relPath."misc.inc");
 
 $basedir = $argv[1] ?? "../../";
 
-// List of files that can contain system/exec calls
-// TODO: Likely few or none of these should contain the calls either --
-//       opting for Symfony Process() instead -- but this ensures that no
-//       others are added from the current set until they get updated.
-$ok_system_calls = [
-    "pinc/upload_file.inc",
-];
-
 // List of files that can contain mysqli_error() calls
 $ok_mysqli_error_calls = [
     "pinc/DPDatabase.inc",
@@ -48,7 +40,7 @@ foreach ($files as $file) {
     }
 
     // No file should include a system call (use Symfony Process instead)
-    if (file_includes_system_call("$basedir/$file") && !in_array($file, $ok_system_calls)) {
+    if (file_includes_system_call("$basedir/$file")) {
         abort($file, "file includes system(), exec(), passthru(), shell_exec(), or escapeshellcmd()");
     }
 

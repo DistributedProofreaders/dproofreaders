@@ -9,6 +9,8 @@
 // <input type='file'> with name='uploaded_file' Then validate_uploaded_file()
 // can be used to process the upload.
 
+use Symfony\Component\Process\Process;
+
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 
 /**
@@ -262,13 +264,10 @@ function virus_check($file_path, $verbose)
     // perform '$antivirus_executable -- <FILENAME>' and expect return
     // value = 0. we use -- to not parse any further arguments starting
     // with -/-- as options
-    $av_test_result = [];
-    $av_retval = 0;
-
-    $cmd = "$antivirus_executable -- " . escapeshellarg($file_path);
-    exec($cmd, $av_test_result, $av_retval);
-    // $av_retval == 0 is ok
-    if ($av_retval == 1) {
+    $process = new Process([$antivirus_executable, "--", $file_path]);
+    $av_retval = $process->run();
+    $av_test_result = explode("\n", $process->getOutput());
+    if (!$process->isSuccessful()) {
         // Log the infected upload so that we can track user/frequency
         $reporting_string = "upload_file.inc - Infected upload: " . $av_test_result[0];
         error_log($reporting_string);
