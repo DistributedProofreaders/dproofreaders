@@ -140,7 +140,7 @@ $test_functions = [
 
 function _test_project_for_large_page_images($projectid)
 {
-    global $page_image_size_limit;
+    global $code_url, $page_image_size_limit;
 
     $test_name = _("Large Page Image Files");
     $test_desc = _("This test checks to see if there are any unusually large image files within a project.");
@@ -164,7 +164,7 @@ function _test_project_for_large_page_images($projectid)
             $error = get_image_size_error($file_info->size);
             if (isset($error)) {
                 $details .= "<tr>";
-                $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
+                $details .= "<td><a href='$code_url/tools/page_browser.php?project=$projectid&imagefile=$image&mode=imageText&round_id=OCR'>" . html_safe($image) . "</a></td>";
                 $details .= "<td>" . $error . "</td>";
                 $details .= "</tr>";
 
@@ -193,6 +193,8 @@ function _test_project_for_large_page_images($projectid)
 
 function _test_project_for_corrupt_pngs($projectid)
 {
+    global $code_url;
+
     $test_name = _("Corrupt page PNGs");
     $test_desc = _("This test checks to see if any page PNGs are corrupt or have internal errors.");
 
@@ -225,7 +227,7 @@ function _test_project_for_corrupt_pngs($projectid)
             [$image_status, $image_message] = $checker->validate_integrity($file_info->abs_path);
             if ($image_status == ImageUtils::IMAGE_CORRUPT) {
                 $details .= "<tr>";
-                $details .= "<td><a href='{$file_info->abs_url}'>" . html_safe($image) . "</a></td>";
+                $details .= "<td><a href='$code_url/tools/page_browser.php?project=$projectid&imagefile=$image&mode=imageText&round_id=OCR'>" . html_safe($image) . "</a></td>";
                 $details .= "<td>" . html_safe($image_message) . "</td>";
                 $details .= "</tr>";
 
