@@ -203,7 +203,7 @@ if ($_SESSION['quiz_data']['lastpage'] != 'checks') { // we are coming from else
 echo "<p>" . sprintf(_("If you have entered all error tests click <a href='%s'>here</a> to view the output."), "./output.php") . "</p>\n<p>";
 echo sprintf(_("You can also go back to add further <a href='%s'>error messages.</a>"), "./messages.php") . "</p>";
 
-echo "<form name='checkform' method='post' action='./checks.php' onSubmit='return chkFormular();'>\n";
+echo "<form name='checkform' method='post' action='./checks.php'>\n";
 
 echo "<p>" . _("In all textfields below you can encode linebreaks as \\n if you need them.") . "</p>\n";
 
