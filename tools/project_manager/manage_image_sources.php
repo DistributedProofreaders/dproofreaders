@@ -58,7 +58,7 @@ if ($action == 'update_oneshot') {
             $errmsgs .= _("A value for Image Source ID is required. Please enter one.") . "<br>";
         }
 
-        $source = new ImageSource(array_get($_REQUEST, 'code_name', null));
+        $source = new ImageSource($_REQUEST['code_name'] ?? null);
 
         if ($source->code_name && !isset($_REQUEST['editing'])) {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you

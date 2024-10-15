@@ -557,7 +557,7 @@ class ProjectSearchResults
         // else default to 'state'
         // store for next time
         $saved_sort = $this->userSettings->get_value("search:{$this->search_origin}.sort", " ");
-        $sort_param = array_get($_GET, "sort", $saved_sort);
+        $sort_param = $_GET["sort"] ?? $saved_sort;
 
         // parse and check if valid
         // remove terminating char A or D
@@ -586,7 +586,7 @@ class ProjectSearchResults
 
         // get secondary sorting
         $saved_sec_sort = $this->userSettings->get_value("search:{$this->search_origin}.sort_sec", " ");
-        $this->sec_sort = array_get($_GET, "sec_sort", $saved_sec_sort);
+        $this->sec_sort = $_GET["sec_sort"] ?? $saved_sec_sort;
         $sec_sort_sql = $this->get_sort_sql($this->sec_sort);
         if (null == $sec_sort_sql) {
             $this->sec_sort = 'title';

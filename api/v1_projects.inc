@@ -470,7 +470,7 @@ function api_v1_project_pagedetails($method, $data, $query_params)
 {
     // optional page round IDs (one or more) to filter down to
     $only_rounds = null;
-    $pageroundids = array_get($query_params, "pageroundid", null);
+    $pageroundids = $query_params["pageroundid"] ?? null;
     if ($pageroundids) {
         $only_rounds = [];
         if (!is_array($pageroundids)) {

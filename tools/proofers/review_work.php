@@ -16,7 +16,7 @@ define("MESSAGE_ERROR", 2);
 $rounds = Rounds::get_all();
 
 // load any data passed into the page
-$username = array_get($_GET, "username", $pguser);
+$username = $_GET["username"] ?? $pguser;
 $work_round = get_round_param($_GET, "work_round_id", null, true);
 $review_round = get_round_param($_GET, "review_round_id", null, true);
 $sampleLimit = get_integer_param($_GET, "sample_limit", 0, 0, null);

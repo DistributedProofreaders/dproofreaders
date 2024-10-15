@@ -54,7 +54,7 @@ while ([$fileid, $image] = mysqli_fetch_row($res)) {
 
 // -----------
 
-$submit_button = array_get($_POST, 'submit_button', '');
+$submit_button = $_POST['submit_button'] ?? '';
 
 switch ($submit_button) {
     case '':
@@ -104,12 +104,12 @@ switch ($submit_button) {
 
     case 'Check renamings':
 
-        $renumber_from_n = array_get($_POST, 'renumber_from_n', 'off');
+        $renumber_from_n = $_POST['renumber_from_n'] ?? 'off';
 
         if ($renumber_from_n == 'on') {
             // Ignore any name-mapping in $_POST.
 
-            $start_str = array_get($_POST, 'renumbering_start', '001');
+            $start_str = $_POST['renumbering_start'] ?? '001';
 
             $n_matches = preg_match('/^(\D*)(\d+)(\D*)$/', $start_str, $matches);
             if ($n_matches == 0) {
@@ -302,7 +302,7 @@ switch ($submit_button) {
         $for_real = 1;
 
         $new_fileid_for_ = get_requested_name_mapping();
-        $direction = array_get($_POST, 'direction', '');
+        $direction = $_POST['direction'] ?? '';
 
         if (empty($direction)) {
             die("direction param is empty");
@@ -443,7 +443,7 @@ function echo_name_mapping_hiddens($new_fileid_for_)
 
 function get_requested_name_mapping()
 {
-    $nff_ = array_get($_POST, 'nff_', null);
+    $nff_ = $_POST['nff_'] ?? null;
 
     if (empty($nff_)) {
         die("nff_ param is empty");

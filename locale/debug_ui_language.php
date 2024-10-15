@@ -11,14 +11,14 @@ output_header($title, NO_STATSBAR);
 $user = User::load_current();
 
 $detected_language = get_desired_language();
-$url_language = array_get($_GET, 'lang', "<i>not set</i>");
+$url_language = $_GET['lang'] ?? "<i>not set</i>";
 $pref_language = $user ? $user->u_intlang : "<i>not set</i>";
 $user_logged_in = $user ? $user->username : "<i>not logged in</i>";
 if ($pref_language == "") {
     $pref_language = "<i>browser detect</i>";
 }
-$cookie_language = array_get($_COOKIE, 'language', "<i>not set</i>");
-$http_accept_language = array_get($_SERVER, 'HTTP_ACCEPT_LANGUAGE', "<i>not set </i>");
+$cookie_language = $_COOKIE['language'] ?? "<i>not set</i>";
+$http_accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? "<i>not set </i>";
 $browser_locale = get_locale_matching_browser_accept_language(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
 $enabled_languages = implode(", ", array_merge(get_installed_locale_translations("all"), ["en_US"]));

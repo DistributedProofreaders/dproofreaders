@@ -18,7 +18,7 @@ $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', -1, -1, null);
 
 // load the PM
-$pm = array_get($_REQUEST, "pm", $pguser);
+$pm = $_REQUEST["pm"] ?? $pguser;
 if (!user_is_a_sitemanager() && !user_is_proj_facilitator()) {
     $pm = $pguser;
 }

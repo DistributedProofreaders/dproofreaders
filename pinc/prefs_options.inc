@@ -81,9 +81,9 @@ function get_user_proofreading_font($interface = null)
     if ($font_style_i == 1) { // other
         $font_style = get_user_proofreading_font_other($interface);
     } else {
-        $font_style = array_get($proofreading_font_faces, $font_style_i, '');
+        $font_style = $proofreading_font_faces[$font_style_i] ?? '';
     }
-    $font_size = array_get($proofreading_font_sizes, $font_size_i, '');
+    $font_size = $proofreading_font_sizes[$font_size_i] ?? '';
 
     $full_font_family = get_full_font_families($interface)[$font_style_i];
     $font_size_family = $font_size ? $font_size : 'unset';

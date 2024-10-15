@@ -17,7 +17,7 @@ require_login();
 
 $theme_args['js_data'] = get_newHelpWin_javascript("$code_url/faq/pophelp/project_manager/");
 
-$return = array_get($_REQUEST, "return", "$code_url/tools/project_manager/projectmgr.php");
+$return = $_REQUEST["return"] ?? "$code_url/tools/project_manager/projectmgr.php";
 
 if (!user_is_PM()) {
     die('permission denied');
@@ -150,7 +150,7 @@ class ProjectInfoHolder
 
     public function set_from_marc_record()
     {
-        $encoded_marc_array = array_get($_POST, "rec", "");
+        $encoded_marc_array = $_POST["rec"] ?? "";
         if (!$encoded_marc_array) {
             return sprintf(_("No record selected. If no results are suitable, select '%s' to create the project manually."), _("No Matches"));
         }

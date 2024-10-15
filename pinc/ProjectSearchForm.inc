@@ -88,7 +88,7 @@ class ProjectSearchWidget
 
     public function get_sql_contribution()
     {
-        $value = array_get($_GET, $this->id, '');
+        $value = $_GET[$this->id] ?? '';
         if ($value == '') {
             return null;
         }

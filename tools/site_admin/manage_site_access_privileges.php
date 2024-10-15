@@ -45,7 +45,7 @@ $freeform_user_settings = [
     'pp_limit_value' => _("Post-processing projects limit, -1 means unlimited"),
 ];
 
-$username = array_get($_POST, 'username', array_get($_GET, 'username', null));
+$username = $_POST['username'] ?? ($_GET['username'] ?? null);
 $action = get_enumerated_param($_POST, 'action', null, ['update'], true);
 
 $title = _("Manage Site Access Privileges");
