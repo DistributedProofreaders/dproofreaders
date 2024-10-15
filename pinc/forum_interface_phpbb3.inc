@@ -31,6 +31,8 @@ login_forum_user() and logout_forum_user() should make every effort to reduce
 the amount of DP code included in those pages.
 */
 
+use Symfony\Component\Process\Process;
+
 /**
  * Return a table name with the phpBB table prefix prepended to it
  */
@@ -776,45 +778,24 @@ function call_phpbb_function($func_name, $args)
         return;
     }
 
-    $escaped_args_str = implode(' ', array_map('my_escapeshellarg', $args));
-
-    // (cd into the pinc directory, so the script doesn't
-    // have to guess where it's being invoked from.)
+    // The phpbb3.inc assumes it's running from $code_dir/pinc/ so we need
+    // to run it from there specifically.
     global $code_dir, $php_cli_executable;
     $phpbb_include_file = "phpbb3.inc";
-    $command = "cd $code_dir/pinc && $php_cli_executable -f $phpbb_include_file $func_name $escaped_args_str";
-    if ($DEBUG) { /** @phpstan-ignore-line */
-        echo "command: $command<br>\n";
-    }
-
-    $output = [];
-    $last_line = exec($command, $output, $exit_status);
-
-    if ($exit_status != 0 || $DEBUG) { /** @phpstan-ignore-line */
+    $process = new Process(array_merge([$php_cli_executable, "-f", $phpbb_include_file, $func_name], $args), "$code_dir/pinc");
+    $exitcode = $process->run();
+    $output = $process->getOutput();
+    $output_lines = explode("\n", rtrim($output));
+    $last_line = end($output_lines);
+    if (!$process->isSuccessful() || $DEBUG) { /** @phpstan-ignore-line */
         echo "<pre>\n";
-        echo "$func_name command exited with status=$exit_status\n";
-        if (count($output) > 0) {
-            echo "Here's its output:\n";
-            foreach ($output as $line) {
-                echo "$line\n";
-            }
-        }
+        echo "$func_name command exited with status=$exitcode\n";
+        echo "Here's its output:\n";
+        echo $output;
         exit;
     }
 
     return $last_line;
-}
-
-/**
- * Work-around for escapeshellarg's anomalous treatment of empty args.
- */
-function my_escapeshellarg($arg)
-{
-    $s = escapeshellarg($arg);
-    if (empty($s)) {
-        $s = "''";
-    }
-    return $s;
 }
 
 // -----------------------------------------------------------------------------
