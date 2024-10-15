@@ -103,12 +103,12 @@ function make_output()
             }
         }
         $out .= ")";
-        if ($err['P_guideline'] != "") {
+        if (($err['P_guideline'] ?? "") != "") {
             $out .= ', "guideline" => "';
             $out .= ssqs($err['P_guideline']);
             $out .= '"';
         }
-        if ($err['F_guideline'] != "") {
+        if (($err['F_guideline'] ?? "") != "") {
             $out .= ', "guideline" => "';
             $out .= ssqs($err['F_guideline']);
             $out .= '"';

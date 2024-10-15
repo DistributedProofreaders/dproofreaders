@@ -199,40 +199,15 @@ if ($_SESSION['quiz_data']['lastpage'] != 'checks') { // we are coming from else
 } else { // we are coming from this page (checks.php)
     evalchecks();
 }
-?>
 
-<script>
-
-function nonechecked(x) 
-{
-    for(var i = 0; i < x.length; i++) 
-    {
-        if(x[i].checked) 
-        { 
-            return false; 
-        }
-    }
-    return true;
-}
-
-function chkFormular () {
-    if (nonechecked(document.checkform.type)) 
-    {
-        alert(<?php echo _("Please explicitly choose one of the test types."); ?>;
-        return false;
-    }
-}
-</script>
-
-<?php
 echo "<p>" . sprintf(_("If you have entered all error tests click <a href='%s'>here</a> to view the output."), "./output.php") . "</p>\n<p>";
 echo sprintf(_("You can also go back to add further <a href='%s'>error messages.</a>"), "./messages.php") . "</p>";
 
-echo "<form name='checkform' method='post' action='./checks.php' onSubmit='return chkFormular();'>\n";
+echo "<form name='checkform' method='post' action='./checks.php'>\n";
 
 echo "<p>" . _("In all textfields below you can encode linebreaks as \\n if you need them.") . "</p>\n";
 
-echo "<hr>\n<p><input type='radio' name='type' value='forbiddentext'><b>" . _("Check for forbidden text") . "</b></p>\n";
+echo "<hr>\n<p><input type='radio' name='type' required value='forbiddentext'><b>" . _("Check for forbidden text") . "</b></p>\n";
 
 echo "<p>" . _("This will look if at least one of the strings you give here does occur in the text.") . "</p>\n";
 
@@ -259,7 +234,7 @@ echo " <select size='1' name='forbiddentext_error_user'>\n$errlist</select>&nbsp
 echo "<input type='radio' name='forbiddentext_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='forbiddentext_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='expectedtext'><b>" . _("Check for expected text") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='expectedtext'><b>" . _("Check for expected text") . "</b></p>\n";
 echo _("This will look if at least one of the strings you give here does occur in the text.") . "</p>\n";
 
 echo "<p>\n";
@@ -285,7 +260,7 @@ echo " <select size='1' name='expectedtext_error_user'>\n$errlist</select>&nbsp;
 echo "<input type='radio' name='expectedtext_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='expectedtext_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='wrongtextorder'><b>" . _("Check for text in wrong order") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='wrongtextorder'><b>" . _("Check for text in wrong order") . "</b></p>\n";
 echo "<p>" . _("First Text (has to be before second text):") . " <input type='text' name='wrongtextorder_firsttext' size='50'></p>\n";
 echo "<p>" . _("Second Text (has to be before first text):") . " <input type='text' name='wrongtextorder_secondtext' size='50'><br>\n";
 echo _("Search case sensitive?") . " <input type='radio' name='wrongtextorder_case_sensitive' checked value='yes'>" . _("Yes");
@@ -296,7 +271,7 @@ echo " <select size='1' name='wrongtextorder_error_user'>\n$errlist</select>&nbs
 echo "<input type='radio' name='wrongtextorder_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='wrongtextorder_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='multioccurrence'><b>" . _("Check for text incorrectly appearing twice or more times") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='multioccurrence'><b>" . _("Check for text incorrectly appearing twice or more times") . "</b></p>\n";
 echo "<p>" . _("Text which is expected only once:") . " <input type='text' name='multioccurrence_searchtext' size='50'><br>\n";
 echo _("Search case sensitive?") . " <input type='radio' name='multioccurrence_case_sensitive' checked value='yes'>" . _("Yes");
 echo "\n<input type='radio' name='multioccurrence_case_sensitive' value='no'>" . _("No") . "<br>\n";
@@ -306,7 +281,7 @@ echo " <select size='1' name='multioccurrence_error_user'>\n$errlist</select>&nb
 echo "<input type='radio' name='multioccurrence_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='multioccurrence_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='markupmissing'><b>" . _("Check for markup with opening and closing tag which is completely missing") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='markupmissing'><b>" . _("Check for markup with opening and closing tag which is completely missing") . "</b></p>\n";
 echo "<p>" . _("Opening tag:") . " <input type='text' name='markupmissing_opentext' size='50'></n>\n";
 echo "<p>" . _("Closing tag:") . " <input type='text' name='markupmissing_closetext' size='50'><br>\n";
 echo _("Search case sensitive?") . " <input type='radio' name='markupmissing_case_sensitive' checked value='yes'>" . _("Yes");
@@ -317,7 +292,7 @@ echo " <select size='1' name='markupmissing_error_user'>\n$errlist</select>&nbsp
 echo "<input type='radio' name='markupmissing_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='markupmissing_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='markupcorrupt'><b>" . _("Check for corrupt markup with opening and closing tag") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='markupcorrupt'><b>" . _("Check for corrupt markup with opening and closing tag") . "</b></p>\n";
 echo "<p>" . _("For now this only checks for <b>one</b> orphaned opening or closing tag and for the correct order of the tags. So it basically only works OK, if there is just one pair of opening/closing tags expected in the text.") . "</p>\n";
 echo "<p>" . _("Opening tag:") . " <input type='text' name='markupcorrupt_opentext' size='50'></p>\n";
 echo "<p>" . _("Closing tag:") . " <input type='text' name='markupcorrupt_closetext' size='50'><br>\n";
@@ -329,7 +304,7 @@ echo " <select size='1' name='markupcorrupt_error_user'>\n$errlist</select>&nbsp
 echo "<input type='radio' name='markupcorrupt_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='markupcorrupt_error_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='expectedlinebreaks'><b>" . _("Check for expected number of linebreaks between two chunks of text.") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='expectedlinebreaks'><b>" . _("Check for expected number of linebreaks between two chunks of text.") . "</b></p>\n";
 echo "<p>" . _("First text:") . " <input type='text' name='expectedlinebreaks_starttext' size='50'></p>\n";
 echo "<p>" . _("Second text:") . " <input type='text' name='expectedlinebreaks_stoptext' size='50'><br>\n";
 echo "Search case sensitive? <input type='radio' name='expectedlinebreaks_case_sensitive' checked value='yes'>" . _("Yes");
@@ -347,7 +322,7 @@ echo " <select size='1' name='expectedlinebreaks_errorhigh_user'>\n$errlist</sel
 echo "<input type='radio' name='expectedlinebreaks_errorhigh_message_source' value='default'><a href='./default_messages.php' target='_blank'>" . _("Built-in message:");
 echo "</a> <select size='1' name='expectedlinebreaks_errorhigh_default'>\n$defaultlist</select>\n</p>\n<hr>\n";
 
-echo "<p><input type='radio' name='type' value='longline'><b>" . _("Check for long lines.") . "</b></p>\n";
+echo "<p><input type='radio' name='type' required value='longline'><b>" . _("Check for long lines.") . "</b></p>\n";
 echo "<p>" . _("Max. allowed line length:") . " <input type='text' name='longline_lengthlimit' size='10'><br>\n";
 echo _("Error message to be given if a line is longer than allowed:") . "<br>\n";
 echo "<input type='radio' name='longline_message_source' checked value='user'>" . _("Your message:");
