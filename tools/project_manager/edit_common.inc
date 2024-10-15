@@ -18,12 +18,12 @@ function just_echo($field_value)
 
 function text_field($field_value, $field_name, $args = [])
 {
-    $maxlength = array_get($args, "maxlength", null);
+    $maxlength = $args["maxlength"] ?? null;
     $maxlength_attr = $maxlength ? "maxlength='$maxlength'" : '';
-    $required = array_get($args, "required", false);
+    $required = $args["required"] ?? false;
     $required_attr = $required ? " required" : "";
-    $field_type = array_get($args, "type", "text");
-    $min = array_get($args, "min", null);
+    $field_type = $args["type"] ?? "text";
+    $min = $args["min"] ?? null;
     $min_attr = isset($min) ? " min='$min'" : "";
 
     $enc_field_value = attr_safe($field_value);
@@ -34,7 +34,7 @@ function text_field($field_value, $field_name, $args = [])
 
 function DP_user_field($field_value, $field_name, $args = [])
 {
-    $required = array_get($args, "required", false);
+    $required = $args["required"] ?? false;
     $required_attr = $required ? " required" : "";
 
     $enc_field_value = attr_safe($field_value);

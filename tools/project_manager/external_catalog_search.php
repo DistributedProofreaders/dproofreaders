@@ -68,13 +68,13 @@ function search_query_params(): string
     global $search_params;
     $params = [];
     foreach ($search_params as $k => $info) {
-        $val = array_get($_REQUEST, $k, null);
+        $val = $_REQUEST[$k] ?? null;
         if (!empty($val)) {
             $params[$k] = $val;
             // Only set the attribute param if we searched
             // for something with that attribute.
             if ($info['type'] == 'attr') {
-                $attr_val = array_get($_REQUEST, "{$k}_attr", null);
+                $attr_val = $_REQUEST["{$k}_attr"] ?? null;
                 if (!empty($attr_val)) {
                     $params["{$k}_attr"] = $attr_val;
                 }
@@ -136,17 +136,17 @@ function show_query_form()
             if ($info['type'] == 'attr') {
                 echo   "<th class='label'><select name='{$label}_attr'>\n";
                 foreach ($info['attrs'] as $value => $attr_label) {
-                    $selected = array_get($_REQUEST, "{$label}_attr", null) == $value ? " selected" : "";
+                    $selected = ($_REQUEST["{$label}_attr"] ?? null) == $value ? " selected" : "";
                     echo   "<option value='$value'$selected>$attr_label</option>\n";
                 }
-                $value = attr_safe(array_get($_REQUEST, $label, ""));
+                $value = attr_safe($_REQUEST[$label] ?? "");
                 echo   "</select></th>";
                 echo   "<td>";
                 echo     "<input type='text' size='30' name='{$label}' maxlength='255' value='$value'>";
                 echo   "</td>";
                 echo "</tr>\n";
             } elseif ($info['type'] == 'text') {
-                $value = attr_safe(array_get($_REQUEST, $label, ""));
+                $value = attr_safe($_REQUEST[$label] ?? "");
                 echo "<tr>";
                 echo   "<th class='label'>{$info['name']}</th>";
                 echo   "<td>";
@@ -154,7 +154,7 @@ function show_query_form()
                 echo   "</td>";
                 echo "</tr>\n";
             } elseif ($info['type'] == 'checkbox') {
-                $checked = !empty(array_get($_REQUEST, $label, "")) ? " checked" : "";
+                $checked = !empty($_REQUEST[$label] ?? "") ? " checked" : "";
                 echo "<tr><th colspan='2'>";
                 echo "<input type='checkbox' $checked name='$label'>";
                 echo $info['name'];

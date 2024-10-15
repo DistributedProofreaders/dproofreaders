@@ -7,14 +7,14 @@ class MiscUtilsTest extends PHPUnit\Framework\TestCase
     public function test_array_get_exists()
     {
         $arr = ["param" => "value"];
-        $value = array_get($arr, "param", "default");
+        $value = $arr["param"] ?? "default";
         $this->assertEquals($arr["param"], $value);
     }
 
     public function test_array_get_doesnt_exists()
     {
         $arr = [];
-        $value = array_get($arr, "param", "default");
+        $value = $arr["param"] ?? "default";
         $this->assertEquals("default", $value);
     }
 

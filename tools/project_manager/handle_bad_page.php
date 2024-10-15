@@ -12,11 +12,11 @@ require_login();
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');
 $image = get_page_image_param($_REQUEST, 'image');
-$modify = array_get($_REQUEST, 'modify', '');
-$cancel = array_get($_POST, 'cancel', '');
-$prev_text = array_get($_POST, 'prev_text', null);
-$text_column = array_get($_REQUEST, 'text_column', null);
-$resolution = array_get($_POST, 'resolution', null);
+$modify = $_REQUEST['modify'] ?? '';
+$cancel = $_POST['cancel'] ?? '';
+$prev_text = $_POST['prev_text'] ?? null;
+$text_column = $_REQUEST['text_column'] ?? null;
+$resolution = $_POST['resolution'] ?? null;
 
 $project = new Project($projectid);
 

@@ -748,7 +748,7 @@ class Project
         }
 
         $image_sources = load_image_sources();
-        $imso_res = array_get($image_sources, (string)$this->image_source, null);
+        $imso_res = $image_sources[(string)$this->image_source] ?? null;
         if ($imso_res) {
             $this->_image_source_name = $imso_res['full_name'];
             $this->image_source_credit = $imso_res['credit'];

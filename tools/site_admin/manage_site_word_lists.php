@@ -16,10 +16,10 @@ if (!(user_is_a_sitemanager())) {
 // fetch any data sent our way. word_string will only
 // come in via a POST but the others may come in
 // via a GET as well so we use $_REQUEST for them
-$action = array_get($_REQUEST, "action", "list");
-$list_type = array_get($_REQUEST, "list_type", "");
-$language = array_get($_REQUEST, "language", "");
-$word_string = array_get($_POST, "word_string", "");
+$action = $_REQUEST["action"] ?? "list";
+$list_type = $_REQUEST["list_type"] ?? "";
+$language = $_REQUEST["language"] ?? "";
+$word_string = $_POST["word_string"] ?? "";
 
 $title = _("Manage Site Word Lists");
 

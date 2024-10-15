@@ -5,8 +5,8 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'job_log.inc');
 
 $days_ago = get_integer_param($_GET, 'days_ago', 1, 0, 365);
-$job = array_get($_GET, 'job', null);
-$event = array_get($_GET, 'event', '');
+$job = $_GET['job'] ?? null;
+$event = $_GET['event'] ?? '';
 
 $start_timestamp = time() - (60 * 60 * 24 * $days_ago);
 

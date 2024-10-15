@@ -19,7 +19,7 @@ $watch->start();
 set_time_limit(0); // no time limit
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');
-$encWord = array_get($_GET, "word", '');
+$encWord = $_GET["word"] ?? '';
 $word = decode_word($encWord);
 $timeCutoff = get_integer_param($_REQUEST, 'timeCutoff', 0, 0, null);
 $imagefile = get_page_image_param($_GET, 'imagefile', true);

@@ -23,7 +23,7 @@ $_POST:
 $projectid = get_projectID_param($_POST, 'projectid');
 $proj_state = get_enumerated_param($_POST, 'proj_state', null, ProjectStates::get_states());
 $imagefile = get_page_image_param($_POST, 'imagefile');
-$text_data = array_get($_POST, 'text_data', '');
+$text_data = $_POST['text_data'] ?? '';
 
 define('B_TEMPSAVE', 1);
 define('B_SAVE_AND_DO_ANOTHER', 2);

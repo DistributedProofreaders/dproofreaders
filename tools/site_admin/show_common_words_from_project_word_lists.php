@@ -15,12 +15,12 @@ if (!(user_is_a_sitemanager() || user_is_proj_facilitator())) {
 
 
 // fetch any data sent our way.
-$action = array_get($_REQUEST, "action", "list");
-$language = array_get($_REQUEST, "language", "");
+$action = $_REQUEST["action"] ?? "list";
+$language = $_REQUEST["language"] ?? "";
 $language = urldecode($language);
-$list_type = array_get($_REQUEST, "list_type", "");
-$cutoff = array_get($_REQUEST, "cutoff", 25);
-$lang_match = array_get($_REQUEST, "lang_match", "primary");
+$list_type = $_REQUEST["list_type"] ?? "";
+$cutoff = $_REQUEST["cutoff"] ?? 25;
+$lang_match = $_REQUEST["lang_match"] ?? "primary";
 
 $title = _("Show common words from project word lists");
 

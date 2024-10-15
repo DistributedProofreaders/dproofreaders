@@ -7,7 +7,7 @@ require_login();
 
 $username = $pguser;
 if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
-    $username = array_get($_GET, 'username', $pguser);
+    $username = $_GET['username'] ?? $pguser;
     if (!User::is_valid_user($username)) {
         die("Invalid username.");
     }

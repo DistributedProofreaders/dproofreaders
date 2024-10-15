@@ -6,7 +6,7 @@ include_once('../small_theme.inc'); // output_small_header
 require_login();
 
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
-$text = array_get($_POST, 'text_data', '');
+$text = $_POST['text_data'] ?? '';
 
 include "./quiz_page.inc"; // qp_*
 

@@ -9,7 +9,7 @@ $lang_options[] = '';
 // These should always be set if the user got here correctly.
 // They won't be set if someone accesses this URL directly.
 $language = get_enumerated_param($_POST, 'lang', '', $lang_options);
-$location = array_get($_POST, 'returnto', "$code_url/default.php");
+$location = $_POST['returnto'] ?? "$code_url/default.php";
 
 if ($language) {
     // set the cookie

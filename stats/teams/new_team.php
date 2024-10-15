@@ -12,11 +12,11 @@ $user = User::load_current();
 
 $theme_extra_args = ["js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_")];
 
-$teamname = trim(array_get($_POST, "teamname", ""));
-$text_data = stripAllString(array_get($_POST, "text_data", ""));
-$teamwebpage = array_get($_POST, "teamwebpage", "");
-$tavatar = array_get($_POST, "tavatar", "");
-$ticon = array_get($_POST, "ticon", "");
+$teamname = trim($_POST["teamname"] ?? "");
+$text_data = stripAllString($_POST["text_data"] ?? "");
+$teamwebpage = $_POST["teamwebpage"] ?? "";
+$tavatar = $_POST["tavatar"] ?? "";
+$ticon = $_POST["ticon"] ?? "";
 
 
 if (isset($_POST['mkPreview'])) {

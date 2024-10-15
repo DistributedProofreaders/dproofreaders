@@ -18,8 +18,8 @@ output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
-$username = array_get($_GET, 'username', '');
-$email = array_get($_GET, 'email', '');
+$username = $_GET['username'] ?? '';
+$email = $_GET['email'] ?? '';
 $action = get_enumerated_param($_GET, 'action', 'default', ['list_all', 'get_user', 'set_email', 'default']);
 $order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', ['username', 'real_name', 'email', 'date_created DESC']);
 

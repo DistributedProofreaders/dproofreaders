@@ -21,7 +21,7 @@ require_login();
 // $origin will be uninitialized, in which case it could be set
 // to ".../userprefs.php..." at the next calls. Avoid this by setting
 // the fallback origin to the Activity Hub.
-$origin = array_get($_REQUEST, "origin", "");
+$origin = $_REQUEST["origin"] ?? "";
 if (empty($origin)) {
     if (array_key_exists('HTTP_REFERER', $_SERVER)
         && !startswith($_SERVER['HTTP_REFERER'], "$code_url/userprefs.php")) {
@@ -68,7 +68,7 @@ if (isset($_POST["quitnc"])) {
     metarefresh(0, $origin, _("Quit"));
 }
 
-if (array_get($_POST, "insertdb", "") != "") {
+if (($_POST["insertdb"] ?? "") != "") {
     // one of the tabs was displayed and now it has been posted
     // determine which and let that tab save 'itself'.
 

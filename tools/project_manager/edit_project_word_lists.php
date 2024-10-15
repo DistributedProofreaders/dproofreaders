@@ -11,7 +11,7 @@ include_once($relPath.'faq.inc');
 
 require_login();
 
-$return = array_get($_REQUEST, "return", "$code_url/tools/project_manager/projectmgr.php");
+$return = $_REQUEST["return"] ?? "$code_url/tools/project_manager/projectmgr.php";
 $projectid = get_projectID_param($_REQUEST, 'projectid');
 
 $pwlh = new ProjectWordListHolder($projectid);

@@ -58,8 +58,8 @@ if ($n_rows > 0) {
 
         $targets_array = convert($release_criterion, $queue_ident);
 
-        $setters = 'projects_target = ' . array_get($targets_array, 'projects', 0)
-            . ', pages_target = ' . array_get($targets_array, 'pages', 0);
+        $setters = 'projects_target = ' . ($targets_array['projects'] ?? 0)
+            . ', pages_target = ' . ($targets_array['pages'] ?? 0);
         $sql = "UPDATE queue_defns SET $setters WHERE id=$id\n";
         // echo "$sql\n";
         $res = mysqli_query(DPDatabase::get_connection(), $sql) or die("At $queue_ident, " . mysqli_error(DPDatabase::get_connection()));

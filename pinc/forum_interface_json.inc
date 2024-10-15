@@ -241,7 +241,7 @@ function get_forum_user_details($username)
     $return_data = [];
 
     foreach ($interested_columns as $column) {
-        $return_data[$column] = array_get($user, $column, null);
+        $return_data[$column] = $user[$column] ?? null;
     }
 
     return $return_data;

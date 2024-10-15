@@ -467,8 +467,8 @@ function create_task_from_form_submission($formsub)
     global $requester_u_id;
     global $site_abbreviation;
 
-    $task_summary = trim(array_get($formsub, 'task_summary', ''));
-    $task_details = trim(array_get($formsub, 'task_details', ''));
+    $task_summary = trim($formsub['task_summary'] ?? '');
+    $task_details = trim($formsub['task_details'] ?? '');
 
     if (empty($task_summary) || empty($task_details)) {
         return _("You must supply a Task Summary and Task Details.");
@@ -704,8 +704,8 @@ function handle_action_on_a_specified_task()
         DPDatabase::query($sql);
         metarefresh(0, "$tasks_url?task_id=$task_id");
     } elseif ($action == 'edit') {
-        $task_summary = trim(array_get($_POST, 'task_summary', ''));
-        $task_details = trim(array_get($_POST, 'task_details', ''));
+        $task_summary = trim($_POST['task_summary'] ?? '');
+        $task_details = trim($_POST['task_details'] ?? '');
         // The user is supplying values for the properties of a pre-existing task.
         if (empty($task_summary) || empty($task_details)) {
             ShowError(_("You must supply a Task Summary and Task Details."), true);
@@ -796,7 +796,7 @@ function handle_action_on_a_specified_task()
             return;
         }
     } elseif ($action == 'add_comment') {
-        $comment = trim(array_get($_POST, 'task_comment', ''));
+        $comment = trim($_POST['task_comment'] ?? '');
         if ($comment) {
             NotificationMail($task_id, "$pguser commented:\n\n$comment");
             $sql = sprintf(
@@ -870,8 +870,8 @@ function handle_action_on_a_specified_task()
         // Redirect back to show task page to clear POST data
         metarefresh(0, "$tasks_url?action=show&task_id=$task_id");
     } elseif ($action == 'save_edit_comment') {
-        $comment_id = array_get($_POST, 'comment_id', "");
-        $comment = trim(array_get($_POST, 'task_comment', ''));
+        $comment_id = $_POST['comment_id'] ?? "";
+        $comment = trim($_POST['task_comment'] ?? '');
         [$u_id, $comment_date] = explode('_', $comment_id, 2);
         if (($u_id === $requester_u_id && $now_sse - $comment_date <= 86400) || user_is_a_sitemanager()) {
             $sql = sprintf(
@@ -1787,7 +1787,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     global $tasks_close_array;
     global $tasks_status_array;
 
-    $raw_value = array_get($task_a, $property_id, null);
+    $raw_value = $task_a[$property_id] ?? null;
     switch ($property_id) {
         // The raw value is used directly:
         case 'task_id':
@@ -1796,7 +1796,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
 
             // The raw value is an index into an array.
         case 'closed_reason':
-            return array_get($tasks_close_array, $raw_value, "");
+            return $tasks_close_array[$raw_value] ?? "";
         case 'task_browser':
             return $browser_array[$raw_value];
         case 'task_category':
