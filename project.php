@@ -195,13 +195,11 @@ function get_bookmark_form(): string
         <form method='POST' style='display: inline;'>
         <input type='hidden' name='id' value='$project->projectid'>
         <input type='hidden' name='bookmark' value='$bookmark_value'>
-        <a
-            href='#'
-            onClick='this.closest("form").submit();'
+        <button
             aria-label='$label'
             title='$tooltip'
-            style='font-size: 60%'
-        ><i class='$icon' aria-hidden='true'></i></a>
+            style='font-size: 60%; border: none; background: none;'
+        ><i class='$icon' aria-hidden='true'></i></button>
         </form>
         FORM;
 }
