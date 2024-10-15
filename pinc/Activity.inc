@@ -29,7 +29,24 @@ $ACCESS_CRITERIA = [
  */
 class Activities
 {
-    private static $_activities = [];
+    // `$_activities` contains a mapping from a specific type of Activity (e.g. an
+    // Activity, a Stage, a Round or a Pool) to the instances of those. They are mapped
+    // by their name, called IDs). The logic accounts for the class hierarchy:
+    // Stage derives from Activity so any instance will be on both the Stage and
+    // the Activity lists.
+    //
+    // This poses a fundamental issue with adding types to this logic:
+    // the type of each list depends on its name.
+    //
+    // A simple solution would be to return the top-level class Activity (to match how
+    // `$_activities` is typed) but that confuses (rightly) PHPStan and would require a
+    // lot of new type checks whenever callers manipulate these classes.
+    //
+    // Thus for now, we don't return types for several getters that manipulate
+    // `$_activities`. Over time, we will have to find a way to disentangle
+    // the different lists to add proper types.
+    /** @var array<string, array<string, Activity>> */
+    private static array $_activities = [];
 
     // This maps the static container class names to the class types
     // they contain. This makes the functions in this base class return the
@@ -41,12 +58,12 @@ class Activities
         "Pools" => "Pool",
     ];
 
-    private static function _get_class_mapping()
+    private static function _get_class_mapping(): string
     {
         return self::$container_to_class_mapping[static::class];
     }
 
-    public static function add(&$activity)
+    public static function add(Activity &$activity): void
     {
         foreach (array_merge([get_class($activity)], class_parents($activity)) as $class) {
             assert(!isset(self::$_activities[$class][$activity->id]), "Duplicate activity ID; IDs must be unique");
@@ -54,18 +71,27 @@ class Activities
         }
     }
 
-    public static function get_all()
+    /**
+     * The return of this function is untyped for now (see the comment above `$_activities` for why).
+     */
+    public static function get_all(): array
     {
         return self::$_activities[self::_get_class_mapping()];
     }
 
-    public static function get_ids()
+    /** @return string[] */
+    public static function get_ids(): array
     {
         // get_all() will ensure they are the right object types
         return array_keys(self::get_all());
     }
 
-    protected static function _get($attribute, $value)
+    /**
+     * The return of this function is untyped for now (see the comment above `$_activities` for why).
+     *
+     * @param int|string $value
+     */
+    protected static function _get(string $attribute, $value)
     {
         // fast-track lookup by ID
         if ($attribute == "id") {
@@ -86,7 +112,10 @@ class Activities
         return null;
     }
 
-    public static function get_by_id($id)
+    /**
+     * The return of this function is untyped for now (see the comment above `$_activities` for why).
+     */
+    public static function get_by_id(string $id)
     {
         return self::$_activities[self::_get_class_mapping()][$id] ?? null;
     }
@@ -179,7 +208,7 @@ class Activity
         Activities::add($this);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->id;
     }
@@ -207,7 +236,8 @@ class Activity
      * If $n_pages_completed is non-null, use it as the number of pages
      * that the user has completed. Otherwise, consult the database.
      */
-    public function user_access($username, $n_pages_completed = null)
+    // TODO(jchaffraix): Add a class for the UserAccess object for type soundness.
+    public function user_access(?string $username, $n_pages_completed = null): object
     {
         if (is_null($username)) {
             $uao = new StdClass(); // user access object
@@ -351,7 +381,11 @@ class Activity
 
 // --------------------------------------------------------------------------
 
-function get_user_scores($username, $criteria)
+/**
+  * @param array<string, int|string> $criteria
+  * @return array<string, float>
+  */
+function get_user_scores(string $username, array $criteria): array
 {
     if (!$criteria) {
         return [];
@@ -360,13 +394,13 @@ function get_user_scores($username, $criteria)
     $user_obj = $username == User::current_username() ? User::load_current() : new User($username);
 
     $user_scores = [];
-    foreach ($criteria as $criterion_code => $criterion_descr) {
+    foreach (array_keys($criteria) as $criterion_code) {
         $user_scores[$criterion_code] = get_user_score($user_obj, $criterion_code);
     }
     return $user_scores;
 }
 
-function get_user_score($user_obj, $criterion_code)
+function get_user_score(User $user_obj, string $criterion_code): float
 {
     if ($criterion_code == 'days since reg') {
         $user_score = round((time() - $user_obj->date_created) / 86400, 1);
@@ -384,7 +418,7 @@ function get_user_score($user_obj, $criterion_code)
 
 // --------------------------------------------------------------------------
 
-function show_user_access_object($uao, $will_autogrant = false)
+function show_user_access_object(object $uao, bool $will_autogrant = false): void
 {
     global $code_url;
 
@@ -489,7 +523,7 @@ function show_user_access_object($uao, $will_autogrant = false)
     }
 }
 
-function grant_user_access_if_sat(&$uao)
+function grant_user_access_if_sat(object &$uao): void
 {
     $activity = Activities::get_by_id($uao->activity_id);
     if ($uao->request_status == 'sat-available' &&
@@ -505,7 +539,7 @@ function grant_user_access_if_sat(&$uao)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_user_access_chart($username)
+function show_user_access_chart(?string $username): void
 {
     global $ACCESS_CRITERIA, $code_url;
 
@@ -682,7 +716,7 @@ function show_user_access_chart($username)
     }
 }
 
-function td_w_bgcolor($text, $bool)
+function td_w_bgcolor(string $text, bool $bool): void
 {
     $cell_class = $bool ? 'satisfied' : 'not_satisfied';
     echo "<td class='$cell_class'>$text</td>";

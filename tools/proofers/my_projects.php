@@ -604,7 +604,7 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
         // and select on those
         $avail_states = [];
         foreach (get_stages_user_can_work_in($username) as $stage) {
-            if (Rounds::get_by_id($stage->id)) {
+            if ($stage instanceof Round) {
                 $avail_states[] = $stage->project_available_state;
             }
         }

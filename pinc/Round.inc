@@ -7,7 +7,8 @@ include_once($relPath.'Stage.inc');
  */
 class Rounds extends Stages
 {
-    public static function get_page_states()
+    /** @return string[] */
+    public static function get_page_states(): array
     {
         $page_states = [];
         foreach (self::get_all() as $round) {
@@ -18,22 +19,22 @@ class Rounds extends Stages
         return $page_states;
     }
 
-    public static function get_by_number($number)
+    public static function get_by_number(int $number): ?Round
     {
         return self::_get("round_number", $number);
     }
 
-    public static function get_by_project_state($state)
+    public static function get_by_project_state(string $state): ?Round
     {
         return self::_get("project_states", $state);
     }
 
-    public static function get_by_page_state($state)
+    public static function get_by_page_state(string $state): ?Round
     {
         return self::_get("page_states", $state);
     }
 
-    public static function get_last()
+    public static function get_last(): Round
     {
         return self::get_by_id(array_key_last(self::get_all()));
     }
@@ -208,25 +209,26 @@ class Round extends Stage
         $this->mentee_round = null;
     }
 
-    public function is_a_mentee_round()
+    public function is_a_mentee_round(): bool
     {
         return !is_null($this->mentor_round);
     }
-    public function is_a_mentor_round()
+
+    public function is_a_mentor_round(): bool
     {
         return !is_null($this->mentee_round);
     }
 
     // -----------
 
-    public function has_a_daily_page_limit()
+    public function has_a_daily_page_limit(): bool
     {
         return !is_null($this->daily_page_limit);
     }
 
     // -----------
 
-    public function get_honorific_for_page_tally($page_tally)
+    public function get_honorific_for_page_tally(int $page_tally): string
     {
         // Note that krsort($this->honorifics) put it in descending order.
         foreach ($this->honorifics as $threshold => $honorific) {
@@ -243,7 +245,7 @@ class Round extends Stage
 
     // -----------
 
-    public function validate_user_can_access($user)
+    public function validate_user_can_access(string $user): void
     {
         global $code_url;
 
@@ -262,7 +264,7 @@ class Round extends Stage
 
 // ---------------------------
 
-function get_Round_for_round_id($round_id)
+function get_Round_for_round_id(string $round_id): ?Round
 {
     return Rounds::get_by_id($round_id);
 }
@@ -275,21 +277,21 @@ function get_Round_for_round_id($round_id)
  * If `$round_number` is a valid proofreading-round number,
  * return the appropriate Round instance. Otherwise, return NULL.
  */
-function get_Round_for_round_number($round_number)
+function get_Round_for_round_number(int $round_number): ?Round
 {
     return Rounds::get_by_number($round_number);
 }
 
 // ---------------------------
 
-function get_Round_for_project_state($project_state)
+function get_Round_for_project_state(string $project_state): ?Round
 {
     return Rounds::get_by_project_state($project_state);
 }
 
 // ---------------------------
 
-function get_Round_for_page_state($page_state)
+function get_Round_for_page_state(string $page_state): ?Round
 {
     return Rounds::get_by_page_state($page_state);
 }
