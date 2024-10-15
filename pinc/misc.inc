@@ -11,6 +11,22 @@
 use voku\helper\UTF8;
 
 /**
+ * Return $arr[$key], or if it's not defined, $default
+ *
+ * @deprecated
+ * @param string|int $key
+ * @return mixed
+ */
+function array_get(array $arr, $key, $default)
+{
+    if (isset($arr[$key])) {
+        return $arr[$key];
+    } else {
+        return $default;
+    }
+}
+
+/**
  * Given an array of arrays/objects, return the values of the desired field.
  */
 function array_extract_field($array, $field)
