@@ -64,7 +64,7 @@ function project_drop_pages(string $projectid): void
 
 // -----------------------------------------------------------------------------
 
-function Pages_prepForRound(string $projectid, $round_number): void
+function Pages_prepForRound(string $projectid, int $round_number): void
 {
     validate_projectID($projectid);
     $round = get_Round_for_round_number($round_number);
@@ -382,7 +382,7 @@ function Page_reopen(string $projectid, string $image, Round $round, string $use
 
 // -----------------------------------------------------------------------------
 
-function Page_returnToRound(string $projectid, string $image, Round $round, string $user)
+function Page_returnToRound(string $projectid, string $image, Round $round, string $user): string
 {
     _Page_require(
         $projectid,
