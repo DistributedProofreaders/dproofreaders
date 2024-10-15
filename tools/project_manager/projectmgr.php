@@ -45,7 +45,7 @@ handle_set_cols($show_view, "PM");
 
 $server_timezone = date_default_timezone_get();
 $js_files = [
-    "$code_url/tools/dropdown.js",
+    "$code_url/scripts/dropdown.js",
     "$code_url/tools/project_manager/projectmgr.js",
 ];
 

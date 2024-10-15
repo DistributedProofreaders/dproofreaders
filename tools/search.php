@@ -24,7 +24,7 @@ try {
 // exits if handled
 handle_set_cols($show_view, "PS");
 
-$header_args = ["js_files" => ["$code_url/tools/dropdown.js"]];
+$header_args = ["js_files" => ["$code_url/scripts/dropdown.js"]];
 output_header(_("Project Search"), NO_STATSBAR, $header_args);
 $search_form = new ProjectSearchForm();
 
