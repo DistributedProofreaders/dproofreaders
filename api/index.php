@@ -236,6 +236,12 @@ function handle_cors_headers()
     }
 }
 
+//----------------------------------------------------------------------------
+
+// Exception handlers should not rely on functions outside of the base PHP
+// set or defined in this file as the handlers may be used before the functions
+// are defined.
+
 function production_exception_handler($exception)
 {
     if ($exception instanceof ApiException) {

@@ -79,6 +79,10 @@ if ($maintenance && !@$maintenance_override) {
 
 //----------------------------------------------------------------------------
 
+// Exception handlers should not rely on functions outside of the base PHP
+// set or defined in this file as the handlers may be used before the functions
+// are defined.
+
 function production_exception_handler($exception)
 {
     global $maintenance;
@@ -100,7 +104,7 @@ function production_exception_handler($exception)
     }
 
     echo "<p class='error'>\n";
-    echo html_safe($exception->getMessage());
+    echo htmlspecialchars($exception->getMessage(), ENT_QUOTES, 'UTF-8');
     echo "\n</p>";
 }
 
@@ -110,7 +114,7 @@ function test_exception_handler($exception)
     // production_exception_handler() here because we don't want the special
     // handling on DB connection error.
     echo "<p class='error'>\n";
-    echo html_safe($exception->getMessage());
+    echo htmlspecialchars($exception->getMessage(), ENT_QUOTES, 'UTF-8');
     echo "\n</p>";
 
     // Output the stacktrace in a preformatted block
