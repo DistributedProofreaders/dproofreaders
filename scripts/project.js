@@ -1,5 +1,4 @@
 window.addEventListener("DOMContentLoaded", function () {
-
     function confirmSubmit(event) {
         if (this.dataset.confirmationQuestion && !confirm(this.dataset.confirmationQuestion)) {
             event.preventDefault();
