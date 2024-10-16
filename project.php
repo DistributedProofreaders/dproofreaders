@@ -198,7 +198,7 @@ function get_bookmark_form(): string
         <button
             aria-label='$label'
             title='$tooltip'
-            style='font-size: 60%; border: none; background: none;'
+            class='icon_button'
         ><i class='$icon' aria-hidden='true'></i></button>
         </form>
         FORM;
