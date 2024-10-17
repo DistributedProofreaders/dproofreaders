@@ -1,5 +1,5 @@
 <?php
-global $relPath, $forum_type, $projects_dir, $aspell_temp_dir;
+global $relPath, $forum_type, $projects_dir;
 global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
 $completed_projects_forum_idx, $deleted_projects_forum_idx;
 
@@ -19,4 +19,4 @@ include_once("phpunit_test_helpers.inc");
 include_once("ProjectUtils.inc");
 
 // Define top-level temporary directories
-$projects_dir = $aspell_temp_dir = "/tmp";
+$projects_dir = "/tmp";

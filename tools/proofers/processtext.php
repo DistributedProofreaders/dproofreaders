@@ -183,9 +183,6 @@ try {
             break;
 
         case B_RUN_SPELL_CHECK:
-            if (! is_dir($aspell_temp_dir)) {
-                mkdir($aspell_temp_dir);
-            }
             // save what we have so far, just in case the spellchecker barfs
             $ppage->saveAsInProgress($text_data, $pguser);
             $languages = get_project_languages($projectid);

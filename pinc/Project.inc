@@ -10,6 +10,8 @@ include_once($relPath.'wordcheck_engine.inc'); // delete_project_wordcheck_event
 include_once($relPath.'DPage.inc'); // project_allow_pages()
 include_once($relPath.'send_mail.inc');
 
+use Symfony\Component\Process\Process;
+
 class UTF8ConversionException extends Exception
 {
 }
@@ -647,7 +649,11 @@ class Project
         validate_projectID($this->projectid);
 
         if (is_dir($this->dir)) {
-            exec("rm -rf " . escapeshellarg($this->dir));
+            $process = new Process(["rm", "-rf", $this->dir]);
+            $process->run();
+            if (!$process->isSuccessful()) {
+                throw new RuntimeException(sprintf(_("Unable to delete %s"), $this->dir));
+            }
         }
 
         if ($this->pages_table_exists) {

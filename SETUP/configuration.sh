@@ -328,11 +328,6 @@ _ASPELL_PREFIX=/usr/local
 # The root of all aspell dir ./bin/ etc.
 # (passed to aspell as --prefix=$_ASPELL_PREFIX)
 
-_ASPELL_TEMP_DIR=/tmp/sp_check
-# The document root for aspell temp files.
-# We recommend putting it in its own dir for easy purging,
-# and to help keep /tmp itself uncluttered.
-
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Archiving Projects

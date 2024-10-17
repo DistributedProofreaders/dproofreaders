@@ -26,14 +26,6 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
 
         EOTEXT;
 
-    protected function setUp(): void
-    {
-        global $aspell_temp_dir;
-        if (!is_dir($aspell_temp_dir)) {
-            mkdir($aspell_temp_dir);
-        }
-    }
-
     public function testGetAllWordsInTextNoOffsets()
     {
         $words = get_all_words_in_text($this->TEXT1);

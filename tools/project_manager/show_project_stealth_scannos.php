@@ -7,6 +7,8 @@ include_once($relPath.'theme.inc');
 include_once('./post_files.inc');
 include_once('./word_freq_table.inc');
 
+use Symfony\Component\Process\Process;
+
 require_login();
 
 set_time_limit(0); // no time limit
@@ -160,10 +162,9 @@ echo_checkbox_form_end();
 
 function _get_word_list($projectid)
 {
-    global $aspell_temp_dir;
-
-    $ocr_filename = "$aspell_temp_dir/{$projectid}_ocr.txt";
-    $latest_filename = "$aspell_temp_dir/{$projectid}_latest.txt";
+    $temp_dir = sys_get_temp_dir();
+    $ocr_filename = "$temp_dir/{$projectid}_ocr.txt";
+    $latest_filename = "$temp_dir/{$projectid}_latest.txt";
 
     $messages = [];
 
@@ -192,13 +193,16 @@ function _get_word_list($projectid)
     unset($all_page_text);
 
     // make external call to wdiff
-    $cmd = join(" ", [
-        "wdiff",
-        "-3",
-        escapeshellarg($ocr_filename),
-        escapeshellarg($latest_filename),
-    ]);
-    exec($cmd, $wdiff_output, $return_code);
+    $process = new Process(["wdiff", "-3", $ocr_filename, $latest_filename]);
+    $return_code = $process->run();
+
+    // clean up the temporary files
+    if (is_file($ocr_filename)) {
+        unlink($ocr_filename);
+    }
+    if (is_file($latest_filename)) {
+        unlink($latest_filename);
+    }
 
     // check to see if wdiff wasn't found to execute
     if ($return_code == 127) {
@@ -208,13 +212,10 @@ function _get_word_list($projectid)
         die("Error reported from wdiff while attempting to do the diff analysis.");
     }
 
-    // clean up the temporary files
-    if (is_file($ocr_filename)) {
-        unlink($ocr_filename);
-    }
-    if (is_file($latest_filename)) {
-        unlink($latest_filename);
-    }
+    $wdiff_output = explode("\n", $process->getOutput());
+
+    // we're done with $process now, so unset it to clear up any memory
+    unset($process);
 
     // specify the separator between the wdiff segments
     $separator = '======================================================================';
@@ -229,7 +230,7 @@ function _get_word_list($projectid)
     while ($lineIndex < $totalLines) {
         // pull the next segment
         $segment = "";
-        while ($lineIndex <= $totalLines) {
+        while ($lineIndex < $totalLines) {
             $line = $wdiff_output[$lineIndex];
             $lineIndex++;
             if ($line == $separator) {

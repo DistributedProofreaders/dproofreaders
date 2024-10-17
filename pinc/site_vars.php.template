@@ -87,7 +87,6 @@ $antivirus_executable = '<<ANTIVIRUS_EXECUTABLE>>';
 
 $aspell_executable = '<<ASPELL_EXECUTABLE>>';
 $aspell_prefix = "<<ASPELL_PREFIX>>";
-$aspell_temp_dir = '<<ASPELL_TEMP_DIR>>';
 
 $system_locales_dir = '<<GETTEXT_LOCALES_DIR>>';
 

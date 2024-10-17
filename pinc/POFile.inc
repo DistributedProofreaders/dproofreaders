@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\Process\Process;
+
 /**
  * @property-read bool $exists
  * @property-read int|bool $last_modified
@@ -126,59 +128,70 @@ class POFile
 
     public function create_template($basedir, $pot_filename)
     {
-        $cmd = join(" ", [
-            // change into the base directory so the filenames in the POT
-            // don't have it prefixed to them
-            "cd " . escapeshellarg($basedir),
-            "&&",
+        // create the new template in a temporary file in case xtext fails
+        if (!$tempfile = tempnam(sys_get_temp_dir(), "xtext")) {
+            throw new RuntimeException("Unable to create temporary file");
+        }
+
+        // run from the base directory so the filenames in the POT
+        // don't have it prefixed to them and write output to temporary file
+        $process = new Process([
             "./vendor/bin/xtext",
-            "-x=./vendor",
-            "-x=./SETUP",
-            "-i='*.php'",
-            "-i='*.inc'",
-            "-c=TRANSLATORS",
+            "-x", "./vendor",
+            "-x", "./SETUP",
+            "-i", "*.php",
+            "-i", "*.inc",
+            "-c", "TRANSLATORS",
             ".",
-            "2>&1",
-            ">",
-            escapeshellarg($pot_filename),
-        ]);
-        exec($cmd, $exec_out, $return_value);
-        if ($return_value != 0) {
-            throw new Exception(implode("\n", $exec_out));
+        ], $basedir);
+        $process->run(function ($type, $buffer) use ($tempfile) {
+            if (Process::OUT === $type) {
+                file_put_contents($tempfile, $buffer, FILE_APPEND);
+            }
+        });
+        if (!$process->isSuccessful()) {
+            unlink($tempfile);
+            throw new RuntimeException($process->getErrorOutput());
+        }
+
+        // move our temporary file in place and update the permissions
+        if (!rename($tempfile, $pot_filename)) {
+            throw new RuntimeException("Unable to rename $tempfile to $pot_filename");
+        }
+        if (!chmod($pot_filename, 0644)) {
+            throw new RuntimeException("Unable to chmod $pot_filename");
         }
     }
 
     public function create_from_template($pot_filename, $locale)
     {
-        $cmd = join(" ", [
+        $process = new Process([
             "msginit",
             "--no-translator",
-            "--input=" . escapeshellarg($pot_filename),
-            "--output-file=" . escapeshellarg($this->po_filename),
-            "--locale=" . escapeshellarg($locale),
+            "--input", $pot_filename,
+            "--output-file", $this->po_filename,
+            "--locale", $locale,
         ]);
-        exec($cmd, $exec_out, $return_value);
-
-        if ($return_value != 0) {
-            throw new Exception(implode("\n", $exec_out));
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException($process->getErrorOutput());
         }
     }
 
     public function merge_from_template($template, $fuzzy = false)
     {
-        $cmd = join(" ", [
+        $args = [
             "msgmerge",
             "--sort-by-file",
-            "-U ",
-            ($fuzzy ? "" : "-N"),
-            escapeshellarg($this->po_filename),
-            escapeshellarg($template),
-            "2>&1",
-        ]);
-        exec($cmd, $exec_out, $return_value);
-
-        if ($return_value != 0) {
-            throw new Exception(implode("\n", $exec_out));
+            "--update",
+        ];
+        if (!$fuzzy) {
+            $args[] = "--no-fuzzy-matching";
+        }
+        $process = new Process(array_merge($args, [$this->po_filename, $template]));
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException($process->getErrorOutput());
         }
     }
 
@@ -186,16 +199,14 @@ class POFile
     {
         $compiled_filename = str_replace(".po", ".mo", $this->po_filename);
 
-        $cmd = join(" ", [
+        $process = new Process([
             "msgfmt",
-            escapeshellarg($this->po_filename),
-            "-o " . escapeshellarg($compiled_filename),
-            "2>&1",
+            $this->po_filename,
+            "-o", $compiled_filename,
         ]);
-        exec($cmd, $exec_out, $return_value);
-
-        if ($return_value != 0) {
-            throw new Exception(implode("\n", $exec_out));
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException($process->getErrorOutput());
         }
     }
 }
