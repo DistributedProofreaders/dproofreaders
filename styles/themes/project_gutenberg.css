@@ -1119,6 +1119,10 @@ span.button {
   border: none;
   background: none;
   cursor: pointer;
+  color: #0000ff;
+}
+.icon_button:hover {
+  background-color: #eeeeee;
 }
 /* ------------------------------------------------------------------------ */
 /* Global */
