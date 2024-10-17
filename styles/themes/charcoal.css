@@ -1114,6 +1114,16 @@ span.button {
   font-size: 0.8em;
   padding: 1px 4px;
 }
+.icon_button {
+  font-size: 60%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #b3ccff;
+}
+.icon_button:hover {
+  background-color: #4d4d4d;
+}
 /* ------------------------------------------------------------------------ */
 /* Global */
 * {

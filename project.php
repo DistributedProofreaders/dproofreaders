@@ -68,11 +68,16 @@ $ld_json_object = [
     "genre" => $project->genre,
 ];
 
+$js_files = ["$code_url/scripts/project.js"];
+if ($detail_level >= 4) {
+    $js_files[] = "$code_url/scripts/page_table.js";
+}
+
 $extra_args = [
     "head_data" => '<script type="application/ld+json">' .
         json_encode($ld_json_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
     '</script>',
-    "js_files" => $detail_level >= 4 ? ["$code_url/scripts/page_table.js"] : [],
+    "js_files" => $js_files,
 ];
 
 output_header($title_for_theme, NO_STATSBAR, $extra_args);
@@ -190,13 +195,11 @@ function get_bookmark_form(): string
         <form method='POST' style='display: inline;'>
         <input type='hidden' name='id' value='$project->projectid'>
         <input type='hidden' name='bookmark' value='$bookmark_value'>
-        <a
-            href='#'
-            onClick='this.closest("form").submit();'
+        <button
             aria-label='$label'
             title='$tooltip'
-            style='font-size: 60%'
-        ><i class='$icon' aria-hidden='true'></i></a>
+            class='icon_button'
+        ><i class='$icon' aria-hidden='true'></i></button>
         </form>
         FORM;
 }
@@ -595,7 +598,7 @@ function do_project_info_table(): void
             if ($topic_id == "") {
                 $blurb = html_safe(_("Start a discussion about this project"));
                 $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
-                echo_row_a(_("Forum"), "<a href='$url' onclick='this.outerHTML=\"$blurb\";'>$blurb</a>");
+                echo_row_a(_("Forum"), "<a href='$url' id='no_topic_yet'>$blurb</a>");
             } else {
                 $details = get_topic_details($topic_id);
                 if ($details) {
@@ -2028,22 +2031,15 @@ function do_change_state(): void
             $text_next_to_btn = "<span class='transition-disabled'>$text_next_to_btn</span> [$reason]";
         }
 
-        echo "<form method='POST' action='$code_url/tools/changestate.php'>";
+        $question = attr_safe($transition->confirmation_question);
+        echo "<form method='POST' class='frm_chg_stt' data-confirmation-question='$question' action='$code_url/tools/changestate.php'>";
         echo "<input type='hidden' name='projectid'  value='{$project->projectid}'>\n";
         echo "<input type='hidden' name='curr_state' value='{$project->state}'>\n";
         echo "<input type='hidden' name='next_state' value='{$transition->to_state}'>\n";
         echo "<input type='hidden' name='confirmed'  value='yes'>\n";
         echo "<input type='hidden' name='return_uri' value='", attr_safe($here), "'>\n";
 
-        $question = $transition->confirmation_question;
-        if (is_null($question)) {
-            $onClick_condition = "return true;";
-        } else {
-            $onClick_condition = "return confirm(\""
-                . javascript_safe($question) . "\");";
-        }
-        $onclick_attr = "onClick='$onClick_condition'";
-        echo "<input type='submit' value='", attr_safe($transition->action_name), "' $onclick_attr $optional_btn_attr>";
+        echo "<input type='submit' value='", attr_safe($transition->action_name), "'>";
         echo $text_next_to_btn;
 
         echo "</form>\n";
