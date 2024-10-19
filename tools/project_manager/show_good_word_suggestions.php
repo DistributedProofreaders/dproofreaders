@@ -100,12 +100,16 @@ if ($format == "file") {
     throw new UnexpectedValueException("Unexpected format $format");
 }
 
-// how many instances (ie: frequency sections) are there?
-$instances = count($rounds) + 1;
 // what are the cutoff options?
 $cutoffOptions = [1, 2, 3, 4, 5, 10, 25, 50];
 
-output_header($title, NO_STATSBAR, ["js_data" => get_cutoff_script($cutoffOptions, $instances)]);
+$header_args = [
+    "js_files" => [
+        "$code_url/scripts/word_freq_table.js",
+    ],
+];
+
+output_header($title, NO_STATSBAR, $header_args);
 echo_page_header($title, $projectid);
 
 // what is the initial cutoff frequency?
@@ -189,10 +193,10 @@ if ($roundsWithData > 1) {
 
     echo "<h2>" . _("All rounds") . "</h2>";
     $word_checkbox = build_checkbox_array($all_suggestions_w_freq, 'all');
-    echo_checkbox_selects(count($all_suggestions_w_freq), 'all');
+    echo_checkbox_selects('all');
     echo_checkbox_form_submit($submit_label);
 
-    printTableFrequencies($initialFreq, $cutoffOptions, $all_suggestions_w_freq, $instances--, [$all_suggestions_w_occurrences, $context_array], $word_checkbox);
+    printTableFrequencies($initialFreq, $cutoffOptions, $all_suggestions_w_freq, [$all_suggestions_w_occurrences, $context_array], $word_checkbox, 'all');
 
     echo_checkbox_form_submit($submit_label);
 }
@@ -222,10 +226,10 @@ foreach ($rounds as $round) {
     }
 
     $word_checkbox = build_checkbox_array($round_suggestions_w_freq[$round], $round);
-    echo_checkbox_selects(count($round_suggestions_w_freq[$round]), $round);
+    echo_checkbox_selects($round);
     echo_checkbox_form_submit($submit_label);
 
-    printTableFrequencies($initialFreq, $cutoffOptions, $round_suggestions_w_freq[$round], $instances--, [$round_suggestions_w_occurrences[$round], $context_array], $word_checkbox);
+    printTableFrequencies($initialFreq, $cutoffOptions, $round_suggestions_w_freq[$round], [$round_suggestions_w_occurrences[$round], $context_array], $word_checkbox, $round);
 
     echo_checkbox_form_submit($submit_label);
 }

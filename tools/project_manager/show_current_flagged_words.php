@@ -71,13 +71,16 @@ if ($format == "file") {
     throw new UnexpectedValueException("Unexpected format $format");
 }
 
-
-// how many instances (ie: frequency sections) are there?
-$instances = 1;
 // what are the cutoff options?
 $cutoffOptions = [1, 2, 3, 4, 5, 10, 25, 50];
 
-output_header($title, NO_STATSBAR, ["js_data" => get_cutoff_script($cutoffOptions, $instances)]);
+$header_args = [
+    "js_files" => [
+        "$code_url/scripts/word_freq_table.js",
+    ],
+];
+
+output_header($title, NO_STATSBAR, $header_args);
 
 echo_page_header($title, $projectid);
 
@@ -120,14 +123,14 @@ if (isset($update_status) && $update_status !== "Success") {
 
 $word_checkbox = build_checkbox_array($bad_words_w_freq);
 
-echo_checkbox_selects(count($bad_words_w_freq));
+echo_checkbox_selects();
 
 $checkbox_form["projectid"] = $projectid;
 $checkbox_form["freqCutoff"] = $freqCutoff;
 echo_checkbox_form_start($checkbox_form);
 echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 
-printTableFrequencies($initialFreq, $cutoffOptions, $bad_words_w_freq, $instances--, [$context_array, $word_notes], $word_checkbox);
+printTableFrequencies($initialFreq, $cutoffOptions, $bad_words_w_freq, [$context_array, $word_notes], $word_checkbox);
 
 echo_checkbox_form_submit(_("Add selected words to Good Words List"));
 echo_checkbox_form_end();

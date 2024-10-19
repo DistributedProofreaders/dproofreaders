@@ -85,12 +85,16 @@ if ($format == "file") {
     exit;
 }
 
-// how many instances (ie: frequency sections) are there?
-$instances = 1;
 // what are the cutoff options?
 $cutoffOptions = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 
-output_header($title, NO_STATSBAR, ["js_data" => get_cutoff_script($cutoffOptions, $instances)]);
+$header_args = [
+    "js_files" => [
+        "$code_url/scripts/word_freq_table.js",
+    ],
+];
+
+output_header($title, NO_STATSBAR, $header_args);
 echo_page_header($title, $projectid);
 
 // what is the initial cutoff frequency?
@@ -145,13 +149,13 @@ prep_numeric_keys_for_multisort($instances_total);
 prep_numeric_keys_for_multisort($context_array);
 prep_numeric_keys_for_multisort($word_notes);
 
-echo_checkbox_selects(count($percent_changed));
+echo_checkbox_selects();
 
 $checkbox_form["projectid"] = $projectid;
 echo_checkbox_form_start($checkbox_form);
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 
-printTableFrequencies($initialFreq, $cutoffOptions, $percent_changed, $instances--, [$instances_changed_to, $instances_changed, $instances_left, $instances_total, $context_array, $word_notes], $word_checkbox);
+printTableFrequencies($initialFreq, $cutoffOptions, $percent_changed, [$instances_changed_to, $instances_changed, $instances_left, $instances_total, $context_array, $word_notes], $word_checkbox);
 
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 echo_checkbox_form_end();
