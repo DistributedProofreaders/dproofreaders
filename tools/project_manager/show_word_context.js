@@ -70,4 +70,11 @@ window.addEventListener("DOMContentLoaded", function () {
             showImage(this.dataset.value);
         });
     });
+
+    const wordInstancesSelect = document.getElementById("wordInstancesSelect");
+    if (wordInstancesSelect) {
+        wordInstancesSelect.addEventListener("change", function () {
+            this.form.submit();
+        });
+    }
 });
