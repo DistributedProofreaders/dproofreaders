@@ -1004,7 +1004,7 @@ function dropdown_select($field_name, $current_value, $array)
 
 function TaskHeader($header, $show_new_alert = false)
 {
-    global $tasks_url, $pguser;
+    global $tasks_url, $pguser, $code_url;
 
     // Allow this function to be called more than once but only output the
     // header once. This allows ShowError() to call the function to ensure
@@ -1015,12 +1015,8 @@ function TaskHeader($header, $show_new_alert = false)
     }
     $header_output = true;
 
-    $js_data = <<<EOS
-        function showSpan(id) { document.getElementById(id).style.display=""; }
-        function hideSpan(id) { document.getElementById(id).style.display="none"; }
-        EOS;
-
-    output_header($header, NO_STATSBAR, ['js_data' => $js_data]);
+    $header_args = ["js_files" => ["$code_url/scripts/tasks.js"]];
+    output_header($header, NO_STATSBAR, $header_args);
 
     $userSettings = & Settings::get_Settings($pguser);
     $notification_settings = $userSettings->get_values('taskctr_notice');
@@ -1419,14 +1415,14 @@ function MeToo($tid, $os, $browser)
     global $requester_u_id;
 
     $meTooAllowed = get_me_too_count($tid, $requester_u_id) == 0;
-
-    echo "<div id='MeTooButton'>";
     if ($meTooAllowed) {
-        echo "<input type='button' value='" . attr_safe(_("Me Too!")) . "' onClick=\"showSpan('MeTooMain'); hideSpan('MeTooButton');\">";
+        $value = attr_safe(_("Me Too!"));
+        $abled = "";
     } else {
-        echo "<input type='button' value='" . attr_safe(_('Already submitted "Me Too!"')) . "' disabled>";
+        $value = attr_safe(_('Already submitted "Me Too!"'));
+        $abled = "disabled";
     }
-    echo "</div>";
+    echo "<input type='button' id='me_too_button' value='$value' $abled>";
 
     echo "<div id='MeTooMain' style='display: none;'>";
     echo "<form action='$tasks_url' method='post'>";
@@ -1451,7 +1447,7 @@ function MeToo($tid, $os, $browser)
     echo "</table>";
     echo "<input type='submit' value='" . attr_safe(_("Send Report")) . "'>";
     echo "&nbsp;";
-    echo "<input type='reset' value='" . attr_safe(_("Cancel")) . "' onClick=\"hideSpan('MeTooMain'); showSpan('MeTooButton');\">";
+    echo "<input type='reset' id='cancel_me_too' value='" . attr_safe(_("Cancel")) . "'>";
     echo "</td></tr></table></form></div>";
 }
 
