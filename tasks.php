@@ -1447,7 +1447,7 @@ function MeToo($tid, $os, $browser)
     echo "</table>";
     echo "<input type='submit' value='" . attr_safe(_("Send Report")) . "'>";
     echo "&nbsp;";
-    echo "<input type='reset' id='cancel_me_too' value='" . attr_safe(_("Cancel")) . "'>";
+    echo "<input type='button' id='cancel_me_too' value='" . attr_safe(_("Cancel")) . "'>";
     echo "</td></tr></table></form></div>";
 }
 
