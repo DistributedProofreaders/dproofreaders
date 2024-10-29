@@ -369,10 +369,9 @@ class OptionsColumn extends Column
         }
         if ($actions) {
             $actions = join("<br>", $actions);
-            // identify the buttons by projectid
             echo "<div class='dropdown'>
-                <button class='dropdown-button' onclick='toggleList(\"$projectid\")'>", _("Links"), "</button>
-                <div id='$projectid' class='dropdown-content'>$actions</div>
+                <button class='dropdown-button'>", _("Links"), "</button>
+                <div class='dropdown-content'>$actions</div>
                 </div>";
         }
     }
