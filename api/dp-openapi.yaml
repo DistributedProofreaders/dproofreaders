@@ -1614,6 +1614,7 @@ components:
           items:
             type: array
             items:
+            # grapheme string, utf8_character_name of grapheme, code integer: 0=valid 1=invalid
               oneOf:
                 - type: string
                 - type: integer
