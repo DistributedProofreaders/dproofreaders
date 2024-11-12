@@ -1211,16 +1211,10 @@ function get_distinct_words_in_text($text)
  */
 function get_all_words_in_text(string $text, bool $with_offsets = false)
 {
-    global $word_pattern;
-    $flags = $with_offsets ? PREG_OFFSET_CAPTURE : 0;
-    $n_matches = preg_match_all($word_pattern, $text, $matches, $flags);
-    if ($n_matches === false) {
-        throw new UnexpectedValueException("get_all_words_in_text: An error occurred.");
-    }
-
+    $word_array = get_all_words_in_text_byte_offset($text, $with_offsets);
     if ($with_offsets) {
         $result = [];
-        foreach ($matches[0] as [$word, $offset_bytes]) {
+        foreach ($word_array as [$word, $offset_bytes]) {
             $search_offset = 0;
             // offsets from preg_match_all() are in bytes, but we need the
             // offset in characters
@@ -1229,8 +1223,20 @@ function get_all_words_in_text(string $text, bool $with_offsets = false)
         }
         return $result;
     } else {
-        return $matches[0];
+        return $word_array;
     }
+}
+
+// get offsets in bytes
+function get_all_words_in_text_byte_offset(string $text, bool $with_offsets = false)
+{
+    global $word_pattern;
+    $flags = $with_offsets ? PREG_OFFSET_CAPTURE : 0;
+    $n_matches = preg_match_all($word_pattern, $text, $matches, $flags);
+    if ($n_matches === false) {
+        die("get_all_words_in_text: An error occurred.");
+    }
+    return $matches[0];
 }
 
 /**

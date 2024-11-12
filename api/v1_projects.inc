@@ -796,7 +796,26 @@ function api_v1_project_checkout($method, array $data, array $query_params)
 function api_v1_project_validatetext($method, $data, array $query_params)
 {
     $text_checker = new TextChecker();
-    return $text_checker->analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
+    return $text_checker->analyse(receive_project_text_from_request_body(), $data[":projectid"]);
+}
+
+function api_v1_project_wordcheck($method, $data, array $query_params)
+{
+    try {
+        $project = $data[":projectid"];
+        $accepted_words = receive_data_from_request_body("acceptedwords") ?? [];
+        $languages = receive_data_from_request_body("languages") ?? [];
+        if (!$languages) {
+            $languages = $project->languages;
+        }
+
+        $word_checker = new WordChecker($project);
+
+        // can throw ProjectInvalidTextException
+        return $word_checker->analyse(receive_project_text_from_request_body(), $languages, $accepted_words);
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
 }
 
 function api_v1_project_page(string $method, array $data, array $query_params)
@@ -841,13 +860,15 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'resume':
                 return $proof_project_page->pp_resume_page();
             case 'checkin':
-                return $proof_project_page->attempt_checkin(receive_project_text_from_request_body('text'));
+                return $proof_project_page->attempt_checkin(receive_project_text_from_request_body());
             case 'save':
-                return $proof_project_page->save(receive_project_text_from_request_body('text'));
+                return $proof_project_page->save(receive_project_text_from_request_body());
             case 'revert':
-                return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
+                return $proof_project_page->save_and_revert(receive_project_text_from_request_body());
             case 'abandon':
                 return $proof_project_page->returnToRound($pguser);
+            case 'report':
+                return $proof_project_page->wc_report(receive_data_from_request_body("acceptedwords") ?? []);
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
@@ -877,12 +898,17 @@ function validate_project_state($project, $state)
     }
 }
 
-function receive_project_text_from_request_body($field): string
+function receive_project_text_from_request_body(): string
 {
-    $request_data = api_get_request_body();
-    $page_text = $request_data[$field] ?? null;
+    $page_text = receive_data_from_request_body("text");
     if (null === $page_text) {
         throw new InvalidValue("There is no text");
     }
     return $page_text;
+}
+
+function receive_data_from_request_body($field)
+{
+    $request_data = api_get_request_body();
+    return $request_data[$field] ?? null;
 }

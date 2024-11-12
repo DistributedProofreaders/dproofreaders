@@ -48,6 +48,7 @@ $router->add_route("GET", "v1/queues/:queueid/projects", "api_v1_queue_projects"
 
 $router->add_route("PUT", "v1/projects/:projectid/checkout", "api_v1_project_checkout");
 $router->add_route("PUT", "v1/projects/:projectid/validatetext", "api_v1_project_validatetext");
+$router->add_route("PUT", "v1/projects/:projectid/wordcheck", "api_v1_project_wordcheck");
 $router->add_route("PUT", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
 

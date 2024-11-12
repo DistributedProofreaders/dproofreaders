@@ -70,6 +70,17 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
+    protected function wordcheck(string $projectid, string $text, $languages = [], $accepted_words = []): array
+    {
+        global $request_body;
+
+        $request_body = ["text" => $text, "languages" => $languages, "acceptedwords" => $accepted_words];
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/projects/$projectid/wordcheck";
+        $router = ApiRouter::get_router();
+        return $router->route($path, []);
+    }
+
     //---------------------------------------------------------------------------
     // tests
 
@@ -680,16 +691,124 @@ class ApiTest extends ProjectUtils
         $response = $this->validate_text($project->projectid, "This is an invĀlid test file");
         $expected = [
             'valid' => false,
-            'mark_array' => [["This is an inv", 0], ["Ā", 1], ["lid test file", 0]],
+            'mark_array' => [["This is an inv", "", 0], ["Ā", "LATIN CAPITAL LETTER A WITH MACRON", 1], ["lid test file", "", 0]],
         ];
         $this->assertEquals($expected, $response);
 
         $response = $this->validate_text($project->projectid, "This is a valid test file");
         $expected = [
             'valid' => true,
-            'mark_array' => [["This is a valid test file", 0]],
+            'mark_array' => [["This is a valid test file", "", 0]],
         ];
         $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_world_bad_word()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort Snelling test file");
+        $expected = [
+            'wc_array' => [["Fort ", 0], ["Snelling", 1], [" test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_site_bad_word()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort arid test file");
+        $expected = [
+            'wc_array' => [["Fort ", 0], ["arid", 2], [" test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_punc()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort, Snelling test file");
+        $expected = [
+            'wc_array' => [["Fort", 0], [",", 6], [" ", 0], ["Snelling", 1], [" test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_html_entity()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort &amp; test file");
+        $expected = [
+            'wc_array' => [["Fort &amp; test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_accept()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort Snelling test\nfile", [], ["Snelling"]);
+        $expected = [
+            'wc_array' => [["Fort ", 0], ["Snelling", 5], [" test\nfile", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_project_language()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort moulin test file");
+        $expected = [
+            'wc_array' => [["Fort ", 0], ["moulin", 1], [" test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_aux_language()
+    {
+        $project = $this->_create_available_project();
+        $languages = $project->languages;
+        $languages[] = "French";
+        $response = $this->wordcheck($project->projectid, "Fort moulin test file", $languages);
+        $expected = [
+            'wc_array' => [["Fort moulin test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_with_utf8()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fört Snelling test file");
+        $expected = [
+            'wc_array' => [["Fört", 1], [" ", 0], ["Snelling", 1], [" test file", 0]],
+            'scripts' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_multi_scripts()
+    {
+        CharSuites::enable("basic-greek");
+        $project = $this->_create_available_project();
+        $project->add_charsuite("basic-greek");
+        $response = $this->wordcheck($project->projectid, "A FΩrt Snelling test file");
+        $expected = [
+            'wc_array' => [["A F", 0], ["Ω", 10], ["rt ", 0], ["Snelling", 1], [" test file", 0]],
+            'scripts' => ["Greek"],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_grapheme_array()
+    {
+        $this->assertEquals(["a", "ë", "n̂"], make_grapheme_array("aën̂"));
     }
 }
 
