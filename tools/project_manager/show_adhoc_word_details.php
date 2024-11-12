@@ -55,12 +55,16 @@ $title = _("Ad Hoc Word Details");
 $page_text = _("Insert words, one per line, in the box below and click the Show details button to get frequency and context details for them.");
 $page_text2 = _("The results list below shows how many times each word occurs in the most recent project text.");
 
-// how many instances (ie: frequency sections) are there?
-$instances = 1;
 // what are the cutoff options?
 $cutoffOptions = [1, 2, 3, 4, 5, 10, 25, 50];
 
-output_header($title, NO_STATSBAR, ["js_data" => get_cutoff_script($cutoffOptions, $instances)]);
+$header_args = [
+    "js_files" => [
+        "$code_url/scripts/word_freq_table.js",
+    ],
+];
+
+output_header($title, NO_STATSBAR, $header_args);
 
 echo_page_header($title, $projectid);
 
@@ -135,11 +139,11 @@ if (count($queryWords)) {
     echo "> ";
     echo _("Bad Words List") . "<br>";
 
-    echo_checkbox_selects(count($words_w_freq));
+    echo_checkbox_selects();
 
     echo_checkbox_form_submit(_("Add selected words"));
 
-    printTableFrequencies($initialFreq, $cutoffOptions, $words_w_freq, $instances--, [$context_array, $word_notes], $word_checkbox);
+    printTableFrequencies($initialFreq, $cutoffOptions, $words_w_freq, [$context_array, $word_notes], $word_checkbox);
 
     echo_checkbox_form_submit(_("Add selected words"));
     echo_checkbox_form_end();

@@ -50,8 +50,6 @@ $projects = _get_projects_for_pm($pm);
 
 $submitLabel = _("Add selected words to Good Words List");
 
-// how many instances (ie: frequency sections) are there?
-$instances = count($projects) + 1;
 // what are the cutoff options?
 $cutoffOptions = [1, 2, 3, 4, 5, 10, 25, 50];
 // what is the initial cutoff frequency?
@@ -61,9 +59,8 @@ $header_args = [
     "js_files" => [
         "$code_url/scripts/splitControl.js",
         "$code_url/tools/project_manager/show_all_good_word_suggestions.js",
+        "$code_url/scripts/word_freq_table.js",
     ],
-    "js_data" => get_cutoff_script($cutoffOptions, $instances),
-
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];
 
@@ -169,7 +166,7 @@ foreach ($projects as $projectid => $projectdata) {
     echo "<h3>$projectname</h3>";
     echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
 
-    echo_checkbox_selects(count($suggestions_w_freq), $projectid);
+    echo_checkbox_selects($projectid);
 
     echo_any_warnings_errors($messages);
 
@@ -177,14 +174,14 @@ foreach ($projects as $projectid => $projectdata) {
     foreach ($suggestions_w_freq as $word => $freq) {
         $encWord = encode_word($word);
         $context_array[$word] = "<a href='show_good_word_suggestions_detail.php?projectid=$projectid&amp;word=$encWord&amp;timeCutoff=$timeCutoffActual' target='detailframe'>" . _("Context") . "</a>";
-        $word_checkbox[$word] = "<input type='checkbox' id='cb_{$projectid}_{$count}' name='cb_{$projectid}_{$count}' value='$encWord'>";
+        $word_checkbox[$word] = "<input type='checkbox' class='checkbox' name='cb_{$projectid}_{$count}' value='$encWord'>";
         $count++;
     }
     $suggestions_w_occurrences['[[TITLE]]'] = _("Sugg");
     $suggestions_w_occurrences['[[STYLE]]'] = "text-align: right;";
     $context_array['[[TITLE]]'] = _("Show Context");
 
-    printTableFrequencies($initialFreq, $cutoffOptions, $suggestions_w_freq, $instances--, [$suggestions_w_occurrences, $context_array], $word_checkbox);
+    printTableFrequencies($initialFreq, $cutoffOptions, $suggestions_w_freq, [$suggestions_w_occurrences, $context_array], $word_checkbox, $projectid);
 
     echo "<p><input type='submit' value='$submitLabel'></p>";
 }

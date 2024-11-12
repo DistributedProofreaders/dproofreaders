@@ -1124,6 +1124,14 @@ span.button {
 .icon_button:hover {
   background-color: #4d4d4d;
 }
+.lean_button {
+  text-decoration-line: underline;
+  font: initial;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #b3ccff;
+}
 /* ------------------------------------------------------------------------ */
 /* Global */
 * {
