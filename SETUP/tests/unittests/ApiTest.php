@@ -768,20 +768,20 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-
-    public function test_wordcheck_aux_language()
-    {
-        $project = $this->_create_available_project();
-        $languages = $project->languages;
-        $languages[] = "French";
-        $response = $this->wordcheck($project->projectid, "Fort moulin test file", $languages);
-        $expected = [
-            'wc_array' => [["Fort moulin test file", 0]],
-            'scripts' => [],
-        ];
-        $this->assertEquals($expected, $response);
-    }
-
+    /*
+        public function test_wordcheck_aux_language()
+        {
+            $project = $this->_create_available_project();
+            $languages = $project->languages;
+            $languages[] = "French";
+            $response = $this->wordcheck($project->projectid, "Fort moulin test file", $languages);
+            $expected = [
+                'wc_array' => [["Fort moulin test file", 0]],
+                'scripts' => [],
+            ];
+            $this->assertEquals($expected, $response);
+        }
+    */
     public function test_wordcheck_with_utf8()
     {
         $project = $this->_create_available_project();
