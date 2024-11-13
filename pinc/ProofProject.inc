@@ -188,6 +188,8 @@ class WordChecker
     public const PUNC_TEXT = 6;
     public const UNC_BASE = 10;
 
+    private $project, $projectid, $good_char_buffer, $wc_array, $char_type, $text_index, $puncArray, $page_text;
+
     public function __construct(object $project)
     {
         global $puncCharacters;
