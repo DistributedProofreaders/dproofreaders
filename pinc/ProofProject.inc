@@ -188,32 +188,33 @@ class WordChecker
     public const PUNC_TEXT = 6;
     public const UNC_BASE = 10;
 
-    private $project, $projectid, $good_char_buffer, $wc_array, $char_type, $text_index, $puncArray, $page_text;
+    private $good_char_buffer;
+    private $wc_array;
+    private $text_index;
+    private $puncArray;
+    private $page_text;
 
-    public function __construct(object $project)
+    public function __construct()
     {
         global $puncCharacters;
 
-        $this->project = $project;
-        $this->projectid = $project->projectid;
+        $this->puncArray = make_grapheme_array($puncCharacters);
+    }
+
+    public function analyse($project, $page_text, $languages, $accepted_words): array
+    {
+        $project->validate_text($page_text);
+        $this->page_text = $page_text;
 
         // this is the array which will be returned
         $this->wc_array = [];
 
         // this is used to accumulate good text
         $this->good_char_buffer = "";
-        $this->char_type = null;
         $this->text_index = 0;
-        $this->puncArray = make_grapheme_array($puncCharacters);
-    }
-
-    public function analyse($page_text, $languages, $accepted_words): array
-    {
-        $this->project->validate_text($page_text);
-        $this->page_text = $page_text;
 
         [$badWordHash, $languages, $messages] =
-            get_bad_word_levels_for_project_text($this->page_text, $this->projectid, $languages, $accepted_words);
+            get_bad_word_levels_for_project_text($this->page_text, $project->projectid, $languages, $accepted_words);
 
         [$uncommonScriptWords, $uncommonScripts] =
             get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($this->page_text)));

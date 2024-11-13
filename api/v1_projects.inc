@@ -809,10 +809,10 @@ function api_v1_project_wordcheck($method, $data, array $query_params)
             $languages = $project->languages;
         }
 
-        $word_checker = new WordChecker($project);
+        $word_checker = new WordChecker();
 
         // can throw ProjectInvalidTextException
-        return $word_checker->analyse(receive_project_text_from_request_body(), $languages, $accepted_words);
+        return $word_checker->analyse($project, receive_project_text_from_request_body(), $languages, $accepted_words);
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
@@ -868,7 +868,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'abandon':
                 return $proof_project_page->returnToRound($pguser);
             case 'report':
-                return $proof_project_page->wc_report(receive_data_from_request_body("acceptedwords") ?? []);
+                $proof_project_page->wc_report(receive_data_from_request_body("acceptedwords") ?? []);
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
