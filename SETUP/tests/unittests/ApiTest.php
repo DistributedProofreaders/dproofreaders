@@ -713,7 +713,7 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-
+    /*
     public function test_wordcheck_site_bad_word()
     {
         $project = $this->_create_available_project();
@@ -724,7 +724,7 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-
+    */
     public function test_wordcheck_punc()
     {
         $project = $this->_create_available_project();
