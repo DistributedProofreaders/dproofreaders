@@ -979,6 +979,49 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/wordcheck:
+    put:
+      tags:
+      - project
+      description: Checks the given text for bad words, returns data indicating them and marking punctuation
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      requestBody:
+        description: text, accepted words and languages
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                acceptedwords:
+                  type: array
+                  items:
+                    type: string
+                languages:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: wordcheck data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/wordcheck_data'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/{projectid}/pages/{pagename}:
     put:
       tags:
@@ -1002,11 +1045,25 @@ paths:
             revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
             abandon - Returns the page to the round, response:- none.
+            <br><br>
+            report - Submits a wordcheck report with any accepted words
         required: true
         schema:
           type: string
       requestBody:
-        $ref: '#/components/requestBodies/page_text'
+        description: text, +accepted words in report case
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                acceptedwords:
+                  type: array
+                  items:
+                    type: string
       responses:
         200:
           description: Page data
@@ -1617,6 +1674,22 @@ components:
               oneOf:
                 - type: string
                 - type: integer
+
+    wordcheck_data:
+      type: object
+      properties:
+        wc_array:
+          type: array
+          items:
+            type: array
+            items:
+              oneOf:
+                - type: string
+                - type: integer
+        scripts:
+          type: array
+          items:
+            type: string
 
     Error:
       required:
