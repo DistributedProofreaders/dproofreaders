@@ -869,6 +869,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
                 return $proof_project_page->returnToRound($pguser);
             case 'report':
                 $proof_project_page->wc_report(receive_data_from_request_body("acceptedwords") ?? []);
+                break;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
