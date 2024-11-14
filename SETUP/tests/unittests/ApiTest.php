@@ -691,6 +691,20 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
+
+    public function test_pickersets()
+    {
+        $project = $this->_create_project();
+        $path = "v1/projects/$project->projectid/pickersets";
+        $query_params = "";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals("basic-latin", $response[0]["name"]);
+        $this->assertEquals("!", $response[0]["subsets"][3]["name"]);
+        $this->assertEquals("Punctuation", $response[0]["subsets"][3]["title"]);
+        $this->assertEquals(["0", "DIGIT ZERO"], $response[0]["subsets"][5]["rows"][0][0]);
+    }
 }
 
 // this mocks the function in index.php

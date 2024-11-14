@@ -799,6 +799,40 @@ function api_v1_project_validatetext($method, $data, array $query_params)
     return $text_checker->analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
 }
 
+function api_v1_project_pickersets($method, $data, $query_params)
+{
+    // expand the character ranges so that each character can have its name
+    $project = $data[":projectid"];
+    return expand_pickersets($project->get_pickersets());
+}
+
+function expand_pickersets($pickersets)
+{
+    $expanded_pickersets = [];
+    foreach ($pickersets as $pickerset) {
+        $expanded_subsets = [];
+        foreach ($pickerset->get_subsets() as $subset_name => $codepoint_rows) {
+            $expanded_rows = [];
+            foreach ($codepoint_rows as $row) {
+                $chars = convert_codepoint_ranges_to_characters($row);
+                $char_titles = [];
+                foreach ($chars as $char) {
+                    if (null == $char) {
+                        $char_title = [null, null];
+                    } else {
+                        $char_title = [$char, utf8_character_name($char)];
+                    }
+                    $char_titles[] = $char_title;
+                }
+                $expanded_rows[] = $char_titles;
+            }
+            $expanded_subsets[] = ["name" => $subset_name, "title" => $pickerset->get_title($subset_name), "rows" => $expanded_rows];
+        }
+        $expanded_pickersets[] = ["name" => $pickerset->name, "subsets" => $expanded_subsets];
+    }
+    return $expanded_pickersets;
+}
+
 function api_v1_project_page(string $method, array $data, array $query_params)
 {
     global $pguser;
