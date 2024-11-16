@@ -118,21 +118,6 @@ $theme_extra_args["js_files"] = ["$code_url/scripts/userprefs.js"];
 $theme_extra_args["js_data"] =
     get_newHelpWin_javascript("$code_url/pophelp.php?category=prefs&name=set_") . "
 
-    // function that can be used to check/uncheck a lot
-    // of checkboxes at a time.
-    // First parameter: true/false.
-    // Following parameters: The name of the checkboxes.
-    // The code checks that a checkbox really exists
-    // before accessing it.
-    function check_boxes(value) {
-        for (var i = 1; i < arguments.length; i++) {
-            var elements = document.getElementsByName(arguments[i]);
-            if (elements.length > 0) {
-                elements[0].checked = value;
-            }
-        }
-    }
-
     function do_font_sample_update(font_index, size_index, layout) {
         if(font_index != null) {
             var font_family;
@@ -932,18 +917,18 @@ function _show_credits_wanted_adhoc(): void
     $pm_credit_checked = $userSettings->get_boolean('pm_anonymous') ? '' : 'checked ';
     $pp_credit_checked = $userSettings->get_boolean('pp_anonymous') ? '' : 'checked ';
 
-    echo "<input type='checkbox' name='cp_credit' value='yes' $cp_credit_checked> CP\n";
-    echo "<input type='checkbox' name='ip_credit' value='yes' $ip_credit_checked> IP\n";
-    echo "<input type='checkbox' name='tp_credit' value='yes' $tp_credit_checked> TP\n";
+    echo "<input type='checkbox' name='cp_credit' class='credit_box' value='yes' $cp_credit_checked> CP\n";
+    echo "<input type='checkbox' name='ip_credit' class='credit_box' value='yes' $ip_credit_checked> IP\n";
+    echo "<input type='checkbox' name='tp_credit' class='credit_box' value='yes' $tp_credit_checked> TP\n";
     if (user_is_PM()) {
-        echo "<input type='checkbox' name='pm_credit' value='yes' $pm_credit_checked> PM\n";
+        echo "<input type='checkbox' name='pm_credit' class='credit_box' value='yes' $pm_credit_checked> PM\n";
     }
-    echo "<input type='checkbox' name='pp_credit' value='yes' $pp_credit_checked> PP\n";
+    echo "<input type='checkbox' name='pp_credit' class='credit_box' value='yes' $pp_credit_checked> PP\n";
 
     echo "<br>";
-    echo "<a href='#' onClick=\"check_boxes(true, 'cp_credit', 'ip_credit', 'tp_credit', 'pm_credit', 'pp_credit');\">Check all</a>";
+    echo "<button type='button' class='lean_button' id='check_all'>Check all</button>";
     echo " | ";
-    echo "<a href='#' onClick=\"check_boxes(false, 'cp_credit', 'ip_credit', 'tp_credit', 'pm_credit', 'pp_credit');\">Uncheck all</a>";
+    echo "<button type='button' class='lean_button' id='un_check_all'>Uncheck all</button>";
 }
 
 // ---------------------------------------------------------

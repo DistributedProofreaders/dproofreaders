@@ -10,4 +10,22 @@ window.addEventListener("DOMContentLoaded", () => {
         creditNameSelector.addEventListener("change", maybeShowOther);
         maybeShowOther();
     }
+
+    const checkAllButton = document.getElementById("check_all");
+    if (checkAllButton) {
+        checkAllButton.addEventListener("click", function () {
+            for (const creditBox of document.getElementsByClassName("credit_box")) {
+                creditBox.checked = true;
+            }
+        });
+    }
+
+    const unCheckAllButton = document.getElementById("un_check_all");
+    if (unCheckAllButton) {
+        unCheckAllButton.addEventListener("click", function () {
+            for (const creditBox of document.getElementsByClassName("credit_box")) {
+                creditBox.checked = false;
+            }
+        });
+    }
 });
