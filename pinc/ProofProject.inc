@@ -185,8 +185,8 @@ class WordChecker
     public const GOOD_TEXT = 0;
     // WC_* provides 1,2,3,4
     public const ACCEPTED_WORD = 5;
-    public const PUNC_TEXT = 6;
-    public const UNC_BASE = 10;
+    public const PUNCTUATION = 6;
+    public const UNCOMMON_SCRIPT_BASE = 10;
 
     private $good_char_buffer;
     private $wc_array;
@@ -241,7 +241,7 @@ class WordChecker
             } elseif (in_array($word, $accepted_words)) {
                 $this->append_word_to_array($word, self::ACCEPTED_WORD);
             } elseif (in_array($word, $uncommonScriptWords)) {
-                $this->process_unc_script($word, $uncommonScriptMap);
+                $this->process_uncommon_script($word, $uncommonScriptMap);
             }
         }
         // append any remaining good text
@@ -264,7 +264,7 @@ class WordChecker
             // (text_index has already advanced beyond the character)
             if (in_array($character, $this->puncArray) && !($character == ';' && preg_match("/&\w+;$|&#\d+;$/", substr($this->page_text, 0, $this->text_index)))) {
                 $this->append_good_char_buffer();
-                $this->wc_array[] = [$character, self::PUNC_TEXT];
+                $this->wc_array[] = [$character, self::PUNCTUATION];
             } else {
                 $this->good_char_buffer .= $character;
             }
@@ -278,7 +278,7 @@ class WordChecker
         $this->text_index += strlen($word);
     }
 
-    private function process_unc_script($word, $scriptMap)
+    private function process_uncommon_script($word, $scriptMap)
     {
         global $common_unicode_scripts;
 
@@ -287,7 +287,7 @@ class WordChecker
                 $this->good_char_buffer .= $chunk;
             } else {
                 $this->append_good_char_buffer();
-                $this->wc_array[] = [$chunk, self::UNC_BASE + $scriptMap[$chunk_script]];
+                $this->wc_array[] = [$chunk, self::UNCOMMON_SCRIPT_BASE + $scriptMap[$chunk_script]];
             }
         }
         $this->text_index += strlen($word);
