@@ -128,13 +128,13 @@ function split_multiscript_string(string $string): array
         } elseif ($script == $chunk_script || $script == "Inherited") {
             $chunk .= $char;
         } else {
-            $chunks[] = $chunk;
+            $chunks[] = [$chunk, $chunk_script];
             $chunk_script = $script;
             $chunk = $char;
         }
     }
     if ($chunk) {
-        $chunks[] = $chunk;
+        $chunks[] = [$chunk, $chunk_script];
     }
 
     return $chunks;
