@@ -282,7 +282,7 @@ class WordChecker
     {
         global $common_unicode_scripts;
 
-        foreach (split_multiscript_string_mb($word) as [$chunk, $chunk_script]) {
+        foreach (split_multiscript_string($word) as [$chunk, $chunk_script]) {
             if (in_array($chunk_script, $common_unicode_scripts)) {
                 $this->good_char_buffer .= $chunk;
             } else {
@@ -315,33 +315,4 @@ function make_grapheme_array($string)
         $graphemes[] = $grapheme;
     }
     return $graphemes;
-}
-
-/**
- * Split a string into chunks on Unicode boundaries.
- */
-function split_multiscript_string_mb($string)
-{
-    $chunks = [];
-    $chunk = null;
-    $chunk_script = null;
-
-    foreach (mb_str_split($string, 1, "UTF-8") as $char) {
-        $script = utf8_char_script($char);
-        if ($chunk === null) {
-            $chunk = $char;
-            $chunk_script = $script;
-        } elseif ($script == $chunk_script || $script == "Inherited") {
-            $chunk .= $char;
-        } else {
-            $chunks[] = [$chunk, $chunk_script];
-            $chunk_script = $script;
-            $chunk = $char;
-        }
-    }
-    if ($chunk) {
-        $chunks[] = [$chunk, $chunk_script];
-    }
-
-    return $chunks;
 }
