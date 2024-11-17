@@ -1,4 +1,7 @@
 <?php
+
+use voku\helper\UTF8;
+
 class WordChecker
 {
     public const GOOD_TEXT = 0;
@@ -17,7 +20,7 @@ class WordChecker
     {
         global $puncCharacters;
 
-        $this->puncArray = make_grapheme_array($puncCharacters);
+        $this->puncArray = UTF8::str_split($puncCharacters);
     }
 
     public function analyse($projectid, $page_text, $languages, $accepted_words): array
@@ -68,6 +71,7 @@ class WordChecker
         return [
             "wc_array" => $this->wc_array,
             "scripts" => $uncommonScripts,
+            "messages" => $messages,
         ];
     }
 
@@ -118,19 +122,4 @@ class WordChecker
             $this->good_char_buffer = "";
         }
     }
-}
-
-function make_grapheme_array($string)
-{
-    $next = 0;
-    $maxbytes = strlen($string);
-    $graphemes = [];
-    while ($next < $maxbytes) {
-        $grapheme = grapheme_extract($string, 1, GRAPHEME_EXTR_COUNT, $next, $next);
-        if (false === $grapheme) {
-            throw new Exception("grapheme_extract failure");
-        }
-        $graphemes[] = $grapheme;
-    }
-    return $graphemes;
 }
