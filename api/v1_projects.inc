@@ -5,6 +5,7 @@ include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'page_table.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'ProofProject.inc');
+include_once($relPath.'WordChecker.inc');
 include_once("exceptions.inc");
 include_once("api_common.inc");
 
