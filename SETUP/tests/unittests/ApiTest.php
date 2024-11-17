@@ -710,6 +710,7 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fort ", 0], ["Snelling", 1], [" test file", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
@@ -721,6 +722,7 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fort ", 0], ["arid", 2], [" test file", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
@@ -732,6 +734,7 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fort", 0], [",", 6], [" ", 0], ["Snelling", 1], [" test file", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
@@ -743,6 +746,7 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fort &amp; test file", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
@@ -754,6 +758,7 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fort ", 0], ["Snelling", 5], [" test\nfile", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
@@ -765,22 +770,24 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fort ", 0], ["moulin", 1], [" test file", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
     /*
-        public function test_wordcheck_aux_language()
-        {
-            $project = $this->_create_available_project();
-            $languages = $project->languages;
-            $languages[] = "French";
-            $response = $this->wordcheck($project->projectid, "Fort moulin test file", $languages);
-            $expected = [
-                'wc_array' => [["Fort moulin test file", 0]],
-                'scripts' => [],
-            ];
-            $this->assertEquals($expected, $response);
-        }
+    public function test_wordcheck_aux_language()
+    {
+        $project = $this->_create_available_project();
+        $languages = $project->languages;
+        $languages[] = "French";
+        $response = $this->wordcheck($project->projectid, "Fort moulin test file", $languages);
+        $expected = [
+            'wc_array' => [["Fort moulin test file", 0]],
+            'scripts' => [],
+            'messages' => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
     */
     public function test_wordcheck_with_utf8()
     {
@@ -789,6 +796,7 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["Fört", 1], [" ", 0], ["Snelling", 1], [" test file", 0]],
             'scripts' => [],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
     }
@@ -802,13 +810,9 @@ class ApiTest extends ProjectUtils
         $expected = [
             'wc_array' => [["A F", 0], ["Ω", 10], ["rt ", 0], ["Snelling", 1], [" test file", 0]],
             'scripts' => ["Greek"],
+            'messages' => [],
         ];
         $this->assertEquals($expected, $response);
-    }
-
-    public function test_grapheme_array()
-    {
-        $this->assertEquals(["a", "ë", "n̂"], make_grapheme_array("aën̂"));
     }
 }
 

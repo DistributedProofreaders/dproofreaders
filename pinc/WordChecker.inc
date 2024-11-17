@@ -10,11 +10,11 @@ class WordChecker
     public const PUNCTUATION = 6;
     public const UNCOMMON_SCRIPT_BASE = 10;
 
-    private $good_char_buffer;
-    private $wc_array;
-    private $text_index;
-    private $puncArray;
-    private $page_text;
+    private string $good_char_buffer;
+    private array $wc_array;
+    private int $text_index;
+    private array $puncArray;
+    private string $page_text;
 
     public function __construct()
     {
@@ -23,7 +23,7 @@ class WordChecker
         $this->puncArray = UTF8::str_split($puncCharacters);
     }
 
-    public function analyse($projectid, $page_text, $languages, $accepted_words): array
+    public function analyse(string $projectid, string $page_text, array $languages, array $accepted_words): array
     {
         $this->page_text = $page_text;
 
@@ -76,7 +76,7 @@ class WordChecker
     }
 
     // append text up to $wordIndex
-    private function append_good($wordIndex)
+    private function append_good(int $wordIndex): void
     {
         // look for punctuation in this text
         while ($this->text_index < $wordIndex) {
@@ -93,14 +93,14 @@ class WordChecker
         }
     }
 
-    private function append_word_to_array($word, $type)
+    private function append_word_to_array(string $word, int $type): void
     {
         $this->append_good_char_buffer();
         $this->wc_array[] = [$word, $type];
         $this->text_index += strlen($word);
     }
 
-    private function process_uncommon_script($word, $scriptMap)
+    private function process_uncommon_script(string $word, array $scriptMap): void
     {
         global $common_unicode_scripts;
 
@@ -115,7 +115,7 @@ class WordChecker
         $this->text_index += strlen($word);
     }
 
-    private function append_good_char_buffer()
+    private function append_good_char_buffer(): void
     {
         if ($this->good_char_buffer !== "") {
             $this->wc_array[] = [$this->good_char_buffer, self::GOOD_TEXT];
