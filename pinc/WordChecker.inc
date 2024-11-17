@@ -14,7 +14,7 @@ class WordChecker
     private array $wc_array;
     private int $text_index;
     private array $puncArray;
-    private string $page_text;
+    private string $text;
 
     public function __construct()
     {
@@ -23,9 +23,9 @@ class WordChecker
         $this->puncArray = UTF8::str_split($puncCharacters);
     }
 
-    public function analyse(string $projectid, string $page_text, array $languages, array $accepted_words): array
+    public function analyse(string $projectid, string $text, array $languages, array $accepted_words): array
     {
-        $this->page_text = $page_text;
+        $this->text = $text;
 
         // this is the array which will be returned
         $this->wc_array = [];
@@ -35,10 +35,10 @@ class WordChecker
         $this->text_index = 0;
 
         [$badWordHash, $languages, $messages] =
-            get_bad_word_levels_for_project_text($this->page_text, $projectid, $languages, $accepted_words);
+            get_bad_word_levels_for_project_text($this->text, $projectid, $languages, $accepted_words);
 
         [$uncommonScriptWords, $uncommonScripts] =
-            get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($this->page_text)));
+            get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($this->text)));
         // If Greek is present in $uncommonScripts, we always want it to be first
         // so it always has the same color across pages and projects. We do this
         // only for Greek as it is the most common non-Latin script at pgdp.net.
@@ -48,7 +48,7 @@ class WordChecker
         $uncommonScriptMap = array_flip($uncommonScripts);
 
         $badWords = array_keys($badWordHash);
-        foreach (get_all_words_in_text_byte_offset($this->page_text, true) as [$word, $wordIndex]) {
+        foreach (get_all_words_in_text_byte_offset($this->text, true) as [$word, $wordIndex]) {
             // bad words and accepted words are appended directly to the wc_array
             // plain text and uncommon script words build good_char_buffer. This is then
             // appended to wc_array before the other word types and at the end.
@@ -66,7 +66,7 @@ class WordChecker
             }
         }
         // append any remaining good text
-        $this->append_good(strlen($this->page_text));
+        $this->append_good(strlen($this->text));
         $this->append_good_char_buffer();
         return [
             "wc_array" => $this->wc_array,
@@ -81,10 +81,10 @@ class WordChecker
         // look for punctuation in this text
         while ($this->text_index < $wordIndex) {
             // get each grapheme in turn
-            $character = grapheme_extract($this->page_text, 1, GRAPHEME_EXTR_COUNT, $this->text_index, $this->text_index);
+            $character = grapheme_extract($this->text, 1, GRAPHEME_EXTR_COUNT, $this->text_index, $this->text_index);
             // punctuation except in an HTML entity (aka: &amp; &lt; &gt;)
             // (text_index has already advanced beyond the character)
-            if (in_array($character, $this->puncArray) && !($character == ';' && preg_match("/&\w+;$|&#\d+;$/", substr($this->page_text, 0, $this->text_index)))) {
+            if (in_array($character, $this->puncArray) && !($character == ';' && preg_match("/&\w+;$|&#\d+;$/", substr($this->text, 0, $this->text_index)))) {
                 $this->append_good_char_buffer();
                 $this->wc_array[] = [$character, self::PUNCTUATION];
             } else {
