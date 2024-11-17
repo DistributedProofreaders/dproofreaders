@@ -20,9 +20,8 @@ class WordChecker
         $this->puncArray = make_grapheme_array($puncCharacters);
     }
 
-    public function analyse($project, $page_text, $languages, $accepted_words): array
+    public function analyse($projectid, $page_text, $languages, $accepted_words): array
     {
-        $project->validate_text($page_text);
         $this->page_text = $page_text;
 
         // this is the array which will be returned
@@ -33,7 +32,7 @@ class WordChecker
         $this->text_index = 0;
 
         [$badWordHash, $languages, $messages] =
-            get_bad_word_levels_for_project_text($this->page_text, $project->projectid, $languages, $accepted_words);
+            get_bad_word_levels_for_project_text($this->page_text, $projectid, $languages, $accepted_words);
 
         [$uncommonScriptWords, $uncommonScripts] =
             get_words_with_uncommon_scripts(array_keys(get_distinct_words_in_text($this->page_text)));

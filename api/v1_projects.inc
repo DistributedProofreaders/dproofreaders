@@ -810,10 +810,11 @@ function api_v1_project_wordcheck($method, $data, array $query_params)
             $languages = $project->languages;
         }
 
+        $text = receive_project_text_from_request_body();
+        $project->validate_text($text);
         $word_checker = new WordChecker();
+        return $word_checker->analyse($project->projectid, $text, $languages, $accepted_words);
 
-        // can throw ProjectInvalidTextException
-        return $word_checker->analyse($project, receive_project_text_from_request_body(), $languages, $accepted_words);
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
