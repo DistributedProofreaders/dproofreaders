@@ -13,7 +13,7 @@ class WordChecker
     private string $good_char_buffer;
     private array $wc_array;
     private int $text_index;
-    private array $puncArray;
+    private array $puncArray = [];
     private string $text;
 
     public function __construct()
@@ -23,6 +23,33 @@ class WordChecker
         $this->puncArray = UTF8::str_split($puncCharacters);
     }
 
+    /**
+     * Find bad words in a text
+     *
+     * Splits the text into pieces and returns an array each element of which
+     * is a piece of text and an integer code describing it. The array can be
+     * used to construct the page to be shown to the user. Also returns an
+     * array of the names of uncommon scripts found in the text (in the same
+     * order as the uncommon script codes) and an array of error messages.
+     * The codes are as follows:
+     * 0 GOOD_TEXT
+     * 1 WC_WORLD - bad word from spell check using the languages provided
+     * 2 WC_SITE - bad word specific to this site
+     * 3 WC_PROJECT - bad word specific to this project
+     * 4 WC_PAGE - not implemented
+     * 5 ACCEPTED_WORD - one of the words in the $accepted_words parameter
+     * 6 PUNCTUATION - TODO make this optional
+     * 7-9 not used
+     * 10 onwards - a character with an uncommon script
+     *
+     * @param string $text
+     *  can be any piece of text
+     * @param array $languages
+     *  an array of languages to use for dictionaries
+     * @param array $accepted_words
+     *  the words the user wishes to be accepted as good
+     * TODO consider how to handle characters not enabled for the project
+     */
     public function analyse(string $projectid, string $text, array $languages, array $accepted_words): array
     {
         $this->text = $text;
