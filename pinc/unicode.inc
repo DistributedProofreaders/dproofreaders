@@ -113,7 +113,7 @@ function utf8_character_name($characters): string
  * Returns an array of [chunk, script] elements.
  * Inherited characters are included in the chunk with the base character
  *
- * @return array<string, string>
+ * @return array
  */
 function split_multiscript_string(string $string): array
 {
