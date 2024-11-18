@@ -774,7 +774,7 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-    /*
+
     public function test_wordcheck_aux_language()
     {
         $project = $this->_create_available_project();
@@ -788,7 +788,7 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-    */
+
     public function test_wordcheck_with_utf8()
     {
         $project = $this->_create_available_project();
