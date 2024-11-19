@@ -10,8 +10,8 @@ include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
 require_login();
 
-$L_input = array_get($_POST, "Ltex", "");
-$R_input = array_get($_POST, "Rtex", "");
+$L_input = $_POST["Ltex"] ?? "";
+$R_input = $_POST["Rtex"] ?? "";
 $unwrap = isset($_POST['Unwrap']); // can only be 'on'
 $ignore_case = isset($_POST['IgnoreCase']);
 

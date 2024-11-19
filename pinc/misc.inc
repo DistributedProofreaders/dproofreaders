@@ -12,9 +12,20 @@ use voku\helper\UTF8;
 
 /**
  * Return $arr[$key], or if it's not defined, $default.
+ *
+ * You should be using the ?? operator moving forward as this function is deprecated:
+ *    $arr[$key] ?? $default
+ *
+ * @param array $arr
+ * @param string|int $key
+ * @param mixed $default
+ * @return mixed
+ * @deprecated
  */
 function array_get($arr, $key, $default)
 {
+    // TODO(jchaffraix): Enable once we have no users in the codebase.
+    // trigger_error("array_get() is deprecated, use the null coalescing operator instead", E_USER_DEPRECATED);
     if (isset($arr[$key])) {
         return $arr[$key];
     } else {
