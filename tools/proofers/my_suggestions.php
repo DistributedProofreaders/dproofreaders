@@ -15,7 +15,7 @@ $flush_cache = get_integer_param($_GET, "flush_cache", 0, 0, 1);
 
 $username = User::current_username();
 if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
-    $username = array_get($_GET, 'username', $username);
+    $username = $_GET['username'] ?? $username;
     if (!User::is_valid_user($username)) {
         die("Invalid username.");
     }

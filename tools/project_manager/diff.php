@@ -121,7 +121,7 @@ echo "\n<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]
 
 if ($L_format || $R_format) {
     // show option to change compare method
-    $format_save = array_get($_GET, "format", $format);
+    $format_save = $_GET["format"] ?? $format;
     if ($format == "remove") {
         $format_label = _("Compare with formatting");
         $_GET["format"] = "keep";
@@ -138,7 +138,7 @@ if ($L_format || $R_format) {
 
 if (user_can_mentor_in_any_round()) {
     // show option to change diff style
-    $bb_diffs_save = array_get($_GET, "bb_diffs", "off");
+    $bb_diffs_save = $_GET["bb_diffs"] ?? "off";
     if ($bb_diffs) {
         $bb_diffs_label = _("Show table-style diff");
         $_GET["bb_diffs"] = "off";

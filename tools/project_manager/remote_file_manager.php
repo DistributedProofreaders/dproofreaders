@@ -762,7 +762,7 @@ function get_current_dir_relative_path(string $home_dirname): string
     $abs_uploads_dir = realpath($uploads_dir);
 
     // Default to home dir if the invocation didn't set cdrp.
-    $cdrp = array_get($_REQUEST, 'cdrp', $home_dirname);
+    $cdrp = $_REQUEST['cdrp'] ?? $home_dirname;
 
     // To prevent leaking information about the local filesystem, all error
     // messages about if a file/directory exists or not need to be the same.

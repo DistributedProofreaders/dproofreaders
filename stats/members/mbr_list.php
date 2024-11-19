@@ -23,8 +23,8 @@ $direction = get_enumerated_param(
     ['asc', 'desc']
 );
 $mstart = get_integer_param($_GET, 'mstart', 0, 0, null);
-$uname = normalize_whitespace(array_get($_GET, 'uname', array_get($_GET, 'username', '')));
-$uexact = array_get($_GET, 'uexact', '') == 'yes';
+$uname = normalize_whitespace($_GET['uname'] ?? ($_GET['username'] ?? ''));
+$uexact = ($_GET['uexact'] ?? '') == 'yes';
 
 if ($uname) {
     if ($uexact) {

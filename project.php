@@ -1206,7 +1206,7 @@ function do_history(): void
 
         $event_type = $event['event_type'];
         echo "<td>",
-        array_get($event_type_labels, $event_type, $event_type),
+        $event_type_labels[$event_type] ?? $event_type,
         "</td>\n";
         // count columns so we can fill up space after
         $spare_cols = 3;
@@ -1276,7 +1276,7 @@ function do_history(): void
 
                     $labels = [];
                     foreach (explode(' ', $changed_fields) as $fieldname) {
-                        $labels[] = html_safe(array_get($label_for_project_field_, $fieldname, $fieldname));
+                        $labels[] = html_safe($label_for_project_field_[$fieldname] ?? $fieldname);
                     }
                     // Note that this lists the changed fields in the same order
                     // as they appear in the 'details1' field of the events table,

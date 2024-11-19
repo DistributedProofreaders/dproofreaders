@@ -10,10 +10,10 @@ if (!(user_is_a_sitemanager())) {
     die(_("You are not authorized to invoke this script."));
 }
 
-$action = array_get($_POST, "action", null);
+$action = $_POST["action"] ?? null;
 $document = get_enumerated_param($_POST, "document", null, array_keys(RandomRule::$document_values), true);
-$url = array_get($_POST, "url", null);
-$langcode = strtolower(array_get($_POST, "langcode", ""));
+$url = $_POST["url"] ?? null;
+$langcode = strtolower($_POST["langcode"] ?? "");
 
 $title = _("Manage Random Rules");
 

@@ -25,7 +25,7 @@ echo "<p>" . _("This tool will allow you to delete pages out of a project.") . "
 
 // validate inputs
 $projectid = get_projectID_param($_POST, 'projectid', true);
-$from_image_ = array_get($_POST, 'from_image_', null);
+$from_image_ = $_POST['from_image_'] ?? null;
 if (is_array($from_image_)) {
     foreach ($from_image_ as $which => $filename) {
         if ($filename) {

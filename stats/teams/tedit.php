@@ -16,11 +16,11 @@ $tid = get_integer_param($_POST, 'tsid', null, 1, null, true);
 if (!isset($tid)) {
     $tid = get_integer_param($_GET, 'tid', null, 1, null);
 }
-$teamname = stripAllString(trim(array_get($_POST, "teamname", "")));
-$text_data = stripAllString(array_get($_POST, "text_data", ""));
-$teamwebpage = stripAllString(array_get($_POST, "teamwebpage", ""));
-$tavatar = array_get($_POST, "tavatar", "");
-$ticon = array_get($_POST, "ticon", "");
+$teamname = stripAllString(trim($_POST["teamname"] ?? ""));
+$text_data = stripAllString($_POST["text_data"] ?? "");
+$teamwebpage = stripAllString($_POST["teamwebpage"] ?? "");
+$tavatar = $_POST["tavatar"] ?? "";
+$ticon = $_POST["ticon"] ?? "";
 
 $result = select_from_teams("id = $tid");
 $curTeam = mysqli_fetch_assoc($result);

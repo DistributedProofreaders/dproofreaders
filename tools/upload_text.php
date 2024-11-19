@@ -22,7 +22,7 @@ $stage = get_enumerated_param($_REQUEST, 'stage', null, $valid_stages, true);
 // days not given (defaults to 0): replace file only
 $days = get_integer_param($_REQUEST, 'days', 0, 0, 56);
 $action = @$_REQUEST['action'];
-$postcomments = array_get($_POST, 'postcomments', "");
+$postcomments = $_POST['postcomments'] ?? "";
 
 $project = new Project($projectid);
 

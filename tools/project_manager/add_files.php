@@ -35,7 +35,7 @@ $title = _("Add files");
 output_header($title, NO_STATSBAR, $extra_args);
 
 $projectid = get_projectID_param($_REQUEST, 'project');
-$rel_source = array_get($_REQUEST, "rel_source", "");
+$rel_source = $_REQUEST["rel_source"] ?? "";
 
 abort_if_cant_edit_project($projectid);
 

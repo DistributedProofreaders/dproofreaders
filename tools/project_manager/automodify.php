@@ -16,7 +16,7 @@ include_once($relPath.'job_log.inc');
 include_once('autorelease.inc');
 
 $one_project = get_projectID_param($_GET, 'project', true);
-$refresh_url = array_get($_GET, 'return_uri', 'projectmgr.php');
+$refresh_url = $_GET['return_uri'] ?? 'projectmgr.php';
 
 $start_time = time();
 

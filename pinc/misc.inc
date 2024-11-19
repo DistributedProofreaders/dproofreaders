@@ -11,9 +11,13 @@
 use voku\helper\UTF8;
 
 /**
- * Return $arr[$key], or if it's not defined, $default.
+ * Return $arr[$key], or if it's not defined, $default
+ *
+ * @deprecated
+ * @param string|int $key
+ * @return mixed
  */
-function array_get($arr, $key, $default)
+function array_get(array $arr, $key, $default)
 {
     if (isset($arr[$key])) {
         return $arr[$key];
@@ -50,7 +54,7 @@ function array_extract_field($array, $field)
  */
 function array_get_as_array($array, $key, $default)
 {
-    $value = array_get($array, $key, $default);
+    $value = $array[$key] ?? $default;
     if (!is_null($value) && !is_array($value)) {
         $value = [$value];
     }

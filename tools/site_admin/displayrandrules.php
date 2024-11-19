@@ -5,7 +5,7 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 
 $document = get_enumerated_param($_GET, "document", key(RandomRule::$document_values), array_keys(RandomRule::$document_values));
-$langcode = strtolower(array_get($_GET, "langcode", "en"));
+$langcode = strtolower($_GET["langcode"] ?? "en");
 
 require_login();
 

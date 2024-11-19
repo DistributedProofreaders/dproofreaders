@@ -9,7 +9,7 @@ include_once($relPath.'User.inc');
 
 // The current param value is "reg_token" but the prior value was "id"
 // so we support both here.
-$reg_token = array_get($_GET, "reg_token", array_get($_GET, "id", ""));
+$reg_token = $_GET["reg_token"] ?? ($_GET["id"] ?? "");
 
 // If the user is already logged in, redirect them to the Activity Hub.
 if (User::current_username()) {

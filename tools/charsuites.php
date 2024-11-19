@@ -9,7 +9,7 @@ include_once($relPath."Project.inc"); // get_projectID_param()
 
 require_login();
 
-$charsuite_name = array_get($_GET, "charsuite", null);
+$charsuite_name = $_GET["charsuite"] ?? null;
 $projectid = get_projectID_param($_REQUEST, "projectid", true);
 
 $charsuite = null;

@@ -20,8 +20,8 @@ $direction = get_enumerated_param(
     ['asc', 'desc']
 );
 $tstart = get_integer_param($_GET, 'tstart', 0, 0, null);
-$tname = normalize_whitespace(array_get($_GET, 'tname', ''));
-$texact = array_get($_GET, 'texact', '') == 'yes';
+$tname = normalize_whitespace($_GET['tname'] ?? '');
+$texact = ($_GET['texact'] ?? '') == 'yes';
 
 if ($tname) {
     if ($texact) {
