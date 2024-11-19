@@ -10,7 +10,7 @@ include_once("api_common.inc");
 // queues -- list queues, optionally filtered by round
 function api_v1_queues($method, $data, $query_params)
 {
-    $roundid = array_get($query_params, "roundid", null);
+    $roundid = $query_params["roundid"] ?? null;
     $round = !is_null($roundid) ? validate_round($roundid, null) : null;
 
     $show = get_enumerated_param($query_params, "show", "all", ["enabled", "populated", "all"]);
@@ -42,8 +42,8 @@ function api_v1_queues($method, $data, $query_params)
     $return_fields = array_get_as_array($query_params, "field", $valid_return_fields);
     $return_fields = array_intersect($return_fields, $valid_return_fields);
 
-    $name_selector = array_get($query_params, "name", null);
-    $group_selector = array_get($query_params, "group", null);
+    $name_selector = $query_params["name"] ?? null;
+    $group_selector = $query_params["group"] ?? null;
 
     $output = [];
     foreach (fetch_queues_data($round, $show, false, $name_selector, $group_selector) as $queue_data) {
