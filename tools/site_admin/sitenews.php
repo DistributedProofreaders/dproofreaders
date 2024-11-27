@@ -14,8 +14,8 @@ if (!(user_is_a_sitemanager() or user_is_site_news_editor())) {
 $news_page_id = get_enumerated_param($_GET, 'news_page_id', null, array_keys($NEWS_PAGES), true);
 $action = get_enumerated_param($_GET, 'action', null, ['add', 'delete', 'display', 'hide', 'archive', 'unarchive', 'moveup', 'movedown', 'edit', 'edit_update'], true);
 $item_id = get_integer_param($_REQUEST, 'item_id', null, null, null, true);
-$header = array_get($_POST, 'header', '');
-$content = array_get($_POST, 'content', '');
+$header = $_POST['header'] ?? '';
+$content = $_POST['content'] ?? '';
 $locale_options = array_merge(['' => _("Any language")], get_locale_translation_selection_options());
 $locale = get_enumerated_param($_POST, 'locale', null, array_keys($locale_options), true);
 $status_options = [
