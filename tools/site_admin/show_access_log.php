@@ -5,7 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'dpsql.inc');
 
-$username = array_get($_GET, 'username', '');
+$username = $_GET['username'] ?? '';
 $activity_choices = _get_activity_choices();
 $activity = get_enumerated_param($_GET, 'activity', null, $activity_choices, true);
 $since_choices = [
