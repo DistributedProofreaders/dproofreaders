@@ -680,14 +680,14 @@ class ApiTest extends ProjectUtils
         $response = $this->validate_text($project->projectid, "This is an invĀlid test file");
         $expected = [
             'valid' => false,
-            'mark_array' => [["This is an inv", 0], ["Ā", 1], ["lid test file", 0]],
+            'mark_array' => [["This is an inv", "", 0], ["Ā", "LATIN CAPITAL LETTER A WITH MACRON", 1], ["lid test file", "", 0]],
         ];
         $this->assertEquals($expected, $response);
 
         $response = $this->validate_text($project->projectid, "This is a valid test file");
         $expected = [
             'valid' => true,
-            'mark_array' => [["This is a valid test file", 0]],
+            'mark_array' => [["This is a valid test file", "", 0]],
         ];
         $this->assertEquals($expected, $response);
     }

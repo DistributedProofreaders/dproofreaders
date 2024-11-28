@@ -130,7 +130,7 @@ class TextChecker
     private function append_valid(): void
     {
         if ($this->valid_text_block != "") {
-            $this->text_array[] = [$this->valid_text_block, self::VALID_TEXT];
+            $this->text_array[] = [$this->valid_text_block, "", self::VALID_TEXT];
             $this->valid_text_block = "";
         }
     }
@@ -147,7 +147,7 @@ class TextChecker
             } else {
                 $all_valid = false;
                 $this->append_valid();
-                $this->text_array[] = [$grapheme, self::INVALID_TEXT];
+                $this->text_array[] = [$grapheme, utf8_character_name($grapheme), self::INVALID_TEXT];
             }
         }
         // append any remaining valid text
