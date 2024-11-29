@@ -960,7 +960,14 @@ paths:
       parameters:
       - $ref: '#/components/parameters/projectid'
       requestBody:
-        $ref: '#/components/requestBodies/page_text'
+        description: Text to save or analyse
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
       responses:
         200:
           description: analysis data
@@ -968,6 +975,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/text_analysis'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/wordcheck:
+    put:
+      tags:
+      - project
+      description: Checks the given text for bad words, returns an array of bad words with their type and an array of messages
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      requestBody:
+        description: text, accepted words and languages
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                acceptedwords:
+                  type: array
+                  items:
+                    type: string
+                languages:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: wordcheck data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bad_words:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: integer
+                        description: Keys are bad words, values are levels
+                  messages:
+                    type: array
+                    items:
+                      type: string
         '400':
           $ref: '#/components/responses/InvalidValue'
         '401':
@@ -1002,11 +1064,25 @@ paths:
             revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
             abandon - Returns the page to the round, response:- none.
+            <br><br>
+            report - Submits a wordcheck report with any accepted words
         required: true
         schema:
           type: string
       requestBody:
-        $ref: '#/components/requestBodies/page_text'
+        description: text, +accepted words in report case
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                acceptedwords:
+                  type: array
+                  items:
+                    type: string
       responses:
         200:
           description: Page data
@@ -1174,17 +1250,6 @@ components:
       required: true
       schema:
         type: string
-
-  requestBodies:
-    page_text:
-      description: Text to save or analyse
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              text:
-                type: string
 
   schemas:
     project:
