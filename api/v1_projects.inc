@@ -799,6 +799,28 @@ function api_v1_project_validatetext($method, $data, array $query_params)
     return $text_checker->analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
 }
 
+function api_v1_project_wordcheck($method, $data, array $query_params)
+{
+    try {
+        $project = $data[":projectid"];
+        $accepted_words = receive_data_from_request_body("acceptedwords") ?? [];
+        $languages = receive_data_from_request_body("languages") ?? [];
+        if (!$languages) {
+            $languages = $project->languages;
+        }
+
+        $text = receive_project_text_from_request_body();
+        [$bad_words, $languages, $messages] = get_bad_word_levels_for_project_text($text, $project->projectid, $languages, $accepted_words);
+        return [
+            "bad_words" => $bad_words,
+            "messages" => $messages,
+        ];
+
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
+}
+
 function api_v1_project_page(string $method, array $data, array $query_params)
 {
     global $pguser;
@@ -848,6 +870,9 @@ function api_v1_project_page(string $method, array $data, array $query_params)
                 return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
             case 'abandon':
                 return $proof_project_page->returnToRound($pguser);
+            case 'report':
+                $proof_project_page->wc_report(receive_data_from_request_body("acceptedwords") ?? []);
+                break;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
@@ -877,12 +902,17 @@ function validate_project_state($project, $state)
     }
 }
 
-function receive_project_text_from_request_body($field): string
+function receive_project_text_from_request_body(): string
 {
-    $request_data = api_get_request_body();
-    $page_text = $request_data[$field] ?? null;
+    $page_text = receive_data_from_request_body("text");
     if (null === $page_text) {
         throw new InvalidValue("There is no text");
     }
     return $page_text;
+}
+
+function receive_data_from_request_body($field)
+{
+    $request_data = api_get_request_body();
+    return $request_data[$field] ?? null;
 }
