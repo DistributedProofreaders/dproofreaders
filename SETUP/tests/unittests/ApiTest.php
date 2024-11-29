@@ -70,6 +70,17 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
+    protected function wordcheck(string $projectid, string $text, $languages = [], $accepted_words = []): array
+    {
+        global $request_body;
+
+        $request_body = ["text" => $text, "languages" => $languages, "acceptedwords" => $accepted_words];
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/projects/$projectid/wordcheck";
+        $router = ApiRouter::get_router();
+        return $router->route($path, []);
+    }
+
     //---------------------------------------------------------------------------
     // tests
 
@@ -688,6 +699,28 @@ class ApiTest extends ProjectUtils
         $expected = [
             'valid' => true,
             'mark_array' => [["This is a valid test file", "", 0]],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_bad_words()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort Snelling b[oe]uf a1l file");
+        $expected = [
+            "bad_words" => ["Snelling" => WC_WORLD, "b[oe]uf" => WC_WORLD, "a1l" => WC_SITE],
+            "messages" => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_accept()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort Snelling test\nfile", [], ["Snelling"]);
+        $expected = [
+            "bad_words" => [],
+            "messages" => [],
         ];
         $this->assertEquals($expected, $response);
     }
