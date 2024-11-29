@@ -801,24 +801,19 @@ function api_v1_project_validatetext($method, $data, array $query_params)
 
 function api_v1_project_wordcheck($method, $data, array $query_params)
 {
-    try {
-        $project = $data[":projectid"];
-        $accepted_words = receive_data_from_request_body("acceptedwords") ?? [];
-        $languages = receive_data_from_request_body("languages") ?? [];
-        if (!$languages) {
-            $languages = $project->languages;
-        }
-
-        $text = receive_project_text_from_request_body();
-        [$bad_words, $languages, $messages] = get_bad_word_levels_for_project_text($text, $project->projectid, $languages, $accepted_words);
-        return [
-            "bad_words" => $bad_words,
-            "messages" => $messages,
-        ];
-
-    } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    $project = $data[":projectid"];
+    $accepted_words = receive_data_from_request_body("acceptedwords") ?? [];
+    $languages = receive_data_from_request_body("languages") ?? [];
+    if (!$languages) {
+        $languages = $project->languages;
     }
+
+    $text = receive_project_text_from_request_body();
+    [$bad_words, $languages, $messages] = get_bad_word_levels_for_project_text($text, $project->projectid, $languages, $accepted_words);
+    return [
+        "bad_words" => $bad_words,
+        "messages" => $messages,
+    ];
 }
 
 function api_v1_project_page(string $method, array $data, array $query_params)
