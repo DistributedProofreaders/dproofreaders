@@ -15,14 +15,14 @@ define("ARRAY_PAD_BOTH", 0);
 
 mb_internal_encoding($charset);
 
-$row = array_get($_POST, 'row', 1);
-$col = array_get($_POST, 'col', 1);
-$bord = array_get($_POST, 'border', 1);
-$trim = (array_get($_POST, 'trim', 'off') == 'on');
-$clear = array_get($_POST, 'clear', 0);
-$vert_align = array_map('intval', array_get($_POST, 'vert_align', []));
-$horiz_align = array_map('intval', array_get($_POST, 'horiz_align', []));
-$table_contents = array_get($_POST, 'table_contents', []);
+$row = $_POST['row'] ?? 1;
+$col = $_POST['col'] ?? 1;
+$bord = $_POST['border'] ?? 1;
+$trim = (($_POST['trim'] ?? 'off') == 'on');
+$clear = $_POST['clear'] ?? 0;
+$vert_align = array_map('intval', $_POST['vert_align'] ?? []);
+$horiz_align = array_map('intval', $_POST['horiz_align'] ?? []);
+$table_contents = $_POST['table_contents'] ?? [];
 
 if ($clear) {
     $table_contents = [];
