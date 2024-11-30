@@ -399,7 +399,7 @@ function output_wordcheck_interface(User $user, PPage $ppage, string $text_data,
 
     $revert_text = $_POST['revert_text'] ?? $text_data;
 
-    $is_header_visible = array_get($_SESSION, "is_header_visible", 1);
+    $is_header_visible = $_SESSION["is_header_visible"] ?? 1;
 
     // print basic image html
     if ($user->profile->i_type == 1) {

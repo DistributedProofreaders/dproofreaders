@@ -9,7 +9,7 @@ $round = get_round_param($_GET, 'round_id');
 // if this is used in a quiz there will not be a real projectid, 'quiz' will be
 // used for the MRU local storage prefix and the character selector will
 // provide the quiz pickers
-$projectid = array_get($_GET, 'projectid', 'quiz');
+$projectid = $_GET['projectid'] ?? 'quiz';
 if ($projectid != "quiz") {
     validate_projectID($projectid);
 }
