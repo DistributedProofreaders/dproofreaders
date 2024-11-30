@@ -8,15 +8,15 @@ include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'User.inc');
 
-$real_name = array_get($_POST, 'real_name', '');
-$username = array_get($_POST, 'userNM', '');
-$userpass = array_get($_POST, 'userPW', '');
-$userpass2 = array_get($_POST, 'userPW2', '');
-$email = array_get($_POST, 'email', '');
-$email2 = array_get($_POST, 'email2', '');
+$real_name = $_POST['real_name'] ?? '';
+$username = $_POST['userNM'] ?? '';
+$userpass = $_POST['userPW'] ?? '';
+$userpass2 = $_POST['userPW2'] ?? '';
+$email = $_POST['email'] ?? '';
+$email2 = $_POST['email2'] ?? '';
 $email_updates = get_bool_param($_POST, 'email_updates', true);
-$referrer = array_get($_POST, 'referrer', '');
-$referrer_details = array_get($_POST, 'referrer_details', '');
+$referrer = $_POST['referrer'] ?? '';
+$referrer_details = $_POST['referrer_details'] ?? '';
 
 $form_data_inserters = [];
 $form_validators = [
@@ -64,7 +64,7 @@ if (count($_POST)) {
         $register->email_updates = $email_updates;
         $register->referrer = $referrer;
         $register->referrer_details = $referrer_details;
-        $register->http_referrer = array_get($_COOKIE, "http_referer", "");
+        $register->http_referrer = $_COOKIE["http_referer"] ?? "";
         $register->u_intlang = $intlang;
         $register->user_password = forum_password_hash($userpass);
 
