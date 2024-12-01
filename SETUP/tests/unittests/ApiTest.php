@@ -74,7 +74,7 @@ class ApiTest extends ProjectUtils
     {
         global $request_body;
 
-        $request_body = ["text" => $text, "languages" => $languages, "acceptedwords" => $accepted_words];
+        $request_body = ["text" => $text, "languages" => $languages, "accepted_words" => $accepted_words];
         $_SERVER["REQUEST_METHOD"] = "PUT";
         $path = "v1/projects/$projectid/wordcheck";
         $router = ApiRouter::get_router();

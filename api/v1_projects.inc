@@ -802,7 +802,7 @@ function api_v1_project_validatetext($method, $data, array $query_params)
 function api_v1_project_wordcheck($method, $data, array $query_params)
 {
     $project = $data[":projectid"];
-    $accepted_words = receive_data_from_request_body("acceptedwords") ?? [];
+    $accepted_words = receive_data_from_request_body("accepted_words") ?? [];
     $languages = receive_data_from_request_body("languages") ?? [];
     if (!$languages) {
         $languages = $project->languages;
@@ -866,7 +866,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'abandon':
                 return $proof_project_page->returnToRound($pguser);
             case 'report':
-                $proof_project_page->wc_report(receive_data_from_request_body("acceptedwords") ?? []);
+                $proof_project_page->wc_report(receive_data_from_request_body("accepted_words") ?? []);
                 break;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");

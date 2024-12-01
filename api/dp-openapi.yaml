@@ -1003,7 +1003,7 @@ paths:
               properties:
                 text:
                   type: string
-                acceptedwords:
+                accepted_words:
                   type: array
                   items:
                     type: string
@@ -1079,7 +1079,7 @@ paths:
               properties:
                 text:
                   type: string
-                acceptedwords:
+                accepted_words:
                   type: array
                   items:
                     type: string
