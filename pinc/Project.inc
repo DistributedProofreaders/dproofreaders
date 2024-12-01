@@ -1813,6 +1813,18 @@ class Project
             }
         }
     }
+
+    public function find_invalid_characters(string $text): array
+    {
+        $pattern_string = build_character_regex_filter($this->get_valid_codepoints());
+        $invalid_characters = [];
+        foreach (split_graphemes($text) as $grapheme) {
+            if (1 !== preg_match("/$pattern_string/u", $grapheme)) {
+                $invalid_characters[$grapheme] = utf8_character_name($grapheme);
+            }
+        }
+        return $invalid_characters;
+    }
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
