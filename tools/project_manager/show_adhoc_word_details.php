@@ -14,7 +14,7 @@ set_time_limit(0); // no time limit
 $projectid = get_projectID_param($_REQUEST, 'projectid');
 $freqCutoff = get_integer_param($_REQUEST, 'freqCutoff', 5, 0, null);
 
-$queryWordText = array_get($_POST, "queryWordText", "");
+$queryWordText = $_POST["queryWordText"] ?? "";
 // do some cleanup on the input string
 $queryWordText = str_replace("\r", "", $queryWordText);
 $queryWords = explode("\n", $queryWordText);
