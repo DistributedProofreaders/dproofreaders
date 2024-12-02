@@ -969,7 +969,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  invalidChars:
+                  invalid_chars:
                     type: array
                     items:
                       type: object

@@ -797,7 +797,7 @@ function api_v1_project_validatetext(string $method, array $data, array $query_p
 {
     $project = $data[":projectid"];
     $invalid_characters = $project->find_invalid_characters(receive_project_text_from_request_body('text'));
-    return ["invalidChars" => $invalid_characters];
+    return ["invalid_chars" => $invalid_characters];
 }
 
 function api_v1_project_page(string $method, array $data, array $query_params)

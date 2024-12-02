@@ -678,7 +678,7 @@ class ApiTest extends ProjectUtils
     {
         $project = $this->_create_available_project();
         $response = $this->validate_text($project->projectid, "This is an invĀlid test file");
-        $expected = ["invalidChars" => ["Ā" => "LATIN CAPITAL LETTER A WITH MACRON"]];
+        $expected = ["invalid_chars" => ["Ā" => "LATIN CAPITAL LETTER A WITH MACRON"]];
         $this->assertEquals($expected, $response);
     }
 }
