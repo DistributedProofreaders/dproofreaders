@@ -5,7 +5,7 @@ include_once($relPath.'theme.inc');
 
 require_login();
 
-$rec = array_get($_REQUEST, 'rec', null);
+$rec = $_REQUEST['rec'] ?? null;
 if (!$rec) {
     throw new UnexpectedValueException("Unexpected rec `$rec`");
 }

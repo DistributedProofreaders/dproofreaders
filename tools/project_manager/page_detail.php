@@ -17,7 +17,7 @@ $round_for_page_selection = get_round_param($_GET, 'select_by_round', null, true
 //    NULL = show all users
 //    '' = show current user
 //    <username> = show specific user
-$username_for_page_selection = array_get($_GET, 'select_by_user', null);
+$username_for_page_selection = $_GET['select_by_user'] ?? null;
 if ($username_for_page_selection === '') {
     $username_for_page_selection = User::current_username();
 }
