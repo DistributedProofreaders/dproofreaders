@@ -1064,13 +1064,11 @@ paths:
             revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
             abandon - Returns the page to the round, response:- none.
-            <br><br>
-            report - Submits a wordcheck report with any accepted words
         required: true
         schema:
           type: string
       requestBody:
-        description: text, +accepted words in report case
+        description: text
         required: true
         content:
           application/json:
@@ -1079,10 +1077,6 @@ paths:
               properties:
                 text:
                   type: string
-                accepted_words:
-                  type: array
-                  items:
-                    type: string
       responses:
         200:
           description: Page data
@@ -1120,6 +1114,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/page_text_state'
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/wordcheck:
+    put:
+      tags:
+      - project
+      description: Report wordcheck reults
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/state_query'
+      - $ref: '#/components/parameters/pagename'
+      - $ref: '#/components/parameters/pagestate_query'
+      requestBody:
+        description: accepted words if any
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                accepted_words:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: OK
         '400':
           $ref: '#/components/responses/InvalidValue'
         '401':

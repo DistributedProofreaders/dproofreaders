@@ -834,23 +834,9 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         $proof_project = new ProofProject($project);
 
         $page_state = $query_params['pagestate'] ?? null;
-        if (null === $page_state) {
-            throw new InvalidValue("No page state found in request.");
-        }
-        if (!in_array($page_state, Rounds::get_page_states())) {
-            throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
-        }
-        if ($page_state != $project_page->page_state) {
-            $err = sprintf(
-                _('Page "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
-                $project_page->page_name,
-                $page_state,
-                $project_page->page_state
-            );
-            throw new ProjectPageInconsistentStateException($err);
-        }
-
+        validate_page_state($project_page, $page_state);
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
         $page_action = $query_params['pageaction'] ?? null;
         switch ($page_action) {
             case null:
@@ -865,12 +851,30 @@ function api_v1_project_page(string $method, array $data, array $query_params)
                 return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
             case 'abandon':
                 return $proof_project_page->returnToRound($pguser);
-            case 'report':
-                $proof_project_page->wc_report(receive_data_from_request_body("accepted_words") ?? []);
-                break;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function api_v1_project_page_wordcheck(string $method, array $data, array $query_params): void
+{
+    try {
+        $project = $data[":projectid"];
+        $state = $query_params["state"] ?? null;
+        validate_project_state($project, $state);
+        $proof_project = new ProofProject($project);
+
+        $project_page = $data[":pagename"];
+        $page_state = $query_params['pagestate'] ?? null;
+        validate_page_state($project_page, $page_state);
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
+        $proof_project_page->wc_report(receive_data_from_request_body("accepted_words") ?? []);
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     } catch (UserAccessException $exception) {
@@ -894,6 +898,25 @@ function validate_project_state($project, $state)
             project_states_text($project->state)
         );
         throw new ProjectNotInRequiredStateException($err);
+    }
+}
+
+function validate_page_state($project_page, $page_state)
+{
+    if (null === $page_state) {
+        throw new InvalidValue("No page state found in request.");
+    }
+    if (!in_array($page_state, Rounds::get_page_states())) {
+        throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
+    }
+    if ($page_state != $project_page->page_state) {
+        $err = sprintf(
+            _('Page "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+            $project_page->page_name,
+            $page_state,
+            $project_page->page_state
+        );
+        throw new ProjectPageInconsistentStateException($err);
     }
 }
 

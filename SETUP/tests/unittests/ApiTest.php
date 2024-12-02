@@ -81,6 +81,17 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
+    protected function wordcheck_report(string $projectid, string $project_state, string $page_name, string $page_state, array $accepted_words = [])
+    {
+        global $request_body;
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $request_body = ["accepted_words" => $accepted_words];
+        $path = "v1/projects/$projectid/pages/$page_name/wordcheck";
+        $router = ApiRouter::get_router();
+        return $router->route($path, ['state' => $project_state, 'pagestate' => $page_state]);
+    }
+
     //---------------------------------------------------------------------------
     // tests
 
@@ -723,6 +734,26 @@ class ApiTest extends ProjectUtils
             "messages" => [],
         ];
         $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_report()
+    {
+        global $pguser;
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
+        // report wordcheck results
+        $accepted_words = ["Snelling", "b[oe]uf"];
+        $this->wordcheck_report($project->projectid, "P1.proj_avail", "001.png", "P1.page_out", $accepted_words);
+        [$result] = load_wordcheck_events($project->projectid);
+        $this->assertEquals("P1", $result[1]);
+        $this->assertEquals("001.png", $result[2]);
+        $this->assertEquals("ProjectTest_php", $result[3]);
+        $this->assertEquals($accepted_words, $result[4]);
     }
 }
 
