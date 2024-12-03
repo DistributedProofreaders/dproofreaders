@@ -956,7 +956,7 @@ paths:
     put:
       tags:
       - project
-      description: Checks the given text for invalid characters, returns data indicating them
+      description: Checks the given text for invalid characters and returns any found with their names
       parameters:
       - $ref: '#/components/parameters/projectid'
       requestBody:
