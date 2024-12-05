@@ -1134,9 +1134,7 @@ paths:
       description: Report wordcheck reults
       parameters:
       - $ref: '#/components/parameters/projectid'
-      - $ref: '#/components/parameters/state_query'
       - $ref: '#/components/parameters/pagename'
-      - $ref: '#/components/parameters/pagestate_query'
       requestBody:
         description: accepted words if any
         required: true

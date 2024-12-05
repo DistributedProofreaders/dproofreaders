@@ -865,13 +865,9 @@ function api_v1_project_page_wordcheck(string $method, array $data, array $query
 {
     try {
         $project = $data[":projectid"];
-        $state = $query_params["state"] ?? null;
-        validate_project_state($project, $state);
         $proof_project = new ProofProject($project);
 
         $project_page = $data[":pagename"];
-        $page_state = $query_params['pagestate'] ?? null;
-        validate_page_state($project_page, $page_state);
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
 
         $proof_project_page->wc_report(receive_data_from_request_body("accepted_words") ?? []);
