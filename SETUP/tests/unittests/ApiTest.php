@@ -700,10 +700,10 @@ class ApiTest extends ProjectUtils
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $response = $router->route($path, $query_params);
-        $this->assertEquals("basic-latin", $response[0]["name"]);
-        $this->assertEquals("!", $response[0]["subsets"][3]["name"]);
-        $this->assertEquals("Punctuation", $response[0]["subsets"][3]["title"]);
-        $this->assertEquals(["0", "DIGIT ZERO"], $response[0]["subsets"][5]["rows"][0][0]);
+        $pickerset = $response[0];
+        $this->assertEquals("basic-latin", $pickerset["name"]);
+        $this->assertEquals("EXCLAMATION MARK", $pickerset["subsets"]["!"][0]["!"]);
+        $this->assertEquals("Punctuation", $pickerset["titles"]["!"]);
     }
 }
 

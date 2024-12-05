@@ -998,35 +998,28 @@ paths:
                   properties:
                     name:
                       type: string
+                      example: basic-latin
                     subsets:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
+                      type: object
+                      additionalProperties:
+                        type: array
+                        items:
+                          type: object
+                          additionalProperties:
                             type: string
-                          title:
-                            type: string
-                          rows:
-                            type: array
-                            items:
-                              type: array
-                              items:
-                                type: array
-                                items:
-                                  type: string
-                example:
-                  - name: basic-latin
-                    subsets:
-                      - name: A-Z
-                        title: A-Z
-                        rows:
-                        - [[A, LATIN CAPITAL LETTER A], [B, LATIN CAPITAL LETTER B]]
-                        - [[a, LATIN SMALL LETTER A], [b, LATIN SMALL LETTER B]]
-                      - name: ^
-                        title: Letters with acute, grave, and circumflex
-                        rows:
-                        - [[Á, LATIN CAPITAL LETTER A WITH ACUTE]]
+                      example:
+                        A-Z: [{A: LATIN CAPITAL LETTER A, B: LATIN CAPITAL LETTER B},
+                              {a: LATIN SMALL LETTER A, b: LATIN SMALL LETTER B}]
+                        ^: [{Á: LATIN CAPITAL LETTER A WITH ACUTE, É: LATIN CAPITAL LETTER E WITH ACUTE},
+                            {á: LATIN SMALL LETTER A WITH ACUTE, é: LATIN SMALL LETTER E WITH ACUTE}]
+                    titles:
+                      type: object
+                      additionalProperties:
+                        type: string
+                      example:
+                        A-Z: A-Z
+                        ˆ: Letters with acute, grave, and circumflex
+                        "~": Letters with tilde and diaeresis; miscellaneous
 
         '400':
           $ref: '#/components/responses/InvalidValue'

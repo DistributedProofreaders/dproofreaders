@@ -31,6 +31,33 @@ class PickerSet
         return $this->subsets;
     }
 
+    public function get_verbose_subsets(): array
+    {
+        $verbose_subsets = [];
+        foreach ($this->subsets as $subset_name => $codepoint_rows) {
+            $verbose_rows = [];
+            foreach ($codepoint_rows as $row) {
+                $chars = convert_codepoint_ranges_to_characters($row);
+                $char_names = [];
+                foreach ($chars as $char) {
+                    if (null == $char) {
+                        $char_names[null] = null;
+                    } else {
+                        $char_names[$char] = utf8_character_name($char);
+                    }
+                }
+                $verbose_rows[] = $char_names;
+            }
+            $verbose_subsets[$subset_name] = $verbose_rows;
+        }
+        return $verbose_subsets;
+    }
+
+    public function get_titles(): array
+    {
+        return $this->titles;
+    }
+
     public function get_title(string $name): string
     {
         return $this->titles[$name];
