@@ -960,14 +960,7 @@ paths:
       parameters:
       - $ref: '#/components/parameters/projectid'
       requestBody:
-        description: Text to save or analyse
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                text:
-                  type: string
+        $ref: '#/components/requestBodies/page_text'
       responses:
         200:
           description: analysis data
@@ -1068,15 +1061,7 @@ paths:
         schema:
           type: string
       requestBody:
-        description: text
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                text:
-                  type: string
+        $ref: '#/components/requestBodies/page_text'
       responses:
         200:
           description: Page data
@@ -1280,6 +1265,17 @@ components:
       required: true
       schema:
         type: string
+
+  requestBodies:
+    page_text:
+      description: Text to save or analyse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
 
   schemas:
     project:
