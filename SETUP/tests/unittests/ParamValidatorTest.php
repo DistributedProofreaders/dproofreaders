@@ -374,9 +374,10 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
 
     public function testBoolDefaultNotBool(): void
     {
-        // Shockingly, PHP 7.4 (at least) will not throw a TypeError if a
-        // non-boolean is passed into a function with a bool type. It instead
-        // coerces it into a bool. Maybe later versions will?
+        // PHP will not throw a TypeError if a non-boolean is passed
+        // into a function with a bool type. It instead coerces it into a bool.
+        // This is expected and there is nothing we can do about it...
+        // As it is unlikely to change, keeping this test around for documentation.
         $this->markTestSkipped('PHP will not enforce a bool type');
 
         $this->expectException(TypeError::class);
