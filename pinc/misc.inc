@@ -832,15 +832,6 @@ function endswith(string $subject, string $suffix): bool
     return (substr($subject, -strlen($suffix)) == $suffix);
 }
 
-// TODO: After upgrade to PHP 8, remove this
-if (!function_exists('str_contains')) {
-    // str_contains() now exists in PHP8
-    function str_contains($haystack, $needle)
-    {
-        return (strpos($haystack, $needle) !== false);
-    }
-}
-
 /** @param string[] $strings */
 function surround_and_join(array $strings, string $L, string $R, string $joiner): string
 {
