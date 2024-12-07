@@ -372,19 +372,9 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(false, $result);
     }
 
-    public function testBoolDefaultNotBool(): void
-    {
-        // PHP will not throw a TypeError if a non-boolean is passed
-        // into a function with a bool type. It instead coerces it into a bool.
-        // This is expected and there is nothing we can do about it...
-        // As it is unlikely to change, keeping this test around for documentation.
-        $this->markTestSkipped('PHP will not enforce a bool type');
-
-        $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("must be of");
-        $default = "string";
-        get_bool_param($this->GET, 'none', $default);
-    }
+    // We don't test passing a non-boolean `$default` to `get_bool_param` as PHP will
+    // automatically coerce it to bool. Also there is no way to disable this behavior.
+    // If there is in the future, we should look at enabling it though.
 
     public function testBoolNotABool(): void
     {
