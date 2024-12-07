@@ -48,14 +48,9 @@ class PickerSet
                 }
                 $verbose_rows[] = $char_names;
             }
-            $verbose_subsets[$subset_name] = $verbose_rows;
+            $verbose_subsets[$subset_name] = ["title" => $this->get_title($subset_name), "rows" => $verbose_rows];
         }
         return $verbose_subsets;
-    }
-
-    public function get_titles(): array
-    {
-        return $this->titles;
     }
 
     public function get_title(string $name): string
