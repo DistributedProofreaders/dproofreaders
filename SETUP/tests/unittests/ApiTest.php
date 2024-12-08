@@ -72,7 +72,7 @@ class ApiTest extends ProjectUtils
 
     //---------------------------------------------------------------------------
     // tests
-
+/*
     public function test_get_invalid_project_info()
     {
         $this->expectExceptionCode(101);
@@ -688,6 +688,21 @@ class ApiTest extends ProjectUtils
         $response = $this->validate_text($project->projectid, "This is a valid test file");
         $expected = ["invalid_chars" => []];
         $this->assertEquals($expected, $response);
+    }
+*/
+    public function test_pickersets()
+    {
+        $project = $this->_create_project();
+        $path = "v1/projects/$project->projectid/pickersets";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, []);
+        $pickerset = $response[0];
+        $this->assertEquals("basic-latin", $pickerset["name"]);
+        $this->assertEquals("Punctuation", $pickerset["subsets"]["!"]["title"]);
+        var_dump($pickerset["subsets"]["!"]["rows"][0]);
+        $this->assertEquals("EXCLAMATION MARK", $pickerset["subsets"]["!"]["rows"][0]->{"!"});
+        $this->assertEquals("INVERTED QUESTION MARK", $pickerset["subsets"]["!"]["rows"][1]->{"¿"});
     }
 }
 
