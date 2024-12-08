@@ -89,6 +89,27 @@ class ProofProjectPage extends LPage
             "saved" => $this->can_be_reverted_to_last_save(),
         ];
     }
+
+    public function wc_report(array $accepted_words): void
+    {
+        global $pguser;
+
+        _Page_require(
+            $this->projectid,
+            $this->imagefile,
+            [$this->round->page_out_state, $this->round->page_temp_state],
+            $this->round->user_column_name,
+            $pguser,
+            'report'
+        );
+        save_wordcheck_event(
+            $this->projectid,
+            $this->round->id,
+            $this->imagefile,
+            $pguser,
+            $accepted_words
+        );
+    }
 }
 
 class ProofProject

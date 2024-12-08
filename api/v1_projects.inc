@@ -800,6 +800,23 @@ function api_v1_project_validatetext(string $method, array $data, array $query_p
     return ["invalid_chars" => $invalid_characters];
 }
 
+function api_v1_project_wordcheck($method, $data, array $query_params)
+{
+    $project = $data[":projectid"];
+    $accepted_words = receive_data_from_request_body("accepted_words") ?? [];
+    $languages = receive_data_from_request_body("languages") ?? [];
+    if (!$languages) {
+        $languages = $project->languages;
+    }
+
+    $text = receive_project_text_from_request_body();
+    [$bad_words, $languages, $messages] = get_bad_word_levels_for_project_text($text, $project->projectid, $languages, $accepted_words);
+    return [
+        "bad_words" => $bad_words,
+        "messages" => $messages,
+    ];
+}
+
 function api_v1_project_page(string $method, array $data, array $query_params)
 {
     global $pguser;
@@ -818,23 +835,9 @@ function api_v1_project_page(string $method, array $data, array $query_params)
         $proof_project = new ProofProject($project);
 
         $page_state = $query_params['pagestate'] ?? null;
-        if (null === $page_state) {
-            throw new InvalidValue("No page state found in request.");
-        }
-        if (!in_array($page_state, Rounds::get_page_states())) {
-            throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
-        }
-        if ($page_state != $project_page->page_state) {
-            $err = sprintf(
-                _('Page "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
-                $project_page->page_name,
-                $page_state,
-                $project_page->page_state
-            );
-            throw new ProjectPageInconsistentStateException($err);
-        }
-
+        validate_page_state($project_page, $page_state);
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
         $page_action = $query_params['pageaction'] ?? null;
         switch ($page_action) {
             case null:
@@ -852,6 +855,23 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function api_v1_project_page_wordcheck(string $method, array $data, array $query_params): void
+{
+    try {
+        $project = $data[":projectid"];
+        $proof_project = new ProofProject($project);
+
+        $project_page = $data[":pagename"];
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
+        $proof_project_page->wc_report(receive_data_from_request_body("accepted_words") ?? []);
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     } catch (UserAccessException $exception) {
@@ -878,12 +898,36 @@ function validate_project_state($project, $state)
     }
 }
 
-function receive_project_text_from_request_body($field): string
+function validate_page_state($project_page, $page_state)
 {
-    $request_data = api_get_request_body();
-    $page_text = $request_data[$field] ?? null;
+    if (null === $page_state) {
+        throw new InvalidValue("No page state found in request.");
+    }
+    if (!in_array($page_state, Rounds::get_page_states())) {
+        throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
+    }
+    if ($page_state != $project_page->page_state) {
+        $err = sprintf(
+            _('Page "%1$s" is not in state "%2$s"; it is now in state "%3$s".'),
+            $project_page->page_name,
+            $page_state,
+            $project_page->page_state
+        );
+        throw new ProjectPageInconsistentStateException($err);
+    }
+}
+
+function receive_project_text_from_request_body(): string
+{
+    $page_text = receive_data_from_request_body("text");
     if (null === $page_text) {
         throw new InvalidValue("There is no text");
     }
     return $page_text;
+}
+
+function receive_data_from_request_body($field)
+{
+    $request_data = api_get_request_body();
+    return $request_data[$field] ?? null;
 }

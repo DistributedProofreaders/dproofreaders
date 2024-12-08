@@ -70,6 +70,28 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
+    protected function wordcheck(string $projectid, string $text, $languages = [], $accepted_words = []): array
+    {
+        global $request_body;
+
+        $request_body = ["text" => $text, "languages" => $languages, "accepted_words" => $accepted_words];
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/projects/$projectid/wordcheck";
+        $router = ApiRouter::get_router();
+        return $router->route($path, []);
+    }
+
+    protected function wordcheck_report(string $projectid, string $page_name, array $accepted_words = [])
+    {
+        global $request_body;
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $request_body = ["accepted_words" => $accepted_words];
+        $path = "v1/projects/$projectid/pages/$page_name/wordcheck";
+        $router = ApiRouter::get_router();
+        return $router->route($path, []);
+    }
+
     //---------------------------------------------------------------------------
     // tests
 
@@ -688,6 +710,48 @@ class ApiTest extends ProjectUtils
         $response = $this->validate_text($project->projectid, "This is a valid test file");
         $expected = ["invalid_chars" => []];
         $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_bad_words()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort Snelling b[oe]uf a1l file");
+        $expected = [
+            "bad_words" => ["Snelling" => WC_WORLD, "b[oe]uf" => WC_WORLD, "a1l" => WC_SITE],
+            "messages" => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_accept()
+    {
+        $project = $this->_create_available_project();
+        $response = $this->wordcheck($project->projectid, "Fort Snelling test\nfile", [], ["Snelling"]);
+        $expected = [
+            "bad_words" => [],
+            "messages" => [],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_wordcheck_report()
+    {
+        global $pguser;
+
+        $pguser = $this->TEST_USERNAME;
+        $project = $this->_create_available_project();
+
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
+        // report wordcheck results
+        $accepted_words = ["Snelling", "b[oe]uf"];
+        $this->wordcheck_report($project->projectid, "001.png", $accepted_words);
+        [$result] = load_wordcheck_events($project->projectid);
+        $this->assertEquals("P1", $result[1]);
+        $this->assertEquals("001.png", $result[2]);
+        $this->assertEquals("ProjectTest_php", $result[3]);
+        $this->assertEquals($accepted_words, $result[4]);
     }
 }
 
