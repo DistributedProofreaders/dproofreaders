@@ -956,18 +956,25 @@ paths:
     put:
       tags:
       - project
-      description: Checks the given text for invalid characters, returns data indicating them
+      description: Checks the given text for invalid characters and returns any found with their names
       parameters:
       - $ref: '#/components/parameters/projectid'
       requestBody:
         $ref: '#/components/requestBodies/page_text'
       responses:
         200:
-          description: analysis data
+          description: invalid characters
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/text_analysis'
+                type: object
+                properties:
+                  invalid_chars:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties:
+                        type: string
         '400':
           $ref: '#/components/responses/InvalidValue'
         '401':
@@ -1603,21 +1610,6 @@ components:
         saved:
           description: true if the page has been saved.
           type: boolean
-
-    text_analysis:
-      type: object
-      properties:
-        valid:
-          type: boolean
-        mark_array:
-          type: array
-          items:
-            type: array
-            items:
-            # grapheme string, utf8_character_name of grapheme, code integer: 0=valid 1=invalid
-              oneOf:
-                - type: string
-                - type: integer
 
     Error:
       required:

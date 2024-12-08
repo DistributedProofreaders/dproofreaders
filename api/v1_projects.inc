@@ -793,10 +793,11 @@ function api_v1_project_checkout($method, array $data, array $query_params)
     }
 }
 
-function api_v1_project_validatetext($method, $data, array $query_params)
+function api_v1_project_validatetext(string $method, array $data, array $query_params)
 {
-    $text_checker = new TextChecker();
-    return $text_checker->analyse(receive_project_text_from_request_body('text'), $data[":projectid"]);
+    $project = $data[":projectid"];
+    $invalid_characters = $project->find_invalid_characters(receive_project_text_from_request_body('text'));
+    return ["invalid_chars" => $invalid_characters];
 }
 
 function api_v1_project_page(string $method, array $data, array $query_params)

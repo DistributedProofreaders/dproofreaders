@@ -674,21 +674,19 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($this->TEST_OLDUSERNAME, $info[1]->username);
     }
 
-    public function test_validate_text()
+    public function test_validate_bad_text()
     {
         $project = $this->_create_available_project();
         $response = $this->validate_text($project->projectid, "This is an invĀlid test file");
-        $expected = [
-            'valid' => false,
-            'mark_array' => [["This is an inv", "", 0], ["Ā", "LATIN CAPITAL LETTER A WITH MACRON", 1], ["lid test file", "", 0]],
-        ];
+        $expected = ["invalid_chars" => ["Ā" => "LATIN CAPITAL LETTER A WITH MACRON"]];
         $this->assertEquals($expected, $response);
+    }
 
+    public function test_validate_good_text()
+    {
+        $project = $this->_create_available_project();
         $response = $this->validate_text($project->projectid, "This is a valid test file");
-        $expected = [
-            'valid' => true,
-            'mark_array' => [["This is a valid test file", "", 0]],
-        ];
+        $expected = ["invalid_chars" => []];
         $this->assertEquals($expected, $response);
     }
 }
