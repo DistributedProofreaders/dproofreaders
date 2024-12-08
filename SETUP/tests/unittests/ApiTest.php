@@ -72,7 +72,7 @@ class ApiTest extends ProjectUtils
 
     //---------------------------------------------------------------------------
     // tests
-/*
+
     public function test_get_invalid_project_info()
     {
         $this->expectExceptionCode(101);
@@ -691,7 +691,7 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-*/
+
     public function test_pickersets()
     {
         $project = $this->_create_project();
