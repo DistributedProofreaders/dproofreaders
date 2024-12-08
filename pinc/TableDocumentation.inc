@@ -82,7 +82,7 @@ class TableDocumentation
 
         foreach ($contents as $row) {
             foreach ($row as $column => $value) {
-                $column_lengths[$column] = max(strlen($value), array_get($column_lengths, $column, strlen($column)));
+                $column_lengths[$column] = max(strlen($value), $column_lengths[$column] ?? strlen($column));
             }
         }
 
@@ -105,7 +105,7 @@ class TableDocumentation
             $output_row = '|';
 
             foreach ($table_columns as $column) {
-                $output_row .= str_pad(array_get($row, $column, ''), $column_lengths[$column]) . '|';
+                $output_row .= str_pad($row[$column] ?? '', $column_lengths[$column]) . '|';
             }
 
             $output_table[] = $output_row;

@@ -28,7 +28,7 @@ define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 function detect_too_large()
 {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
-        empty($_FILES) && array_get($_SERVER, 'CONTENT_LENGTH', 0) > 0) {
+        empty($_FILES) && ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
         throw new LengthException(sprintf(_("Uploaded file is too large. Maximum file size is %s."), humanize_bytes(get_max_upload_size())));
     }
 }
@@ -191,8 +191,8 @@ function validate_uploaded_file($verbose)
         } else {
             // resumable upload
             $root_staging_dir = "/tmp/resumable_uploads";
-            $original_name = array_get($_POST, "resumable_filename", "");
-            $identifier = array_get($_POST, "resumable_identifier", "");
+            $original_name = $_POST["resumable_filename"] ?? "";
+            $identifier = $_POST["resumable_identifier"] ?? "";
             $hashed_filename = md5($identifier);
             $file_path = "$root_staging_dir/$hashed_filename";
             if (!file_exists($file_path)) {

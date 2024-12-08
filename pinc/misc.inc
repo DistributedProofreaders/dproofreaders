@@ -24,8 +24,7 @@ use voku\helper\UTF8;
  */
 function array_get($arr, $key, $default)
 {
-    // TODO(jchaffraix): Enable once we have no users in the codebase.
-    // trigger_error("array_get() is deprecated, use the null coalescing operator instead", E_USER_DEPRECATED);
+    trigger_error("array_get() is deprecated, use the null coalescing operator instead", E_USER_DEPRECATED);
     if (isset($arr[$key])) {
         return $arr[$key];
     } else {
@@ -61,7 +60,7 @@ function array_extract_field($array, $field)
  */
 function array_get_as_array($array, $key, $default)
 {
-    $value = array_get($array, $key, $default);
+    $value = $array[$key] ?? $default;
     if (!is_null($value) && !is_array($value)) {
         $value = [$value];
     }

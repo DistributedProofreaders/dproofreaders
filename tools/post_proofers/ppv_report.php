@@ -279,7 +279,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         global $action;
         $problem = "";
         if ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
-            $arg = array_get($_POST, $id, '');
+            $arg = $_POST[$id] ?? '';
 
             if ($id == 'kb_size') {
                 if ($arg == "") {
@@ -316,7 +316,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         if ($action == SHOW_BLANK_ENTRY_FORM) {
             $value = '';
         } elseif ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
-            $value = array_get($_POST, $id, '');
+            $value = $_POST[$id] ?? '';
         }
 
         if ($value == '') {
@@ -325,9 +325,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             $value_attr = sprintf(" value='%s'", attr_safe($value));
         }
 
-        $size = array_get($options, 'size', 3);
-        $use_a_label_element = array_get($options, 'use_a_label_element', false);
-        $put_label_on_left = array_get($options, 'put_label_on_left', false);
+        $size = $options['size'] ?? 3;
+        $use_a_label_element = $options['use_a_label_element'] ?? false;
+        $put_label_on_left = $options['put_label_on_left'] ?? false;
 
         $input_element = "<input type='text' size='$size' name='$id' id='$id'$value_attr>";
 
@@ -353,7 +353,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         if ($action == SHOW_BLANK_ENTRY_FORM) {
             $text = '';
         } elseif ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
-            $text = array_get($_POST, $id, '');
+            $text = $_POST[$id] ?? '';
         }
 
         $esc_text = html_safe($text);
@@ -939,7 +939,7 @@ function report_recommendations($recommendations)
 
 function report_comments($base_indent, $id, $label)
 {
-    $comments = array_get($_POST, $id, '');
+    $comments = $_POST[$id] ?? '';
     if (empty($comments)) {
         return "";
     }

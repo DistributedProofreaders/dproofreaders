@@ -300,7 +300,7 @@ function encourage_highest_round(?string $username, $round_id = null): void
             $mute_expire = $user_settings->get_value($mute_setting_key);
 
             // if user has requested muting for this round, set the expire time
-            if (array_get($_GET, $mute_query_param, "") == $round_target) {
+            if (($_GET[$mute_query_param] ?? "") == $round_target) {
                 $mute_expire = time() + 60 * 60 * 24 * $mute_days;
                 $user_settings->set_value($mute_setting_key, $mute_expire);
             }

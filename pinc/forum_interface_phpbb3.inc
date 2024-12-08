@@ -346,7 +346,7 @@ function get_forum_user_details($username)
     }
 
     foreach ($interested_columns as $column) {
-        $return_data[$column] = array_get($row, "user_$column", array_get($row, $column, null));
+        $return_data[$column] = $row["user_$column"] ?? ($row[$column] ?? null);
     }
 
     // phpBB 3.1 and later put data in phpbb_profile_fields_data with
