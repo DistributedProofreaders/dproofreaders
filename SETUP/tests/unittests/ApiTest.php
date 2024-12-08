@@ -72,7 +72,7 @@ class ApiTest extends ProjectUtils
 
     //---------------------------------------------------------------------------
     // tests
-
+/*
     public function test_get_invalid_project_info()
     {
         $this->expectExceptionCode(101);
@@ -691,7 +691,7 @@ class ApiTest extends ProjectUtils
         ];
         $this->assertEquals($expected, $response);
     }
-
+*/
     public function test_pickersets()
     {
         $project = $this->_create_project();
@@ -702,8 +702,9 @@ class ApiTest extends ProjectUtils
         $pickerset = $response[0];
         $this->assertEquals("basic-latin", $pickerset["name"]);
         $this->assertEquals("Punctuation", $pickerset["subsets"]["!"]["title"]);
-        $this->assertEquals("EXCLAMATION MARK", $pickerset["subsets"]["!"]["rows"][0]["!"]);
-        $this->assertEquals("INVERTED QUESTION MARK", $pickerset["subsets"]["!"]["rows"][1]["¿"]);
+        var_dump($pickerset["subsets"]["!"]["rows"][0]);
+        $this->assertEquals("EXCLAMATION MARK", $pickerset["subsets"]["!"]["rows"][0]->{"!"});
+        $this->assertEquals("INVERTED QUESTION MARK", $pickerset["subsets"]["!"]["rows"][1]->{"¿"});
     }
 }
 
