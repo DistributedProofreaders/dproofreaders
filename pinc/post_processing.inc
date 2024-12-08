@@ -50,7 +50,7 @@ function get_pp_projects_past_threshold($PPer = null)
     }
 
     if ($PPer) {
-        return array_get($projects_grouped_by_PPer, $PPer, []);
+        return $projects_grouped_by_PPer[$PPer] ?? [];
     } else {
         return $projects_grouped_by_PPer;
     }

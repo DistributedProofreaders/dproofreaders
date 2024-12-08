@@ -664,7 +664,7 @@ function get_normalize_page_text_changes(string $text, string $projectid): array
 
     $invalid_chars = get_invalid_characters($text, $project->get_valid_codepoints());
     if ($invalid_chars) {
-        $whitespace_codepoints = array_get(get_utf8_to_ascii_codepoints(), " ", []);
+        $whitespace_codepoints = get_utf8_to_ascii_codepoints()[" "] ?? [];
         $unicode_whitespace_chars = array_map('voku\helper\UTF8::hex_to_chr', $whitespace_codepoints);
         $found_whitespace_chars = array_intersect(array_keys($invalid_chars), $unicode_whitespace_chars);
         if ($found_whitespace_chars) {

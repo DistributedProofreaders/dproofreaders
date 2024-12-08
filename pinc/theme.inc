@@ -312,7 +312,7 @@ function html_navbar()
         // of the current request, so that after logging in, they are returned
         // to (the "logged-in" version of) the page that's currently being built.
         //
-        $destination = array_get($_REQUEST, "destination", $_SERVER["REQUEST_URI"]);
+        $destination = $_REQUEST["destination"] ?? $_SERVER["REQUEST_URI"];
 
         $login_form .= "<input type='hidden' name='destination' value='" . attr_safe($destination) . "'>";
 
@@ -468,8 +468,8 @@ function resolve_headerbar_entries(array $entries): array
 
     foreach ($entries as $entry) {
         $text = $entry['text'];
-        $title = array_get($entry, 'title', '');
-        $target = array_get($entry, 'target', null);
+        $title = $entry['title'] ?? '';
+        $target = $entry['target'] ?? null;
 
         if (!empty($entry['url'])) {
             // ensure we have a full url, if not prefix the $code_url

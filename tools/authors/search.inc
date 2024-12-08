@@ -144,9 +144,9 @@ function sql_like_encode(string $str): string
 function echo_search_form(): void
 {
     global $last_name, $other_names;
-    $view = array_get($_REQUEST, 'view', null);
-    $orderby = array_get($_REQUEST, 'orderby', null);
-    $desc = array_get($_REQUEST, 'desc', null);
+    $view = $_REQUEST['view'] ?? null;
+    $orderby = $_REQUEST['orderby'] ?? null;
+    $desc = $_REQUEST['desc'] ?? null;
     echo "<h2>" . _("Search") . "</h2>";
     echo "<p>" . _('Case insensitive.') . " ";
     echo sprintf(

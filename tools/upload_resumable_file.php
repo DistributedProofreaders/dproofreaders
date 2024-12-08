@@ -10,14 +10,14 @@ require_login();
 // staging directory for resumable uploads
 $root_staging_dir = "/tmp/resumable_uploads";
 
-$identifier = array_get($_REQUEST, "resumableIdentifier", "");
+$identifier = $_REQUEST["resumableIdentifier"] ?? "";
 // create a sanitized file name from the identifier
 $hashed_filename = md5($identifier);
-$filename = array_get($_REQUEST, "resumableFilename", "");
-$chunk_number = array_get($_REQUEST, "resumableChunkNumber", "");
-$chunk_size = array_get($_REQUEST, "resumableChunkSize", "");
-$total_chunks = array_get($_REQUEST, "resumableTotalChunks", 0);
-$total_size = array_get($_REQUEST, "resumableTotalSize", 0);
+$filename = $_REQUEST["resumableFilename"] ?? "";
+$chunk_number = $_REQUEST["resumableChunkNumber"] ?? "";
+$chunk_size = $_REQUEST["resumableChunkSize"] ?? "";
+$total_chunks = $_REQUEST["resumableTotalChunks"] ?? 0;
+$total_size = $_REQUEST["resumableTotalSize"] ?? 0;
 
 // use a different name for directory so we can put final file
 // in $root_staging_dir and delete $staging_dir

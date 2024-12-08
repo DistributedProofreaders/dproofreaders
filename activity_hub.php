@@ -116,7 +116,7 @@ $result = DPDatabase::query($sql);
 // show_filtered_numbers userSetting for use the next time they visit the
 // page.
 $user_filtered_projects_setting = $userSettings->get_boolean("show_filtered_numbers");
-$page_filtered_projects_setting = (array_get($_GET, "show_filtered", $user_filtered_projects_setting) == 1);
+$page_filtered_projects_setting = (($_GET["show_filtered"] ?? $user_filtered_projects_setting) == 1);
 if ($user_filtered_projects_setting != $page_filtered_projects_setting) {
     $userSettings->set_boolean("show_filtered_numbers", $page_filtered_projects_setting);
 }
@@ -344,9 +344,9 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
         // (Use '@' to suppress "Undefined property" notice:
         // not every stage has a 'project_complete_state'.)
         if ($stage_state == @$stage->project_complete_state) {
-            $count = array_get($n_projects_transitioned_to_state_, $stage_state, 0);
+            $count = $n_projects_transitioned_to_state_[$stage_state] ?? 0;
         } else {
-            $count = array_get($n_projects_in_state_, $stage_state, 0);
+            $count = $n_projects_in_state_[$stage_state] ?? 0;
             $total_projects += $count;
         }
 

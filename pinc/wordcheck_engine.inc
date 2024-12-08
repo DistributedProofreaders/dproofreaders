@@ -223,8 +223,8 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
 
     // The site
     {
-        $acc->remove_good_words(array_get($word_lists, "site_good", []));
-        $acc->add_bad_words(array_get($word_lists, "site_bad", []), WC_SITE);
+        $acc->remove_good_words($word_lists["site_good"] ?? []);
+        $acc->add_bad_words($word_lists["site_bad"] ?? [], WC_SITE);
 
         $acc->add_bad_words(
             get_bad_words_via_pattern($input_words_w_freq, $languages),
@@ -234,14 +234,14 @@ function get_bad_words_for_text($text, $languages, $word_lists = [])
 
     // The project
     {
-        $acc->remove_good_words(array_get($word_lists, "project_good", []));
+        $acc->remove_good_words($word_lists["project_good"] ?? []);
 
-        $acc->add_bad_words(array_get($word_lists, "project_bad", []), WC_PROJECT);
+        $acc->add_bad_words($word_lists["project_bad"] ?? [], WC_PROJECT);
     }
 
     // The page
     {
-        $acc->remove_good_words(array_get($word_lists, "adhoc_good", []));
+        $acc->remove_good_words($word_lists["adhoc_good"] ?? []);
     }
 
     return [$input_words_w_freq, $acc->words, $acc->messages];
@@ -480,7 +480,7 @@ function get_bad_words_via_pattern($input_words_w_freq, $languages)
     ];
     $exceptions = [];
     foreach ($langcode3s as $langcode3) {
-        $exceptions[] = array_get($exceptions_for_lang, $langcode3, "");
+        $exceptions[] = $exceptions_for_lang[$langcode3] ?? "";
     }
     $exceptions = join('|', $exceptions);
     $exceptions_pattern = "/^($exceptions)$/u";

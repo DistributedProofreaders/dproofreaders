@@ -8,8 +8,8 @@ include_once($relPath.'slim_header.inc');
 
 require_login();
 
-$subject_username = array_get($_POST, 'subject_username', null);
-$notify_user = array_get($_POST, 'notify_user', null);
+$subject_username = $_POST['subject_username'] ?? null;
+$notify_user = $_POST['notify_user'] ?? null;
 
 $user = new User($subject_username);
 
