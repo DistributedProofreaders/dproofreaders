@@ -9,6 +9,14 @@ first before upgrading to R202102 or later releases.**
 
 ## R??????
 
+### Notices & Deprecations
+
+The `array_get()` function has been deprecated and will be removed in the next
+release. Use the [null coalescing operator](https://www.php.net/manual/en/language.operators.comparison.php#language.operators.comparison.coalesce)
+instead.
+
+### Changes
+
 * WikiHiero support has been removed (cpeel)
 
 ## R202409
