@@ -432,7 +432,7 @@ class LPage
     /**
      * Return TRUE if this report causes project to be marked bad.
      */
-    public function markAsBad($user, $reason)
+    public function markAsBad(string $user, int $reason): bool
     {
         global $code_url, $PAGE_BADNESS_REASONS;
 
