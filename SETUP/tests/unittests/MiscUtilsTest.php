@@ -4,20 +4,6 @@
 
 class MiscUtilsTest extends PHPUnit\Framework\TestCase
 {
-    public function test_array_get_exists()
-    {
-        $arr = ["param" => "value"];
-        $value = $arr["param"] ?? "default";
-        $this->assertEquals($arr["param"], $value);
-    }
-
-    public function test_array_get_doesnt_exists()
-    {
-        $arr = [];
-        $value = $arr["param"] ?? "default";
-        $this->assertEquals("default", $value);
-    }
-
     public function test_get_changed_fields_for_objects()
     {
         $obj1 = new stdClass();

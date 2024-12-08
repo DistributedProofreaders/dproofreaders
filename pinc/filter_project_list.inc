@@ -52,7 +52,7 @@ class ProjectFilterElement
     {
         echo "<select name='{$this->id}[]' id=$this->id size='4' multiple>";
         $options = $this->get_options();
-        $selected_keys = array_get($this->data, $this->id, []);
+        $selected_keys = $this->data[$this->id] ?? [];
         echo_option("", _('Any'), empty($selected_keys));
         foreach ($options as $key => $value) {
             $selected = in_array($key, $selected_keys);
@@ -174,7 +174,7 @@ class DifficultyElement extends ProjectFilterElement
         echo "<div class='flex_row'>";
         echo "<div class='entry'><b>" . html_safe("$this->label:") . "</b></div>";
         echo "<div class='entry'><input type='checkbox' name='difficulty[]' id='diff-all' value=''";
-        $difficulty = array_get($this->data, "difficulty", []);
+        $difficulty = $this->data["difficulty"] ?? [];
         if (!count($difficulty)) {
             echo " checked";
         }
@@ -304,7 +304,7 @@ class ProjectSearchElement
 
     public function get_sql_component()
     {
-        $values = array_get($this->data, $this->id, []);
+        $values = $this->data[$this->id] ?? [];
         if (empty($values)) {
             return "";
         }
@@ -372,7 +372,7 @@ function get_project_filter_sql($pguser, $filter_type)
 function get_lang_match($data)
 {
     // set a default if not set
-    return array_get($data, "lang-match", "primwith");
+    return $data["lang-match"] ?? "primwith";
 }
 
 function save_data($pguser, $filter_type, $data)

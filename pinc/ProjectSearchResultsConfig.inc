@@ -143,7 +143,7 @@ class ConfigForm extends ColumnData
         global $code_url, $pguser;
 
         echo "<h1>$page_title</h1>\n";
-        $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php");
+        $origin = $_GET['origin'] ?? "$code_url/activity_hub.php";
         echo "<div style='clear: both;'>
             <form method='GET'>
             <input type='hidden' name='show' value='set_columns'>
@@ -212,7 +212,7 @@ class ConfigSaver extends ColumnData
         }
         // get the option values
         foreach ($option_data->options as $option) {
-            $value = array_get($_GET, $option->id, '');
+            $value = $_GET[$option->id] ?? '';
             $option->save_value($value);
         }
     }
@@ -237,7 +237,7 @@ function handle_set_cols($show_view, $search_origin)
         $userSettings = & Settings::get_Settings($pguser);
         $config_saver = new ConfigSaver($userSettings, $search_origin);
         $config_saver->store_data();
-        $origin = array_get($_GET, 'origin', "$code_url/activity_hub.php");
+        $origin = $_GET['origin'] ?? "$code_url/activity_hub.php";
         metarefresh(0, $origin);
     }
 }
