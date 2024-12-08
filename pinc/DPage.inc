@@ -470,7 +470,7 @@ $PAGE_BADNESS_REASONS = [
     _('Other'),
 ];
 
-function Page_markAsBad(string $projectid, string $image, Round $round, string $user, string $reason): void
+function Page_markAsBad(string $projectid, string $image, Round $round, string $user, int $reason): void
 {
     _Page_require(
         $projectid,

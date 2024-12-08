@@ -338,7 +338,7 @@ class PPage
         $this->lpage->returnToRound($user);
     }
 
-    public function markAsBad($user, $reason)
+    public function markAsBad(string $user, int $reason)
     {
         return $this->lpage->markAsBad($user, $reason);
     }
