@@ -1000,23 +1000,31 @@ paths:
                       type: string
                       example: basic-latin
                     subsets:
-                      type: object
-                      additionalProperties:
+                      type: array
+                      items:
                         type: object
                         properties:
+                          name:
+                            type: string
                           title:
                             type: string
                           rows:
                             type: array
                             items:
-                              type: object
-                              additionalProperties:
+                              type: array
+                              items:
                                 type: string
-                      example:
-                        ˆ: { title: "Letters with acute, grave, and circumflex",
-                             rows: [{Á: LATIN CAPITAL LETTER A WITH ACUTE, É: LATIN CAPITAL LETTER E WITH ACUTE},
-                                    {á: LATIN SMALL LETTER A WITH ACUTE, é: LATIN SMALL LETTER E WITH ACUTE}]}
-
+                        example:
+                          name: ˆ
+                          title: "Letters with acute, grave, and circumflex"
+                          rows: [
+                            [
+                              [Á, LATIN CAPITAL LETTER A WITH ACUTE], [É, LATIN CAPITAL LETTER E WITH ACUTE]
+                            ],
+                            [
+                              [á, LATIN SMALL LETTER A WITH ACUTE], [é, LATIN SMALL LETTER E WITH ACUTE]
+                            ]
+                          ]
         '400':
           $ref: '#/components/responses/InvalidValue'
         '401':
