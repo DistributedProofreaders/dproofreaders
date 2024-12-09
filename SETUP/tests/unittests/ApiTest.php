@@ -701,9 +701,10 @@ class ApiTest extends ProjectUtils
         $response = $router->route($path, []);
         $pickerset = $response[0];
         $this->assertEquals("basic-latin", $pickerset["name"]);
-        $this->assertEquals("Punctuation", $pickerset["subsets"]["!"]["title"]);
-        $this->assertEquals("EXCLAMATION MARK", $pickerset["subsets"]["!"]["rows"][0]->{"!"});
-        $this->assertEquals("INVERTED QUESTION MARK", $pickerset["subsets"]["!"]["rows"][1]->{"¿"});
+        $this->assertEquals("!", $pickerset["subsets"][3]["name"]);
+        $this->assertEquals("Punctuation", $pickerset["subsets"][3]["title"]);
+        $this->assertEquals(["!", "EXCLAMATION MARK"], $pickerset["subsets"][3]["rows"][0][0]);
+        $this->assertEquals(["¿", "INVERTED QUESTION MARK"], $pickerset["subsets"][3]["rows"][1][1]);
     }
 }
 

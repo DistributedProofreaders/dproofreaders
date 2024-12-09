@@ -40,15 +40,11 @@ class PickerSet
                 $chars = convert_codepoint_ranges_to_characters($row);
                 $char_names = [];
                 foreach ($chars as $char) {
-                    if (null == $char) {
-                        $char_names[null] = null;
-                    } else {
-                        $char_names[$char] = utf8_character_name($char);
-                    }
+                    $char_names[] = [$char, (null !== $char) ? utf8_character_name($char) : null];
                 }
-                $verbose_rows[] = (object)$char_names;
+                $verbose_rows[] = $char_names;
             }
-            $verbose_subsets[$subset_name] = ["title" => $this->get_title($subset_name), "rows" => $verbose_rows];
+            $verbose_subsets[] = ["name" => $subset_name, "title" => $this->get_title($subset_name), "rows" => $verbose_rows];
         }
         return $verbose_subsets;
     }
