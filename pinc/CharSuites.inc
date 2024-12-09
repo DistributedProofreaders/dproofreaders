@@ -44,7 +44,7 @@ class PickerSet
                 }
                 $verbose_rows[] = $char_names;
             }
-            $verbose_subsets[] = ["name" => $subset_name, "title" => $this->get_title($subset_name), "rows" => $verbose_rows];
+            $verbose_subsets[] = ["name" => (string)$subset_name, "title" => $this->get_title($subset_name), "rows" => $verbose_rows];
         }
         return $verbose_subsets;
     }
