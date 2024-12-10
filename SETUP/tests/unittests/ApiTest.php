@@ -7,6 +7,14 @@ class ApiTest extends ProjectUtils
     //---------------------------------------------------------------------------
     // helper functions
 
+    protected function get_project_data(string $projectid, array $query_params): array
+    {
+        $path = "v1/projects/$projectid";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        return $router->route($path, $query_params);
+    }
+
     protected function checkout(string $projectid, string $project_state): array
     {
         $path = "v1/projects/$projectid/checkout";
@@ -100,11 +108,7 @@ class ApiTest extends ProjectUtils
         $this->expectExceptionCode(101);
 
         $projectid = "1234";
-        $path = "v1/projects/$projectid";
-        $query_params = "";
-        $router = ApiRouter::get_router();
-        $_SERVER["REQUEST_METHOD"] = "GET";
-        $router->route($path, $query_params);
+        $this->get_project_data($projectid, []);
     }
 
     public function test_get_invalid_round_stats()
@@ -196,6 +200,20 @@ class ApiTest extends ProjectUtils
         $result = $router->route($path, $query_params);
         $this->assertEquals($this->TEST_TEXT, $result["text"]);
         $this->assertEquals("P1.page_avail", $result["pagestate"]);
+    }
+
+    public function test_get_round_type_none(): void
+    {
+        $project = $this->_create_project();
+        $result = $this->get_project_data($project->projectid, ["field" => "round_type"]);
+        $this->assertEquals(["round_type" => "none"], $result);
+    }
+
+    public function test_get_round_type_proofreading(): void
+    {
+        $project = $this->_create_available_project();
+        $result = $this->get_project_data($project->projectid, ["field" => "round_type"]);
+        $this->assertEquals(["round_type" => "proofreading"], $result);
     }
 
     //---------------------------------------------------------------------------
