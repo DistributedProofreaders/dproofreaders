@@ -13,89 +13,89 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
         'U+004E>U+0306',  // N̆
     ];
 
-    public function testSubstrReplace()
+    public function testSubstrReplace(): void
     {
         $string = "ЖЖaac";
         $new_string = UTF8::substr_replace($string, "bb", 2, 2);
         $this->assertEquals("ЖЖbbc", $new_string);
     }
 
-    public function testUtf8CombinedChr()
+    public function testUtf8CombinedChr(): void
     {
         $codepoint = 'U+004E';  // N
         $char = utf8_combined_chr($codepoint);
         $this->assertEquals("N", $char);
     }
 
-    public function testAreCodepointsNormalized()
+    public function testAreCodepointsNormalized(): void
     {
         $codepoints = ['U+004E>U+0305'];  // N̅
         $this->assertEquals(get_nonnormalized_codepoints($codepoints), []);
     }
 
-    public function testAreCodepointsNormalizedFail()
+    public function testAreCodepointsNormalizedFail(): void
     {
         $codepoints = ['U+004e>U+0307'];  // Ṅ but normalizes to U+1e44
         $this->assertEquals(get_nonnormalized_codepoints($codepoints), ["U+004e>U+0307" => "U+1e44"]);
     }
 
-    public function testUtf8CombinedChrCombined()
+    public function testUtf8CombinedChrCombined(): void
     {
         $codepoint = 'U+004E>U+0305';  // N̅
         $char = utf8_combined_chr($codepoint);
         $this->assertEquals("\u{4e}\u{305}", $char);
     }
 
-    public function testUtf8CharacterName()
+    public function testUtf8CharacterName(): void
     {
         $char = 'N';
         $name = utf8_character_name($char);
         $this->assertEquals("LATIN CAPITAL LETTER N", $name);
     }
 
-    public function testUtf8CharacterNameCombined()
+    public function testUtf8CharacterNameCombined(): void
     {
         $char = 'N̅';
         $name = utf8_character_name($char);
         $this->assertEquals("LATIN CAPITAL LETTER N + COMBINING OVERLINE", $name);
     }
 
-    public function testStringToCodepopintsString()
+    public function testStringToCodepopintsString(): void
     {
         $string = "Name";
         $codepoint_string = string_to_codepoints_string($string);
         $this->assertEquals("U+004e U+0061 U+006d U+0065", $codepoint_string);
     }
 
-    public function testStringToCodepopintsStringCombined()
+    public function testStringToCodepopintsStringCombined(): void
     {
         $string = "N̅ame";
         $codepoint_string = string_to_codepoints_string($string);
         $this->assertEquals("U+004e U+0305 U+0061 U+006d U+0065", $codepoint_string);
     }
 
-    public function testFilterToCodepoints()
+    public function testFilterToCodepoints(): void
     {
         $string = "abc1Ж3xyz";
         $new_string = utf8_filter_to_codepoints($string, $this->a_to_z_codepoints);
         $this->assertEquals("abcxyz", $new_string);
     }
 
-    public function testFilterToCodepointsReplace()
+    public function testFilterToCodepointsReplace(): void
     {
         $string = "abc1Ж3xyz";
         $new_string = utf8_filter_to_codepoints($string, $this->a_to_z_codepoints, "_");
         $this->assertEquals("abc___xyz", $new_string);
     }
 
-    public function testFilterOutCodepoints()
+    public function testFilterOutCodepoints(): void
     {
         $string = "abc1Ж3xyz";
         $new_string = utf8_filter_out_codepoints($string, $this->a_to_z_codepoints);
         $this->assertEquals("1Ж3", $new_string);
     }
 
-    public function testFilterOutCodepointsReplace()
+    public function testFilterOutCodepointsReplace(): void
     {
         $string = "abc1Ж3xyz";
         $new_string = utf8_filter_out_codepoints($string, $this->a_to_z_codepoints, "_");
@@ -106,49 +106,49 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
     // we use a string that has characters that decompose into overlapping
     // codepoints to ensure we handle them all.
 
-    public function testFilterToCodepointsCombined()
+    public function testFilterToCodepointsCombined(): void
     {
         $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
         $new_string = utf8_filter_to_codepoints($string, $this->combined_codepoints);
         $this->assertEquals("NN̆N̆", $new_string);
     }
 
-    public function testFilterToCodepointsCombinedReplace()
+    public function testFilterToCodepointsCombinedReplace(): void
     {
         $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
         $new_string = utf8_filter_to_codepoints($string, $this->combined_codepoints, "_");
         $this->assertEquals("___NN̆N̆_______", $new_string);
     }
 
-    public function testFilterOutCodepointsCombined()
+    public function testFilterOutCodepointsCombined(): void
     {
         $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
         $new_string = utf8_filter_out_codepoints($string, $this->combined_codepoints);
         $this->assertEquals("abcN͉̅A̅ĂȦxyz", $new_string);
     }
 
-    public function testFilterOutCodepointsCombinedReplace()
+    public function testFilterOutCodepointsCombinedReplace(): void
     {
         $string = "abcNN̆N̆N͉̅A̅ĂȦxyz";
         $new_string = utf8_filter_out_codepoints($string, $this->combined_codepoints, "_");
         $this->assertEquals("abc___N͉̅A̅ĂȦxyz", $new_string);
     }
 
-    public function testConvertCodepointsToCharacters()
+    public function testConvertCodepointsToCharacters(): void
     {
         $chars = str_split("abcdefghijklmnopqrstuvwxyz");
         $string = convert_codepoint_ranges_to_characters($this->a_to_z_codepoints);
         $this->assertEquals($chars, $string);
     }
 
-    public function testConvertCodepointsToCharactersCombined()
+    public function testConvertCodepointsToCharactersCombined(): void
     {
         $chars = ["N", "N̅", "N̆"];
         $string = convert_codepoint_ranges_to_characters($this->combined_codepoints);
         $this->assertEquals($chars, $string);
     }
 
-    public function testGetInvalidCharacters()
+    public function testGetInvalidCharacters(): void
     {
         $string = "abc@##Жabc";
         $chars = [
@@ -160,7 +160,7 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($chars, $invalid_chars);
     }
 
-    public function testGetInvalidCharactersCombined()
+    public function testGetInvalidCharactersCombined(): void
     {
         $string = "abc@##ЖN̆N̆abc";
         $chars = [
@@ -173,21 +173,21 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($chars, $invalid_chars);
     }
 
-    public function testUtf8CharScript()
+    public function testUtf8CharScript(): void
     {
         $char = 'a';
         $script = utf8_char_script($char);
         $this->assertEquals('Latin', $script);
     }
 
-    public function testUtf8StringScripts()
+    public function testUtf8StringScripts(): void
     {
         $string = 'a.';
         $scripts = utf8_string_scripts($string);
         $this->assertEquals(['Latin', 'Common'], $scripts);
     }
 
-    public function testSplitMultiscriptString()
+    public function testSplitMultiscriptString(): void
     {
         $string = "abcd";
         $chunks = split_multiscript_string($string);

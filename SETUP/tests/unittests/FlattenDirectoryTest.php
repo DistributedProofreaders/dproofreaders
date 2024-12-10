@@ -30,7 +30,7 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
         $this->recursiveDeleteDirectory(self::TMP_DIRECTORY_PATH);
     }
 
-    private function recursiveDeleteDirectory($path_to_directory)
+    private function recursiveDeleteDirectory(string $path_to_directory): void
     {
         // Copied from https://stackoverflow.com/a/3352564
         $files = new RecursiveIteratorIterator(
@@ -46,7 +46,7 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
         rmdir($path_to_directory);
     }
 
-    public function testFlatteningEmptyDirectory()
+    public function testFlatteningEmptyDirectory(): void
     {
         flatten_directory(self::EMPTY_DIRECTORY_PATH);
 
@@ -54,13 +54,13 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(true);
     }
 
-    public function testFlatteningNonExistentDirectory()
+    public function testFlatteningNonExistentDirectory(): void
     {
         $this->expectException(InvalidArgumentException::class);
         flatten_directory('non_existent_directory');
     }
 
-    public function testFlatteningDirectoryWithNestedSubdirectories()
+    public function testFlatteningDirectoryWithNestedSubdirectories(): void
     {
         flatten_directory(self::NESTED_DIRECTORY_PATH);
 
