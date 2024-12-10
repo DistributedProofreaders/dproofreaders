@@ -28,7 +28,7 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
         $this->assertSame(false, DPDatabase::does_table_exist("inexistent_for_sure"));
     }
 
-    public function test_insert_delete_table()
+    public function test_insert_delete_table(): void
     {
         $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES(0, \"test\")");
         $this->assertTrue($r);
@@ -49,31 +49,31 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($r);
     }
 
-    public function test_fail_insert_inexistent_table()
+    public function test_fail_insert_inexistent_table(): void
     {
         $this->expectException(DBQueryError::class);
         $r = DPDatabase::query("INSERT INTO `inexistent_for_sure` VALUES(0)");
     }
 
-    public function test_fail_insert_inexistent_table_no_exception()
+    public function test_fail_insert_inexistent_table_no_exception(): void
     {
         $r = DPDatabase::query("INSERT INTO `inexistent_for_sure` VALUES(0)", /*throw_on_failure*/ false);
         $this->assertSame(false, $r);
     }
 
-    public function test_fail_insert_missing_values()
+    public function test_fail_insert_missing_values(): void
     {
         $this->expectException(DBQueryError::class);
         $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES()");
     }
 
-    public function test_fail_insert_missing_values_no_exception()
+    public function test_fail_insert_missing_values_no_exception(): void
     {
         $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES()", /*throw_on_failure*/ false);
         $this->assertSame(false, $r);
     }
 
-    public function test_close_then_reopen()
+    public function test_close_then_reopen(): void
     {
         DPDatabase::close();
         $this->assertNull(DPDatabase::get_connection());

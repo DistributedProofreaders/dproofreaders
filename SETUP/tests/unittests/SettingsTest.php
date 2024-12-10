@@ -42,19 +42,19 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         delete_test_user($this->TEST_USERNAME);
     }
 
-    public function testExisting()
+    public function testExisting(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $this->assertGreaterThan(0, $settings->settings_count());
     }
 
-    public function testNonexisting()
+    public function testNonexisting(): void
     {
         $settings = new Settings($this->NONEXISTENT_USERNAME);
         $this->assertEquals(0, $settings->settings_count());
     }
 
-    public function testSetTrue()
+    public function testSetTrue(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->set_true($this->PREFIX . "boolean_true");
@@ -65,7 +65,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSetFalse()
+    public function testSetFalse(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->set_false($this->PREFIX . "boolean_false");
@@ -76,7 +76,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSetSingleValue()
+    public function testSetSingleValue(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->set_value($this->PREFIX . "single_value", "single");
@@ -88,7 +88,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSetSingleValueDefault()
+    public function testSetSingleValueDefault(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $this->assertEquals(
@@ -97,7 +97,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testSetSingleValueAgain()
+    public function testSetSingleValueAgain(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->set_value($this->PREFIX . "single_value", "single1");
@@ -110,7 +110,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testAddMultivaluedSetting()
+    public function testAddMultivaluedSetting(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->add_value($this->PREFIX . "multi_value", "value1");
@@ -122,7 +122,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         $this->assertContains("value2", $values);
     }
 
-    public function testRemoveMultivaluedSetting()
+    public function testRemoveMultivaluedSetting(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->add_value($this->PREFIX . "multi_value", "value1");
@@ -134,7 +134,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         $this->assertContains("value2", $values);
     }
 
-    public function testGetMultivaluedSettingAsSingle()
+    public function testGetMultivaluedSettingAsSingle(): void
     {
         // Note: calling get_value() on a multi-valued setting use to result
         // in a RuntimeException being thrown, but commit 68ecf5 changed that.
@@ -148,7 +148,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(in_array($values, ["value1", "value2"]));
     }
 
-    public function testSetMultivaluedSettingAsSingle()
+    public function testSetMultivaluedSettingAsSingle(): void
     {
         $settings = new Settings($this->TEST_USERNAME);
         $settings->add_value($this->PREFIX . "multi_value", "value1");
@@ -161,7 +161,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetUsernamesWithSetting()
+    public function testGetUsernamesWithSetting(): void
     {
         // Ensure no one has this setting already
         $usernames = Settings::get_users_with_setting(

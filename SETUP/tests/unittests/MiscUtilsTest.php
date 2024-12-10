@@ -4,7 +4,7 @@
 
 class MiscUtilsTest extends PHPUnit\Framework\TestCase
 {
-    public function test_get_changed_fields_for_objects()
+    public function test_get_changed_fields_for_objects(): void
     {
         $obj1 = new stdClass();
         $obj1->param1 = "a";
@@ -18,7 +18,7 @@ class MiscUtilsTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(["param2"], $changed);
     }
 
-    public function test_any_all()
+    public function test_any_all(): void
     {
         $this->assertFalse(any([]));
         $this->assertFalse(any([], 'is_numeric'));
