@@ -185,6 +185,7 @@ class ProjectPage
  * @property-read bool $PPer_is_current_user
  * @property-read bool $PPVer_is_current_user
  * @property-read bool $forum_url
+ * @property-read string $round_type
  */
 class Project
 {
