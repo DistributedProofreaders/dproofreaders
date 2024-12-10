@@ -95,7 +95,7 @@ class ApiTest extends ProjectUtils
     //---------------------------------------------------------------------------
     // tests
 
-    public function test_get_invalid_project_info()
+    public function test_get_invalid_project_info(): void
     {
         $this->expectExceptionCode(101);
 
@@ -107,7 +107,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
-    public function test_get_invalid_round_stats()
+    public function test_get_invalid_round_stats(): void
     {
         $this->expectExceptionCode(103);
 
@@ -118,7 +118,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
-    public function test_get_invalid_page_data()
+    public function test_get_invalid_page_data(): void
     {
         $this->expectExceptionCode(104);
 
@@ -130,7 +130,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
-    public function test_get_invalid_pageround_data()
+    public function test_get_invalid_pageround_data(): void
     {
         $this->expectExceptionCode(105);
 
@@ -144,7 +144,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
-    public function test_get_valid_pageround_data()
+    public function test_get_valid_pageround_data(): void
     {
         $project = $this->_create_project();
         $this->add_page($project, "001");
@@ -159,7 +159,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals("P1.page_avail", $result["state"]);
     }
 
-    public function test_create_project_unauthorised()
+    public function test_create_project_unauthorised(): void
     {
         $this->expectExceptionCode(3);
 
@@ -170,7 +170,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
-    public function test_create_project_no_data()
+    public function test_create_project_no_data(): void
     {
         global $pguser;
         $this->expectExceptionCode(100);
@@ -183,7 +183,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, $query_params);
     }
 
-    public function test_get_page_data()
+    public function test_get_page_data(): void
     {
         global $pguser;
         $pguser = $this->TEST_USERNAME;
@@ -201,7 +201,7 @@ class ApiTest extends ProjectUtils
     //---------------------------------------------------------------------------
     // tests for proofreading
 
-    public function test_checkout_bad_projectid()
+    public function test_checkout_bad_projectid(): void
     {
         global $pguser;
         $pguser = $this->TEST_USERNAME;
@@ -211,7 +211,7 @@ class ApiTest extends ProjectUtils
         $this->checkout("projectId", "P1.proj_avail");
     }
 
-    public function test_checkout_invalid_proj_state()
+    public function test_checkout_invalid_proj_state(): void
     {
         global $pguser;
         $pguser = $this->TEST_USERNAME;
@@ -222,7 +222,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "project_ne");
     }
 
-    public function test_project_no_state_given()
+    public function test_project_no_state_given(): void
     {
         global $pguser;
 
@@ -237,7 +237,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, []);
     }
 
-    public function test_checkout_wrong_proj_state()
+    public function test_checkout_wrong_proj_state(): void
     {
         global $pguser;
         $pguser = $this->TEST_USERNAME;
@@ -248,7 +248,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_bad");
     }
 
-    public function test_project_not_in_round()
+    public function test_project_not_in_round(): void
     {
         global $pguser;
 
@@ -260,7 +260,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "project_new");
     }
 
-    public function test_project_unavailable()
+    public function test_project_unavailable(): void
     {
         global $pguser;
 
@@ -273,7 +273,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_unavail");
     }
 
-    public function test_user_not_qualified_for_round()
+    public function test_user_not_qualified_for_round(): void
     {
         global $pguser;
         $pguser = $this->TEST_USERNAME;
@@ -289,7 +289,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P2.proj_avail");
     }
 
-    public function test_project_checkout_available()
+    public function test_project_checkout_available(): void
     {
         global $pguser;
 
@@ -310,7 +310,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
-    public function test_many_pages_few_days()
+    public function test_many_pages_few_days(): void
     {
         // user done many pages but few days on site
         // $page_tally_threshold 500 for new projects in reserve time
@@ -323,7 +323,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals('001.png', $response['pagename']);
     }
 
-    public function test_few_pages_many_days()
+    public function test_few_pages_many_days(): void
     {
         global $pguser;
         $project = $this->_create_available_project();
@@ -332,7 +332,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals('001.png', $response['pagename']);
     }
 
-    public function test_many_pages_many_days()
+    public function test_many_pages_many_days(): void
     {
         global $pguser;
         $project = $this->_create_available_project();
@@ -344,7 +344,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
     }
 
-    public function test_beginner_project_checkout()
+    public function test_beginner_project_checkout(): void
     {
         global $pguser;
 
@@ -358,7 +358,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
     }
 
-    public function test_beginner_mentor_project_checkout()
+    public function test_beginner_mentor_project_checkout(): void
     {
         global $pguser;
 
@@ -374,7 +374,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P2.proj_avail");
     }
 
-    public function test_resume_page()
+    public function test_resume_page(): void
     {
         global $pguser;
 
@@ -398,7 +398,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
-    public function test_resume_page_not_owned()
+    public function test_resume_page_not_owned(): void
     {
         global $pguser;
 
@@ -415,7 +415,7 @@ class ApiTest extends ProjectUtils
         $this->resume($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out');
     }
 
-    public function test_project_return_to_round()
+    public function test_project_return_to_round(): void
     {
         global $pguser;
 
@@ -430,7 +430,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals(null, $response);
     }
 
-    public function test_return_page_no_state()
+    public function test_return_page_no_state(): void
     {
         global $pguser;
 
@@ -445,7 +445,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, ['state' => "P1.proj_avail", 'pageaction' => "abandon"]);
     }
 
-    public function test_no_page_action()
+    public function test_no_page_action(): void
     {
         global $pguser;
 
@@ -462,7 +462,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, ['state' => "P1.proj_avail", 'pagestate' => "P1.page_out"]);
     }
 
-    public function test_invalid_page_action()
+    public function test_invalid_page_action(): void
     {
         global $pguser;
 
@@ -479,7 +479,7 @@ class ApiTest extends ProjectUtils
         $router->route($path, ['state' => "P1.proj_avail", 'pagestate' => "P1.page_out", 'pageaction' => "revoke"]);
     }
 
-    public function test_return_non_existent_page()
+    public function test_return_non_existent_page(): void
     {
         global $pguser;
 
@@ -490,7 +490,7 @@ class ApiTest extends ProjectUtils
         $this->return_to_round($project->projectid, "P1.proj_avail", "002.png", "P1.page_out");
     }
 
-    public function test_return_invalid_page_state()
+    public function test_return_invalid_page_state(): void
     {
         global $pguser;
 
@@ -502,7 +502,7 @@ class ApiTest extends ProjectUtils
         $this->return_to_round($project->projectid, "P1.proj_avail", "001.png", "P1.page_in");
     }
 
-    public function test_return_page_state_not_as_in_project()
+    public function test_return_page_state_not_as_in_project(): void
     {
         global $pguser;
 
@@ -514,7 +514,7 @@ class ApiTest extends ProjectUtils
         $this->return_to_round($project->projectid, "P1.proj_avail", "001.png", "P1.page_out");
     }
 
-    public function test_return_page_state_not_allowed()
+    public function test_return_page_state_not_allowed(): void
     {
         global $pguser;
 
@@ -529,7 +529,7 @@ class ApiTest extends ProjectUtils
         $this->return_to_round($project->projectid, "P1.proj_avail", "001.png", "P1.page_avail");
     }
 
-    public function test_return_page_not_owned()
+    public function test_return_page_not_owned(): void
     {
         global $pguser;
 
@@ -546,7 +546,7 @@ class ApiTest extends ProjectUtils
         $this->return_to_round($project->projectid, "P1.proj_avail", "001.png", "P1.page_out");
     }
 
-    public function test_save_as_in_progress()
+    public function test_save_as_in_progress(): void
     {
         global $pguser;
 
@@ -580,7 +580,7 @@ class ApiTest extends ProjectUtils
         $this->save_as_in_progress($project->projectid, "P1.proj_avail", "001.png", "P1.page_temp", "This is a bĀd test file");
     }
 
-    public function test_save_no_text()
+    public function test_save_no_text(): void
     {
         global $pguser;
 
@@ -595,7 +595,7 @@ class ApiTest extends ProjectUtils
         $this->api_project_page($project->projectid, "P1.proj_avail", "001.png", "P1.page_out", [], "save");
     }
 
-    public function test_save_as_done()
+    public function test_save_as_done(): void
     {
         global $pguser;
 
@@ -636,7 +636,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($user_tallyboard->get_current_tally($user->u_id), $tally);
     }
 
-    public function test_daily_limit()
+    public function test_daily_limit(): void
     {
         global $pguser;
 
@@ -662,7 +662,7 @@ class ApiTest extends ProjectUtils
         $round->daily_page_limit = $old_limit;
     }
 
-    public function test_info_for_previous_proofreaders()
+    public function test_info_for_previous_proofreaders(): void
     {
         global $pguser;
 
@@ -696,7 +696,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($this->TEST_OLDUSERNAME, $info[1]->username);
     }
 
-    public function test_validate_bad_text()
+    public function test_validate_bad_text(): void
     {
         $project = $this->_create_available_project();
         $response = $this->validate_text($project->projectid, "This is an invĀlid test file");
@@ -704,7 +704,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
-    public function test_validate_good_text()
+    public function test_validate_good_text(): void
     {
         $project = $this->_create_available_project();
         $response = $this->validate_text($project->projectid, "This is a valid test file");
@@ -712,7 +712,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
-    public function test_wordcheck_bad_words()
+    public function test_wordcheck_bad_words(): void
     {
         $project = $this->_create_available_project();
         $response = $this->wordcheck($project->projectid, "Fort Snelling b[oe]uf a1l file");
@@ -723,7 +723,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
-    public function test_wordcheck_accept()
+    public function test_wordcheck_accept(): void
     {
         $project = $this->_create_available_project();
         $response = $this->wordcheck($project->projectid, "Fort Snelling test\nfile", [], ["Snelling"]);
@@ -734,7 +734,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($expected, $response);
     }
 
-    public function test_wordcheck_report()
+    public function test_wordcheck_report(): void
     {
         global $pguser;
 
@@ -756,6 +756,7 @@ class ApiTest extends ProjectUtils
 }
 
 // this mocks the function in index.php
+/** @return string|array */
 function api_get_request_body()
 {
     global $request_body;

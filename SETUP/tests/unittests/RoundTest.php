@@ -2,18 +2,18 @@
 
 class ActivityTest extends PHPUnit\Framework\TestCase
 {
-    public function test_stages_class()
+    public function test_stages_class(): void
     {
         $this->assertEquals("F2", Stages::get_by_id('F2')->id);
     }
 
-    public function test_stages_functions()
+    public function test_stages_functions(): void
     {
         $this->assertEquals("F2", get_Stage_for_id('F2')->id);
     }
 
 
-    public function test_rounds_class()
+    public function test_rounds_class(): void
     {
         $this->assertEquals("P1", Rounds::get_by_number(1)->id);
         $this->assertEquals("P2", Rounds::get_by_page_state("P2.page_temp")->id);
@@ -23,7 +23,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("F2", Rounds::get_last()->id);
     }
 
-    public function test_rounds_functions()
+    public function test_rounds_functions(): void
     {
         $this->assertEquals("P1", get_Round_for_round_number(1)->id);
         $this->assertEquals("P2", get_Round_for_page_state("P2.page_temp")->id);
@@ -33,7 +33,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("P2", get_Round_for_project_state("P2.proj_waiting")->id);
     }
 
-    public function test_pools_class()
+    public function test_pools_class(): void
     {
         $this->assertEquals("PP", Pools::get_by_id("PP")->id);
         $this->assertEquals("PPV", Pools::get_by_id("PPV")->id);
@@ -43,7 +43,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("PPV", Pools::get_by_state(PROJ_POST_SECOND_CHECKED_OUT)->id);
     }
 
-    public function test_pools_functions()
+    public function test_pools_functions(): void
     {
         $this->assertEquals("PP", get_Pool_for_id("PP")->id);
         $this->assertEquals("PPV", get_Pool_for_id("PPV")->id);
@@ -53,7 +53,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("PPV", get_Pool_for_state(PROJ_POST_SECOND_CHECKED_OUT)->id);
     }
 
-    public function test_access_criteria_global()
+    public function test_access_criteria_global(): void
     {
         global $ACCESS_CRITERIA;
         $this->assertEquals("'P2' pages completed", $ACCESS_CRITERIA["P2"]);
@@ -62,14 +62,14 @@ class ActivityTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_round_param() tests
 
-    public function test_get_round_param()
+    public function test_get_round_param(): void
     {
         $GET = ["round" => "P1"];
         $round = get_round_param($GET, "round");
         $this->assertEquals("P1", $round->id);
     }
 
-    public function test_get_round_param_invalid()
+    public function test_get_round_param_invalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is not a valid round ID");
@@ -77,19 +77,19 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         get_round_param($GET, "round");
     }
 
-    public function test_get_round_param_default()
+    public function test_get_round_param_default(): void
     {
         $round = get_round_param([], "round", Rounds::get_by_id("P1"));
         $this->assertEquals("P1", $round->id);
     }
 
-    public function test_get_round_param_default_null()
+    public function test_get_round_param_default_null(): void
     {
         $round = get_round_param([], "round", null, true);
         $this->assertEquals(null, $round);
     }
 
-    public function test_get_round_param_no_default()
+    public function test_get_round_param_no_default(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
@@ -99,7 +99,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // test project state functions
 
-    public function test_project_states_class()
+    public function test_project_states_class(): void
     {
         $this->assertEquals("P3.proj_bad", ProjectStates::get_states()[11]);
         $this->assertEquals('PP', ProjectStates::get_all()[PROJ_POST_SECOND_AVAILABLE]->phase);
@@ -107,7 +107,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("Proofreading Round 1: Waiting for Release", ProjectStates::get_label(PROJ_P1_WAITING_FOR_RELEASE));
     }
 
-    public function test_project_state_functions()
+    public function test_project_state_functions(): void
     {
         global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx;
 
@@ -129,7 +129,7 @@ class ActivityTest extends PHPUnit\Framework\TestCase
         $this->assertEquals("Post-Processing Verification: Available", project_states_text(PROJ_POST_SECOND_AVAILABLE));
     }
 
-    public function test_graph_data_functions()
+    public function test_graph_data_functions(): void
     {
         $this->assertEquals("state IN ('proj_post_first_unavailable','proj_post_first_available','proj_post_first_checked_out','proj_post_second_available','proj_post_second_checked_out','proj_post_complete')", _get_project_state_selector('PP'));
         $this->assertEquals("state IN ('project_complete')", _get_project_state_selector('COMPLETE'));

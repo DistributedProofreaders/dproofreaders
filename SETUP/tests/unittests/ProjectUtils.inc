@@ -60,7 +60,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
     }
 
     // helper function to create a project
-    protected function _create_project()
+    protected function _create_project(): Project
     {
         $project = new Project();
         foreach ($this->valid_project_data as $key => $value) {
@@ -73,14 +73,14 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         return $project;
     }
 
-    protected function quiet_project_transition($projectid, $new_state, $who, $extras = [])
+    protected function quiet_project_transition(string $projectid, string $new_state, string $who, array $extras = []): void
     {
         ob_start();
         project_transition($projectid, $new_state, $who, $extras);
         ob_end_clean();
     }
 
-    protected function _create_available_project($npage = 1)
+    protected function _create_available_project(int $npage = 1): Project
     {
         $project = $this->_create_project_with_pages($npage);
         $projectid = $project->projectid;
@@ -90,21 +90,21 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         return new Project($projectid);
     }
 
-    protected function advance_to_round2($projectid)
+    protected function advance_to_round2(string $projectid): void
     {
         $this->quiet_project_transition($projectid, PROJ_P1_COMPLETE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P2_WAITING_FOR_RELEASE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P2_AVAILABLE, PT_AUTO);
     }
 
-    protected function advance_to_round3($projectid)
+    protected function advance_to_round3(string $projectid): void
     {
         $this->quiet_project_transition($projectid, PROJ_P2_COMPLETE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P3_WAITING_FOR_RELEASE, PT_AUTO);
         $this->quiet_project_transition($projectid, PROJ_P3_AVAILABLE, PT_AUTO);
     }
 
-    protected function _create_project_with_pages($npage = 1)
+    protected function _create_project_with_pages(int $npage = 1): Project
     {
         $project = $this->_create_project();
         $project->add_charsuite("basic-latin");
@@ -118,7 +118,7 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         return $project;
     }
 
-    protected function add_page($project, $base)
+    protected function add_page(Project $project, string $base): void
     {
         $txt_file_name = "$base.txt";
         $txt_file_path = "$project->dir/$txt_file_name";

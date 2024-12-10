@@ -10,7 +10,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
     ];
 
     // to string
-    public function testToStringForNormalTable()
+    public function testToStringForNormalTable(): void
     {
         $table_documentation = new TableDocumentation('display_table1', self::TABLE_DESCRIPTION);
 
@@ -33,7 +33,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
     }
 
     // create_markdown_table
-    public function testCreateMarkdownTableWithSingleColumnAndRow()
+    public function testCreateMarkdownTableWithSingleColumnAndRow(): void
     {
         $this->assertEquals([
             '|column|',
@@ -44,7 +44,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ], ['column']));
     }
 
-    public function testCreateMarkdownTableWithSingleColumnAndMultipleShortRows()
+    public function testCreateMarkdownTableWithSingleColumnAndMultipleShortRows(): void
     {
         $this->assertEquals([
             '|column|',
@@ -59,7 +59,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ], ['column']));
     }
 
-    public function testCreateMarkdownTableWithSingleColumnAndMultipleLongRows()
+    public function testCreateMarkdownTableWithSingleColumnAndMultipleLongRows(): void
     {
         $this->assertEquals([
             '|column            |',
@@ -74,7 +74,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ], ['column']));
     }
 
-    public function testCreateMarkdownTableWithMultipleColumnsAndRows()
+    public function testCreateMarkdownTableWithMultipleColumnsAndRows(): void
     {
         $this->assertEquals([
             '|column1           |column2 |',
@@ -89,7 +89,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ], ['column1', 'column2']));
     }
 
-    public function testCreateMarkdownTableWithMissingData()
+    public function testCreateMarkdownTableWithMissingData(): void
     {
         $this->assertEquals([
             '|column1           |column2 |',
@@ -104,7 +104,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ], ['column1', 'column2']));
     }
 
-    public function testCreateMarkdownTableAndIgnoreColumn()
+    public function testCreateMarkdownTableAndIgnoreColumn(): void
     {
         $this->assertEquals([
             '|column1           |',
@@ -120,7 +120,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
     }
 
     // detect_first_table_in_text
-    public function testDetectFirstTableWithDocumentationOutput()
+    public function testDetectFirstTableWithDocumentationOutput(): void
     {
         $this->assertEquals([
             '|Field              |Type |Null |Key |Default |Extra |',
@@ -146,7 +146,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testDetectFirstTableWithDocumentationOutputContainingAnotherTable()
+    public function testDetectFirstTableWithDocumentationOutputContainingAnotherTable(): void
     {
         $this->assertEquals([
             '|Field              |Type |Null |Key |Default |Extra |',
@@ -177,12 +177,12 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
 
 
     // detect_columns_in_text
-    public function testDetectColumnsWithNoLines()
+    public function testDetectColumnsWithNoLines(): void
     {
         $this->assertEquals([], TableDocumentation::detect_columns_in_text([]));
     }
 
-    public function testDetectColumnsWithLinesButNoColumns()
+    public function testDetectColumnsWithLinesButNoColumns(): void
     {
         $this->assertEquals([], TableDocumentation::detect_columns_in_text([
             'These are description lines',
@@ -191,7 +191,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testDetectColumnsWithOnlyColumns()
+    public function testDetectColumnsWithOnlyColumns(): void
     {
         $this->assertEquals([
             'firstcolumn',
@@ -204,7 +204,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testDetectColumnsWithColumnsContainingUnderscores()
+    public function testDetectColumnsWithColumnsContainingUnderscores(): void
     {
         $this->assertEquals([
             'first_column',
@@ -217,7 +217,7 @@ class TableDocumentationTest extends PHPUnit\Framework\TestCase
         ]));
     }
 
-    public function testDetectColumnsWithMixedLines()
+    public function testDetectColumnsWithMixedLines(): void
     {
         $this->assertEquals([
             'first_column',

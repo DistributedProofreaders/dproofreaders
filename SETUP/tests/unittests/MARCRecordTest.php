@@ -14,26 +14,26 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         $this->YAZ_ARRAY = unserialize(base64_decode($yaz_array_b64));
     }
 
-    private function _load_record()
+    private function _load_record(): MARCRecord
     {
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($this->YAZ_ARRAY);
         return $marc_record;
     }
 
-    public function testEmptyConstructor()
+    public function testEmptyConstructor(): void
     {
         $marc_record = new MARCRecord();
         $this->assertEquals([], $marc_record->get_yaz_array());
     }
 
-    public function testLoadYazArray()
+    public function testLoadYazArray(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals($this->YAZ_ARRAY, $marc_record->get_yaz_array());
     }
 
-    public function testGetTitle()
+    public function testGetTitle(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals(
@@ -42,67 +42,67 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testGetAuthor()
+    public function testGetAuthor(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('Alger, Horatio', $marc_record->author);
     }
 
-    public function testGetLCCN()
+    public function testGetLCCN(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('55055815', $marc_record->lccn);
     }
 
-    public function testGetISBN()
+    public function testGetISBN(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('', $marc_record->isbn);
     }
 
-    public function testGetPages()
+    public function testGetPages(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('307 p.', $marc_record->pages);
     }
 
-    public function testGetDate()
+    public function testGetDate(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('[c1883', $marc_record->date);
     }
 
-    public function testGetLanguage()
+    public function testGetLanguage(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('English', $marc_record->language);
     }
 
-    public function testGetLiteraryForm()
+    public function testGetLiteraryForm(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('', $marc_record->literary_form);
     }
 
-    public function testGetSubject()
+    public function testGetSubject(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('', $marc_record->subject);
     }
 
-    public function testGetDescription()
+    public function testGetDescription(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('', $marc_record->description);
     }
 
-    public function testGetPublisher()
+    public function testGetPublisher(): void
     {
         $marc_record = $this->_load_record();
         $this->assertEquals('Street and Smith, [c1883', $marc_record->publisher);
     }
 
-    public function testAdditionalAuthors()
+    public function testAdditionalAuthors(): void
     {
         // A record that has no Main Entry author, and multiple Additional Entries.
         // Showing just the additional entry names:
@@ -132,7 +132,7 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($authors, $marc_record->author);
     }
 
-    public function testUnnamedPublisher()
+    public function testUnnamedPublisher(): void
     {
         // A record whose publisher subfields have a location and date, but not a name
         // [

@@ -8,14 +8,14 @@ class PageCompareTest extends PHPUnit\Framework\TestCase
      * @dataProvider textProvider
      */
 
-    public function testRemoveFormatting($formatted_file, $expected_result_file)
+    public function testRemoveFormatting($formatted_file, $expected_result_file): void
     {
         $un_formatter = new PageUnformatter();
         $text = $un_formatter->remove_formatting(file_get_contents($formatted_file), false);
         $this->assertEquals($text, file_get_contents($expected_result_file));
     }
 
-    public function textProvider()
+    public function textProvider(): array
     {
         $file_array = [];
         $data_dir_name = "page_compare_data";
@@ -35,7 +35,7 @@ class PageCompareTest extends PHPUnit\Framework\TestCase
         return $file_array;
     }
 
-    public function testUnwrap()
+    public function testUnwrap(): void
     {
         $un_formatter = new PageUnformatter();
         $text = $un_formatter->remove_formatting("\n line1 \n\n line2 \n", true);

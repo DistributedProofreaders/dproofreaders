@@ -20,119 +20,119 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     // Testing is_valid_zip_file
 
-    public function testValidatingNonExistingFile()
+    public function testValidatingNonExistingFile(): void
     {
         $this->assertFalse(is_valid_zip_file('nonexisting_file.zip'));
     }
 
-    public function testValidatingValidZipFile()
+    public function testValidatingValidZipFile(): void
     {
         $this->assertTrue(is_valid_zip_file('./data/valid.zip'));
     }
 
-    public function testValidatingValidEmptyZipFile()
+    public function testValidatingValidEmptyZipFile(): void
     {
         $this->assertTrue(is_valid_zip_file('./data/empty.zip'));
     }
 
-    public function testValidatingCorruptedZipFile()
+    public function testValidatingCorruptedZipFile(): void
     {
         $this->assertFalse(is_valid_zip_file('./data/corrupted.zip'));
     }
 
-    public function testValidatingValidZipFileWithInvalidExtension()
+    public function testValidatingValidZipFileWithInvalidExtension(): void
     {
         $this->assertFalse(is_valid_zip_file('./data/wrong.extension'));
     }
 
-    public function testValidatingNonExistingFileWithDisabledExtensionCheck()
+    public function testValidatingNonExistingFileWithDisabledExtensionCheck(): void
     {
         $this->assertFalse(is_valid_zip_file('nonexisting_file.zip', true));
     }
 
-    public function testValidatingValidZipFileWithDisabledExtensionCheck()
+    public function testValidatingValidZipFileWithDisabledExtensionCheck(): void
     {
         $this->assertTrue(is_valid_zip_file('./data/valid.zip', true));
     }
 
-    public function testValidatingValidEmptyZipFileWithDisabledExtensionCheck()
+    public function testValidatingValidEmptyZipFileWithDisabledExtensionCheck(): void
     {
         $this->assertTrue(is_valid_zip_file('./data/empty.zip', true));
     }
 
-    public function testValidatingCorruptedZipFileWithDisabledExtensionCheck()
+    public function testValidatingCorruptedZipFileWithDisabledExtensionCheck(): void
     {
         $this->assertFalse(is_valid_zip_file('./data/corrupted.zip', true));
     }
 
-    public function testValidatingValidZipFileWithInvalidExtensionWithDisabledExtensionCheck()
+    public function testValidatingValidZipFileWithInvalidExtensionWithDisabledExtensionCheck(): void
     {
         $this->assertTrue(is_valid_zip_file('./data/wrong.extension', true));
     }
 
     // Testing validate_zip_file
 
-    public function testValidateNonExistingFile()
+    public function testValidateNonExistingFile(): void
     {
         $this->expectExceptionMessage("no file");
         validate_zip_file('nonexisting_file.zip');
     }
 
-    public function testValidateValidZipFile()
+    public function testValidateValidZipFile(): void
     {
         validate_zip_file('./data/valid.zip');
         $this->assertTrue(true);
     }
 
-    public function testValidateValidEmptyZipFile()
+    public function testValidateValidEmptyZipFile(): void
     {
         validate_zip_file('./data/empty.zip');
         $this->assertTrue(true);
     }
 
-    public function testValidateCorruptedZipFile()
+    public function testValidateCorruptedZipFile(): void
     {
         $this->expectExceptionMessage("ZipArchive::open() returned 'Zip archive inconsistent.'");
         validate_zip_file('./data/corrupted.zip');
     }
 
-    public function testValidateValidZipFileWithInvalidExtension()
+    public function testValidateValidZipFileWithInvalidExtension(): void
     {
         $this->expectExceptionMessage("wrong extension");
         validate_zip_file('./data/wrong.extension');
     }
 
-    public function testValidateNonExistingFileWithDisabledExtensionCheck()
+    public function testValidateNonExistingFileWithDisabledExtensionCheck(): void
     {
         $this->expectExceptionMessage("no file");
         validate_zip_file('nonexisting_file.zip', true);
     }
 
-    public function testValidateValidZipFileWithDisabledExtensionCheck()
+    public function testValidateValidZipFileWithDisabledExtensionCheck(): void
     {
         validate_zip_file('./data/valid.zip', true);
         $this->assertTrue(true);
     }
 
-    public function testValidateValidEmptyZipFileWithDisabledExtensionCheck()
+    public function testValidateValidEmptyZipFileWithDisabledExtensionCheck(): void
     {
         validate_zip_file('./data/empty.zip', true);
         $this->assertTrue(true);
     }
 
-    public function testValidateCorruptedZipFileWithDisabledExtensionCheck()
+    public function testValidateCorruptedZipFileWithDisabledExtensionCheck(): void
     {
         $this->expectExceptionMessage("ZipArchive::open() returned 'Zip archive inconsistent.'");
         validate_zip_file('./data/corrupted.zip', true);
     }
 
-    public function testValidateValidZipFileWithInvalidExtensionWithDisabledExtensionCheck()
+    public function testValidateValidZipFileWithInvalidExtensionWithDisabledExtensionCheck(): void
     {
         validate_zip_file('./data/wrong.extension', true);
         $this->assertTrue(true);
     }
 
-    public function testValidateNonZipFile()
+    public function testValidateNonZipFile(): void
     {
         $this->expectExceptionMessage("ZipArchive::open() returned 'Not a zip archive.'");
         validate_zip_file('./data/not_zip.zip');
@@ -140,13 +140,13 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     // Testing list_files_in_zip
 
-    public function testListingContentsOfNonExistingFile()
+    public function testListingContentsOfNonExistingFile(): void
     {
         $this->expectException(InvalidArgumentException::class);
         list_files_in_zip('nonexisting_file.zip');
     }
 
-    public function testListingContentsOfNonEmptyZipFile()
+    public function testListingContentsOfNonEmptyZipFile(): void
     {
         $this->assertEquals(
             list_files_in_zip('./data/valid.zip'),
@@ -154,7 +154,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testListingContentsOfEmptyZipFile()
+    public function testListingContentsOfEmptyZipFile(): void
     {
         $this->assertEquals(
             list_files_in_zip('./data/empty.zip'),
@@ -162,13 +162,13 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         );
     }
 
-    public function testListingContentsOfCorruptedZipFile()
+    public function testListingContentsOfCorruptedZipFile(): void
     {
         $this->expectException(InvalidArgumentException::class);
         list_files_in_zip('./data/corrupted.zip');
     }
 
-    public function testListingContentsOfValidZipFileWithInvalidExtension()
+    public function testListingContentsOfValidZipFileWithInvalidExtension(): void
     {
         $this->expectException(InvalidArgumentException::class);
         list_files_in_zip('./data/wrong.extension');
@@ -176,13 +176,13 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     // Testing extract_zip_to
 
-    public function testExtractingNonExistingZipFile()
+    public function testExtractingNonExistingZipFile(): void
     {
         $this->expectException(InvalidArgumentException::class);
         extract_zip_to('nonexisting_file.zip', self::TEMPORARY_EXTRACTION_DIRECTORY);
     }
 
-    public function testExtractingNonEmptyZipFile()
+    public function testExtractingNonEmptyZipFile(): void
     {
         $this->assertTrue(
             extract_zip_to('./data/valid.zip', self::TEMPORARY_EXTRACTION_DIRECTORY)
@@ -193,7 +193,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(file_exists(self::TEMPORARY_EXTRACTION_DIRECTORY . '/third'));
     }
 
-    public function testExtractingEmptyZipFile()
+    public function testExtractingEmptyZipFile(): void
     {
         $this->assertTrue(
             extract_zip_to('./data/empty.zip', self::TEMPORARY_EXTRACTION_DIRECTORY)
@@ -202,19 +202,19 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(count(glob(self::TEMPORARY_EXTRACTION_DIRECTORY . '/*')), 0);
     }
 
-    public function testExtractingCorruptedZipFile()
+    public function testExtractingCorruptedZipFile(): void
     {
         $this->expectException(InvalidArgumentException::class);
         extract_zip_to('./data/corrupted.zip', self::TEMPORARY_EXTRACTION_DIRECTORY);
     }
 
-    public function testExtractingValidZipFileWithInvalidExtension()
+    public function testExtractingValidZipFileWithInvalidExtension(): void
     {
         $this->expectException(InvalidArgumentException::class);
         extract_zip_to('./data/wrong.extension', self::TEMPORARY_EXTRACTION_DIRECTORY);
     }
 
-    public function testExtractingValidZipFileToNonExistingDirectory()
+    public function testExtractingValidZipFileToNonExistingDirectory(): void
     {
         $this->expectException(InvalidArgumentException::class);
         extract_zip_to('./data/empty.zip', 'non_existing_directory');
@@ -222,7 +222,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     // Testing create_zip_from
 
-    public function testCreatingZipFileFromDirectory()
+    public function testCreatingZipFileFromDirectory(): void
     {
         $this->assertTrue(create_zip_from(
             ['page_compare_data/usernotes'],
@@ -232,7 +232,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(is_valid_zip_file(self::TEMPORARY_EXTRACTION_DIRECTORY . '/page_compare_data.zip'));
     }
 
-    public function testCreatingZipFile()
+    public function testCreatingZipFile(): void
     {
         $this->assertTrue(create_zip_from(
             ['./*.php'],
@@ -242,13 +242,13 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(is_valid_zip_file(self::TEMPORARY_EXTRACTION_DIRECTORY . '/php_files.zip'));
     }
 
-    public function testCreatingZipFileWithInvalidPath()
+    public function testCreatingZipFileWithInvalidPath(): void
     {
         $this->expectException(InvalidArgumentException::class);
         create_zip_from(['./*.php'], 'ZipMethodsTest.php');
     }
 
-    public function testCreatingZipFileContainingNonExistingFiles()
+    public function testCreatingZipFileContainingNonExistingFiles(): void
     {
         $this->expectException(InvalidArgumentException::class);
         create_zip_from(

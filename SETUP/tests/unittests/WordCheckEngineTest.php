@@ -26,7 +26,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
 
         EOTEXT;
 
-    public function testGetAllWordsInTextNoOffsets()
+    public function testGetAllWordsInTextNoOffsets(): void
     {
         $words = get_all_words_in_text($this->TEXT1);
         $this->assertEquals($words[0], "Not");
@@ -34,21 +34,21 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($words[93], "N̈oon");
     }
 
-    public function testGetAllWordsInTextWithOffsets()
+    public function testGetAllWordsInTextWithOffsets(): void
     {
         $words = get_all_words_in_text($this->TEXT1, true);
         $this->assertEquals($words[0], "Not");
         $this->assertEquals($words[530], "words");
     }
 
-    public function testGetDistinctWordsInTextSmall()
+    public function testGetDistinctWordsInTextSmall(): void
     {
         $words = get_distinct_words_in_text($this->TEXT1);
         $this->assertEquals($words["of"], 4);
         $this->assertEquals($words["words"], 1);
     }
 
-    public function testGetDistinctWordsInTextLarge()
+    public function testGetDistinctWordsInTextLarge(): void
     {
         // We need to make $text large enough that the function uses
         // the too-big function.
@@ -63,7 +63,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($words["words"], 1 * $multiplier);
     }
 
-    public function testGetDistinctWordsInTextArray()
+    public function testGetDistinctWordsInTextArray(): void
     {
         $array_size = 100;
         $text_array = [];
@@ -76,7 +76,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($words["words"], 1 * $array_size);
     }
 
-    public function testGetBadWordsWithDiacriticalMarkup()
+    public function testGetBadWordsWithDiacriticalMarkup(): void
     {
         $words = get_distinct_words_in_text($this->TEXT1);
         $bad_words = get_bad_words_with_diacritical_markup($words);
@@ -84,7 +84,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words[0], "b[oe]uf");
     }
 
-    public function testGetBadWordsViaPattern()
+    public function testGetBadWordsViaPattern(): void
     {
         $languages = ["English"];
 
@@ -94,7 +94,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words[0], "a1l");
     }
 
-    public function testGetBadWordsForTextNoWordLists()
+    public function testGetBadWordsForTextNoWordLists(): void
     {
         $languages = ["English"];
 
@@ -108,7 +108,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words["a1l"], WC_SITE);
     }
 
-    public function testGetBadWordsForTextSiteWordList()
+    public function testGetBadWordsForTextSiteWordList(): void
     {
         $languages = ["English"];
 
@@ -126,7 +126,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words["a1l"], WC_SITE);
     }
 
-    public function testGetBadWordsForTextProjectWordList()
+    public function testGetBadWordsForTextProjectWordList(): void
     {
         $languages = ["English"];
 
@@ -145,7 +145,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words["a1l"], WC_SITE);
     }
 
-    public function testGetBadWordsForTextSiteAndProjectWordList()
+    public function testGetBadWordsForTextSiteAndProjectWordList(): void
     {
         $languages = ["English"];
 
@@ -166,7 +166,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words["a1l"], WC_SITE);
     }
 
-    public function testGetBadWordsForTextAdhocWordList()
+    public function testGetBadWordsForTextAdhocWordList(): void
     {
         $languages = ["English"];
 
@@ -183,7 +183,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($bad_words["a1l"], WC_SITE);
     }
 
-    public function testWordListNormalization()
+    public function testWordListNormalization(): void
     {
         $words = [
             " one",
@@ -203,7 +203,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($norm_words, $expected_words);
     }
 
-    public function testGetWordsWithUncommonScripts()
+    public function testGetWordsWithUncommonScripts(): void
     {
         $words = [
             "one",

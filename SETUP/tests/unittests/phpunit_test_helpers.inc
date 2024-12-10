@@ -1,6 +1,6 @@
 <?php
 
-function create_test_user($username, $age = 0)
+function create_test_user(string $username, int $age = 0): void
 {
     // create a user who joined $age days ago
     // Attempt to load our test user, replace if it exists
@@ -22,13 +22,13 @@ function create_test_user($username, $age = 0)
     }
 }
 
-function grant_user_access($username, $activity)
+function grant_user_access(string $username, $activity): void
 {
     $user = new User($username);
     $user->grant_access($activity, "none");
 }
 
-function delete_test_user($username)
+function delete_test_user(string $username): void
 {
     // Delete test user's page events
     $sql = sprintf(
@@ -77,7 +77,7 @@ function delete_test_user($username)
     }
 }
 
-function create_test_image_source($image_source)
+function create_test_image_source(string $image_source): void
 {
     // Attempt to create the image source
     $sql = sprintf(
@@ -111,7 +111,7 @@ function create_test_image_source($image_source)
     }
 }
 
-function delete_test_image_source($image_source)
+function delete_test_image_source(string $image_source): void
 {
     // remove the test image source
     $sql = sprintf(
@@ -124,7 +124,7 @@ function delete_test_image_source($image_source)
     }
 }
 
-function load_project_events($project)
+function load_project_events(Project $project): array
 {
     $sql = sprintf(
         "
@@ -145,7 +145,7 @@ function load_project_events($project)
 }
 
 // Delete remains of test projects that end up in other tables
-function delete_test_project_remains($project)
+function delete_test_project_remains(Project $project): void
 {
     $projectid = $project->projectid;
 

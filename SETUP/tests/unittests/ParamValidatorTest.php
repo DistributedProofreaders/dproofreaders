@@ -27,7 +27,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_enumerated_param() tests
 
-    public function testEnumInvalidArray()
+    public function testEnumInvalidArray(): void
     {
         // sanity check PHP's built-in type checking, we're not going
         // to do this for every param and every function
@@ -36,21 +36,21 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_enumerated_param(null, 'c', null, $this->ENUM_CHOICES);
     }
 
-    public function testEnum()
+    public function testEnum(): void
     {
         $default = null;
         $result = get_enumerated_param($this->GET, 'enum', $default, $this->ENUM_CHOICES);
         $this->assertEquals($this->GET['enum'], $result);
     }
 
-    public function testEnumDefault()
+    public function testEnumDefault(): void
     {
         $default = "a";
         $result = get_enumerated_param($this->GET, 'none', $default, $this->ENUM_CHOICES);
         $this->assertEquals($default, $result);
     }
 
-    public function testEnumNoDefault()
+    public function testEnumNoDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
@@ -58,14 +58,14 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_enumerated_param($this->GET, 'none', $default, $this->ENUM_CHOICES);
     }
 
-    public function testEnumNull()
+    public function testEnumNull(): void
     {
         $default = null;
         $result = get_enumerated_param($this->GET, 'none', $default, $this->ENUM_CHOICES, true);
         $this->assertEquals(null, $result);
     }
 
-    public function testEnumInt()
+    public function testEnumInt(): void
     {
         $default = 9;
         $result = get_enumerated_param($this->GET, 'one', 9, $this->ENUM_INT_CHOICES);
@@ -73,7 +73,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertIsInt($result);
     }
 
-    public function testEnumIntDefault()
+    public function testEnumIntDefault(): void
     {
         $default = 9;
         $result = get_enumerated_param($this->GET, 'none', $default, $this->ENUM_INT_CHOICES);
@@ -81,28 +81,28 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertIsInt($result);
     }
 
-    public function testEnumInvalidOption()
+    public function testEnumInvalidOption(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is not one of");
         get_enumerated_param($this->GET, 'i10', null, $this->ENUM_CHOICES);
     }
 
-    public function testEnumInvalidDefault()
+    public function testEnumInvalidDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$default not in \$choices");
         get_enumerated_param($this->GET, 'enum', 'c', $this->ENUM_CHOICES);
     }
 
-    public function testEnumNoChoices()
+    public function testEnumNoChoices(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is an empty array");
         get_enumerated_param($this->GET, 'enum', 'a', []);
     }
 
-    public function testEnumDefaultAndNull()
+    public function testEnumDefaultAndNull(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$allownull = true but \$default is specified");
@@ -115,35 +115,35 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     // The testInteger* and testFloat* functions test most of this already,
     // so just handle the interesting edgecases
 
-    public function testNumericType()
+    public function testNumericType(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("must be 'integer' or 'float'");
         get_numeric_param("boolean", $this->GET, 'enum', 1, 0, 1, false);
     }
 
-    public function testNumericMinType()
+    public function testNumericMinType(): void
     {
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage("type numeric or null");
         get_numeric_param("integer", $this->GET, 'enum', 1, "min", 1, false);
     }
 
-    public function testNumericMaxType()
+    public function testNumericMaxType(): void
     {
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage("type numeric or null");
         get_numeric_param("integer", $this->GET, 'enum', 1, 0, "max", false);
     }
 
-    public function testNumericMinLtMax()
+    public function testNumericMinLtMax(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$min must be <= \$max");
         get_numeric_param("integer", $this->GET, 'enum', null, 1, 0, true);
     }
 
-    public function testNumericDefaultAndNull()
+    public function testNumericDefaultAndNull(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$allownull = true but \$default is specified");
@@ -153,7 +153,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_integer_param() tests
 
-    public function testInteger()
+    public function testInteger(): void
     {
         $default = null;
         $min = 0;
@@ -162,7 +162,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($this->GET['i10'], $result);
     }
 
-    public function testIntegerDefault()
+    public function testIntegerDefault(): void
     {
         $default = 50;
         $min = 0;
@@ -171,7 +171,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($default, $result);
     }
 
-    public function testIntegerDefaultNotInt()
+    public function testIntegerDefaultNotInt(): void
     {
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage("must be of");
@@ -181,7 +181,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_integer_param($this->GET, 'none', $default, $min, $max);
     }
 
-    public function testIntegerNull()
+    public function testIntegerNull(): void
     {
         $default = null;
         $min = 0;
@@ -190,7 +190,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(null, $result);
     }
 
-    public function testIntegerNoDefault()
+    public function testIntegerNoDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
@@ -200,7 +200,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_integer_param($this->GET, 'none', $default, $min, $max);
     }
 
-    public function testIntegerNotAnInt()
+    public function testIntegerNotAnInt(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is not an integer");
@@ -211,7 +211,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     }
 
 
-    public function testIntegerLessThanMin()
+    public function testIntegerLessThanMin(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is less than the minimum");
@@ -221,7 +221,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_integer_param($this->GET, 'i10', $default, $min, $max);
     }
 
-    public function testIntegerMoreThanMax()
+    public function testIntegerMoreThanMax(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is greater than the maximum");
@@ -234,7 +234,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_float_param() tests
 
-    public function testFloat()
+    public function testFloat(): void
     {
         $default = null;
         $min = 0;
@@ -243,7 +243,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($this->GET['f10'], $result);
     }
 
-    public function testFloatInteger()
+    public function testFloatInteger(): void
     {
         $default = null;
         $min = 0;
@@ -252,7 +252,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($this->GET['i10'], $result);
     }
 
-    public function testFloatDefault()
+    public function testFloatDefault(): void
     {
         $default = 50.0;
         $min = 0;
@@ -261,7 +261,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($default, $result);
     }
 
-    public function testFloatDefaultNotFloat()
+    public function testFloatDefaultNotFloat(): void
     {
         $this->expectException(TypeError::class);
         $this->expectExceptionMessage("must be of");
@@ -271,7 +271,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_float_param($this->GET, 'none', $default, $min, $max);
     }
 
-    public function testFloatNull()
+    public function testFloatNull(): void
     {
         $default = null;
         $min = 0;
@@ -280,7 +280,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(null, $result);
     }
 
-    public function testFloatNoDefault()
+    public function testFloatNoDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
@@ -290,7 +290,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_float_param($this->GET, 'none', $default, $min, $max);
     }
 
-    public function testFloatNotAFloat()
+    public function testFloatNotAFloat(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is not a float");
@@ -300,7 +300,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_float_param($this->GET, 's10', $default, $min, $max);
     }
 
-    public function testFloatLessThanMin()
+    public function testFloatLessThanMin(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is less than the minimum");
@@ -310,7 +310,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_float_param($this->GET, 'f10', $default, $min, $max);
     }
 
-    public function testFloatMoreThanMax()
+    public function testFloatMoreThanMax(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is greater than the maximum");
@@ -323,14 +323,14 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_bool_param() tests
 
-    public function testBoolDefault()
+    public function testBoolDefault(): void
     {
         $default = false;
         $result = get_bool_param($this->GET, 'none', $default);
         $this->assertEquals(false, $result);
     }
 
-    public function testBoolDefaultToNull()
+    public function testBoolDefaultToNull(): void
     {
         $default = null;
         $allow_null = true;
@@ -338,7 +338,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(null, $result);
     }
 
-    public function testBoolTrueVariants()
+    public function testBoolTrueVariants(): void
     {
         $default = null;
         $result = get_bool_param($this->GET, 'true', $default);
@@ -355,7 +355,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(true, $result);
     }
 
-    public function testBoolFalseVariants()
+    public function testBoolFalseVariants(): void
     {
         $default = null;
         $result = get_bool_param($this->GET, 'false', $default);
@@ -372,7 +372,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals(false, $result);
     }
 
-    public function testBoolDefaultNotBool()
+    public function testBoolDefaultNotBool(): void
     {
         // Shockingly, PHP 7.4 (at least) will not throw a TypeError if a
         // non-boolean is passed into a function with a bool type. It instead
@@ -385,7 +385,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_bool_param($this->GET, 'none', $default);
     }
 
-    public function testBoolNotABool()
+    public function testBoolNotABool(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is not a");
@@ -396,14 +396,14 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_param_matching_regex() tests
 
-    public function testRegex()
+    public function testRegex(): void
     {
         $regex = '/^\d{4}-\d{2}-\d{2}$/';
         $result = get_param_matching_regex($this->GET, "date", "1999-01-01", $regex);
         $this->assertEquals($this->GET["date"], $result);
     }
 
-    public function testRegexDefault()
+    public function testRegexDefault(): void
     {
         $default = "1999-01-01";
         $regex = '/^\d{4}-\d{2}-\d{2}$/';
@@ -411,7 +411,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($default, $result);
     }
 
-    public function testRegexNoMatch()
+    public function testRegexNoMatch(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("does not match the regex");
@@ -420,7 +420,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_param_matching_regex($this->GET, "enum", null, $regex);
     }
 
-    public function testRegexNoDefault()
+    public function testRegexNoDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
@@ -429,7 +429,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_param_matching_regex($this->GET, "invalidkey", null, $regex);
     }
 
-    public function testRegexDefaultAndNull()
+    public function testRegexDefaultAndNull(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("\$allownull = true but \$default is specified");
