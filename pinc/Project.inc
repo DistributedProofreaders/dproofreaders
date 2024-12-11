@@ -185,6 +185,7 @@ class ProjectPage
  * @property-read bool $PPer_is_current_user
  * @property-read bool $PPVer_is_current_user
  * @property-read bool $forum_url
+ * @property-read string $round_type
  */
 class Project
 {
@@ -719,6 +720,8 @@ class Project
                 return is_null($pguser) ? false : $this->PPVer == $pguser;
             case "forum_url":
                 return $this->topic_id ? get_url_to_view_topic($this->topic_id) : "";
+            case "round_type":
+                return $this->_get_round_type();
         }
 
         // If we don't recognize the property, raise a notice and return null
@@ -1074,6 +1077,15 @@ class Project
         }
 
         return $PPVer;
+    }
+
+    private function _get_round_type(): string
+    {
+        $round = get_Round_for_project_state($this->state);
+        if (!$round) {
+            return "none";
+        }
+        return is_formatting_round($round) ? "formatting" : "proofreading";
     }
 
     // -------------------------------------------------------------------------
