@@ -962,7 +962,7 @@ function set_col_str(string $colname, string $s): string
  *
  * If `$i` is non-numeric, an `InvalidArgumentException` is thrown.
  */
-function set_col_num(string $colname, int $i)
+function set_col_num(string $colname, int $i): string
 {
     if (!is_numeric($i)) {
         throw new InvalidArgumentException("$i is not a number");
