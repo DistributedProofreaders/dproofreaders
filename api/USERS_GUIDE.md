@@ -316,6 +316,13 @@ curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
     -d @page_text.json
 ```
 
+Check the page text for bad words:
+```bash
+curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
+    -X PUT "https://www.pgdp.org/api/v1/projects/projectID44de3936807f1/wordcheck" \
+    -d @page_text.json
+```
+
 Save the page as in-progress:
 ```bash
 curl -s -H "Accept: application/json" -H "X-API-KEY: $API_KEY" \
