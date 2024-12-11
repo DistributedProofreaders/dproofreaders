@@ -186,7 +186,7 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
         "last_edit_time" => ["sql_name" => "t_last_edit"],
         "smoothread_deadline" => ["sql_name" => "smoothread_deadline"],
         "forum_url" => ["sql_name" => "forum_url"],
-        "round_type" => ["sql_name" => "state"],
+        "round_type" => ["sql_name" => null],
     ];
 
     // If accessing a single project using the api/v1/projects/:id endpoint,
