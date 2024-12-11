@@ -52,13 +52,13 @@ class MiscUtilsTest extends PHPUnit\Framework\TestCase
     {
         $array = ["f1" => false, "f2" => true];
         array_remove_invalid_fields($array, []);
-        $this->assertEquals($array, []);
+        $this->assertEquals([], $array);
     }
 
     public function test_remove_no_invalid_fields()
     {
         $array = ["f1" => false, "f2" => true];
         array_remove_invalid_fields($array, null);
-        $this->assertEquals($array, ["f1" => false, "f2" => true]);
+        $this->assertEquals(["f1" => false, "f2" => true], $array);
     }
 }
