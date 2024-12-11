@@ -901,7 +901,11 @@ function process_related_task(object $pre_task, string $action, int $related_tas
 {
     global $pguser, $tasks_url;
     assert($action == 'add' || $action == 'remove');
-    assert($related_task_id >= 1);
+
+    if ($related_task_id < 1) {
+        ShowError(_("You must supply a valid related task ID."), true);
+        return;
+    }
 
     $adding = ($action == 'add');
     $pre_task_id = $pre_task->task_id;
@@ -934,7 +938,11 @@ function process_related_topic(object $pre_task, string $action, int $related_to
 {
     global $pguser, $tasks_url;
     assert($action == 'add' || $action == 'remove');
-    assert($related_topic_id >= 1);
+
+    if ($related_topic_id < 1) {
+        ShowError(_("You must supply a valid related task ID."), true);
+        return;
+    }
 
     $adding = ($action == 'add');
     $pre_task_id = $pre_task->task_id;
