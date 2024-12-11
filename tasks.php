@@ -322,7 +322,7 @@ $SearchParams_choices = [
  * initializing it with any (valid) value that the current request
  * has supplied for the parameter.
  */
-function SearchParams_echo_controls()
+function SearchParams_echo_controls(): void
 {
     global $SearchParams_choices, $tasks_url;
 
@@ -356,7 +356,7 @@ function SearchParams_echo_controls()
  * implied by the values (if any) supplied for the search parameters
  * by the current request.
  */
-function SearchParams_get_sql_condition($request_params)
+function SearchParams_get_sql_condition(array $request_params): string
 {
     global $testing, $SearchParams_choices;
 
@@ -406,7 +406,7 @@ function SearchParams_get_sql_condition($request_params)
  * that represents (and possibly just reiterates) the values (if any)
  * supplied for the search parameters by the current request.
  */
-function SearchParams_get_url_query_string()
+function SearchParams_get_url_query_string(): string
 {
     global $SearchParams_choices;
 
@@ -425,7 +425,7 @@ function SearchParams_get_url_query_string()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function make_default_task_object()
+function make_default_task_object(): object
 {
     global $tasks_array;
     global $categories_array;
@@ -449,11 +449,11 @@ function make_default_task_object()
     $task->task_details = "";
     $task->percent_complete = get_property_key("0%", $percent_complete_array);
     $task->opened_by = "";
-    $task->task_id = "";
+    $task->task_id = 0;
     return $task;
 }
 
-function create_task_from_form_submission($formsub)
+function create_task_from_form_submission(array $formsub): ?string
 {
     global $tasks_array;
     global $categories_array;
@@ -549,6 +549,7 @@ function create_task_from_form_submission($formsub)
     // Subscribe the current user to this task for notification
     $userSettings = & Settings::get_Settings($pguser);
     $userSettings->add_value('taskctr_notice', $task_id);
+    return null;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -626,7 +627,7 @@ if (!isset($_REQUEST['task_id'])) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function handle_action_on_a_specified_task()
+function handle_action_on_a_specified_task(): void
 {
     global $pguser, $requester_u_id;
     global $now_sse;
@@ -649,7 +650,7 @@ function handle_action_on_a_specified_task()
         $action = 'show';
     }
 
-    $task_id = (int)get_float_param($_REQUEST, 'task_id', null, 1, null);
+    $task_id = get_integer_param($_REQUEST, 'task_id', null, 1, null);
 
     // Fetch the state of the specified task
     // before any requested changes.
@@ -836,16 +837,16 @@ function handle_action_on_a_specified_task()
             return;
         }
     } elseif ($action == 'add_related_task') {
-        $related_task_id = (int)get_float_param($_POST, 'related_task', null, 1, null);
+        $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
         process_related_task($pre_task, 'add', $related_task_id);
     } elseif ($action == 'remove_related_task') {
-        $related_task_id = (int)get_float_param($_POST, 'related_task', null, 1, null);
+        $related_task_id = get_integer_param($_POST, 'related_task', null, 1, null);
         process_related_task($pre_task, 'remove', $related_task_id);
     } elseif ($action == 'add_related_topic') {
-        $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
+        $related_posting_topic = get_integer_param($_POST, 'related_posting', null, 1, null);
         process_related_topic($pre_task, 'add', $related_posting_topic);
     } elseif ($action == 'remove_related_topic') {
-        $related_posting_topic = (int)get_float_param($_POST, 'related_posting', null, 1, null);
+        $related_posting_topic = get_integer_param($_POST, 'related_posting', null, 1, null);
         process_related_topic($pre_task, 'remove', $related_posting_topic);
     } elseif ($action == 'add_metoo') {
         $vote_os = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
@@ -896,17 +897,11 @@ function handle_action_on_a_specified_task()
 /**
  * Add or remove a related task to the current task.
  */
-function process_related_task($pre_task, $action, $related_task_id)
+function process_related_task(object $pre_task, string $action, int $related_task_id): void
 {
     global $pguser, $tasks_url;
     assert($action == 'add' || $action == 'remove');
-
-    // Validate task_id. It must be an integer >= 1
-    $related_task_id = trim($related_task_id);
-    if (!is_numeric($related_task_id) || $related_task_id < 1) {
-        ShowError(_("You must supply a valid related task ID."), true);
-        return;
-    }
+    assert($related_task_id >= 1);
 
     $adding = ($action == 'add');
     $pre_task_id = $pre_task->task_id;
@@ -935,17 +930,11 @@ function process_related_task($pre_task, $action, $related_task_id)
 /**
  * Add or remove a related topic (forum thread) to the current task.
  */
-function process_related_topic($pre_task, $action, $related_topic_id)
+function process_related_topic(object $pre_task, string $action, int $related_topic_id): void
 {
     global $pguser, $tasks_url;
     assert($action == 'add' || $action == 'remove');
-
-    // Validate related_topic_id. It must be an integer >= 1
-    $related_topic_id = trim($related_topic_id);
-    if (!is_numeric($related_topic_id) || $related_topic_id < 1) {
-        ShowError(_("You must supply a valid related topic ID."), true);
-        return;
-    }
+    assert($related_topic_id >= 1);
 
     $adding = ($action == 'add');
     $pre_task_id = $pre_task->task_id;
@@ -988,7 +977,8 @@ function process_related_topic($pre_task, $action, $related_topic_id)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function dropdown_select($field_name, $current_value, $array)
+/** @param array<string, string> $array */
+function dropdown_select(string $field_name, string $current_value, array $array): string
 {
     $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
     foreach ($array as $key => $val) {
@@ -1002,7 +992,7 @@ function dropdown_select($field_name, $current_value, $array)
     return $return;
 }
 
-function TaskHeader($header, $show_new_alert = false)
+function TaskHeader(string $header, bool $show_new_alert = false): void
 {
     global $tasks_url, $pguser, $code_url;
 
@@ -1054,7 +1044,7 @@ function TaskHeader($header, $show_new_alert = false)
 /**
  * Encode an array into text for insertion into the database.
  */
-function encode_array($a)
+function encode_array(array $a): string
 {
     return base64_encode(serialize($a));
 }
@@ -1066,7 +1056,7 @@ function encode_array($a)
  * unserialize("") === bool(false). In that case we explicitly return
  * an empty array.
  */
-function decode_array($str)
+function decode_array(string $str): array
 {
     $a = unserialize(base64_decode($str));
     if (is_array($a)) {
@@ -1077,12 +1067,12 @@ function decode_array($str)
 
 // -----------------------------------------------------------------------------
 
-function list_all_open_tasks()
+function list_all_open_tasks(): void
 {
     select_and_list_tasks("date_closed = 0");
 }
 
-function search_and_list_tasks($request_params)
+function search_and_list_tasks(array $request_params): void
 {
     $condition = SearchParams_get_sql_condition($request_params);
     select_and_list_tasks($condition);
@@ -1090,7 +1080,7 @@ function search_and_list_tasks($request_params)
 
 // -----------------------------------------------------------------------------
 
-function select_and_list_tasks($sql_condition)
+function select_and_list_tasks(string $sql_condition): void
 {
     global $tasks_url;
 
@@ -1182,7 +1172,7 @@ function select_and_list_tasks($sql_condition)
     }
 }
 
-function TaskForm($task)
+function TaskForm(object $task): void
 {
     global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
     global $os_array, $browser_array, $percent_complete_array;
@@ -1256,7 +1246,7 @@ function TaskForm($task)
 /**
  * Echo a <tr> element containing a label and a <select> for the given property.
  */
-function property_echo_select_tr($property_id, $current_value, $options)
+function property_echo_select_tr(string $property_id, string $current_value, array $options): void
 {
     $label = property_get_label($property_id, false);
     echo "<tr><th>$label</th><td>\n";
@@ -1264,7 +1254,8 @@ function property_echo_select_tr($property_id, $current_value, $options)
     echo "</td></tr>\n";
 }
 
-function load_task($tid, $is_assoc = true)
+/** @return mixed */
+function load_task(int $tid, bool $is_assoc = true)
 {
     $sql = sprintf(
         "
@@ -1284,7 +1275,7 @@ function load_task($tid, $is_assoc = true)
     return $task;
 }
 
-function TaskDetails($tid, $action)
+function TaskDetails(int $tid, string $action): void
 {
     global $requester_u_id, $tasks_url;
     global $os_array, $browser_array, $tasks_close_array;
@@ -1377,7 +1368,8 @@ function TaskDetails($tid, $action)
     }
 }
 
-function property_echo_value_tr($property_id, $row, $show_if_empty = true)
+/** param mixed $row */
+function property_echo_value_tr(string $property_id, $row, bool $show_if_empty = true): void
 {
     $label = property_get_label($property_id, false);
     $formatted_value = property_format_value($property_id, $row, false);
@@ -1771,7 +1763,7 @@ function property_get_label($property_id, $for_list_of_tasks)
     }
 }
 
-function property_format_value($property_id, $task_a, $for_list_of_tasks)
+function property_format_value(string $property_id, array $task_a, bool $for_list_of_tasks): string
 {
     global $code_url, $tasks_url;
     global $browser_array;
@@ -1986,7 +1978,7 @@ function property_format_value($property_id, $task_a, $for_list_of_tasks)
     return $fv;
 }
 
-function private_message_link_for_uid($u_id)
+function private_message_link_for_uid(int $u_id): string
 // Return a 'private message link' for the user specified by $u_id.
 {
     $username = get_username_for_uid($u_id);
@@ -1994,7 +1986,7 @@ function private_message_link_for_uid($u_id)
     return $link;
 }
 
-function get_username_for_uid($u_id)
+function get_username_for_uid(int $u_id): string
 {
     $user = User::load_from_uid($u_id);
     return $user->username;
@@ -2004,7 +1996,7 @@ function get_username_for_uid($u_id)
  * Given a task row from the DB, produce an unescaped string representing
  * the task and suitable for display in a page title or similar.
  */
-function title_string_for_task($pre_task)
+function title_string_for_task(object $pre_task): string
 {
     return sprintf(_("Task #%d: %s"), $pre_task->task_id, $pre_task->task_summary);
 }
@@ -2014,7 +2006,7 @@ function title_string_for_task($pre_task)
  *
  * Input string must be a valid property value
  */
-function get_property_key($value, $array)
+function get_property_key(string $value, array $array): string
 {
     if (($key = array_search($value, $array)) === false) {
         throw new ValueError("Bad task property value: $value");
