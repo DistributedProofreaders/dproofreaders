@@ -14,7 +14,14 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
     let searchParams = new URLSearchParams();
     searchParams.append("url", apiUrl);
     for (const key in queryParams) {
-        searchParams.append(key, queryParams[key]);
+        const value = queryParams[key];
+        if (Array.isArray(value)) {
+            for (const element of value) {
+                searchParams.append(`${key}[]`, element);
+            }
+        } else {
+            searchParams.append(key, value);
+        }
     }
     url.search = searchParams;
     let upperCaseMethod = method.toUpperCase();
