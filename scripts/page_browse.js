@@ -352,7 +352,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     }
 
     getProjectData = function () {
-        ajax("GET", `v1/projects/${projectId}`).then(showProjectInfo, function (data) {
+        ajax("GET", `v1/projects/${projectId}`, {"field": "title"}).then(showProjectInfo, function (data) {
             ajaxAlert(data);
             selectAProject();
         });
