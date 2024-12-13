@@ -16,8 +16,8 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
     for (const key in queryParams) {
         const value = queryParams[key];
         if (Array.isArray(value)) {
-            for (const element of value) {
-                searchParams.append(`${key}[]`, element);
+            for (const item of value) {
+                searchParams.append(`${key}[]`, item);
             }
         } else {
             searchParams.append(key, value);
