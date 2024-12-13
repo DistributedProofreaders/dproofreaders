@@ -24,7 +24,7 @@ include_once("api_common.inc");
  */
 function get_return_fields(?array $query_params, ?Project $project)
 {
-    $return_fields = array_get_as_array($query_params, "field", null);
+    $return_fields = api_get_request_body();
     if (is_null($return_fields)) {
         return null;
     }
@@ -308,20 +308,22 @@ function create_or_update_project(Project $project)
 
 function api_v1_project($method, $data, $query_params)
 {
-    if ($method == "GET") {
+    $project = $data[":projectid"];
+    if ($method == "POST") {
         // restrict to list of desired fields, if set
-        $project = $data[":projectid"];
         $return_fields = get_return_fields($query_params, $project);
         return render_project_json($project, $return_fields);
     } elseif ($method == "PUT") {
-        $project = $data[":projectid"];
         return render_project_json(create_or_update_project($project));
-    } elseif ($method == "POST") {
-        $project = create_or_update_project(new Project());
-        // reload the project to fetch defaults managed by the database
-        $project = new Project($project->projectid);
-        return render_project_json($project);
     }
+}
+
+function api_v1_project_create($method, $data, $query_params)
+{
+    $project = create_or_update_project(new Project());
+    // reload the project to fetch defaults managed by the database
+    $project = new Project($project->projectid);
+    return render_project_json($project);
 }
 
 function render_project_json(Project $project, ?array $return_fields = null)

@@ -19,7 +19,7 @@ $router->add_validator(":queueid", "validate_release_queue");
 
 // Add routes
 $router->add_route("GET", "v1/projects", "api_v1_projects");
-$router->add_route("POST", "v1/projects", "api_v1_project");
+$router->add_route("POST", "v1/projects", "api_v1_project_create");
 $router->add_route("GET", "v1/projects/difficulties", "api_v1_projects_difficulties");
 $router->add_route("GET", "v1/projects/genres", "api_v1_projects_genres");
 $router->add_route("GET", "v1/projects/languages", "api_v1_projects_languages");
@@ -29,7 +29,7 @@ $router->add_route("GET", "v1/projects/charsuites", "api_v1_projects_charsuites"
 $router->add_route("GET", "v1/projects/specialdays", "api_v1_projects_specialdays");
 $router->add_route("GET", "v1/projects/imagesources", "api_v1_projects_imagesources");
 $router->add_route("GET", "v1/projects/holdstates", "api_v1_projects_holdstates");
-$router->add_route("GET", "v1/projects/:projectid", "api_v1_project");
+$router->add_route("POST", "v1/projects/:projectid", "api_v1_project");
 $router->add_route("PUT", "v1/projects/:projectid", "api_v1_project");
 $router->add_route("PUT", "v1/projects/:projectid/checkout", "api_v1_project_checkout");
 $router->add_route("GET", "v1/projects/:projectid/holdstates", "api_v1_project_holdstates");

@@ -7,12 +7,15 @@ class ApiTest extends ProjectUtils
     //---------------------------------------------------------------------------
     // helper functions
 
-    protected function get_project_data(string $projectid, array $query_params): array
+    protected function get_project_data(string $projectid, array $data): array
     {
+        global $request_body;
+
+        $request_body = $data;
         $path = "v1/projects/$projectid";
         $router = ApiRouter::get_router();
-        $_SERVER["REQUEST_METHOD"] = "GET";
-        return $router->route($path, $query_params);
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        return $router->route($path, []);
     }
 
     protected function checkout(string $projectid, string $project_state): array
@@ -205,14 +208,14 @@ class ApiTest extends ProjectUtils
     public function test_get_round_type_none(): void
     {
         $project = $this->_create_project();
-        $result = $this->get_project_data($project->projectid, ["field" => "round_type"]);
-        $this->assertEquals(["round_type" => "none"], $result);
+        $result = $this->get_project_data($project->projectid, ["title", "round_type"]);
+        $this->assertEquals(["title" => "War and Peace", "round_type" => "none"], $result);
     }
 
     public function test_get_round_type_proofreading(): void
     {
         $project = $this->_create_available_project();
-        $result = $this->get_project_data($project->projectid, ["field" => "round_type"]);
+        $result = $this->get_project_data($project->projectid, ["round_type"]);
         $this->assertEquals(["round_type" => "proofreading"], $result);
     }
 
