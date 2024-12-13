@@ -338,7 +338,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
         ajax("GET", `v1/projects/${projectId}/pages`).then(displayPages, ajaxAlert);
     }
 
-    function showProjectInfo(projectData) {
+    function showProjectTitle(projectData) {
         fixHead.empty();
         // show project name and button to select another
         const resetButton = $("<input>", { type: "button", value: proofIntData.strings.reset });
@@ -352,7 +352,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     }
 
     getProjectData = function () {
-        ajax("GET", `v1/projects/${projectId}`).then(showProjectInfo, function (data) {
+        ajax("GET", `v1/projects/${projectId}`, { field: "title" }).then(showProjectTitle, function (data) {
             ajaxAlert(data);
             selectAProject();
         });
