@@ -216,6 +216,13 @@ class ApiTest extends ProjectUtils
         $this->assertEquals(["round_type" => "proofreading"], $result);
     }
 
+    public function test_get_round_document(): void
+    {
+        $project = $this->_create_available_project();
+        $result = $this->get_project_data($project->projectid, ["field" => "round_document"]);
+        $this->assertEquals(["round_document" => "proofreading_guidelines.php"], $result);
+    }
+
     //---------------------------------------------------------------------------
     // tests for proofreading
 
