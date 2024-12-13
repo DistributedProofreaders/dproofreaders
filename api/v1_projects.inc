@@ -24,10 +24,11 @@ include_once("api_common.inc");
  */
 function get_return_fields(?array $query_params, ?Project $project)
 {
-    $return_fields = array_get_as_array($query_params, "field", null);
-    if (is_null($return_fields)) {
+    $field = $query_params["field"] ?? null;
+    if (is_null($field)) {
         return null;
     }
+    $return_fields = explode(",", $field);
     $valid_render_fields = array_keys(get_project_fields_with_attr(null, $project));
     $invalid_fields = array_diff($return_fields, $valid_render_fields);
     if (!empty($invalid_fields)) {

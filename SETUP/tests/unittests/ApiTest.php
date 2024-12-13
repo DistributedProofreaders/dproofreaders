@@ -205,8 +205,8 @@ class ApiTest extends ProjectUtils
     public function test_get_round_type_none(): void
     {
         $project = $this->_create_project();
-        $result = $this->get_project_data($project->projectid, ["field" => "round_type"]);
-        $this->assertEquals(["round_type" => "none"], $result);
+        $result = $this->get_project_data($project->projectid, ["field" => "title,round_type"]);
+        $this->assertEquals(["title" => "War and Peace", "round_type" => "none"], $result);
     }
 
     public function test_get_round_type_proofreading(): void
