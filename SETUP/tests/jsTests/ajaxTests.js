@@ -91,7 +91,7 @@ QUnit.module("Ajax test", function () {
     });
 
     QUnit.test("Check array parameter", function (assert) {
-        function fetchPromise(url, options) {
+        function fetchPromise(url) {
             const blob = new Blob([JSON.stringify({ key: "value" })], { type: "application/json" });
             assert.strictEqual(url.href, "https://www.dummy.org/api/index.php?url=myUrl&key%5B%5D=value1&key%5B%5D=value2");
             const init = { status: 200, headers: { "content-type": "application/json" } };
