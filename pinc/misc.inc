@@ -34,8 +34,10 @@ function array_get($arr, $key, $default)
 
 /**
  * Given an array of arrays/objects, return the values of the desired field.
+ *
+ * @param array<array|object> $array
  */
-function array_extract_field($array, $field)
+function array_extract_field(array $array, string $field): array
 {
     $values = [];
     foreach ($array as $entity) {
@@ -57,8 +59,11 @@ function array_extract_field($array, $field)
  * "foo"            -> ["foo"]
  * ["bar"]          -> ["bar"]
  * ["foo" => "bar"] -> ["foo" => "bar"]
+ *
+ * @param mixed $default
+ * @return mixed
  */
-function array_get_as_array($array, $key, $default)
+function array_get_as_array(?array $array, string $key, $default)
 {
     $value = $array[$key] ?? $default;
     if (!is_null($value) && !is_array($value)) {
@@ -71,10 +76,12 @@ function array_get_as_array($array, $key, $default)
  * Remove fields from the associative array `$array` that aren't in the valid list.
  *
  * Note: This is an in-place operation that mutates `$array`!
+ *
+ * @param string[] $valid_fields
  **/
-function array_remove_invalid_fields(&$array, $valid_fields)
+function array_remove_invalid_fields(array &$array, ?array $valid_fields): void
 {
-    if ($valid_fields) {
+    if (!is_null($valid_fields)) {
         foreach (array_diff(array_keys($array), $valid_fields) as $field) {
             unset($array[$field]);
         }
@@ -88,8 +95,10 @@ function array_remove_invalid_fields(&$array, $valid_fields)
  * If $remove_non_public is true, non-public values are not considered in
  * the comparison and not returned.
  * https://www.php.net/manual/en/language.types.array.php#language.types.array.casting
+ *
+ * @return string[]
  */
-function get_changed_fields_for_objects($new, $old, $remove_non_public = true)
+function get_changed_fields_for_objects(object $new, object $old, bool $remove_non_public = true): array
 {
     $old_as_array = (array)$old;
     $new_as_array = (array)$new;
@@ -564,7 +573,7 @@ function get_param_matching_regex(array $arr, string $key, ?string $default, str
  * By default this escapes all quotes with ENT_QUOTES. This can be changed
  * with the $flags argument which is passed directly into htmlspecailchars().
  */
-function html_safe($string, $flags = ENT_QUOTES)
+function html_safe(?string $string, int $flags = ENT_QUOTES): string
 {
     if ($string === null) {
         return "";
@@ -600,7 +609,7 @@ function html_safe($string, $flags = ENT_QUOTES)
  * value `Nom de l'&oelig;uvre` and we want `attr_safe()` to return
  * `Nom de l&#39;&oelig;uvre` not `Nom de l&#39;&amp;oelig;uvre`.
  */
-function attr_safe($string)
+function attr_safe(?string $string): string
 {
     if ($string === null) {
         return "";
@@ -649,7 +658,7 @@ function attr_safe($string)
  *   - If the encoding is utf-8, \uHHHH encoding is used for all non-ASCII
  *     characters, and \ooo for control ASCII chars [\000-\017\177]
  */
-function javascript_safe($str, $encoding = null)
+function javascript_safe(string $str, ?string $encoding = null): string
 {
     if (!$encoding) {
         $encoding = 'UTF-8';
@@ -690,7 +699,7 @@ function javascript_safe($str, $encoding = null)
 /**
  * Sanitize HTML using HTMLPurifier
  */
-function sanitize_html($html, $parent_tag = 'div')
+function sanitize_html(string $html, string $parent_tag = 'div'): string
 {
     $config = HTMLPurifier_Config::createDefault();
     $config->set('HTML.Parent', $parent_tag);
@@ -704,6 +713,7 @@ function sanitize_html($html, $parent_tag = 'div')
 }
 
 /* Parse markdown text string using Parsedown library and output HTML
+ *
  * @param $message Markdown text
  * @return string HTML content
  */
@@ -740,7 +750,7 @@ function render_markdown_as_html(string $message): string
  * echo normalize_whitespace("\tWilliam\tShakespeare\t");
  * ```
  */
-function normalize_whitespace($str)
+function normalize_whitespace(string $str): string
 {
     return trim(preg_replace('/\s+/u', ' ', $str));
 }
@@ -751,7 +761,7 @@ function normalize_whitespace($str)
 /**
  * Safely encode a string for use in an XML document.
  */
-function xmlencode($string)
+function xmlencode(?string $string): string
 {
     if ($string === null) {
         return "";
@@ -761,7 +771,7 @@ function xmlencode($string)
 
 // -----------------------------------------------------------------------------
 
-function echo_html_comment($comment_body)
+function echo_html_comment(string $comment_body): void
 {
     // We need to check/tweak $comment_body to ensure that we generate a valid
     // HTML comment. The actual syntax of HTML comments is rather interesting --
@@ -786,8 +796,10 @@ function echo_html_comment($comment_body)
 
 /**
  * Return TRUE iff $subject starts with $prefix.
+ *
+ * Prefer using `str_starts_with`.
  */
-function startswith($subject, $prefix)
+function startswith(string $subject, string $prefix): bool
 {
     return (strncmp($subject, $prefix, strlen($prefix)) == 0);
 }
@@ -795,15 +807,17 @@ function startswith($subject, $prefix)
 /**
  * Return TRUE iff $subject starts with $prefix ignoring case.
  */
-function startswithnocase($subject, $prefix)
+function startswithnocase(string $subject, string $prefix): bool
 {
     return (strncasecmp($subject, $prefix, strlen($prefix)) == 0);
 }
 
 /**
  * Return TRUE iff $subject ends with $suffix.
+ *
+ * Prefer using `str_ends_with`.
  */
-function endswith($subject, $suffix)
+function endswith(string $subject, string $suffix): bool
 {
     return (substr($subject, -strlen($suffix)) == $suffix);
 }
@@ -816,7 +830,8 @@ if (!function_exists('str_contains')) {
     }
 }
 
-function surround_and_join($strings, $L, $R, $joiner)
+/** @param string[] $strings */
+function surround_and_join(array $strings, string $L, string $R, string $joiner): string
 {
     $parts = [];
     foreach ($strings as $string) {
@@ -935,7 +950,7 @@ function all(iterable $input, ?callable $predicate = null): bool
  * Return a SQL "colname='value'" clause, where `$colname` is
  * not escaped, and `$s` is an escaped and quoted string.
  */
-function set_col_str($colname, $s)
+function set_col_str(string $colname, string $s): string
 {
     return sprintf("%s='%s'", $colname, DPDatabase::escape($s));
 }
@@ -946,7 +961,7 @@ function set_col_str($colname, $s)
  *
  * If `$i` is non-numeric, an `InvalidArgumentException` is thrown.
  */
-function set_col_num($colname, $i)
+function set_col_num(string $colname, int $i): string
 {
     if (!is_numeric($i)) {
         throw new InvalidArgumentException("$i is not a number");
@@ -1222,7 +1237,7 @@ function extract_zip_to(string $path_to_zip, string $output_directory): bool
  * Uses `is_valid_zip_file()` to check the zip file,
  * if it is not valid, throws an InvalidArgumentException.
  */
-function remove_common_basedir_from_zip(string $path_to_zip)
+function remove_common_basedir_from_zip(string $path_to_zip): void
 {
     if (!is_valid_zip_file($path_to_zip)) {
         throw new InvalidArgumentException(sprintf(
@@ -1319,7 +1334,7 @@ function create_zip_from(array $files_to_zip, string $path_to_zip): bool
  * The wording is taken from "Handling File Uploads: Error Messages Explained"
  * in the PHP online documentation.
  */
-function get_upload_err_msg($upload_error_code)
+function get_upload_err_msg(int $upload_error_code): string
 {
     switch ($upload_error_code) {
         case UPLOAD_ERR_OK:
@@ -1346,7 +1361,7 @@ function get_upload_err_msg($upload_error_code)
 /**
  * Represent bytes in the largest reasonable units
  */
-function humanize_bytes($n)
+function humanize_bytes(float $n): string
 {
     $i = 0;
     $units = ["B", "KB", "MB", "GB", "TB", "PB"];
@@ -1376,8 +1391,11 @@ function humanize_bytes($n)
  * $strings[$i] == $left_common . $middles[$i] . $right_common
  * ```
  * for all $i.
+ *
+ * @param string[] $strings
+ * @return array{0: string, 1: string[], 2: string}
  */
-function factor_strings($strings)
+function factor_strings(array $strings): array
 {
     assert(count($strings) > 0);
 
@@ -1504,7 +1522,7 @@ function factor_strings($strings)
  * If the requested function returns data that has localized strings, it's
  * important that $key_salt = get_desired_language();
  */
-function memoize_function($function, $args = [], $expiration = 3600, $key_salt = "")
+function memoize_function(string $function, array $args = [], int $expiration = 3600, string $key_salt = "")
 {
     // cache this connection for possible re-use during this page load
     static $memcache = null;
@@ -1534,7 +1552,7 @@ function memoize_function($function, $args = [], $expiration = 3600, $key_salt =
 /**
  * Determine if page requester is from localhost
  */
-function requester_is_localhost()
+function requester_is_localhost(): bool
 {
     if (php_sapi_name() == "cli") {
         return true;
@@ -1551,7 +1569,7 @@ function requester_is_localhost()
 /**
  * Validate requester is localhost or exit
  */
-function require_localhost_request($deny_cli = false)
+function require_localhost_request(bool $deny_cli = false): void
 {
     if (!requester_is_localhost() ||
         ($deny_cli && php_sapi_name() == 'cli')) {
@@ -1577,7 +1595,7 @@ function require_localhost_request($deny_cli = false)
  * the function will return TRUE despite the provided URL not having a
  * numofpages parameter. The converse, however, is not true.
  */
-function is_url_for_current_page($url)
+function is_url_for_current_page(string $url): bool
 {
     $url_components = parse_url($url);
 
@@ -1605,13 +1623,13 @@ function is_url_for_current_page($url)
  *
  * From http://php.net/manual/en/function.ini-get.php
  */
-function return_bytes($size_str)
+function return_bytes(string $size_str): int
 {
     switch (substr($size_str, -1)) {
         case 'M': case 'm': return (int)$size_str * 1048576;
         case 'K': case 'k': return (int)$size_str * 1024;
         case 'G': case 'g': return (int)$size_str * 1073741824;
-        default: return $size_str;
+        default: return (int)$size_str;
     }
 }
 
@@ -1641,7 +1659,7 @@ class InvalidCSRFTokenException extends UnexpectedValueException
 {
 }
 
-function set_csrf_token($force_set = true)
+function set_csrf_token(bool $force_set = true): void
 {
     if (!$force_set && @$_COOKIE["CSRFtoken"]) {
         return;
@@ -1655,22 +1673,22 @@ function set_csrf_token($force_set = true)
     $_COOKIE["CSRFtoken"] = $token;
 }
 
-function destroy_csrf_token()
+function destroy_csrf_token(): void
 {
     dp_setcookie("CSRFtoken", "", time() - 60);
 }
 
-function get_csrf_token_form_input()
+function get_csrf_token_form_input(): string
 {
     return "<input type='hidden' name='CSRFtoken' value='" . attr_safe($_COOKIE["CSRFtoken"]) . "'>";
 }
 
-function echo_csrf_token_form_input()
+function echo_csrf_token_form_input(): void
 {
     echo get_csrf_token_form_input();
 }
 
-function validate_csrf_token()
+function validate_csrf_token(): void
 {
     if (@$_POST["CSRFtoken"] != @$_COOKIE["CSRFtoken"]) {
         throw new InvalidCSRFTokenException(

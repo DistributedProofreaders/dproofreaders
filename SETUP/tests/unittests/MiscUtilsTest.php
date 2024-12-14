@@ -33,4 +33,18 @@ class MiscUtilsTest extends PHPUnit\Framework\TestCase
         $this->assertTrue(any(explode(",", "6502,Z80"), fn ($cpu) => is_numeric($cpu)));
         $this->assertFalse(all(explode(",", "6502,Z80"), 'is_numeric'));
     }
+
+    public function test_remove_all_invalid_fields()
+    {
+        $array = ["f1" => false, "f2" => true];
+        array_remove_invalid_fields($array, []);
+        $this->assertEquals([], $array);
+    }
+
+    public function test_remove_no_invalid_fields()
+    {
+        $array = ["f1" => false, "f2" => true];
+        array_remove_invalid_fields($array, null);
+        $this->assertEquals(["f1" => false, "f2" => true], $array);
+    }
 }
