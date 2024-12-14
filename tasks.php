@@ -940,7 +940,7 @@ function process_related_topic(object $pre_task, string $action, int $related_to
     assert($action == 'add' || $action == 'remove');
 
     if ($related_topic_id < 1) {
-        ShowError(_("You must supply a valid related task ID."), true);
+        ShowError(_("You must supply a valid related topic ID."), true);
         return;
     }
 
