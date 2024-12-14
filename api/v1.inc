@@ -6,6 +6,7 @@ include_once("v1_validators.inc");
 include_once("v1_projects.inc");
 include_once("v1_queues.inc");
 include_once("v1_stats.inc");
+include_once("v1_docs.inc");
 
 $router = ApiRouter::get_router();
 
@@ -16,8 +17,12 @@ $router->add_validator(":roundid", "validate_round");
 $router->add_validator(":pagename", "validate_page_name");
 $router->add_validator(":pageroundid", "validate_page_round");
 $router->add_validator(":queueid", "validate_release_queue");
+$router->add_validator(":document_name", "validate_document_name");
 
 // Add routes
+$router->add_route("GET", "v1/documents", "api_v1_documents");
+$router->add_route("GET", "v1/documents/:document_name", "api_v1_document");
+
 $router->add_route("GET", "v1/projects", "api_v1_projects");
 $router->add_route("POST", "v1/projects", "api_v1_project");
 $router->add_route("GET", "v1/projects/difficulties", "api_v1_projects_difficulties");

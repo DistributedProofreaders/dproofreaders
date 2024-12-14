@@ -67,3 +67,13 @@ function validate_release_queue($queueid, $data)
     }
     return $queue_data;
 }
+
+function validate_document_name(string $document_name): string
+{
+    global $external_faq_overrides;
+
+    if (!array_key_exists($document_name, $external_faq_overrides)) {
+        throw new NotFoundError("document $document_name not found");
+    }
+    return $document_name;
+}

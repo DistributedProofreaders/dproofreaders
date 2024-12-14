@@ -1290,6 +1290,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/round_stats'
 
+  /documents:
+    get:
+      tags:
+      - documents
+      description: Gets an array of document names, if lang_code is given then only those available in that language
+      parameters:
+      - name: lang_code
+        in: query
+        description: language code
+        schema:
+          type: string
+      responses:
+        200:
+          description: Array of document names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /documents/{document_name}:
+    get:
+      tags:
+      - documents
+      description: Gets url for the given document in users language if possible, else english
+      parameters:
+      - name: document_name
+        in: path
+        description: name of document
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Url for the document
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          $ref: '#/components/responses/NotFound'
+
 components:
   securitySchemes:
     ApiKeyAuth:
