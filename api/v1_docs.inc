@@ -6,9 +6,9 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
     global $external_faq_overrides;
 
     $lang_code = $query_params["lang_code"] ?? null;
-    if($lang_code) {
+    if ($lang_code) {
         $docs_with_lang = [];
-        foreach($external_faq_overrides as $doc => $doc_array) {
+        foreach ($external_faq_overrides as $doc => $doc_array) {
             if (isset($doc_array[$lang_code])) {
                 $docs_with_lang[] = $doc;
             }
