@@ -89,4 +89,15 @@ QUnit.module("Ajax test", function () {
 
         return ajax("POST", "myUrl", { querykey: "queryvalue" }, { datakey: "datavalue" }, fetchPromise).then();
     });
+
+    QUnit.test("Check array parameter", function (assert) {
+        function fetchPromise(url) {
+            const blob = new Blob([JSON.stringify({ key: "value" })], { type: "application/json" });
+            assert.strictEqual(url.href, "https://www.dummy.org/api/index.php?url=myUrl&key%5B%5D=value1&key%5B%5D=value2");
+            const init = { status: 200, headers: { "content-type": "application/json" } };
+            return Promise.resolve(new Response(blob, init));
+        }
+
+        return ajax("GET", "myUrl", { key: ["value1", "value2"] }, {}, fetchPromise).then();
+    });
 });
