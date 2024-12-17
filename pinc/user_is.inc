@@ -10,7 +10,7 @@ include_once($relPath.'Settings.inc');
 // It should work properly (by returning appropriate null-type values) if
 // the user is not logged on.
 
-function & get_pguser_settings()
+function & get_pguser_settings(): Settings
 {
     global $pguser;
     return Settings::get_settings($pguser);
@@ -18,13 +18,13 @@ function & get_pguser_settings()
 
 // -----------------------------------------------------------------------------
 
-function that_user_is_a_sitemanager($username)
+function that_user_is_a_sitemanager(?string $username): bool
 {
     $userSettings = & Settings::get_settings($username);
     return $userSettings->get_boolean("sitemanager");
 }
 
-function user_is_a_sitemanager()
+function user_is_a_sitemanager(): bool
 {
     global $pguser;
     return that_user_is_a_sitemanager($pguser);
@@ -32,7 +32,7 @@ function user_is_a_sitemanager()
 
 // ---------
 
-function that_user_is_proj_facilitator($username)
+function that_user_is_proj_facilitator(?string $username): bool
 {
     $userSettings = & Settings::get_settings($username);
     return
@@ -41,7 +41,7 @@ function that_user_is_proj_facilitator($username)
         $userSettings->get_boolean("sitemanager");
 }
 
-function user_is_proj_facilitator()
+function user_is_proj_facilitator(): bool
 {
     global $pguser;
     return that_user_is_proj_facilitator($pguser);
@@ -49,19 +49,19 @@ function user_is_proj_facilitator()
 
 // ---------
 
-function user_is_an_access_request_reviewer()
+function user_is_an_access_request_reviewer(): bool
 {
     $userSettings = & get_pguser_settings();
     return $userSettings->get_boolean("access_request_reviewer");
 }
 
-function user_is_taskcenter_mgr()
+function user_is_taskcenter_mgr(): bool
 {
     $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("task_center_mgr");
 }
 
-function user_can_see_user_access_chart_of($subject_username)
+function user_can_see_user_access_chart_of(?string $subject_username): bool
 {
     [$can_grant, $can_revoke] = user_can_modify_access_of($subject_username);
     return ($can_grant || $can_revoke || user_is_proj_facilitator());
@@ -69,7 +69,8 @@ function user_can_see_user_access_chart_of($subject_username)
     // We also allow PFs to see access charts.
 }
 
-function user_can_modify_access_of($subject_username)
+/** @return array{0:bool, 1:bool} */
+function user_can_modify_access_of(?string $subject_username): array
 {
     // Currently, $subject_username is ignored unless $testing is true.
     if (user_is_a_sitemanager() || user_is_an_access_request_reviewer()) {
@@ -98,7 +99,7 @@ function user_can_modify_access_of($subject_username)
 
 // ---------
 
-function that_user_is_PM($username)
+function that_user_is_PM(?string $username): bool
 {
     $userSettings = & Settings::get_settings($username);
 
@@ -106,24 +107,24 @@ function that_user_is_PM($username)
             || that_user_is_proj_facilitator($username)
             || $userSettings->get_boolean("manager");
 }
-function user_is_PM()
+function user_is_PM(): bool
 {
     global $pguser;
     return that_user_is_PM($pguser);
 }
-function that_user_has_project_loads_disabled($username)
+function that_user_has_project_loads_disabled(?string $username): bool
 {
     $userSettings = & Settings::get_settings($username);
     return $userSettings->get_boolean("disable_project_loads");
 }
-function user_has_project_loads_disabled()
+function user_has_project_loads_disabled(): bool
 {
     global $pguser;
     return that_user_has_project_loads_disabled($pguser);
 }
 // ---------
 
-function that_user_is_over_PP_checked_out_limit($username)
+function that_user_is_over_PP_checked_out_limit(?string $username): bool
 {
     $userSettings = & Settings::get_settings($username);
     $limit = $userSettings->get_value("pp_limit_value", 'none');
@@ -152,7 +153,7 @@ function that_user_is_over_PP_checked_out_limit($username)
     return $actual_limit > 0 && $number_out >= $actual_limit;
 }
 
-function user_is_over_PP_checked_out_limit()
+function user_is_over_PP_checked_out_limit(): bool
 {
     global $pguser;
     return that_user_is_over_PP_checked_out_limit($pguser);
@@ -160,19 +161,19 @@ function user_is_over_PP_checked_out_limit()
 
 // ---------
 
-function user_is_site_news_editor()
+function user_is_site_news_editor(): bool
 {
     $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_news_editor");
 }
 
-function user_is_site_translator()
+function user_is_site_translator(): bool
 {
     $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("site_translator");
 }
 
-function user_can_mentor_in_any_round()
+function user_can_mentor_in_any_round(): bool
 {
     if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
         return true;
@@ -182,7 +183,7 @@ function user_can_mentor_in_any_round()
     return any(Rounds::get_all(), fn ($r) => $userSettings->get_boolean("{$r->id}_mentor.access"));
 }
 
-function user_can_mentor_in_round($round)
+function user_can_mentor_in_round(Round $round): bool
 {
     $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager()
@@ -190,7 +191,7 @@ function user_can_mentor_in_round($round)
             || $userSettings->get_boolean("{$round->id}_mentor.access");
 }
 
-function that_user_can_work_on_beginner_pages_in_round($username, $round)
+function that_user_can_work_on_beginner_pages_in_round(?string $username, Round $round): bool
 {
     $userSettings = & Settings::get_settings($username);
     $round_number = $round->round_number;
@@ -214,36 +215,36 @@ function that_user_can_work_on_beginner_pages_in_round($username, $round)
     // The round-restriction is sufficient.
 }
 
-function user_can_work_on_beginner_pages_in_round($round)
+function user_can_work_on_beginner_pages_in_round(Round $round): bool
 {
     global $pguser;
     return that_user_can_work_on_beginner_pages_in_round($pguser, $round);
 }
 
-function user_is_authors_db_manager()
+function user_is_authors_db_manager(): bool
 {
     $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean('authors_db_manager');
 }
 
-function user_is_authors_db_editor()
+function user_is_authors_db_editor(): bool
 {
     return user_is_PM();
 }
 
-function user_is_image_sources_manager()
+function user_is_image_sources_manager(): bool
 {
     $userSettings = & get_pguser_settings();
     return user_is_a_sitemanager() || $userSettings->get_boolean("image_sources_manager");
 }
 
-function user_has_DU_access()
+function user_has_DU_access(): bool
 {
     $userSettings = & get_pguser_settings();
     return $userSettings->get_boolean("DU.access") || $userSettings->get_boolean("PPV.access");
 }
 
-function user_can_see_queue_settings()
+function user_can_see_queue_settings(): bool
 {
     global $ordinary_users_can_see_queue_settings;
     return $ordinary_users_can_see_queue_settings ||
