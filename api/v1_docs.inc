@@ -21,5 +21,6 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
 
 function api_v1_document(string $method, array $data, array $query_params): string
 {
-    return get_faq_url($data[":document_name"]);
+    $lang_code = $query_params["lang_code"] ?? "en_US";
+    return get_faq_url($data[":document_name"], $lang_code);
 }

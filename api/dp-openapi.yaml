@@ -1294,11 +1294,11 @@ paths:
     get:
       tags:
       - documents
-      description: Gets an array of document names, if lang_code is given then only those available in that language
+      description: Gets an array of available documents. If language_code is given, only documents available in that language are returned.
       parameters:
-      - name: lang_code
+      - name: language_code
         in: query
-        description: language code
+        description: Two-letter (ISO 639-1) language code.
         schema:
           type: string
       responses:
@@ -1311,21 +1311,26 @@ paths:
                 items:
                   type: string
 
-  /documents/{document_name}:
+  /documents/{document}:
     get:
       tags:
       - documents
-      description: Gets url for the given document in users language if possible, else english
+      description: Gets a URL for the given document in language_code (if specified and available) or English.
       parameters:
-      - name: document_name
+      - name: document
         in: path
-        description: name of document
+        description: filename of the document
         required: true
+        schema:
+          type: string
+      - name: language_code
+        in: query
+        description: Two-letter (ISO 639-1) language code.
         schema:
           type: string
       responses:
         200:
-          description: Url for the document
+          description: URL for the document
           content:
             application/json:
               schema:
