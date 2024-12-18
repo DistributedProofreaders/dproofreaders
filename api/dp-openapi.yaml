@@ -1303,7 +1303,7 @@ paths:
           type: string
       responses:
         200:
-          description: Array of document names
+          description: Array of document filenames
           content:
             application/json:
               schema:
