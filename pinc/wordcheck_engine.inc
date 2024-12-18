@@ -860,7 +860,7 @@ function get_site_word_paths()
  *
  * @return object
  */
-function get_site_word_file($langcode3, $code)
+function get_site_word_file(string $langcode3, $code)
 {
     [$site_words_dir, $site_words_url] = get_site_word_paths();
 
