@@ -11,14 +11,21 @@ For the administrative documentation on the APIs, see
 
 The DP API uses a RESTful design, where URLs uniquely access resources.
 
+The API is a _data layer_ and should be usable for activities outside those
+needed by the site itself. Strings returned from the UI should be in English
+and not localized as that is a _presentation layer_.
+
+API endpoints to facilitate presentation layer activities are fine to have
+but should come second after a data-first endpoint with more generic use-cases.
+
 ### Routing work to functions
 
 URLs are mapped to methods and functions via the ApiRouter. After handling
-authentication and rate limiting, the router is used to:
+authentication and rate limiting, the router ensures:
 
-* ensure that the requested URL path exists
+* the requested URL path exists
 * the URL accepts the requested method
-* all parameters passed in the URL are valid (via the use of helpers)
+* all parameters passed in the URL are valid (via the use of validators)
 
 After all of those pass, the validated data and any query parameters are
 handed off to the specified function.
