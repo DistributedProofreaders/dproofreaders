@@ -23,8 +23,7 @@ $listing_view_modes = [
 $round = get_round_param($_GET, 'round_id', null, true);
 $name = @$_GET['name'];
 $listing_view_mode = get_enumerated_param($_GET, "show", "populated", array_keys($listing_view_modes));
-// We should probably switch to get_bool_param but that would change our behavior.
-$unheld_only = (bool)get_integer_param($_GET, 'unheld_only', 0, 0, 1);
+$unheld_only = get_bool_param($_GET, 'unheld_only', false);
 
 $title = _("Release Queues");
 output_header($title, NO_STATSBAR);
