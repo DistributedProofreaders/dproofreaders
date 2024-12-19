@@ -5,7 +5,7 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
 {
     global $external_faq_overrides;
 
-    $lang_code = $query_params["lang_code"] ?? null;
+    $lang_code = $query_params["language_code"] ?? null;
     if ($lang_code) {
         $docs_with_lang = [];
         foreach ($external_faq_overrides as $doc => $doc_array) {
@@ -21,6 +21,6 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
 
 function api_v1_document(string $method, array $data, array $query_params): string
 {
-    $lang_code = $query_params["lang_code"] ?? "en_US";
+    $lang_code = $query_params["language_code"] ?? "en_US";
     return get_faq_url($data[":document_name"], $lang_code);
 }
