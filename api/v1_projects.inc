@@ -36,7 +36,7 @@ function get_return_fields(?array $query_params, ?Project $project)
     return $return_fields;
 }
 
-function api_v1_projects($method, $data, $query_params)
+function api_v1_projects(string $method, array $data, array $query_params)
 {
     // set which fields are queryable and their column names
     $valid_fields = get_project_fields_with_attr("queryable", null);
@@ -306,7 +306,7 @@ function create_or_update_project(Project $project)
     return $project;
 }
 
-function api_v1_project($method, $data, $query_params)
+function api_v1_project(string $method, array $data, array $query_params)
 {
     if ($method == "GET") {
         // restrict to list of desired fields, if set
@@ -373,7 +373,7 @@ function render_project_json(Project $project, ?array $return_fields = null)
 //---------------------------------------------------------------------------
 // projects/:projectID/wordlists/:type
 
-function api_v1_project_wordlists($method, $data, $query_params)
+function api_v1_project_wordlists(string $method, array $data, array $query_params)
 {
     // get the project this is for and the type of word list
     $project = $data[":projectid"];
@@ -406,7 +406,7 @@ function api_v1_project_wordlists($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectID/holdstates
 
-function api_v1_project_holdstates($method, $data, $query_params)
+function api_v1_project_holdstates(string $method, array $data, array $query_params)
 {
     $project = $data[":projectid"];
 
@@ -446,7 +446,7 @@ function api_v1_project_holdstates($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid/pages
 
-function api_v1_project_pages($method, $data, $query_params)
+function api_v1_project_pages(string $method, array $data, array $query_params)
 {
     $project = $data[":projectid"];
 
@@ -468,7 +468,7 @@ function api_v1_project_pages($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid/pagedetails
 
-function api_v1_project_pagedetails($method, $data, $query_params)
+function api_v1_project_pagedetails(string $method, array $data, array $query_params)
 {
     // optional page round IDs (one or more) to filter down to
     $only_rounds = null;
@@ -479,7 +479,7 @@ function api_v1_project_pagedetails($method, $data, $query_params)
             $pageroundids = [$pageroundids];
         }
         foreach ($pageroundids as $pageroundid) {
-            validate_page_round($pageroundid, null);
+            validate_page_round($pageroundid, []);
             if ($pageroundid === "OCR") {
                 $only_rounds[] = "OCR";
             } else {
@@ -524,7 +524,7 @@ function api_v1_project_pagedetails($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid/pages/:pagename/pagerounds/:pageroundid
 
-function api_v1_project_page_round($method, $data, $query_params)
+function api_v1_project_page_round(string $method, array $data, array $query_params)
 {
     if ($data[":pageroundid"] == "OCR") {
         $text_column = "master_text";
@@ -583,7 +583,7 @@ function render_project_page_json($row)
 //---------------------------------------------------------------------------
 // projects/:projectid/transitions
 
-function api_v1_project_transitions($method, $data, $query_params)
+function api_v1_project_transitions(string $method, array $data, array $query_params)
 {
     $sql = sprintf(
         "
@@ -610,7 +610,7 @@ function api_v1_project_transitions($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/difficulties
 
-function api_v1_projects_difficulties($method, $data, $query_params)
+function api_v1_projects_difficulties(string $method, array $data, array $query_params)
 {
     $difficulties = get_project_difficulties();
     return array_keys($difficulties);
@@ -619,7 +619,7 @@ function api_v1_projects_difficulties($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/genres
 
-function api_v1_projects_genres($method, $data, $query_params)
+function api_v1_projects_genres(string $method, array $data, array $query_params)
 {
     $genres = ProjectSearchForm::genre_options();
     unset($genres['']);
@@ -629,7 +629,7 @@ function api_v1_projects_genres($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/languages
 
-function api_v1_projects_languages($method, $data, $query_params)
+function api_v1_projects_languages(string $method, array $data, array $query_params)
 {
     $languages = ProjectSearchForm::language_options();
     unset($languages['']);
@@ -639,7 +639,7 @@ function api_v1_projects_languages($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/states
 
-function api_v1_projects_states($method, $data, $query_params)
+function api_v1_projects_states(string $method, array $data, array $query_params)
 {
     $states = ProjectSearchForm::state_options();
     unset($states['']);
@@ -649,7 +649,7 @@ function api_v1_projects_states($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/pagerounds
 
-function api_v1_projects_pagerounds($method, $data, $query_params)
+function api_v1_projects_pagerounds(string $method, array $data, array $query_params)
 {
     return array_merge(["OCR"], Rounds::get_ids());
 }
@@ -657,7 +657,7 @@ function api_v1_projects_pagerounds($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/charsuites
 
-function api_v1_projects_charsuites($method, $data, $query_params)
+function api_v1_projects_charsuites(string $method, array $data, array $query_params)
 {
     $enabled_filter = _get_enabled_filter($query_params);
     if ($enabled_filter === null) {
@@ -686,7 +686,7 @@ function api_v1_projects_charsuites($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/specialdays
 
-function api_v1_projects_specialdays($method, $data, $query_params)
+function api_v1_projects_specialdays(string $method, array $data, array $query_params)
 {
     $return_data = [];
 
@@ -720,7 +720,7 @@ function api_v1_projects_specialdays($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/imagesources
 
-function api_v1_projects_imagesources($method, $data, $query_params)
+function api_v1_projects_imagesources(string $method, array $data, array $query_params): array
 {
     $return_data = [];
 
@@ -755,7 +755,7 @@ function api_v1_projects_imagesources($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // projects/holdstates
 
-function api_v1_projects_holdstates($method, $data, $query_params)
+function api_v1_projects_holdstates(string $method, array $data, array $query_params): array
 {
     return Project::get_holdable_states();
 }
@@ -780,7 +780,7 @@ function _get_enabled_filter($query_params)
 // Proofreading functions
 
 // checkout a page
-function api_v1_project_checkout($method, array $data, array $query_params)
+function api_v1_project_checkout(string $method, array $data, array $query_params): array
 {
     try {
         $project = $data[":projectid"];
@@ -795,14 +795,14 @@ function api_v1_project_checkout($method, array $data, array $query_params)
     }
 }
 
-function api_v1_project_validatetext(string $method, array $data, array $query_params)
+function api_v1_project_validatetext(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
     $invalid_characters = $project->find_invalid_characters(receive_project_text_from_request_body());
     return ["invalid_chars" => $invalid_characters];
 }
 
-function api_v1_project_wordcheck($method, $data, array $query_params)
+function api_v1_project_wordcheck(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
     $accepted_words = receive_data_from_request_body("accepted_words") ?? [];
@@ -832,6 +832,8 @@ function api_v1_project_pickersets(string $method, array $data, array $query_par
     return $verbose_pickersets;
 }
 
+// TODO(jchaffraix): Refine this return once all callees have been typed.
+/** @return mixed */
 function api_v1_project_page(string $method, array $data, array $query_params)
 {
     global $pguser;
@@ -895,7 +897,7 @@ function api_v1_project_page_wordcheck(string $method, array $data, array $query
     }
 }
 
-function validate_project_state($project, $state)
+function validate_project_state(Project $project, ?string $state): void
 {
     if (null === $state) {
         throw new InvalidValue("No project state found in request.");
@@ -914,7 +916,7 @@ function validate_project_state($project, $state)
     }
 }
 
-function validate_page_state($project_page, $page_state)
+function validate_page_state(ProjectPage $project_page, ?string $page_state): void
 {
     if (null === $page_state) {
         throw new InvalidValue("No page state found in request.");
@@ -942,7 +944,7 @@ function receive_project_text_from_request_body(): string
     return $page_text;
 }
 
-function receive_data_from_request_body($field)
+function receive_data_from_request_body(string $field)
 {
     $request_data = api_get_request_body();
     return $request_data[$field] ?? null;
