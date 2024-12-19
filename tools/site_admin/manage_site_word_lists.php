@@ -242,7 +242,7 @@ function _handle_action($action, $list_type, $language, $word_string)
 }
 
 // common code to print out an editing form
-function _echo_input_form($list_type, $langcode3, $language)
+function _echo_input_form(string $list_type, string $langcode3, string $language): void
 {
     $fileObject = get_site_word_file($langcode3, $list_type);
     $words = load_word_list($fileObject->abs_path);

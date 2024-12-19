@@ -412,7 +412,7 @@ switch ($submit_button) {
 //    functions, but I don't see a good reason for them to differ.
 // -- get_requested_name_mapping() works regardless of the value that was used.
 
-function echo_name_mapping_subform()
+function echo_name_mapping_subform(): void
 {
     global $current_image_for_fileid_;
 
@@ -430,7 +430,8 @@ function echo_name_mapping_subform()
     }
 }
 
-function echo_name_mapping_hiddens($new_fileid_for_)
+/** @param array<string, string> $new_fileid_for_ */
+function echo_name_mapping_hiddens(array $new_fileid_for_): void
 {
     $WORKAROUND_MAX = 100;
     $i = 0;
@@ -441,7 +442,8 @@ function echo_name_mapping_hiddens($new_fileid_for_)
     }
 }
 
-function get_requested_name_mapping()
+/** @return array<string, string> */
+function get_requested_name_mapping(): array
 {
     $nff_ = $_POST['nff_'] ?? null;
 

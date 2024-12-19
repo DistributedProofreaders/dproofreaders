@@ -70,7 +70,7 @@ while ([$postednum, $count] = mysqli_fetch_row($res)) {
 /**
  * Determine if the given strings contain numerals '1', '2', '3' that go up
  */
-function strings_count_up($strings)
+function strings_count_up(array $strings): bool
 {
     for ($i = 0; $i < count($strings); $i++) {
         if ($strings[$i] == (''.($i + 1))) {

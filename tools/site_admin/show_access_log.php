@@ -111,7 +111,8 @@ dpsql_dump_query("
 
 //---------------------------------------------------------------------------
 
-function _get_activity_choices()
+/** @return string[] */
+function _get_activity_choices(): array
 {
     $sql = "
         SELECT DISTINCT activity
@@ -127,7 +128,8 @@ function _get_activity_choices()
     return $activities;
 }
 
-function _create_select($choices, $selected, $name)
+/** @param string[] $choices */
+function _create_select(array $choices, ?string $selected, string $name): string
 {
     $output = "<select name='$name'>";
     foreach ($choices as $choice) {
@@ -138,7 +140,8 @@ function _create_select($choices, $selected, $name)
     return $output;
 }
 
-function _create_since_choices($choices, $selected)
+/** @param string[] $choices */
+function _create_since_choices(array $choices, ?string $selected): string
 {
     $radio_choices = [];
     foreach ($choices as $value => $label) {

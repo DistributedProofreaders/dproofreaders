@@ -154,7 +154,7 @@ function display_copy_pages_form(
     bool $merge_wordcheck_data,
     ?string $repeat_project,
     bool $repeating
-) {
+): void {
     echo "<form method='post'>\n";
     echo "<table class='copy'>\n";
 
@@ -233,7 +233,7 @@ function display_copy_pages_form(
 
 // Display table row with a fieldset containing a pair of radio buttons, one selected.
 // NB $input_name must be a valid HTML ID (i.e. no spaces and shouldn't start with a number)
-function do_radio_button_pair(string $prompt, string $input_name, bool $repeating, bool $first_is_checked)
+function do_radio_button_pair(string $prompt, string $input_name, bool $repeating, bool $first_is_checked): void
 {
     if (!$repeating || $first_is_checked) {
         $checked1 = 'CHECKED';
@@ -263,7 +263,7 @@ function display_hiddens(
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data
-) {
+): void {
     echo "\n<input type='hidden' name='from_image_[lo]'        value='" . attr_safe($from_image_['lo']) . "'>";
     echo "\n<input type='hidden' name='from_image_[hi]'        value='" . attr_safe($from_image_['hi']) . "'>";
     echo "\n<input type='hidden' name='projectid_[from]'       value='" . attr_safe($projectid_['from']) . "'>";
@@ -282,7 +282,7 @@ function copy_pages(
     bool $add_deletion_reason,
     bool $merge_wordcheck_data,
     bool $just_checking
-) {
+): void {
     if (is_null($projectid_)) {
         throw new RuntimeException("No projectid data supplied to copy_pages()");
     }
@@ -741,7 +741,8 @@ function copy_pages(
     }
 }
 
-function str_max(array & $arr)
+/** @param $array string[] */
+function str_max(array & $arr): string
 {
     $max_so_far = null;
     foreach ($arr as $s) {
