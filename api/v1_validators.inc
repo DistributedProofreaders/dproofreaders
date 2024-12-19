@@ -5,7 +5,7 @@ include_once($relPath.'release_queue.inc');
 //===========================================================================
 // Validators
 
-function validate_round($roundid, $data)
+function validate_round(string $roundid, array $_data): Round
 {
     try {
         $round = Rounds::get_by_id($roundid);
@@ -18,7 +18,7 @@ function validate_round($roundid, $data)
     }
 }
 
-function validate_project($projectid, $data)
+function validate_project(string $projectid, array $_data): Project
 {
     // validate and load the specified projectid
     try {
@@ -28,7 +28,7 @@ function validate_project($projectid, $data)
     }
 }
 
-function validate_wordlist($wordlist, $data)
+function validate_wordlist(string $wordlist, array $_data): string
 {
     if (!in_array($wordlist, ["good", "bad"])) {
         throw new NotFoundError();
@@ -36,7 +36,7 @@ function validate_wordlist($wordlist, $data)
     return $wordlist;
 }
 
-function validate_page_name($pagename, $data)
+function validate_page_name(string $pagename, array $data): ProjectPage
 {
     try {
         return $data[":projectid"]->get_project_page($pagename);
@@ -45,7 +45,7 @@ function validate_page_name($pagename, $data)
     }
 }
 
-function validate_page_round($pageround, $data)
+function validate_page_round(string $pageround, array $_data): string
 {
     try {
         $pagerounds = array_merge(["OCR"], Rounds::get_ids());
