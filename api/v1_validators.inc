@@ -59,9 +59,9 @@ function validate_page_round($pageround, $data)
     }
 }
 
-function validate_release_queue($queueid, $data)
+function validate_release_queue(string $queueid, array $_data): array
 {
-    $queue_data = fetch_queue_data($queueid);
+    $queue_data = fetch_queue_data((int)$queueid);
     if (is_null($queue_data)) {
         throw new NotFoundError("queue {$queueid} not found");
     }
