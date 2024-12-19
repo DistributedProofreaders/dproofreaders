@@ -7,13 +7,8 @@ define('MAX_PAGES_TARGET', 16777215); // max unsigned mediumint
 
 /**
  * Format a queue's targets as a release condition.
- *
- * @param int $projects_target
- * @param int $pages_target
- *
- * @return string
  */
-function format_queue_targets_as_condition($projects_target, $pages_target)
+function format_queue_targets_as_condition(int $projects_target, int $pages_target): string
 {
     if ($projects_target == MAX_PROJECTS_TARGET || $pages_target == MAX_PAGES_TARGET) {
         // The queue always releases (assuming that the actual number of relevant
@@ -40,7 +35,7 @@ $tomorrow_MMDD = date('md', strtotime('tomorrow'));
  * Expanding date-related sequences means we don't have to
  * update the queue's project_selector every day.
  */
-function cook_project_selector($project_selector)
+function cook_project_selector(string $project_selector): string
 {
     global $today_MMDD, $tomorrow_MMDD;
     return
@@ -51,7 +46,8 @@ function cook_project_selector($project_selector)
         );
 }
 
-function _get_queue_length($cooked_project_selector, $project_waiting_state)
+/** @return array{0: ?int, 1: ?int} */
+function _get_queue_length(string $cooked_project_selector, string $project_waiting_state): array
 {
     $state_clause = set_col_str("state", $project_waiting_state);
     $c_sql = "
@@ -125,7 +121,7 @@ function _get_queue_length($cooked_project_selector, $project_waiting_state)
  *
  * @return Generator<array>
  */
-function fetch_queues_data($round, $show, $show_groups, $name_selector = null, $group_selector = null)
+function fetch_queues_data(?Round $round, string $show, bool $show_groups, $name_selector = null, $group_selector = null)
 {
     // Building the WHERE clause is rather ad-hoc, mostly because
     // a bunch of the output fields don't come directly from the DB result.
@@ -229,13 +225,8 @@ function fetch_queue_data_by_name($round, $name)
 
 /**
  * Return queue data array for a specified release queue
- *
- * @param int $queueid
- *   The release queue ID
- *
- * @return array|null
  **/
-function fetch_queue_data($queueid)
+function fetch_queue_data(int $queueid): ?array
 {
     $sql = sprintf(
         "
@@ -252,7 +243,7 @@ function fetch_queue_data($queueid)
     return _queue_data($res);
 }
 
-function _queue_data($row, $length = null, $unheld_length = null)
+function _queue_data(array $row, int $length = null, int $unheld_length = null): array
 {
     $round = Rounds::get_by_id($row["round_id"]);
     if (is_null($length) || is_null($unheld_length)) {
@@ -286,7 +277,7 @@ function _queue_data($row, $length = null, $unheld_length = null)
  *
  * @return Generator<array>
  **/
-function fetch_queue_projects_data($round, $project_selector, $unheld_only)
+function fetch_queue_projects_data(Round $round, string $project_selector, bool $unheld_only)
 {
     $cooked_project_selector = cook_project_selector($project_selector);
     $unheld_only_sql = $unheld_only ? "project_holds.state is NULL" : "1";
@@ -332,9 +323,9 @@ function fetch_queue_projects_data($round, $project_selector, $unheld_only)
  * @param string $name
  *   The name of the release queue
  *
- * @return array
+ * @return array{"days_ago": int, "projects_released": int, "pages_released": int}[]
  **/
-function fetch_queue_stats_data($round, $name)
+function fetch_queue_stats_data(Round $round, string $name): array
 {
     $data = [];
     foreach ([1, 7, 28, 84] as $days_ago) {
