@@ -786,6 +786,49 @@ class ApiTest extends ProjectUtils
         $this->assertEquals(["!", "EXCLAMATION MARK"], $pickerset["subsets"][3]["rows"][0][0]);
         $this->assertEquals(["¿", "INVERTED QUESTION MARK"], $pickerset["subsets"][3]["rows"][1][1]);
     }
+
+    //---------------------------------------------------------------------------
+    // tests for storage
+
+    public function test_client_storage_valid(): void
+    {
+        global $pguser;
+        global $api_client_storage_keys;
+        global $request_body;
+
+        $pguser = $this->TEST_USERNAME_PM;
+        array_push($api_client_storage_keys, "valid");
+
+        $path = "v1/storage/clients/valid";
+        $query_params = [];
+        $request_body = ["key" => 1];
+        $router = ApiRouter::get_router();
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals($request_body, (array)$response);
+
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals($request_body, (array)$response);
+
+        $_SERVER["REQUEST_METHOD"] = "DELETE";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals(null, $response);
+    }
+
+    public function test_client_storage_invalid(): void
+    {
+        $this->expectExceptionCode(4);
+
+        $query_params = [];
+
+        $path = "v1/storage/clients/invalid";
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $router = ApiRouter::get_router();
+        $router->route($path, $query_params);
+    }
+
 }
 
 // this mocks the function in index.php

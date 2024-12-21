@@ -6,6 +6,7 @@ include_once("v1_validators.inc");
 include_once("v1_projects.inc");
 include_once("v1_queues.inc");
 include_once("v1_stats.inc");
+include_once("v1_storage.inc");
 
 $router = ApiRouter::get_router();
 
@@ -16,6 +17,7 @@ $router->add_validator(":roundid", "validate_round");
 $router->add_validator(":pagename", "validate_page_name");
 $router->add_validator(":pageroundid", "validate_page_round");
 $router->add_validator(":queueid", "validate_release_queue");
+$router->add_validator(":clientid", "validate_client_id");
 
 // Add routes
 $router->add_route("GET", "v1/projects", "api_v1_projects");
@@ -57,3 +59,7 @@ $router->add_route("GET", "v1/stats/site/projects/stages", "api_v1_stats_site_pr
 $router->add_route("GET", "v1/stats/site/projects/states", "api_v1_stats_site_projects_states");
 $router->add_route("GET", "v1/stats/site/rounds", "api_v1_stats_site_rounds");
 $router->add_route("GET", "v1/stats/site/rounds/:roundid", "api_v1_stats_site_round");
+
+$router->add_route("GET", "v1/storage/clients/:clientid", "api_v1_storage_clients");
+$router->add_route("PUT", "v1/storage/clients/:clientid", "api_v1_storage_clients");
+$router->add_route("DELETE", "v1/storage/clients/:clientid", "api_v1_storage_clients_delete");

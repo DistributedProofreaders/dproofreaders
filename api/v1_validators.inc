@@ -67,3 +67,13 @@ function validate_release_queue($queueid, $data)
     }
     return $queue_data;
 }
+
+function validate_client_id($clientid, $data)
+{
+    global $api_client_storage_keys;
+
+    if (!in_array($clientid, $api_client_storage_keys)) {
+        throw new NotFoundError("$clientid is not a valid client id");
+    }
+    return $clientid;
+}
