@@ -17,8 +17,10 @@ include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
  *
  * If successful, it returns [ $imagename, $state ],
  * on failure it returns NULL;
+ *
+ * @return ?array{0:string, 1:string}
  */
-function get_available_page_array($project, $round, $pguser, $preceding_proofer_restriction)
+function get_available_page_array(Project $project, Round $round, string $pguser, string $preceding_proofer_restriction): ?array
 {
     // Normally, pages are served in order of "page number"
     // (i.e., by the 'image' field)
@@ -127,7 +129,7 @@ function get_available_page_array($project, $round, $pguser, $preceding_proofer_
  * Returns an LPage, unless no page is available,
  * in which case returns NULL and sets $err.
  */
-function get_available_page($projectid, $proj_state, $pguser, &$err)
+function get_available_page(string $projectid, string $proj_state, string $pguser, ?string &$err): ?LPage
 {
     // can throw NonexistentProjectException
     $project = new Project($projectid);
@@ -157,8 +159,10 @@ function get_available_page($projectid, $proj_state, $pguser, &$err)
 /**
  * Returns an array [image, state] unless no page is available,
  * in which case throw an exception.
+ *
+ * @return array{0:string, 1:string}
  */
-function get_available_proof_page_array($project, $round, $pguser)
+function get_available_proof_page_array(Project $project, Round $round, string $pguser): array
 {
     global $preceding_proofer_restriction;
 
@@ -190,12 +194,12 @@ function get_available_proof_page_array($project, $round, $pguser)
  * in which case it throws an exception.
  */
 function get_indicated_LPage(
-    $projectid,
-    $proj_state,
-    $imagefile,
-    $page_state,
-    $reverting_to_orig
-) {
+    string $projectid,
+    string $proj_state,
+    string $imagefile,
+    string $page_state,
+    int $reverting_to_orig
+): LPage {
     // Make sure project is still in same state.
     // can throw NonexistentProjectException
     $project = new Project($projectid);
@@ -235,7 +239,7 @@ function get_indicated_LPage(
     return new LPage($project, $imagefile, $page_state, $reverting_to_orig);
 }
 
-function project_continuity_test($project, $orig_state, $no_more_pages)
+function project_continuity_test(Project $project, string $orig_state, bool $no_more_pages): ?string
 {
     $curr_state = $project->state;
     if ($curr_state != $orig_state) {
@@ -252,6 +256,7 @@ function project_continuity_test($project, $orig_state, $no_more_pages)
         }
         return $err;
     }
+    return null;
 }
 
 /**
@@ -290,7 +295,7 @@ class LPage
     public int $reverting_to_orig;
     public Round $round;
 
-    public function __construct($project, $imagefile, $page_state, $reverting_to_orig)
+    public function __construct(Project $project, string $imagefile, string $page_state, int $reverting_to_orig)
     {
         $this->project = $project;
         $this->projectid = $project->projectid;
@@ -307,7 +312,7 @@ class LPage
 
     // -------------------------------------------------------------------------
 
-    public function can_be_reverted_to_last_save()
+    public function can_be_reverted_to_last_save(): bool
     {
         return ($this->reverting_to_orig == 1
             || $this->page_state == $this->round->page_save_state
@@ -315,7 +320,7 @@ class LPage
         );
     }
 
-    public function get_text()
+    public function get_text(): string
     {
         if ($this->reverting_to_orig == 1
             || $this->page_state == $this->round->page_avail_state
@@ -328,6 +333,7 @@ class LPage
         return Page_getText($this->projectid, $this->imagefile, $desired_column_name);
     }
 
+    /** @return array|string */
     public function get_filename()
     {
         return pathinfo($this->imagefile, PATHINFO_FILENAME);
@@ -347,12 +353,12 @@ class LPage
         return $round_info_array;
     }
 
-    public function get_language()
+    public function get_language(): ?string
     {
         return langcode2_for_langname($this->project->languages[0]);
     }
 
-    public function get_username_for_round($round)
+    public function get_username_for_round(Round $round): string
     {
         $res = DPDatabase::query("
             SELECT {$round->user_column_name}
@@ -365,13 +371,13 @@ class LPage
 
     // -------------------------------------------------------------------------
 
-    public function checkout($user)
+    public function checkout(string $user): void
     {
         $this->page_state =
             Page_checkout($this->projectid, $this->imagefile, $this->round, $user);
     }
 
-    public function saveAsInProgress($page_text, $user)
+    public function saveAsInProgress(string $page_text, string $user): void
     {
         $this->page_state = Page_saveAsInProgress($this->projectid, $this->imagefile, $this->round, $user, $page_text);
         $this->reverting_to_orig = 0;
@@ -387,8 +393,10 @@ class LPage
      * Note that `[FALSE, FALSE]` is currently impossible:
      * - if this function says that the page was not saved,
      * - it can only be because the user already reached the daily page limit.
+     *
+     * @return array{0:bool, 1:bool}
      */
-    public function attemptSaveAsDone($text_data, $pguser)
+    public function attemptSaveAsDone(string $text_data, string $pguser): array
     {
         if ($this->round->has_a_daily_page_limit()) {
             $pre_save_dpl_count = get_dpl_count_for_user_in_round($pguser, $this->round);
@@ -412,18 +420,18 @@ class LPage
         return [true, $dpl_has_now_been_reached];
     }
 
-    public function returnToRound($pguser)
+    public function returnToRound(string $pguser): void
     {
         $this->page_state =
             Page_returnToRound($this->projectid, $this->imagefile, $this->round, $pguser);
     }
 
-    public function revertToOriginal()
+    public function revertToOriginal(): void
     {
         $this->reverting_to_orig = 1;
     }
 
-    public function revertToSaved()
+    public function revertToSaved(): void
     {
         $this->page_state = $this->round->page_temp_state;
         $this->reverting_to_orig = 0;
@@ -466,7 +474,7 @@ class LPage
 
     // -----------------------------------------------------------------------------
 
-    public function resume_page($pguser)
+    public function resume_page(string $pguser): void
     {
         if ($this->page_state == $this->round->page_save_state) {
             // Page comes from DONE.
