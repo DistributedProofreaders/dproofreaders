@@ -8,7 +8,7 @@ class ProofProjectPage extends LPage
         parent::__construct($proof_project->project, $project_page->page_name, $project_page->page_state, 0);
     }
 
-    public function pp_checkout($user): array
+    public function pp_checkout(string $user): array
     {
         parent::checkout($user);
         return $this->render_page_data();

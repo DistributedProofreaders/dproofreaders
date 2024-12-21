@@ -9,7 +9,7 @@ include_once($relPath.'links.inc');
 
 // "pi" = "proofing interface"
 
-function url_for_pi_do_whichever_page($projectid, $proj_state, $escape_amp = false)
+function url_for_pi_do_whichever_page(string $projectid, string $proj_state, bool $escape_amp = false): string
 {
     global $code_url;
     if ($escape_amp) {
@@ -24,7 +24,7 @@ function url_for_pi_do_whichever_page($projectid, $proj_state, $escape_amp = fal
         . "proj_state=$proj_state";
 }
 
-function url_for_pi_do_particular_page($projectid, $proj_state, $imagefile, $page_state, $escape_amp = false)
+function url_for_pi_do_particular_page(string $projectid, string $proj_state, string $imagefile, string $page_state, bool $escape_amp = false): string
 {
     global $code_url;
     if ($escape_amp) {
@@ -72,7 +72,7 @@ class PPage
     public LPage $lpage;
     private string $proj_state;
 
-    public function __construct(&$lpage, $proj_state)
+    public function __construct(LPage &$lpage, string $proj_state)
     {
         $this->lpage = & $lpage;
         $this->proj_state = $proj_state;
@@ -80,13 +80,13 @@ class PPage
 
     // -----------------------------------------------------
 
-    public function url_for_image()
+    public function url_for_image(): string
     {
         global $projects_url;
         return "$projects_url/{$this->lpage->projectid}/{$this->lpage->imagefile}";
     }
 
-    public function url_for_display_image($escape_amp = false)
+    public function url_for_display_image(bool $escape_amp = false): string
     {
         global $code_url;
         if ($escape_amp) {
@@ -100,7 +100,7 @@ class PPage
             . "imagefile={$this->lpage->imagefile}";
     }
 
-    public function url_for_do_another_page($escape_amp = false)
+    public function url_for_do_another_page(bool $escape_amp = false): string
     {
         global $code_url;
         if ($escape_amp) {
@@ -115,7 +115,7 @@ class PPage
             . "proj_state={$this->proj_state}";
     }
 
-    public function url_for_project_comments($escape_amp = false)
+    public function url_for_project_comments(bool $escape_amp = false): string
     {
         global $code_url;
         if ($escape_amp) {
@@ -131,7 +131,7 @@ class PPage
             . "#project-comments";
     }
 
-    public function urlencoded($escape_amp = false)
+    public function urlencoded(bool $escape_amp = false): string
     {
         if ($escape_amp) {
             $amp = '&amp;';
@@ -152,7 +152,7 @@ class PPage
 
     // -----------------------------------------------------
 
-    public function echo_hidden_fields()
+    public function echo_hidden_fields(): void
     {
         foreach ([
             'imagefile' => $this->lpage->imagefile,
@@ -166,7 +166,7 @@ class PPage
         }
     }
 
-    public function echo_info()
+    public function echo_info(): void
     {
         $round_info_array = $this->lpage->get_info();
 
@@ -201,7 +201,7 @@ class PPage
         return $round_user_string;
     }
 
-    public function echo_proofing_textarea()
+    public function echo_proofing_textarea(): void
     {
         $user = User::load_current();
 
@@ -261,7 +261,7 @@ class PPage
      * or prevent further saves.
      * If there's a problem, this function does not return to the caller.
      */
-    public function attempt_to_save_as_done($text_data)
+    public function attempt_to_save_as_done(string $text_data): void
     {
         global $code_url, $pguser;
 
@@ -323,47 +323,47 @@ class PPage
 
     // The remaining functions just delegate to $this->lpage...
 
-    public function revertToOriginal()
+    public function revertToOriginal(): void
     {
         $this->lpage->revertToOriginal();
     }
 
-    public function revertToSaved()
+    public function revertToSaved(): void
     {
         $this->lpage->revertToSaved();
     }
 
-    public function returnToRound($user)
+    public function returnToRound(string $user): void
     {
         $this->lpage->returnToRound($user);
     }
 
-    public function markAsBad(string $user, int $reason)
+    public function markAsBad(string $user, int $reason): bool
     {
         return $this->lpage->markAsBad($user, $reason);
     }
 
-    public function saveAsInProgress($page_text, $user)
+    public function saveAsInProgress(string $page_text, string $user): void
     {
         $this->lpage->saveAsInProgress($page_text, $user);
     }
 
-    public function attemptSaveAsDone($page_text, $user)
+    public function attemptSaveAsDone(string $page_text, string $user): array
     {
         return $this->lpage->attemptSaveAsDone($page_text, $user);
     }
 
-    public function can_be_reverted_to_last_save()
+    public function can_be_reverted_to_last_save(): bool
     {
         return $this->lpage->can_be_reverted_to_last_save();
     }
 
-    public function projectid()
+    public function projectid(): string
     {
         return $this->lpage->projectid;
     }
 
-    public function imagefile()
+    public function imagefile(): string
     {
         return $this->lpage->imagefile;
     }
