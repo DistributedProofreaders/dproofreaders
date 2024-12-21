@@ -100,6 +100,7 @@ $api_enabled = <<API_ENABLED>>;
 $api_rate_limit = <<API_RATE_LIMIT>>;
 $api_rate_limit_requests_per_window = <<API_RATE_LIMIT_REQUESTS_PER_WINDOW>>;
 $api_rate_limit_seconds_in_window = <<API_RATE_LIMIT_SECONDS_IN_WINDOW>>;
+$api_storage_keys = <<API_STORAGE_KEYS>>;
 
 // -----------------------------------------------------------------------------
 
