@@ -187,6 +187,7 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
         "smoothread_deadline" => ["sql_name" => "smoothread_deadline"],
         "forum_url" => ["sql_name" => "forum_url"],
         "round_type" => ["sql_name" => null],
+        "round_document" => ["sql_name" => null],
     ];
 
     // If accessing a single project using the api/v1/projects/:id endpoint,
@@ -361,6 +362,7 @@ function render_project_json(Project $project, ?array $return_fields = null)
             "smoothread_deadline" => date(DATE_ATOM, $project->smoothread_deadline),
             "forum_url" => $project->forum_url,
             "round_type" => $project->round_type,
+            "round_document" => $project->round_document,
         ]
     );
 
