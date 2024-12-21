@@ -63,7 +63,7 @@ $external_faq_overrides = [
 ];
 
 
-function get_faq_url(string $faq, ?string $langcode = null): string
+function get_faq_url(string $faq, ?string $langcode = null, bool $english_fallback = true): string
 {
     global $code_dir, $code_url;
 
@@ -72,8 +72,13 @@ function get_faq_url(string $faq, ?string $langcode = null): string
         $langcode = substr(get_desired_language(), 0, 2);
     }
 
+    $check_lang_codes = [$langcode];
+    if ($english_fallback) {
+        array_push($check_lang_codes, "en");
+    }
+
     // first try $langcode, then English
-    foreach ([$langcode, "en"] as $langcode) {
+    foreach ($check_lang_codes as $langcode) {
         // Any overrides?
         $external_faq = get_external_faq($faq, $langcode);
         if ($external_faq) {
@@ -87,7 +92,7 @@ function get_faq_url(string $faq, ?string $langcode = null): string
     }
 
     // fall back to the English version in the code if it exists
-    if (is_file("$code_dir/faq/$faq")) {
+    if ($english_fallback && is_file("$code_dir/faq/$faq")) {
         return "$code_url/faq/$faq";
     }
 

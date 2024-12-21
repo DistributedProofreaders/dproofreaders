@@ -21,6 +21,11 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
 
 function api_v1_document(string $method, array $data, array $query_params): string
 {
-    $lang_code = $query_params["language_code"] ?? "en_US";
-    return get_faq_url($data[":document_name"], $lang_code);
+    $lang_code = $query_params["language_code"] ?? "en";
+    $document = $data[":document"];
+    $faq_url = get_faq_url($document, $lang_code, false);
+    if ("" === $faq_url) {
+        throw new NotFoundError("$document is not available in language code '$lang_code'");
+    }
+    return $faq_url;
 }
