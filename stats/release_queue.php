@@ -23,7 +23,7 @@ $listing_view_modes = [
 $round = get_round_param($_GET, 'round_id', null, true);
 $name = @$_GET['name'];
 $listing_view_mode = get_enumerated_param($_GET, "show", "populated", array_keys($listing_view_modes));
-$unheld_only = get_integer_param($_GET, 'unheld_only', 0, 0, 1);
+$unheld_only = get_bool_param($_GET, 'unheld_only', false);
 
 $title = _("Release Queues");
 output_header($title, NO_STATSBAR);
@@ -41,7 +41,7 @@ if (is_null($round)) {
 
 //-----------------------------------------------------------------------------
 
-function _show_available_rounds()
+function _show_available_rounds(): void
 {
     echo html_safe(_("Each round has its own set of release queues.")), "\n";
     echo html_safe(_("Please select the round that you're interested in:")), "\n";
@@ -52,7 +52,7 @@ function _show_available_rounds()
     echo "</ul>\n";
 }
 
-function _show_round_queues($round, $listing_view_mode)
+function _show_round_queues(Round $round, string $listing_view_mode): void
 {
     global $code_url, $listing_view_modes;
 
@@ -163,7 +163,7 @@ function _show_round_queues($round, $listing_view_mode)
     }
 }
 
-function _show_queue_details($round, $name, $unheld_only)
+function _show_queue_details(Round $round, string $name, bool $unheld_only): void
 {
     global $code_url;
     $queue = fetch_queue_data_by_name($round, $name);
@@ -266,7 +266,8 @@ function _show_queue_details($round, $name, $unheld_only)
     echo "</table>";
 }
 
-function _get_num_projects_and_pages_available($round)
+/** @return array{0: int, 1: int} */
+function _get_num_projects_and_pages_available(Round $round): array
 {
     $sql = sprintf(
         "

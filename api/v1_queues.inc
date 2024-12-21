@@ -8,7 +8,7 @@ include_once("api_common.inc");
 
 //---------------------------------------------------------------------------
 // queues -- list queues, optionally filtered by round
-function api_v1_queues($method, $data, $query_params)
+function api_v1_queues(string $method, array $data, array $query_params): array
 {
     $roundid = $query_params["roundid"] ?? null;
     $round = !is_null($roundid) ? validate_round($roundid, null) : null;
@@ -55,7 +55,7 @@ function api_v1_queues($method, $data, $query_params)
 
 //---------------------------------------------------------------------------
 // queues/:queueid -- return release queue info
-function api_v1_queue($method, $data, $query_params)
+function api_v1_queue(string $method, array $data, array $query_params): array
 {
     $queue = $data[":queueid"];
 
@@ -64,7 +64,7 @@ function api_v1_queue($method, $data, $query_params)
 
 //---------------------------------------------------------------------------
 // queue/:queueid/stats -- return release queue stats
-function api_v1_queue_stats($method, $data, $query_params)
+function api_v1_queue_stats(string $method, array $data, array $query_params): array
 {
     $queue = $data[":queueid"];
 
@@ -76,7 +76,7 @@ function api_v1_queue_stats($method, $data, $query_params)
 
 //---------------------------------------------------------------------------
 // queue/:queueid/projects -- list projects in release queue
-function api_v1_queue_projects($method, $data, $query_params)
+function api_v1_queue_projects(string $method, array $data, array $query_params): array
 {
     $queue = $data[":queueid"];
     $unheld_only = (bool) get_flag_value($query_params, "unheld_only");
