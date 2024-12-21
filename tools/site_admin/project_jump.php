@@ -44,7 +44,7 @@ switch ($action) {
 }
 
 
-function display_project_jump_form(string $action, ?string $projectid, ?string $new_state)
+function display_project_jump_form(string $action, ?string $projectid, ?string $new_state): void
 {
     echo "<form method='post'>\n";
     echo "<table>\n";
@@ -84,7 +84,7 @@ function display_project_jump_form(string $action, ?string $projectid, ?string $
     echo "</form>";
 }
 
-function jump_project(string $projectid, string $new_state, bool $just_checking)
+function jump_project(string $projectid, string $new_state, bool $just_checking): void
 {
     global $pguser;
     $project = new Project($projectid);

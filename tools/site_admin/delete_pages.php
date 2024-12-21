@@ -56,7 +56,7 @@ switch ($action) {
         break;
 }
 
-function display_delete_pages_form(string $action, ?string $projectid, ?array $from_image_)
+function display_delete_pages_form(string $action, ?string $projectid, ?array $from_image_): void
 {
     echo "<form method='post'>\n";
     echo "<table class='delete'>\n";
@@ -97,7 +97,7 @@ function display_delete_pages_form(string $action, ?string $projectid, ?array $f
     echo "<p><b>Note:</b> 'pages' are specified by their designation in the project table: e.g., '001.png'</p>\n";
 }
 
-function delete_pages(?string $projectid, ?array $from_image_, bool $just_checking)
+function delete_pages(?string $projectid, ?array $from_image_, bool $just_checking): void
 {
     echo "<pre>";
 
