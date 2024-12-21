@@ -22,6 +22,9 @@ class ApiRouter
     private TrieNode $root;
     /** @var array<string, callable> */
     private $_validators;
+    /** @var mixed */
+    private $_response;
+    private bool $_raw_response = false;
 
     public function __construct()
     {
@@ -74,7 +77,8 @@ class ApiRouter
         if (!$handler) {
             throw new MethodNotAllowed();
         }
-        return $handler($method, $data, $query_params);
+        $this->_response = $handler($method, $data, $query_params);
+        return $this->_response;
     }
 
     public function add_validator(string $label, callable $function): void
@@ -91,6 +95,35 @@ class ApiRouter
             }
         }
         throw new InvalidAPI();
+    }
+
+    /** @return mixed */
+    public function request(bool $raw = false)
+    {
+        if ($raw) {
+            return file_get_contents('php://input');
+        } else {
+            $json_object = json_decode(file_get_contents('php://input'), true);
+            if ($json_object === null) {
+                throw new InvalidValue("Content was not valid JSON");
+            }
+            return $json_object;
+        }
+    }
+
+    public function response(bool $raw = false): string
+    {
+        if ($raw || $this->_raw_response) {
+            return $this->_response;
+        } else {
+            return json_encode($this->_response, JSON_PRETTY_PRINT |
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+    }
+
+    public function set_raw_response(): void
+    {
+        $this->_raw_response = true;
     }
 
     public static function get_router(): ApiRouter

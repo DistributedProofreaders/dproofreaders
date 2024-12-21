@@ -66,3 +66,25 @@ Three settings in `configuration.sh` control limiting:
   allowed per given window.
 * `_API_RATE_LIMIT_SECONDS_IN_WINDOW` - the number of seconds within a given
   window.
+
+## Storage
+
+To facilitate javascript UI clients persisting data across browsers and devices,
+the API includes an optional endpoint for clients to store and fetch JSON blobs.
+To enable this feature, add a storage key to the `_API_STORAGE_KEYS`
+configuration setting and have the client use that string with the endpoint
+as the `storagekey`.
+
+Some important notes about this feature:
+* API storage is one blob per user per storage key. Said another way: API users are
+  only able to store one blob per `storagekey` and that blob can only be
+  set and retrieved by the user authenticated with the API.
+* Beyond validating these are valid JSON objects, they are treated as opaque
+  blobs server-side. It is up to the client to manage the object, including
+  the schema and the possibility that the object will not match an expected
+  schema.
+* When used inside javascript in the browser, the `storagekey` is visible to
+  the browser user and is therefore not a secret. Nothing prevents users with
+  API keys (or valid PHP session keys) from using this endpoint with a valid
+  storage key to change the contents of this blob for their user. API users
+  should treat this blob as unvalidated user input and act accordingly.

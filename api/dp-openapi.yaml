@@ -1338,6 +1338,58 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+  /storage/{storagekey}:
+    get:
+      tags:
+      - storage
+      description: Get JSON blob stored for this storage key
+      parameters:
+      - name: storagekey
+        in: path
+        description: Storage key
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: JSON blob
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      tags:
+      - storage
+      description: Save JSON blob for this storage key
+      parameters:
+      - name: storagekey
+        in: path
+        description: Storage key
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: JSON blob that was persisted
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - storage
+      description: Delete JSON blob for this storage key
+      parameters:
+      - name: storagekey
+        in: path
+        description: Storage key
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: JSON blob was deleted
+
 components:
   securitySchemes:
     ApiKeyAuth:
