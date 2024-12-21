@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * @property-read int $id
+ * @property-read ?string $document
+ * @property-read ?string $langcode
+ * @property-read ?string $anchor
+ * @property-read string $subject
+ * @property-read string $rule
+ */
 class RandomRule
 {
-    private $table_row = [];
+    private array $table_row = [];
 
     // Because these are static class variables we can't use _() to translate
     // them. But they're only used in the Admin interface so that's probably
@@ -13,19 +21,19 @@ class RandomRule
         "formatting_guidelines.php" => "Formatting Guidelines",
     ];
 
-    public function __construct($id = null)
+    public function __construct(?int $id = null)
     {
         if ($id !== null) {
             $this->load($id);
         }
     }
 
-    public function __get($name)
+    public function __get(string $name)
     {
         return $this->table_row[$name];
     }
 
-    public function __isset($name)
+    public function __isset(string $name)
     {
         return isset($this->table_row[$name]);
     }
@@ -33,7 +41,7 @@ class RandomRule
     /**
      * Load a specific rule into this object given its ID
      */
-    public function load($id)
+    public function load(int $id): void
     {
         $sql = sprintf(
             "
@@ -51,7 +59,7 @@ class RandomRule
     /**
      * Get a specific RandomRule given its document/anchor/langcode
      */
-    public static function load_from_anchor($document, $anchor, $langcode = 'en')
+    public static function load_from_anchor(string $document, string $anchor, string $langcode = 'en'): ?RandomRule
     {
         $sql = sprintf(
             "
@@ -79,7 +87,7 @@ class RandomRule
     /**
      * Get a RandomRule object for a given document-langcode pair.
      */
-    public static function get_random($document, $langcode = 'en')
+    public static function get_random(string $document, string $langcode = 'en'): ?RandomRule
     {
         $sql = sprintf(
             "
@@ -105,8 +113,10 @@ class RandomRule
 
     /**
      * Return an array of RandomRule objects for a given document/langcode pair
+     *
+     * @return RandomRule[]
      */
-    public static function get_rules($document, $langcode = 'en')
+    public static function get_rules(string $document, string $langcode = 'en'): array
     {
         $sql = sprintf(
             "
@@ -135,8 +145,10 @@ class RandomRule
      * the table.
      *
      * Useful primarily for the administrative interface.
+     *
+     * @return array{"document": string, "langcode": string, "count": int}[]
      */
-    public static function get_summary()
+    public static function get_summary(): array
     {
         $sql = "
             SELECT count(*) AS count, document, langcode
@@ -161,7 +173,7 @@ class RandomRule
     /**
      * Delete rules in the database matching a specific document/langcode pair
      */
-    public static function delete_rules($document, $langcode)
+    public static function delete_rules(string $document, string $langcode): void
     {
         $sql = sprintf(
             "
@@ -183,7 +195,7 @@ class RandomRule
      * This function supports the HTML rendered from the in-code documents in faq/
      * as well as the wiki-generated HTML for the guidelines at pgdp.net.
      */
-    public static function reload_rules($url, $document, $langcode)
+    public static function reload_rules(string $url, string $document, string $langcode): void
     {
         // delete all existing random rules for this ($document, $langcode)
         RandomRule::delete_rules($document, $langcode);
@@ -240,7 +252,7 @@ class RandomRule
     /**
      * Add a rule to the database
      */
-    private static function _add_rule($document, $langcode, $url, $anchor, $subject, $rule)
+    private static function _add_rule(string $document, string $langcode, string $url, string $anchor, string $subject, string $rule): void
     {
         // skip "empty" rules, likely caused by parser errors
         if (!$anchor || !$subject || !$rule) {
