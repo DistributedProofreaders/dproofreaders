@@ -772,7 +772,7 @@ class ApiTest extends ProjectUtils
         $this->assertEquals($accepted_words, $result[4]);
     }
 
-    public function test_pickersets()
+    public function test_pickersets(): void
     {
         $project = $this->_create_project();
         $path = "v1/projects/$project->projectid/pickersets";
@@ -785,6 +785,43 @@ class ApiTest extends ProjectUtils
         $this->assertEquals("Punctuation", $pickerset["subsets"][3]["title"]);
         $this->assertEquals(["!", "EXCLAMATION MARK"], $pickerset["subsets"][3]["rows"][0][0]);
         $this->assertEquals(["¿", "INVERTED QUESTION MARK"], $pickerset["subsets"][3]["rows"][1][1]);
+    }
+
+    public function test_available_italian_documents(): void
+    {
+        $path = "v1/documents";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, ['language_code' => 'it']);
+        $this->assertEquals(["proofreading_guidelines.php", "formatting_guidelines.php"], $response);
+    }
+
+    public function test_available_document(): void
+    {
+        $path = "v1/documents/cp.php";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, ['language_code' => 'fr']);
+        $this->assertEquals("https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/French/FAQ_fourniture_de_contenu", $response);
+    }
+
+    public function test_default_document(): void
+    {
+        $path = "v1/documents/cp.php";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, []);
+        $this->assertEquals("https://www.pgdp.net/wiki/DP_Official_Documentation:CP_and_PM/Content_Providing_FAQ", $response);
+    }
+
+    public function test_unavailable_document(): void
+    {
+        $this->expectExceptionMessage("cp.php is not available in language code 'de'");
+
+        $path = "v1/documents/cp.php";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $router->route($path, ['language_code' => 'de']);
     }
 }
 

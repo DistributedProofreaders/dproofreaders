@@ -1290,6 +1290,54 @@ paths:
               schema:
                 $ref: '#/components/schemas/round_stats'
 
+  /documents:
+    get:
+      tags:
+      - documents
+      description: Gets an array of available documents. If language_code is given, only documents available in that language are returned.
+      parameters:
+      - name: language_code
+        in: query
+        description: Two-letter (ISO 639-1) language code.
+        schema:
+          type: string
+      responses:
+        200:
+          description: Array of document filenames
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /documents/{document}:
+    get:
+      tags:
+      - documents
+      description: Gets a URL for the given document in language_code (if specified and available) or English.
+      parameters:
+      - name: document
+        in: path
+        description: filename of the document
+        required: true
+        schema:
+          type: string
+      - name: language_code
+        in: query
+        description: Two-letter (ISO 639-1) language code.
+        schema:
+          type: string
+      responses:
+        200:
+          description: URL for the document
+          content:
+            application/json:
+              schema:
+                type: string
+        404:
+          $ref: '#/components/responses/NotFound'
+
 components:
   securitySchemes:
     ApiKeyAuth:
