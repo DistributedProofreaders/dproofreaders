@@ -16,7 +16,7 @@ class ProjectSearchWidget
     private int $size;
     private array $options;
 
-    public function __construct($properties)
+    public function __construct(array $properties)
     {
         foreach ($properties as $property => $value) {
             $this->$property = $value;
@@ -76,7 +76,7 @@ class ProjectSearchWidget
         }
     }
 
-    public function echo_search_item()
+    public function echo_search_item(): void
     {
         // could fix width of heading cells so they line up when 2nd table is below
         echo "
@@ -86,11 +86,11 @@ class ProjectSearchWidget
             </tr>";
     }
 
-    public function get_sql_contribution()
+    public function get_sql_contribution(): string
     {
         $value = $_GET[$this->id] ?? '';
         if ($value == '') {
-            return null;
+            return '';
         }
         [$column_name, $comparator] = $this->q_contrib;
         if (@$this->can_be_multiple) {
@@ -102,7 +102,7 @@ class ProjectSearchWidget
                 // If $value isn't an array, someone is mucking with
                 // the URL -- return instead of erroring out below.
                 if (!is_array($values)) {
-                    return null;
+                    return '';
                 }
                 // If the user picks the 'any' option as well as some others,
                 // remove the any option.
@@ -110,7 +110,7 @@ class ProjectSearchWidget
                     unset($values[$key]);
                 }
                 if (empty($values)) {
-                    return null;
+                    return '';
                 }
             }
 
@@ -118,7 +118,7 @@ class ProjectSearchWidget
         } else {
             // if $value is an array, someone is mucking with URL
             if (is_array($value)) {
-                return null;
+                return '';
             }
 
             $value = DPDatabase::escape($value);
@@ -132,7 +132,7 @@ class ProjectSearchWidget
         return $contribution;
     }
 
-    public function sql_from_multi($values, $column_name, $comparator)
+    public function sql_from_multi(array $values, string $column_name, string $comparator): ?string
     {
         // if any $value is an array, someone is mucking with the URL
         foreach ($values as $value) {
@@ -157,7 +157,7 @@ class ProjectSearchWidget
 
 class SpecialDayWidget extends ProjectSearchWidget
 {
-    public function sql_from_multi($values, $column_name, $comparator)
+    public function sql_from_multi(array $values, string $column_name, string $comparator): ?string
     {
         // if any $value is an array, someone is mucking with the URL
         foreach ($values as $value) {
@@ -189,7 +189,7 @@ class HoldWidget extends ProjectSearchWidget
         return "<input type='checkbox' name='$this->id'$check>";
     }
 
-    public function get_sql_contribution()
+    public function get_sql_contribution(): string
     {
         if (isset($_GET[$this->id])) { // can only be 'on'
             return 'project_holds.projectid IS NOT NULL';
@@ -208,7 +208,8 @@ class ProjectSearchForm
         $this->define_form_widgets();
     }
 
-    public function all_special_day_options()
+    /** @return array<string, string> */
+    public function all_special_day_options(): array
     {
         return [
             '' => _('Any day'),
@@ -218,7 +219,8 @@ class ProjectSearchForm
         ] + $this->special_day_options();
     }
 
-    public static function special_day_options()
+    /** @return array<string, string> */
+    public static function special_day_options(): array
     {
         $special_days = load_special_days();
         sort_special_days($special_days, "open_month,open_day");
@@ -228,7 +230,8 @@ class ProjectSearchForm
         );
     }
 
-    public static function language_options()
+    /** @return array<string, string> */
+    public static function language_options(): array
     {
         $lang_options[''] = _('Any');
 
@@ -249,17 +252,20 @@ class ProjectSearchForm
         return $lang_options;
     }
 
-    public static function genre_options()
+    /** @return array<string, string> */
+    public static function genre_options(): array
     {
         return array_merge(['' => _('Any')], load_genre_translation_array());
     }
 
-    public static function difficulty_options()
+    /** @return array<string, string> */
+    public static function difficulty_options(): array
     {
         return array_merge(['' => _('Any')], get_project_difficulties());
     }
 
-    public static function state_options()
+    /** @return array<string, string> */
+    public static function state_options(): array
     {
         $state_options[''] = _('Any state');
         foreach (ProjectStates::get_states() as $proj_state) {
@@ -268,7 +274,7 @@ class ProjectSearchForm
         return $state_options;
     }
 
-    public function define_form_widgets()
+    public function define_form_widgets(): void
     {
         $this->widgets = [
             new ProjectSearchWidget([
@@ -374,7 +380,7 @@ class ProjectSearchForm
         ];
     }
 
-    public function render()
+    public function render(): void
     {
         echo "<p>" . _("Search for projects matching the following criteria:")."</p>\n";
         echo "<div class='search-columns'>
@@ -416,7 +422,7 @@ class ProjectSearchForm
         ";
     }
 
-    public function get_condition()
+    public function get_condition(): string
     {
         $condition = '1';
         foreach ($this->widgets as $widget) {
