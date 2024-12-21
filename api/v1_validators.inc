@@ -77,3 +77,13 @@ function validate_document(string $document): string
     }
     return $document;
 }
+
+function validate_client_id(string $clientid, array $data): string
+{
+    global $api_client_storage_keys;
+
+    if (!in_array($clientid, $api_client_storage_keys)) {
+        throw new NotFoundError("$clientid is not a valid client id");
+    }
+    return $clientid;
+}
