@@ -298,7 +298,7 @@ class StateColumn extends Column
         }
     }
 
-    private function _echo_project_state_option(string $project_state, bool $selected, bool $disabled = false, $reason = ''): void
+    private function _echo_project_state_option(string $project_state, bool $selected, bool $disabled = false, string $reason = ''): void
     {
         echo "<option value='" . attr_safe($project_state) . "'";
         if ($selected) {
