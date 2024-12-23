@@ -866,7 +866,8 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'revert':
                 return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
             case 'abandon':
-                return $proof_project_page->returnToRound($pguser);
+                $proof_project_page->returnToRound($pguser);
+                return null;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
