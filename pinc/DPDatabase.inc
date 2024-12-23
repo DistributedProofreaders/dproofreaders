@@ -117,7 +117,7 @@ final class DPDatabase
                 $error = _("An error occurred during a database query.");
             }
             if ($throw_on_failure) {
-                throw new DBQueryError($error);
+                throw new DBQueryError($error, 0, $e);
             }
             return false;
         }

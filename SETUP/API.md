@@ -66,3 +66,24 @@ Three settings in `configuration.sh` control limiting:
   allowed per given window.
 * `_API_RATE_LIMIT_SECONDS_IN_WINDOW` - the number of seconds within a given
   window.
+
+## Client Storage
+
+To facilitate javascript UI clients persisting data across browsers and devices,
+the API includes an optional endpoint for clients to store and fetch JSON blobs.
+To enable this feature, add a string for the client to the
+`_API_CLIENT_STORAGE_KEYS` configuration setting and have the client use that
+string with the endpoint as the `clientid`.
+
+Some important notes about this feature:
+* Client storage is one blob per user per client. Said another way: API users are
+  only able to store one blob per `clientid` and that blob is only for the user
+  authenticated with the API.
+* Beyond validating these are valid JSON objects, they are treated as opaque
+  blobs server-side. It is up to the client to manage the object, including
+  the schema and the possibility that the object will not match an expected
+  schema.
+* The `clientid` is not a secret to the browser. Nothing prevents users with
+  API keys (or valid PHP session keys) from using this endpoint with a valid
+  client ID to change the contents of this blob for their user. Clients
+  should treat this blob as unvalidated user input and act accordingly.

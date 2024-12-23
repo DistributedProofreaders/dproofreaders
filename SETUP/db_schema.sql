@@ -123,6 +123,18 @@ CREATE TABLE `job_logs` (
 );
 
 --
+-- Table structure for table `json_storage`
+--
+
+CREATE TABLE `json_storage` (
+  `username` varchar(25) NOT NULL,
+  `setting` varchar(32) NOT NULL,
+  `value` json NOT NULL,
+  `timestamp` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`username`,`setting`)
+);
+
+--
 -- Table structure for table `news_items`
 --
 
