@@ -8,8 +8,10 @@ class ApiRouter
 {
     private $_url_map = [];
     private $_validators = [];
+    private $_response;
+    private bool $_raw_response = false;
 
-    public function add_route($method, $url, $function)
+    public function add_route(string $method, string $url, string $function): void
     {
         // Confirm the function is defined or raise an assert exception
         assert(function_exists($function), "$function not defined");
@@ -33,7 +35,7 @@ class ApiRouter
         $url_map["endpoint"][$method] = $function;
     }
 
-    public function route($url, $query_params)
+    public function route(string $url, array $query_params)
     {
         $url_map = &$this->_url_map;
         $data = [];
@@ -55,15 +57,16 @@ class ApiRouter
             throw new MethodNotAllowed();
         }
         $function = $url_map["endpoint"][$method];
-        return $function($method, $data, $query_params);
+        $this->_response = $function($method, $data, $query_params);
+        return $this->_response;
     }
 
-    public function add_validator($label, $function)
+    public function add_validator(string $label, string $function): void
     {
         $this->_validators[$label] = $function;
     }
 
-    private function get_validator($url_map)
+    private function get_validator(array $url_map): array
     {
         foreach (array_keys($url_map) as $route) {
             if (startswith($route, ":")) {
@@ -73,7 +76,35 @@ class ApiRouter
         throw new InvalidAPI();
     }
 
-    public static function get_router()
+    public function request(bool $raw = false)
+    {
+        if ($raw) {
+            return file_get_contents('php://input');
+        } else {
+            $json_object = json_decode(file_get_contents('php://input'), true);
+            if ($json_object === null) {
+                throw new InvalidValue("Content was not valid JSON");
+            }
+            return $json_object;
+        }
+    }
+
+    public function response(bool $raw = false): string
+    {
+        if ($raw || $this->_raw_response) {
+            return $this->_response;
+        } else {
+            return json_encode($this->_response, JSON_PRETTY_PRINT |
+                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+    }
+
+    public function set_raw_response(): void
+    {
+        $this->_raw_response = true;
+    }
+
+    public static function get_router(): ApiRouter
     {
         static $router = null;
         if (!$router) {

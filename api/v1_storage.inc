@@ -12,12 +12,20 @@ function api_v1_storage_clients(string $method, array $data, array $query_params
 
     $clientid = $data[":clientid"];
 
+    $router = ApiRouter::get_router();
     $storage = new ApiClientStorage($clientid, $pguser);
+
     if ($method == "GET") {
-        return json_decode($storage->get());
+        // return it without conversion
+        $router->set_raw_response();
+        return $storage->get();
     } elseif ($method == "PUT") {
-        $storage->set(json_encode(api_get_request_body()));
-        return json_decode($storage->get());
+        // we store the raw JSON input we were passed in the request
+        $storage->set(api_get_request_body(true));
+
+        // and return it without conversion
+        $router->set_raw_response();
+        return $storage->get();
     }
 }
 
