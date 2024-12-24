@@ -1373,6 +1373,21 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+  /dictionaries:
+    get:
+      tags:
+      - dictionaries
+      description: Gets an array of languages with dictionaries.
+      responses:
+        200:
+          description: Array of languages with dictionaries keyed by the language code
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
   /storage/{storagekey}:
     get:
       tags:

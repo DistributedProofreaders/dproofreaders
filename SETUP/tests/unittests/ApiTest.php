@@ -835,7 +835,7 @@ class ApiTest extends ProjectUtils
     }
 
     //---------------------------------------------------------------------------
-    // tests for documents
+    // tests for documents & dictionaries
 
     public function test_available_italian_documents(): void
     {
@@ -872,6 +872,15 @@ class ApiTest extends ProjectUtils
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, ['language_code' => 'de']);
+    }
+
+    public function test_dictionaries(): void
+    {
+        $path = "v1/dictionaries";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, []);
+        $this->assertEquals("English", $response["en"]);
     }
 
     //---------------------------------------------------------------------------
