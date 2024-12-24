@@ -823,6 +823,15 @@ class ApiTest extends ProjectUtils
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, ['language_code' => 'de']);
     }
+
+    public function test_dictionaries(): void
+    {
+        $path = "v1/dictionaries";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, []);
+        $this->assertEquals("Afrikaans", $response[0]);
+    }
 }
 
 // this mocks the function in index.php
