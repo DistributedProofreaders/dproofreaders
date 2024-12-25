@@ -33,6 +33,6 @@ function api_v1_document(string $method, array $data, array $query_params): stri
 function api_v1_dictionaries(string $method, array $data, array $query_params): array
 {
     $dict_list = array_values(get_languages_with_dictionaries());
-    asort($dict_list);
+    sort($dict_list);
     return $dict_list;
 }
