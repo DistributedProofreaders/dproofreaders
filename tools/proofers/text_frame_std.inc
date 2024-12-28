@@ -29,7 +29,7 @@ function echo_text_frame_std(PPage $ppage): void
         function ldAll() {
             top.initializeStuff(0);
         }
-        var validCharacterPattern = '$valid_character_pattern';
+        var validCharRegex = /$valid_character_pattern/u;
         var standardInterface = true;
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';

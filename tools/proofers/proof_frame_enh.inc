@@ -46,7 +46,7 @@ function echo_proof_frame_enh(PPage $ppage): void
         function ldAll() {
             top.initializeStuff(1);
         }
-        var validCharacterPattern = '$valid_character_pattern';
+        var validCharRegex = /$valid_character_pattern/u;
         var standardInterface = false;
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';

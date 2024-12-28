@@ -1,8 +1,7 @@
-/*global validCharacterPattern */
+/*global validCharRegex */
 
 window.addEventListener("DOMContentLoaded", function () {
     var textArea = document.getElementById("text_data");
-    let validCharRegex = new RegExp(validCharacterPattern, "u");
 
     var above = {
         "=": "\u0304", // macron
