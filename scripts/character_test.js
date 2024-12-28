@@ -1,4 +1,4 @@
-/*global validCharacterPattern XRegExp */
+/*global validCharRegex XRegExp */
 /* exported testText */
 
 // regex unicode property escape is supported in Chrome 64, Safari 11.1
@@ -9,9 +9,6 @@ const charMatch = XRegExp("\\PM\\pM*", "Ag");
 
 // return false if text contains any bad characters
 function testText(text) {
-    // this regular expression matches individual good characters
-    // unicode support in Chrome 50, Edge 12, Firefox 46, Safari 10, Opera 37
-    let validCharRegex = new RegExp(validCharacterPattern, "u");
     text = text.normalize("NFC");
     let result;
     charMatch.lastIndex = 0;

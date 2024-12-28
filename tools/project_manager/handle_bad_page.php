@@ -88,7 +88,7 @@ if (!$resolution) {
             "$code_url/tools/project_manager/handle_bad_page.js",
         ],
         "js_data" => "
-            var validCharacterPattern = '$valid_character_pattern';
+            var validCharRegex = /$valid_character_pattern/u;
         ",
     ];
 

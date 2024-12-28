@@ -32,7 +32,7 @@ $header_args = [
         "$code_url/tools/proofers/text_data_processor.js",
     ],
     "js_data" => "
-        var validCharacterPattern = '$valid_character_pattern';
+        var validCharRegex = /$valid_character_pattern/u;
     ",
     'body_attributes' => "onload='top.initializeStuff(1)'",
 ];
