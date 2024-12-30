@@ -116,7 +116,7 @@ class ApiTest extends ProjectUtils
         $this->expectExceptionCode(103);
 
         $path = "v1/stats/site/rounds/P4";
-        $query_params = "";
+        $query_params = [];
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, $query_params);
@@ -128,7 +128,7 @@ class ApiTest extends ProjectUtils
 
         $project = $this->_create_project();
         $path = "v1/projects/$project->projectid/pages/999.png/pagerounds/P1";
-        $query_params = "";
+        $query_params = [];
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, $query_params);
@@ -142,7 +142,7 @@ class ApiTest extends ProjectUtils
         $this->add_page($project, "001");
         // P0 is not a valid round
         $path = "v1/projects/$project->projectid/pages/001.png/pagerounds/P0";
-        $query_params = "";
+        $query_params = [];
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, $query_params);
@@ -153,7 +153,7 @@ class ApiTest extends ProjectUtils
         $project = $this->_create_project();
         $this->add_page($project, "001");
         $path = "v1/projects/$project->projectid/pages/001.png/pagerounds/OCR";
-        $query_params = "";
+        $query_params = [];
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "GET";
         $result = $router->route($path, $query_params);
@@ -168,7 +168,7 @@ class ApiTest extends ProjectUtils
         $this->expectExceptionCode(3);
 
         $path = "v1/projects";
-        $query_params = "";
+        $query_params = [];
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "POST";
         $router->route($path, $query_params);
@@ -181,7 +181,7 @@ class ApiTest extends ProjectUtils
 
         $pguser = $this->TEST_USERNAME_PM;
         $path = "v1/projects";
-        $query_params = "";
+        $query_params = [];
         $router = ApiRouter::get_router();
         $_SERVER["REQUEST_METHOD"] = "POST";
         $router->route($path, $query_params);
@@ -787,6 +787,9 @@ class ApiTest extends ProjectUtils
         $this->assertEquals(["¿", "INVERTED QUESTION MARK"], $pickerset["subsets"][3]["rows"][1][1]);
     }
 
+    //---------------------------------------------------------------------------
+    // tests for documents
+
     public function test_available_italian_documents(): void
     {
         $path = "v1/documents";
@@ -823,11 +826,53 @@ class ApiTest extends ProjectUtils
         $_SERVER["REQUEST_METHOD"] = "GET";
         $router->route($path, ['language_code' => 'de']);
     }
+
+    //---------------------------------------------------------------------------
+    // tests for storage
+
+    public function test_client_storage_valid(): void
+    {
+        global $pguser;
+        global $api_client_storage_keys;
+        global $request_body;
+
+        $pguser = $this->TEST_USERNAME_PM;
+        array_push($api_client_storage_keys, "valid");
+
+        $path = "v1/storage/clients/valid";
+        $query_params = [];
+        $request_body = json_encode(["key" => 1]);
+        $router = ApiRouter::get_router();
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals(json_decode($request_body), json_decode($response));
+
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals(json_decode($request_body), json_decode($response));
+
+        $_SERVER["REQUEST_METHOD"] = "DELETE";
+        $response = $router->route($path, $query_params);
+        $this->assertEquals(null, $response);
+    }
+
+    public function test_client_storage_invalid(): void
+    {
+        $this->expectExceptionCode(4);
+
+        $query_params = [];
+
+        $path = "v1/storage/clients/invalid";
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $router = ApiRouter::get_router();
+        $router->route($path, $query_params);
+    }
 }
 
 // this mocks the function in index.php
 /** @return string|array */
-function api_get_request_body()
+function api_get_request_body(bool $raw = false)
 {
     global $request_body;
     return $request_body;

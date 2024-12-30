@@ -1338,6 +1338,58 @@ paths:
         404:
           $ref: '#/components/responses/NotFound'
 
+  /storage/clients/{clientid}:
+    get:
+      tags:
+      - storage
+      description: Get JSON blob stored by the client
+      parameters:
+      - name: clientid
+        in: path
+        description: Client ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: JSON blob
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      tags:
+      - storage
+      description: Save JSON blob for the client
+      parameters:
+      - name: clientid
+        in: path
+        description: Client ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: JSON blob that was persisted
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - storage
+      description: Delete JSON blob for the client
+      parameters:
+      - name: clientid
+        in: path
+        description: Client ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: JSON blob was deleted
+
 components:
   securitySchemes:
     ApiKeyAuth:

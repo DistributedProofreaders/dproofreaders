@@ -39,8 +39,8 @@ function api()
     unset($query_params["url"]);
 
     $router = ApiRouter::get_router();
-
-    api_output_response($router->route($path, $query_params));
+    $router->route($path, $query_params);
+    api_output_response($router->response());
 }
 
 function api_authenticate()
@@ -127,20 +127,16 @@ function api_rate_limit($key)
     header("X-Rate-Limit-Reset: $seconds_before_reset");
 }
 
-function api_get_request_body()
+function api_get_request_body(bool $raw = false)
 {
-    $json = json_decode(file_get_contents('php://input'), true);
-    if ($json === null) {
-        throw new InvalidValue("Content was not valid JSON");
-    }
-    return $json;
+    $router = ApiRouter::get_router();
+    return $router->request($raw);
 }
 
-function api_output_response($data, $response_code = 200)
+function api_output_response(string $data, int $response_code = 200)
 {
     http_response_code($response_code);
-    echo json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
-        JSON_UNESCAPED_SLASHES);
+    echo $data;
 
     // output the output buffer we've been storing to ensure we could
     // send the right HTTP response code
@@ -250,7 +246,11 @@ function production_exception_handler($exception)
         $response_code = 500;
     }
 
-    api_output_response(["error" => $exception->getMessage(), "code" => $exception->getCode()], $response_code);
+    $response = json_encode(
+        ["error" => $exception->getMessage(), "code" => $exception->getCode()],
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+    );
+    api_output_response($response, $response_code);
 }
 
 function test_exception_handler($exception)
