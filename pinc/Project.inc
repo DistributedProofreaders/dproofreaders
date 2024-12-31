@@ -1525,7 +1525,7 @@ class Project
         DPDatabase::query($sql);
     }
 
-    public static function get_holdable_states()
+    public static function get_holdable_states(): array
     {
         $states = [];
         foreach (Rounds::get_all() as $round) {
@@ -1792,7 +1792,7 @@ class Project
         }
     }
 
-    public function get_project_page($pagename)
+    public function get_project_page(?string $pagename): ProjectPage
     {
         if (!$this->pages_table_exists) {
             throw new NoProjectPageTable(_("Project page table does not exist."));
