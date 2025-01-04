@@ -20,7 +20,7 @@ class Column
     private Settings $userSettings;
     private string $search_origin;
 
-    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column)
+    public function __construct(string $id, string $label, string $long_label, string $css_class, bool $default_display, bool $sortable, string $db_column)
     {
         $this->id = $id;
         $this->label = $label;
@@ -31,17 +31,17 @@ class Column
         $this->db_column = $db_column;
     }
 
-    public function get_label()
+    public function get_label(): string
     {
         return $this->label;
     }
 
-    public function get_warning()
+    public function get_warning(): string
     {
         return '';
     }
 
-    public function get_long_label()
+    public function get_long_label(): string
     {
         // can also be overridden
         if (empty($this->long_label)) {
@@ -50,7 +50,7 @@ class Column
         return $this->long_label;
     }
 
-    public function get_tooltip()
+    public function get_tooltip(): string
     {
         return $this->get_long_label();
     }
@@ -60,13 +60,13 @@ class Column
         return $this->db_column; // overridden by state column
     }
 
-    public function set_datastore($userSettings, $search_origin)
+    public function set_datastore(Settings $userSettings, string $search_origin): void
     {
         $this->userSettings = $userSettings;
         $this->search_origin = $search_origin;
     }
 
-    public function set_active($setting)
+    public function set_active(bool $setting): void
     {
         // We can't use set_boolean() because this actually has three states, not two:
         // * true
@@ -81,7 +81,7 @@ class Column
         $this->userSettings->set_value("search:{$this->search_origin}.column:$this->id", $value);
     }
 
-    public function is_active()
+    public function is_active(): bool
     {
         // See comment in set_active() for why we can't use get/set_boolean()
         $value = $this->userSettings->get_value("search:{$this->search_origin}.column:$this->id");
@@ -92,7 +92,7 @@ class Column
         return $value === 'yes';
     }
 
-    public function echo_header_cell($sort_column_id, $sql_sort_dir, $sec_sort)
+    public function echo_header_cell(string $sort_column_id, string $sql_sort_dir, string $sec_sort): void
     {
         $label = $this->get_label();
         if ($this->sortable) {
@@ -126,14 +126,14 @@ class Column
         echo "<th class='$this->css_class' title='", attr_safe($this->get_tooltip()), "'>$label</th>\n";
     }
 
-    public function echo_data_cell($project)
+    public function echo_data_cell(ProjectSearchResultEntry $project): void
     {
         echo "<td class='$this->css_class'>";
         $this->print_cell_data($project);
         echo "</td>\n";
     }
 
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         echo html_safe($project->{$this->db_column});
     }
@@ -143,13 +143,13 @@ class TimeColumn extends Column
 {
     private string $time_format;
 
-    public function __construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column, $time_format)
+    public function __construct(string $id, string $label, string $long_label, string $css_class, bool $default_display, bool $sortable, string $db_column, string $time_format)
     {
         parent::__construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column);
         $this->time_format = $time_format;
     }
 
-    public function get_label()
+    public function get_label(): string
     {
         $label = $this->label;
         if ($this->time_format == 'days') {
@@ -159,7 +159,7 @@ class TimeColumn extends Column
         return $label;
     }
 
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         $data = $project->{$this->db_column};
         if (0 == $data) {
@@ -179,7 +179,7 @@ class TimeColumn extends Column
 
 class PGColumn extends Column
 {
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         $postednum = $project->postednum;
         echo "<a href='", get_pg_catalog_url_for_etext($postednum), "'>$postednum</a>";
@@ -188,7 +188,7 @@ class PGColumn extends Column
 
 class TitleColumn extends Column
 {
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         global $code_url;
         echo "<a href='$code_url/project.php?id=$project->projectid'>" . html_safe($project->nameofwork) . "</a>";
@@ -197,7 +197,7 @@ class TitleColumn extends Column
 
 class LinkColumn extends Column
 {
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         $name = $project->{$this->db_column};
         if ($name != '') {
@@ -209,12 +209,12 @@ class LinkColumn extends Column
 
 class GenreColumn extends Column
 {
-    public function get_long_label()
+    public function get_long_label(): string
     {
         return _('Difficulty') . " + " . $this->label;
     }
 
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         $diff_prefix = [
             "beginner" => _("BEGINNERS"),
@@ -233,12 +233,12 @@ class GenreColumn extends Column
 
 class StateChangeColumn extends TimeColumn
 {
-    public function get_warning()
+    public function get_warning(): string
     {
         return _("The 'Last State Change' column tracks forward progress through the proofreading and formatting rounds well, but does not reflect Post-processing state changes or state changes to Unavailable accurately.");
     }
 
-    public function get_tooltip()
+    public function get_tooltip(): string
     {
         return _("Last State Change (see note above)");
     }
@@ -251,7 +251,7 @@ class StateColumn extends Column
         return sql_collator_for_project_state('state');
     }
 
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         global $pguser, $code_url;
 
@@ -280,13 +280,13 @@ class StateColumn extends Column
                     onchange='this.form.submit()'>
             ";
 
-            $this->_echo_project_state_option($project->state, 1);
+            $this->_echo_project_state_option($project->state, true);
 
             foreach ($transitions as $transition) {
                 $disabled = $transition->is_disabled($project);
                 $optional_reason = $transition->why_disabled($project);
 
-                $this->_echo_project_state_option($transition->to_state, 0, $disabled, $optional_reason);
+                $this->_echo_project_state_option($transition->to_state, false, $disabled, $optional_reason);
             }
 
             echo "
@@ -298,7 +298,7 @@ class StateColumn extends Column
         }
     }
 
-    private function _echo_project_state_option($project_state, $selected, $disabled = 0, $reason = '')
+    private function _echo_project_state_option(string $project_state, bool $selected, bool $disabled = false, string $reason = ''): void
     {
         echo "<option value='" . attr_safe($project_state) . "'";
         if ($selected) {
@@ -322,7 +322,7 @@ class StateColumn extends Column
 
 class OptionsColumn extends Column
 {
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         global $pguser, $code_url;
         $projectid = $project->projectid;
@@ -379,7 +379,7 @@ class OptionsColumn extends Column
 
 class HoldColumn extends Column
 {
-    public function print_cell_data($project)
+    public function print_cell_data(ProjectSearchResultEntry $project): void
     {
         global $code_url;
 
@@ -405,7 +405,7 @@ class ColumnData
     protected string $search_origin;
     public array $columns;
 
-    public function __construct($userSettings, $search_origin, $time_format = '')
+    public function __construct(Settings $userSettings, string $search_origin, string $time_format = '')
     {
         global $pguser;
 
@@ -487,7 +487,7 @@ class ProjectSearchResults
     private string $sql_sort_dir;
     private string $sec_sort;
 
-    public function __construct($search_origin)
+    public function __construct(string $search_origin)
     {
         global $pguser;
 
@@ -516,7 +516,7 @@ class ProjectSearchResults
         $this->get_sorting();
     }
 
-    private function results_navigator($numrows, $num_found_rows, $results_offset)
+    private function results_navigator(int $numrows, int $num_found_rows, int $results_offset): void
     {
         if ($results_offset > 0) {
             $prev_offset = max(0, $results_offset - $this->page_size);
@@ -537,7 +537,7 @@ class ProjectSearchResults
         }
     }
 
-    private function get_sort_sql($col_id): ?string
+    private function get_sort_sql(string $col_id): ?string
     {
         foreach ($this->active_columns as $column) {
             if ($column->sortable && ($column->id == $col_id)) {
@@ -548,7 +548,7 @@ class ProjectSearchResults
         return null;
     }
 
-    private function get_sorting()
+    private function get_sorting(): void
     {
         // sets $this->sort_column_id, sort_sql and sql_sort_dir
         // if sort parameter is given, use it
@@ -598,7 +598,8 @@ class ProjectSearchResults
         $this->sort_sql .= ", $sec_sort_sql asc";
     }
 
-    private function _search($where_condition, $results_offset)
+    /** @return array{0: bool|mysqli_result, 1: int} */
+    private function _search(string $where_condition, int $results_offset): array
     {
         global $testing;
 
@@ -613,6 +614,7 @@ class ProjectSearchResults
         ";
         $result = DPDatabase::query($sql);
         [$num_found_rows] = mysqli_fetch_row($result);
+        $num_found_rows = (int)$num_found_rows;
 
         // load the result set
         $sql = "
@@ -633,7 +635,7 @@ class ProjectSearchResults
         return [$result, $num_found_rows];
     }
 
-    public function render($where_condition)
+    public function render(string $where_condition): void
     {
         global $pguser, $theme, $code_url;
 
@@ -710,7 +712,7 @@ class ProjectSearchResults
     }
 }
 
-function get_search_configure_link()
+function get_search_configure_link(): string
 {
     $origin = urlencode($_SERVER['REQUEST_URI']);
     return "<a href='?show=config&amp;origin=$origin'>" . _("Configure Result") . "</a>";
@@ -734,7 +736,7 @@ function get_refine_search_url(): string
     return make_search_page_url(['show' => 'search_form']);
 }
 
-function get_refine_search_link($label = null): string
+function get_refine_search_link(?string $label = null): string
 {
     if (!$label) {
         $label = _("Refine Search");

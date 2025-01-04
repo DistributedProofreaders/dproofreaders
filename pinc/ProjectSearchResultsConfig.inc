@@ -10,7 +10,7 @@ abstract class Selector
 
     abstract public function get_html_control(): string;
 
-    public function echo_select_item()
+    public function echo_select_item(): void
     {
         echo "
             <tr>
@@ -25,7 +25,7 @@ class ColumnSelector extends Selector
 {
     private Column $column;
 
-    public function __construct($column, $userSettings, $search_origin)
+    public function __construct(Column $column, Settings $userSettings, string $search_origin)
     {
         $this->column = $column;
         $this->label = $column->get_long_label();
@@ -46,7 +46,7 @@ class OptionSelector extends Selector
     private string $def_value;
     private array $options;
 
-    public function __construct($id, $label, $value, $options, $userSettings, $search_origin)
+    public function __construct(string $id, string $label, string $value, array $options, Settings $userSettings, string $search_origin)
     {
         $this->id = $id;
         $this->label = $label;
@@ -83,7 +83,7 @@ class OptionSelector extends Selector
         return $value;
     }
 
-    public function save_value($value)
+    public function save_value($value): void
     {
         // Save the value but only if it has changed and is a valid option
         if ($this->get_value() != $value && isset($this->options[$value])) {
@@ -99,12 +99,12 @@ class OptionData
     /** @var OptionSelector[] */
     public array $options;
 
-    public function __construct($userSettings, $search_origin)
+    public function __construct(Settings $userSettings, string $search_origin)
     {
         $this->results_per_page = new OptionSelector(
             'n_results_per_page',
             _('Results per page'),
-            100,
+            '100',
             [30 => 30, 100 => 100, 300 => 300],
             $userSettings,
             $search_origin
@@ -128,7 +128,7 @@ class ConfigForm extends ColumnData
     private array $column_selectors;
     private OptionData $option_data;
 
-    public function __construct($userSettings, $search_origin)
+    public function __construct(Settings $userSettings, string $search_origin)
     {
         parent::__construct($userSettings, $search_origin);
         foreach ($this->columns as $column) {
@@ -138,7 +138,7 @@ class ConfigForm extends ColumnData
         $this->option_data = new OptionData($userSettings, $search_origin);
     }
 
-    public function render($page_title)
+    public function render(string $page_title): void
     {
         global $code_url, $pguser;
 
@@ -182,12 +182,12 @@ class ConfigForm extends ColumnData
 
 class ConfigSaver extends ColumnData
 {
-    public function __construct($userSettings, $search_origin)
+    public function __construct(Settings $userSettings, string $search_origin)
     {
         parent::__construct($userSettings, $search_origin);
     }
 
-    public function store_data()
+    public function store_data(): void
     {
         global $pguser;
 
@@ -218,7 +218,7 @@ class ConfigSaver extends ColumnData
     }
 }
 
-function get_search_configure_button()
+function get_search_configure_button(): string
 {
     global $code_url;
     return "
@@ -229,7 +229,7 @@ function get_search_configure_button()
         </form>";
 }
 
-function handle_set_cols($show_view, $search_origin)
+function handle_set_cols(string $show_view, string $search_origin): void
 {
     global $pguser, $code_url;
 
@@ -242,7 +242,7 @@ function handle_set_cols($show_view, $search_origin)
     }
 }
 
-function handle_config($show_view, $search_origin, $page_title)
+function handle_config(string $show_view, string $search_origin, string $page_title): void
 {
     global $pguser;
 
