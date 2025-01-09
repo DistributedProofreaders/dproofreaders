@@ -6,6 +6,7 @@ const AJAX_ERROR_CODES = {
     UNKNOWN_ERROR: 999,
     INCORRECT_RESPONSE_TYPE: 998,
     NETWORK_ERROR: 997,
+    JSON_ERROR: 996,
 };
 
 class AjaxError extends Error {
@@ -52,7 +53,12 @@ async function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = 
     if (!contentType || !contentType.includes("application/json")) {
         throw new AjaxError("Incorrect response type", AJAX_ERROR_CODES.INCORRECT_RESPONSE_TYPE);
     }
-    const responseData = await response.json();
+    let responseData;
+    try {
+        responseData = await response.json();
+    } catch (error) {
+        throw new AjaxError(error, AJAX_ERROR_CODES.JSON_ERROR);
+    }
     if (!response.ok) {
         if (!responseData) {
             throw new AjaxError("Unknown error", AJAX_ERROR_CODES.UNKNOWN_ERROR);

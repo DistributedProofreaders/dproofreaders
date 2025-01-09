@@ -69,6 +69,20 @@ QUnit.module("Ajax test", function () {
         }
     });
 
+    QUnit.test("Invalid JSON error", async function (assert) {
+        function fetchPromise() {
+            const blob = new Blob(["/"], { type: "application/json" });
+            const init = { status: 200, headers: { "content-type": "application/json" } };
+            return Promise.resolve(new Response(blob, init));
+        }
+        try {
+            await ajax("GET", "myUrl", {}, {}, fetchPromise);
+        } catch (error) {
+            assert.strictEqual(error.message, "SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data");
+            assert.strictEqual(error.code, AJAX_ERROR_CODES.JSON_ERROR);
+        }
+    });
+
     QUnit.test("Check sent data", async function (assert) {
         function fetchPromise(url, options) {
             assert.strictEqual(url.href, "https://www.dummy.org/api/index.php?url=myUrl&querykey=queryvalue");
