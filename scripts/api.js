@@ -63,7 +63,7 @@ async function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = 
         if (!responseData) {
             throw new AjaxError("Unknown error", AJAX_ERROR_CODES.UNKNOWN_ERROR);
         }
-        throw new AjaxError(responseData.error, response.status);
+        throw new AjaxError(responseData.error, responseData.code);
     }
     return responseData;
 }

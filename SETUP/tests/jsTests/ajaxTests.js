@@ -31,7 +31,7 @@ QUnit.module("Ajax test", function () {
 
     QUnit.test("Status 404", async function (assert) {
         function fetchPromise() {
-            const blob = new Blob([JSON.stringify({ error: "not found" })], { type: "application/json" });
+            const blob = new Blob([JSON.stringify({ error: "not found", code: 125 })], { type: "application/json" });
             const init = { status: 404, headers: { "content-type": "application/json" } };
             return Promise.resolve(new Response(blob, init));
         }
@@ -39,7 +39,7 @@ QUnit.module("Ajax test", function () {
             await ajax("GET", "myUrl", {}, {}, fetchPromise);
         } catch (error) {
             assert.strictEqual(error.message, "not found");
-            assert.strictEqual(error.code, 404);
+            assert.strictEqual(error.code, 125);
         }
     });
 
