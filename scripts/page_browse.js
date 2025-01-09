@@ -113,7 +113,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
     // the roundSelector retains its selected item so we do not have to
-    async function getRoundSelector() {
+    async function populateRoundSelector() {
         if (roundSelector) {
             return;
         }
@@ -205,7 +205,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 } else {
                     // in case initial round_id was invalid, get round from
                     // round selector, but wait until it is drawn
-                    await getRoundSelector();
+                    await populateRoundSelector();
                     const roundControls = getRoundControls();
                     $(roundSelector).change(showImageText);
                     const textDiv = $("<div>");
@@ -265,7 +265,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
             });
             controlSpan.append(initialPageControls);
             if (displayMode !== "image") {
-                await getRoundSelector();
+                await populateRoundSelector();
                 controlSpan.append(getRoundControls());
             }
         }
