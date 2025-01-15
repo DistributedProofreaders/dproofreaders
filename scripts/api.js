@@ -1,15 +1,23 @@
 /*global codeUrl */
 /* exported ajax */
-/* exported ajaxAlert */
 /* exported AJAX_ERROR_CODES */
 
 const AJAX_ERROR_CODES = {
     UNKNOWN_ERROR: 999,
     INCORRECT_RESPONSE_TYPE: 998,
     NETWORK_ERROR: 997,
+    JSON_ERROR: 996,
 };
 
-function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
+class AjaxError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.code = code;
+        this.name = "AjaxError";
+    }
+}
+
+async function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
     let url = new URL(codeUrl + "/api/index.php");
     let searchParams = new URLSearchParams();
     searchParams.append("url", apiUrl);
@@ -35,29 +43,27 @@ function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch)
         options.headers["Content-Type"] = "application/json";
         options.body = JSON.stringify(data);
     }
-    return new Promise(function (resolve, reject) {
-        fetchPromise(url, options)
-            .then(function (response) {
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    reject({ error: "Incorrect response type", code: AJAX_ERROR_CODES.INCORRECT_RESPONSE_TYPE });
-                } else if (response.ok) {
-                    resolve(response.json());
-                } else {
-                    response.json().then(function (data) {
-                        if (!data) {
-                            data = { error: "Unknown error", code: AJAX_ERROR_CODES.UNKNOWN_ERROR };
-                        }
-                        reject(data);
-                    });
-                }
-            })
-            .catch(function () {
-                reject({ error: "Network error", code: AJAX_ERROR_CODES.NETWORK_ERROR });
-            });
-    });
-}
-
-function ajaxAlert(data) {
-    alert(data.error);
+    let response;
+    try {
+        response = await fetchPromise(url, options);
+    } catch (error) {
+        throw new AjaxError(error, AJAX_ERROR_CODES.NETWORK_ERROR);
+    }
+    const contentType = response.headers.get("content-type");
+    if (!contentType || !contentType.includes("application/json")) {
+        throw new AjaxError("Incorrect response type", AJAX_ERROR_CODES.INCORRECT_RESPONSE_TYPE);
+    }
+    let responseData;
+    try {
+        responseData = await response.json();
+    } catch (error) {
+        throw new AjaxError(error, AJAX_ERROR_CODES.JSON_ERROR);
+    }
+    if (!response.ok) {
+        if (!responseData) {
+            throw new AjaxError("Unknown error", AJAX_ERROR_CODES.UNKNOWN_ERROR);
+        }
+        throw new AjaxError(responseData.error, responseData.code);
+    }
+    return responseData;
 }

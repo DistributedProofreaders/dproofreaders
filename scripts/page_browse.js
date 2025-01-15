@@ -1,4 +1,4 @@
-/*global $ proofIntData ajax ajaxAlert makeImageWidget makeTextWidget viewSplitter */
+/*global $ proofIntData ajax makeImageWidget makeTextWidget viewSplitter */
 /* exported pageBrowse */
 
 function makePageControl(pages, selectedImageFileName, changePage) {
@@ -113,30 +113,23 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     let roundSelector = null;
     // this allows rounds to be obtained from server only once when needed
     // the roundSelector retains its selected item so we do not have to
-    function getRoundSelector() {
-        const gotRoundSelector = new Promise(function (resolve, reject) {
-            if (roundSelector) {
-                resolve();
-            } else {
-                roundSelector = document.createElement("select");
-                ajax("GET", "v1/projects/pagerounds")
-                    .then(function (rounds) {
-                        rounds.forEach(function (round) {
-                            let selected = currentRound === round;
-                            roundSelector.add(new Option(round, round, selected, selected));
-                        });
-                        resolve();
-                    })
-                    .catch(function (data) {
-                        ajaxAlert(data);
-                        reject();
-                    });
-            }
-        });
-        return gotRoundSelector;
+    async function populateRoundSelector() {
+        if (roundSelector) {
+            return;
+        }
+        try {
+            const rounds = await ajax("GET", "v1/projects/pagerounds");
+            roundSelector = document.createElement("select");
+            rounds.forEach(function (round) {
+                let selected = currentRound === round;
+                roundSelector.add(new Option(round, round, selected, selected));
+            });
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
-    function displayPages(pages) {
+    async function displayPages(pages) {
         const textButton = $("<input>", { type: "button", value: proofIntData.strings.showText });
         const imageButton = $("<input>", { type: "button", value: proofIntData.strings.showImage });
         const imageTextButton = $("<input>", { type: "button", value: proofIntData.strings.showImageText });
@@ -151,7 +144,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
             // show a page selector and previous and next buttons and display the
             // page in current mode with controls
 
-            function showImageText() {
+            async function showImageText() {
                 // show image and/or text for current page according to the
                 // displayMode and set the url
                 const imageFileName = page.image;
@@ -167,9 +160,12 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                     // by the shown (first) option
                     const round = roundSelector.value;
                     params.set("round_id", round);
-                    ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`).then(function (data) {
+                    try {
+                        const data = await ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`);
                         textWidget.setText(data.text);
-                    }, ajaxAlert);
+                    } catch (error) {
+                        alert(error.message);
+                    }
                 }
                 replaceUrl();
             }
@@ -179,7 +175,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 showImageText();
             });
 
-            function showCurrentMode() {
+            async function showCurrentMode() {
                 // url with correct mode will be set in showImageText()
                 params.set("mode", displayMode);
 
@@ -209,39 +205,38 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                 } else {
                     // in case initial round_id was invalid, get round from
                     // round selector, but wait until it is drawn
-                    getRoundSelector().then(function showTextModes() {
-                        const roundControls = getRoundControls();
-                        $(roundSelector).change(showImageText);
-                        const textDiv = $("<div>");
-                        switch (displayMode) {
-                            case "text":
+                    await populateRoundSelector();
+                    const roundControls = getRoundControls();
+                    $(roundSelector).change(showImageText);
+                    const textDiv = $("<div>");
+                    switch (displayMode) {
+                        case "text":
+                            textWidget = makeTextWidget(textDiv);
+                            textWidget.setup(storageKey);
+                            controlSpan.append(imageButton, imageTextButton, pageControls, roundControls);
+                            stretchDiv.append(textDiv);
+                            break;
+                        case "imageText": {
+                            const imageDiv = $("<div>");
+                            imageWidget = makeImageWidget(imageDiv);
+                            stretchDiv.append(imageDiv, textDiv);
+                            const theSplitter = viewSplitter(stretchDiv, storageKey);
+                            if (mentorMode) {
+                                // make a text widget with splitter
+                                textWidget = makeTextWidget(textDiv, true);
+                                theSplitter.mainSplit.onResize.add(textWidget.reLayout);
+                            } else {
                                 textWidget = makeTextWidget(textDiv);
-                                textWidget.setup(storageKey);
-                                controlSpan.append(imageButton, imageTextButton, pageControls, roundControls);
-                                stretchDiv.append(textDiv);
-                                break;
-                            case "imageText": {
-                                const imageDiv = $("<div>");
-                                imageWidget = makeImageWidget(imageDiv);
-                                stretchDiv.append(imageDiv, textDiv);
-                                const theSplitter = viewSplitter(stretchDiv, storageKey);
-                                if (mentorMode) {
-                                    // make a text widget with splitter
-                                    textWidget = makeTextWidget(textDiv, true);
-                                    theSplitter.mainSplit.onResize.add(textWidget.reLayout);
-                                } else {
-                                    textWidget = makeTextWidget(textDiv);
-                                }
-                                theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
-                                theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
-                                theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
-                                controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
-                                theSplitter.fireSetSplitDir();
-                                break;
                             }
+                            theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
+                            theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
+                            theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
+                            controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
+                            theSplitter.fireSetSplitDir();
+                            break;
                         }
-                        showImageText();
-                    });
+                    }
+                    showImageText();
                 }
             } // end of showCurrentMode
 
@@ -263,16 +258,15 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
             showCurrentMode();
         } // end of showCurrentPage
 
-        function initialPageSelect() {
+        async function initialPageSelect() {
             controlSpan.empty();
             const initialPageControls = makePageControl(pages, null, function (page) {
                 showCurrentPage(page);
             });
             controlSpan.append(initialPageControls);
             if (displayMode !== "image") {
-                getRoundSelector().then(function () {
-                    controlSpan.append(getRoundControls());
-                });
+                await populateRoundSelector();
+                controlSpan.append(getRoundControls());
             }
         }
 
@@ -282,7 +276,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
             return;
         }
 
-        function showCurrentImageFile(currentImageFileName) {
+        async function showCurrentImageFile(currentImageFileName) {
             if (currentImageFileName) {
                 // does filename exist in the project?
                 const currentPage = pages.find(function (page) {
@@ -294,13 +288,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                     alert(proofIntData.strings.noPageX.replace("%s", currentImageFileName));
                     params.delete("imagefile");
                     replaceUrl();
-                    initialPageSelect();
+                    await initialPageSelect();
                 }
             } else {
-                initialPageSelect();
+                await initialPageSelect();
             }
         }
-        showCurrentImageFile(params.get("imagefile"));
+
+        await showCurrentImageFile(params.get("imagefile"));
         // showCurrentImageFile can be used to show subsequent images
         // without redrawing the whole page
         setShowFile(showCurrentImageFile);
@@ -333,9 +328,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
         fixHead.append($("<span>", { class: "nowrap" }).append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
     }
 
-    function getPages() {
+    async function getPages() {
         fixHead.append(controlSpan);
-        ajax("GET", `v1/projects/${projectId}/pages`).then(displayPages, ajaxAlert);
+        try {
+            const pages = await ajax("GET", `v1/projects/${projectId}/pages`);
+            displayPages(pages);
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
     function showProjectTitle(projectData) {
@@ -351,11 +351,14 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
         getPages();
     }
 
-    getProjectData = function () {
-        ajax("GET", `v1/projects/${projectId}`, { field: "title" }).then(showProjectTitle, function (data) {
-            ajaxAlert(data);
+    getProjectData = async function () {
+        try {
+            const projectData = await ajax("GET", `v1/projects/${projectId}`, { field: "title" });
+            showProjectTitle(projectData);
+        } catch (error) {
+            alert(error.message);
             selectAProject();
-        });
+        }
     };
 
     if (projectId) {
