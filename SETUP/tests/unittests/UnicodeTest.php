@@ -191,18 +191,18 @@ class UnicodeTest extends PHPUnit\Framework\TestCase
     {
         $string = "abcd";
         $chunks = split_multiscript_string($string);
-        $this->assertEquals(["abcd"], $chunks);
+        $this->assertEquals([["abcd", "Latin"]], $chunks);
 
         $string = "a   ";
         $chunks = split_multiscript_string($string);
-        $this->assertEquals(["a", "   "], $chunks);
+        $this->assertEquals([["a   ", "Latin"]], $chunks);
 
         $string = "aaaЖ";
         $chunks = split_multiscript_string($string);
-        $this->assertEquals(["aaa", "Ж"], $chunks);
+        $this->assertEquals([["aaa", "Latin"], ["Ж", "Cyrillic"]], $chunks);
 
         $string = "aN̅c";
         $chunks = split_multiscript_string($string);
-        $this->assertEquals(["aN̅c"], $chunks);
+        $this->assertEquals([["aN̅c", "Latin"]], $chunks);
     }
 }

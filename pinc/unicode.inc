@@ -110,9 +110,10 @@ function utf8_character_name($characters): string
 /**
  * Split a string into chunks on Unicode script boundaries.
  *
+ * Returns an array of [chunk, script] elements.
  * Inherited characters are included in the chunk with the base character
  *
- * @return string[]
+ * @return array
  */
 function split_multiscript_string(string $string): array
 {
@@ -125,16 +126,16 @@ function split_multiscript_string(string $string): array
         if ($chunk === null) {
             $chunk = $char;
             $chunk_script = $script;
-        } elseif ($script == $chunk_script || $script == "Inherited") {
+        } elseif ($script == $chunk_script || $script == "Inherited" || $script == "Common") {
             $chunk .= $char;
         } else {
-            $chunks[] = $chunk;
+            $chunks[] = [$chunk, $chunk_script];
             $chunk_script = $script;
             $chunk = $char;
         }
     }
     if ($chunk) {
-        $chunks[] = $chunk;
+        $chunks[] = [$chunk, $chunk_script];
     }
 
     return $chunks;
