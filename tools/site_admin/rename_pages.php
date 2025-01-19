@@ -299,7 +299,7 @@ switch ($submit_button) {
         break;
 
     case 'Do renamings':
-        $for_real = 1;
+        $for_real = true;
 
         $new_fileid_for_ = get_requested_name_mapping();
         $direction = $_POST['direction'] ?? '';
@@ -341,14 +341,22 @@ switch ($submit_button) {
 
                 // database
                 echo "    database:";
-                $query = "
+
+                // first the project table
+                $project_query = sprintf(
+                    "
                     UPDATE $projectid
-                    SET fileid='$new_fileid', image='$new_image'
-                    WHERE fileid='$old_fileid' AND image='$old_image'
-                ";
-                echo $query;
+                    SET fileid = '%s', image = '%s'
+                    WHERE fileid = '%s' AND image='%s'
+                    ",
+                    DPDatabase::escape($new_fileid),
+                    DPDatabase::escape($new_image),
+                    DPDatabase::escape($old_fileid),
+                    DPDatabase::escape($old_image)
+                );
+                echo $project_query;
                 if ($for_real) { /** @phpstan-ignore-line */
-                    DPDatabase::query($query);
+                    DPDatabase::query($project_query);
                     $n = DPDatabase::affected_rows();
                     echo "
                         $n rows affected.
@@ -358,6 +366,46 @@ switch ($submit_button) {
                         echo "Unexpected number of rows affected.\n";
                         die("Aborting");
                     }
+                }
+
+                // now the wordcheck_events table
+                $wce_query = sprintf(
+                    "
+                    UPDATE wordcheck_events
+                    SET image = '%s'
+                    WHERE projectid = '%s' AND image = '%s'
+                    ",
+                    DPDatabase::escape($new_image),
+                    DPDatabase::escape($projectid),
+                    DPDatabase::escape($old_image)
+                );
+                echo $wce_query;
+                if ($for_real) { /** @phpstan-ignore-line */
+                    DPDatabase::query($wce_query);
+                    $n = DPDatabase::affected_rows();
+                    echo "
+                        $n rows affected.
+                    ";
+                }
+
+                // finally, the page_events table
+                $pe_query = sprintf(
+                    "
+                    UPDATE page_events
+                    SET image = '%s'
+                    WHERE projectid = '%s' AND image = '%s'
+                    ",
+                    DPDatabase::escape($new_image),
+                    DPDatabase::escape($projectid),
+                    DPDatabase::escape($old_image)
+                );
+                echo $pe_query;
+                if ($for_real) { /** @phpstan-ignore-line */
+                    DPDatabase::query($pe_query);
+                    $n = DPDatabase::affected_rows();
+                    echo "
+                        $n rows affected.
+                    ";
                 }
                 echo "\n";
 
