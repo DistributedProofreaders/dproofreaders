@@ -212,7 +212,7 @@ function _wrapScriptWord($word, $scriptMap)
     global $common_unicode_scripts;
 
     $returnString = "";
-    foreach (split_multiscript_string($word) as [$chunk, $chunk_script]) {
+    foreach (split_multiscript_string($word) as [$chunk, $chunkScript]) {
         if (in_array($chunkScript, $common_unicode_scripts)) {
             $returnString .= $chunk;
         } else {
