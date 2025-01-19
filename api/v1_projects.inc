@@ -798,7 +798,7 @@ function api_v1_project_checkout($method, array $data, array $query_params)
 function api_v1_project_validatetext(string $method, array $data, array $query_params)
 {
     $project = $data[":projectid"];
-    $invalid_characters = $project->find_invalid_characters(receive_project_text_from_request_body('text'));
+    $invalid_characters = $project->find_invalid_characters(receive_project_text_from_request_body());
     return ["invalid_chars" => $invalid_characters];
 }
 
@@ -860,11 +860,11 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'resume':
                 return $proof_project_page->pp_resume_page();
             case 'checkin':
-                return $proof_project_page->attempt_checkin(receive_project_text_from_request_body('text'));
+                return $proof_project_page->attempt_checkin(receive_project_text_from_request_body());
             case 'save':
-                return $proof_project_page->save(receive_project_text_from_request_body('text'));
+                return $proof_project_page->save(receive_project_text_from_request_body());
             case 'revert':
-                return $proof_project_page->save_and_revert(receive_project_text_from_request_body('text'));
+                return $proof_project_page->save_and_revert(receive_project_text_from_request_body());
             case 'abandon':
                 $proof_project_page->returnToRound($pguser);
                 return null;
