@@ -787,6 +787,38 @@ class ApiTest extends ProjectUtils
         $this->assertEquals(["¿", "INVERTED QUESTION MARK"], $pickerset["subsets"][3]["rows"][1][1]);
     }
 
+    public function test_different_scripts()
+    {
+        global $request_body;
+
+        $request_body = ["text" => "Αlpha Вeta Gamma"];
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/multiscript_words";
+        $router = ApiRouter::get_router();
+        $response = $router->route($path, []);
+        $expected = [
+            "words" => ["Αlpha" => [["Α", "Greek"], ["lpha", "Latin"]], "Вeta" => [["В", "Cyrillic"], ["eta", "Latin"]]],
+            "scripts" => ["Cyrillic", "Greek", "Latin"],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
+    public function test_different_scripts_in_word()
+    {
+        global $request_body;
+
+        $request_body = ["text" => "appᾔeaШrs"];
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $path = "v1/multiscript_words";
+        $router = ApiRouter::get_router();
+        $response = $router->route($path, []);
+        $expected = [
+            "words" => ["appᾔeaШrs" => [["app", "Latin"], ["ᾔ", "Greek"], ["ea", "Latin"], ["Ш", "Cyrillic"], ["rs", "Latin"]]],
+            "scripts" => ["Cyrillic", "Greek", "Latin"],
+        ];
+        $this->assertEquals($expected, $response);
+    }
+
     //---------------------------------------------------------------------------
     // tests for documents
 
