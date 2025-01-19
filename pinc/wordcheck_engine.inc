@@ -1348,3 +1348,29 @@ function get_words_with_uncommon_scripts($words)
 
     return [$found_words, $found_scripts];
 }
+
+function get_words_with_different_scripts($words)
+{
+    $found_words = [];
+    $found_scripts = [];
+
+    foreach ($words as $word) {
+        // first remove common and inherited scripts
+        $reduced_word = preg_replace(["/\p{Common}/u", "/\p{Inherited}/u"], "", $word);
+        // find script of first remaining character and remove this script
+        $char = UTF8::substr($reduced_word, 0, 1);
+        $script = utf8_char_script($char);
+        $reduced_word = preg_replace("/\p{".$script."}/u", "", $reduced_word);
+        if ($reduced_word) {
+            // must be more than one script
+            $chunks = split_multiscript_string($word);
+            $found_words[$word] = $chunks;
+            foreach ($chunks as [$chunk, $chunk_script]) {
+                $found_scripts[$chunk_script] = 1;
+            }
+        }
+    }
+    $found_scripts = array_keys($found_scripts);
+    sort($found_scripts);
+    return [$found_words, $found_scripts];
+}

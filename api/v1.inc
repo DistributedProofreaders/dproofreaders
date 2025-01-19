@@ -54,6 +54,8 @@ $router->add_route("PUT", "v1/projects/:projectid/wordcheck", "api_v1_project_wo
 $router->add_route("GET", "v1/projects/:projectid/wordlists/:wordlist_type", "api_v1_project_wordlists");
 $router->add_route("PUT", "v1/projects/:projectid/wordlists/:wordlist_type", "api_v1_project_wordlists");
 
+$router->add_route("PUT", "v1/multiscript_words", "api_v1_multiscript_words");
+
 $router->add_route("GET", "v1/queues", "api_v1_queues");
 $router->add_route("GET", "v1/queues/:queueid", "api_v1_queue");
 $router->add_route("GET", "v1/queues/:queueid/stats", "api_v1_queue_stats");

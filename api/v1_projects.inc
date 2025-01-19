@@ -878,6 +878,17 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
+function api_v1_multiscript_words(string $method, array $data, array $query_params): array
+{
+    $text = receive_project_text_from_request_body();
+    $words = array_keys(get_distinct_words_in_text($text));
+    [$words, $scripts] = get_words_with_different_scripts($words);
+    return [
+        "words" => $words,
+        "scripts" => $scripts,
+    ];
+}
+
 function api_v1_project_page_wordcheck(string $method, array $data, array $query_params): void
 {
     try {
