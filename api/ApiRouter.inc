@@ -59,18 +59,22 @@ class ApiRouter
         $node = $this->root;
         $data = [];
         $parts = explode("/", $url);
-        foreach ($parts as $part) {
-            $next_node = $node->children[$part] ?? null;
-            if ($next_node) {
-                $node = $next_node;
-            } else {
-                [$param_name, $validator] = $this->get_validator($node);
-                $node = $node->children[$param_name];
-                $data[$param_name] = $validator($part, $data);
+        try {
+            foreach ($parts as $part) {
+                $next_node = $node->children[$part] ?? null;
+                if ($next_node) {
+                    $node = $next_node;
+                } else {
+                    [$param_name, $validator] = $this->get_validator($node);
+                    $node = $node->children[$param_name];
+                    $data[$param_name] = $validator($part, $data);
+                }
             }
-        }
-        if (empty($node->handlers)) {
-            throw new InvalidAPI();
+            if (empty($node->handlers)) {
+                throw new InvalidAPI();
+            }
+        } catch (InvalidAPI $exception) {
+            throw new InvalidAPI($exception->getMessage() . ": $url");
         }
         $method = $_SERVER["REQUEST_METHOD"];
         $handler = $node->handlers[$method] ?? null;
