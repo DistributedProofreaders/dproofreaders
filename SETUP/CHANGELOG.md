@@ -8,8 +8,15 @@ see the git history.
 first before upgrading to R202102 or later releases.**
 
 ## R??????
+Scripts supporting this upgrade are in `SETUP/upgrade/22`
 
 ### Notices & Deprecations
+
+This is the last release to support PHP 7.4. Future releases will only
+support PHP 8.1 and later. Note: This deprecation was originally announced
+for R202409 but was moved to this release instead.
+
+This is the last release to support the Authors code (`tools/authors/*`).
 
 The `array_get()` function has been deprecated and will be removed in the next
 release. Use the [null coalescing operator](https://www.php.net/manual/en/language.operators.comparison.php#language.operators.comparison.coalesce)
@@ -24,11 +31,11 @@ Scripts supporting this upgrade are in `SETUP/upgrade/21`
 
 ### Notices & Deprecations
 
-This is the last release to support PHP 7.4. Future releases will only
-support PHP 8.1 and later.
-
 This is the last release to support the Hieroglyphs tool. WikiHiero which backs
 the tool has been unsupported for 20+ years and was written for PHP 4.3.3.
+
+Note: A prior changelog version said this was the last release to support PHP 7.4.
+That deprecation has been moved to R202503 release instead.
 
 ### Changes
 
