@@ -206,7 +206,7 @@ echo "</div></div>";
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list($projectid, $suggestions)
+function _get_word_list(string $projectid, array $suggestions): array
 {
     // check that there are suggestions
     if (count($suggestions) == 0) {
@@ -255,7 +255,7 @@ function _get_word_list($projectid, $suggestions)
     return [$all_suggestions_w_freq, $all_suggestions_w_occurrences];
 }
 
-function _get_projects_for_pm($pm)
+function _get_projects_for_pm(string $pm): array
 {
     $returnArray = [];
 
@@ -277,7 +277,7 @@ function _get_projects_for_pm($pm)
     return $returnArray;
 }
 
-function _get_project_states_in_order()
+function _get_project_states_in_order(): array
 {
     $projectStates = [];
 
