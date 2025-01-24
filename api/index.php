@@ -136,11 +136,10 @@ function api_get_request_body(bool $raw = false)
 function api_output_response(string $data, int $response_code = 200)
 {
     http_response_code($response_code);
+    // drop the output buffer we've been storing to prevent errant output
+    // from violating the JSON response
+    ob_clean();
     echo $data;
-
-    // output the output buffer we've been storing to ensure we could
-    // send the right HTTP response code
-    echo ob_get_clean();
 
     exit();
 }
