@@ -219,10 +219,6 @@ function _get_word_list(string $projectid, array $suggestions): array
     // load project bad words
     $project_bad_words = load_project_bad_words($projectid);
 
-    // get the latest project text of all pages up to last possible round
-    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
-    $all_words_w_freq = get_distinct_words_in_text(get_page_texts($pages_res));
-
     // array to hold all words
     $all_suggestions = [];
 
@@ -237,6 +233,17 @@ function _get_word_list(string $projectid, array $suggestions): array
 
     // now, remove any words that are already on the project's good or bad words lists
     $all_suggestions = array_diff($all_suggestions, array_merge($project_good_words, $project_bad_words));
+
+    // if all of the suggestions are already on a good or bad word list
+    // there won't be anything to intersect with the word pages so don't do
+    // that work and just return
+    if (count($all_suggestions) == 0) {
+        return [[], []];
+    }
+
+    // get the latest project text of all pages up to last possible round
+    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
+    $all_words_w_freq = get_distinct_words_in_text(get_page_texts($pages_res));
 
     // get the number of suggestion occurrences
     $all_suggestions_w_occurrences = generate_frequencies($all_suggestions);
