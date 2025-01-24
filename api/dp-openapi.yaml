@@ -1121,6 +1121,8 @@ paths:
             revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
             abandon - Returns the page to the round, response:- none.
+            <br><br>
+            report_bad - Makes a bad page report, response:- none.
         required: true
         schema:
           type: string

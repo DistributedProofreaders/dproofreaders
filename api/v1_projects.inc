@@ -870,6 +870,9 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'abandon':
                 $proof_project_page->returnToRound($pguser);
                 return null;
+            case 'report_bad':
+                $proof_project_page->markAsBad($pguser, receive_data_from_request_body("reason"));
+                return null;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
