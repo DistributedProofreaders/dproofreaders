@@ -347,7 +347,7 @@ switch ($submit_button) {
                     "
                     UPDATE $projectid
                     SET fileid = '%s', image = '%s'
-                    WHERE fileid = '%s' AND image='%s'
+                    WHERE fileid = '%s' AND image = '%s'
                     ",
                     DPDatabase::escape($new_fileid),
                     DPDatabase::escape($new_image),
