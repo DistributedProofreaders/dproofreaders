@@ -155,6 +155,14 @@ class ProjectInvalidTextException extends ProjectException
     }
 }
 
+class ProjectTransitionException extends ProjectException
+{
+    public function __construct(string $message, int $code = 126)
+    {
+        parent::__construct($message, $code);
+    }
+}
+
 class ProjectPage
 {
     public $page_name;
