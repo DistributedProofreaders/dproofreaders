@@ -467,7 +467,7 @@ class LPage
 
         $error_msg = project_transition($this->projectid, $this->round->project_bad_state, PT_AUTO);
         if ($error_msg) {
-            echo "$error_msg<br>\n";
+            throw new ProjectException($error_msg);
         }
         return true;
     }
