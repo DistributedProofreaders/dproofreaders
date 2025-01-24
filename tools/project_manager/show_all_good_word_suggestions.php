@@ -151,7 +151,7 @@ foreach ($projects as $projectid => $projectdata) {
     }
 
     // get the data
-    [$suggestions_w_freq, $suggestions_w_occurrences, $messages] =
+    [$suggestions_w_freq, $suggestions_w_occurrences] =
         _get_word_list($projectid, $suggestions);
 
     // if no words are returned (probably because something was
@@ -167,8 +167,6 @@ foreach ($projects as $projectid => $projectdata) {
     echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
 
     echo_checkbox_selects($projectid);
-
-    echo_any_warnings_errors($messages);
 
     $count = 0;
     foreach ($suggestions_w_freq as $word => $freq) {
@@ -210,11 +208,9 @@ echo "</div></div>";
 
 function _get_word_list($projectid, $suggestions)
 {
-    $messages = [];
-
     // check that there are suggestions
     if (count($suggestions) == 0) {
-        return [[], [], $messages];
+        return [[], []];
     }
 
     // load project good words
@@ -256,7 +252,7 @@ function _get_word_list($projectid, $suggestions)
     // sort the list by frequency, then by word
     array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
 
-    return [$all_suggestions_w_freq, $all_suggestions_w_occurrences, $messages];
+    return [$all_suggestions_w_freq, $all_suggestions_w_occurrences];
 }
 
 function _get_projects_for_pm($pm)
