@@ -908,6 +908,35 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
+/** @param array<string, string|string[]> $query_params */
+function api_v1_project_page_report_bad(string $method, array $data, array $query_params): void
+{
+    global $pguser, $PAGE_BADNESS_REASONS;
+
+    try {
+        $project = $data[":projectid"];
+        $proof_project = new ProofProject($project);
+
+        $project_page = $data[":pagename"];
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
+        $reason_string = receive_data_from_request_body("reason");
+        $reason_key = array_find_key($PAGE_BADNESS_REASONS, function (array $value) use ($reason_string) {
+            return $value["name"] === $reason_string;
+        });
+        if (null === $reason_key) {
+            throw new InvalidValue("$reason_string is not a valid badness reason");
+        }
+        $proof_project_page->markAsBad($pguser, $reason_key);
+    } catch (ProjectTransitionException $exception) {
+        throw new UnexpectedError($exception->getMessage(), $exception->getCode());
+    } catch (ProjectException $exception) {
+        throw new BadRequest($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
 /** @param array<string,string|string[]> $query_params */
 function api_v1_project_page_wordcheck(string $method, array $data, array $query_params): void
 {

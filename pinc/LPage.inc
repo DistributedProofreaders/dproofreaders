@@ -448,7 +448,7 @@ class LPage
 
         // Advise PM that the page has been marked bad.
         configure_gettext_for_user($this->project->username);
-        $body_blurb_messages[] = sprintf(_('Page %1$s of this project has been marked bad by %3$s due to %2$s.'), $this->imagefile, $PAGE_BADNESS_REASONS[$reason], $user);
+        $body_blurb_messages[] = sprintf(_('Page %1$s of this project has been marked bad by %3$s due to %2$s.'), $this->imagefile, $PAGE_BADNESS_REASONS[$reason]["string"], $user);
         $body_blurb_messages[] = sprintf(
             // TRANSLATORS: %s is a url
             _("Please visit %s to make any needed changes and make the page available for proofreading again."),
@@ -467,7 +467,7 @@ class LPage
 
         $error_msg = project_transition($this->projectid, $this->round->project_bad_state, PT_AUTO);
         if ($error_msg) {
-            echo "$error_msg<br>\n";
+            throw new ProjectTransitionException($error_msg);
         }
         return true;
     }

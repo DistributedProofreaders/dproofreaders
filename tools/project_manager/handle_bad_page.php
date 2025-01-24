@@ -193,7 +193,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         }
 
         if (!empty($b_code)) {
-            echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_code]}</br>";
+            echo "<b>" . _("Reason") . ":</b> " . $PAGE_BADNESS_REASONS[$b_code]["string"] . "<br>";
         }
         echo "</p>";
     }
@@ -203,7 +203,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
     echo "<li><a href='handle_bad_page.php?projectid=$projectid&image=$image&modify=current_text'>"._("Update page text from previous round")."</a></li>";
     if (user_is_a_sitemanager()) {
         echo "<li>" . _("Update page text for round") . ": ";
-        echo "<form style='display: inline'; action='handle_bad_page.php' method='post'>";
+        echo "<form style='display: inline;' action='handle_bad_page.php' method='post'>";
         echo "<input type='hidden' name='modify' value='round_text'>";
         echo "<input type='hidden' name='projectid' value='$projectid'>";
         echo "<input type='hidden' name='image' value='$image'>";
@@ -213,7 +213,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         foreach (Rounds::get_all() as $round) {
             echo "<option value='$round->text_column_name'";
             if ($project_round->id == $round->id) {
-                echo "SELECTED";
+                echo " SELECTED";
             }
             echo ">$round->id</option>";
         }

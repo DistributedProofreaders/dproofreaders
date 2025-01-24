@@ -15,6 +15,14 @@ class ApiTest extends ProjectUtils
         return $router->route($path, $query_params);
     }
 
+    protected function get_project_page_round_data(string $projectid, string $page_name, string $roundid): array
+    {
+        $path = "v1/projects/$projectid/pages/$page_name/pagerounds/$roundid";
+        $router = ApiRouter::get_router();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        return $router->route($path, []);
+    }
+
     protected function checkout(string $projectid, string $project_state): array
     {
         $path = "v1/projects/$projectid/checkout";
@@ -96,6 +104,17 @@ class ApiTest extends ProjectUtils
         $_SERVER["REQUEST_METHOD"] = "PUT";
         $request_body = ["accepted_words" => $accepted_words];
         $path = "v1/projects/$projectid/pages/$page_name/wordcheck";
+        $router = ApiRouter::get_router();
+        return $router->route($path, []);
+    }
+
+    protected function report_bad_page(string $projectid, string $page_name, string $reason)
+    {
+        global $request_body;
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $request_body = ["reason" => $reason];
+        $path = "v1/projects/$projectid/pages/$page_name/reportbad";
         $router = ApiRouter::get_router();
         return $router->route($path, []);
     }
@@ -446,6 +465,34 @@ class ApiTest extends ProjectUtils
         // return it to round
         $response = $this->return_to_round($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out');
         $this->assertEquals(null, $response);
+    }
+
+    public function test_project_report_bad_page(): void
+    {
+        global $pguser;
+
+        $project = $this->_create_available_project();
+        $pguser = $this->TEST_USERNAME;
+
+        // check out a page
+        $this->checkout($project->projectid, "P1.proj_avail");
+
+        // report it bad
+        $response = $this->report_bad_page($project->projectid, '001.png', "missing_text");
+        $this->assertEquals(null, $response);
+        $response = $this->get_project_page_round_data($project->projectid, '001.png', 'P1');
+        $this->assertEquals("P1.page_bad", $response["state"]);
+    }
+
+    public function test_project_report_bad_page_incorrectly(): void
+    {
+        global $pguser;
+
+        $project = $this->_create_available_project();
+        $pguser = $this->TEST_USERNAME;
+        $this->checkout($project->projectid, "P1.proj_avail");
+        $this->expectExceptionCode(6);
+        $this->report_bad_page($project->projectid, '001.png', "very_bad");
     }
 
     public function test_return_page_no_state(): void
