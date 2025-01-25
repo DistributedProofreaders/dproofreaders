@@ -870,12 +870,32 @@ function api_v1_project_page(string $method, array $data, array $query_params)
             case 'abandon':
                 $proof_project_page->returnToRound($pguser);
                 return null;
-            case 'report_bad':
-                $proof_project_page->markAsBad($pguser, receive_data_from_request_body("reason"));
-                return null;
             default:
                 throw new BadRequest("$page_action is not a valid page action.");
         }
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
+function api_v1_project_page_report_bad(string $method, array $data, array $query_params): void
+{
+    global $pguser;
+
+    try {
+        $project = $data[":projectid"];
+        $proof_project = new ProofProject($project);
+
+        $project_page = $data[":pagename"];
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
+        $reason = receive_data_from_request_body("reason");
+        if (($reason < 1) || ($reason > 5)) {
+            throw new InvalidValue("Reason for badness must be between 1 and 5");
+        }
+        $proof_project_page->markAsBad($pguser, $reason);
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     } catch (UserAccessException $exception) {

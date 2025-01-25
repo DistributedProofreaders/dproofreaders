@@ -108,6 +108,17 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
+    protected function report_bad_page(string $projectid, string $page_name, $reason)
+    {
+        global $request_body;
+
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $request_body = ["reason" => $reason];
+        $path = "v1/projects/$projectid/pages/$page_name/report_bad";
+        $router = ApiRouter::get_router();
+        return $router->route($path, []);
+    }
+
     //---------------------------------------------------------------------------
     // tests
 
@@ -467,7 +478,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // report it bad
-        $response = $this->api_project_page($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out', ["reason" => 3], "report_bad");
+        $response = $this->report_bad_page($project->projectid, '001.png', 3);
         $this->assertEquals(null, $response);
         $response = $this->get_project_page_round_data($project->projectid, '001.png', 'P1');
         $this->assertEquals("P1.page_bad", $response["state"]);

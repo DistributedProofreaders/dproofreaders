@@ -1121,8 +1121,6 @@ paths:
             revert - Checks the page for invalid characters and if valid, saves it as in progress. Response:- page_text_state object.
             <br><br>
             abandon - Returns the page to the round, response:- none.
-            <br><br>
-            report_bad - Makes a bad page report, response:- none.
         required: true
         schema:
           type: string
@@ -1198,6 +1196,40 @@ paths:
                   type: array
                   items:
                     type: string
+      responses:
+        200:
+          description: OK
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
+  /projects/{projectid}/pages/{pagename}/report_bad:
+    put:
+      tags:
+      - project
+      description: Mark a page as bad
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/pagename'
+      requestBody:
+        description: integer indicating reason for badness 1 Missing Image, 2 Missing Text, 3 Image/Text Mismatch, 4 Corrupted Image, 5 Other
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: integer
       responses:
         200:
           description: OK
