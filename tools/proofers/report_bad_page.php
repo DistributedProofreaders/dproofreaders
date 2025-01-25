@@ -63,7 +63,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
         if ($i == 0) {
             echo "<option value=''></option>";
         } else {
-            echo "<option value='$i'>$reason</option>";
+            echo "<option value='$i'>" . $reason["string"] . "</option>";
         }
     }
     echo "</select>";
