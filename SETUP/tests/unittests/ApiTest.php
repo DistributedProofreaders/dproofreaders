@@ -478,10 +478,21 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // report it bad
-        $response = $this->report_bad_page($project->projectid, '001.png', 3);
+        $response = $this->report_bad_page($project->projectid, '001.png', "3");
         $this->assertEquals(null, $response);
         $response = $this->get_project_page_round_data($project->projectid, '001.png', 'P1');
         $this->assertEquals("P1.page_bad", $response["state"]);
+    }
+
+    public function test_project_report_bad_page_incorrectly(): void
+    {
+        global $pguser;
+
+        $project = $this->_create_available_project();
+        $pguser = $this->TEST_USERNAME;
+        $this->checkout($project->projectid, "P1.proj_avail");
+        $this->expectExceptionCode(6);
+        $this->report_bad_page($project->projectid, '001.png', "3.4");
     }
 
     public function test_return_page_no_state(): void

@@ -892,8 +892,10 @@ function api_v1_project_page_report_bad(string $method, array $data, array $quer
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
 
         $reason = receive_data_from_request_body("reason");
-        if (($reason < 1) || ($reason > 5)) {
-            throw new InvalidValue("Reason for badness must be between 1 and 5");
+        // coerce reason to numeric type
+        $reason += 0;
+        if (!is_int($reason) || ($reason < 1) || ($reason > 5)) {
+            throw new InvalidValue("Reason for badness must be an integer between 1 and 5");
         }
         $proof_project_page->markAsBad($pguser, $reason);
     } catch (ProjectException $exception) {
