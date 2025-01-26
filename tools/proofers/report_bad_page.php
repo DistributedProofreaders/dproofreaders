@@ -98,7 +98,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
     //This may cause the whole project to be marked bad.
     try {
         $project_is_bad = $ppage->markAsBad($pguser, $reason);
-    } catch (ProjectPageException $exception) {
+    } catch (ProjectException | PageNotOwnedException $exception) {
         abort($exception->getMessage());
     }
 
