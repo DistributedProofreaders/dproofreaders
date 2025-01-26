@@ -752,6 +752,30 @@ function load_wordcheck_events($projectid, $start_time = 0)
     return $eventArray;
 }
 
+/** @return string[] */
+function load_project_good_word_suggestions_flat(string $projectid, int $start_time = 0): array
+{
+    $sql = sprintf(
+        "
+        SELECT suggestions
+        FROM wordcheck_events
+        WHERE projectid = '%s' AND timestamp > %d AND suggestions <> ''
+        ",
+        DPDatabase::escape($projectid),
+        $start_time
+    );
+
+    $res = DPDatabase::query($sql);
+
+    $words = [];
+    while ([$suggestions] = mysqli_fetch_row($res)) {
+        $words = array_merge($words, explode("\n", $suggestions));
+    }
+
+    mysqli_free_result($res);
+
+    return $words;
+}
 
 function load_project_good_word_suggestions($projectid, $start_time = 0)
 {

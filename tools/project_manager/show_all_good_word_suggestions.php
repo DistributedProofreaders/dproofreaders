@@ -142,17 +142,9 @@ foreach ($projects as $projectid => $projectdata) {
         $timeCutoffActual = $timeCutoff;
     }
 
-    // load suggestions since cutoff
-    $suggestions = load_project_good_word_suggestions($projectid, $timeCutoffActual);
-
-    // if there are no suggestions since the cutoff, skip it
-    if (!count($suggestions)) {
-        continue;
-    }
-
     // get the data
     [$suggestions_w_freq, $suggestions_w_occurrences] =
-        _get_word_list($projectid, $suggestions);
+        _get_word_list($projectid, $timeCutoffActual);
 
     // if no words are returned (probably because something was
     // suggested but is no longer in the text) skip this project
@@ -206,8 +198,10 @@ echo "</div></div>";
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list(string $projectid, array $suggestions): array
+function _get_word_list(string $projectid, int $time_cutoff): array
 {
+    $suggestions = load_project_good_word_suggestions_flat($projectid, $time_cutoff);
+
     // check that there are suggestions
     if (count($suggestions) == 0) {
         return [[], []];
@@ -219,25 +213,13 @@ function _get_word_list(string $projectid, array $suggestions): array
     // load project bad words
     $project_bad_words = load_project_bad_words($projectid);
 
-    // array to hold all words
-    $all_suggestions = [];
-
-    // parse the suggestions complex array
-    // it is in the format: $suggestions[$round][$pagenum]=$wordsArray
-    foreach ($suggestions as $round => $pageArray) {
-        foreach ($pageArray as $page => $words) {
-            // add the words to the combined array too
-            $all_suggestions = array_merge($all_suggestions, $words);
-        }
-    }
-
     // now, remove any words that are already on the project's good or bad words lists
-    $all_suggestions = array_diff($all_suggestions, array_merge($project_good_words, $project_bad_words));
+    $suggestions = array_diff($suggestions, array_merge($project_good_words, $project_bad_words));
 
     // if all of the suggestions are already on a good or bad word list
     // there won't be anything to intersect with the word pages so don't do
     // that work and just return
-    if (count($all_suggestions) == 0) {
+    if (count($suggestions) == 0) {
         return [[], []];
     }
 
@@ -246,12 +228,12 @@ function _get_word_list(string $projectid, array $suggestions): array
     $all_words_w_freq = get_distinct_words_in_text(get_page_texts($pages_res));
 
     // get the number of suggestion occurrences
-    $all_suggestions_w_occurrences = generate_frequencies($all_suggestions);
+    $all_suggestions_w_occurrences = generate_frequencies($suggestions);
 
-    // $all_suggestions doesn't have frequency info,
+    // $suggestions doesn't have frequency info,
     // so start with the info in $all_words_w_freq,
-    // and extract the items where the key matches a key in $all_suggestions.
-    $all_suggestions_w_freq = array_intersect_key($all_words_w_freq, array_flip($all_suggestions));
+    // and extract the items where the key matches a key in $suggestions.
+    $all_suggestions_w_freq = array_intersect_key($all_words_w_freq, array_flip($suggestions));
 
     // multisort screws up all-numeric words so we need to preprocess first
     prep_numeric_keys_for_multisort($all_suggestions_w_freq);
