@@ -16,12 +16,9 @@ $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
 // This is used when splitting a text into words.
 $char_pattern = "(?:\w\pM*|$bracketed_character_pattern)";
-$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!uS";
+$word_pattern = "!$char_pattern+(?:'$char_pattern+)*!u";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
-// (Supposedly, the 'S' modifier makes the regex engine spend more time
-// analyzing the pattern in order to speed up the time taken for matching,
-// but the effect seems pretty close to negligible.)
 
 
 // The following two variables control text highlighting in the interface.
