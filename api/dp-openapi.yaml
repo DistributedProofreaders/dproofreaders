@@ -1221,7 +1221,7 @@ paths:
       - $ref: '#/components/parameters/projectid'
       - $ref: '#/components/parameters/pagename'
       requestBody:
-        description: integer indicating reason for badness 1 Missing Image, 2 Missing Text, 3 Image/Text Mismatch, 4 Corrupted Image, 5 Other
+        description: reason for badness
         required: true
         content:
           application/json:
@@ -1229,7 +1229,8 @@ paths:
               type: object
               properties:
                 reason:
-                  type: integer
+                  type: string
+                  enum: [none, missing_image, missing_text, image_text_mismatch, corrupted_image, other]
       responses:
         200:
           description: OK

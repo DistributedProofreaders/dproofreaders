@@ -108,7 +108,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
-    protected function report_bad_page(string $projectid, string $page_name, $reason)
+    protected function report_bad_page(string $projectid, string $page_name, string $reason)
     {
         global $request_body;
 
@@ -478,7 +478,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // report it bad
-        $response = $this->report_bad_page($project->projectid, '001.png', "3");
+        $response = $this->report_bad_page($project->projectid, '001.png', "missing_text");
         $this->assertEquals(null, $response);
         $response = $this->get_project_page_round_data($project->projectid, '001.png', 'P1');
         $this->assertEquals("P1.page_bad", $response["state"]);
@@ -492,7 +492,7 @@ class ApiTest extends ProjectUtils
         $pguser = $this->TEST_USERNAME;
         $this->checkout($project->projectid, "P1.proj_avail");
         $this->expectExceptionCode(6);
-        $this->report_bad_page($project->projectid, '001.png', "3.4");
+        $this->report_bad_page($project->projectid, '001.png', "very_bad");
     }
 
     public function test_return_page_no_state(): void

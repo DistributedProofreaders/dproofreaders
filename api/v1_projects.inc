@@ -882,7 +882,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
 
 function api_v1_project_page_report_bad(string $method, array $data, array $query_params): void
 {
-    global $pguser;
+    global $pguser, $PAGE_BADNESS_REASONS;
 
     try {
         $project = $data[":projectid"];
@@ -891,13 +891,19 @@ function api_v1_project_page_report_bad(string $method, array $data, array $quer
         $project_page = $data[":pagename"];
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
 
-        $reason = receive_data_from_request_body("reason");
-        // coerce reason to numeric type
-        $reason += 0;
-        if (!is_int($reason) || ($reason < 1) || ($reason > 5)) {
-            throw new InvalidValue("Reason for badness must be an integer between 1 and 5");
+        $reason_string = receive_data_from_request_body("reason");
+        // can't use array_find_key() yet
+        $reason_key = null;
+        foreach ($PAGE_BADNESS_REASONS as $key => $value) {
+            if ($value["name"] === $reason_string) {
+                $reason_key = $key;
+                break;
+            }
         }
-        $proof_project_page->markAsBad($pguser, $reason);
+        if (null === $reason_key) {
+            throw new InvalidValue("$reason_string is not a valid badness reason");
+        }
+        $proof_project_page->markAsBad($pguser, $reason_key);
     } catch (ProjectException $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     } catch (UserAccessException $exception) {
