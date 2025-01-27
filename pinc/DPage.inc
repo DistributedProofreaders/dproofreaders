@@ -464,10 +464,6 @@ function Page_clearRound(string $projectid, string $image, Round $round, string 
 // The numeric values of the following array must not change as they are
 // saved in the database to indicate the bad page reason.
 $PAGE_BADNESS_REASONS = [
-    0 => [
-        "name" => "none",
-        "string" => '',
-    ],
     1 => [
         "name" => "missing_image",
         "string" => _('Missing Image'),

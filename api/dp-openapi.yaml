@@ -1230,7 +1230,7 @@ paths:
               properties:
                 reason:
                   type: string
-                  enum: [none, missing_image, missing_text, image_text_mismatch, corrupted_image, other]
+                  enum: [missing_image, missing_text, image_text_mismatch, corrupted_image, other]
       responses:
         200:
           description: OK
