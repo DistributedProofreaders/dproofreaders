@@ -1,6 +1,7 @@
 <?php
 include_once($relPath.'faq.inc');
 
+/** @param array<string, string|string[]> $query_params */
 function api_v1_documents(string $method, array $data, array $query_params): array
 {
     global $external_faq_overrides;
@@ -19,6 +20,7 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
     }
 }
 
+/** @param array<string, string|string[]> $query_params */
 function api_v1_document(string $method, array $data, array $query_params): string
 {
     $lang_code = $query_params["language_code"] ?? "en";
