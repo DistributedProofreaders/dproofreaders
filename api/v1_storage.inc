@@ -5,7 +5,12 @@
 //===========================================================================
 // storage/:storagekey
 
-/** @return mixed */
+/**
+ * Store/retrieve storage item (depending on the method).
+ *
+ * @param array<string,string|string[]> $query_params
+ * @return mixed
+ */
 function api_v1_storage(string $method, array $data, array $query_params)
 {
     global $pguser;
@@ -29,6 +34,7 @@ function api_v1_storage(string $method, array $data, array $query_params)
     }
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_storage_delete(string $method, array $data, array $query_params): void
 {
     global $pguser;

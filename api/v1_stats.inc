@@ -6,7 +6,8 @@ include_once("exceptions.inc");
 //---------------------------------------------------------------------------
 // stats/site
 
-function api_v1_stats_site($method, $data, $query_params)
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_site(string $method, array $data, array $query_params)
 {
     $res = DPDatabase::query("SELECT COUNT(*) FROM users");
     [$registered_users] = mysqli_fetch_row($res);
@@ -53,7 +54,8 @@ function api_v1_stats_site($method, $data, $query_params)
 //    "proj_post_second_checked_out": 2,
 //    "proj_delete": 46,
 // }```
-function api_v1_stats_site_projects_states($method, $data, $query_params)
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_site_projects_states(string $method, array $data, array $query_params)
 {
     // Make sure all project state statistics are provided.
     $output = [];
@@ -74,7 +76,8 @@ function api_v1_stats_site_projects_states($method, $data, $query_params)
     return $output;
 }
 
-function api_v1_stats_site_projects_stages($method, $data, $query_params)
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_site_projects_stages(string $method, array $data, array $query_params)
 {
     // Make sure all project stage statistics are provided.
     $output = [];
@@ -136,7 +139,8 @@ function render_round_stats($round_id)
     ];
 }
 
-function api_v1_stats_site_rounds($method, $data, $query_params)
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_site_rounds(string $method, array $data, array $query_params)
 {
     $return = [];
     foreach (Rounds::get_ids() as $round_id) {
@@ -149,7 +153,8 @@ function api_v1_stats_site_rounds($method, $data, $query_params)
 //---------------------------------------------------------------------------
 // stats/site/rounds/:roundid
 
-function api_v1_stats_site_round($method, $data, $query_params)
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_site_round(string $method, array $data, array $query_params)
 {
     $round = $data[":roundid"];
 

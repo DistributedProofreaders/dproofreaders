@@ -6,8 +6,10 @@
  * - null - no parameter with this key was set
  * - true - parameter was set to "true" or an empty string (for ?flagname)
  * - false - parameter was set to "false"
+ *
+ * @param array<string, string|string[]> $query_params
  */
-function get_flag_value($query_params, $flagname)
+function get_flag_value(array $query_params, string $flagname)
 {
     if (!isset($query_params[$flagname])) {
         return null;

@@ -15,14 +15,14 @@ include_once("api_common.inc");
 
 /**
  * Get an array of the fields to be returned to the client.
- * @param ?array<string,string> $query_params the HTTP query
+ * @param array<string,string|string[]> $query_params the HTTP query
  * @param ?Project $project
  *   If we're querying a single project, what is it? (Certain fields
  *   aren't queryable or viewable by most users.)
  * @return ?array<string>
  * @throws InvalidValue if any of the filter arguments aren't recognized
  */
-function get_return_fields(?array $query_params, ?Project $project)
+function get_return_fields(array $query_params, ?Project $project)
 {
     $return_fields = array_get_as_array($query_params, "field", null);
     if (is_null($return_fields)) {
@@ -36,6 +36,7 @@ function get_return_fields(?array $query_params, ?Project $project)
     return $return_fields;
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects(string $method, array $data, array $query_params)
 {
     // set which fields are queryable and their column names
@@ -306,6 +307,7 @@ function create_or_update_project(Project $project)
     return $project;
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project(string $method, array $data, array $query_params)
 {
     if ($method == "GET") {
@@ -373,6 +375,7 @@ function render_project_json(Project $project, ?array $return_fields = null)
 //---------------------------------------------------------------------------
 // projects/:projectID/wordlists/:type
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_wordlists(string $method, array $data, array $query_params)
 {
     // get the project this is for and the type of word list
@@ -406,6 +409,7 @@ function api_v1_project_wordlists(string $method, array $data, array $query_para
 //---------------------------------------------------------------------------
 // projects/:projectID/holdstates
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_holdstates(string $method, array $data, array $query_params)
 {
     $project = $data[":projectid"];
@@ -446,6 +450,7 @@ function api_v1_project_holdstates(string $method, array $data, array $query_par
 //---------------------------------------------------------------------------
 // projects/:projectid/pages
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_pages(string $method, array $data, array $query_params)
 {
     $project = $data[":projectid"];
@@ -524,6 +529,7 @@ function api_v1_project_pagedetails(string $method, array $data, array $query_pa
 //---------------------------------------------------------------------------
 // projects/:projectid/pages/:pagename/pagerounds/:pageroundid
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_page_round(string $method, array $data, array $query_params)
 {
     if ($data[":pageroundid"] == "OCR") {
@@ -583,6 +589,7 @@ function render_project_page_json($row)
 //---------------------------------------------------------------------------
 // projects/:projectid/transitions
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_transitions(string $method, array $data, array $query_params)
 {
     $sql = sprintf(
@@ -610,6 +617,7 @@ function api_v1_project_transitions(string $method, array $data, array $query_pa
 //---------------------------------------------------------------------------
 // projects/difficulties
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_difficulties(string $method, array $data, array $query_params)
 {
     $difficulties = get_project_difficulties();
@@ -619,6 +627,7 @@ function api_v1_projects_difficulties(string $method, array $data, array $query_
 //---------------------------------------------------------------------------
 // projects/genres
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_genres(string $method, array $data, array $query_params)
 {
     $genres = ProjectSearchForm::genre_options();
@@ -629,6 +638,7 @@ function api_v1_projects_genres(string $method, array $data, array $query_params
 //---------------------------------------------------------------------------
 // projects/languages
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_languages(string $method, array $data, array $query_params)
 {
     $languages = ProjectSearchForm::language_options();
@@ -639,6 +649,7 @@ function api_v1_projects_languages(string $method, array $data, array $query_par
 //---------------------------------------------------------------------------
 // projects/states
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_states(string $method, array $data, array $query_params)
 {
     $states = ProjectSearchForm::state_options();
@@ -649,6 +660,7 @@ function api_v1_projects_states(string $method, array $data, array $query_params
 //---------------------------------------------------------------------------
 // projects/pagerounds
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_pagerounds(string $method, array $data, array $query_params)
 {
     return array_merge(["OCR"], Rounds::get_ids());
@@ -657,6 +669,7 @@ function api_v1_projects_pagerounds(string $method, array $data, array $query_pa
 //---------------------------------------------------------------------------
 // projects/charsuites
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_charsuites(string $method, array $data, array $query_params)
 {
     $enabled_filter = _get_enabled_filter($query_params);
@@ -686,6 +699,7 @@ function api_v1_projects_charsuites(string $method, array $data, array $query_pa
 //---------------------------------------------------------------------------
 // projects/specialdays
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_specialdays(string $method, array $data, array $query_params)
 {
     $return_data = [];
@@ -720,6 +734,7 @@ function api_v1_projects_specialdays(string $method, array $data, array $query_p
 //---------------------------------------------------------------------------
 // projects/imagesources
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_imagesources(string $method, array $data, array $query_params): array
 {
     $return_data = [];
@@ -755,6 +770,7 @@ function api_v1_projects_imagesources(string $method, array $data, array $query_
 //---------------------------------------------------------------------------
 // projects/holdstates
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_projects_holdstates(string $method, array $data, array $query_params): array
 {
     return Project::get_holdable_states();
@@ -779,7 +795,11 @@ function _get_enabled_filter($query_params)
 //---------------------------------------------------------------------------
 // Proofreading functions
 
-// checkout a page
+/**
+ * Checkout a page
+ *
+ * @param array<string,string|string[]> $query_params
+ */
 function api_v1_project_checkout(string $method, array $data, array $query_params): array
 {
     try {
@@ -795,6 +815,7 @@ function api_v1_project_checkout(string $method, array $data, array $query_param
     }
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_validatetext(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
@@ -802,6 +823,7 @@ function api_v1_project_validatetext(string $method, array $data, array $query_p
     return ["invalid_chars" => $invalid_characters];
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_wordcheck(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
@@ -819,6 +841,7 @@ function api_v1_project_wordcheck(string $method, array $data, array $query_para
     ];
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_pickersets(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
@@ -832,8 +855,13 @@ function api_v1_project_pickersets(string $method, array $data, array $query_par
     return $verbose_pickersets;
 }
 
+/**
+ * Return a page from a project
+ *
+ * @param array<string,string|string[]> $query_params
+ * @return mixed
+ */
 // TODO(jchaffraix): Refine this return once all callees have been typed.
-/** @return mixed */
 function api_v1_project_page(string $method, array $data, array $query_params)
 {
     global $pguser;
@@ -880,6 +908,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
+/** @param array<string,string|string[]> $query_params */
 function api_v1_project_page_wordcheck(string $method, array $data, array $query_params): void
 {
     try {

@@ -53,7 +53,12 @@ class ApiRouter
         $node->handlers[$method] = $function;
     }
 
-    /** @return mixed */
+    /**
+     * Route an API call to its specific handler.
+     *
+     * @param array<string, string|string[]> $query_params
+     * @return mixed
+     */
     public function route(string $url, array $query_params)
     {
         $node = $this->root;
