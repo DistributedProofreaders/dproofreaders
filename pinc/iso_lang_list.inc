@@ -107,7 +107,7 @@ function get_script_for_langcode(string $langcode): string
 // is not a good idea, since nobody wants a ridiculously long name like
 //     "Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)"
 // and why approaches such as the isocodes projects
-//     (http://alioth.debian.org/projects/pkg-isocodes/)
+//     (https://github.com/sokil/php-isocodes)
 // which try to create gettext packages to translate English names into
 // foreign names will not work properly. To properly translate these
 // language names the sane solution is to use codes instead of names

@@ -183,8 +183,6 @@ function _insert_post(
     $watch_topic = null
 ) {
     global $forums_phpbb_table_prefix;
-
-    // see: https://phpbbmodders.net/articles/3.0/create_post/
     global $db, $user, $auth;
 
     // Populate $user and determine $auth & $poster_id from that
@@ -244,7 +242,6 @@ function _insert_post(
     $post_subject = utf8_recode($post_subject, 'UTF-8');
     $post_text = utf8_recode($post_text, 'UTF-8');
 
-    // see: https://wiki.phpbb.com/Function.submit_post
     $subject = utf8_normalize_nfc($post_subject);
     $text = utf8_normalize_nfc($post_text);
 
