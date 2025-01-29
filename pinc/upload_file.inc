@@ -304,7 +304,7 @@ function is_valid_filename($filename, $restrict_extension = false)
 
     // Base the filename restrictions on removing anything that could
     // conceivably be a shell escape, control character etc.
-    // See http://www.owasp.org/index.php/Unrestricted_File_Upload
+    // See https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
 
     // We allow filenames to start with an alphanumeric, followed by 0 more
     // alphanumerics, underscores, dashes, and ending with a period and an

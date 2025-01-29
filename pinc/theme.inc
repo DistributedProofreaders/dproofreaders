@@ -894,12 +894,8 @@ function show_birthdays()
     // $months_since_last_activity months.
     $months_since_last_activity = 6;
 
-    // To ensure this query is fast, we base the times off of midnight today
-    // instead of time(). This ensures that the SQL we send is identical for
-    // every call of this function in a day. This allows the query to be
-    // efficiently cached in the MySQL query cache. We also take care not to
-    // use any functions that would prevent this query from being cached. See
-    // http://dev.mysql.com/doc/refman/5.1/en/query-cache-operation.html
+    // To ensure this query returns consistent results within a day, we use
+    // midnight server time as our reference point.
     $timestamp_at_midnight = mktime(0, 0, 0);
     $oldest_activity = $timestamp_at_midnight -
             ($months_since_last_activity * $seconds_in_month);
