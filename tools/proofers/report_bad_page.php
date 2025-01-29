@@ -34,7 +34,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
     echo "<p>" . _("If you are unable to proofread the page you were presented, you can mark it bad with this form to let the Project Manager know it requires attention. Before doing so, let's review what constitutes a bad page and some possible fixes you can try first.") . "</p>";
 
     echo "<h2>" . _("Commonly Misidentified Bad Pages") . "</h2>";
-    echo "<p>" . _("The following scenarios are commonly reported as bad pages, but they are not. If either of the below are true, return and continue proofreading the page.") . "</p>";
+    echo "<p>" . sprintf(_("The following scenarios are commonly reported as bad pages, but they are not. If either of the below are true, hit '%s' below and continue proofreading the page."), _("Cancel")) . "</p>";
     echo "<ul>";
     echo "<li>" . _("<b>Blank image and text</b> - Books often have blank pages in them. If the image loads and is blank and there is no page text, this is a blank page, not a bad page. Please proofread it as a blank page per the guidelines.") . "</li>";
     echo "<li>" . _("<b>Garbled text</b> - Sometimes the optical character recognition (OCR) does a very poor job on an image and the text is more garbled than useful. Please treat these pages as type-ins and make the text match the image. These are frustrating, but not bad, pages.") . "</li>";
