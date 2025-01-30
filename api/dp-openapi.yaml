@@ -1212,7 +1212,7 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
-  /projects/{projectid}/pages/{pagename}/report_bad:
+  /projects/{projectid}/pages/{pagename}/reportbad:
     put:
       tags:
       - project

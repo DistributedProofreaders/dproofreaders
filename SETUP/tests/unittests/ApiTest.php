@@ -114,7 +114,7 @@ class ApiTest extends ProjectUtils
 
         $_SERVER["REQUEST_METHOD"] = "PUT";
         $request_body = ["reason" => $reason];
-        $path = "v1/projects/$projectid/pages/$page_name/report_bad";
+        $path = "v1/projects/$projectid/pages/$page_name/reportbad";
         $router = ApiRouter::get_router();
         return $router->route($path, []);
     }
