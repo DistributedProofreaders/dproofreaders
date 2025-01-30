@@ -31,17 +31,28 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
 
     echo "<h1>$header</h1>";
 
-    echo "<h2>"._("Common Fixes for Bad Pages. Try these first!")."</h2>";
+    echo "<p>" . _("If you are unable to proofread the page you were presented, you can mark it bad with this form to let the Project Manager know it requires attention. Before doing so, let's review what constitutes a bad page and some possible fixes you can try first.") . "</p>";
+
+    echo "<h2>" . _("Commonly Misidentified Bad Pages") . "</h2>";
+    echo "<p>" . sprintf(_("The following scenarios are commonly reported as bad pages, but they are not. If either of the below are true, hit '%s' below and continue proofreading the page."), _("Cancel")) . "</p>";
     echo "<ul>";
-    echo "<li>"._("First, we need to look at what a bad page really is.  Remember this is proofreading so you may see line breaks after every word.  A column may seem to have text missing but all you may need to do is look further down in the text, sometimes the columns may not wrap properly.  There may actually be a portion of the text missing but not all of it.  In these circumstances as well as similiar ones you would want to proofread the page like normal.  Move the text where it needs to be, type in any missing text, etc...  These would <b>not</b> be bad pages.")."</li>\n";
-    // xgettext:no-php-format
-    echo "<li>"._("Sometimes, the image may not show up due to technical problems with your browser.  Depending upon your browser there are many ways to try to reload that image.  For example, in Internet Explorer you can right click on the image & left click Show Image or Refresh.  This 90% of the time causes the image to then display.  Again, this would <b>not</b> be a bad page.")."</li>\n";
-    echo "<li>"._("Occasionally, you may come across a page that has so many mistakes in the optical character recognition (OCR) that you may think it is a bad page that needs to be re-OCRed.  However, this is what you are there for.  You may want to copy it into your local word editing program (eg: Microsoft Word, StarOffice, vi, etc.) and make the changes there & copy them back into the editor.")."</li>\n";
-    echo "<li>".sprintf(_("Lastly, checking out our common solutions thread may also help you with making sure the report is as correct as possible.  Here's a link to it <a %s>here</a>."), "href='" . get_url_to_view_topic(1659) . "' target='_new'") ."</li>\n";
-    echo "<li>"._("If you've made sure that nothing is going wrong with your computer and you still think it is a bad page please let us know by filling out the information below.  However, if you are at the least bit hesitant that it may not actually be a bad page please do not mark it so & just hit Cancel on the form above.  Marking pages bad when they really aren't takes time away from the project managers so we want to make sure they don't spend their entire time correcting & adding pages back to the project that aren't bad.") . "</li>\n";
+    echo "<li>" . _("<b>Blank image and text</b> - Books often have blank pages in them. If the image loads and is blank and there is no page text, this is a blank page, not a bad page. Please proofread it as a blank page per the guidelines.") . "</li>";
+    echo "<li>" . _("<b>Garbled text</b> - Sometimes the optical character recognition (OCR) does a very poor job on an image and the text is more garbled than useful. Please treat these pages as type-ins and make the text match the image. These are frustrating, but not bad, pages.") . "</li>";
     echo "</ul>";
 
+    echo "<h2>" . _("Issues and Possible Fixes") . "</h2>";
+    echo "<ul>";
+    echo "<li>" . sprintf(_("<b>%s</b> - If the page text loaded but no image is visible, it might be a missing image. Sometimes, the image may not show up due to technical problems with your browser. Saving the page as 'In Progress' and opening it back up can often resolve this issue. If this doesn't fix the problem, please report it as a bad page."), _("Missing Image")) . "</li>\n";
+    echo "<li>" . sprintf(_("<b>%s</b> - If the image loads and has text on it, but no page text is visible it's a bad page."), _("Missing Text")) . "</li>\n";
+    echo "<li>" . sprintf(_("<b>%s</b> - If the image loads and has text on it and in no way matches the text that was loaded, it's a bad page."), _("Image/Text Mismatch")) . "</li>\n";
+    echo "<li>" . sprintf(_("<b>%s</b> - If the image loads but it looks corrupted in some way, as if the image was not saved correctly, it's a bad page."), _("Corrupted Image")) . "</li>\n";
+    echo "</ul>";
+
+    echo "<p>" . sprintf(_("Rarely there are other issues that could be considered a bad page, but please review the first section for misidentified pages before reporting them as <b>%s</b>."), _("Other")) . "</li>\n";
+
     echo "<h2>" . _("Submit a Bad Page Report") . "</h2>";
+    echo "<li>" . sprintf(_("If you still think it is a bad page, please let us know by filling out the information below. If not, hit %s."), _("Cancel")) . "</li>\n";
+
     echo "<form action='report_bad_page.php' method='post'>\n";
     $ppage->echo_hidden_fields();
     echo "<input type='hidden' name='submitted' value='true'>\n";
