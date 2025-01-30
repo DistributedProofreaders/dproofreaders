@@ -66,12 +66,11 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
     echo "</select>";
     echo "</p>";
 
-    echo "<p><b>" . _("What to do") . ":</b>";
+    echo "<p><b>" . _("What to do") . ":</b></p>";
     echo "<div style='padding-left: 2em'>";
     echo "<input name='redirect_action' value='proof' type='radio'> " . _("Continue Proofreading") . "<br>";
     echo "<input name='redirect_action' value='quit' checked type='radio'> " . _("Stop Proofreading");
     echo "</div>";
-    echo "</p>";
 
     echo "<p>";
     echo "<input type='submit' value='".attr_safe(_("Submit Report"))."'> ";
