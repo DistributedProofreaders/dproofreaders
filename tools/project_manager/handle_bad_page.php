@@ -193,7 +193,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
         }
 
         if (!empty($b_code)) {
-            echo "<b>" . _("Reason") . ":</b> {$PAGE_BADNESS_REASONS[$b_code]["string"]}</br>";
+            echo "<b>" . _("Reason") . ":</b> " . $PAGE_BADNESS_REASONS[$b_code]["string"] . "<br>";
         }
         echo "</p>";
     }
