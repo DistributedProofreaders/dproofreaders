@@ -905,7 +905,7 @@ function api_v1_project_page_report_bad(string $method, array $data, array $quer
         }
         $proof_project_page->markAsBad($pguser, $reason_key);
     } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw new BadRequest($exception->getMessage(), $exception->getCode());
     } catch (UserAccessException $exception) {
         throw new ForbiddenError($exception->getMessage(), $exception->getCode());
     }
