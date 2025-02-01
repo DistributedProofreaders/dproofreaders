@@ -892,14 +892,9 @@ function api_v1_project_page_report_bad(string $method, array $data, array $quer
         $proof_project_page = new ProofProjectPage($proof_project, $project_page);
 
         $reason_string = receive_data_from_request_body("reason");
-        // can't use array_find_key() yet
-        $reason_key = null;
-        foreach ($PAGE_BADNESS_REASONS as $key => $value) {
-            if ($value["name"] === $reason_string) {
-                $reason_key = $key;
-                break;
-            }
-        }
+        $reason_key = array_find_key($PAGE_BADNESS_REASONS, function (array $value) use ($reason_string) {
+            return $value["name"] === $reason_string;
+        });
         if (null === $reason_key) {
             throw new InvalidValue("$reason_string is not a valid badness reason");
         }
