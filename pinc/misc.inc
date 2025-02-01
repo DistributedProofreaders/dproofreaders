@@ -797,7 +797,12 @@ function echo_html_comment(string $comment_body): void
 /**
  * Return TRUE iff $subject starts with $prefix.
  *
- * Prefer using `str_starts_with`.
+ * Prefer using `str_starts_with()`.
+ *
+ * TODO: After upgrade to PHP 8 replace uses of `startswith()` with
+ * `str_starts_with()` and deprecate this function for a release.
+ * We can't do this prior, even with the polyfill, because some CI scripts
+ * use it but don't autoload composer deps.
  */
 function startswith(string $subject, string $prefix): bool
 {
@@ -815,13 +820,19 @@ function startswithnocase(string $subject, string $prefix): bool
 /**
  * Return TRUE iff $subject ends with $suffix.
  *
- * Prefer using `str_ends_with`.
+ * Prefer using `str_ends_with()`.
+ *
+ * TODO: After upgrade to PHP 8 replace uses of `endswith()` with
+ * `str_ends_with()` and deprecate this function for a release.
+ * We can't do this prior, even with the polyfill, because some CI scripts
+ * use it but don't autoload composer deps.
  */
 function endswith(string $subject, string $suffix): bool
 {
     return (substr($subject, -strlen($suffix)) == $suffix);
 }
 
+// TODO: After upgrade to PHP 8, remove this
 if (!function_exists('str_contains')) {
     // str_contains() now exists in PHP8
     function str_contains($haystack, $needle)
@@ -1706,6 +1717,7 @@ class NotImplementedException extends BadMethodCallException
 {
 }
 
+// TODO: After upgrade to PHP 8, remove this
 // ValueError exists in PHP 8 but not earlier
 if (!class_exists('\ValueError')) {
     class ValueError extends \Error
