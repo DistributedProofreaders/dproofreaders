@@ -797,16 +797,14 @@ function echo_html_comment(string $comment_body): void
 /**
  * Return TRUE iff $subject starts with $prefix.
  *
- * Prefer using `str_starts_with()`.
+ * This function is deprecated, use `str_starts_with()` instead.
  *
- * TODO: After upgrade to PHP 8 replace uses of `startswith()` with
- * `str_starts_with()` and deprecate this function for a release.
- * We can't do this prior, even with the polyfill, because some CI scripts
- * use it but don't autoload composer deps.
+ * @deprecated
  */
 function startswith(string $subject, string $prefix): bool
 {
-    return (strncmp($subject, $prefix, strlen($prefix)) == 0);
+    trigger_error("startswith() is deprecated, use str_starts_with() instead", E_USER_DEPRECATED);
+    return str_starts_with($subject, $prefix);
 }
 
 /**
@@ -820,16 +818,14 @@ function startswithnocase(string $subject, string $prefix): bool
 /**
  * Return TRUE iff $subject ends with $suffix.
  *
- * Prefer using `str_ends_with()`.
+ * This function is deprecated, use `str_ends_with()` instead.
  *
- * TODO: After upgrade to PHP 8 replace uses of `endswith()` with
- * `str_ends_with()` and deprecate this function for a release.
- * We can't do this prior, even with the polyfill, because some CI scripts
- * use it but don't autoload composer deps.
+ * @deprecated
  */
 function endswith(string $subject, string $suffix): bool
 {
-    return (substr($subject, -strlen($suffix)) == $suffix);
+    trigger_error("endswith() is deprecated, use str_ends_with() instead", E_USER_DEPRECATED);
+    return str_ends_with($subject, $suffix);
 }
 
 /** @param string[] $strings */
@@ -1037,7 +1033,7 @@ function get_filelist($dirpath, $validext = [], $with_path = false)
             if ($filename_ok) {
                 break;
             }
-            $filename_ok = endswith($f, $ext);
+            $filename_ok = str_ends_with($f, $ext);
         }
         if ($filename_ok) {
             $filelist[] = $with_path ? "$dirpath/$f" : $f;
@@ -1143,7 +1139,7 @@ function validate_zip_file(string $file_path, bool $ignore_extension_check = fal
         throw new ZipException("no file");
     }
 
-    if (!$ignore_extension_check && !endswith($file_path, '.zip')) {
+    if (!$ignore_extension_check && !str_ends_with($file_path, '.zip')) {
         throw new ZipException("wrong extension");
     }
 
@@ -1271,7 +1267,7 @@ function remove_common_basedir_from_zip(string $path_to_zip): void
     if ($first_solidus !== false) {
         $basedir_len = $first_solidus + 1;
         $basedir = substr($first_file, 0, $basedir_len);
-        if (startswith($filenames[$last_index], $basedir)) {
+        if (str_starts_with($filenames[$last_index], $basedir)) {
             // we have a common subdirectory
             if (strlen($first_file) === $basedir_len) {
                 // it is the dir name itself - delete it and remove basedir from others

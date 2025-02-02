@@ -116,13 +116,13 @@ function get_special_day($special_code)
     }
 
     // very light blue for birthday books still available after the day
-    if (startswith($special_code, 'Birthday')) {
+    if (str_starts_with($special_code, 'Birthday')) {
         $special_day = $specials_array['_BIRTHDAY_RECENT'];
     }
 
     // slightly richer blue for birthday books when today IS the day
     $bday = date('md');
-    if (startswith($special_code, "Birthday $bday")) {
+    if (str_starts_with($special_code, "Birthday $bday")) {
         $special_day = $specials_array['_BIRTHDAY_TODAY'];
     }
 

@@ -439,8 +439,8 @@ class Project
         }
 
         if ($this->special_code) {
-            if (startswith($this->special_code, 'Birthday') ||
-                 startswith($this->special_code, 'Otherday')
+            if (str_starts_with($this->special_code, 'Birthday') ||
+                 str_starts_with($this->special_code, 'Otherday')
             ) {
                 if (preg_match("/\w+ (\d{2})(\d{2})/", $this->special_code, $matches)) {
                     if (!checkdate((int)$matches[1], (int)$matches[2], 2000)) {
@@ -1777,7 +1777,7 @@ class Project
     private function delete_file($path)
     {
         // ensure $path is inside $this->dir
-        if (!startswith(realpath($path), realpath($this->dir))) {
+        if (!str_starts_with(realpath($path), realpath($this->dir))) {
             throw new UnexpectedValueException("$path is not in $this->dir");
         }
         if (is_dir($path)) {

@@ -93,7 +93,7 @@ function api_v1_projects(string $method, array $data, array $query_params)
         $sort_fields = explode(",", $query_params["sort"]);
         foreach ($sort_fields as $field) {
             $order = "ASC";
-            if (startswith($field, "-")) {
+            if (str_starts_with($field, "-")) {
                 $order = "DESC";
                 $field = substr($field, 1);
             }

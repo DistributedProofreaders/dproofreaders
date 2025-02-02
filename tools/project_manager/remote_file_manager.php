@@ -309,7 +309,7 @@ function do_upload(): void
     // Files uploaded to the commons folder should be prefixed with the user's
     // name. This helps identify where the file comes from. We don't prevent
     // the file from being renamed later to remove it, however.
-    if (startswith($curr_abspath, $commons_dir) || get_access_mode($pguser) === 'common') {
+    if (str_starts_with($curr_abspath, $commons_dir) || get_access_mode($pguser) === 'common') {
         $file_prefix = $despecialed_username . "_";
     } else {
         $file_prefix = "";
@@ -705,17 +705,17 @@ function is_valid_move_destination(string $dir): bool
     global $commons_rel_dir, $users_rel_dir, $home_dirname;
 
     // Users may move files to the commons directory or its subdirectories
-    if (startswith($dir, $commons_rel_dir)) {
+    if (str_starts_with($dir, $commons_rel_dir)) {
         return true;
     }
 
     // Users may move to subdirectories in their own directory
-    if (startswith($dir, "$home_dirname/")) {
+    if (str_starts_with($dir, "$home_dirname/")) {
         return true;
     }
 
     // Users may not move files anywhere else except the Users dir.
-    if (!startswith($dir, "$users_rel_dir/")) {
+    if (!str_starts_with($dir, "$users_rel_dir/")) {
         return false;
     }
     $rel = substr($dir, strlen("$users_rel_dir/"));
@@ -780,8 +780,8 @@ function get_current_dir_relative_path(string $home_dirname): string
 
     // Only SAs are allowed access to other home folders.
     if (!user_may_access_all_upload_dirs()) {
-        if (!startswith("$abspath/", "$abs_uploads_dir/$home_dirname/") &&
-            !startswith("$abspath/", "$abs_uploads_dir/$commons_rel_dir/")) {
+        if (!str_starts_with("$abspath/", "$abs_uploads_dir/$home_dirname/") &&
+            !str_starts_with("$abspath/", "$abs_uploads_dir/$commons_rel_dir/")) {
             fatal_error(_("You are restricted to your home folder, the Commons folder, and their descendants."));
         }
     }

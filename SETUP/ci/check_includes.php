@@ -61,31 +61,31 @@ $ok_includes_site_structure = [
 
 echo "Checking files for include() best practices...\n";
 
-$basedir .= endswith($basedir, "/") ? "" : "/";
+$basedir .= str_ends_with($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
 foreach ($files as $file) {
     // If it's in the SETUP directory, skip it
-    if (startswith($file, "SETUP/")) {
+    if (str_starts_with($file, "SETUP/")) {
         continue;
     }
 
     // If it's in the vendor directory, skip it
-    if (startswith($file, "vendor/")) {
+    if (str_starts_with($file, "vendor/")) {
         continue;
     }
 
     // If it's in the phpstan cache directory, skip it
-    if (startswith($file, ".phpstan.cache/")) {
+    if (str_starts_with($file, ".phpstan.cache/")) {
         continue;
     }
 
     // If it's in the node_modules directory, skip it
-    if (startswith($file, "node_modules/")) {
+    if (str_starts_with($file, "node_modules/")) {
         continue;
     }
 
     // If it's a 3rdparty file, skip it
-    if (startswith($file, "pinc/3rdparty/mediawiki/")) {
+    if (str_starts_with($file, "pinc/3rdparty/mediawiki/")) {
         continue;
     }
 
@@ -94,12 +94,12 @@ foreach ($files as $file) {
 
     // All .php files should include base.inc, but no .inc file should
     if (file_includes_base("$basedir/$file")) {
-        if (endswith($file, ".inc")) {
+        if (str_ends_with($file, ".inc")) {
             abort($file, ".inc files should not include base.inc");
         }
     } elseif (in_array($file, $ok_not_includes_base)) {
         // it's in our exception list
-    } elseif (endswith($file, ".php")) {
+    } elseif (str_ends_with($file, ".php")) {
         abort($file, "file does not include base.inc");
     }
 
@@ -129,7 +129,7 @@ function get_all_php_files($basedir)
     $files = new RecursiveIteratorIterator($dir_iter);
     foreach ($files as $file_info) {
         $file = $file_info->getPathname();
-        if (!endswith($file, ".php") && !endswith($file, ".inc")) {
+        if (!str_ends_with($file, ".php") && !str_ends_with($file, ".inc")) {
             continue;
         }
         $php_files[] = str_replace($basedir, "", $file);

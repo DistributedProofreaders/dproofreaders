@@ -130,7 +130,7 @@ class TableDocumentation
         $should_delete_this_part = false;
 
         foreach ($lines as $index => $line) {
-            if (startswith($line, '## `')) {
+            if (str_starts_with($line, '## `')) {
                 // 01234         10
                 // ## `column_name`
                 $column_name = substr($line, 4, -1);
@@ -171,7 +171,7 @@ class TableDocumentation
         $finished_table = false;
 
         foreach ($lines as $index => $line) {
-            if (startswith($line, '|') && !$finished_table) {
+            if (str_starts_with($line, '|') && !$finished_table) {
                 $reached_table = true;
             } elseif ($reached_table && !$finished_table) {
                 $finished_table = true;
@@ -197,7 +197,7 @@ class TableDocumentation
         $first_table_lines = [];
 
         foreach ($lines as $index => $line) {
-            if (startswith($line, '|')) {
+            if (str_starts_with($line, '|')) {
                 $first_table_lines[] = $line;
             } elseif (count($first_table_lines) > 0) {
                 break;

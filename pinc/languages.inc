@@ -138,7 +138,7 @@ function get_installed_system_locales()
     // only include UTF-8 locales, but strip the .utf8 off the end
     $utf8_locales = [];
     foreach ($system_locales as $locale) {
-        if (endswith($locale, '.utf8')) {
+        if (str_ends_with($locale, '.utf8')) {
             $utf8_locales[] = substr($locale, 0, strpos($locale, '.utf8'));
         }
     }

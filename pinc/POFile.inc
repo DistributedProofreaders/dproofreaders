@@ -63,8 +63,8 @@ class POFile
         foreach ($iterator as $block) {
             // if the block is a saved (but not used) fuzzy translation,
             // skip it
-            if (startswith($block, "#, fuzzy") or
-                startswith($block, "#~ ")) {
+            if (str_starts_with($block, "#, fuzzy") or
+                str_starts_with($block, "#~ ")) {
                 continue;
             }
 

@@ -310,8 +310,8 @@ class ProjectInfoHolder
         ];
 
         // some special days are ... specialer
-        if (startswith($this->project->special_code, "Otherday") ||
-            startswith($this->project->special_code, "Birthday")) {
+        if (str_starts_with($this->project->special_code, "Otherday") ||
+            str_starts_with($this->project->special_code, "Birthday")) {
             $this->project->special_code .= " {$_POST['bdaymonth']}{$_POST['bdayday']}";
         } elseif (empty($this->project->special_code) &&
                   !empty("{$_POST['bdaymonth']}{$_POST['bdayday']}")) {
