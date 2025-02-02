@@ -44,8 +44,6 @@ function dpsession_resume()
 
     if (isset($_SESSION['pguser']) && !empty($_SESSION['pguser'])) {
         // Refresh the cookie
-        // (session_start() used to do this for us,
-        // but they changed that in PHP 4.3.9)
         dp_setcookie(
             ini_get('session.name'),
             session_id(),
@@ -126,94 +124,93 @@ function _update_user_activity_time($update_login_time_too)
     DPDatabase::query($sql);
 }
 
-function _session_set_handlers_and_start()
+class DPSessionHandler implements SessionHandlerInterface
 {
-    if (session_id()) {
-        // session_start() has already been called
-    } else {
-        session_set_save_handler(
-            "mysql_session_open",
-            "mysql_session_close",
-            "mysql_session_select",
-            "mysql_session_write",
-            "mysql_session_destroy",
-            "mysql_session_garbage_collect"
+    public function open($session_path, $session_name): bool
+    {
+        // DB open/close is handled elsewhere, nothing to do here
+        return true;
+    }
+
+    public function close(): bool
+    {
+        // DB open/close is handled elsewhere, nothing to do here
+        return true;
+    }
+
+    #[\ReturnTypeWillChange]
+    public function read($sid)
+    {
+        $sql = sprintf(
+            "SELECT value FROM sessions WHERE sid = '%s' AND expiration > %d",
+            DPDatabase::escape($sid),
+            time()
+        );
+        $result = DPDatabase::query($sql);
+        $row = mysqli_fetch_assoc($result);
+        if ($row) {
+            return $row["value"];
+        } else {
+            return "";
+        }
+    }
+
+    public function write($sid, $value): bool
+    {
+        $expiration = time() + ini_get("session.cookie_lifetime");
+
+        $query = sprintf(
+            "
+            INSERT INTO sessions
+                (sid, expiration, value)
+            VALUES
+                ('%s', %d, '%s')
+            ON DUPLICATE KEY UPDATE
+                expiration = %d,
+                value = '%s'
+            ",
+            substr(DPDatabase::escape($sid), 0, 32), // truncate to column size
+            $expiration,
+            DPDatabase::escape($value),
+            $expiration,
+            DPDatabase::escape($value)
+        );
+        $result = DPDatabase::query($query);
+        return $result === false ? false : true;
+    }
+
+    public function destroy($sid): bool
+    {
+        $result = DPDatabase::query(sprintf(
+            "DELETE FROM sessions WHERE sid = '%s'",
+            DPDatabase::escape($sid)
+        ));
+        return $result === false ? false : true;
+    }
+
+    #[\ReturnTypeWillChange]
+    public function gc($lifetime)
+    {
+        DPDatabase::query(
+            sprintf(
+                "DELETE FROM sessions WHERE expiration < %d",
+                time() - $lifetime
+            )
         );
 
-        session_start();
+        return DPDatabase::affected_rows();
     }
 }
 
-function mysql_session_open($session_path, $session_name)
+function _session_set_handlers_and_start()
 {
-    // We've already opened the database so let's not open it again
-    return true;
-}
-
-function mysql_session_close()
-{
-    // We use a persistent connection so we don't need to worry about closing it
-    return true;
-}
-
-function mysql_session_select($sid)
-{
-    $sql = sprintf(
-        "SELECT value FROM sessions WHERE sid = '%s' AND expiration > %d",
-        DPDatabase::escape($sid),
-        time()
-    );
-    $result = DPDatabase::query($sql);
-    $row = mysqli_fetch_assoc($result);
-    if ($row) {
-        return $row["value"];
-    } else {
-        return "";
+    static $session_handler = null;
+    if (! $session_handler) {
+        $session_handler = new DPSessionHandler();
+        session_set_save_handler($session_handler);
     }
-}
 
-function mysql_session_write($sid, $value)
-{
-    $expiration = time() + ini_get("session.cookie_lifetime");
-
-    $query = sprintf(
-        "
-        INSERT INTO sessions
-            (sid, expiration, value)
-        VALUES
-            ('%s', %d, '%s')
-        ON DUPLICATE KEY UPDATE
-            expiration = %d,
-            value = '%s'
-        ",
-        substr(DPDatabase::escape($sid), 0, 32), // truncate to column size
-        $expiration,
-        DPDatabase::escape($value),
-        $expiration,
-        DPDatabase::escape($value)
-    );
-    $result = DPDatabase::query($query);
-    return $result;
-}
-
-function mysql_session_destroy($sid)
-{
-    $result = DPDatabase::query(sprintf(
-        "DELETE FROM sessions WHERE sid = '%s'",
-        DPDatabase::escape($sid)
-    ));
-    return $result;
-}
-
-function mysql_session_garbage_collect($lifetime)
-{
-    $result = DPDatabase::query(
-        sprintf(
-            "DELETE FROM sessions WHERE expiration < %d",
-            time() - $lifetime
-        )
-    );
-    return $result;
+    session_start();
 }
 
 
