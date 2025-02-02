@@ -1707,11 +1707,3 @@ function validate_csrf_token(): void
 class NotImplementedException extends BadMethodCallException
 {
 }
-
-// TODO: After upgrade to PHP 8, remove this
-// ValueError exists in PHP 8 but not earlier
-if (!class_exists('\ValueError')) {
-    class ValueError extends \Error
-    {
-    }
-}
