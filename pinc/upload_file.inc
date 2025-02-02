@@ -304,7 +304,7 @@ function is_valid_filename($filename, $restrict_extension = false)
     }
 
     // If we want to restrict the filename extension, check that
-    if ($restrict_extension !== false && !endswith($filename, $restrict_extension)) {
+    if ($restrict_extension !== false && !str_ends_with($filename, $restrict_extension)) {
         return false;
     }
 
