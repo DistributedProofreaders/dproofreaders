@@ -40,7 +40,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         }
     }
 
-    if (!endswith($message, "\n")) {
+    if (!str_ends_with($message, "\n")) {
         $message .= "\n";
     }
 

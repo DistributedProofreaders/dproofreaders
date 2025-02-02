@@ -22,11 +22,11 @@ $skip_file_prefixes = [
 
 echo "Checking PHP files for security issues...\n";
 
-$basedir .= endswith($basedir, "/") ? "" : "/";
+$basedir .= str_ends_with($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
 foreach ($files as $file) {
     foreach ($skip_file_prefixes as $prefix) {
-        if (startswith($file, $prefix)) {
+        if (str_starts_with($file, $prefix)) {
             continue 2;
         }
     }
@@ -57,7 +57,7 @@ function get_all_php_files(string $basedir): array
     $files = new RecursiveIteratorIterator($dir_iter);
     foreach ($files as $file_info) {
         $file = $file_info->getPathname();
-        if (!endswith($file, ".php") && !endswith($file, ".inc")) {
+        if (!str_ends_with($file, ".php") && !str_ends_with($file, ".inc")) {
             continue;
         }
         $php_files[] = str_replace($basedir, "", $file);

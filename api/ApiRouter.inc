@@ -39,7 +39,7 @@ class ApiRouter
         foreach ($parts as $part) {
             // If this is a param placeholder, confirm there is a validator
             // for it.
-            if (startswith($part, ":")) {
+            if (str_starts_with($part, ":")) {
                 assert(
                     isset($this->_validators[$part]),
                     "No validator specified for $part"
@@ -95,7 +95,7 @@ class ApiRouter
     private function get_validator(TrieNode $node): array
     {
         foreach (array_keys($node->children) as $route) {
-            if (startswith($route, ":")) {
+            if (str_starts_with($route, ":")) {
                 return [$route, $this->_validators[$route]];
             }
         }

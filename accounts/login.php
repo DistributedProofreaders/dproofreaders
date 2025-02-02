@@ -102,8 +102,8 @@ dpsession_begin($userNM);
 // To avoid this case we ignore $destination if it points to login_failure.php.
 // send them to the correct page. We also ignore $destination if it is
 // default.php and intentionally redirect them to the Activity Hub.
-if (!empty($destination) && !endswith($destination, "login_failure.php") &&
-    !endswith($destination, "default.php") && !endswith("$code_url/", $destination)) {
+if (!empty($destination) && !str_ends_with($destination, "login_failure.php") &&
+    !str_ends_with($destination, "default.php") && !str_ends_with("$code_url/", $destination)) {
     // They were heading to $destination (via a bookmark, say)
     // when we sidetracked them into the login pages.
     // Make sure they get to where they were going.

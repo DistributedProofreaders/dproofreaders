@@ -598,7 +598,7 @@ function tds_for_bad_bytes($raw)
 
     $tds .= "<td>$raw</td>";
 
-    if (startswith($raw, '&')) {
+    if (str_starts_with($raw, '&')) {
         // It's a named or numeric character reference
         // so just show the reference itself,
         // rather than converting it to hex.

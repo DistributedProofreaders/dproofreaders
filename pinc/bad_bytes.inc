@@ -819,7 +819,7 @@ function find_bad_byte_sequences_in_text(&$text)
         //     &#62;  &#062; &#0062  ...
         // Thus, we handle such cases differently.
 
-        if (startswith($match, '&#')) {
+        if (str_starts_with($match, '&#')) {
             @$occurrences[$match] += 1;
             // So if a page has (say) both &#62; and &#x3e;,
             // those will show up separately in $occurrences.
@@ -827,7 +827,7 @@ function find_bad_byte_sequences_in_text(&$text)
         } elseif (array_key_exists($match, $_bad_byte_sequences)) {
             // Yes it is.
             @$occurrences[$match] += 1;
-        } elseif (startswith($match, '&')) {
+        } elseif (str_starts_with($match, '&')) {
             // It satisfies the syntax of an HTML character entity reference,
             // but there's no entry for it in $_bad_byte_sequences.
             // So we assume it's meant literally.
@@ -857,10 +857,10 @@ function get_remarks_for_bad_byte_sequence($raw)
     if (BOM === $raw) {
         return ["", "Byte Order Mark"];
     }
-    if (startswith($raw, '&#')) {
+    if (str_starts_with($raw, '&#')) {
         // This is a numeric character reference.
 
-        if (startswith($raw, '&#x')) {
+        if (str_starts_with($raw, '&#x')) {
             $hex = substr($raw, 3, -1);
             $code_point = intval($hex, 16);
         } else {

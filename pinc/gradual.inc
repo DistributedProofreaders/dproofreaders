@@ -366,7 +366,7 @@ function encourage_highest_round(?string $username, $round_id = null): void
         $quiz_requirements = [];
         foreach ($uao->minima_table as $criterion_code => $tuple) {
             // skip checking any quiz criteria for pass
-            if (startswith($criterion_code, 'quiz/')) {
+            if (str_starts_with($criterion_code, 'quiz/')) {
                 $quiz_requirements[] = $criterion_code;
                 continue;
             }

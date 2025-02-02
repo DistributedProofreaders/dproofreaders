@@ -609,7 +609,7 @@ function copy_pages(
         // if it's a time field (which is an integer), set the value to 0
         // we could do a much more robust check by querying the database
         // for the column type but that seems overkill
-        elseif (endswith($col, "_time")) {
+        elseif (str_ends_with($col, "_time")) {
             $items_array[] = 0;
         }
         // otherwise use an empty string

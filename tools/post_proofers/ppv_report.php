@@ -615,21 +615,21 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
 
     foreach ($_POST as $key => $value) {
         $feature_type = substr($key, 4);
-        if (startswith($key, "bsc_") && isset($feature_label_map[$feature_type])) {
+        if (str_starts_with($key, "bsc_") && isset($feature_label_map[$feature_type])) {
             $project_basic_counter++;
             $pping_complexity .= "\n    " . "Basic " . $feature_label_map[$feature_type];
-        } elseif (startswith($key, "avg_") && isset($feature_label_map[$feature_type])) {
+        } elseif (str_starts_with($key, "avg_") && isset($feature_label_map[$feature_type])) {
             $project_average_counter++;
             $pping_complexity .= "\n    " . "Average " . $feature_label_map[$feature_type];
-        } elseif (startswith($key, "cpx_") && isset($feature_label_map[$feature_type])) {
+        } elseif (str_starts_with($key, "cpx_") && isset($feature_label_map[$feature_type])) {
             $project_complex_counter++;
             $pping_complexity .= "\n    " . "Complex " . $feature_label_map[$feature_type];
-        } elseif (startswith($key, "hrd_") && isset($feature_label_map[$feature_type])) {
+        } elseif (str_starts_with($key, "hrd_") && isset($feature_label_map[$feature_type])) {
             $project_complex_counter++;
             $pping_complexity .= "\n    " . $feature_label_map[$feature_type];
-        } elseif (startswith($key, "e1_") && !empty($value)) {
+        } elseif (str_starts_with($key, "e1_") && !empty($value)) {
             $level_1_errors += $value;
-        } elseif (startswith($key, "e2_") && !empty($value)) {
+        } elseif (str_starts_with($key, "e2_") && !empty($value)) {
             $level_2_errors += $value;
         }
     }

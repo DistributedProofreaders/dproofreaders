@@ -67,11 +67,11 @@ if ($action == 'update_oneshot') {
         }
 
         // validate the URLs
-        if ($_POST['info_url'] && !startswith($_POST['info_url'], "http")) {
+        if ($_POST['info_url'] && !str_starts_with($_POST['info_url'], "http")) {
             $errmsgs .= _("Info URL is not a valid URL -- ensure it starts with http:// or https://.") . "<br>";
         }
 
-        if ($_POST['image_url'] && !startswith($_POST['image_url'], "http")) {
+        if ($_POST['image_url'] && !str_starts_with($_POST['image_url'], "http")) {
             $errmsgs .= _("Image URL is not a valid URL -- ensure it starts with http:// or https://.") . "<br>";
         }
 

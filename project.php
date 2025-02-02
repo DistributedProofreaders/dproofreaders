@@ -458,8 +458,8 @@ function do_project_info_table(): void
 
     if (!empty($project->special_code)) {
         $spec_code = $project->special_code;
-        if (startswith($spec_code, 'Birthday') ||
-            startswith($spec_code, 'Otherday')
+        if (str_starts_with($spec_code, 'Birthday') ||
+            str_starts_with($spec_code, 'Otherday')
         ) {
             $spec_display = $spec_code;
         } else {
