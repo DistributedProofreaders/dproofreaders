@@ -27,7 +27,7 @@ function lint_json()
 
 N=$(nproc)
 # shellcheck disable=SC2044
-for file in $(find $BASE_DIR -name "*.json" -not -path "*/node_modules/*" -not -path "*/vendor/*"); do
+for file in $(find "$BASE_DIR" -name "*.json" -not -path "*/node_modules/*" -not -path "*/vendor/*"); do
     lint_json "$file" &
     # Run at most N at a time.
     [[ $(jobs -r -p | wc -l) -ge $N ]] && wait -n

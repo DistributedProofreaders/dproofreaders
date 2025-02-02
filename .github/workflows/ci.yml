@@ -7,7 +7,7 @@ jobs:
         cfg:
           - { os: 'ubuntu-20.04', php: '7.4' }
           - { os: 'ubuntu-22.04', php: '8.1' }
-          - { os: 'ubuntu-22.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         cfg:
-          - { os: 'ubuntu-22.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -41,7 +41,7 @@ jobs:
         cfg:
           - { os: 'ubuntu-20.04', php: '7.4' }
           - { os: 'ubuntu-22.04', php: '8.1' }
-          - { os: 'ubuntu-22.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -63,7 +63,7 @@ jobs:
   phpstan:
     # Only run on a single version of Ubuntu/PHP to save GitHub CPU time.
     # PHPStan will perform the same checks irrespective of the platform.
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -82,7 +82,7 @@ jobs:
     # The CSS tests don't use PHP, and the other tests either just check
     # the source code for regexps, or check for data consistency in the
     # character tables.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -108,7 +108,7 @@ jobs:
         cfg:
           - { os: 'ubuntu-20.04', php: '7.4' }
           - { os: 'ubuntu-22.04', php: '8.1' }
-          - { os: 'ubuntu-22.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.3' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
