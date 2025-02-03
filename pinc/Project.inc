@@ -339,7 +339,7 @@ class Project
 
         $this->nameofwork = $marc_record->title;
         $this->authorsname = $marc_record->author;
-        $this->language = $marc_record->language;
+        $this->languages = array_slice(explode(", ", $marc_record->language), 0, 2);
         $this->genre = $marc_record->literary_form;
     }
 
