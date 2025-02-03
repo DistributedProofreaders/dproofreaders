@@ -12,7 +12,7 @@ $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 include "./quiz_page.inc"; // qp_initial_page_text qp_sample_solution
 
 // Figure out what font to use
-if ($user_is_logged_in) {
+if (User::is_logged_in()) {
     [, $font_size, $font_family] = get_user_proofreading_font();
 
     $font_settings = "font-family: $font_family; ";

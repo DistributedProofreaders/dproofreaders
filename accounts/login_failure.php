@@ -15,7 +15,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'metarefresh.inc');
 
 // If the user is already logged in, send them to the Activity Hub
-if ($user_is_logged_in) {
+if (User::is_logged_in()) {
     metarefresh(0, "$code_url/activity_hub.php");
 }
 
