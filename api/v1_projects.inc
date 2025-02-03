@@ -899,6 +899,8 @@ function api_v1_project_page_report_bad(string $method, array $data, array $quer
             throw new InvalidValue("$reason_string is not a valid badness reason");
         }
         $proof_project_page->markAsBad($pguser, $reason_key);
+    } catch (ProjectTransitionException $exception) {
+        throw new UnexpectedError($exception->getMessage(), $exception->getCode());
     } catch (ProjectException $exception) {
         throw new BadRequest($exception->getMessage(), $exception->getCode());
     } catch (UserAccessException $exception) {
