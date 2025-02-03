@@ -880,6 +880,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
+/** @param array<string, string|string[]> $query_params */
 function api_v1_project_page_report_bad(string $method, array $data, array $query_params): void
 {
     global $pguser, $PAGE_BADNESS_REASONS;
