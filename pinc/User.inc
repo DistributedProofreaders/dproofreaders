@@ -418,6 +418,14 @@ class User
     }
 
     /**
+     * Is the user logged in?
+     */
+    public static function is_logged_in(): bool
+    {
+        return User::current_username() === null ? false : true;
+    }
+
+    /**
      * Load the current user object
      */
     public static function load_current(): ?User

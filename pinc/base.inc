@@ -40,7 +40,7 @@ if (!headers_sent()) {
 
 // If we don't have a database connection, don't try to resume the session.
 if (DPDatabase::get_connection()) {
-    $user_is_logged_in = dpsession_resume();
+    dpsession_resume();
 }
 
 configure_gettext(get_desired_language(), $dyn_locales_dir, $system_locales_dir);
@@ -124,12 +124,11 @@ function test_exception_handler($exception)
 
 function require_login()
 {
-    global $user_is_logged_in;
     global $code_url;
     global $relPath;
 
     // return if the user is already logged in
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         return;
     }
 

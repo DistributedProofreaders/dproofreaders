@@ -5,7 +5,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'forum_interface.inc');
 
-if ($user_is_logged_in) {
+if (User::is_logged_in()) {
     logout_forum_user();
 
     dpsession_end();

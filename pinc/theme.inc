@@ -622,10 +622,10 @@ function html_statsbar($nameofpage)
 
 function maybe_show_language_selector()
 {
-    global $code_url, $user_is_logged_in;
+    global $code_url;
 
     // if user is logged in, return instead of showing the drop-down
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         return;
     }
 

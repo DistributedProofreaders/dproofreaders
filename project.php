@@ -49,7 +49,7 @@ $title_for_theme = sprintf(_('"%s" project page'), $project->nameofwork);
 
 $title = $project->nameofwork;
 
-if ($user_is_logged_in && $mark_bookmark !== null) {
+if (User::is_logged_in() && $mark_bookmark !== null) {
     upi_set_bookmark($pguser, $project->projectid, $mark_bookmark);
 }
 
@@ -86,7 +86,7 @@ echo "<h1>" . get_bookmark_form() . html_safe($title) . "</h1>\n";
 
 maybe_output_new_proofer_project_message($project);
 
-if (!$user_is_logged_in) {
+if (!User::is_logged_in()) {
     // Guests see a reduced version of the project page.
 
     [$top_blurb, $bottom_blurb] = decide_blurbs();
@@ -98,7 +98,7 @@ if (!$user_is_logged_in) {
 
     echo "<br>\n";
     return;
-} else { // $user_is_logged_in
+} else {
     upi_set_t_latest_home_visit(
         $pguser,
         $project->projectid,
@@ -404,7 +404,6 @@ function do_blurb_box(?string $blurb): void
 function do_project_info_table(): void
 {
     global $project, $code_url;
-    global $user_is_logged_in;
     global $detail_level;
     global $pguser;
 
@@ -487,7 +486,7 @@ function do_project_info_table(): void
     }
 
     // We choose not to show guests anything involving users' names.
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         echo_row_a(_("Project Manager"), $project->username, true);
 
         if ($project->PPer) {
@@ -533,7 +532,7 @@ function do_project_info_table(): void
     // -------------------------------------------------------------------------
 
     // We choose not to show guests the word lists.
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         $good_bad = [
             'good' => _("Good Words"),
             'bad' => _("Bad Words"),
@@ -591,7 +590,7 @@ function do_project_info_table(): void
 
     // If the topic is only visible to logged-in users,
     // there's little point showing guests the link to it.
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         if (($state == PROJ_DELETE) && ($topic_id == "")) {
             echo_row_a(_("Forum"), _("The project has been deleted, and no discussion exists."), true);
         } else {
@@ -616,7 +615,7 @@ function do_project_info_table(): void
     // -------------------------------------------------------------------------
 
     // For now, we say that guests can't see page details or page browser
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
 
         if ($detail_level >= 4) {
             // We'll call do_page_table later, so we don't need the "Page Detail" link.
@@ -660,7 +659,7 @@ function do_project_info_table(): void
     // Personal data with respect to this project
 
     // If you're not logged in, we certainly can't show your personal data.
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         if ($round && $detail_level > 1) {
             recentlyproofed(0);
             recentlyproofed(1);
@@ -699,7 +698,7 @@ function do_project_info_table(): void
 
     // For now, we suppress Project Comments for guests.
     // (They might be confused by the instructions for proofreaders.)
-    if ($user_is_logged_in) {
+    if (User::is_logged_in()) {
         $comments = $project->comments;
 
         // insert e.g. templates and biographies
@@ -1788,8 +1787,7 @@ function do_smooth_reading(): void
             if (!$project->PPer_is_current_user) {
                 echo "<ul class='list-head'>";
                 // We don't allow guests to upload the results of smooth-reading.
-                global $user_is_logged_in;
-                if ($user_is_logged_in) {
+                if (User::is_logged_in()) {
                     echo "<li class='list-head'>";
                     echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
                     echo _("Upload a Smooth Read report") ;

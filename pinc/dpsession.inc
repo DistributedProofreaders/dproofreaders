@@ -7,6 +7,7 @@ ini_set('session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
 ini_set('session.cookie_secure', $use_secure_cookies);
 ini_set('session.cookie_samesite', 'Lax');
 
+global $pguser;
 $pguser = null;
 
 // -----------------------------------------------------------------------------
@@ -36,7 +37,7 @@ function dpsession_begin($userID)
  * global variable ($pguser) of that session, and return TRUE.
  * Otherwise, return FALSE.
  */
-function dpsession_resume()
+function dpsession_resume(): void
 {
     global $pguser;
 
@@ -78,8 +79,6 @@ function dpsession_resume()
             dp_setcookie('http_referer', '');
         }
     }
-
-    return $user_is_logged_in;
 }
 
 /**
