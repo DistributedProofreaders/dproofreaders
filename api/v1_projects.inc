@@ -845,14 +845,7 @@ function api_v1_project_wordcheck(string $method, array $data, array $query_para
 function api_v1_project_pickersets(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
-    $verbose_pickersets = [];
-    foreach ($project->get_pickersets() as $pickerset) {
-        $verbose_pickersets[] = [
-            "name" => $pickerset->name,
-            "subsets" => $pickerset->get_verbose_subsets(),
-        ];
-    }
-    return $verbose_pickersets;
+    return $project->get_verbose_pickersets();
 }
 
 /**
