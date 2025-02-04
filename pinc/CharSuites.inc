@@ -247,6 +247,18 @@ class CharSuites
 
 trait CharSuiteSet
 {
+    public function get_verbose_pickersets(): array
+    {
+        $verbose_pickersets = [];
+        foreach ($this->get_pickersets() as $pickerset) {
+            $verbose_pickersets[] = [
+                "name" => $pickerset->name,
+                "subsets" => $pickerset->get_verbose_subsets(),
+            ];
+        }
+        return $verbose_pickersets;
+    }
+
     /** @return PickerSet[] */
     public function get_pickersets(): array
     {
