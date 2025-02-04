@@ -247,6 +247,7 @@ class CharSuites
 
 trait CharSuiteSet
 {
+    /** @return array{name:string, subsets:array} */
     public function get_verbose_pickersets(): array
     {
         $verbose_pickersets = [];
