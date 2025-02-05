@@ -24,6 +24,7 @@ $router->add_validator(":storagekey", "validate_storage_key");
 // Add routes
 $router->add_route("GET", "v1/documents", "api_v1_documents");
 $router->add_route("GET", "v1/documents/:document", "api_v1_document");
+$router->add_route("GET", "v1/dictionaries", "api_v1_dictionaries");
 
 $router->add_route("GET", "v1/projects", "api_v1_projects");
 $router->add_route("POST", "v1/projects", "api_v1_project");
