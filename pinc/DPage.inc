@@ -461,13 +461,29 @@ function Page_clearRound(string $projectid, string $image, Round $round, string 
 
 // -----------------------------------------------------------------------------
 
+// The numeric values of the following array must not change as they are
+// saved in the database to indicate the bad page reason.
 $PAGE_BADNESS_REASONS = [
-    '',
-    _('Missing Image'),
-    _('Missing Text'),
-    _('Image/Text Mismatch'),
-    _('Corrupted Image'),
-    _('Other'),
+    1 => [
+        "name" => "missing_image",
+        "string" => _('Missing Image'),
+    ],
+    2 => [
+        "name" => "missing_text",
+        "string" => _('Missing Text'),
+    ],
+    3 => [
+        "name" => "image_text_mismatch",
+        "string" => _('Image/Text Mismatch'),
+    ],
+    4 => [
+        "name" => "corrupted_image",
+        "string" => _('Corrupted Image'),
+    ],
+    5 => [
+        "name" => "other",
+        "string" => _('Other'),
+    ],
 ];
 
 function Page_markAsBad(string $projectid, string $image, Round $round, string $user, int $reason): void

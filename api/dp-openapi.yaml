@@ -1212,6 +1212,41 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/pages/{pagename}/reportbad:
+    put:
+      tags:
+      - project
+      description: Mark a page as bad
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/pagename'
+      requestBody:
+        description: reason for badness
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  enum: [missing_image, missing_text, image_text_mismatch, corrupted_image, other]
+      responses:
+        200:
+          description: OK
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /stats/site:
     get:
       tags:

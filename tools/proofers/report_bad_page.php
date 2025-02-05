@@ -59,22 +59,18 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
 
     echo "<p><b>" . _("Reason") . ":</b> ";
     echo "<select name='reason' required>";
+    echo "<option value=''></option>";
     foreach ($PAGE_BADNESS_REASONS as $i => $reason) {
-        if ($i == 0) {
-            echo "<option value=''></option>";
-        } else {
-            echo "<option value='$i'>$reason</option>";
-        }
+        echo "<option value='$i'>" . $reason["string"] . "</option>";
     }
     echo "</select>";
     echo "</p>";
 
-    echo "<p><b>" . _("What to do") . ":</b>";
+    echo "<p><b>" . _("What to do") . ":</b></p>";
     echo "<div style='padding-left: 2em'>";
     echo "<input name='redirect_action' value='proof' type='radio'> " . _("Continue Proofreading") . "<br>";
     echo "<input name='redirect_action' value='quit' checked type='radio'> " . _("Stop Proofreading");
     echo "</div>";
-    echo "</p>";
 
     echo "<p>";
     echo "<input type='submit' value='".attr_safe(_("Submit Report"))."'> ";
@@ -98,7 +94,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
     //This may cause the whole project to be marked bad.
     try {
         $project_is_bad = $ppage->markAsBad($pguser, $reason);
-    } catch (ProjectPageException $exception) {
+    } catch (ProjectException | PageNotOwnedException $exception) {
         abort($exception->getMessage());
     }
 
