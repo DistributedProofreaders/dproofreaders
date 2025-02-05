@@ -31,6 +31,9 @@ class PickerSet
         return $this->subsets;
     }
 
+    /** @phpstan-type VerboseSubset array{name: string, title: string, rows: ?string[][][]}
+    * @return VerboseSubset[]
+    */
     public function get_verbose_subsets(): array
     {
         $verbose_subsets = [];
@@ -247,7 +250,9 @@ class CharSuites
 
 trait CharSuiteSet
 {
-    /** @return array<int<0, max>, array{name: string, subsets: array}> */
+    /** @return array{name: string, title: string, rows: ?string[][][]}[] */
+    //** @return array{name: string, title: string, rows: ?string[]}[] */
+    //** @return array<int, array{name: string, subsets: array<int, array{name: string, title: string, rows: array<int, array<int, array{string|null, string|null}>>}>}> */
     public function get_verbose_pickersets(): array
     {
         $verbose_pickersets = [];
