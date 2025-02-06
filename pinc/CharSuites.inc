@@ -31,24 +31,6 @@ class PickerSet
         return $this->subsets;
     }
 
-    public function get_verbose_subsets(): array
-    {
-        $verbose_subsets = [];
-        foreach ($this->subsets as $subset_name => $codepoint_rows) {
-            $verbose_rows = [];
-            foreach ($codepoint_rows as $row) {
-                $chars = convert_codepoint_ranges_to_characters($row);
-                $char_names = [];
-                foreach ($chars as $char) {
-                    $char_names[] = [$char, (null !== $char) ? utf8_character_name($char) : null];
-                }
-                $verbose_rows[] = $char_names;
-            }
-            $verbose_subsets[] = ["name" => (string)$subset_name, "title" => $this->get_title($subset_name), "rows" => $verbose_rows];
-        }
-        return $verbose_subsets;
-    }
-
     public function get_title(string $name): string
     {
         return $this->titles[$name];
@@ -243,10 +225,60 @@ class CharSuites
     }
 }
 
+class VerboseSubset
+{
+    public string $name;
+    public string $title;
+    /** @var array{0:?string,1:?string}[][] */
+    public $rows;
+
+    public function __construct(string $name, string $title, $rows)
+    {
+        $this->name = $name;
+        $this->title = $title;
+        $this->rows = $rows;
+    }
+}
+
+class VerbosePickerSet
+{
+    public string $name;
+    /** @var VerboseSubset[] */
+    public array $subsets;
+
+    public function __construct(PickerSet $picker_set)
+    {
+        $this->name = $picker_set->name;
+        $this->subsets = [];
+        foreach ($picker_set->get_subsets() as $subset_name => $codepoint_rows) {
+            $verbose_rows = [];
+            foreach ($codepoint_rows as $row) {
+                $chars = convert_codepoint_ranges_to_characters($row);
+                $char_names = [];
+                foreach ($chars as $char) {
+                    $char_names[] = [$char, (null !== $char) ? utf8_character_name($char) : null];
+                }
+                $verbose_rows[] = $char_names;
+            }
+            $this->subsets[] = new VerboseSubset($subset_name, $picker_set->get_title($subset_name), $verbose_rows);
+        }
+    }
+}
+
 //----------------------------------------------------------------------------
 
 trait CharSuiteSet
 {
+    /** @return VerbosePickerSet[] */
+    public function get_verbose_pickersets(): array
+    {
+        $verbose_pickersets = [];
+        foreach ($this->get_pickersets() as $pickerset) {
+            $verbose_pickersets[] = new VerbosePickerSet($pickerset);
+        }
+        return $verbose_pickersets;
+    }
+
     /** @return PickerSet[] */
     public function get_pickersets(): array
     {
