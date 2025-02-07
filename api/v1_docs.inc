@@ -31,3 +31,10 @@ function api_v1_document(string $method, array $data, array $query_params): stri
     }
     return $faq_url;
 }
+
+function api_v1_dictionaries(string $method, array $data, array $query_params): array
+{
+    $dict_list = array_values(get_languages_with_dictionaries());
+    sort($dict_list);
+    return $dict_list;
+}
