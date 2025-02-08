@@ -28,7 +28,7 @@ function utf8_combined_chr(string $codepoint): string
 /**
  * Given a character, return the Unicode script it belongs to
  *
- * @param $char int|string
+ * @param int|string $char
  */
 function utf8_char_script($char): string
 {
@@ -282,7 +282,7 @@ function build_character_regex_filter($codepoints, $lang = 'php')
  * (U+####-U+####), or combined characters (U+####>U+####) and
  * return an array of unicode characters.
  *
- * @param $codepoints string|(string|null)[]
+ * @param string|(string|null)[] $codepoints
  * @return (string|null)[]
  */
 function convert_codepoint_ranges_to_characters($codepoints): array

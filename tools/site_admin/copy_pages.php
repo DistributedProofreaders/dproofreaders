@@ -741,7 +741,7 @@ function copy_pages(
     }
 }
 
-/** @param $array string[] */
+/** @param string[] $arr */
 function str_max(array & $arr): string
 {
     $max_so_far = null;

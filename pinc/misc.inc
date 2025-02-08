@@ -714,7 +714,7 @@ function sanitize_html(string $html, string $parent_tag = 'div'): string
 
 /* Parse markdown text string using Parsedown library and output HTML
  *
- * @param $message Markdown text
+ * @param string $message Markdown text
  * @return string HTML content
  */
 function render_markdown_as_html(string $message): string

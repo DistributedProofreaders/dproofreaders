@@ -364,7 +364,7 @@ function show_projects_for_pool($pool, $checkedout_or_available)
  *   Stage object (Round, Pool, or Stage)
  * @param string $optional_join_clause
  *   If needed. Default to "", but useful/necessary for SR & PP
- * @param $optional_select_clause
+ * @param string $optional_select_clause
  *   If needed. Default to "", but useful/necessary for PP
  */
 function show_project_listing(
