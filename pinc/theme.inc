@@ -409,7 +409,7 @@ function html_navbar()
         echo "  &#183; ";
 
         $account_links = [
-            ['text' => _("Profile"), 'url' => "stats/members/mdetail.php"],
+            ['text' => _("Profile"), 'url' => "stats/members/mdetail.php?id=" . $user->u_id],
             ['text' => _("Preferences"), 'url' => "userprefs.php"],
             ['text' => _("Log Out"), 'url' => "accounts/logout.php"],
         ];
