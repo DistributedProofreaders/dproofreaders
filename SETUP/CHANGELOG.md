@@ -7,7 +7,7 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R??????
+## R202503
 Scripts supporting this upgrade are in `SETUP/upgrade/22`
 
 ### Notices & Deprecations
@@ -25,6 +25,22 @@ instead.
 ### Changes
 
 * WikiHiero support has been removed (cpeel)
+* New APIs (70ray, cpeel) -- see [`dp-openapi.yaml`](../api/dp-openapi.yaml)
+  for complete spec
+  * `v1/documents`
+  * `v1/documents/:document`
+  * `v1/dictionaries`
+  * `v1/projects/:projectid/pages/:pagename/reportbad`
+  * `v1/projects/:projectid/pages/:pagename/wordcheck`
+  * `v1/projects/:projectid/pickersets`
+  * `v1/projects/:projectid/wordcheck`
+  * `v1/storage/:storagekey` -- see also the [API Admin Guide](API.md)
+* Check for corrupt images in Project Quick Check and during project load (cpeel)
+* Replaced all raw shell calls with Symfony's Process class (mrducky4, cpeel)
+* Work to remove inline JavaScript to `.js` files (70ray)
+* Extensive typing added to functions and classes (jchaffraix)
+* JavaScript style formatter updates (chrismiceli)
+* Composer dependencies updated and Symfony polyfills up to 8.4 added (cpeel)
 
 ## R202409
 Scripts supporting this upgrade are in `SETUP/upgrade/21`
