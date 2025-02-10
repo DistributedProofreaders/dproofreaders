@@ -25,8 +25,10 @@ function automodify(?string $projectid = null): void
     if ($projectid) {
         $verbose = $GLOBALS['testing'];
         $condition = sprintf("projectid = '%s'", DPDatabase::escape($projectid));
+        $single_project = true;
     } else {
         $verbose = 1;
+        $single_project = false;
 
         $condition = "0";
         foreach (Rounds::get_all() as $round) {
@@ -102,7 +104,7 @@ function automodify(?string $projectid = null): void
         }
 
         if (
-            ($projectid) ||
+            $single_project ||
             (($state == $round->project_available_state) &&
                ($project->get_num_pages_in_state($round->page_avail_state) == 0))
         ) {
