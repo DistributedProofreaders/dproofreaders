@@ -1,5 +1,5 @@
 <?php
-// The can be called by:
+// This script can be called by:
 // * project transitions (for individual projects)
 // * PMs for their own projects
 // * SA and PFs for all projects
@@ -19,8 +19,6 @@ include_once($relPath.'autorelease.inc');
 
 $one_project = get_projectID_param($_GET, 'project', true);
 $refresh_url = $_GET['return_uri'] ?? 'projectmgr.php';
-
-$start_time = time();
 
 require_login();
 
