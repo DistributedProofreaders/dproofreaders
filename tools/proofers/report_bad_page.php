@@ -48,10 +48,10 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
     echo "<li>" . sprintf(_("<b>%s</b> - If the image loads but it looks corrupted in some way, as if the image was not saved correctly, it's a bad page."), _("Corrupted Image")) . "</li>\n";
     echo "</ul>";
 
-    echo "<p>" . sprintf(_("Rarely there are other issues that could be considered a bad page, but please review the first section for misidentified pages before reporting them as <b>%s</b>."), _("Other")) . "</li>\n";
+    echo "<p>" . sprintf(_("Rarely there are other issues that could be considered a bad page, but please review the first section for misidentified pages before reporting them as <b>%s</b>."), _("Other")) . "</p>\n";
 
     echo "<h2>" . _("Submit a Bad Page Report") . "</h2>";
-    echo "<li>" . sprintf(_("If you still think it is a bad page, please let us know by filling out the information below. If not, hit %s."), _("Cancel")) . "</li>\n";
+    echo "<p>" . sprintf(_("If you still think it is a bad page, please let us know by filling out the information below. If not, hit %s."), _("Cancel")) . "</p>\n";
 
     echo "<form action='report_bad_page.php' method='post'>\n";
     $ppage->echo_hidden_fields();
@@ -59,7 +59,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
 
     echo "<p><b>" . _("Reason") . ":</b> ";
     echo "<select name='reason' required>";
-    echo "<option value=''></option>";
+    echo "<option value=''>" . _("Choose") . "</option>";
     foreach ($PAGE_BADNESS_REASONS as $i => $reason) {
         echo "<option value='$i'>" . $reason["string"] . "</option>";
     }
