@@ -59,7 +59,6 @@ $ok_files = [
     // Tools
     "tools/setlangcookie.php",  // allows unauth users to set their language
     "tools/post_proofers/smooth_reading.php",
-    "tools/project_manager/automodify.php",  // requires localhost or login
     "tools/proofers/ctrl_frame.php",  // required for unauth quiz access
     // Dev tools
     ".php-cs-fixer.dist.php",
