@@ -4,18 +4,11 @@ include_once($relPath.'release_queue.inc');
 
 function autorelease()
 {
-    // autorelease is called via cron and output is never shown to end-users
-    // so it's safe to enable full error reporting here
-    error_reporting(E_ALL);
-
-    echo "<pre>\n";
     echo "Starting autorelease\n";
 
     foreach (Rounds::get_all() as $round) {
         autorelease_for_round($round);
     }
-
-    echo "</pre>\n";
 }
 
 function attempt_to_release($round, $project, $queue_name)
