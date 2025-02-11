@@ -1,7 +1,8 @@
 /*global splitControl */
 
 window.addEventListener("DOMContentLoaded", function () {
-    let mainSplit = splitControl("#suggestions_container", {
+    const container = document.getElementById("suggestions_container");
+    let mainSplit = splitControl(container, {
         splitVertical: true,
         splitPercent: 40,
     });

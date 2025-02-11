@@ -78,7 +78,7 @@ function makeTextWidget(container, splitter = false) {
         const bottomTextDiv = $("<div>");
         content.append(topTextDiv, bottomTextDiv);
 
-        subSplitter = splitControl(content, { splitVertical: false });
+        subSplitter = splitControl(content[0], { splitVertical: false });
         controlDiv.onChange.add(subSplitter.reLayout);
 
         subSplitter.onDragEnd.add(function (percent) {
