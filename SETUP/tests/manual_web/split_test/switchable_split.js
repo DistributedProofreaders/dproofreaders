@@ -41,8 +41,7 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 
     let initialSplitVertical = false;
-    const container = document.getElementById("container");
-    let mainSplit = splitControl(container, { splitVertical: initialSplitVertical });
+    let mainSplit = splitControl(document.getElementById("container"), { splitVertical: initialSplitVertical });
     window.addEventListener("resize", mainSplit.reLayout);
     appendControlButton("#control-div", mainSplit, initialSplitVertical);
     appendIndicator("#control-div", mainSplit);
