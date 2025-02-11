@@ -18,7 +18,8 @@ QUnit.module("splitControl tests", {
 });
 
 QUnit.test("splitter defaults config values", function (assert) {
-    let mainSplit = splitControl("#container");
+    const container = document.getElementById("container");
+    let mainSplit = splitControl(container);
     mainSplit.reLayout();
 
     const dragBar = $($("#container div").get(1));
@@ -27,21 +28,24 @@ QUnit.test("splitter defaults config values", function (assert) {
 });
 
 QUnit.test("vertical split test draws east west drag bar", function (assert) {
-    let mainSplit = splitControl("#container", { splitVertical: true });
+    const container = document.getElementById("container");
+    let mainSplit = splitControl(container, { splitVertical: true });
     mainSplit.reLayout();
 
     assert.strictEqual($($("#container div").get(1)).css("cursor"), "ew-resize", "verify drag bar has east west resize for vertical split");
 });
 
 QUnit.test("horizontal split test draws north south drag bar", function (assert) {
-    let mainSplit = splitControl("#container", { splitVertical: false });
+    const container = document.getElementById("container");
+    let mainSplit = splitControl(container, { splitVertical: false });
     mainSplit.reLayout();
 
     assert.strictEqual($($("#container div").get(1)).css("cursor"), "ns-resize", "verify drag bar has north south resize for horizontal split");
 });
 
 QUnit.test("drag bar color is customizable", function (assert) {
-    let mainSplit = splitControl("#container", { dragBarColor: "rebeccapurple" });
+    const container = document.getElementById("container");
+    let mainSplit = splitControl(container, { dragBarColor: "rebeccapurple" });
     mainSplit.reLayout();
 
     assert.strictEqual($($("#container div").get(1)).css("background-color"), "rgb(102, 51, 153)", "verify drag bar has custom color");

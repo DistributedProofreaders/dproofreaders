@@ -34,7 +34,7 @@ var splitControl = function (container, { splitVertical = true, splitPercent = 5
     let splitPos;
     let range;
     container.style.display = "flex";
-    let pane1 = container.children[0]
+    let pane1 = container.children[0];
     pane1.style.overflow = "auto";
     let pane2 = container.children[1];
     pane2.style.flex = "1 1 1px";
