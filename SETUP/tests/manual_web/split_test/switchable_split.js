@@ -1,5 +1,5 @@
 /* global $ splitControl */
-$(function () {
+window.addEventListener("DOMContentLoaded", function () {
     function appendControlButton(controlDiv, theSplit, splitVert) {
         let vSwitchButton = $("<input>", { type: "button", value: "Switch to Vertical Split" });
         let hSwitchButton = $("<input>", { type: "button", value: "Switch to Horizontal Split" });
@@ -41,7 +41,8 @@ $(function () {
     }
 
     let initialSplitVertical = false;
-    let mainSplit = splitControl("#container", { splitVertical: initialSplitVertical });
+    const container = document.getElementById("container");
+    let mainSplit = splitControl(container, { splitVertical: initialSplitVertical });
     window.addEventListener("resize", mainSplit.reLayout);
     appendControlButton("#control-div", mainSplit, initialSplitVertical);
     appendIndicator("#control-div", mainSplit);
