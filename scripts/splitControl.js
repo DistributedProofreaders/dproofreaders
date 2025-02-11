@@ -1,4 +1,3 @@
-/*global $ */
 /* exported splitControl */
 
 /*
@@ -34,48 +33,44 @@ var splitControl = function (container, { splitVertical = true, splitPercent = 5
     let base;
     let splitPos;
     let range;
-    container = $(container).css({ display: "flex" });
-    let children = container.children();
-    let pane1 = $(children[0]).css({ overflow: "auto" });
-    let pane2 = $(children[1]).css({ flex: "1 1 1px", overflow: "auto" });
+    container.style.display = "flex";
+    let pane1 = container.children[0]
+    pane1.style.overflow = "auto";
+    let pane2 = container.children[1];
+    pane2.style.flex = "1 1 1px";
+    pane2.style.overflow = "auto";
 
-    let dragBar = $("<div>").css({ "background-color": dragBarColor, flex: `0 0 ${dragBarSize}px` });
+    let dragBar = document.createElement("div");
+    dragBar.style.backgroundColor = dragBarColor;
+    dragBar.style.flex = `0 0 ${dragBarSize}px`;
     pane1.after(dragBar);
 
-    // coordinates of the container
-    let height;
-    let width;
-
-    let onResize = new Set();
-    let onDragEnd = new Set();
+    const onResize = new Set();
+    const onDragEnd = new Set();
 
     function moveSplit() {
         splitRatio = Math.max(splitRatio, splitLimit);
         splitRatio = Math.min(splitRatio, 1 - splitLimit);
         splitPos = base + range * splitRatio;
-        pane1.css({ flex: `0 0 ${splitPos - base}px` });
+        pane1.style.flex = `0 0 ${splitPos - base}px`;
         onResize.forEach(function (reSizeCallback) {
             reSizeCallback();
         });
     }
 
     function reLayout() {
-        container.css("overflow", "hidden");
-        height = container.height();
-        width = container.width();
-        let containerOffset = container.offset();
-        let divTop = containerOffset.top;
-        let divLeft = containerOffset.left;
+        container.style.overflow = "hidden";
+        const containerRect = container.getBoundingClientRect();
         if (splitVertical) {
-            container.css({ flexDirection: "row" });
-            range = width;
-            base = divLeft;
-            dragBar.css("cursor", "ew-resize");
+            container.style.flexDirection = "row";
+            range = containerRect.width;
+            base = containerRect.left;
+            dragBar.style.cursor = "ew-resize";
         } else {
-            container.css({ flexDirection: "column" });
-            range = height;
-            base = divTop;
-            dragBar.css("cursor", "ns-resize");
+            container.style.flexDirection = "column";
+            range = containerRect.height;
+            base = containerRect.top;
+            dragBar.style.cursor = "ns-resize";
         }
         range -= dragBarSize;
         // mouse sets top/left of dragbar
@@ -85,12 +80,12 @@ var splitControl = function (container, { splitVertical = true, splitPercent = 5
     function dragStart(event) {
         event.preventDefault();
         // need this only if there is an iframe in a pane.
-        pane2.css("pointerEvents", "none");
-        pane1.css("pointerEvents", "none");
+        pane2.style.pointerEvents = "none";
+        pane1.style.pointerEvents = "none";
     }
 
     function dragMove(event) {
-        splitPos = splitVertical ? event.pageX : event.pageY;
+        splitPos = splitVertical ? event.clientX : event.clientY;
         if (range > 0) {
             splitRatio = (splitPos - base) / range;
         }
@@ -99,8 +94,8 @@ var splitControl = function (container, { splitVertical = true, splitPercent = 5
 
     function dragMoveEnd() {
         // restore normal operation
-        pane2.css("pointerEvents", "auto");
-        pane1.css("pointerEvents", "auto");
+        pane2.style.pointerEvents = "auto";
+        pane1.style.pointerEvents = "auto";
         onDragEnd.forEach(function (dragEndCallback) {
             dragEndCallback((splitRatio * 100).toFixed(0));
         });
@@ -115,7 +110,7 @@ var splitControl = function (container, { splitVertical = true, splitPercent = 5
 
     function dragMouseDown(event) {
         // prevent cursor flicker by persisting cursor style while dragging
-        document.body.style.cursor = dragBar.css("cursor");
+        document.body.style.cursor = dragBar.style.cursor;
         dragStart(event);
         document.addEventListener("mousemove", dragMove);
         document.addEventListener("mouseup", dragMouseUp);
@@ -137,8 +132,8 @@ var splitControl = function (container, { splitVertical = true, splitPercent = 5
         document.addEventListener("touchend", dragTouchEnd);
     }
 
-    dragBar.on("mousedown", dragMouseDown);
-    dragBar.on("touchstart", dragTouchStart);
+    dragBar.addEventListener("mousedown", dragMouseDown);
+    dragBar.addEventListener("touchstart", dragTouchStart);
 
     return {
         setSplit: function (vertical) {
