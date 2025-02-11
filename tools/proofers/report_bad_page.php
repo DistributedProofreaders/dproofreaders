@@ -59,7 +59,7 @@ if (!isset($_POST['submitted']) || $_POST['submitted'] != 'true') {
 
     echo "<p><b>" . _("Reason") . ":</b> ";
     echo "<select name='reason' required>";
-    echo "<option value=''>" . _("Choose") . "</option>";
+    echo "<option value=''></option>";
     foreach ($PAGE_BADNESS_REASONS as $i => $reason) {
         echo "<option value='$i'>" . $reason["string"] . "</option>";
     }
