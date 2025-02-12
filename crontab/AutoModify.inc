@@ -5,6 +5,8 @@ include_once($relPath."autorelease.inc");
 // Run periodic project validation and transitions
 class AutoModify extends BackgroundJob
 {
+    public bool $requires_web_context = true;
+
     private $filehandle = null;
     private ?string $logfile = null;
 
