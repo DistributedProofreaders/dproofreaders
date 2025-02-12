@@ -220,7 +220,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                             const imageDiv = $("<div>");
                             imageWidget = makeImageWidget(imageDiv);
                             stretchDiv.append(imageDiv, textDiv);
-                            const theSplitter = viewSplitter(stretchDiv, storageKey);
+                            const theSplitter = viewSplitter(stretchDiv[0], storageKey);
                             if (mentorMode) {
                                 // make a text widget with splitter
                                 textWidget = makeTextWidget(textDiv, true);
