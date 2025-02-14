@@ -31,6 +31,7 @@ class PickerSet
         return $this->subsets;
     }
 
+    /** @return array{name: string, title: string, rows: (?string[])[][]}[] */
     public function get_verbose_subsets(): array
     {
         $verbose_subsets = [];
@@ -247,6 +248,19 @@ class CharSuites
 
 trait CharSuiteSet
 {
+    /** @return array{name: string, subsets: array{name: string, title: string, rows: (?string[])[][]}[]}[] */
+    public function get_verbose_pickersets(): array
+    {
+        $verbose_pickersets = [];
+        foreach ($this->get_pickersets() as $pickerset) {
+            $verbose_pickersets[] = [
+                "name" => $pickerset->name,
+                "subsets" => $pickerset->get_verbose_subsets(),
+            ];
+        }
+        return $verbose_pickersets;
+    }
+
     /** @return PickerSet[] */
     public function get_pickersets(): array
     {
