@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
     let switchLink = document.getElementById("h_v_switch");
 
-    let mainSplit = splitControl("#show_word_context_container", {
+    let mainSplit = splitControl(document.getElementById("show_word_context_container"), {
         splitVertical: splitVertical,
         splitPercent: layout.splitPercent,
     });
