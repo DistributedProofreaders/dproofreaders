@@ -32,7 +32,8 @@ $login_failures = [
     'form_timeout' => _("Form submission timeout, go back and try again."),
 ];
 
-$error = @$login_failures[@$_GET['error_code']];
+$error_code = @$_GET['error_code'];
+$error = @$login_failures[$error_code];
 if (!$error) {
     $error = _("An undefined error occurred while attempting to log you in.");
 }
@@ -42,6 +43,11 @@ output_header($title);
 
 echo "<br>\n";
 echo "<b>$error</b>\n";
+
+if ($error_code == "banned") {
+    // if the user is banned, stop here and not include hints on how to log in
+    exit();
+}
 
 echo "<p>" . _("Please attempt again to log in above. If problems persist, review the following possible fixes:") . "</p>";
 echo "<ol>";
