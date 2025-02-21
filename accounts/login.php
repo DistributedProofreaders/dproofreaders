@@ -51,6 +51,8 @@ if (!$success) {
         login_failure('unknown_failure', $destination);
     } elseif ($reason == 'too_many_attempts') {
         login_failure('too_many_attempts', $destination);
+    } elseif ($reason == 'banned') {
+        login_failure('banned', $destination);
     } else {
         login_failure('auth_failure', $destination);
     }

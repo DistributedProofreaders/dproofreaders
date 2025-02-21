@@ -145,6 +145,15 @@ function create_forum_user($username, $password, $email, $password_is_digested =
     return true;
 }
 
+function phpbb_user_error_handler($errno, $errstr, $errfile, $errline)
+{
+    if (in_array($errno, [E_USER_ERROR, E_USER_NOTICE])) {
+        throw new ValueError($errstr);
+    }
+
+    return false;
+}
+
 /**
  * Log in the user to the forums.
  *
@@ -210,11 +219,26 @@ function login_forum_user($username, $password)
     set_var($password, $password, 'string', true);
 
     $persist_login = true;
-    $results = $auth->login($username, $password, $persist_login);
 
-    $success = $results["status"] == LOGIN_SUCCESS;
-    $reason = '';
-    switch ($results["status"]) {
+    // phpBB may use trigger_error() on login if the user is banned which
+    // doesn't return, so we need to capture that and handle it here
+    $old_error_handler = set_error_handler("phpbb_user_error_handler");
+
+    try {
+        $results = $auth->login($username, $password, $persist_login);
+        $status = $results["status"];
+    } catch (ValueError $exception) {
+        if (str_contains($exception->getMessage(), "banned")) {
+            $status = "BANNED";
+        } else {
+            $status = "UNKNOWN";
+        }
+    }
+
+    set_error_handler($old_error_handler);
+
+    $success = $status == LOGIN_SUCCESS;
+    switch ($status) {
         case LOGIN_SUCCESS:
             $reason = '';
             break;
@@ -226,6 +250,9 @@ function login_forum_user($username, $password)
             break;
         case LOGIN_ERROR_ATTEMPTS:
             $reason = 'too_many_attempts';
+            break;
+        case "BANNED":
+            $reason = 'banned';
             break;
         default:
             $reason = 'unknown';
