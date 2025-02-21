@@ -228,7 +228,15 @@ function login_forum_user($username, $password)
         $results = $auth->login($username, $password, $persist_login);
         $status = $results["status"];
     } catch (ValueError $exception) {
-        if (str_contains($exception->getMessage(), "banned")) {
+        // Unfortunately, the error message might be in a language that isn't
+        // English, so we need to check for a few possible combinations.
+        // Thankfully the " ban" prefix covers many languages.
+        if (
+            str_contains($exception->getMessage(), " ban") ||      // en, fr, it, pt
+            str_contains($exception->getMessage(), "gesperrt") ||  // de
+            str_contains($exception->getMessage(), "exclusión") || // es
+            str_contains($exception->getMessage(), "verbannen")    // nl
+        ) {
             $status = "BANNED";
         } else {
             $status = "UNKNOWN";
