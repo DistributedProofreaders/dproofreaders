@@ -161,18 +161,21 @@ class DPSessionHandler implements SessionHandlerInterface
         $query = sprintf(
             "
             INSERT INTO sessions
-                (sid, expiration, value)
+                (sid, expiration, value, username)
             VALUES
-                ('%s', %d, '%s')
+                ('%s', %d, '%s', '%s')
             ON DUPLICATE KEY UPDATE
                 expiration = %d,
-                value = '%s'
+                value = '%s',
+                username = '%s'
             ",
             substr(DPDatabase::escape($sid), 0, 32), // truncate to column size
             $expiration,
             DPDatabase::escape($value),
+            DPDatabase::escape($_SESSION["pguser"] ?? ""),
             $expiration,
-            DPDatabase::escape($value)
+            DPDatabase::escape($value),
+            DPDatabase::escape($_SESSION["pguser"] ?? "")
         );
         $result = DPDatabase::query($query);
         return $result === false ? false : true;

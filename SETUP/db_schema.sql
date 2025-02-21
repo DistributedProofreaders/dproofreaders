@@ -378,6 +378,7 @@ CREATE TABLE `sessions` (
   `sid` varchar(32) NOT NULL default '',
   `expiration` int(11) NOT NULL default '0',
   `value` text NOT NULL,
+  `username` varchar(25) NOT NULL default '',
   PRIMARY KEY (`sid`),
   KEY `expiration` (`expiration`)
 );
