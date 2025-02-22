@@ -6,6 +6,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'new_user_mails.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
+include_once('sa_common.inc');
 
 require_login();
 
@@ -20,10 +21,10 @@ echo "<h1>$title</h1>";
 
 $username = $_GET['username'] ?? '';
 $email = $_GET['email'] ?? '';
-$action = get_enumerated_param($_GET, 'action', 'default', ['list_all', 'get_user', 'set_email', 'default']);
+$action = get_enumerated_param($_GET, 'action', 'default', ['list_all', 'set_email', 'default']);
 $order_by = get_enumerated_param($_GET, 'order_by', 'date_created DESC', ['username', 'real_name', 'email', 'date_created DESC']);
 
-if ($action == 'default') {
+if ($action == 'default' && !$username) {
     echo "<p>";
     echo _("This form should be used when a mail has been received from a user who has not received
     his or her welcome email due to entering a bad email address when registering.");
@@ -32,14 +33,8 @@ if ($action == 'default') {
     printf(_("To change the address, please enter the name of the user below or
     <a href='%s'>list all user accounts awaiting activation</a>."), "?action=list_all");
     echo "</p>";
-    echo "<br>";
 
-    echo "<form method='get'>";
-    echo "<input type='hidden' name='action' value='get_user'>";
-    echo _("Username") . ": <input type='text' name='username' autocapitalize='none' required>";
-    echo  " <input type='submit' value='" . attr_safe(_("Continue")) . "'>";
-    echo "</form>";
-    echo "<br>";
+    show_username_form($username);
 } elseif ($action == 'list_all') {
     $result = DPDatabase::query("
         SELECT *
@@ -62,7 +57,7 @@ if ($action == 'default') {
         }
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>\n";
-            echo "<td><a href='?action=get_user&username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
+            echo "<td><a href='?username=".urlencode($row['username'])."'>{$row['username']}</a></td>\n";
             echo "<td>" . html_safe($row['real_name']) . "</td>\n";
             echo "<td>" . html_safe($row['email']) . "</td>\n";
             echo "<td>" . date("Y-m-d H:i", (int)$row['date_created']) . "</td>\n";
@@ -70,7 +65,7 @@ if ($action == 'default') {
         }
         echo "</table>\n";
     }
-} elseif ($action == 'get_user') {
+} elseif ($action == 'default' && $username) {
     if (check_username($username) != '') {
         die("Invalid parameter username.");
     }

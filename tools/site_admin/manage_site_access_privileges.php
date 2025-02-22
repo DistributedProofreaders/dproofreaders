@@ -5,6 +5,7 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'access_log.inc');
+include_once('sa_common.inc');
 
 require_login();
 
@@ -77,18 +78,6 @@ if ($username) {
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function show_username_form(?string $username): void
-{
-    echo "<form method='GET'>\n";
-    echo "<p>" . _("Username") . ": ";
-    echo "<input name='username' type='text' value='$username' size='20' autocapitalize='none' required>\n";
-    echo "</p>";
-    echo "<input type='submit' value='" . attr_safe(_("Look up this user")) . "'>\n";
-    echo "</form>\n";
-}
-
-// ------------------------------------------------
 
 function show_toggles_form(?string $username, Settings $user_settings): void
 {
