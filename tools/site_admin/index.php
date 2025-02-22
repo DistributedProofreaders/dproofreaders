@@ -23,6 +23,7 @@ $sections = [
         "../pending_access_requests.php" => _("Pending Access Requests"),
         "show_access_log.php" => _("Show Access Log"),
         "edit_mail_address_for_non_activated_user.php" => _("Resend Account Activation Email"),
+        "manage_user_sessions.php" => _("Manage User Sessions"),
     ],
     _("Project") => [
         "copy_pages.php" => _("Copy Pages"),
