@@ -10,6 +10,7 @@
 // can be used to process the upload.
 
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
 
@@ -265,7 +266,12 @@ function virus_check($file_path, $verbose)
     // value = 0. we use -- to not parse any further arguments starting
     // with -/-- as options
     $process = new Process([$antivirus_executable, "--", $file_path]);
-    $av_retval = $process->run();
+    $process->setTimeout(120);
+    try {
+        $av_retval = $process->run();
+    } catch (ProcessTimedOutException $exception) {
+        throw new FileUploadException(_("AntiVirus error: scan timed out, try again in a moment as the system may be busy."));
+    }
     $av_test_result = explode("\n", $process->getOutput());
     if (!$process->isSuccessful()) {
         // Log the infected upload so that we can track user/frequency
