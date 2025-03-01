@@ -88,6 +88,41 @@ function dpsession_end()
     session_destroy();
 }
 
+// -----------------------------------------------------------------------------
+// User-centric session management functions
+
+/** @return array<array{0: string, 1: int}> */
+function load_user_sessions(string $username): array
+{
+    $sql = sprintf(
+        "
+        SELECT sid, expiration
+        FROM sessions
+        WHERE username = '%s'
+        ORDER BY expiration
+        ",
+        DPDatabase::escape($username)
+    );
+    $result = DPDatabase::query($sql);
+    $results = [];
+    while ([$sid, $expiration] = mysqli_fetch_row($result)) {
+        $results[] = [$sid, $expiration];
+    }
+    return $results;
+}
+
+function delete_user_sessions(string $username): void
+{
+    $sql = sprintf(
+        "
+        DELETE FROM sessions
+        WHERE username = '%s'
+        ",
+        DPDatabase::escape($username)
+    );
+    DPDatabase::query($sql);
+}
+
 
 // -----------------------------------------------------------------------------
 // Internal session helper functions
@@ -161,18 +196,21 @@ class DPSessionHandler implements SessionHandlerInterface
         $query = sprintf(
             "
             INSERT INTO sessions
-                (sid, expiration, value)
+                (sid, expiration, value, username)
             VALUES
-                ('%s', %d, '%s')
+                ('%s', %d, '%s', '%s')
             ON DUPLICATE KEY UPDATE
                 expiration = %d,
-                value = '%s'
+                value = '%s',
+                username = '%s'
             ",
             substr(DPDatabase::escape($sid), 0, 32), // truncate to column size
             $expiration,
             DPDatabase::escape($value),
+            DPDatabase::escape($_SESSION["pguser"] ?? ""),
             $expiration,
-            DPDatabase::escape($value)
+            DPDatabase::escape($value),
+            DPDatabase::escape($_SESSION["pguser"] ?? "")
         );
         $result = DPDatabase::query($query);
         return $result === false ? false : true;
