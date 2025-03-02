@@ -11,9 +11,9 @@ set -euo pipefail
 # or did we sneak a db-schema change into the current installation,
 # and are perhaps now depending on it?)
 
-prev_tag=R202309
+prev_tag=R202409
 curr_tag=master
-upgrade_number=20
+upgrade_number=22
 
 setup_dir=$(realpath $(dirname $0))
 testing_dir=/tmp/dp_schema_check
@@ -61,6 +61,7 @@ echo "
     _FORUM_TYPE='phpbb3'
     _DEFAULT_CHAR_SUITES='[ \"basic-latin\" ]'
     _PHPMAILER_SMTP_CONFIG='[]'
+    _API_STORAGE_KEYS='[]'
 
     # Integer values that must be filled in
     _FORUMS_PROJECT_WAITING_IDX=99
