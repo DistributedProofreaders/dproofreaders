@@ -15,7 +15,7 @@ class PageCompareTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($text, file_get_contents($expected_result_file));
     }
 
-    public function textProvider(): array
+    public static function textProvider(): array
     {
         $file_array = [];
         $data_dir_name = "page_compare_data";
