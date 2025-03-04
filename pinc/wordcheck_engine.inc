@@ -16,6 +16,7 @@ $bracketed_character_pattern = "\\[(?:oe|OE|$mark$base|$base$mark)\\]";
 
 // This is used when splitting a text into words.
 $char_pattern = "(?:\w\pM*|$bracketed_character_pattern)";
+global $word_pattern;
 $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!u";
 // (The pattern is delimited by exclamation marks rather than the usual slashes,
 // because slash is a character within the pattern.)
@@ -26,6 +27,7 @@ $word_pattern = "!$char_pattern+(?:'$char_pattern+)*!u";
 $puncCharacters = '.,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·´¸º×¦¡¿-»«¯÷¹²³¼½¾¤';
 
 // Unicode scripts that are "common" and shouldn't be highlighted
+global $common_unicode_scripts;
 $common_unicode_scripts = ["Latin", "Common", "Inherited"];
 
 // -----------------------------------------------------------------------------
@@ -1156,6 +1158,8 @@ function get_site_word_files(string $pattern = "/txt$/"): array
  */
 function get_distinct_words_in_text($text)
 {
+    global $word_pattern;
+
     // For a $text with typical-sized words, the memory consumed by the result
     // of get_all_words_in_text($text) is about 20 times the size of $text.
     // So if $text is project-sized (say, 1.5Mb), the resulting array will be
@@ -1176,8 +1180,6 @@ function get_distinct_words_in_text($text)
             // The result of get_all_words_in_text($text) would be rather large,
             // so avoid it.  The following alternative is somewhat slower but
             // more space efficient.
-            global $word_pattern;
-
             $input_words_w_freq = [];
             $offset = 0;
             $flags = PREG_OFFSET_CAPTURE;
