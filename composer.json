@@ -37,5 +37,10 @@
         "symfony/polyfill-intl-grapheme": "*",
         "symfony/polyfill-intl-normalizer": "*",
         "symfony/polyfill-mbstring": "*"
+    },
+    "config": {
+        "platform": {
+            "php": "8.1"
+        }
     }
 }
