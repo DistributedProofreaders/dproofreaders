@@ -1327,7 +1327,7 @@ function filter_words_to_script(array $words, string $script): array
 {
     $script_words = [];
     foreach ($words as $word) {
-        if (array_diff(utf8_string_scripts($word), [$script, "Inherited"]) === []) {
+        if (array_diff(utf8_string_scripts($word), [$script, "Inherited", "Common"]) === []) {
             $script_words[] = $word;
         }
     }
