@@ -1,48 +1,61 @@
 <?php
-// Variables (constants?) whose values are specific
-// to the local installation of the DP code.
+// Variables (constants?) whose values are specific to the local installation
+// of the DP code. These are all globals and we explicitly define them as-such.
 
 // During site configuration, identifiers delimited by double angle-brackets
 // are replaced by the corresponding values in SETUP/configuration.sh.
 // See that file for specific information on these and other settings.
 
-//-- Maintenance ------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Maintenance
+
 // If you need to take the site down for maintenance, set $maintenance to
-// TRUE. This will show a maintenance message for every page request for
+// True. This will show a maintenance message for every page request for
 // non-administrators. If $maintenance_message is not empty, it will be
 // appended to the page. $maintenance_message can contain HTML.
 
+global $maintenance, $maintenance_message;
 $maintenance = <<MAINTENANCE>>;
 $maintenance_message = '<<MAINTENANCE_MESSAGE>>';
-//---------------------------------------------------------------------------
 
-//-- Site Alert -------------------------------------------------------------
+
+// -----------------------------------------------------------------------------
+// Site Alert
+
 // To create a site-wide alert that is shown on every page, set $alert_message.
 // This can contain links, but do not wrap it in <p> or other block-level tags.
 
+global $alert_message;
 $alert_message = '<<ALERT_MESSAGE>>';
-//---------------------------------------------------------------------------
 
+
+// -----------------------------------------------------------------------------
+// Site directories and URLs
+
+global $code_dir, $code_url;
 $code_dir = '<<CODE_DIR>>';
 $code_url = '<<CODE_URL>>';
 
+global $projects_dir, $projects_url, $archive_projects_dir;
 $projects_dir = '<<PROJECTS_DIR>>';
 $projects_url = '<<PROJECTS_URL>>';
-
-$dyn_dir = '<<DYN_DIR>>';
-$dyn_url = '<<DYN_URL>>';
-
-$dyn_locales_dir = "$dyn_dir/locale";
-
-$xmlfeeds_dir = "$dyn_dir/xmlfeeds";
-
-$blog_url = '<<BLOG_URL>>';
-
-$wiki_url = '<<WIKI_URL>>';
-
 $archive_projects_dir = '<<ARCHIVE_PROJECTS_DIR>>';
 
-global $forum_type;
+global $dyn_dir, $dyn_url, $dyn_locales_dir;
+$dyn_dir = '<<DYN_DIR>>';
+$dyn_url = '<<DYN_URL>>';
+$dyn_locales_dir = "$dyn_dir/locale";
+
+global $blog_url, $wiki_url;
+$blog_url = '<<BLOG_URL>>';
+$wiki_url = '<<WIKI_URL>>';
+
+
+// -----------------------------------------------------------------------------
+// Forum configuration
+
+global $forum_type, $forums_phpbb_table_prefix, $forums_phpbb_dir, $forums_phpbb_url,
+    $forums_json_users, $forums_json_posts;
 $forum_type = '<<FORUM_TYPE>>';
 $forums_phpbb_table_prefix = '<<PHPBB_TABLE_PREFIX>>';
 $forums_phpbb_dir = '<<PHPBB_DIR>>';
@@ -50,6 +63,10 @@ $forums_phpbb_url = '<<PHPBB_URL>>';
 $forums_json_users = '<<JSON_USERS>>';
 $forums_json_posts = '<<JSON_POSTS>>';
 
+// Forum indexes for specific topics
+global $beginners_site_forum_idx, $waiting_projects_forum_idx, $projects_forum_idx,
+    $pp_projects_forum_idx, $posted_projects_forum_idx, $deleted_projects_forum_idx,
+    $completed_projects_forum_idx, $post_processing_forum_idx, $teams_forum_idx;
 $beginners_site_forum_idx = <<FORUMS_BEGIN_SITE_IDX>>;
 $waiting_projects_forum_idx = <<FORUMS_PROJECT_WAITING_IDX>>;
 $projects_forum_idx = <<FORUMS_PROJECT_AVAIL_IDX>>;
@@ -60,50 +77,74 @@ $completed_projects_forum_idx = <<FORUMS_PROJECT_COMPLETED_IDX>>;
 $post_processing_forum_idx = <<FORUMS_POST_PROCESSORS_IDX>>;
 $teams_forum_idx = <<FORUMS_TEAMS_IDX>>;
 
-// -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// Site identification
+
+global $site_name, $site_abbreviation, $site_url;
 $site_name = '<<SITE_NAME>>';
 $site_abbreviation = '<<SITE_ABBREVIATION>>';
 $site_url = '<<SITE_URL>>';
 
+
+// -----------------------------------------------------------------------------
+// Proofreading controls
+
+global $preceding_proofer_restriction, $public_page_details;
 $preceding_proofer_restriction = '<<PRECEDING_PROOFER_RESTRICTION>>';
 $public_page_details = <<PUBLIC_PAGE_DETAILS>>;
 
-$site_registration_protection_code = '<<SITE_REGISTRATION_PROTECTION_CODE>>';
 
 // -----------------------------------------------------------------------------
+// Upload controls
 
+global $uploads_dir, $uploads_subdir_trash, $uploads_subdir_commons, $uploads_subdir_users;
 $uploads_dir = '<<UPLOADS_DIR>>';
 $uploads_subdir_trash = "TRASH";
 $uploads_subdir_commons = "Commons";
 $uploads_subdir_users = "Users";
 
+global $uploads_host, $uploads_account, $uploads_password;
 $uploads_host = '<<UPLOADS_HOST>>';
 $uploads_account = '<<UPLOADS_ACCOUNT>>';
 $uploads_password = '<<UPLOADS_PASSWORD>>';
+
+global $antivirus_executable;
 $antivirus_executable = '<<ANTIVIRUS_EXECUTABLE>>';
 
-// -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// WordCheck / aspell & translations
+
+global $aspell_executable, $aspell_prefix;
 $aspell_executable = '<<ASPELL_EXECUTABLE>>';
 $aspell_prefix = "<<ASPELL_PREFIX>>";
 
+global $system_locales_dir;
 $system_locales_dir = '<<GETTEXT_LOCALES_DIR>>';
 
-$php_cli_executable = '<<PHP_CLI_EXECUTABLE>>';
 
 // -----------------------------------------------------------------------------
+// API
 
 // Note: Some UI features, such as the Page Browser, require the API.
 //       Disabling it will break these features.
+global $api_enabled, $api_rate_limit, $api_rate_limit_requests_per_window,
+    $api_rate_limit_seconds_in_window, $api_storage_keys;
 $api_enabled = <<API_ENABLED>>;
 $api_rate_limit = <<API_RATE_LIMIT>>;
 $api_rate_limit_requests_per_window = <<API_RATE_LIMIT_REQUESTS_PER_WINDOW>>;
 $api_rate_limit_seconds_in_window = <<API_RATE_LIMIT_SECONDS_IN_WINDOW>>;
 $api_storage_keys = <<API_STORAGE_KEYS>>;
 
-// -----------------------------------------------------------------------------
 
+// -----------------------------------------------------------------------------
+// Mail configuration and addresses
+
+global $phpmailer_smtp_config, $no_reply_email_addr, $general_help_email_addr,
+    $site_manager_email_addr, $auto_email_addr, $db_requests_email_addr,
+    $promotion_requests_email_addr, $ppv_reporting_email_addr, $image_sources_manager_addr,
+    $translation_coordinator_email_addr;
 $phpmailer_smtp_config = <<PHPMAILER_SMTP_CONFIG>>;
 $no_reply_email_addr = '<<NO_REPLY_EMAIL_ADDR>>';
 $general_help_email_addr = '<<GENERAL_HELP_EMAIL_ADDR>>';
@@ -115,12 +156,26 @@ $ppv_reporting_email_addr = '<<PPV_REPORTING_EMAIL_ADDR>>';
 $image_sources_manager_addr = '<<IMAGE_SOURCES_EMAIL_ADDR>>';
 $translation_coordinator_email_addr = '<<TRANSLATION_COORDINATOR_EMAIL_ADDR>>';
 
+
 // -----------------------------------------------------------------------------
+// Misc configuration
 
-$testing = <<TESTING>>;
+global $use_secure_cookies, $php_cli_executable;
 $use_secure_cookies = <<USE_SECURE_COOKIES>>;
+$php_cli_executable = '<<PHP_CLI_EXECUTABLE>>';
 
+global $site_registration_protection_code;
+$site_registration_protection_code = '<<SITE_REGISTRATION_PROTECTION_CODE>>';
+
+global $auto_post_to_project_topic, $ordinary_users_can_see_queue_settings;
 $auto_post_to_project_topic = <<AUTO_POST_TO_PROJECT_TOPIC>>;
 $ordinary_users_can_see_queue_settings = <<ORDINARY_USERS_CAN_SEE_QUEUE_SETTINGS>>;
+
+global $external_catalog_locator;
 $external_catalog_locator = '<<EXTERNAL_CATALOG_LOCATOR>>';
+
+global $default_project_char_suites;
 $default_project_char_suites = <<DEFAULT_CHAR_SUITES>>;
+
+global $testing;
+$testing = <<TESTING>>;
