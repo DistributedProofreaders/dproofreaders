@@ -6,6 +6,7 @@ include_once($relPath.'metarefresh.inc');
 // that is used in FAQs. Also information about forums and wiki used in FAQs.
 
 // SITE-SPECIFIC
+global $external_faq_overrides;
 $external_faq_overrides = [
     "proofreading_guidelines.php" => [
         "en" => "https://www.pgdp.net/wiki/DP_Official_Documentation:Proofreading/Proofreading_Guidelines",
