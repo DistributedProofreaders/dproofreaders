@@ -12,7 +12,7 @@
         "phpmailer/phpmailer": "^6.8",
         "vertilia/text": "^1.5",
         "nikic/php-parser": "^5.0",
-        "symfony/process": "^5.4",
+        "symfony/process": "^6.0",
         "symfony/polyfill-php82": "^1.31",
         "symfony/polyfill-php83": "^1.31",
         "symfony/polyfill-php84": "^1.31"
