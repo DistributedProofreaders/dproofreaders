@@ -11,7 +11,7 @@ build
 # Ignore dev tooling byproducts
 node_modules
 vendor
-.phpunit.result.cache
+.phpunit.cache
 .php_cs.cache
 .php-cs-fixer.cache
 .phpdoc
