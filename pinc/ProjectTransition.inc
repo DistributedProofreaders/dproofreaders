@@ -317,7 +317,7 @@ class ProjectTransition
             'transition',
             $this->from_state,
             $this->to_state,
-            ($checkedoutby != '' ? "out_to: $checkedoutby" : @$extras['details'])
+            ($checkedoutby != '' ? "out_to: $checkedoutby" : $extras['details'] ?? "")
         );
 
         if ($from_round != $to_round && !is_null($to_round)) {
