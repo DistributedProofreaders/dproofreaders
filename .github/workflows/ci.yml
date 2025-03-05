@@ -18,7 +18,7 @@ jobs:
       - name: Setup MySQL, install schema
         uses: ./.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
-        run: sudo apt --fix-broken install aspell aspell-en
+        run: sudo apt --fix-broken install aspell aspell-en aspell-fr
       - name: Run phpunit tests
         run: cd SETUP/tests/unittests && ../../../vendor/bin/phpunit
   jsunit:
@@ -117,7 +117,7 @@ jobs:
       - name: Setup MySQL, install schema
         uses: ./.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
-        run: sudo apt --fix-broken install aspell aspell-en
+        run: sudo apt --fix-broken install aspell aspell-en aspell-fr
       - name: Setup smoke test environment
         run: SETUP/tests/smoketests/smoketest_setup.sh
       - name: Run pageload smoketest
