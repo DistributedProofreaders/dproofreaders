@@ -74,7 +74,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, ['state' => $project_state, 'pagestate' => $page_state]);
     }
 
-    private function api_project_page(string $projectid, string $project_state, string $page_name, string $page_state, array $request_array = [], string $action)
+    private function api_project_page(string $projectid, string $project_state, string $page_name, string $page_state, array $request_array, string $action)
     {
         global $request_body;
 

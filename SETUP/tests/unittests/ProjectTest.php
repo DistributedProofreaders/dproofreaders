@@ -254,7 +254,7 @@ class ProjectTest extends ProjectUtils
     public function test_validate_postdnum_positive_path(): void
     {
         $project = new Project($this->valid_project_data);
-        $project->posted_num = 123;
+        $project->postednum = 123;
         $errors = $project->validate();
         $this->assertEquals([], $errors);
     }
