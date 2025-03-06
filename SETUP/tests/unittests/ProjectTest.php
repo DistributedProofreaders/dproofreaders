@@ -2,6 +2,16 @@
 
 class ProjectTest extends ProjectUtils
 {
+    protected function tearDown(): void
+    {
+        global $pguser;
+
+        parent::tearDown();
+
+        // reset $pguser after every test
+        $pguser = null;
+    }
+
     //------------------------------------------------------------------------
     // Project object save and delete
 
