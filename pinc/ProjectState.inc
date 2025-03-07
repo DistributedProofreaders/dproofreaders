@@ -79,16 +79,13 @@ class ProjectStates
  */
 function declare_project_states(array $rounds, array $pools): void
 {
-    global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
-    $completed_projects_forum_idx, $deleted_projects_forum_idx;
-
     // for the initial creation of a project
     define("PROJ_NEW", "project_new");
     ProjectStates::add_state(new ProjectState(
         PROJ_NEW,
         _("New Project"),
         _("New Project"),
-        $waiting_projects_forum_idx,
+        SiteConfig::get()->waiting_projects_forum_idx,
         'NEW',
         ''
     ));
@@ -107,7 +104,7 @@ function declare_project_states(array $rounds, array $pools): void
             $round->project_bad_state,
             "$round->id: " .  _("Bad Project"),
             "$round->name: " . _("Bad Project"),
-            $projects_forum_idx,
+            SiteConfig::get()->projects_forum_idx,
             'PAGE_EDITING',
             ''
         ));
@@ -117,7 +114,7 @@ function declare_project_states(array $rounds, array $pools): void
             $round->project_unavailable_state,
             "$round->id: " . _("Unavailable"),
             "$round->name: " . _("Unavailable"),
-            ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
+            ($round->id == 'P1' ? SiteConfig::get()->waiting_projects_forum_idx : SiteConfig::get()->projects_forum_idx),
             'PAGE_EDITING',
             ''
         ));
@@ -127,7 +124,7 @@ function declare_project_states(array $rounds, array $pools): void
             $round->project_waiting_state,
             "$round->id: " . _("Waiting"),
             "$round->name: " . _("Waiting for Release"),
-            ($round->id == 'P1' ? $waiting_projects_forum_idx : $projects_forum_idx),
+            ($round->id == 'P1' ? SiteConfig::get()->waiting_projects_forum_idx : SiteConfig::get()->projects_forum_idx),
             'PAGE_EDITING',
             ''
         ));
@@ -137,7 +134,7 @@ function declare_project_states(array $rounds, array $pools): void
             $round->project_available_state,
             "$round->id: " . _("Available"),
             "$round->name: " . _("Available"),
-            $projects_forum_idx,
+            SiteConfig::get()->projects_forum_idx,
             'PAGE_EDITING',
             'BRONZE'
         ));
@@ -147,7 +144,7 @@ function declare_project_states(array $rounds, array $pools): void
             $round->project_complete_state,
             "$round->id: " . _("Completed"),
             "$round->name: " . _("Completed"),
-            $projects_forum_idx,
+            SiteConfig::get()->projects_forum_idx,
             'PAGE_EDITING',
             ''
         ));
@@ -160,7 +157,7 @@ function declare_project_states(array $rounds, array $pools): void
         PROJ_POST_FIRST_UNAVAILABLE,
         _("Unavailable for PP"),
         _("Unavailable for Post-Processing"),
-        $pp_projects_forum_idx,
+        SiteConfig::get()->pp_projects_forum_idx,
         'PP',
         'SILVER'
     ));
@@ -185,7 +182,7 @@ function declare_project_states(array $rounds, array $pools): void
             $pool->project_available_state,
             "$pool->id: " . _("Available"),
             "$pool->name: " . _("Available"),
-            $pp_projects_forum_idx,
+            SiteConfig::get()->pp_projects_forum_idx,
             'PP',
             'SILVER'
         ));
@@ -195,7 +192,7 @@ function declare_project_states(array $rounds, array $pools): void
             $pool->project_checkedout_state,
             "$pool->id: " . _("Checked out"),
             "$pool->name: " . _("Checked out"),
-            $pp_projects_forum_idx,
+            SiteConfig::get()->pp_projects_forum_idx,
             'PP',
             'SILVER'
         ));
@@ -206,7 +203,7 @@ function declare_project_states(array $rounds, array $pools): void
         PROJ_POST_COMPLETE,
         _("Completed Post"),
         _("Completed Post-Processing"),
-        $pp_projects_forum_idx,
+        SiteConfig::get()->pp_projects_forum_idx,
         'PP',
         'SILVER'
     ));
@@ -218,7 +215,7 @@ function declare_project_states(array $rounds, array $pools): void
         PROJ_SUBMIT_PG_POSTED,
         _("Posted to PG"),
         _("Completed and Posted to Project Gutenberg"),
-        $posted_projects_forum_idx,
+        SiteConfig::get()->posted_projects_forum_idx,
         'GB',
         'GOLD'
     ));
@@ -230,7 +227,7 @@ function declare_project_states(array $rounds, array $pools): void
         PROJ_COMPLETE,
         _("Project Complete"),
         _("Project Complete"),
-        $completed_projects_forum_idx,
+        SiteConfig::get()->completed_projects_forum_idx,
         'COMPLETE',
         ''
     ));
@@ -242,7 +239,7 @@ function declare_project_states(array $rounds, array $pools): void
         PROJ_DELETE,
         _("Delete Project"),
         _("Delete Project"),
-        $deleted_projects_forum_idx,
+        SiteConfig::get()->deleted_projects_forum_idx,
         'NONE',
         ''
     ));

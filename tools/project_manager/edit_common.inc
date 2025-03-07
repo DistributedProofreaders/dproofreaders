@@ -258,8 +258,6 @@ function special_list($special)
 
 function image_source_list($image_source)
 {
-    global $site_abbreviation;
-
     $imso_array = [];
     foreach (load_image_sources() as $code => $source) {
         if (($source["is_active"] == 1 && can_user_see_image_source($source)) ||
@@ -283,7 +281,7 @@ function image_source_list($image_source)
     }
 
     echo "</select> ";
-    echo "<span class='small'>". html_safe(sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), $site_abbreviation))."</span>";
+    echo "<span class='small'>". html_safe(sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), SiteConfig::get()->site_abbreviation))."</span>";
     echo " " . new_window_link("show_image_sources.php", _("Details of Image Sources"));
     echo "<br>";
 }

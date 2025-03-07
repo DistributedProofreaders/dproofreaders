@@ -32,7 +32,7 @@ echo "<h1>$title</h1>";
 echo get_page_header_image("HUB");
 
 echo "<p>\n";
-echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'), $site_abbreviation);
+echo sprintf(_('Welcome to the %1$s Activity Hub. From this page you can view the phases of %1$s production.'), SiteConfig::get()->site_abbreviation);
 echo "\n";
 echo _("Follow the links to the specific areas of the site.");
 echo "</p>\n";

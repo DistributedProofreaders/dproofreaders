@@ -11,18 +11,12 @@ $basedir = $argv[1] ?? "../../";
 $ok_not_includes_base = [
     // Settings files
     "pinc/site_vars.php",
-    "pinc/udb_user.php",
     // API loads bootstrap directly
     "api/index.php",
     // Privacy is a dual-mode include page and the UI version has base.inc
     "faq/privacy.php",
     // Dev tools
     ".php-cs-fixer.dist.php",
-];
-
-// List of files that are ok to contain site_vars.php
-$ok_includes_site_vars = [
-    "pinc/bootstrap.inc",
 ];
 
 // List of files that are ok to contain misc.inc
@@ -101,7 +95,7 @@ foreach ($files as $file) {
     }
 
     // No file should include site_vars.php
-    if (file_includes_site_vars("$basedir/$file") && !in_array($file, $ok_includes_site_vars)) {
+    if (file_includes_site_vars("$basedir/$file")) {
         abort($file, "no file should include site_vars.php");
     }
 

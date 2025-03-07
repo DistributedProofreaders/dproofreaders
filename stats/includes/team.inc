@@ -8,11 +8,11 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'../stats/includes/common.inc');
 include_once($relPath.'graph_data.inc');
 
-$team_avatars_dir = "$dyn_dir/teams/avatar";
-$team_avatars_url = "$dyn_url/teams/avatar";
+$team_avatars_dir = SiteConfig::get()->dyn_dir . "/teams/avatar";
+$team_avatars_url = SiteConfig::get()->dyn_url . "/teams/avatar";
 
-$team_icons_dir = "$dyn_dir/teams/icon";
-$team_icons_url = "$dyn_url/teams/icon";
+$team_icons_dir = SiteConfig::get()->dyn_dir . "/teams/icon";
+$team_icons_url = SiteConfig::get()->dyn_url . "/teams/icon";
 
 // Define the maximum number of teams the user can be a member of.
 define("MAX_USER_TEAM_MEMBERSHIP", 6);
@@ -293,7 +293,7 @@ function showTeamStats($curTeam, $tally_name)
 
 function showTeamMbrs($curTeam, $tally_name)
 {
-    global $code_url, $site_abbreviation;
+    global $code_url;
 
     $order = get_enumerated_param($_GET, 'order', 'mbr', ['mbr', 'pages', 'date']);
     $direction = get_enumerated_param($_GET, 'direction', 'asc', ['asc', 'desc']);
@@ -324,7 +324,7 @@ function showTeamMbrs($curTeam, $tally_name)
         [
             ['mbr',   'username',      'asc',  _("Username")],
             ['pages', 'current_tally', 'desc', _("Pages Completed")],
-            ['date',  'date_created',  'asc',  sprintf(_("Date Joined %s"), $site_abbreviation)],
+            ['date',  'date_created',  'asc',  sprintf(_("Date Joined %s"), SiteConfig::get()->site_abbreviation)],
         ];
     foreach ($column_descriptors as $column_descriptor) {
         [$cd_order, $cd_dbcolumn, $cd_default_dir, $cd_header_text] =

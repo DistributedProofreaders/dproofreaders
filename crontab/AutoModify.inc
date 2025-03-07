@@ -12,10 +12,8 @@ class AutoModify extends BackgroundJob
 
     public function work(): void
     {
-        global $dyn_dir;
-
         // Capture the automodify output to a log file
-        $logs_dir = "$dyn_dir/stats/automodify_logs";
+        $logs_dir = SiteConfig::get()->dyn_dir . "/stats/automodify_logs";
         if (! is_dir($logs_dir)) {
             mkdir($logs_dir, 0777, true);
         }

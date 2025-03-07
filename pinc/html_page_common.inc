@@ -14,7 +14,7 @@ define('SHOW_STATSBAR', true);
  */
 function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
 {
-    global $code_url, $site_abbreviation;
+    global $code_url;
 
     static $was_output = false;
     if ($was_output) {
@@ -45,7 +45,7 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     // a FF bug: https://bugzilla.mozilla.org/show_bug.cgi?id=751712
     echo "<link rel='shortcut icon' href='$code_url/graphics/dp-mark-32px.ico'>\n";
 
-    echo "<title>$site_abbreviation";
+    echo "<title>" . SiteConfig::get()->site_abbreviation;
     if (isset($nameofpage)) {
         echo ": ", html_safe($nameofpage);
     }

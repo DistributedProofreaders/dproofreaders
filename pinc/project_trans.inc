@@ -12,14 +12,12 @@ include_once($relPath.'ProjectTransition.inc');
  */
 function project_transition(string $projectid, string $new_state, string $who, array $extras = [])
 {
-    global $testing;
-
     $project = new Project($projectid);
 
     $current_state = $project->state;
 
     $transition_str = "$projectid: $current_state -> $new_state";
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         $indent = '    ';
         // The trace output will be going to an HTML doc,
         // but not into a <pre> element.
@@ -31,7 +29,7 @@ function project_transition(string $projectid, string $new_state, string $who, a
     if ($new_state == $current_state) {
         // The transition succeeds trivially.
         // No attendant processing.
-        if ($testing) {
+        if (SiteConfig::get()->testing) {
             $sentence = _("Transition succeeded trivially - states are the same.");
             echo "$indent$transition_str: $sentence$eol";
         }
@@ -53,7 +51,7 @@ function project_transition(string $projectid, string $new_state, string $who, a
     $error = $transition->do_state_change($project, $who, $extras);
     if ($error == '') {
         // success
-        if ($testing) {
+        if (SiteConfig::get()->testing) {
             $sentence = _("Transition succeeded.");
             echo "$indent$transition_str: $sentence$eol";
         }

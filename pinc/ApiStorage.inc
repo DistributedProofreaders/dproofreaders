@@ -7,9 +7,7 @@ class ApiStorage
 
     public function __construct(string $storage_key, string $username)
     {
-        global $api_storage_keys;
-
-        if (!in_array($storage_key, $api_storage_keys)) {
+        if (!in_array($storage_key, SiteConfig::get()->api_storage_keys)) {
             throw new ValueError("$storage_key is not an accepted storage key");
         }
         $this->setting = "api:$storage_key";
