@@ -249,6 +249,7 @@ declare_mentoring_pair('P1', 'P2');
 // This particular assignment assumes that the ELR is the first round
 // defined in this file. This is probably correct, but your site is
 // welcome to use a different round as your ELR.
+global $ELR_round;
 $ELR_round = get_Round_for_round_number(1);
 
 // On the other hand, if your site doesn't have a distinguished entry-level
