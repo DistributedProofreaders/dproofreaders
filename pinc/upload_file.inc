@@ -257,7 +257,7 @@ function zip_check($original_name, $file_path)
 // echos messages if verbose
 function virus_check($file_path, $verbose)
 {
-    global $antivirus_executable;
+    $antivirus_executable = SiteConfig::get()->antivirus_executable;
     if (!$antivirus_executable) {
         return;
     }

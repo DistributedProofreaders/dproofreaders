@@ -175,7 +175,7 @@ function get_prefix_searches(bool $flatten_aliases = false): array
 
 function get_jump_words(bool $flatten_aliases = false): array
 {
-    global $code_url, $wiki_url, $blog_url;
+    global $code_url;
 
     $jump_words = [
         "activityhub" => [
@@ -229,16 +229,16 @@ function get_jump_words(bool $flatten_aliases = false): array
         ];
     }
 
-    if (!empty($wiki_url)) {
+    if (SiteConfig::get()->wiki_url) {
         $jump_words["wiki"] = [
-            "url" => $wiki_url,
+            "url" => SiteConfig::get()->wiki_url,
             "desc" => _("Wiki"),
         ];
     }
 
-    if (!empty($blog_url)) {
+    if (SiteConfig::get()->blog_url) {
         $jump_words["blog"] = [
-            "url" => $blog_url,
+            "url" => SiteConfig::get()->blog_url,
             "desc" => _("Blog"),
         ];
     }

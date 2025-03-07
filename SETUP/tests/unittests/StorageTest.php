@@ -27,8 +27,7 @@ class StorageTest extends PHPUnit\Framework\TestCase
 
     public function test_valid_storagekey(): void
     {
-        global $api_storage_keys;
-        $api_storage_keys = ["valid"];
+        SiteConfig::get()->api_storage_keys = ["valid"];
 
         $storage = new ApiStorage("valid", "username");
         $storage->set("{}");
@@ -40,9 +39,6 @@ class StorageTest extends PHPUnit\Framework\TestCase
 
     public function test_invalid_storagekey(): void
     {
-        global $api_storage_keys;
-        $api_storage_keys = [];
-
         $this->expectException(ValueError::class);
 
         $storage = new ApiStorage("invalid", "username");

@@ -481,8 +481,7 @@ class ReleaseRestrictor
         // keep track of which PMs have had a book released this execution of the script
         $this->fresh_released_pms[$pm] = 1;
 
-        global $testing;
-        if ($testing) {
+        if (SiteConfig::get()->testing) {
             echo "\n";
             echo "    ((((\n";
             echo "    ReleaseRestrictor::update_for_released_project():\n";

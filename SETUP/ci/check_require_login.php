@@ -34,7 +34,6 @@ $ok_files = [
     "faq/translate.php",
     // .inc pages hiding as .php pages
     "pinc/site_vars.php",
-    "pinc/udb_user.php",
     "pinc/site_registration_protection.php",
     // 3rd party libraries
     "pinc/3rdparty/mediawiki/DiffEngine.php",

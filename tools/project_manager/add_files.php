@@ -79,7 +79,7 @@ if ($rel_source == '') {
     }
 }
 
-$abs_source = "$uploads_dir/$rel_source";
+$abs_source = SiteConfig::get()->uploads_dir . "/$rel_source";
 
 if (!file_exists($abs_source)) {
     die("source does not exist: $abs_source");

@@ -38,8 +38,7 @@ use Symfony\Component\Process\Process;
  */
 function phpbb_table($table)
 {
-    global $forums_phpbb_table_prefix;
-    return $forums_phpbb_table_prefix . "_" . $table;
+    return SiteConfig::get()->forums_phpbb_table_prefix . "_" . $table;
 }
 
 /**
@@ -167,7 +166,7 @@ function phpbb_user_error_handler($errno, $errstr, $errfile, $errline)
  */
 function login_forum_user($username, $password)
 {
-    global $forums_phpbb_dir;
+    $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
 
     if (!is_dir($forums_phpbb_dir)) {
         return false;
@@ -278,9 +277,9 @@ function login_forum_user($username, $password)
  */
 function logout_forum_user()
 {
-    global $forums_phpbb_dir;
     global $pguser;
 
+    $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
     if (!is_dir($forums_phpbb_dir)) {
         return;
     }
@@ -497,8 +496,7 @@ function get_forum_email_address($username)
  */
 function get_url_for_forum()
 {
-    global $forums_phpbb_url;
-    return $forums_phpbb_url;
+    return SiteConfig::get()->forums_phpbb_url;
 }
 
 /**
@@ -709,7 +707,7 @@ function get_last_post_time_in_topic($topic_id)
  */
 function get_topic_details($topic_id)
 {
-    global $forums_phpbb_dir;
+    $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
 
     $phpbb_topics = phpbb_table("topics");
     $phpbb_forums = phpbb_table("forums");
@@ -807,7 +805,7 @@ function call_phpbb_function($func_name, $args)
         echo "call_phpbb_function( $func_name, ", print_r($args, true), ")<br>\n";
     }
 
-    global $forums_phpbb_dir;
+    $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
     if (!is_dir($forums_phpbb_dir)) {
         echo "Warning: unable to call '$func_name' because \$forums_phpbb_dir ($forums_phpbb_dir) does not exist.\n";
         return;
@@ -815,7 +813,8 @@ function call_phpbb_function($func_name, $args)
 
     // The phpbb3.inc assumes it's running from $code_dir/pinc/ so we need
     // to run it from there specifically.
-    global $code_dir, $php_cli_executable;
+    global $code_dir;
+    $php_cli_executable = SiteConfig::get()->php_cli_executable;
     $phpbb_include_file = "phpbb3.inc";
     $process = new Process(array_merge([$php_cli_executable, "-f", $phpbb_include_file, $func_name], $args), "$code_dir/pinc");
     $exitcode = $process->run();

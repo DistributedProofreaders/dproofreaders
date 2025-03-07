@@ -9,14 +9,16 @@ include_once($relPath.'slim_header.inc');
 
 detect_too_large();
 
+$uploads_dir = SiteConfig::get()->uploads_dir;
+
 // Directory structure under uploads dir
-$trash_rel_dir = $uploads_subdir_trash;
+$trash_rel_dir = SiteConfig::get()->uploads_subdir_trash;
 $trash_dir = "$uploads_dir/$trash_rel_dir";
 
-$commons_rel_dir = $uploads_subdir_commons;
+$commons_rel_dir = SiteConfig::get()->uploads_subdir_commons;
 $commons_dir = "$uploads_dir/$commons_rel_dir";
 
-$users_rel_dir = $uploads_subdir_users;
+$users_rel_dir = SiteConfig::get()->uploads_subdir_users;
 $users_dir = "$uploads_dir/$users_rel_dir";
 
 require_login();
@@ -70,6 +72,7 @@ if ($access_mode == 'common') {
 }
 
 if (is_null($home_dirname)) {
+    $db_requests_email_addr = SiteConfig::get()->db_requests_email_addr;
     $page_title = _("Manage your uploads folder");
     output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
@@ -91,7 +94,7 @@ if (!is_dir($home_path)) {
         show_message('error', _("Could not create home folder!"));
         exit();
     }
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         chmod($home_path, 0777);
         // so that it's easier to clean up test cases.
 

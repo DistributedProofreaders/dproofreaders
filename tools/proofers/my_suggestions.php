@@ -578,8 +578,6 @@ function compare_array_by_priority($a, $b)
 
 function get_user_suggestion_criteria(?string $username, $flush_cache = false)
 {
-    global $testing;
-
     // We cache this in the session table so we don't calculate it on every
     // page load. We keep it for an hour.
     $cache_valid_duration = 60 * 60;

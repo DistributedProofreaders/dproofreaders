@@ -3,9 +3,7 @@ $relPath = '../pinc/';
 // We can't include base.inc because it tries to connect to the database
 // before we've created it.
 include_once($relPath.'DPDatabase.inc');
-// DPDatabase.inc include()s udb_user.php but only in a local scope, so we
-// need to include it again to place $db_name in this scope.
-include($relPath.'udb_user.php'); // $db_name
+include_once($relPath.'SiteConfig.inc');
 
 try {
     DPDatabase::connect();
@@ -16,6 +14,7 @@ if (!DPDatabase::get_connection()) {
     die("Unable to connect to database");
 }
 
+$db_name = SiteConfig::get()->db_name;
 DPDatabase::query("CREATE DATABASE IF NOT EXISTS $db_name");
 DPDatabase::query("USE $db_name");
 DPDatabase::query("SET FOREIGN_KEY_CHECKS=0");

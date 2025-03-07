@@ -150,8 +150,8 @@ echo "</p>\n";
 echo "<hr><p class='center-align'>\n";
 echo sprintf(
     _('Questions or comments? Please contact us at <a href="%1$s">%2$s</a>.'),
-    "mailto:$general_help_email_addr",
-    $general_help_email_addr
+    "mailto:" . SiteConfig::get()->general_help_email_addr,
+    SiteConfig::get()->general_help_email_addr
 );
 echo "</p>\n";
 
