@@ -16,7 +16,7 @@ if (!isset($relPath)) {
 
 
 $test_system_access_string = '';
-if ($testing) {
+if (SiteConfig::get()->testing) {
     $test_system_access_string = "<span class='test_warning'>";
     $test_system_access_string .= _('Because this is a testing site, developers with login access to this server will also have access to the Real Name you provide.');
     $test_system_access_string .= "</span>";
@@ -116,8 +116,7 @@ output_section(
 
 function insert_site_name($sentence)
 {
-    global $site_name;
-    return sprintf($sentence, $site_name);
+    return sprintf($sentence, SiteConfig::get()->site_name);
 }
 
 /**

@@ -136,14 +136,14 @@ class ProjectInfoHolder
 
     public function set_from_nothing()
     {
-        global $pguser, $default_project_char_suites;
+        global $pguser;
 
         $this->project = new Project();
         $this->project->username = $pguser;
         $this->project->image_preparer = $pguser;
         $this->project->text_preparer = $pguser;
         $this->project->difficulty = ($pguser == "BEGIN" ? "beginner" : "average");
-        $this->charsuites = $default_project_char_suites;
+        $this->charsuites = SiteConfig::get()->default_project_char_suites;
     }
 
     // -------------------------------------------------------------------------
@@ -462,7 +462,7 @@ class ProjectInfoHolder
 
     public function show_visible_controls()
     {
-        global $site_abbreviation, $pguser;
+        global $pguser;
 
         $can_set_difficulty_tofrom_beginner = ($pguser == "BEGIN") || user_is_a_sitemanager();
 
@@ -490,7 +490,7 @@ class ProjectInfoHolder
         $this->row(_("Author"), 'text_field', $this->project->authorsname, 'authorsname', '', ["maxlength" => 255, "required" => true]);
         if (user_is_a_sitemanager()) {
             // SAs are the only ones who can change this
-            $this->row(_("Project Manager"), 'DP_user_field', $this->project->username, 'username', sprintf(_("%s username only."), $site_abbreviation), ["required" => true]);
+            $this->row(_("Project Manager"), 'DP_user_field', $this->project->username, 'username', sprintf(_("%s username only."), SiteConfig::get()->site_abbreviation), ["required" => true]);
         }
         $this->row(_("Language"), 'language_list', $this->project->language);
 
@@ -512,14 +512,14 @@ class ProjectInfoHolder
         }
         $this->row(_("Special Day"), 'special_list', $this->project->special_code);
         if ($can_edit_PPer) {
-            $this->row(_("PPer/PPVer"), 'DP_user_field', $this->project->checkedoutby, 'checkedoutby', sprintf(_("Optionally reserve for a PPer. %s username only."), $site_abbreviation));
+            $this->row(_("PPer/PPVer"), 'DP_user_field', $this->project->checkedoutby, 'checkedoutby', sprintf(_("Optionally reserve for a PPer. %s username only."), SiteConfig::get()->site_abbreviation));
         } else {
             $this->row(_("PPer/PPVer"), 'just_echo', $this->project->checkedoutby);
             echo "<input type='hidden' name='checkedoutby' value='{$this->project->checkedoutby}'>";
         }
         $this->row(_("Image Source"), 'image_source_list', $this->project->image_source);
-        $this->row(_("Image Preparer"), 'DP_user_field', $this->project->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), $site_abbreviation));
-        $this->row(_("Text Preparer"), 'DP_user_field', $this->project->text_preparer, 'text_preparer', sprintf(_("%s user who prepared the text files."), $site_abbreviation));
+        $this->row(_("Image Preparer"), 'DP_user_field', $this->project->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), SiteConfig::get()->site_abbreviation));
+        $this->row(_("Text Preparer"), 'DP_user_field', $this->project->text_preparer, 'text_preparer', sprintf(_("%s user who prepared the text files."), SiteConfig::get()->site_abbreviation));
         $this->row(
             _("Extra Credits<br>(to be included in list of names--no URLs)"),
             'extra_credits_field',

@@ -685,17 +685,17 @@ class Project
 
     public function __get($name)
     {
-        global $pguser, $projects_url, $projects_dir, $code_url;
+        global $pguser;
 
         static $project_page_table_exists = null;
 
         switch ($name) {
             case "url":
-                return "$projects_url/$this->projectid";
+                return SiteConfig::get()->projects_url . "/$this->projectid";
             case "dir":
-                return "$projects_dir/$this->projectid";
+                return SiteConfig::get()->projects_dir . "/$this->projectid";
             case "page_url":
-                return "$code_url/project.php?id={$this->projectid}";
+                return SiteConfig::get()->code_url . "/project.php?id={$this->projectid}";
             case "is_utf8":
                 return DPDatabase::is_table_utf8($this->projectid);
             case "dir_exists":
@@ -1134,11 +1134,10 @@ class Project
 
     public function names_can_be_seen_by_user($username)
     {
-        global $public_page_details;
         if (is_null($username)) {
             return false;
         }
-        if ($public_page_details) {
+        if (SiteConfig::get()->public_page_details) {
             return true;
         }
         return
@@ -1354,8 +1353,6 @@ class Project
      */
     private function _create_credit_line(): string
     {
-        global $site_url;
-
         $credits = [];
 
         $creditables = [
@@ -1416,9 +1413,9 @@ class Project
         }
 
         if (count($credits) > 0) {
-            $credits_line = join(', ', $credits) . " and the Online Distributed Proofreading Team at $site_url";
+            $credits_line = join(', ', $credits) . " and the Online Distributed Proofreading Team at " . SiteConfig::get()->site_url;
         } else {
-            $credits_line = "The Online Distributed Proofreading Team at $site_url";
+            $credits_line = "The Online Distributed Proofreading Team at " . SiteConfig::get()->site_url;
         }
 
         return $credits_line;
@@ -1442,11 +1439,10 @@ class Project
         $post_subject = "\"{$this->nameofwork}\" by {$this->authorsname}";
 
         validate_projectID($this->projectid);
-        global $code_url;
         $post_body = <<<EOS
             This thread is for discussion specific to "$this->nameofwork" by $this->authorsname.
 
-            If you have a question about this project, please review the [url=$code_url/project.php?id={$this->projectid}]Project Comments[/url], as well as any posts below, as your question may already be answered there.
+            If you have a question about this project, please review the [url={$this->page_url}]Project Comments[/url], as well as any posts below, as your question may already be answered there.
 
             If you haven't found the answer to your question, or want to make a comment about this project, click on the [b]Post Reply[/b] button to post your question or comment in this thread.
 
@@ -1491,8 +1487,6 @@ class Project
      */
     public function email_introduction()
     {
-        global $site_name, $code_url;
-
         $projectid = $this->projectid;
         $title = $this->nameofwork;
 
@@ -1501,7 +1495,7 @@ class Project
             _("This message is regarding the following project:"),
             "",
             mdmail_append_linebreak("\"$title\""),
-            mdmail_indent_line("$code_url/project.php?id=$projectid"),
+            mdmail_indent_line($this->page_url),
             "",
         ]);
     }
@@ -2080,15 +2074,13 @@ function get_page_image_param($arr, $key, $allownull = false)
 
 function load_image_sources()
 {
-    global $site_abbreviation, $code_url;
-
     static $image_sources = [];
     if ($image_sources) {
         return $image_sources;
     }
 
     // TRANSLATORS: %s is the site abbreviation
-    $internal_name = sprintf(_("%s Internal"), $site_abbreviation);
+    $internal_name = sprintf(_("%s Internal"), SiteConfig::get()->site_abbreviation);
 
     $image_sources = [
         "_internal" => [
@@ -2097,7 +2089,7 @@ function load_image_sources()
             "full_name" => $internal_name,
             "info_page_visibility" => 3,
             "is_active" => 1,
-            "url" => $code_url,
+            "url" => SiteConfig::get()->code_url,
             "credit" => "",
             "ok_show_images" => -1,
             "ok_keep_images" => -1,

@@ -48,7 +48,7 @@ slim_header("", $header_args);
 <input type="submit" value="<?php echo _("Check"); ?>">
 <input type="reset" value="<?php echo _("Restart"); ?>">
 <?php
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         $solution = qp_sample_solution();
 
         echo "<textarea name='cheat_text' style='display: none;' disabled>\n";

@@ -1,10 +1,10 @@
 <?php
 
-ini_set('session.name', "{$site_abbreviation}_Session");
+ini_set('session.name', SiteConfig::get()->site_abbreviation . "_Session");
 ini_set('session.use_cookies', 1);
 ini_set('session.cookie_domain', ''); // A sensible value will be used.
 ini_set('session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
-ini_set('session.cookie_secure', $use_secure_cookies);
+ini_set('session.cookie_secure', SiteConfig::get()->use_secure_cookies);
 ini_set('session.cookie_samesite', 'Lax');
 
 global $pguser;

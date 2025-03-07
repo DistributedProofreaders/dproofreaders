@@ -904,11 +904,10 @@ class ApiTest extends ProjectUtils
     public function test_storage_valid(): void
     {
         global $pguser;
-        global $api_storage_keys;
         global $request_body;
 
         $pguser = $this->TEST_USERNAME_PM;
-        array_push($api_storage_keys, "valid");
+        SiteConfig::get()->api_storage_keys = ["valid"];
 
         $path = "v1/storage/valid";
         $query_params = [];

@@ -181,8 +181,7 @@ class Activity
         $this->evaluation_criteria = $evaluation_criteria;
         $this->access_change_callback = $access_change_callback;
 
-        global $testing;
-        if ($testing && !is_null($this->access_minima)) { /** @phpstan-ignore-line */
+        if (SiteConfig::get()->testing && !is_null($this->access_minima)) { /** @phpstan-ignore-line */
             // Relax minima.
             foreach ($this->access_minima as $criterion_code => $minimum) {
                 if (startswith($criterion_code, 'quiz/')) {

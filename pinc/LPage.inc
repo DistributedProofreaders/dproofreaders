@@ -164,7 +164,7 @@ function get_available_page(string $projectid, string $proj_state, string $pguse
  */
 function get_available_proof_page_array(Project $project, Round $round, string $pguser): array
 {
-    global $preceding_proofer_restriction;
+    $preceding_proofer_restriction = SiteConfig::get()->preceding_proofer_restriction;
 
     validate_user_can_get_pages_in_project(new User($pguser), $project, $round);
 
