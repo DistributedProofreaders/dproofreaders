@@ -858,7 +858,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     
     A copy of the PPV Summary is below. If you have any questions about it, please contact your PPVer.");
 
-    $ppbit = sprintf($ppbita, $project->postproofer, $pguser, $nameofwork, $site_name);
+    $ppbit = sprintf($ppbita, $project->postproofer, $pguser, $nameofwork, SiteConfig::get()->site_name);
     $ppbit = ppv_report_wrap($ppbit);
 
     configure_gettext_for_user($ppver);
@@ -870,24 +870,24 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     
     A copy of the summary you submitted is below. If you see an important error, please email %3\$s.");
 
-    $ppvbit = sprintf($ppvbita, $pguser, $nameofwork, $general_help_email_addr, $site_name);
+    $ppvbit = sprintf($ppvbita, $pguser, $nameofwork, SiteConfig::get()->general_help_email_addr, SiteConfig::get()->site_name);
     $ppvbit = ppv_report_wrap($ppvbit);
 
     if (isset($_POST['cc_pp'])) {
         $to = $pper->email;
-        $subject = "$site_abbreviation PP: $nameofwork";
+        $subject = SiteConfig::get()->site_abbreviation . " PP: $nameofwork";
         $message = $ppbit . $reportcard;
         send_mail($to, $subject, $message);
     }
 
     if (isset($_POST['cc_ppv'])) {
         $to = $ppver->email;
-        $subject = "$site_abbreviation PPV: $nameofwork";
+        $subject = SiteConfig::get()->site_abbreviation . " PPV: $nameofwork";
         $message = $ppvbit . $reportcard;
         send_mail($to, $subject, $message);
     }
 
-    $to = $ppv_reporting_email_addr;
+    $to = SiteConfig::get()->ppv_reporting_email_addr;
     $subject = "PPV Summary - $project->postproofer ($_POST[pp_evaluation])";
     $message = $reportcard;
     send_mail($to, $subject, $message, "$pguser <$ppver->email>");

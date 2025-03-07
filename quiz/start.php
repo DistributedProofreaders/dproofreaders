@@ -19,7 +19,7 @@ $quiz_type_intro = [
     "proof" => [
         "title" => _("Proofreading Quizzes and Tutorials"),
         "head" => "<h1>" . _("Interactive Proofreading Quizzes and Tutorials") . "</h1>\n" .
-                  "<p>" . sprintf(_("Welcome to %s's interactive proofreading quizzes and tutorials! These quizzes cover corrections you should make in the proofreading rounds."), $site_abbreviation) . "</p>\n" .
+                  "<p>" . sprintf(_("Welcome to %s's interactive proofreading quizzes and tutorials! These quizzes cover corrections you should make in the proofreading rounds."), SiteConfig::get()->site_abbreviation) . "</p>\n" .
                   "<p>" . sprintf(_("You can use these pages in two different ways. If you are not yet familiar with the proofreading guidelines you should use the tutorial mode by clicking on the '%1\$s' links.  If you already know the proofreading guidelines you can use them as quizzes only by clicking the '%2\$s' links."), _("Tutorial"), _("Quiz Page")) . "</p>\n",
     ],
 
@@ -106,7 +106,7 @@ elseif (
 else {
     output_header(_('Interactive Quizzes and Tutorials'), SHOW_STATSBAR);
     echo "<h1>" . _("Interactive Quizzes and Tutorials") . "</h1>\n";
-    echo "<p>" . sprintf(_("Welcome to %s's interactive quizzes! The following quizzes are available:"), $site_abbreviation) . "</p>\n<p>";
+    echo "<p>" . sprintf(_("Welcome to %s's interactive quizzes! The following quizzes are available:"), SiteConfig::get()->site_abbreviation) . "</p>\n<p>";
     foreach ($quiz_type_intro as $key => $intro) {
         echo "<a href='start.php?show_only=$key'>" . $intro['title'] ."</a><br>";
     }

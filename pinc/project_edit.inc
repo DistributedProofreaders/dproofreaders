@@ -26,8 +26,6 @@ function user_can_add_project_pages($projectid)
  */
 function abort_if_cant_edit_project($projectid)
 {
-    global $site_manager_email_addr;
-
     try {
         $project = new Project($projectid);
     } catch (NonexistentProjectException $exception) {
@@ -37,7 +35,7 @@ function abort_if_cant_edit_project($projectid)
             <P>
             ", sprintf(
             _("If this message is an error, contact a <a href='%s'>site manager</a>"),
-            "mailto:$site_manager_email_addr"
+            "mailto:" . SiteConfig::get()->site_manager_email_addr
         ), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         exit;
@@ -50,7 +48,7 @@ function abort_if_cant_edit_project($projectid)
             <P>
             ", sprintf(
             _("If this message is an error, contact a <a href='%s'>site manager</a>"),
-            "mailto:$site_manager_email_addr"
+            "mailto:" . SiteConfig::get()->site_manager_email_addr
         ), "
             <P><a href=\"projectmgr.php\">"._("Back")."</a>";
         exit;
@@ -59,7 +57,6 @@ function abort_if_cant_edit_project($projectid)
 
 function check_user_can_load_projects($exit_if_not)
 {
-    global $site_manager_email_addr;
     if (user_has_project_loads_disabled()) {
         echo "
               <div class='display-flex' style='margin-bottom:0.5em'><div class='callout'>"
@@ -67,7 +64,7 @@ function check_user_can_load_projects($exit_if_not)
             ."<br>\n"
             .sprintf(
                 _("If you believe you are receiving this message in error, please contact a <a href='%s'>site manager</a>."),
-                "mailto:$site_manager_email_addr"
+                "mailto:" . SiteConfig::get()->site_manager_email_addr
             )
             ."
               </div></div>\n";

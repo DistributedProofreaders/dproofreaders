@@ -11,7 +11,6 @@ $basedir = $argv[1] ?? "../../";
 $ok_not_includes_base = [
     // Settings files
     "pinc/site_vars.php",
-    "pinc/udb_user.php",
     // Simple redirects
     "stats/default.php",
     "faq/default.php",
@@ -21,11 +20,6 @@ $ok_not_includes_base = [
     "faq/privacy.php",
     // Dev tools
     ".php-cs-fixer.dist.php",
-];
-
-// List of files that are ok to contain site_vars.php
-$ok_includes_site_vars = [
-    "pinc/bootstrap.inc",
 ];
 
 // List of files that are ok to contain misc.inc
@@ -104,7 +98,7 @@ foreach ($files as $file) {
     }
 
     // No file should include site_vars.php
-    if (file_includes_site_vars("$basedir/$file") && !in_array($file, $ok_includes_site_vars)) {
+    if (file_includes_site_vars("$basedir/$file")) {
         abort($file, "no file should include site_vars.php");
     }
 

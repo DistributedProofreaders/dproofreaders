@@ -56,6 +56,8 @@ if (user_is_a_sitemanager()) {
     $env_lang = getenv("LANG");
     $env_language = getenv("LANGUAGE");
     $locale = $detected_language;
+    $dyn_locales_dir = SiteConfig::get()->dyn_locales_dir;
+    $system_locales_dir = SiteConfig::get()->system_locales_dir;
     $set_locale = setlocale(LC_ALL, $locale);
     $bind1 = bindtextdomain($gettext_domain, $dyn_locales_dir);
     $bind2 = bindtextdomain("iso_639", $system_locales_dir);

@@ -26,7 +26,7 @@ output_header('Site translation', NO_STATSBAR);
 <p>Prior versions of the DP code included this lack of distinction between language and localization. This version uses locales when referring to specific interface language translations in the code. The user interface still uses "language" however.</p>
 
 <h2>Becoming a translator &amp; getting help</h2>
-<p>If you would like to help with a current translation effort, would like to translate the user interface into a new language, or have questions that are not answered in the following sections, please contact the <a href='mailto:<?php echo $translation_coordinator_email_addr; ?>'>site translation coordinator</a>. 
+<p>If you would like to help with a current translation effort, would like to translate the user interface into a new language, or have questions that are not answered in the following sections, please contact the <a href='mailto:<?php echo SiteConfig::get()->translation_coordinator_email_addr; ?>'>site translation coordinator</a>. 
 
 <?php if (user_is_a_sitemanager()) { ?>
 
@@ -79,7 +79,7 @@ Server MPM:     Prefork
 
 <p>To install the translations:<ol>
     <li>Change into the <kbd>SETUP/locale</kbd> directory and run <kbd>compile.sh</kbd> to compile the PO files into MO files</li>
-    <li>Copy the desired language directories to <kbd><?php echo $dyn_locales_dir; ?></kbd></li>
+    <li>Copy the desired language directories to <kbd><?php echo SiteConfig::get()->dyn_locales_dir; ?></kbd></li>
     <li>Confirm the web server has full read/write permissions on the files and directories</li>
 </ol></p>
 
