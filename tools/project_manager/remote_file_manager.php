@@ -122,15 +122,9 @@ $curr_relpath = get_current_dir_relative_path($home_dirname);
 $curr_abspath = "$uploads_dir/$curr_relpath";
 // The absolute path of the current directory.
 
-// $uploads_account is not required and may not be defined if they have not
-// set up FTP uploads. If it's blank, lets use a different string instead.
-// The point is to provide a "nice" representation of the absolute path
-// that doesn't reveal details of the upper reaches of the filesystem.
-if ($uploads_account) {
-    $curr_displaypath = "~$uploads_account/$curr_relpath";
-} else {
-    $curr_displaypath = "~uploads/$curr_relpath";
-}
+// Provide a "nice" representation of the absolute path that doesn't reveal
+// details of the upper reaches of the filesystem.
+$curr_displaypath = "~uploads/$curr_relpath";
 
 // For convenience, here are a couple of encoded forms:
 $hae_curr_relpath = attr_safe($curr_relpath);

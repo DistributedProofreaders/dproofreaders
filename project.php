@@ -914,7 +914,6 @@ function do_edit_above(): void
 function do_early_uploads(): void
 {
     global $project, $code_url, $pguser;
-    global $uploads_host, $uploads_account, $uploads_password;
     if (!$project->can_be_managed_by_current_user) {
         return;
     }
@@ -938,7 +937,7 @@ function do_early_uploads(): void
         echo _("Add/Replace text and images from directory or zip file:");
         echo "<br>\n";
         $initial_rel_source = "Users/$user_dir/";
-        echo "~$uploads_account/ <input type='text' name='rel_source' size='50' value='$initial_rel_source' required>";
+        echo "~uploads/ <input type='text' name='rel_source' size='50' value='$initial_rel_source' required>";
         echo "<br>\n";
         echo "<p>\n";
         echo _("Remember to upload the illustration files as well as the page files!");
@@ -951,18 +950,7 @@ function do_early_uploads(): void
 
     if ($add_reminder) {
         echo "<p>";
-        echo sprintf(_("To upload your files to %s, use the <a href='tools/project_manager/remote_file_manager.php'>remote file manager</a>."), "~$uploads_account");
-
-        // if the site has $uploads_host set, show the FTP details
-        if ($uploads_host) {
-            echo "<br>";
-            echo sprintf(
-                _('For FTP uploads, use host=%1$s account=%2$s password=%3$s'),
-                "<b>$uploads_host</b>",
-                "<b>$uploads_account</b>",
-                "<i>" . html_safe($uploads_password) . "</i>"
-            );
-        }
+        echo sprintf(_("To upload your files to %s, use the <a href='tools/project_manager/remote_file_manager.php'>remote file manager</a>."), "~uploads");
 
         echo "</p>";
     }
