@@ -216,29 +216,13 @@ _SITE_REGISTRATION_PROTECTION_CODE=
 # -------------------------------
 
 # To load images and text into projects, these files must reside on the
-# web server. There are two common ways to accomplish this:
-#   1) Via the built-in project upload script (recommended)
-#   2) Via an FTP server that you configure and manage separately
-#
-# Previously at pgdp.net, Project Managers were given access to a shared
-# ftp-only "uploads" account. Each PM created a personal directory (named
-# according to their DP login id) within the shared account's home
-# directory. This has since been replaced with the remote_file_manager.php
-# script.
+# web server. This is done with the built-in file upload script,
+# remote_file_manager.php.
 
 # The location where project information (text and images) are written
 # to by remote_file_manager.php and read from for loading into projects.
 # The web server must have read/write permissions on this directory.
-# If using FTP, this should be the root directory for the
-# _UPLOADS_ACCOUNT user.
 _UPLOADS_DIR=/home/dpscans
-
-# If using FTP, set the following parameters to have them echoed to
-# users as reminders. If _UPLOADS_HOST is blank, these will not be
-# displayed to users.
-_UPLOADS_HOST=www.example.org
-_UPLOADS_ACCOUNT=dpscans
-_UPLOADS_PASSWORD=PICK_A_PASSWORD
 
 # remote_file_manager.php will scan uploaded files for viruses
 # if an antivirus scanner, like clamscan, is installed. Any scanner

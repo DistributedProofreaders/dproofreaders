@@ -78,9 +78,6 @@ $uploads_subdir_trash = "TRASH";
 $uploads_subdir_commons = "Commons";
 $uploads_subdir_users = "Users";
 
-$uploads_host = '<<UPLOADS_HOST>>';
-$uploads_account = '<<UPLOADS_ACCOUNT>>';
-$uploads_password = '<<UPLOADS_PASSWORD>>';
 $antivirus_executable = '<<ANTIVIRUS_EXECUTABLE>>';
 
 // -----------------------------------------------------------------------------
