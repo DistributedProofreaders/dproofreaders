@@ -4,6 +4,16 @@
 
 class ApiTest extends ProjectUtils
 {
+    protected function tearDown(): void
+    {
+        global $pguser;
+
+        parent::tearDown();
+
+        // reset $pguser after every test
+        $pguser = null;
+    }
+
     //---------------------------------------------------------------------------
     // helper functions
 
@@ -64,7 +74,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, ['state' => $project_state, 'pagestate' => $page_state]);
     }
 
-    private function api_project_page(string $projectid, string $project_state, string $page_name, string $page_state, array $request_array = [], string $action)
+    private function api_project_page(string $projectid, string $project_state, string $page_name, string $page_state, array $request_array, string $action)
     {
         global $request_body;
 
@@ -116,7 +126,12 @@ class ApiTest extends ProjectUtils
         $request_body = ["reason" => $reason];
         $path = "v1/projects/$projectid/pages/$page_name/reportbad";
         $router = ApiRouter::get_router();
-        return $router->route($path, []);
+
+        // silence the output-to-console email that is sent
+        ob_start();
+        $result = $router->route($path, []);
+        ob_end_clean();
+        return $result;
     }
 
     //---------------------------------------------------------------------------

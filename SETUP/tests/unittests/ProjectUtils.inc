@@ -62,6 +62,12 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
     // helper function to create a project
     protected function _create_project(): Project
     {
+        global $pguser;
+
+        // save existing pguser and set to the PM we know exists
+        $old_pguser = $pguser;
+        $pguser = $this->TEST_USERNAME_PM;
+
         $project = new Project();
         foreach ($this->valid_project_data as $key => $value) {
             $project->$key = $value;
@@ -69,6 +75,9 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         $project->save();
         $this->created_projectids[] = $project->projectid;
         $project->add_charsuite("basic-latin");
+
+        // restore pguser
+        $pguser = $old_pguser;
 
         return $project;
     }
