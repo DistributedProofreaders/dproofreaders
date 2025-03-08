@@ -126,7 +126,7 @@ function write_project_comments($project, $fp)
     $header = "<HTML><BODY>";
     fputs($fp, $header);
 
-    // insert e.g. templates and biographies
+    // format Markdown to HTML
     $comments = parse_project_comments($project);
     fputs($fp, $comments);
 
