@@ -20,6 +20,7 @@ foreach (Rounds::get_all() as $round) {
 }
 $valid_new_states = array_merge($valid_new_states, [
     'proj_post_first_unavailable', 'proj_post_first_available', 'proj_post_first_checked_out',
+    'proj_post_second_available', 'proj_post_second_checked_out',
 ]);
 $new_state = get_enumerated_param($_POST, 'new_state', null, $valid_new_states, true);
 
@@ -67,6 +68,8 @@ function display_project_jump_form(string $action, ?string $projectid, ?string $
             <option value='proj_post_first_unavailable'>PP unavailable</option>
             <option value='proj_post_first_available'>PP available</option>
             <option value='proj_post_first_checked_out'>PP checked out</option>
+            <option value='proj_post_second_available'>PPV available</option>
+            <option value='proj_post_second_checked_out'>PPV checked out</option>
         ";
         echo "</select></td>\n";
         echo "</tr>";
@@ -118,6 +121,15 @@ function jump_project(string $projectid, string $new_state, bool $just_checking)
     }
     if ('proj_post_first_available' == $new_state && '' != $project->checkedoutby) {
         throw new RuntimeException("project has a PPer assigned ($project->checkedoutby) so can't jump to $new_state");
+    }
+
+    if ('proj_post_second_checked_out' == $new_state && '' == $project->checkedoutby) {
+        throw new RuntimeException("project must have a PPVer assigned to jump to $new_state");
+    } elseif ('proj_post_second_checked_out' == $new_state) {
+        echo "    PPVer     : $project->checkedoutby\n";
+    }
+    if ('proj_post_second_available' == $new_state && '' != $project->checkedoutby) {
+        throw new RuntimeException("project has a PPVer assigned ($project->checkedoutby) so can't jump to $new_state");
     }
 
 
