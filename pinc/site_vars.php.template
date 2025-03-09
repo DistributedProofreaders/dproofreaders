@@ -23,6 +23,15 @@ $maintenance_message = '<<MAINTENANCE_MESSAGE>>';
 $alert_message = '<<ALERT_MESSAGE>>';
 //---------------------------------------------------------------------------
 
+
+// Database configuration
+$db_server = '<<DB_SERVER>>';
+$db_user = '<<DB_USER>>';
+$db_password = '<<DB_PASSWORD>>';
+$db_name = '<<DB_NAME>>';
+$archive_db_name = '<<ARCHIVE_DB_NAME>>';
+
+//---------------------------------------------------------------------------
 $code_dir = '<<CODE_DIR>>';
 $code_url = '<<CODE_URL>>';
 
@@ -78,9 +87,6 @@ $uploads_subdir_trash = "TRASH";
 $uploads_subdir_commons = "Commons";
 $uploads_subdir_users = "Users";
 
-$uploads_host = '<<UPLOADS_HOST>>';
-$uploads_account = '<<UPLOADS_ACCOUNT>>';
-$uploads_password = '<<UPLOADS_PASSWORD>>';
 $antivirus_executable = '<<ANTIVIRUS_EXECUTABLE>>';
 
 // -----------------------------------------------------------------------------

@@ -22,7 +22,7 @@ $relPath = dirname(__FILE__)."/";
 // store the current time to calculate total page build time
 $PAGE_START_TIME = microtime(true);
 
-include_once($relPath.'site_vars.php');
+require_once $relPath.'SiteConfig.inc';
 
 // Register autoloader
 spl_autoload_register('dp_class_autoloader');
@@ -31,7 +31,7 @@ spl_autoload_register('dp_class_autoloader');
 require_once($relPath.'../vendor/autoload.php');
 
 // Exception handlers are defined differently for HTML and the API
-set_exception_handler($testing ? 'test_exception_handler' : 'production_exception_handler');
+set_exception_handler(SiteConfig::$testing ? 'test_exception_handler' : 'production_exception_handler');
 
 if (!headers_sent()) {
     // Tell proxies to vary the caching based on the Accept-Language header
@@ -49,7 +49,7 @@ if (!defined('SKIP_DB_CONNECT')) {
     } catch (Exception $e) {
         // If we're in maintenance mode, don't die here - we'll more gracefully
         // error out later
-        if (!$maintenance) {
+        if (!SiteConfig::$maintenance) {
             throw $e;
         }
     }
@@ -76,12 +76,10 @@ function dp_class_autoloader($class)
 
 function dp_setcookie($name, $value = "", $expires = 0, $options = [])
 {
-    global $use_secure_cookies;
-
     $defaults = [
         "expires" => $expires,
         "path" => "/",
-        "secure" => $use_secure_cookies,
+        "secure" => SiteConfig::$use_secure_cookies,
         "samesite" => "Lax",
     ];
 
