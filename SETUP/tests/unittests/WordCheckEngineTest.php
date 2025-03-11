@@ -228,4 +228,48 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected_words, $uncommon_words);
         $this->assertEquals($expected_scripts, $scripts);
     }
+
+    // Regression tests for Task 2100
+    private $ENGLISH_TEXT = <<<EOTEXT
+        perfectly valid English words
+        blearg blearg's
+        EOTEXT;
+
+    public function testEnglish()
+    {
+        $languages = ["English"];
+        $words = get_distinct_words_in_text($this->ENGLISH_TEXT);
+
+        [$bad_words, $messages] =
+            get_bad_words_via_external_checker($words, $languages);
+
+        $this->assertEquals(["blearg", "blearg's"], $bad_words);
+    }
+
+    private $FRENCH_TEXT = <<<EOTEXT
+        mots français valides
+        bonjuor l'absolulion
+        EOTEXT;
+
+    public function testFrench()
+    {
+        $languages = ["French"];
+        $words = get_distinct_words_in_text($this->FRENCH_TEXT);
+
+        [$bad_words, $messages] =
+            get_bad_words_via_external_checker($words, $languages);
+
+        $this->assertEquals(["bonjuor", "l'absolulion"], $bad_words);
+    }
+
+    public function testEnglishFrench()
+    {
+        $languages = ["English", "French"];
+        $words = get_distinct_words_in_text($this->ENGLISH_TEXT . ' ' . $this->FRENCH_TEXT);
+
+        [$bad_words, $messages] =
+            get_bad_words_via_external_checker($words, $languages);
+
+        $this->assertEquals(["blearg", "blearg's", "bonjuor", "l'absolulion"], $bad_words);
+    }
 }
