@@ -250,6 +250,7 @@ function makeImageWidget(container, align = "C") {
     const grabCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
+    image.style.visibility = "hidden";
     image.classList.add("middle-align");
 
     // When the image is rotated it has width and height as if it were not
@@ -398,6 +399,7 @@ function makeImageWidget(container, align = "C") {
     function initAll() {
         setImageStyle();
         initScroll();
+        image.style.visibility = "visible";
     }
 
     image.addEventListener("load", initAll);
