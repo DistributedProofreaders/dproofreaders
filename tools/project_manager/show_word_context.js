@@ -1,7 +1,7 @@
 /*global splitControl pageBrowse showWordContext */
 
 window.addEventListener("DOMContentLoaded", function () {
-    container = document.getElementById("page-browser");
+    const container = document.getElementById("page-browser");
     const widgetText = JSON.parse(container.dataset.widget_text);
 
     let storageKeyLayout = showWordContext.storageKey + "-layout";

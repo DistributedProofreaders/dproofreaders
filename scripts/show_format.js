@@ -1,5 +1,6 @@
 /*global analyse actionButton makeCheckBox makeLabel show hide getILTags */
 /* exported makePreview */
+/* eslint no-unused-vars: "warn" */
 
 function makePreview(formatting, proofText, quill, controls, controlBar, enterTextMode) {
     const fpControlSpan = document.createElement("span");

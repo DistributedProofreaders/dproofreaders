@@ -1,4 +1,4 @@
-/* global splitControl */
+/* global splitControl codeUrl */
 /* exported viewSplitter */
 
 var viewSplitter = function (container, userSettings, widgetText) {

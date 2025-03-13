@@ -1,5 +1,6 @@
 /* global ajax hide show actionButton */
 /* exported makeWordchecker */
+/* eslint no-use-before-define: "warn" */
 
 function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLanguages, editBox, numberLines, proofText, controls, controlBar, enterTextMode) {
     const wcControlSpan = document.createElement("span");

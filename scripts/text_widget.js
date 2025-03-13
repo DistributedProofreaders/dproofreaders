@@ -21,7 +21,7 @@ function editOperations(quill) {
             quill.insertText(index, before, "user");
             quill.setSelection(index, length + before.length + after.length, "user");
         },
-        transformSelection: function (func, args) {
+        transformSelection: function (func) {
             const { index, length } = quill.getSelection(true);
             const selectedText = quill.getText(index, length);
             quill.deleteText(index, length, "user");
