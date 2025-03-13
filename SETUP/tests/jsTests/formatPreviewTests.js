@@ -1,4 +1,4 @@
-/* global QUnit analyse processExMath findClose makePreview defaultStyles */
+/* global QUnit analyse findClose */
 
 QUnit.module("Format preview test", function () {
     let configuration = {
@@ -510,9 +510,9 @@ QUnit.module("Format preview test", function () {
         assert.strictEqual(procText, "xy]zaef");
     });
 
-    function getMessage(messageCode) {
+    /*function getMessage(messageCode) {
         return messageCode;
-    }
+    }*/
     /*
     QUnit.test("Check bad tag is converted to valid html", function (assert) {
         let text = "<i&>";

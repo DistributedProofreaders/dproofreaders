@@ -1,4 +1,4 @@
-/*global pageBrowse mentorMode */
+/*global pageBrowse */
 
 window.addEventListener("DOMContentLoaded", function () {
     let url = new URL(window.location.href);
