@@ -26,11 +26,23 @@ class ArchiveProjects extends BackgroundJob
 
         echo "Archiving page-tables for $num_projects projects...\n";
 
+        $num_projects_archived = 0;
         while ($project_data = mysqli_fetch_assoc($result)) {
+            if ($this->watch->read() >= $this->web_context_max_runtime_s) {
+                break;
+            }
+
             $project = new Project($project_data);
             archive_project($project);
+            $num_projects_archived += 1;
         }
 
-        $this->stop_message = "Archived $num_projects projects";
+        $leftover_projects = $num_projects - $num_projects_archived;
+        if ($leftover_projects) {
+            echo "Reached runtime limit, skipping archive of remaining $leftover_projects projects.\n";
+            $this->stop_message = "Archived $num_projects_archived projects, ran out of time to archive remaining $leftover_projects";
+        } else {
+            $this->stop_message = "Archived $num_projects_archived projects";
+        }
     }
 }
