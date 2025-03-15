@@ -672,7 +672,7 @@ function do_project_info_table(): void
 
     $postcomments = get_formatted_postcomments($project->projectid);
 
-    if ($postcomments != '') {
+    if (User::is_logged_in() && $postcomments != '') {
         if ($available_for_SR) {
             $class = 'sr-instructions';
             echo_row_b(_("Instructions for Smooth Reading"), '', $class);
