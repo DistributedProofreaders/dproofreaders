@@ -27,7 +27,6 @@ $boolean_user_settings = [
     'site_news_editor' => _("Grants ability to create and edit news on any of the site pages"),
     'site_translator' => _("Grants ability to create and update site translations "),
     'task_center_mgr' => _("Grants administrative access to the Task Center; typically granted to developers so they can manage their own tasks"),
-    'authors_db_manager' => _("Grants ability to manage author records"),
     'send_to_post' => _("Send user's projects to the PP pool"),
     'disable_project_loads' => _("Revoke user's ability to load projects"),
 ];
