@@ -257,36 +257,6 @@ TOOLS_TESTS = [
     },
 ]
 
-TOOLS_AUTHORS_TESTS = [
-    # Show form
-    {'path': 'tools/authors/add.php'},
-    {
-        'method': 'POST',
-        'path': 'tools/authors/add.php',
-        'data': {
-            'last_name': 'Franklin',
-            'bday': 17,
-            'bmonth': 1,
-            'byear': 1706,
-            'byearRadio': 1,
-            'dday': 17,
-            'dmonth': 4,
-            'dyear': 1790,
-            'dyearRadio': 1,
-        },
-    },
-    {'path': 'tools/authors/addbio.php?bio_id=1&author_id=1'},
-    {'path': 'tools/authors/author.php?author_id=1'},
-    {'path': 'tools/authors/authorxml.php'},
-    {'path': 'tools/authors/bio.php'},
-    {'path': 'tools/authors/bio.php?bio_id=1'},
-    {'path': 'tools/authors/bioxml.php'},
-    {'path': 'tools/authors/listing.php'},
-    {'path': 'tools/authors/listing.php?last_name=Smith&other_names'},
-    {'path': 'tools/authors/manage.php'},
-    {'path': 'tools/authors/manage.php?last_name=Smith&other_names'},
-]
-
 TOOLS_POST_PROOFERS_TESTS = [
     {
         'method': 'POST',
@@ -495,7 +465,6 @@ WEB_TESTS = (
     STATS_TESTS +
     STYLES_TESTS +
     TOOLS_TESTS +
-    TOOLS_AUTHORS_TESTS +
     TOOLS_POST_PROOFERS_TESTS +
     TOOLS_PROJECT_MANAGER_TESTS +
     TOOLS_PROOFERS_TESTS +

@@ -7,6 +7,19 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R??????
+Scripts supporting this upgrade are in `SETUP/upgrade/23`
+
+### Notices & Deprecations
+
+This release requires PHP 8.1 or later.
+
+### Changes
+
+* Authors code (`tools/authors/*`) has been removed. Biographies will be
+  inserted directly into the project comments with the included upgrade script
+  (cpeel)
+
 ## R202503
 Scripts supporting this upgrade are in `SETUP/upgrade/22`
 
