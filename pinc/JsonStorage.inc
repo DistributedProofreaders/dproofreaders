@@ -43,7 +43,7 @@ class JsonStorage
         try {
             DPDatabase::query($sql, true, false);
         } catch (DBQueryError $e) {
-            if (startswith($e->getPrevious()->getMessage(), "Invalid JSON")) {
+            if (str_starts_with($e->getPrevious()->getMessage(), "Invalid JSON")) {
                 throw new ValueError("Error persisting data, invalid JSON");
             }
             throw $e;

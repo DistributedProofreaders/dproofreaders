@@ -29,7 +29,7 @@ function echo_menu(?int $id = null): void
 
 function newMenuItem(string $label, string $url, string $current_file): string
 {
-    if (startswith($url, $current_file)) {
+    if (str_starts_with($url, $current_file)) {
         return "<b>" . html_safe($label) . "</b>";
     } else {
         return sprintf("<a href='%s'>%s</a>", attr_safe($url), html_safe($label));

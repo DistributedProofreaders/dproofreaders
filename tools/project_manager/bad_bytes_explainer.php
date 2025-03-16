@@ -163,7 +163,7 @@ function show_a_table_of_bads($desired_badness)
     global $_bad_byte_sequences;
     foreach ($_bad_byte_sequences as $raw => $remarks) {
         [$code_point, $why_bad] = $remarks;
-        if (startswith($desired_badness, '/')) {
+        if (str_starts_with($desired_badness, '/')) {
             $matches = preg_match($desired_badness, $why_bad);
         } else {
             $matches = str_contains($why_bad, $desired_badness);

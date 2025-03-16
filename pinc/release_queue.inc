@@ -168,7 +168,7 @@ function fetch_queues_data(?Round $round, string $show, bool $show_groups, $name
             $round = Rounds::get_by_id($row["round_id"]);
             $group = null;
         }
-        if (startswith($row["name"], "***")) {
+        if (str_starts_with($row["name"], "***")) {
             $group = str_replace("***", "", $row["name"]);
             // Check for group
             if ($show_groups && str_contains_any_of($group, $group_selector)) {

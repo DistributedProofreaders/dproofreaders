@@ -66,26 +66,26 @@ $ok_files = [
 
 echo "Checking PHP files for proper login requirements...\n";
 
-$basedir .= endswith($basedir, "/") ? "" : "/";
+$basedir .= str_ends_with($basedir, "/") ? "" : "/";
 $files = get_all_php_files($basedir);
 foreach ($files as $file) {
     // If it's in the SETUP directory, skip it
-    if (startswith($file, "SETUP/")) {
+    if (str_starts_with($file, "SETUP/")) {
         continue;
     }
 
     // If it's in the vendor directory, skip it
-    if (startswith($file, "vendor/")) {
+    if (str_starts_with($file, "vendor/")) {
         continue;
     }
 
     // If it's in the phpstan cache directory, skip it
-    if (startswith($file, ".phpstan.cache/")) {
+    if (str_starts_with($file, ".phpstan.cache/")) {
         continue;
     }
 
     // If it's in the node_modules directory, skip it
-    if (startswith($file, "node_modules/")) {
+    if (str_starts_with($file, "node_modules/")) {
         continue;
     }
 
@@ -117,7 +117,7 @@ function get_all_php_files($basedir)
     $files = new RecursiveIteratorIterator($dir_iter);
     foreach ($files as $file_info) {
         $file = $file_info->getPathname();
-        if (!endswith($file, ".php")) {
+        if (!str_ends_with($file, ".php")) {
             continue;
         }
         $php_files[] = str_replace($basedir, "", $file);
