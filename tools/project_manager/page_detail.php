@@ -120,7 +120,7 @@ function echo_filter_box(string $projectid, int $show_image_size, ?string $usern
     echo "</div>";
 }
 
-if ($project->check_pages_table_exists($warn_message)) {
+if ($project->pages_table_exists) {
     echo_detail_legend();
 
     echo "<p>" . _("It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.") . "</p>";
@@ -150,5 +150,6 @@ if ($project->check_pages_table_exists($warn_message)) {
 
     echo_page_table($project, $show_image_size, false, $username_for_page_selection, $round_for_page_selection);
 } else {
+    $warn_message = $project->pages_table_missing_reason();
     echo "<p class='warning'>$warn_message</p>\n";
 }

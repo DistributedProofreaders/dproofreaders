@@ -53,7 +53,8 @@ class Comparator
         $state = $this->project->state;
         echo "<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "</p>\n";
 
-        if (!$this->project->check_pages_table_exists($warn_message)) {
+        if (!$this->project->pages_table_exists) {
+            $warn_message = $this->project->pages_table_missing_reason();
             echo "<p class='warning'>$warn_message</p>\n";
             exit();
         }
