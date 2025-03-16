@@ -15,27 +15,6 @@ CREATE TABLE `access_log` (
 );
 
 --
--- Table structure for table `authors`
---
-
-CREATE TABLE `authors` (
-  `author_id` mediumint(8) unsigned NOT NULL auto_increment,
-  `other_names` varchar(40) NOT NULL default '',
-  `last_name` varchar(25) NOT NULL default '',
-  `byear` mediumint(9) NOT NULL default '0',
-  `bmonth` tinyint(4) NOT NULL default '0',
-  `bday` tinyint(4) NOT NULL default '0',
-  `bcomments` varchar(20) NOT NULL default '',
-  `dyear` mediumint(9) NOT NULL default '0',
-  `dmonth` tinyint(4) NOT NULL default '0',
-  `dday` tinyint(4) NOT NULL default '0',
-  `dcomments` varchar(20) NOT NULL default '',
-  `enabled` tinytext NOT NULL,
-  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`author_id`)
-);
-
---
 -- Table structure for table `best_tally_rank`
 --
 
@@ -47,19 +26,6 @@ CREATE TABLE `best_tally_rank` (
   `best_rank_timestamp` int(10) unsigned NOT NULL default '0',
   PRIMARY KEY (`tally_name`,`holder_type`,`holder_id`)
 );
-
---
--- Table structure for table `biographies`
---
-
-CREATE TABLE `biographies` (
-  `bio_id` int(11) NOT NULL auto_increment,
-  `author_id` int(11) NOT NULL default '0',
-  `bio` text NOT NULL,
-  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `bio_format` varchar(8) NOT NULL default 'markdown',
-  PRIMARY KEY (`bio_id`)
-) COMMENT='Contains biographies (see authors)';
 
 --
 -- Table structure for table `current_tallies`
