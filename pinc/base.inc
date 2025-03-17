@@ -23,9 +23,9 @@ if (!headers_sent()) {
     // Set CSP for security
     $policies = [
         // default is to just load from self
-        "default-src 'self'",
+        "default-src 'self' cdn.jsdelivr.net",
         // allow inline styles
-        "style-src 'self' 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline' cdn.jsdelivr.net",
         // allow inline scripts until we remove them, and cdn.jsdelivr.net
         // for MathJAX
         "script-src 'self' 'unsafe-inline' cdn.jsdelivr.net",

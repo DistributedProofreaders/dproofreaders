@@ -1,4 +1,4 @@
-/*global pageBrowse mentorMode */
+/*global pageBrowse */
 
 window.addEventListener("DOMContentLoaded", function () {
     let url = new URL(window.location.href);
@@ -7,5 +7,6 @@ window.addEventListener("DOMContentLoaded", function () {
         window.history.replaceState(null, "", url.href);
     }
 
-    pageBrowse(url.searchParams, "page-browse", replaceUrl, mentorMode);
+    const container = document.getElementById("page_browser");
+    pageBrowse(container, url.searchParams, replaceUrl);
 });
