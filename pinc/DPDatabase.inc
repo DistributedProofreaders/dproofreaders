@@ -19,10 +19,7 @@ final class DPDatabase
 
     public static function connect(?string $db_server = null, ?string $db_name = null, ?string $db_user = null, ?string $db_password = null): void
     {
-        if (!isset($db_server)) {
-            include('udb_user.php');
-        }
-        self::$_db_name = $db_name;
+        self::$_db_name = $db_name ?? SiteConfig::$db_name;
 
         // Throw exceptions for DB call failures (PHP 8.1 default values)
         // See forum_interface.inc for some special-cases when dealing with
@@ -30,13 +27,17 @@ final class DPDatabase
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
         try {
-            self::$_connection = mysqli_connect($db_server, $db_user, $db_password);
+            self::$_connection = mysqli_connect(
+                $db_server ?? SiteConfig::$db_server,
+                $db_user ?? SiteConfig::$db_user,
+                $db_password ?? SiteConfig::$db_password
+            );
         } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to connect to database");
         }
 
         try {
-            self::$_connection->select_db($db_name);
+            self::$_connection->select_db(self::$_db_name);
         } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to locate database.");
         }
