@@ -562,7 +562,7 @@ class ProjectInfoHolder
 
     public function preview()
     {
-        // insert e.g. templates and biographies
+        // format Markdown to HTML
         $comments = parse_project_comments($this->project);
 
         $a = _("The Guidelines give detailed instructions for working in this round.");
