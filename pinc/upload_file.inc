@@ -266,7 +266,7 @@ function virus_check($file_path, $verbose)
     // value = 0. we use -- to not parse any further arguments starting
     // with -/-- as options
     $process = new Process([$antivirus_executable, "--", $file_path]);
-    $process->setTimeout(120);
+    $process->setTimeout(MAX_RUNTIME_TARGET_S);
     try {
         $av_retval = $process->run();
     } catch (ProcessTimedOutException $exception) {

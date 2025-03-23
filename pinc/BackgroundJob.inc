@@ -10,7 +10,7 @@ abstract class BackgroundJob
     // The maximum amount of time a BackgroundJob running within a web
     // context should try to stay within. This should be under the TimeOut
     // set by the web server.
-    protected int $web_context_max_runtime_s = 60;
+    protected int $web_context_max_runtime_s = MAX_RUNTIME_TARGET_S;
 
     protected ?string $start_message = null;
     protected ?string $stop_message = null;
