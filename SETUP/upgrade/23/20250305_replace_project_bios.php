@@ -22,9 +22,7 @@ while ([$projectid, $comments] = mysqli_fetch_row($result)) {
     while (preg_match("/\[biography=([^\]]+)\]/", $comments, $matches)) {
         $template = $matches[1];
         $bio = _get_biography($template);
-        echo "Before:\n$comments\n";
         $comments = str_replace("[biography=$template]", $bio, $comments);
-        echo "After:\n$comments\n";
     }
 
     echo "Updating $projectid...\n";
