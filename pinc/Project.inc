@@ -1631,7 +1631,7 @@ class Project
         $this->log_project_event($pguser, 'remove_holds', join(' ', $states));
     }
 
-    public function get_hold_state_notify_time(string $state): int
+    public function get_hold_state_notify_time(string $state): ?int
     {
         $sql = sprintf(
             "
@@ -1691,7 +1691,8 @@ class Project
         // if the PM has been notified, but that was before the last page
         // was saved, reset the notification and send them another one
         $round = get_Round_for_project_state($state);
-        if ($notify_time < $this->get_last_proofread_time($round)) {
+        $last_proofread_time = $this->get_last_proofread_time($round);
+        if ($last_proofread_time != null && $notify_time < $last_proofread_time) {
             $this->update_hold_state_notify_time($state, 0);
             return true;
         }
@@ -1744,9 +1745,10 @@ class Project
     }
 
     /**
-     * Get time for last page proofread in round
+     * Get time for last page proofread in round, or null if it hasn't
+     * been proofread in the round at all.
      */
-    public function get_last_proofread_time(Round $round): int
+    public function get_last_proofread_time(Round $round): ?int
     {
         validate_projectID($this->projectid);
         $sql = sprintf(
