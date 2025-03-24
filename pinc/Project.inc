@@ -1934,7 +1934,7 @@ function project_get_auto_PPer(string $projectid): ?string
  * Does the user want anonymity for a given activity.
  *
  * @param string $login_name Username
- * @param string $activity Should be one of 'cp', 'pm', 'pp', 'ip' and 'tp'.
+ * @param 'cp'|'pm'|'pp'|'ip'|'tp' $activity
  */
 function wants_anonymity(string $login_name, string $activity): bool
 {
