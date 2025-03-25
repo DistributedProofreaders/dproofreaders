@@ -24,7 +24,7 @@ require_login();
 $origin = $_REQUEST["origin"] ?? "";
 if (empty($origin)) {
     if (array_key_exists('HTTP_REFERER', $_SERVER)
-        && !startswith($_SERVER['HTTP_REFERER'], "$code_url/userprefs.php")) {
+        && !str_starts_with($_SERVER['HTTP_REFERER'], "$code_url/userprefs.php")) {
         $origin = $_SERVER['HTTP_REFERER'];
     } else {
         $origin = "$code_url/activity_hub.php";

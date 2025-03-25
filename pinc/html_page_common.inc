@@ -153,7 +153,7 @@ function get_local_file_browser_cache_key($url)
         $local_file = $code_dir . substr($url, strlen($code_url));
 
         // PHP files should never be cached
-        if (endswith($local_file, ".php")) {
+        if (str_ends_with($local_file, ".php")) {
             $timestamp = time();
         } else {
             $stats = stat($local_file);

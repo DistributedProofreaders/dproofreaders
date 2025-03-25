@@ -474,7 +474,7 @@ function resolve_headerbar_entries(array $entries): array
         if (!empty($entry['url'])) {
             // ensure we have a full url, if not prefix the $code_url
             $url = $entry['url'];
-            if (!startswith($url, "http")) {
+            if (!str_starts_with($url, "http")) {
                 $url = "$code_url/$url";
             }
 
@@ -1222,7 +1222,7 @@ function output_tab_bar($view_modes, $selected_mode, $view_variable, $url_additi
                 $url = $setting_values["url"];
             } else {
                 $url = "?{$view_variable}=$setting";
-                if (!startswith($url_addition, "#")) {
+                if (!str_starts_with($url_addition, "#")) {
                     $url .= "&amp;";
                 }
                 $url .= $url_addition;

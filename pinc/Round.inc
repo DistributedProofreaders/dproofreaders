@@ -581,12 +581,12 @@ function round_project_listing_presort($round)
 
 function is_proofreading_round($round)
 {
-    return startswith($round->id, 'P');
+    return str_starts_with($round->id, 'P');
 }
 
 function is_formatting_round($round)
 {
-    return startswith($round->id, 'F');
+    return str_starts_with($round->id, 'F');
 }
 
 /**

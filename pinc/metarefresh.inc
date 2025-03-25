@@ -24,11 +24,11 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
     }
 
     // confirm we have an absolute URL
-    if (!startswith($url, 'http')) {
+    if (!str_starts_with($url, 'http')) {
         // get the proper protocol
         $absolute_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
         $absolute_url .= $_SERVER['HTTP_HOST'];
-        if (!startswith($url, '/')) {
+        if (!str_starts_with($url, '/')) {
             $absolute_url .= dirname($_SERVER['SCRIPT_NAME']) . "/";
         }
         $absolute_url .= $url;
@@ -38,7 +38,7 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
 
     // If $allow_external is FALSE and the URL isn't local, redirect the
     // user to the homepage.
-    if (!$allow_external && !startswith($absolute_url, $code_url)) {
+    if (!$allow_external && !str_starts_with($absolute_url, $code_url)) {
         $absolute_url = "$code_url/default.php";
     }
 
