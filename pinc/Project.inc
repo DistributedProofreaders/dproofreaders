@@ -239,7 +239,8 @@ class Project
     public string $extra_credits;
     public int $int_level;
 
-    public function __construct($arg = null)
+    /** @param string|array<string, mixed>|null $arg */
+    public function __construct(mixed $arg = null)
     {
         if (is_string($arg)) {
             // $arg is the projectid.
@@ -683,7 +684,7 @@ class Project
     // -------------------------------------------------------------------------
     // Property getters
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         global $pguser, $projects_url, $projects_dir, $code_url;
 
@@ -743,7 +744,7 @@ class Project
         return null;
     }
 
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         switch ($name) {
             case "languages":
@@ -859,7 +860,7 @@ class Project
     {
         // nothing to do if the project table doesn't exist
         // this covers archived projects which are moved into a different DB
-        if (!$this->check_pages_table_exists($message)) {
+        if (!$this->pages_table_exists) {
             return false;
         }
 
@@ -887,8 +888,11 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    /** @return string[] */
-    public static function projects_using_charsuite($charsuite): array
+    /**
+     * @param string|CharSuite $charsuite
+     * @return string[]
+     */
+    public static function projects_using_charsuite(mixed $charsuite): array
     {
         $charsuite = CharSuites::resolve($charsuite);
 
@@ -910,7 +914,8 @@ class Project
         return $projectids;
     }
 
-    public function set_charsuites($charsuites): void
+    /** @param string[]|CharSuite[] $charsuites */
+    public function set_charsuites(mixed $charsuites): void
     {
         // We want to allow the project to keep any character suites
         // it already had, even if the character suite was disabled
@@ -939,7 +944,8 @@ class Project
         }
     }
 
-    public function add_charsuite($charsuite): void
+    /** @param string|CharSuite $charsuite */
+    public function add_charsuite(mixed $charsuite): void
     {
         $charsuite = CharSuites::resolve($charsuite);
 
@@ -966,6 +972,7 @@ class Project
         DPDatabase::query($sql);
     }
 
+    /** @param string|CharSuite $charsuite */
     public function remove_charsuite($charsuite): void
     {
         $charsuite = CharSuites::resolve($charsuite);
@@ -985,7 +992,8 @@ class Project
         DPDatabase::query($sql);
     }
 
-    public function get_charsuites($include_custom = true)
+    /** @return CharSuite[] */
+    public function get_charsuites(bool $include_custom = true): array
     {
         $charsuites = [];
 
@@ -1033,7 +1041,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    private function _get_PPer()
+    private function _get_PPer(): string
     {
         // The logic to determine who is a PPer is a bit convoluted
         // as it depends on the postproofer column, the checkedoutby
@@ -1057,7 +1065,7 @@ class Project
         return $PPer;
     }
 
-    private function _get_PPVer()
+    private function _get_PPVer(): string
     {
         // The logic to determine who is a PPVer is a bit convoluted
         // as it depends on the ppverifier column, the checkedoutby
@@ -1098,7 +1106,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public function can_be_managed_by_user($username)
+    public function can_be_managed_by_user(?string $username): bool
     {
         if (is_null($username)) {
             return false;
@@ -1109,7 +1117,7 @@ class Project
             || that_user_is_proj_facilitator($username));
     }
 
-    public function user_can_delete_nonpage_images($username)
+    public function user_can_delete_nonpage_images(?string $username): bool
     {
         if (is_null($username)) {
             return false;
@@ -1132,7 +1140,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public function names_can_be_seen_by_user($username)
+    public function names_can_be_seen_by_user(?string $username): bool
     {
         global $public_page_details;
         if (is_null($username)) {
@@ -1149,7 +1157,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public function clearance_line_can_be_seen_by_current_user()
+    public function clearance_line_can_be_seen_by_current_user(): bool
     {
         // The clearance line normally contains the email address of the
         // person who submitted the clearance request. Since this is
@@ -1171,7 +1179,7 @@ class Project
      *
      * Where "proofed" means "worked on in a round, right now".
      */
-    public function validate_can_be_proofed_by_current_user()
+    public function validate_can_be_proofed_by_current_user(): void
     {
         global $pguser;
 
@@ -1184,7 +1192,7 @@ class Project
         $project_round->validate_user_can_access($pguser);
     }
 
-    public function get_project_available_round()
+    public function get_project_available_round(): Round
     {
         $state = $this->state;
         $project_round = get_Round_for_project_state($state);
@@ -1203,14 +1211,14 @@ class Project
         return $project_round;
     }
 
-    public function user_can_do_quick_check()
+    public function user_can_do_quick_check(): bool
     {
         // used in PQC itself and to enable links to PQC
         // in project.php and ProjectSearchResults.inc
         return $this->can_be_managed_by_current_user || $this->PPer_is_current_user;
     }
 
-    public function is_bad_from_pages($round)
+    public function is_bad_from_pages(Round $round): bool
     {
         // If it has at least 10 bad pages, reported by at least 3
         // different users, it's bad.
@@ -1227,7 +1235,8 @@ class Project
         return false;
     }
 
-    public function get_page_states()
+    /** @return string[] */
+    public function get_page_states(): array
     {
         $states = [];
 
@@ -1249,7 +1258,7 @@ class Project
         return $states;
     }
 
-    public function get_num_pages_in_state($state = null, $counter_sql = "*")
+    public function get_num_pages_in_state(?string $state = null, string $counter_sql = "*"): int
     {
         if (!$this->pages_table_exists) {
             throw new NoProjectPageTable(_("Project page table does not exist."));
@@ -1270,12 +1279,13 @@ class Project
         return $num_pages;
     }
 
-    public function get_num_pages()
+    public function get_num_pages(): int
     {
         return $this->get_num_pages_in_state(null);
     }
 
-    public function get_page_names_from_db()
+    /** @return string[] */
+    public function get_page_names_from_db(): array
     {
         if (!$this->pages_table_exists) {
             throw new NoProjectPageTable(_("Project page table does not exist."));
@@ -1296,7 +1306,8 @@ class Project
         return $page_image_names;
     }
 
-    public function get_page_names_from_dir()
+    /** @return string[] */
+    public function get_page_names_from_dir(): array
     {
         if (!$this->dir_exists) {
             throw new NoProjectDirectory(_("Project directory does not exist."));
@@ -1319,7 +1330,7 @@ class Project
      *
      * If the image doesn't exist on disk, return NULL.
      */
-    public function get_image_file_size($image)
+    public function get_image_file_size(string $image): ?int
     {
         // TODO: This function would be better in a ProjectPage object, but we
         // don't have one of those.
@@ -1331,7 +1342,8 @@ class Project
         }
     }
 
-    public function get_illustrations()
+    /** @return string[] */
+    public function get_illustrations(): array
     {
         // Illustrations are the set of files in the project directory that
         // do not match existing image names in the database.
@@ -1426,7 +1438,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public function ensure_topic()
+    public function ensure_topic(): ?int
     {
         if (!empty($this->topic_id)) {
             return $this->topic_id;
@@ -1489,7 +1501,7 @@ class Project
      * Return a string that can be included in the body of an email message,
      * introducing this project as the focus of the message.
      */
-    public function email_introduction()
+    public function email_introduction(): string
     {
         global $site_name, $code_url;
 
@@ -1508,7 +1520,7 @@ class Project
 
     // -------------------------------------------------------------------------
 
-    public function log_project_event($who, $event_type, $details1 = '', $details2 = '', $details3 = '')
+    public function log_project_event(string $who, string $event_type, string $details1 = '', string $details2 = '', string $details3 = ''): void
     {
         validate_projectID($this->projectid);
         $sql = sprintf(
@@ -1533,6 +1545,7 @@ class Project
         DPDatabase::query($sql);
     }
 
+    /** @return string[] */
     public static function get_holdable_states(): array
     {
         $states = [];
@@ -1547,8 +1560,10 @@ class Project
 
     /**
      * Return an array containing the states for which this project has holds.
+     *
+     * @return string[]
      */
-    public function get_hold_states()
+    public function get_hold_states(): array
     {
         $hold_states = [];
         $sql = sprintf(
@@ -1566,7 +1581,8 @@ class Project
         return $hold_states;
     }
 
-    public function add_holds($states)
+    /** @param string[] $states */
+    public function add_holds(array $states): void
     {
         global $pguser;
 
@@ -1587,7 +1603,8 @@ class Project
         $this->log_project_event($pguser, 'add_holds', join(' ', $states));
     }
 
-    public function remove_holds($states)
+    /** @param string[] $states */
+    public function remove_holds(array $states): void
     {
         global $pguser;
 
@@ -1614,7 +1631,7 @@ class Project
         $this->log_project_event($pguser, 'remove_holds', join(' ', $states));
     }
 
-    public function get_hold_state_notify_time($state)
+    public function get_hold_state_notify_time(string $state): ?int
     {
         $sql = sprintf(
             "
@@ -1631,7 +1648,7 @@ class Project
         return $notify_time;
     }
 
-    public function update_hold_state_notify_time($state, $timestamp = null)
+    public function update_hold_state_notify_time(string $state, ?int $timestamp = null): void
     {
         $notify_time = $timestamp === null ? time() : sprintf("%d", $timestamp);
 
@@ -1645,7 +1662,7 @@ class Project
         DPDatabase::query($sql);
     }
 
-    public function send_hold_state_notification($state)
+    public function send_hold_state_notification(string $state): void
     {
         configure_gettext_for_user($this->username);
         send_mail_project_manager(
@@ -1658,7 +1675,7 @@ class Project
         $this->update_hold_state_notify_time($state);
     }
 
-    public function is_hold_notification_required($state)
+    public function is_hold_notification_required(string $state): bool
     {
         // if there is no project hold on this state, no notification is required
         if (!in_array($state, $this->get_hold_states())) {
@@ -1674,7 +1691,8 @@ class Project
         // if the PM has been notified, but that was before the last page
         // was saved, reset the notification and send them another one
         $round = get_Round_for_project_state($state);
-        if ($notify_time < $this->get_last_proofread_time($round)) {
+        $last_proofread_time = $this->get_last_proofread_time($round);
+        if ($last_proofread_time != null && $notify_time < $last_proofread_time) {
             $this->update_hold_state_notify_time($state, 0);
             return true;
         }
@@ -1687,7 +1705,7 @@ class Project
     /**
      * Write out project's metadata to a JSON file
      */
-    public function generate_metadata_json()
+    public function generate_metadata_json(): void
     {
         if (!$this->dir_exists) {
             throw new NoProjectDirectory(_("Project directory does not exist."));
@@ -1713,7 +1731,7 @@ class Project
     /**
      * Check if project has entered a formatting round
      */
-    public function has_entered_formatting_round()
+    public function has_entered_formatting_round(): bool
     {
         $project_states = ProjectStates::get_states();
         $completed_states = array_slice($project_states, 0, array_search($this->state, $project_states) + 1);
@@ -1727,9 +1745,10 @@ class Project
     }
 
     /**
-     * Get time for last page proofread in round
+     * Get time for last page proofread in round, or null if it hasn't
+     * been proofread in the round at all.
      */
-    public function get_last_proofread_time($round)
+    public function get_last_proofread_time(Round $round): ?int
     {
         validate_projectID($this->projectid);
         $sql = sprintf(
@@ -1745,8 +1764,10 @@ class Project
         return $last_proofread;
     }
 
-    public function check_pages_table_exists(&$message)
+    public function pages_table_missing_reason(): string
     {
+        $message = "";
+
         if (!$this->pages_table_exists) {
             if ($this->archived) {
                 $message = _("The project has been archived, so page details are not available.");
@@ -1755,10 +1776,9 @@ class Project
             } else {
                 $message = _("Page details are not available for this project.");
             }
-            return false;
         }
-        $message = "";
-        return true;
+
+        return $message;
     }
 
     /**
@@ -1768,13 +1788,13 @@ class Project
      *
      * @return bool
      */
-    public function is_available_for_smoothreading()
+    public function is_available_for_smoothreading(): bool
     {
         return $this->state == PROJ_POST_FIRST_CHECKED_OUT &&
                $this->smoothread_deadline > time();
     }
 
-    private function delete_file($path)
+    private function delete_file(string $path): void
     {
         // ensure $path is inside $this->dir
         if (!startswith(realpath($path), realpath($this->dir))) {
@@ -1792,7 +1812,7 @@ class Project
         }
     }
 
-    public function delete_smoothreading_dir()
+    public function delete_smoothreading_dir(): void
     {
         $dir = "$this->dir/smooth";
         if (file_exists($this->dir) && file_exists($dir)) {
@@ -1834,6 +1854,7 @@ class Project
         }
     }
 
+    /** @return array<string, string> */
     public function find_invalid_characters(string $text): array
     {
         $pattern_string = build_character_regex_filter($this->get_valid_codepoints());
@@ -1849,7 +1870,7 @@ class Project
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function project_has_a_hold_in_state($projectid, $state)
+function project_has_a_hold_in_state(string $projectid, string $state): bool
 {
     $sql = sprintf(
         "
@@ -1872,7 +1893,7 @@ function project_has_a_hold_in_state($projectid, $state)
  * automatically checked out for PPing when it reaches the PP stage,
  * or NULL if the project will merely go into the available-for-PP state.
  */
-function project_get_auto_PPer($projectid)
+function project_get_auto_PPer(string $projectid): ?string
 {
     $project = new Project($projectid);
     $checkedoutby = $project->checkedoutby;
@@ -1914,10 +1935,9 @@ function project_get_auto_PPer($projectid)
 /**
  * Does the user want anonymity for a given activity.
  *
- * @param string $login_name Username
- * @param string $activity Should be one of 'cp', 'pm', 'pp', 'ip' and 'tp'.
+ * @param 'cp'|'pm'|'pp'|'ip'|'tp' $activity
  */
-function wants_anonymity($login_name, $activity)
+function wants_anonymity(string $login_name, string $activity): bool
 {
     $settings = & Settings::get_Settings($login_name);
     return $settings->get_boolean($activity . '_anonymous');
@@ -1931,7 +1951,7 @@ function wants_anonymity($login_name, $activity)
  * If the user hasn't specified anything in the preferences, the
  * real name will be returned.
  */
-function get_credit_name($login_name)
+function get_credit_name(string $login_name): string
 {
     if ($login_name == '') {
         return '(no name)';
@@ -1963,7 +1983,7 @@ function get_credit_name($login_name)
  * They will be HTML-encoded and with line breaks
  * converted to `<br>`.
  */
-function get_formatted_postcomments($projectid)
+function get_formatted_postcomments(string $projectid): string
 {
     $project = new Project($projectid);
 
@@ -1975,7 +1995,7 @@ function get_formatted_postcomments($projectid)
 /**
  * Determine if the project's pages table exists
  */
-function does_project_page_table_exist($projectid)
+function does_project_page_table_exist(string $projectid): bool
 {
     return DPDatabase::does_table_exist($projectid);
 }
@@ -1985,12 +2005,12 @@ function does_project_page_table_exist($projectid)
 /**
  * Confirm that $projectid is a well-formed project ID or raise an exception.
  */
-function validate_projectID($projectid)
+function validate_projectID(?string $projectid): void
 {
-    if (1 != preg_match('/^projectID[0-9a-f]{13}$/', $projectid)) {
+    if (!$projectid || 1 != preg_match('/^projectID[0-9a-f]{13}$/', $projectid)) {
         throw new InvalidProjectIDException(sprintf(
             _("%s is not a valid project ID."),
-            $projectid
+            $projectid ?? ""
         ));
     }
 }
@@ -2000,8 +2020,10 @@ function validate_projectID($projectid)
  * it is well-formed.
  *
  * This function mirrors the other get_*() functions in `misc.inc`.
+ *
+ * @param array<string, mixed> $arr
  */
-function get_projectID_param($arr, $key, $allownull = false)
+function get_projectID_param(array $arr, string $key, bool $allownull = false): ?string
 {
     $projectid = @$arr[$key];
 
@@ -2031,12 +2053,12 @@ function get_projectID_param($arr, $key, $allownull = false)
 /**
  * Validate that $page_name is a well-formed page filename or raise an exception.
  */
-function validate_page_image($page_name)
+function validate_page_image(?string $page_name): void
 {
-    if (1 != preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $page_name)) {
+    if (!$page_name || 1 != preg_match('/^[a-zA-Z0-9_.-]{5,16}$/', $page_name)) {
         throw new InvalidPageException(sprintf(
             _("%s is not a valid page image filename."),
-            $page_name
+            $page_name ?? ""
         ));
     }
 }
@@ -2046,8 +2068,10 @@ function validate_page_image($page_name)
  * it is well-formed.
  *
  * This function mirrors the other get_*() functions in `misc.inc`.
+ *
+ * @param array<string, mixed> $arr
  */
-function get_page_image_param($arr, $key, $allownull = false)
+function get_page_image_param(array $arr, string $key, bool $allownull = false): ?string
 {
     $page_name = @$arr[$key];
 
@@ -2078,7 +2102,8 @@ function get_page_image_param($arr, $key, $allownull = false)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Image source functions
 
-function load_image_sources()
+/** @return array<string, mixed> */
+function load_image_sources(): array
 {
     global $site_abbreviation, $code_url;
 
@@ -2121,8 +2146,10 @@ function load_image_sources()
 
 /**
  * Can the current user see this image source based on the source's settings
+ *
+ * @param array<string, mixed> $image_source
  */
-function can_user_see_image_source($image_source)
+function can_user_see_image_source(array $image_source): bool
 {
     // info page visibility
     //  0 = Image Source Managers and SAs
@@ -2144,7 +2171,8 @@ function can_user_see_image_source($image_source)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Project difficulty
 
-function get_project_difficulties()
+/** @return array<string, string> */
+function get_project_difficulties(): array
 {
     return [
         'beginner' => _('Beginner'),
@@ -2157,7 +2185,8 @@ function get_project_difficulties()
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Project page detail level
 
-function get_project_detail_levels()
+/** @return array<int, string> */
+function get_project_detail_levels(): array
 {
     return [
         1 => _("Minimal"),
