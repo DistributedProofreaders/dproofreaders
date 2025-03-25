@@ -1,6 +1,9 @@
-/*global splitControl pageBrowse showWordContext proofIntData */
+/*global splitControl pageBrowse showWordContext */
 
 window.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("page-browser");
+    const widgetText = JSON.parse(container.dataset.widget_text);
+
     let storageKeyLayout = showWordContext.storageKey + "-layout";
     let layout;
     try {
@@ -27,7 +30,7 @@ window.addEventListener("DOMContentLoaded", function () {
     mainSplit.reLayout();
 
     function setSplitLink() {
-        switchLink.textContent = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
+        switchLink.textContent = splitVertical ? widgetText.splitHorizontal : widgetText.splitVertical;
     }
 
     setSplitLink();
@@ -59,7 +62,7 @@ window.addEventListener("DOMContentLoaded", function () {
     function showImage(imageFile) {
         if (!ShowImageFile) {
             params.set("imagefile", imageFile);
-            pageBrowse(params, showWordContext.storageKey, function () {}, false, setShowImageFile);
+            pageBrowse(container, params, function () {}, setShowImageFile);
         } else {
             ShowImageFile(imageFile);
         }
