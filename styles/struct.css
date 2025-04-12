@@ -35,6 +35,12 @@
     flex: 1 1 auto;
 }
 
+.langcol {
+    /* 12em fits the longest language name */
+    column-width: 12em;
+    text-align: left;
+}
+
 .row_flex {
     display: flex;
     flex-direction: row;
@@ -163,13 +169,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 
 #image_content {
     background: beige;
-}
-
-.grid {
-    display: grid;
-/*    grid-template-columns: 1fr 1fr 1fr;*/
-    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
-    text-align: left;
 }
 
 .grid2col {

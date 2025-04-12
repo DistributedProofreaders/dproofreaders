@@ -15,7 +15,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
     langDiv.classList.add("fixed-box");
     hide(langDiv);
     const langGrid = document.createElement("div");
-    langGrid.classList.add("grid");
+    langGrid.classList.add("langcol");
     const langDoneButton = actionButton(proofText.ok);
     langDiv.append(langGrid, langDoneButton);
     controlBar.append(langDiv);
@@ -37,7 +37,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         }
         const label = document.createElement("label");
         label.classList.add("no_wrap");
-        label.append(cBox, language);
+        label.append(cBox, language, document.createElement("br"));
         langGrid.append(label);
     }
 
