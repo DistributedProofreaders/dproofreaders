@@ -7,6 +7,11 @@ function user_can_add_project_pages($projectid)
     $project = new Project($projectid);
     $state = $project->state;
 
+    // SAs can futz with project pages in any state
+    if (user_is_a_sitemanager()) {
+        return true;
+    }
+
     // Load text+images from uploads area into project.
     // Can do this if it's a new project (as measured by the state it's in)
     // If the user is disabled from uploading new projects, they can only
