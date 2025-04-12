@@ -1153,7 +1153,7 @@ function do_history(): void
         SELECT timestamp, who, event_type, details1, details2, details3
         FROM project_events
         WHERE projectid = '{$project->projectid}'
-        ORDER BY event_id
+        ORDER BY timestamp, event_id
     ";
     $res = DPDatabase::query($sql);
     $events = [];
