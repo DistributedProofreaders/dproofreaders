@@ -117,7 +117,8 @@ if (!$r) {
     return;
 }
 
-$loader = new Loader($source_project_dir, $project->dir, $projectid);
+$allow_text_loads = ($project->state == PROJ_NEW || $project->state == PROJ_P1_UNAVAILABLE);
+$loader = new Loader($source_project_dir, $project->dir, $projectid, $allow_text_loads);
 $loader->analyze();
 
 if (!@$_POST['confirmed']) {
@@ -173,6 +174,7 @@ class Loader
     private string $source_project_dir;
     private string $dest_project_dir;
     private string $projectid;
+    private bool $allow_text_loads;
     private bool $adding_pages;
     private int $image_field_len;
     /** @var array<string, string> */
@@ -189,12 +191,13 @@ class Loader
     private int $n_errors;
     private ImageUtils $checker;
 
-    public function __construct(string $source_project_dir, string $dest_project_dir, string $projectid)
+    public function __construct(string $source_project_dir, string $dest_project_dir, string $projectid, $allow_text_loads = true)
     {
         $this->source_project_dir = $source_project_dir;
         $this->dest_project_dir = $dest_project_dir;
         $this->projectid = $projectid;
         $this->checker = new ImageUtils();
+        $this->allow_text_loads = $allow_text_loads;
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -385,6 +388,12 @@ class Loader
                 $warnings = get_load_page_from_file_changes($text_filename, $this->projectid);
                 $this->n_warnings += count($warnings);
                 $warning_msgs = array_merge($warning_msgs, $warnings);
+            }
+
+            // Check that we allow loading page texts
+            if (isset($row['text']['src'][0]) && !$this->allow_text_loads) {
+                $this->n_errors++;
+                $error_msgs[] = _("Text loads not currently allowed.");
             }
 
             if (isset($row['image']['src'][0])) {
@@ -669,6 +678,11 @@ class Loader
     public function display(): void
     {
         global $code_url, $projectid;
+
+        if (!$this->allow_text_loads) {
+            echo "<p class='warning'>" . _("Page texts cannot be loaded in the project in its current state. Exercise care when loading or replacing page and illustration images.") . "</p>";
+        }
+
         echo "<p><b>";
         echo sprintf(
             _('Loading files from %1$s into project %2$s'),
