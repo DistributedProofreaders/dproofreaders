@@ -9,7 +9,8 @@ function usage()
 Usage: %s old_config_file.sh configuration.sh > new_config_file.sh
 
 This program will take parameter values in one configuration file and use them
-to update the same parameters in a second configuration file. The new combined
+to update the same parameters in a second configuration file. To be considered
+for update, parameters must start at the beginning of a line. The new combined
 file is output on stdout. The program will output on stderr parameters from
 old_config_file.sh that are not used or are new in configuration.sh.
 
@@ -69,7 +70,7 @@ function load_config_file_values($filename)
     while (!feof($fh)) {
         $line = fgets($fh);
 
-        if (preg_match("/^\s*([A-Za-z0-9_]+)=(.*)/", $line, $matches)) {
+        if (preg_match("/^([A-Za-z0-9_]+)=(.*)/", $line, $matches)) {
             $config_values[$matches[1]] = $matches[2];
         }
     }
@@ -93,7 +94,7 @@ function output_config_file_with_new_values($filename, $config_values)
     while (!feof($fh)) {
         $line = fgets($fh);
 
-        if (preg_match("/^\s*([A-Za-z0-9_]+)=(.*)/", $line, $matches)) {
+        if (preg_match("/^([A-Za-z0-9_]+)=(.*)/", $line, $matches)) {
             if (isset($config_values[$matches[1]])) {
                 $line = sprintf("%s=%s\n", $matches[1], $config_values[$matches[1]]);
                 unset($unused_config_parameters[$matches[1]]);
