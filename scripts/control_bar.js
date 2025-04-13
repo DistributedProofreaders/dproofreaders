@@ -548,6 +548,7 @@ function makeImageWidget(container, align = "C") {
             sine = 0;
             cosine = 1;
             image.src = src;
+            setImageStyle();
         },
 
         reScroll: reScroll,
