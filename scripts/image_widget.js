@@ -4,16 +4,8 @@
 
 function makeImageWidget(container, userSettings, widgetText) {
     const content = document.createElement("div");
-    const left = document.createElement("div");
-    const centre = document.createElement("div");
-    const right = document.createElement("div");
-    content.append(left, centre, right);
-    content.classList.add("row_flex");
-    left.style.width = "0px";
-    centre.classList.add("overflow-auto");
-
     content.id = "image_content";
-    content.classList.add("stretch-box", "center-align");
+    content.classList.add("overflow-auto", "stretch-box", "center-align");
     const grabCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
@@ -28,42 +20,13 @@ function makeImageWidget(container, userSettings, widgetText) {
     imageDiv.style.display = "inline-block";
     imageDiv.appendChild(image);
 
-    centre.append(imageDiv);
+    content.append(imageDiv);
     let scrollDiffX = 0;
     let scrollDiffY = 0;
-    let pageX0;
-    let leftWidth;
 
     function dragMove(event) {
-        centre.scrollTop = scrollDiffY - event.pageY;
-//        let reqScroll = scrollDiffX - event.pageX;
-//        centre.scrollLeft = reqScroll;
-
-        // if drag right then scroll to right then increase left div width
-        let rightDrag = event.pageX - pageX0;
-//        console.log(rightDrag, centre.scrollLeft);
-        if(rightDrag > 0) {
-            let scrollLeft = lScroll0 - rightDrag;
-            if (scrollLeft > 0) {
-                centre.scrollLeft = scrollLeft;
-            } else {
-                console.log(leftWidth, scrollLeft);
-                left.style.flex =  `0 0 ${leftWidth - scrollLeft}px`;
-            }
-        } else {
-            // drag left: reduce left div to 0 then scroll
-            let newLeftWidth = leftWidth + rightDrag;
-            if (newLeftWidth > 0) {
-                left.style.flex =  `0 0 ${newLeftWidth}px`;
-            } else {
-                centre.scrollLeft = -newLeftWidth;
-            }
-        }
-//        centre.scrollLeft = scrollDiffX - event.pageX;//(scrollDiffX - event.pageX);
-/*        if(reqScroll < 0) {
-            console.log(reqScroll);
-            left.style.width = `${-reqScroll}px`;
-        }*/
+        content.scrollTop = scrollDiffY - event.pageY;
+        content.scrollLeft = scrollDiffX - event.pageX;
     }
 
     function mouseUp() {
@@ -73,12 +36,8 @@ function makeImageWidget(container, userSettings, widgetText) {
     }
 
     function dragStart(event) {
-        pageX0 = event.pageX;
-        leftWidth = left.clientWidth;
-        lScroll0 = centre.scrollLeft;
-//        console.log(leftWidth);
-        scrollDiffX = event.pageX + centre.scrollLeft;
-        scrollDiffY = event.pageY + centre.scrollTop;
+        scrollDiffX = event.pageX + content.scrollLeft;
+        scrollDiffY = event.pageY + content.scrollTop;
     }
 
     imageDiv.addEventListener("mousedown", function (event) {
