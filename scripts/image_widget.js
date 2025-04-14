@@ -3,9 +3,26 @@
 /* exported makeProofImageWidget*/
 
 function makeImageWidget(container, userSettings, widgetText) {
+    const minBar = 10;
+
     const content = document.createElement("div");
+    const left = document.createElement("div");
+    const centre = document.createElement("div");
+    const right = document.createElement("div");
+
+    left.style.background = "green";
+    right.style.background = "green";
+    content.append(left, centre, right);
+    content.classList.add("row_flex");
+    left.style.flex = `0 0 ${minBar}px`;
+    right.style.flex = `0 0 ${minBar}px`;
+    centre.style.flex = "auto";
+
+    centre.classList.add("overflow-auto");
+
+    content.classList.add("stretch-box", "center-align");
+
     content.id = "image_content";
-    content.classList.add("overflow-auto", "stretch-box", "center-align");
     const grabCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated
     const image = document.createElement("img");
@@ -20,13 +37,13 @@ function makeImageWidget(container, userSettings, widgetText) {
     imageDiv.style.display = "inline-block";
     imageDiv.appendChild(image);
 
-    content.append(imageDiv);
+    centre.append(imageDiv);
     let scrollDiffX = 0;
     let scrollDiffY = 0;
 
     function dragMove(event) {
-        content.scrollTop = scrollDiffY - event.pageY;
-        content.scrollLeft = scrollDiffX - event.pageX;
+        centre.scrollTop = scrollDiffY - event.pageY;
+        centre.scrollLeft = scrollDiffX - event.pageX;
     }
 
     function mouseUp() {
@@ -36,8 +53,8 @@ function makeImageWidget(container, userSettings, widgetText) {
     }
 
     function dragStart(event) {
-        scrollDiffX = event.pageX + content.scrollLeft;
-        scrollDiffY = event.pageY + content.scrollTop;
+        scrollDiffX = event.pageX + centre.scrollLeft;
+        scrollDiffY = event.pageY + centre.scrollTop;
     }
 
     imageDiv.addEventListener("mousedown", function (event) {
@@ -62,6 +79,70 @@ function makeImageWidget(container, userSettings, widgetText) {
         dragStart(event.touches[0]);
         document.addEventListener("touchmove", dragTouchMove);
         document.addEventListener("touchend", dragTouchEnd);
+    });
+
+    function leftMove(event) {
+        let width = Math.max(event.pageX - left.getBoundingClientRect().x, minBar);
+        // let right edge track mouse down to minimum
+        left.style.flex = `0 0 ${width}px`;//centre.scrollLeft = scrollDiffX - event.pageX;
+    }
+
+    function leftMouseUp() {
+        document.removeEventListener("mousemove", leftMove);
+        document.removeEventListener("mouseup", leftMouseUp);
+    }
+
+    left.addEventListener("mousedown", function (event) {
+        event.preventDefault();
+        document.addEventListener("mousemove", leftMove);
+        document.addEventListener("mouseup", leftMouseUp);
+    });
+
+    function leftTouchMove(event) {
+        leftMove(event.touches[0]);
+    }
+
+    function leftTouchEnd() {
+        document.removeEventListener("touchmove", leftTouchMove);
+        document.removeEventListener("touchend", leftTouchEnd);
+    }
+
+    function rightMove(event) {
+        let width = Math.max(right.getBoundingClientRect().right - event.pageX, minBar);
+        // let left edge track mouse down to minimum
+        right.style.flex = `0 0 ${width}px`;//centre.scrollLeft = scrollDiffX - event.pageX;
+    }
+
+    function rightMouseUp() {
+        document.removeEventListener("mousemove", rightMove);
+        document.removeEventListener("mouseup", rightMouseUp);
+    }
+
+    right.addEventListener("mousedown", function (event) {
+        event.preventDefault();
+        document.addEventListener("mousemove", rightMove);
+        document.addEventListener("mouseup", rightMouseUp);
+    });
+
+    right.addEventListener("touchstart", function (event) {
+        event.preventDefault();
+        document.addEventListener("touchmove", rightTouchMove);
+        document.addEventListener("touchend", rightTouchEnd);
+    });
+
+    function rightTouchMove(event) {
+        rightMove(event.touches[0]);
+    }
+
+    function rightTouchEnd() {
+        document.removeEventListener("touchmove", rightTouchMove);
+        document.removeEventListener("touchend", rightTouchEnd);
+    }
+
+    right.addEventListener("touchstart", function (event) {
+        event.preventDefault();
+        document.addEventListener("touchmove", rightTouchMove);
+        document.addEventListener("touchend", rightTouchEnd);
     });
 
     // percent need not be an integer but is rounded for display
@@ -154,7 +235,7 @@ function makeImageWidget(container, userSettings, widgetText) {
 
     const fitWidthButton = makeImageButtton(widgetText.fitWidth, "fas fa-arrows-alt-h");
     fitWidthButton.addEventListener("click", function () {
-        const contentWidth = getComputedStyle(content).width;
+        const contentWidth = getComputedStyle(centre).width;
         if (sine == 0) {
             image.style.width = contentWidth;
         } else {
