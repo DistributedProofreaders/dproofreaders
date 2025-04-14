@@ -81,6 +81,8 @@ function makeImageWidget(container, userSettings, widgetText) {
         document.addEventListener("touchend", dragTouchEnd);
     });
 
+
+
     function leftMove(event) {
         let width = Math.max(event.pageX - left.getBoundingClientRect().x, minBar);
         // let right edge track mouse down to minimum
@@ -107,6 +109,14 @@ function makeImageWidget(container, userSettings, widgetText) {
         document.removeEventListener("touchend", leftTouchEnd);
     }
 
+    left.addEventListener("touchstart", function (event) {
+        event.preventDefault();
+        document.addEventListener("touchmove", leftTouchMove);
+        document.addEventListener("touchend", leftTouchEnd);
+    });
+
+
+
     function rightMove(event) {
         let width = Math.max(right.getBoundingClientRect().right - event.pageX, minBar);
         // let left edge track mouse down to minimum
@@ -124,12 +134,6 @@ function makeImageWidget(container, userSettings, widgetText) {
         document.addEventListener("mouseup", rightMouseUp);
     });
 
-    right.addEventListener("touchstart", function (event) {
-        event.preventDefault();
-        document.addEventListener("touchmove", rightTouchMove);
-        document.addEventListener("touchend", rightTouchEnd);
-    });
-
     function rightTouchMove(event) {
         rightMove(event.touches[0]);
     }
@@ -144,6 +148,8 @@ function makeImageWidget(container, userSettings, widgetText) {
         document.addEventListener("touchmove", rightTouchMove);
         document.addEventListener("touchend", rightTouchEnd);
     });
+
+
 
     // percent need not be an integer but is rounded for display
     // it will typically not be an integer after fit height or width or + or -
@@ -288,13 +294,13 @@ function makeImageWidget(container, userSettings, widgetText) {
             content.scrollTop = 0;
             content.scrollLeft = 0;
         },
-        content,
+        centre,
         controlBar,
     };
 }
 
 function makeProofImageWidget(container, userSettings, widgetText, proofText) {
-    const { setImage, content, controlBar } = makeImageWidget(container, userSettings, widgetText);
+    const { setImage, centre, controlBar } = makeImageWidget(container, userSettings, widgetText);
 
     const scrollWithTextBox = makeCheckBox();
     const scrollControl = makeLabel([scrollWithTextBox, proofText.scrollWithText]);
@@ -311,7 +317,7 @@ function makeProofImageWidget(container, userSettings, widgetText, proofText) {
 
         setScroll: function (delta) {
             if (userSettings.scrollWithText) {
-                content.scrollTop += delta;
+                centre.scrollTop += delta;
             }
         },
     };
