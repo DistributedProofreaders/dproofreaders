@@ -82,74 +82,43 @@ function makeImageWidget(container, userSettings, widgetText) {
     });
 
 
+    function dragFunc(element, wFunc) {
 
-    function leftMove(event) {
-        let width = Math.max(event.pageX - left.getBoundingClientRect().x, minBar);
-        // let right edge track mouse down to minimum
-        left.style.flex = `0 0 ${width}px`;//centre.scrollLeft = scrollDiffX - event.pageX;
+        function mouseMove(event) {
+            let width = Math.max(wFunc(event), minBar);
+            // let right edge track mouse down to minimum
+            element.style.flex = `0 0 ${width}px`;//centre.scrollLeft = scrollDiffX - event.pageX;
+        }
+
+        function mouseUp() {
+            document.removeEventListener("mousemove", mouseMove);
+            document.removeEventListener("mouseup", mouseUp);
+        }
+
+        element.addEventListener("mousedown", function (event) {
+            event.preventDefault();
+            document.addEventListener("mousemove", mouseMove);
+            document.addEventListener("mouseup", mouseUp);
+        });
+
+        function touchMove(event) {
+            mouseMove(event.touches[0]);
+        }
+
+        function touchEnd() {
+            document.removeEventListener("touchmove", touchMove);
+            document.removeEventListener("touchend", touchEnd);
+        }
+
+        element.addEventListener("touchstart", function (event) {
+            event.preventDefault();
+            document.addEventListener("touchmove", touchMove);
+            document.addEventListener("touchend", touchEnd);
+        });
     }
 
-    function leftMouseUp() {
-        document.removeEventListener("mousemove", leftMove);
-        document.removeEventListener("mouseup", leftMouseUp);
-    }
-
-    left.addEventListener("mousedown", function (event) {
-        event.preventDefault();
-        document.addEventListener("mousemove", leftMove);
-        document.addEventListener("mouseup", leftMouseUp);
-    });
-
-    function leftTouchMove(event) {
-        leftMove(event.touches[0]);
-    }
-
-    function leftTouchEnd() {
-        document.removeEventListener("touchmove", leftTouchMove);
-        document.removeEventListener("touchend", leftTouchEnd);
-    }
-
-    left.addEventListener("touchstart", function (event) {
-        event.preventDefault();
-        document.addEventListener("touchmove", leftTouchMove);
-        document.addEventListener("touchend", leftTouchEnd);
-    });
-
-
-
-    function rightMove(event) {
-        let width = Math.max(right.getBoundingClientRect().right - event.pageX, minBar);
-        // let left edge track mouse down to minimum
-        right.style.flex = `0 0 ${width}px`;//centre.scrollLeft = scrollDiffX - event.pageX;
-    }
-
-    function rightMouseUp() {
-        document.removeEventListener("mousemove", rightMove);
-        document.removeEventListener("mouseup", rightMouseUp);
-    }
-
-    right.addEventListener("mousedown", function (event) {
-        event.preventDefault();
-        document.addEventListener("mousemove", rightMove);
-        document.addEventListener("mouseup", rightMouseUp);
-    });
-
-    function rightTouchMove(event) {
-        rightMove(event.touches[0]);
-    }
-
-    function rightTouchEnd() {
-        document.removeEventListener("touchmove", rightTouchMove);
-        document.removeEventListener("touchend", rightTouchEnd);
-    }
-
-    right.addEventListener("touchstart", function (event) {
-        event.preventDefault();
-        document.addEventListener("touchmove", rightTouchMove);
-        document.addEventListener("touchend", rightTouchEnd);
-    });
-
-
+    dragFunc(left, (event) => event.pageX - left.getBoundingClientRect().x);
+    dragFunc(right, (event) => right.getBoundingClientRect().right - event.pageX);
 
     // percent need not be an integer but is rounded for display
     // it will typically not be an integer after fit height or width or + or -
