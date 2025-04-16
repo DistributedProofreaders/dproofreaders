@@ -204,7 +204,6 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         editBox.removeEventListener("keyup", maybeShowAcceptButton);
         extraSettings.replaceChildren();
         onDoneSettings.delete(setLanguages);
-
         enterTextMode();
     }
 

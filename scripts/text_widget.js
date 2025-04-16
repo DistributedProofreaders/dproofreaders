@@ -384,6 +384,31 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
         });
     });
 
+    let leaveText = function () {};
+    let leave = leaveText;
+
+    function enterTextMode() {
+        quill.enable();
+        leave = leaveText;
+    }
+
+    const wordChecker = makeWordchecker(
+        projectId,
+        quill,
+        languagesWithDictionaries,
+        projectLanguages,
+        editBox,
+        reLayout,
+        proofText,
+        extraSettings,
+        enterTextMode,
+        onDoneSettings,
+    );
+
+    // userSettings.formatting ??= {}; // needs chrome 85, FF 79, Safari 14
+    userSettings.formatting ?? (userSettings.formatting = {});
+    const formatter = makePreview(userSettings.formatting, proofText, quill, controlBar, enterTextMode, extraSettings);
+
     const textOnlyRadio = makeRadio("viewMode");
     textOnlyRadio.checked = true;
     textOnlyRadio.addEventListener("click", function () {
@@ -427,33 +452,6 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
 
     controlBar.prepend(textOnlyControl, wordCheckControl, formatPreviewControl);
     controlBar.append(lineSpacer);
-
-    let leaveText = function () {};
-
-    let leave = leaveText;
-
-
-    function enterTextMode() {
-        quill.enable();
-        leave = leaveText;
-    }
-
-    const wordChecker = makeWordchecker(
-        projectId,
-        quill,
-        languagesWithDictionaries,
-        projectLanguages,
-        editBox,
-        reLayout,
-        proofText,
-        extraSettings,
-        enterTextMode,
-        onDoneSettings,
-    );
-
-    // userSettings.formatting ??= {}; // needs chrome 85, FF 79, Safari 14
-    userSettings.formatting ?? (userSettings.formatting = {});
-    const formatter = makePreview(userSettings.formatting, proofText, quill, controlBar, enterTextMode, extraSettings);
 
     const validator = makeValidator(projectId, quill);
 
