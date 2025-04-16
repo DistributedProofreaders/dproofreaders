@@ -93,6 +93,7 @@ $proof_text =
     "quitWC" => _("Quit Word Check"),
     "languages" => _("Languages"),
     "ok" => _("OK"),
+    "textOnly" => _("Text Only"),
     "formatPreview" => _("Format Preview"),
     "wordCheck" => _("Word Check"),
     "scrollWithText" => _("Scroll with Text"),

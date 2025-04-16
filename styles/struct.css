@@ -192,9 +192,6 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
   background: lightgray;
   text-align: center;
 }
-.marg_bot_5 {
-    margin-bottom: .5em;
-}
 .accept_button {
   position: absolute;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);

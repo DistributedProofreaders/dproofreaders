@@ -1,24 +1,10 @@
-/* global ajax hide show actionButton */
+/* global ajax hide */
 /* exported makeWordchecker */
 /* eslint no-use-before-define: "warn" */
 
-function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLanguages, editBox, numberLines, proofText, controls, controlBar, enterTextMode) {
-    const wcControlSpan = document.createElement("span");
-    hide(wcControlSpan);
-    controls.prepend(wcControlSpan);
-
-    const wcQuitButton = actionButton(proofText.quitWC);
-    const langButton = actionButton(proofText.languages);
-    wcControlSpan.append(wcQuitButton, langButton);
-
-    const langDiv = document.createElement("div");
-    langDiv.classList.add("fixed-box");
-    hide(langDiv);
+function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLanguages, editBox, numberLines, proofText, extraSettings, enterTextMode, onDoneSettings) {
     const langGrid = document.createElement("div");
     langGrid.classList.add("langcol");
-    const langDoneButton = actionButton(proofText.ok);
-    langDiv.append(langGrid, langDoneButton);
-    controlBar.append(langDiv);
 
     const puncCharacters = ".,;:?!*/()#@%+=[]{}<>\"$|_¬¢£¥©®§°±¶·'´¸º×¦¡¿-»«¯÷¹²³¼½¾¤";
 
@@ -41,17 +27,9 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         langGrid.append(label);
     }
 
-    // put anywhere
-    wcControlSpan.append(acceptButton);
+    editBox.append(acceptButton);
 
-    langButton.addEventListener("click", function () {
-        show(langDiv);
-        hide(controls);
-        hide(acceptButton);
-        numberLines();
-    });
-
-    langDoneButton.addEventListener("click", function () {
+    function setLanguages() {
         languages.length = 0;
         const langCheckBoxes = langGrid.getElementsByTagName("input");
         for (const box of langCheckBoxes) {
@@ -59,12 +37,8 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
                 languages.push(box.nextSibling.textContent);
             }
         }
-        hide(langDiv);
-        show(controls);
-        numberLines();
-        hide(acceptButton);
         wordCheck();
-    });
+    }
 
     let caretPos = 0;
 
@@ -92,7 +66,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
 
     function maybeShowAcceptButton() {
         // show accept button for suggestible word when caret is in it
-        const { index, length } = quill.getSelection(true);
+        const { index, length } = quill.getSelection(false);
         if (length !== 0) {
             // only if no selection
             return;
@@ -103,9 +77,8 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
             const [leaf] = quill.getLeaf(index);
             acceptableWord = leaf.text;
             const bounds = quill.getBounds(index);
-            const editRect = editBox.getBoundingClientRect();
-            acceptButton.style.top = `${editRect.top + bounds.top + bounds.height}px`;
-            acceptButton.style.left = `${editRect.left + bounds.left}px`;
+            acceptButton.style.top = `${bounds.top + bounds.height}px`;
+            acceptButton.style.left = `${bounds.left}px`;
             acceptButton.style.display = "block";
         } else {
             hide(acceptButton);
@@ -128,7 +101,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
     function showWordCheck(wcData) {
         // check that text and cursor pos. has not changed while waiting
         // for response.
-        const { index: newCaretPos } = quill.getSelection(true);
+        const { index: newCaretPos } = quill.getSelection(false);
         const newText = quill.getText();
         if (newCaretPos !== caretPos || newText !== pageText) {
             // another change has happened since we submitted wordcheck
@@ -167,7 +140,8 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         }
         // process text after last word
         checkPunc(puncIndex, pageText.length);
-        quill.setSelection(caretPos);
+        // silent so don't scroll caret into view
+        quill.setSelection(caretPos, 0, "silent");
         maybeShowAcceptButton();
     }
 
@@ -179,7 +153,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         // save pageText and caretPos so we can check if they have changed
         // before redrawing the page
         pageText = quill.getText();
-        ({ index: caretPos } = quill.getSelection(true));
+        ({ index: caretPos } = quill.getSelection(false));
         try {
             const wcData = await ajax("PUT", `v1/projects/${projectId}/wordcheck`, {}, { text: pageText, accepted_words: acceptedWords, languages: languages });
             showWordCheck(wcData);
@@ -228,11 +202,11 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         quill.off("text-change", onChange);
         editBox.removeEventListener("click", maybeShowAcceptButton);
         editBox.removeEventListener("keyup", maybeShowAcceptButton);
-        hide(wcControlSpan);
+        extraSettings.replaceChildren();
+        onDoneSettings.delete(setLanguages);
+
         enterTextMode();
     }
-
-    wcQuitButton.addEventListener("click", leave);
 
     return {
         enter: function () {
@@ -240,7 +214,8 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
             editBox.addEventListener("click", maybeShowAcceptButton);
             editBox.addEventListener("keyup", maybeShowAcceptButton);
             quill.enable();
-            show(wcControlSpan);
+            extraSettings.append(langGrid);
+            onDoneSettings.add(setLanguages);
             wordCheck();
         },
 

@@ -1,4 +1,4 @@
-/* global Quill makePreview makeWordchecker makeValidator actionButton makeLabel makeCheckBox show hide*/
+/* global Quill makePreview makeWordchecker makeValidator actionButton makeLabel makeCheckBox show hide makeRadio */
 /* exported makeTextWidget */
 /* exported makeProofTextWidget */
 /* exported makeQuizTextWidget */
@@ -107,9 +107,11 @@ function makeTextWidget(container, userSettings, widgetText) {
     controlBar.classList.add("simple_bar", "top_settings_box");
 
     const settingsDiv = document.createElement("div");
+    settingsDiv.classList.add("simple_bar", "top_settings_box");
     hide(settingsDiv);
-    const controlRow = document.createElement("div");
-    controlRow.classList.add("marg_bot_5");
+    const controlRow = document.createElement("p");
+
+    const extraSettings = document.createElement("div");
 
     const doneButton = actionButton(widgetText.done);
 
@@ -153,11 +155,13 @@ function makeTextWidget(container, userSettings, widgetText) {
         numberLines();
     });
 
-    const controls = document.createElement("div");
+    const onDoneSettings = new Set();
 
     doneButton.addEventListener("click", function () {
+        for (const func of onDoneSettings) {
+            func();
+        }
         hide(settingsDiv);
-        show(controls);
         numberLines();
     });
 
@@ -184,7 +188,7 @@ function makeTextWidget(container, userSettings, widgetText) {
         numberLines();
     });
 
-    const fontLabel = makeLabel([widgetText.font + ": ", fontFaceSelector]);
+    const fontControl = makeLabel([widgetText.font + ": ", fontFaceSelector]);
 
     const fontSizeSelector = document.createElement("select");
     const fontSizes = [10, 12, 14, 17, 20, 24, 30, 36, 44];
@@ -203,7 +207,7 @@ function makeTextWidget(container, userSettings, widgetText) {
         setFontSize();
     });
 
-    const fontSizeLabel = makeLabel([widgetText.size + ": ", fontSizeSelector]);
+    const fontSizeControl = makeLabel([widgetText.size + ": ", fontSizeSelector]);
 
     function setWrap() {
         basicSetWrap();
@@ -215,9 +219,9 @@ function makeTextWidget(container, userSettings, widgetText) {
         userSettings.textWrap = this.checked;
         setWrap();
     });
-    const wrapLabel = makeLabel([wrapCheck, widgetText.wrap]);
+    const wrapControl = makeLabel([wrapCheck, widgetText.wrap]);
 
-    controlRow.append(fontLabel, fontSizeLabel, wrapLabel);
+    controlRow.append(fontControl, fontSizeControl, wrapControl);
 
     function setText(text) {
         basicSetText(text);
@@ -233,18 +237,20 @@ function makeTextWidget(container, userSettings, widgetText) {
     wrapCheck.checked = userSettings.textWrap;
     setWrap();
 
+    const onSettings = new Set();
     const settingsButton = actionButton(widgetText.settings);
     settingsButton.addEventListener("click", function () {
+        for (const func of onSettings) {
+            func();
+        }
         show(settingsDiv);
-        hide(controls);
         numberLines();
     });
 
-    settingsDiv.append(controlRow, doneButton);
-    controlBar.append(controls, settingsDiv);
-    controls.append(settingsButton);
+    settingsDiv.append(controlRow, extraSettings, doneButton);
+    controlBar.append(settingsButton);
 
-    container.append(controlBar, numberText);
+    container.append(controlBar, settingsDiv, numberText);
 
     return {
         setup: function (splitVertical) {
@@ -267,11 +273,13 @@ function makeTextWidget(container, userSettings, widgetText) {
 
         setText,
         quill,
-        controls,
         editBox,
         controlBar,
         setParaSpacing,
         qlEditor,
+        extraSettings,
+        onSettings,
+        onDoneSettings,
     };
 }
 
@@ -345,7 +353,7 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
 
     Quill.register(DFormula);
 
-    const { setup, reLayout, setText, quill, controls, editBox, controlBar, setParaSpacing, qlEditor } = makeTextWidget(container, userSettings, widgetText);
+    const { setup, reLayout, setText, quill, editBox, controlBar, setParaSpacing, qlEditor, extraSettings, onSettings, onDoneSettings } = makeTextWidget(container, userSettings, widgetText);
 
     const lineSpacer = document.createElement("input");
     lineSpacer.type = "range";
@@ -376,21 +384,57 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
         });
     });
 
-    const proofSpan = document.createElement("span");
-    const wordCheckButton = actionButton(proofText.wordCheck);
-    const formatPreviewButton = actionButton(proofText.formatPreview);
-    proofSpan.append(wordCheckButton, formatPreviewButton);
+    const textOnlyRadio = makeRadio("viewMode");
+    textOnlyRadio.checked = true;
+    textOnlyRadio.addEventListener("click", function () {
+        console.log("to");
+        leave();
+        quill.enable();
+        leave = leaveText;
+    });
+    const textOnlyControl = makeLabel([textOnlyRadio, proofText.textOnly]);
 
-    controls.prepend(proofSpan);
-    controls.append(lineSpacer);
+    const wordCheckRadio = makeRadio("viewMode");
+    wordCheckRadio.addEventListener("click", function () {
+        leave();
+        wordChecker.enter();
+        leave = wordChecker.leave;
+    });
+    const wordCheckControl = makeLabel([wordCheckRadio, proofText.wordCheck]);
+
+    const formatPreviewRadio = makeRadio("viewMode");
+    formatPreviewRadio.addEventListener("click", function () {
+        leave();
+        formatter.enter();
+        leave = formatter.leave;
+    });
+    const formatPreviewControl = makeLabel([formatPreviewRadio, proofText.formatPreview]);
+
+    const modeControls = [textOnlyRadio, wordCheckRadio, formatPreviewRadio];
+    function disableModeSwitch() {
+        for (const control of modeControls) {
+            control.disabled = true;
+        }
+    }
+    onSettings.add(disableModeSwitch);
+
+    function enableModeSwitch() {
+        for (const control of modeControls) {
+            control.disabled = false;
+        }
+    }
+    onDoneSettings.add(enableModeSwitch);
+
+    controlBar.prepend(textOnlyControl, wordCheckControl, formatPreviewControl);
+    controlBar.append(lineSpacer);
 
     let leaveText = function () {};
 
     let leave = leaveText;
 
+
     function enterTextMode() {
         quill.enable();
-        show(proofSpan);
         leave = leaveText;
     }
 
@@ -402,26 +446,14 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
         editBox,
         reLayout,
         proofText,
-        controls,
-        controlBar,
+        extraSettings,
         enterTextMode,
+        onDoneSettings,
     );
 
     // userSettings.formatting ??= {}; // needs chrome 85, FF 79, Safari 14
     userSettings.formatting ?? (userSettings.formatting = {});
-    const formatter = makePreview(userSettings.formatting, proofText, quill, controls, controlBar, enterTextMode);
-
-    wordCheckButton.addEventListener("click", function () {
-        hide(proofSpan);
-        wordChecker.enter();
-        leave = wordChecker.leave;
-    });
-
-    formatPreviewButton.addEventListener("click", function () {
-        hide(proofSpan);
-        formatter.enter();
-        leave = formatter.leave;
-    });
+    const formatter = makePreview(userSettings.formatting, proofText, quill, controlBar, enterTextMode, extraSettings);
 
     const validator = makeValidator(projectId, quill);
 

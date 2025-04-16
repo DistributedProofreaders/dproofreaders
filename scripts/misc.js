@@ -36,3 +36,10 @@ function hide(element) {
 function show(element) {
     element.style.display = "";
 }
+
+function makeRadio(name) {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = name;
+    return radio;
+}

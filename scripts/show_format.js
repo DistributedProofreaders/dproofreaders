@@ -1,15 +1,8 @@
-/*global analyse actionButton makeCheckBox makeLabel show hide getILTags */
+/*global analyse makeCheckBox makeLabel getILTags */
 /* exported makePreview */
 /* eslint no-unused-vars: "warn" */
 
-function makePreview(formatting, proofText, quill, controls, controlBar, enterTextMode) {
-    const fpControlSpan = document.createElement("span");
-    hide(fpControlSpan);
-    controls.prepend(fpControlSpan);
-
-    const fpQuitButton = actionButton(proofText.quitFP);
-    const optionsButton = actionButton(proofText.options);
-
+function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, enterTextMode, extraSettings) {
     const colorMarkupCheck = makeCheckBox();
     const colorMarkupControl = makeLabel([colorMarkupCheck, proofText.colorMarkup]);
 
@@ -22,29 +15,9 @@ function makePreview(formatting, proofText, quill, controls, controlBar, enterTe
     const allowMathCheck = makeCheckBox();
     const allowMathControl = makeLabel([allowMathCheck, proofText.previewMath]);
 
-    fpControlSpan.append(fpQuitButton, optionsButton);
-
-    const optionDiv = document.createElement("div");
-    optionDiv.classList.add("left-align");
-    hide(optionDiv);
-
-    const optDoneButton = actionButton(proofText.ok);
     const optGrid = document.createElement("div");
     optGrid.classList.add("grid2col");
     optGrid.append(colorMarkupControl, hideTagsControl, allowMathControl, allowUnderlineControl);
-
-    optionDiv.append(optGrid, optDoneButton);
-    controlBar.append(optionDiv);
-
-    optionsButton.addEventListener("click", function () {
-        show(optionDiv);
-        hide(controls);
-    });
-
-    optDoneButton.addEventListener("click", function () {
-        hide(optionDiv);
-        show(controls);
-    });
 
     formatting.colors ??
         (formatting.colors = {
@@ -347,21 +320,19 @@ function makePreview(formatting, proofText, quill, controls, controlBar, enterTe
     allowUnderlineCheck.checked = formatting.allowUnderline;
 
     function leave() {
-        hide(fpControlSpan);
         quill.setText(pageText, "silent");
         // it should be possible to suspend history while in preview
         // since text is unchanged by using "silent" but doesn't work
         quill.history.clear();
+        extraSettings.replaceChildren();
         enterTextMode();
     }
 
-    fpQuitButton.addEventListener("click", leave);
-
     return {
         enter: function () {
-            show(fpControlSpan);
             quill.enable(false);
             pageText = quill.getText();
+            extraSettings.append(optGrid);
             markFormat();
         },
         leave,
