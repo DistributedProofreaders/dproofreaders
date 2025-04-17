@@ -185,7 +185,7 @@ class Activity
         if ($testing && !is_null($this->access_minima)) { /** @phpstan-ignore-line */
             // Relax minima.
             foreach ($this->access_minima as $criterion_code => $minimum) {
-                if (startswith($criterion_code, 'quiz/')) {
+                if (str_starts_with($criterion_code, 'quiz/')) {
                     // skip
                 } elseif ($criterion_code == 'days since reg') {
                     $this->access_minima[$criterion_code] = intval($minimum / 7);
@@ -404,7 +404,7 @@ function get_user_score(User $user_obj, string $criterion_code): float
 {
     if ($criterion_code == 'days since reg') {
         $user_score = round((time() - $user_obj->date_created) / 86400, 1);
-    } elseif (startswith($criterion_code, 'quiz/')) {
+    } elseif (str_starts_with($criterion_code, 'quiz/')) {
         $quiz_id = substr($criterion_code, 5);
         $quiz = get_Quiz_with_id($quiz_id);
         $user_score = $quiz->user_has_passed($user_obj->username) ? 1 : 0;
