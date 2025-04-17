@@ -34,8 +34,11 @@ class ProjectTest extends ProjectUtils
 
     public function test_save_update(): void
     {
+        global $pguser;
+
         $project = $this->_create_project();
 
+        $pguser = $this->TEST_USERNAME_PM;
         // update title and save
         $project->nameofwork = "New Name";
         $project->save();
