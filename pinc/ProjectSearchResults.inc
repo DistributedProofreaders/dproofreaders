@@ -601,8 +601,6 @@ class ProjectSearchResults
     /** @return array{0: bool|mysqli_result, 1: int} */
     private function _search(string $where_condition, int $results_offset): array
     {
-        global $testing;
-
         // load a count of the total number of projects
         $sql = "
             SELECT COUNT(*)
@@ -627,7 +625,7 @@ class ProjectSearchResults
             WHERE $where_condition
             ORDER BY $this->sort_sql
             " . sprintf("LIMIT %d OFFSET %d", $this->page_size, $results_offset);
-        if ($testing) {
+        if (SiteConfig::get()->testing) {
             echo_html_comment($sql);
         }
         $result = DPDatabase::query($sql);

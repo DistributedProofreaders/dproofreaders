@@ -21,7 +21,7 @@ slim_header($title);
 
 echo "<h2>$title</h2>\n";
 
-$email_addr = $promotion_requests_email_addr;
+$email_addr = SiteConfig::get()->promotion_requests_email_addr;
 
 echo "<p>";
 echo sprintf(_('(In case of problems, please send email to %s.)'), $email_addr);

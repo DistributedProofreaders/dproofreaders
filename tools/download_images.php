@@ -11,8 +11,8 @@ require_login();
 
 $projectid = get_projectID_param($_GET, 'projectid');
 
-$zipfile_path = "$dyn_dir/download_tmp/{$projectid}_images.zip";
-$zipfile_url = "$dyn_url/download_tmp/{$projectid}_images.zip";
+$zipfile_path = SiteConfig::get()->dyn_dir . "/download_tmp/{$projectid}_images.zip";
+$zipfile_url = SiteConfig::get()->dyn_url . "/download_tmp/{$projectid}_images.zip";
 $project_path = "$projects_dir/$projectid";
 
 // If there's already a zip file, check if its contents are up to

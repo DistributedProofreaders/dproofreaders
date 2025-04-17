@@ -6,7 +6,7 @@
 // be used in production! It just reads and writes to two JSON files.
 
 // Confirm we are only testing
-if (!$testing) {
+if (!SiteConfig::get()->testing) {
     throw new Error("JSON forum type can only be used during testing!");
 }
 
@@ -41,12 +41,10 @@ class ForumJsonUser extends ForumJson
 {
     public function __construct($json_file = null)
     {
-        global $forums_json_users;
-
         if ($json_file) {
             $this->configure($json_file);
         } else {
-            $this->configure($forums_json_users);
+            $this->configure(SiteConfig::get()->forums_json_users);
         }
     }
 
@@ -87,12 +85,10 @@ class ForumJsonPost extends ForumJson
 {
     public function __construct($json_file = null)
     {
-        global $forums_json_posts;
-
         if ($json_file) {
             $this->configure($json_file);
         } else {
-            $this->configure($forums_json_posts);
+            $this->configure(SiteConfig::get()->forums_json_posts);
         }
     }
 
