@@ -3,7 +3,7 @@ include_once('Round.inc'); // get_Round_for_round_number()
 include_once('wordcheck_engine.inc'); // get_file_info_object()
 include_once('links.inc');
 include_once('slim_header.inc'); // slim_header()
-include_once($relPath.'../tools/project_manager/post_files.inc'); // page_info_query page_info_fetch
+include_once('post_files.inc'); // page_info_query page_info_fetch
 include_once('bad_bytes.inc');
 include_once('image_check.inc'); // get_image_size_error()
 

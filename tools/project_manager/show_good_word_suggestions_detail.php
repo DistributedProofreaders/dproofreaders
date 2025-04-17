@@ -8,7 +8,7 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'page_controls.inc');
 include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
-include_once('./post_files.inc');
+include_once($relPath.'post_files.inc');
 include_once("./word_freq_table.inc");
 
 require_login();
