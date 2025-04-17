@@ -153,6 +153,8 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         // save pageText and caretPos so we can check if they have changed
         // before redrawing the page
         pageText = quill.getText();
+        // Focus the editor, but don't scroll
+        quill.focus({ preventScroll: true });
         ({ index: caretPos } = quill.getSelection(false));
         try {
             const wcData = await ajax("PUT", `v1/projects/${projectId}/wordcheck`, {}, { text: pageText, accepted_words: acceptedWords, languages: languages });
@@ -183,7 +185,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
     acceptButton.addEventListener("keydown", keyAcceptWord);
 
     function onChange() {
-        const { index } = quill.getSelection(true);
+        const { index } = quill.getSelection(false);
         let [leaf, offset] = quill.getLeaf(index);
         const format = quill.getFormat(index);
         if (format.underline || format.strike) {
@@ -194,6 +196,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
     }
 
     function leave() {
+        // remove any marking
         pageText = quill.getText();
         quill.setText(pageText, "silent");
         quill.history.clear();
@@ -209,6 +212,7 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
 
     return {
         enter: function () {
+            // assume quill shows text.
             quill.on("text-change", onChange);
             editBox.addEventListener("click", maybeShowAcceptButton);
             editBox.addEventListener("keyup", maybeShowAcceptButton);

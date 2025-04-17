@@ -207,6 +207,8 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
 
     // use quill.getContents to get formatting markup, process it. remove
     // single newlines to rewrap.
+    // if this is implemented quill text will change so have to use a new
+    // getText function to use if saving from here
 
     function reWrap(txt) {
         let mode = "para";
@@ -320,6 +322,7 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
     allowUnderlineCheck.checked = formatting.allowUnderline;
 
     function leave() {
+        // restore text with no marking.
         quill.setText(pageText, "silent");
         // it should be possible to suspend history while in preview
         // since text is unchanged by using "silent" but doesn't work
@@ -331,6 +334,7 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
     return {
         enter: function () {
             quill.enable(false);
+            // save text so can restore when leave formatting mode
             pageText = quill.getText();
             extraSettings.append(optGrid);
             markFormat();

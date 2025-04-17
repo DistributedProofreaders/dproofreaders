@@ -412,7 +412,7 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
     const textOnlyRadio = makeRadio("viewMode");
     textOnlyRadio.checked = true;
     textOnlyRadio.addEventListener("click", function () {
-        console.log("to");
+//        console.log("to");
         leave();
         quill.enable();
         leave = leaveText;
