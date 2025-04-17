@@ -31,6 +31,10 @@ if ($include_proofers && ! $project->names_can_be_seen_by_current_user) {
     $errors[] = _('You are not authorized to invoke this script.');
 }
 
+if ($include_proofers && $save_files) {
+    $errors[] = _('You cannot save file on server with usernames.');
+}
+
 // if we are not saving files, then we are just downloading the zip.
 // don't send anything out other than the headers and zip file contents.
 if ($save_files) {
