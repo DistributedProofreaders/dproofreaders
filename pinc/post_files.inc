@@ -304,3 +304,73 @@ function page_info_fetch($res)
         $proofer_names,
     ];
 }
+
+/** @return array{0: string, 1: string} */
+function generate_project_images_zip(string $projectid): array
+{
+    global $dyn_dir, $dyn_url, $projects_dir;
+
+    $zipfile_path = "$dyn_dir/download_tmp/{$projectid}_images.zip";
+    $zipfile_url = "$dyn_url/download_tmp/{$projectid}_images.zip";
+    $project_path = "$projects_dir/$projectid";
+
+    // If there's already a zip file, check if its contents are up to
+    // date. If they are, we can just return it. If it's stale, delete the
+    // zip and rebuilt it.
+    if (file_exists($zipfile_path)) {
+        $cache_stale = false;
+
+        // List all the images in the zip file image cache
+        $zipfile_modified = filemtime($zipfile_path);
+        $zipfile_images = list_files_in_zip($zipfile_path);
+
+        // List all the images in the project directory
+        $proj_images = get_filelist($project_path, ['.png', '.jpg']);
+        if ($proj_images === false) {
+            throw new RuntimeException("Could not list project images.");
+        }
+
+        // If either list contains something not in the other, then files have
+        // been added, removed or renamed in the project and the cache is stale
+        if (count(array_diff($zipfile_images, $proj_images)) != 0) {
+            $cache_stale = true;
+        }
+        if (count(array_diff($proj_images, $zipfile_images)) != 0) {
+            $cache_stale = true;
+        }
+
+        // If the modification date of any of the image files in the project
+        // directory is newer than that of the zip file, the cache is stale.
+        foreach ($proj_images as $i) {
+            if (filemtime("$project_path/$i") > $zipfile_modified) {
+                $cache_stale = true;
+                break;
+            }
+        }
+
+        // If the cache is stale, remove it, else return it.
+        if ($cache_stale) {
+            unlink($zipfile_path);
+        } else {
+            return [$zipfile_path, $zipfile_url];
+        }
+    }
+
+    if (!is_dir($project_path)) {
+        throw new RuntimeException("Project directory does not exist.");
+    }
+
+    if (!is_dir(dirname($zipfile_path))) {
+        mkdir(dirname($zipfile_path), 0777, true /* recursive */);
+    }
+
+    // Get a list of image filenames
+    $image_files = get_filelist($project_path, ['.png', '.jpg'], /*with_path*/ true);
+    if ($image_files === false) {
+        throw new RuntimeException("Could not list project images.");
+    }
+
+    create_zip_from($image_files, $zipfile_path);
+
+    return [$zipfile_path, $zipfile_url];
+}
