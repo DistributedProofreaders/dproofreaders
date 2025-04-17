@@ -10,6 +10,7 @@
 01  0 * * * JOB=RecordProjectStateCounts; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 # See SETUP/ARCHIVING.md to set up archiving before enabling the line below
 #10  0 * * * JOB=ArchiveProjects; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
+45  0 * * * JOB=CleanDownloadTemp; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 50  0 * * * JOB=CleanUploadsTrash; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 55  0 * * * JOB=ExtendSiteTallyGoals; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 00  4 * * * JOB=ToggleSpecialDayQueues; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
