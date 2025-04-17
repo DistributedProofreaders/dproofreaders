@@ -1631,9 +1631,7 @@ function echo_download_zip(string $link_text, string $discriminator): void
         // Generate images zip on the fly,
         // so it's not taking up space on the disk.
 
-        $url = "$code_url/tools/download_images.php?projectid=$projectid&amp;dummy={$projectid}images.zip";
-        // The 'dummy' parameter is for the benefit of download-software that
-        // names the resulting file after the last component of the request URL.
+        $url = "$code_url/tools/download_images.php?projectid=$projectid";
 
         // Images don't compress much in a zip,
         // so the sum of their individual filesizes
