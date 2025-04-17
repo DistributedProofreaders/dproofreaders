@@ -3,7 +3,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'DPage.inc'); // Pages_prepForRound
 include_once($relPath.'forum_interface.inc'); // topic_change_forum
 include_once($relPath.'send_mail.inc');
-include_once($relPath.'../tools/project_manager/post_files.inc');
+include_once($relPath.'post_files.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'User.inc');
 

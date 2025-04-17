@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Stopwatch.inc');
-include_once('./post_files.inc'); // page_info_query()
+include_once($relPath.'post_files.inc'); // page_info_query()
 include_once("./word_freq_table.inc"); // echo_cutoff_text(), printTableFrequencies(), decode_word()
 
 require_login();

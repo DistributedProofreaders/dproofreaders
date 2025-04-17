@@ -6,7 +6,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'graph_data.inc');
-include_once('./post_files.inc');
+include_once($relPath.'post_files.inc');
 include_once("./word_freq_table.inc");
 
 require_login();

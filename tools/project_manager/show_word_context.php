@@ -7,7 +7,7 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'page_controls.inc'); // get_proofreading_interface_data_js()
 include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
-include_once('./post_files.inc'); // page_info_query()
+include_once($relPath.'post_files.inc'); // page_info_query()
 include_once("./word_freq_table.inc"); // enforce_edit_authorization(), decode_word()
 
 require_login();
