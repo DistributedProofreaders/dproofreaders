@@ -2,7 +2,7 @@
 /* exported makePreview */
 /* eslint no-unused-vars: "warn" */
 
-function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, enterTextMode, extraSettings) {
+function makePreview(formatting, proofText, quill, extraSettings, statSpan) {
     const colorMarkupCheck = makeCheckBox();
     const colorMarkupControl = makeLabel([colorMarkupCheck, proofText.colorMarkup]);
 
@@ -18,6 +18,11 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
     const optGrid = document.createElement("div");
     optGrid.classList.add("grid2col");
     optGrid.append(colorMarkupControl, hideTagsControl, allowMathControl, allowUnderlineControl);
+
+    const possIssBox = document.createElement("input");
+    possIssBox.type = "text";
+    possIssBox.size = "1";
+    possIssBox.readOnly = true;
 
     formatting.colors ??
         (formatting.colors = {
@@ -294,6 +299,7 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
         });
         // ok true if no errors which would cause showstyle() or reWrap() to fail
         ok = nIssues === 0;
+        possIssBox.value = possIss;
         showStyle();
     }
 
@@ -328,7 +334,7 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
         // since text is unchanged by using "silent" but doesn't work
         quill.history.clear();
         extraSettings.replaceChildren();
-        enterTextMode();
+        statSpan.replaceChildren();
     }
 
     return {
@@ -337,6 +343,7 @@ function makePreview(formatting, proofText, quill, /*controls,*/ controlBar, ent
             // save text so can restore when leave formatting mode
             pageText = quill.getText();
             extraSettings.append(optGrid);
+            statSpan.append("poss. iss: ", possIssBox);
             markFormat();
         },
         leave,

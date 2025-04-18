@@ -405,9 +405,11 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
         onDoneSettings,
     );
 
+    const statSpan = document.createElement("span");
+
     // userSettings.formatting ??= {}; // needs chrome 85, FF 79, Safari 14
     userSettings.formatting ?? (userSettings.formatting = {});
-    const formatter = makePreview(userSettings.formatting, proofText, quill, controlBar, enterTextMode, extraSettings);
+    const formatter = makePreview(userSettings.formatting, proofText, quill, extraSettings, statSpan);
 
     const textOnlyRadio = makeRadio("viewMode");
     textOnlyRadio.checked = true;
@@ -451,7 +453,7 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
     onDoneSettings.add(enableModeSwitch);
 
     controlBar.prepend(textOnlyControl, wordCheckControl, formatPreviewControl);
-    controlBar.append(lineSpacer);
+    controlBar.append(lineSpacer, statSpan);
 
     const validator = makeValidator(projectId, quill);
 

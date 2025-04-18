@@ -1,6 +1,7 @@
 /* global ajax hide */
 /* exported makeWordchecker */
-/* eslint no-use-before-define: "warn" */
+/* eslint no-use-before-define: "off" */
+/* eslint camelcase: "off" */
 
 function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLanguages, editBox, numberLines, proofText, extraSettings, enterTextMode, onDoneSettings) {
     const langGrid = document.createElement("div");
