@@ -387,11 +387,6 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
     let leaveText = function () {};
     let leave = leaveText;
 
-    function enterTextMode() {
-        quill.enable();
-        leave = leaveText;
-    }
-
     const wordChecker = makeWordchecker(
         projectId,
         quill,
@@ -401,7 +396,6 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
         reLayout,
         proofText,
         extraSettings,
-        enterTextMode,
         onDoneSettings,
     );
 
@@ -414,9 +408,7 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
     const textOnlyRadio = makeRadio("viewMode");
     textOnlyRadio.checked = true;
     textOnlyRadio.addEventListener("click", function () {
-//        console.log("to");
         leave();
-        quill.enable();
         leave = leaveText;
     });
     const textOnlyControl = makeLabel([textOnlyRadio, proofText.textOnly]);
@@ -463,6 +455,8 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
 
     function toTextMode() {
         leave();
+        leave = leaveText;
+        textOnlyRadio.checked = true;
     }
 
     const { surroundSelection, transformSelection, replaceSelection, getText } = editOperations(quill);

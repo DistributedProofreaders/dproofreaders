@@ -1,5 +1,6 @@
 /*global ajax codeUrl viewSplitter makeProofImageWidget makeProofTextWidget makeUrl constructToolBox hide show */
 /* eslint no-use-before-define: "warn" */
+/* eslint camelcase: "off" */
 
 window.addEventListener("DOMContentLoaded", async () => {
     const url = new URL(window.location.href);

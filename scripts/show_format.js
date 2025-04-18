@@ -335,6 +335,7 @@ function makePreview(formatting, proofText, quill, extraSettings, statSpan) {
         quill.history.clear();
         extraSettings.replaceChildren();
         statSpan.replaceChildren();
+        quill.enable();
     }
 
     return {

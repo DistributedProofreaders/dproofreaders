@@ -1,5 +1,5 @@
 /* exported constructToolBox */
-/* eslint no-use-before-define: "warn" */
+/* eslint no-use-before-define: "off" */
 
 function constructToolBox(textWidget, pickerSets, roundType, proofSettings, projectId) {
     const midPickerBox = document.getElementById("mid_picker_box");

@@ -3,7 +3,7 @@
 /* eslint no-use-before-define: "off" */
 /* eslint camelcase: "off" */
 
-function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLanguages, editBox, numberLines, proofText, extraSettings, enterTextMode, onDoneSettings) {
+function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLanguages, editBox, numberLines, proofText, extraSettings, onDoneSettings) {
     const langGrid = document.createElement("div");
     langGrid.classList.add("langcol");
 
@@ -208,7 +208,6 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
         editBox.removeEventListener("keyup", maybeShowAcceptButton);
         extraSettings.replaceChildren();
         onDoneSettings.delete(setLanguages);
-        enterTextMode();
     }
 
     return {
