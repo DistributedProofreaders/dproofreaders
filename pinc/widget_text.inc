@@ -1,9 +1,11 @@
 <?php
 
-class Font {
+class Font
+{
     public $name;
     public $face;
-    function __construct($name, $face) {
+    public function __construct($name, $face)
+    {
         $this->name = $name;
         $this->face = $face;
     }

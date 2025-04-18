@@ -3,10 +3,11 @@
 function draw_toolbox()
 {
     $toolbox_text = json_encode(
-    [
-        "mruAbbrev" => _("MRU"),
-        "mruTitle" => _("Most recently used"),
-    ]);
+        [
+            "mruAbbrev" => _("MRU"),
+            "mruTitle" => _("Most recently used"),
+        ]
+    );
 
     echo "
 <div class='fixed-box tool_box row_flex' id='toolbox'>

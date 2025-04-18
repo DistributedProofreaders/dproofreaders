@@ -168,4 +168,3 @@ echo "
 </div>";
 draw_toolbox();
 echo "</div>";
-

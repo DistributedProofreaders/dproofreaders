@@ -67,7 +67,7 @@ echo"</form>
             </iframe>
         </div>
     </div>";
-    draw_toolbox();
+draw_toolbox();
 echo "</div>";
 
 /*
