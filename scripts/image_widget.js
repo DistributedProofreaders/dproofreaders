@@ -81,13 +81,11 @@ function makeImageWidget(container, userSettings, widgetText) {
         document.addEventListener("touchend", dragTouchEnd);
     });
 
-
     function dragFunc(element, wFunc) {
-
         function mouseMove(event) {
             let width = Math.max(wFunc(event), minBar);
             // let right edge track mouse down to minimum
-            element.style.flex = `0 0 ${width}px`;//centre.scrollLeft = scrollDiffX - event.pageX;
+            element.style.flex = `0 0 ${width}px`;
         }
 
         function mouseUp() {

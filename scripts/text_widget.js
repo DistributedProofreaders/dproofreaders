@@ -353,7 +353,11 @@ function makeProofTextWidget(container, projectId, userSettings, languagesWithDi
 
     Quill.register(DFormula);
 
-    const { setup, reLayout, setText, quill, editBox, controlBar, setParaSpacing, qlEditor, extraSettings, onSettings, onDoneSettings } = makeTextWidget(container, userSettings, widgetText);
+    const { setup, reLayout, setText, quill, editBox, controlBar, setParaSpacing, qlEditor, extraSettings, onSettings, onDoneSettings } = makeTextWidget(
+        container,
+        userSettings,
+        widgetText,
+    );
 
     const lineSpacer = document.createElement("input");
     lineSpacer.type = "range";
