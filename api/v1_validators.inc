@@ -5,6 +5,19 @@ include_once($relPath.'release_queue.inc');
 //===========================================================================
 // Validators
 
+function validate_stage(string $stageid, array $_data): Stage
+{
+    try {
+        $stage = Stages::get_by_id($stageid);
+        if (!$stage) {
+            throw new InvalidValue("Invalid stage");
+        }
+        return $stage;
+    } catch (InvalidValue $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
+}
+
 function validate_round(string $roundid, array $_data): Round
 {
     try {

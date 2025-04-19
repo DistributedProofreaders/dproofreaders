@@ -14,6 +14,7 @@ $router = ApiRouter::get_router();
 // Add validators
 $router->add_validator(":wordlist_type", "validate_wordlist");
 $router->add_validator(":projectid", "validate_project");
+$router->add_validator(":stageid", "validate_stage");
 $router->add_validator(":roundid", "validate_round");
 $router->add_validator(":pagename", "validate_page_name");
 $router->add_validator(":pageroundid", "validate_page_round");
@@ -39,6 +40,7 @@ $router->add_route("GET", "v1/projects/imagesources", "api_v1_projects_imagesour
 $router->add_route("GET", "v1/projects/holdstates", "api_v1_projects_holdstates");
 $router->add_route("GET", "v1/projects/:projectid", "api_v1_project");
 $router->add_route("PUT", "v1/projects/:projectid", "api_v1_project");
+$router->add_route("GET", "v1/projects/:projectid/artifacts/:stageid", "api_v1_project_artifacts");
 $router->add_route("PUT", "v1/projects/:projectid/checkout", "api_v1_project_checkout");
 $router->add_route("GET", "v1/projects/:projectid/holdstates", "api_v1_project_holdstates");
 $router->add_route("PUT", "v1/projects/:projectid/holdstates", "api_v1_project_holdstates");
