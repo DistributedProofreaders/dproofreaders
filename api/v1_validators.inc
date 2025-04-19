@@ -10,10 +10,10 @@ function validate_round(string $roundid, array $_data): Round
     try {
         $round = Rounds::get_by_id($roundid);
         if (!$round) {
-            throw new InvalidRoundException("Invalid round");
+            throw new InvalidValue("Invalid round");
         }
         return $round;
-    } catch (InvalidRoundException $exception) {
+    } catch (InvalidValue $exception) {
         throw new NotFoundError($exception->getMessage(), $exception->getCode());
     }
 }

@@ -42,13 +42,7 @@ class InvalidProjectIDException extends ProjectException
         parent::__construct($message, $code);
     }
 }
-class InvalidRoundException extends ProjectException
-{
-    public function __construct(string $message, int $code = 103)
-    {
-        parent::__construct($message, $code);
-    }
-}
+// 103 is unused, was InvalidRoundException extends ProjectException
 class NonexistentPageException extends ProjectException
 {
     public function __construct(string $message, int $code = 104)
