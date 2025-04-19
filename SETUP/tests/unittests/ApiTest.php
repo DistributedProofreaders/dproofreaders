@@ -147,7 +147,7 @@ class ApiTest extends ProjectUtils
 
     public function test_get_invalid_round_stats(): void
     {
-        $this->expectExceptionCode(103);
+        $this->expectExceptionCode(6);
 
         $path = "v1/stats/site/rounds/P4";
         $query_params = [];
