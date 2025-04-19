@@ -373,6 +373,48 @@ function render_project_json(Project $project, ?array $return_fields = null)
 }
 
 //---------------------------------------------------------------------------
+// projects/:projectID/artifacts/:stageid
+
+/** @param array<string,string|string[]> $query_params */
+function api_v1_project_artifacts(string $method, array $data, array $query_params)
+{
+    // get the project and the stage
+    $project = $data[":projectid"];
+    $stage = $data[":stageid"];
+
+    // TODO: This check might be too strict -- do we really care if a user
+    // is able to access artifacts from a stage they can't *work* in?
+    // We only show PP artifacts for users who can access in the stage, but
+    // that doesn't seem strictly necessary.
+    if (!user_can_work_in_stage(User::current_username(), $stage->id)) {
+        throw new ForbiddenError("You are not authorized to access artifacts for this stage.");
+    }
+
+    $response = [];
+    if ($stage->id == "PP") {
+        [$zipfile_path, $zipfile_url] = generate_project_images_zip($project->projectid);
+
+        $response[] = [
+            "stage" => $stage->id,
+            "name" => "images_zip",
+            "url" => $zipfile_url,
+        ];
+
+        if (is_file("{$project->dir}/{$project->projectid}.zip")) {
+            $response[] = [
+                "stage" => $stage->id,
+                "name" => "text_zip",
+                "url" => "{$project->url}/{$project->projectid}.zip",
+            ];
+        }
+    } else {
+        throw new NotImplementedError("Only PP artifacts are currently supported.");
+    }
+
+    return $response;
+}
+
+//---------------------------------------------------------------------------
 // projects/:projectID/wordlists/:type
 
 /** @param array<string,string|string[]> $query_params */
