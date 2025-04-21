@@ -12,6 +12,7 @@ use Symfony\Component\Process\Process;
 require_login();
 
 $translate_url = "$code_url/locale/translators/index.php";
+$dyn_locales_dir = SiteConfig::get()->dyn_locales_dir;
 
 $may_manage = user_is_site_translator();
 

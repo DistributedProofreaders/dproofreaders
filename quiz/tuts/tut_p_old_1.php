@@ -10,7 +10,7 @@ output_header(_('Old Texts Proofreading Tutorial'));
 
 echo "<h1>" . _("Proofreading Tutorial") . "</h1>\n";
 echo "<h2>" . _("Intro") . "</h2>\n";
-echo "<p>" . sprintf(_("In this tutorial you will be presented extracts from the Proofreading Guidelines and the %1\$s Wiki article on <a href='%2\$s' target='_blank'>Proofing old texts</a>. After each part you will be led to a quiz page, where you can try out the newly learned rules."), $site_abbreviation, $old_texts_url) . "</p>\n";
+echo "<p>" . sprintf(_("In this tutorial you will be presented extracts from the Proofreading Guidelines and the %1\$s Wiki article on <a href='%2\$s' target='_blank'>Proofing old texts</a>. After each part you will be led to a quiz page, where you can try out the newly learned rules."), SiteConfig::get()->site_abbreviation, $old_texts_url) . "</p>\n";
 
 echo "<h2>" . sprintf(_("Old Texts Proofreading Tutorial, page %d"), 1) . "</h2>\n";
 echo "<h3>" . _("Long s") . "</h3>\n";

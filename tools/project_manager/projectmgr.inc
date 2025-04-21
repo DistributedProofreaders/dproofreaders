@@ -5,12 +5,12 @@ include_once($relPath."faq.inc");
 
 function abort_if_not_manager()
 {
-    global $site_manager_email_addr, $code_url;
+    global $code_url;
 
     if (!user_is_PM()) {
         echo "<p>".sprintf(_("You are not listed as a project manager.
             Please contact a <a href='%s'>site manager</a>
-            about resolving this problem."), "mailto:$site_manager_email_addr")."
+            about resolving this problem."), "mailto:" . SiteConfig::get()->site_manager_email_addr)."
               </p><p>
               ".sprintf(_("Back to <a href='%s'>home page</a>"), "$code_url/default.php")."
               </p>";
@@ -20,9 +20,9 @@ function abort_if_not_manager()
 
 function echo_manager_links()
 {
-    global $theme, $code_url, $external_catalog_locator, $db_requests_email_addr;
+    global $theme, $code_url;
 
-    $create_project_url = (empty($external_catalog_locator)
+    $create_project_url = (empty(SiteConfig::get()->external_catalog_locator)
         ? "$code_url/tools/project_manager/editproject.php?action=createnew"
         : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form&hide_nontext=on");
 

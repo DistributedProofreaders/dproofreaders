@@ -25,8 +25,8 @@ $form_validators = [
 ];
 
 // If configured, load site-specific bot-prevention and validation funcs
-if ($site_registration_protection_code) {
-    include_once($site_registration_protection_code);
+if (SiteConfig::get()->site_registration_protection_code) {
+    include_once(SiteConfig::get()->site_registration_protection_code);
     $form_data_inserters = get_registration_form_inserters();
     $form_validators = array_merge($form_validators, get_registration_form_validators());
 }
@@ -40,7 +40,7 @@ if (count($_POST)) {
     // DP usernames allow [0-9A-Za-z@._ -]. '@' and ' ' are not valid
     // (unless quoted) in the local part of an email address, so
     // convert those to '%' and '+' respectively.
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         $local_part = str_replace(['@', ' '], ['%', '+'], $username);
         $email = $local_part . "@localhost";
         $email2 = $email;
@@ -113,16 +113,16 @@ if (User::load_current()) {
     exit;
 }
 
-echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), $site_name);
+echo sprintf(_("Thank you for your interest in %s. To create an account, please complete the form below."), SiteConfig::get()->site_name);
 
 echo "<h2>" . _("Registration Hints") . "</h2>";
 echo "<ul>";
 echo "<li>" . _("Your User Name will be visible to other volunteers and <strong>cannot be changed</strong>. Please choose it carefully.") . "</li>";
-echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is correct. %s will e-mail a confirmation link for you to follow in order to activate your account."), $site_name) . "</li>";
-echo "<li>" . sprintf(_("<strong>Before</strong> you submit this form, please add <i>%s</i> to your e-mail contacts list to avoid the activation e-mail being treated as spam."), $general_help_email_addr) . "</li>";
+echo "<li>" . sprintf(_("Please ensure that the e-mail address you provide is correct. %s will e-mail a confirmation link for you to follow in order to activate your account."), SiteConfig::get()->site_name) . "</li>";
+echo "<li>" . sprintf(_("<strong>Before</strong> you submit this form, please add <i>%s</i> to your e-mail contacts list to avoid the activation e-mail being treated as spam."), SiteConfig::get()->general_help_email_addr) . "</li>";
 echo "</ul>";
 
-if ($testing) {
+if (SiteConfig::get()->testing) {
     echo "<p class='test_warning'>";
     echo _("Because this is a test site, you <strong>don't</strong> need to provide an email address and an email <strong>won't</strong> be sent to you. Instead, when you hit the 'Send E-mail ...' button below, the text of the would-be email will be displayed on the next screen. After the greeting, there's a line that ends 'please visit this URL:', followed by a confirmation URL. Copy and paste that URL into your browser's location field and hit return. <strong>Your account won't be created until you access the confirmation link.</strong>");
     echo "</p>\n";
@@ -153,7 +153,7 @@ echo "</tr>\n<tr>";
 echo "  <th>" . _("Confirm Password") . ":</th>";
 echo "  <td><input type='password' name='userPW2' required></td>";
 echo "</tr>\n";
-if (!$testing) {
+if (!SiteConfig::get()->testing) {
     echo "<tr>";
     echo "  <th>" . _("E-mail Address") . ":</th>";
     echo "  <td><input type='email' name='email' value='". attr_safe($email) . "' required></td>";
@@ -227,8 +227,6 @@ function _validate_fields(
     string $referrer,
     string $referrer_details
 ) {
-    global $testing, $general_help_email_addr;
-
     // Make sure that password and confirmed password are equal.
     if ($userpass != $userpass2) {
         return _("The passwords you entered were not equal.");
@@ -251,7 +249,7 @@ function _validate_fields(
     }
 
     if ($email_exists) {
-        return sprintf(_("There is already an account creation request for this email address. Please allow time for the account activation email to arrive in your inbox. It is also a good idea to check your spam folder. If you have not received it within 12 hours, please contact %s to have it re-sent."), $general_help_email_addr);
+        return sprintf(_("There is already an account creation request for this email address. Please allow time for the account activation email to arrive in your inbox. It is also a good idea to check your spam folder. If you have not received it within 12 hours, please contact %s to have it re-sent."), SiteConfig::get()->general_help_email_addr);
     }
 
     // Do some validity-checks on inputted username, password, e-mail and real name
@@ -265,7 +263,7 @@ function _validate_fields(
     // 'localhost' as the domain. check_email_address() incorrectly
     // thinks the domain should end in a 2-63 character top level
     // domain, so disable the address check for testing.
-    if (!$testing) {
+    if (!SiteConfig::get()->testing) {
         $err = check_email_address($email);
         if ($err != '') {
             return $err;

@@ -142,23 +142,21 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 
 function notify_user($user, $actions)
 {
-    global $site_name, $site_abbreviation;
-    ;
     if ((count($actions) == 1) && (array_search('grant', $actions) !== false)) {
         // Special case: If the user has been granted access to
         // a single round, send a congratulations! email.
         [$activity_id] = array_keys($actions);
-        $subject = "$site_abbreviation: You have been granted access to $activity_id!";
+        $subject = SiteConfig::get()->site_abbreviation . ": You have been granted access to $activity_id!";
         $message = "Hello $user->username,\n\n" .
                    "Congratulations, you have been granted access to $activity_id projects!\n\n" .
                    "You can access this stage by following the link to it at the Activity Hub.\n\n";
-        $message .= sprintf(_("Thank you for volunteering with %s!"), $site_name);
+        $message .= sprintf(_("Thank you for volunteering with %s!"), SiteConfig::get()->site_name);
         // XXX: Note that this wording works when the activity is a stage (round or pool),
         // but not otherwise.
         send_mail($user->email, $subject, $message);
         return "congratulated user.";
     } else {
-        $subject = "$site_abbreviation: Your access has been modified";
+        $subject = SiteConfig::get()->site_abbreviation . ": Your access has been modified";
         $message = "Hello $user->username,\n\n" .
                     "The following modifications have been made to the stages in which you can work:\n\n";
         foreach ($actions as $activity_id => $action_type) {
