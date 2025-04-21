@@ -299,7 +299,8 @@ function copy_pages(
     foreach (['from', 'to'] as $which) {
         $project = $project_obj[$which];
 
-        if (!$project->check_pages_table_exists($message)) {
+        if (!$project->pages_table_exists) {
+            $message = $project->pages_table_missing_reason();
             throw new RuntimeException("Project {$project->projectid}: $message");
         }
 

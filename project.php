@@ -621,7 +621,7 @@ function do_project_info_table(): void
             // We'll call do_page_table later, so we don't need the "Page Detail" link.
         } else {
             $detail = "";
-            if ($project->check_pages_table_exists($detail)) {
+            if ($project->pages_table_exists) {
                 $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
                 $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
                 $url2 = "$url&amp;select_by_user";
@@ -632,6 +632,8 @@ function do_project_info_table(): void
                     $blurb3 = html_safe(_("Compare without formatting"));
                     $detail .= "<br><a href='$url3'>$blurb3</a>";
                 }
+            } else {
+                $detail = $project->pages_table_missing_reason();
             }
             echo_row_a(_("Page Detail"), $detail);
         }
