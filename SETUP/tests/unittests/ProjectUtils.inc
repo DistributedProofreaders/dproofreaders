@@ -28,6 +28,8 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         // make the user a PM
         $settings = new Settings($this->TEST_USERNAME_PM);
         $settings->set_boolean("manager", true);
+        // and give them PP access
+        $settings->set_boolean("PP.access", true);
 
         create_test_user($this->TEST_USERNAME);
         grant_user_access($this->TEST_USERNAME, "P1");

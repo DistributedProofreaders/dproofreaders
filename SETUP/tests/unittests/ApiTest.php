@@ -939,6 +939,45 @@ class ApiTest extends ProjectUtils
         $router = ApiRouter::get_router();
         $router->route($path, $query_params);
     }
+
+    //---------------------------------------------------------------------------
+    // tests for artifacts
+
+    public function test_project_artifacts_pp_authorized(): void
+    {
+        global $pguser, $dyn_dir;
+
+        // if $dyn_dir is not writable in this environment skip the test
+        if (file_put_contents("$dyn_dir/touch", "") === false) {
+            $this->markTestSkipped('$dyn_dir not writable in this env.');
+        }
+
+        $project = $this->_create_available_project();
+        $pguser = $this->TEST_USERNAME_PM;
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $path = "v1/projects/$project->projectid/artifacts/PP";
+        $query_params = [];
+        $router = ApiRouter::get_router();
+        $result = $router->route($path, $query_params);
+        $this->assertEquals(1, count($result));
+        $this->assertEquals("PP", $result[0]["stage"]);
+        $this->assertEquals("images_zip", $result[0]["name"]);
+    }
+
+    public function test_project_artifacts_pp_unauthorized(): void
+    {
+        $this->expectExceptionCode(7);
+
+        global $pguser;
+        $pguser = $this->TEST_USERNAME;
+
+        $project = $this->_create_available_project();
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $path = "v1/projects/$project->projectid/artifacts/PP";
+        $query_params = [];
+        $router = ApiRouter::get_router();
+        $result = $router->route($path, $query_params);
+    }
 }
 
 // this mocks the function in index.php
