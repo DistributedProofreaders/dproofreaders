@@ -1,0 +1,1 @@
+see https://katex.org/docs/browser#download--host-things-yourself
