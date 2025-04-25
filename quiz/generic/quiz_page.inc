@@ -65,9 +65,9 @@ function qp_round_id_for_pi_toolbox()
 {
     global $quiz;
     if ($quiz->activity_type == 'proof') {
-        return 'P1';
+        return 'proofreading';
     } elseif ($quiz->activity_type == 'format') {
-        return 'F1';
+        return 'formatting';
     } else {
         throw new UnexpectedValueException("Unexpected activity_type $quiz->activity_type");
     }

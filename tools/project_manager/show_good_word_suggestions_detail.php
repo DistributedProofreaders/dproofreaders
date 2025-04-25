@@ -9,6 +9,7 @@ include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'page_controls.inc');
 include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once($relPath.'post_files.inc');
+include_once($relPath.'widget_text.inc');
 include_once("./word_freq_table.inc");
 
 require_login();
@@ -31,17 +32,17 @@ $details = json_encode([
 ]);
 
 $header_args = [
+    "css_files" => [
+        "$code_url/styles/struct.css",
+    ],
     "js_files" => [
         "$code_url/scripts/splitControl.js",
-        "$code_url/scripts/control_bar.js",
-        "$code_url/scripts/view_splitter.js",
-        "$code_url/scripts/text_view.js",
+        "$code_url/scripts/misc.js",
+        "$code_url/scripts/image_widget.js",
         "$code_url/scripts/page_browse.js",
         "$code_url/tools/project_manager/show_word_context.js",
     ],
-    "js_data" => get_proofreading_interface_data_js() .
-        get_control_bar_texts() . "
-        var showWordContext = $details;",
+    "js_data" => "var showWordContext = $details;",
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw;"',
 ];
@@ -113,7 +114,7 @@ foreach ($word_suggestions as $suggestion) {
 }
 echo "</div></div>";
 
-echo "<div id='page-browser' class='overflow-hidden'>";
+echo "<div id='page-browser' class='overflow-hidden' data-widget_text ='$widget_text'>";
 echo "<p style='margin: 0.5em;'>" . _("Select one of the page links to view the page image (scan).") . "</p>";
 echo "</div>";
 echo "</div>";

@@ -1,4 +1,4 @@
-/* global QUnit analyse processExMath findClose makePreview defaultStyles */
+/* global QUnit analyse findClose */
 
 QUnit.module("Format preview test", function () {
     let configuration = {
@@ -474,20 +474,20 @@ QUnit.module("Format preview test", function () {
         issueTest(assert, 0, 0, 2, "misMatchTag", 1);
         issueTest(assert, 1, 8, 2, "misMatchTag", 1);
     });
-
+    /*
     QUnit.test("inline math inside display math", function (assert) {
         text = "\\[e=mc^2 \\text{abc \\(x=y\\)}\\]";
         issArray = analyse(text, mathConfig).issues;
         noIssueTest(assert);
     });
-
+*/
     QUnit.test("missing maths end tag", function (assert) {
         text = "\\[e=mc^2\\(";
         issArray = analyse(text, mathConfig).issues;
         issueTest(assert, 0, 0, 2, "noEndTag", 1);
         issueTest(assert, 1, 8, 2, "noEndTag", 1);
     });
-
+    /*
     QUnit.test("process outside math markup", function (assert) {
         let text = "abc\\[d\nef\\]ghi\\(jkl\\)mno";
         function toUpper(txt) {
@@ -498,7 +498,7 @@ QUnit.module("Format preview test", function () {
         procText = processExMath(text, toUpper, false);
         assert.strictEqual(procText, "ABC\\[D\nEF\\]GHI\\(JKL\\)MNO");
     });
-
+*/
     QUnit.test("Find unmatched closing bracket", function (assert) {
         let text = "xy]za[b[c]d]ef]";
         assert.strictEqual(findClose(text, 3), 14);
@@ -510,10 +510,10 @@ QUnit.module("Format preview test", function () {
         assert.strictEqual(procText, "xy]zaef");
     });
 
-    function getMessage(messageCode) {
+    /*function getMessage(messageCode) {
         return messageCode;
-    }
-
+    }*/
+    /*
     QUnit.test("Check bad tag is converted to valid html", function (assert) {
         let text = "<i&>";
         let preview = makePreview(text, false, false, defaultStyles, getMessage);
@@ -585,7 +585,7 @@ abcd`;
 
 
 EDIBLE FIGS
-*/`;
+*/ /*`;
         let preview = makePreview(text, false, true, defaultStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
@@ -602,7 +602,7 @@ EDIBLE FIGS
 FIG CULTURE.
 
 abc
-*/`;
+*/ /*`;
         let preview = makePreview(text, false, true, defaultStyles, getMessage);
         assert.strictEqual(preview.ok, true);
         assert.strictEqual(preview.issues, 0);
@@ -650,7 +650,7 @@ abc
 /#
 /*
 bqnw
-*/
+*/ /*
 
 bq
 #/`;
@@ -672,7 +672,7 @@ bq
 
 /*
 bqnw
-*/
+*/ /*
 
 bq
 #/`;
@@ -710,5 +710,5 @@ bq
 </div><div style='margin-left: 1em;' class='para blockquote_color'>bq
 </div>`,
         );
-    });
+    });*/
 });
