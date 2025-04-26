@@ -131,6 +131,22 @@ function makeImageWidget(container, userSettings, widgetText) {
         userSettings.zoomPercent = percent;
     }
 
+    function onWheel(event) {
+        // mouse wheel gives +- 120, trackpad gives small number
+        if (event.ctrlKey) {
+            event.preventDefault();
+            const absDelta = Math.abs(event.wheelDelta);
+            const ratio = (100 + Math.min(absDelta, 10)) / 100;
+            if (event.wheelDelta > 0) {
+                percent *= ratio;
+            } else {
+                percent /= ratio;
+            }
+            setDrawSave();
+        }
+    }
+    imageDiv.addEventListener("wheel", onWheel);
+
     percentInput.addEventListener("change", function () {
         percent = parseInt(this.value);
         if (isNaN(percent)) {

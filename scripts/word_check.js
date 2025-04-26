@@ -67,9 +67,12 @@ function makeWordchecker(projectId, quill, languagesWithDictionaries, projectLan
 
     function maybeShowAcceptButton() {
         // show accept button for suggestible word when caret is in it
-        const { index, length } = quill.getSelection(false);
+        const selection = quill.getSelection(false);
+        if (!selection) {
+            return;
+        }
+        const { index, length } = selection;
         if (length !== 0) {
-            // only if no selection
             return;
         }
         const format = quill.getFormat(index);
