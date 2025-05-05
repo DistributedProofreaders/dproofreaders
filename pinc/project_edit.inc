@@ -8,7 +8,7 @@ function user_can_add_project_pages($projectid)
     $state = $project->state;
 
     // SAs can futz with project pages in any state
-    if (user_is_a_sitemanager()) {
+    if ($project->pages_table_exists && user_is_a_sitemanager()) {
         return true;
     }
 
