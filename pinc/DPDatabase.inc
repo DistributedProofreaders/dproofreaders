@@ -187,7 +187,7 @@ final class DPDatabase
         );
         $result = self::query($sql);
         $row = $result->fetch_assoc();
-        $table_encoding = $row['TABLE_COLLATION'];
+        $table_encoding = $row['TABLE_COLLATION'] ?? "";
         $result->free();
 
         return stripos($table_encoding, 'utf8mb4') === 0;

@@ -42,12 +42,15 @@ abort_if_cant_edit_project($projectid);
 echo "<h1>$title</h1>";
 
 $project = new Project($projectid);
-if (!$project->is_utf8) {
-    echo "<p>"
-        . _("Pages cannot be added to the project in its current state.")
-        . " "
-        . _("Project table is not UTF-8.")
-        . "</p>";
+if (!$project->pages_table_exists || !$project->is_utf8) {
+    echo "<p>";
+    echo _("Pages cannot be added to the project in its current state.") . " ";
+    if (!$project->pages_table_exists) {
+        echo _("Project table not found, it may have been deleted or archived.");
+    } else {
+        echo _("Project table is not UTF-8.");
+    }
+    echo "</p>";
     exit();
 }
 
