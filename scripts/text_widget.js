@@ -49,7 +49,7 @@ function makeBasicTextWidget(editBox, userSettings, widgetText) {
         history: {
             delay: 0,
             maxStack: 500,
-            userOnly: false,
+            userOnly: true,
         },
     });
 
