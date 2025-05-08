@@ -1,0 +1,209 @@
+.column-flex {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#quiz_left {
+    flex: 0 0 60%;
+    overflow: hidden;
+}
+
+#image_content::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+
+#image_content {
+    overflow: auto;
+    flex: auto;
+    scrollbar-width: none;
+}
+
+#quiz_right {
+    flex: 0 0 40%;
+}
+
+#quiz_image {
+    flex: 0 0 40%;
+    overflow: auto;
+}
+
+#quiz_text_outer {
+    flex: 0 0 60%;
+    overflow: hidden;
+}
+
+#quiz_text {
+    border: 1px solid black;
+}
+
+#quiz_tool_box {
+    flex: 1 1 auto;
+}
+
+.langcol {
+    /* 12em fits the longest language name */
+    column-width: 12em;
+    text-align: left;
+}
+
+.row_flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.fixed-box {
+    flex:0 0 auto;
+}
+
+.align_right {
+    text-align: right;
+}
+
+.border_1 {
+    border: 1px solid black;
+}
+
+.stretch-box {
+    flex: 1 1 100%;
+    min-height: 10px;
+}
+
+.margin_a {
+    margin: 0 0.13em;
+}
+
+/* background hides overflowing line numbers */
+.simple_bar {
+    background: white;
+    padding: 0.1em;
+    flex: 0 0 auto;
+    text-align: center;
+}
+
+#page_control {
+    background: white;
+}
+.text_number {
+    width: 1.9rem;
+    text-align: right;
+    -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+}
+
+.bordered_icon_button {
+    border-radius: 3px;
+    width: 1.7em;
+    height: 1.7em;
+    padding: 0;
+    margin: 0 0.1em 0 0.1em
+}
+
+.image_button {
+    width: 1.7em;
+    height: 1.7em;
+    vertical-align: middle;
+}
+
+.opaque {
+    filter: opacity(30%);
+}
+
+.text_box {
+    white-space: pre;
+    height: 100%;
+}
+
+.top_settings_box {
+    border: 1px solid black;
+    border-width: 0 0 1px 0;
+    background: white;
+}
+
+.bottom_settings_box {
+    border: 1px solid black;
+    border-width: 1px 0 0 0;
+    background: white;
+}
+
+.tool_box {
+    border: 1px solid black;
+    border-width: 1px 0 0 0;
+}
+
+.ql-editor u {
+    text-decoration-color: red;
+    text-decoration-style: wavy;
+}
+
+.ql-editor s {
+    text-decoration-color: red;
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+}
+
+.format {
+    display: none;
+}
+
+.no_wrap {
+    white-space: pre;
+}
+
+.show_hide_picker_button {
+    font-size: 2em;
+    height: 2.5em;
+    padding: 0;
+    background: transparent;
+}
+
+#number_col {
+    border-right: 1px solid gray;
+    width: 2em;
+    text-align: right;
+    z-index: -10;
+}
+
+.numb_para {
+    position: absolute;
+    margin: 0;
+    width: 1.8em;
+}
+
+#image_content {
+    background: beige;
+}
+
+.grid2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: left;
+}
+
+.va_middle {
+    vertical-align: middle;
+}
+#blocker {
+  position: absolute;
+  display: none;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  filter: opacity(80%);
+  background: lightgray;
+  text-align: center;
+}
+.accept_button {
+  position: absolute;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1;
+}
+dialog {
+    width: 100%;
+}
