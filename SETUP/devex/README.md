@@ -34,8 +34,7 @@ provide a web interface on port 8080.
 
 Install the PHP & JS packages:
 ```bash
-docker compose exec dpdev composer install
-docker compose exec dpdev npm install
+docker compose exec dpdev SETUP/install_dependencies.sh
 ```
 
 Run the configuration script:

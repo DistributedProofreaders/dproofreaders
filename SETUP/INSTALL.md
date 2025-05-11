@@ -34,6 +34,13 @@ PHP package dependencies are managed using [Composer](https://getcomposer.org/).
 You need a recent version of Composer installed to manage the relevant PHP
 package dependencies.
 
+### NPM
+JS packages used in the browser are managed using npm that comes with
+[nodejs](https://nodejs.org/). In addition to the
+[nodejs download site](https://nodejs.org/en/download/package-manager),
+Linux users can find packages for recent nodejs versions from
+[nodesource](https://github.com/nodesource/distributions).
+
 ### MySQL
 MySQL version 8.0 is the minimum supported version.
 
@@ -343,12 +350,12 @@ to 777 so that the web server has full access to them.
 See the 'Uploading and Creating Projects' section of `configuration.sh`
 for more details.
 
-### Install DP code PHP package dependencies
-Using composer, install the package dependencies. From the root of
+### Install DP code package dependencies
+To install the PHP and JS package dependencies, from the root of
 your DP code checkout:
 
 ```bash
-composer install --no-dev
+./SETUP/install_dependencies.sh -p
 ```
 
 ### Configure the DP code (with site-specific settings)
