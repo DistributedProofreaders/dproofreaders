@@ -37,5 +37,8 @@
   "prettier": {
     "tabWidth": 4,
     "printWidth": 160
+  },
+  "dependencies": {
+    "jquery": "^3.5.1"
   }
 }

@@ -114,6 +114,8 @@ jobs:
         uses: ./.github/actions/setup-php
         with:
           php-version: ${{ matrix.cfg.php }}
+      - name: Setup Node, NPM
+        uses: ./.github/actions/setup-node
       - name: Setup MySQL, install schema
         uses: ./.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests

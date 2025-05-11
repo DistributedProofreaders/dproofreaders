@@ -58,9 +58,11 @@ and development) run the following in the repo base:
 composer install
 ```
 
-The code also uses [nodejs](https://nodejs.org/) for some _development only_
-dependencies, such as linting (eslint) and CSS creation (less). Packages are
-installed with npm that comes with nodejs. In addition to the
+The code also uses [nodejs](https://nodejs.org/) for development dependencies,
+such as linting (eslint) and CSS creation (less), and to manage some JS code
+used within the browser. Packages are installed with npm that comes with nodejs.
+
+In addition to the
 [nodejs download site](https://nodejs.org/en/download/package-manager), Linux
 users can find packages for recent nodejs versions from
 [nodesource](https://github.com/nodesource/distributions).
