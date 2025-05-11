@@ -7,7 +7,7 @@ function get_graph_js_files()
 {
     global $code_url;
     return [
-        "$code_url/pinc/3rdparty/d3/d3.min.js",
+        "$code_url/node_modules/d3/dist/d3.min.js",
         "$code_url/scripts/svgGraphs.js",
     ];
 }
