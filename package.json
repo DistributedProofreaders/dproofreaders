@@ -39,6 +39,7 @@
     "printWidth": 160
   },
   "dependencies": {
+    "d3": "^6.6.2",
     "jquery": "^3.5.1"
   }
 }
