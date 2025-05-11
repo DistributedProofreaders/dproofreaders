@@ -623,7 +623,7 @@ function get_wordcheck_page_header_args(User $user, PPage $ppage): array
 
     $header_args = [
         "js_files" => [
-            "$code_url/pinc/3rdparty/xregexp/xregexp-all.js",
+            "$code_url/node_modules/xregexp/xregexp-all.js",
             "$code_url/tools/proofers/wordcheck.js",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/control_bar.js",
