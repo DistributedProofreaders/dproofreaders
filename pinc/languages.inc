@@ -349,7 +349,7 @@ function lang_html_header($langcode = false)
         return '';
     }
 
-    $string = "lang='" . short_lang_code($langcode) . "'";
+    $string = "lang='" . str_replace("_", "-", $langcode) . "'";
     if (lang_direction($langcode) == "RTL") {
         $string .= " dir='RTL'";
     }
