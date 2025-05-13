@@ -1,4 +1,7 @@
-/*global Resumable uploadTarget uploadMessages maxResumeSize maxNormSize */
+/*global Resumable uploadTarget maxResumeSize maxNormSize */
+
+import translate from "./gettext.js";
+
 window.addEventListener("DOMContentLoaded", function () {
     // This function has a server-side pair in pinc/upload_file.inc:is_valid_filename()
     // which should be updated if the below logic changes.
@@ -7,16 +10,16 @@ window.addEventListener("DOMContentLoaded", function () {
         // and end with .zip (length is enforced a few lines down)
         var validChars = /^\w[\w-]*\.\w+$/;
         if (!validChars.test(name)) {
-            alert(uploadMessages.invalidChars + ": '" + name + "'");
+            alert(translate.gettext("The filename contains invalid characters") + ": '" + name + "'");
             return false;
         }
         var zipTest = /^.+\.zip$/;
         if (!zipTest.test(name)) {
-            alert(uploadMessages.mustBeZip);
+            alert(translate.gettext("File name extension must be '.zip'"));
             return false;
         }
         if (name.length > 200) {
-            alert(uploadMessages.nameTooLong);
+            alert(translate.gettext("The filename must have no more than 200 characters"));
             return false;
         }
         return true;
@@ -96,7 +99,7 @@ window.addEventListener("DOMContentLoaded", function () {
     document.getElementById("old_submit").addEventListener("click", function (ev) {
         let file = document.getElementById("old_browse").files[0];
         if (file.size >= maxNormSize) {
-            alert(uploadMessages.fileTooBig);
+            alert(translate.gettext("The file is too big (see note)."));
             ev.preventDefault();
             return false;
         }
@@ -104,7 +107,7 @@ window.addEventListener("DOMContentLoaded", function () {
             // won't work if we disable the buttons so hide them
             document.getElementById("old_browse").style.display = "none";
             document.getElementById("old_submit").style.display = "none";
-            showProgress(uploadMessages.working);
+            showProgress(translate.gettext("Working, please wait..."));
             ev.preventDefault();
             submitWithHash(file);
         } else {
@@ -120,7 +123,7 @@ window.addEventListener("DOMContentLoaded", function () {
             // a file has been selected
             resumable.upload();
         } else {
-            alert(uploadMessages.noFile);
+            alert(translate.gettext("No file selected"));
         }
     });
 
@@ -141,7 +144,7 @@ window.addEventListener("DOMContentLoaded", function () {
         document.querySelector('input[name="resumable_filename"]').value = file.fileName;
         document.querySelector('input[name="resumable_identifier"]').value = file.uniqueIdentifier;
         document.querySelector('input[name="mode"]').value = "resumable";
-        showProgress(uploadMessages.finalizingUpload);
+        showProgress(translate.gettext("Upload complete. Running file checks, please wait..."));
         submitWithHash(file.file);
     });
 
@@ -149,7 +152,7 @@ window.addEventListener("DOMContentLoaded", function () {
     resumable.on("fileError", function (file, message) {
         document.getElementById("resumable_browse").style.display = "";
         document.getElementById("resumable_submit").style.display = "";
-        showProgress(uploadMessages.uploadFailed + "<br>" + message);
+        showProgress(translate.gettext("Upload failed") + "<br>" + message);
     });
 
     // As the file upload progresses, show a percentage complete

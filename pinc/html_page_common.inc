@@ -14,7 +14,7 @@ define('SHOW_STATSBAR', true);
  */
 function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
 {
-    global $code_url, $site_abbreviation;
+    global $code_url, $dyn_url, $dyn_dir, $site_abbreviation;
 
     static $was_output = false;
     if ($was_output) {
@@ -86,6 +86,11 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
         "$code_url/scripts/api.js",
     ];
 
+    // The translation.js file may not exist
+    if (is_file("$dyn_dir/locale/translations.js")) {
+        $js_files[] = "$dyn_url/locale/translations.js";
+    }
+
     // Per-page JS
     if (isset($extra_args['js_files'])) {
         $js_files = array_merge($js_files, $extra_args['js_files']);
@@ -94,6 +99,15 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     foreach ($js_files as $js_file) {
         $cache_fixer = get_local_file_browser_cache_key($js_file);
         echo "<script src='$js_file$cache_fixer'></script>\n";
+    }
+
+    // JS modules
+    $js_modules = [];
+    if (isset($extra_args['js_modules'])) {
+        $js_modules = array_merge($js_modules, $extra_args['js_modules']);
+    }
+    foreach ($js_modules as $js_file) {
+        echo "<script src='$js_file' type='module'></script>\n";
     }
 
     // Per-page Javascript
@@ -146,11 +160,12 @@ function output_html_footer($extra_args = [])
  */
 function get_local_file_browser_cache_key($url)
 {
-    global $code_url, $code_dir;
+    global $code_url, $code_dir, $dyn_url, $dyn_dir;
 
     $cache_fixer = "";
-    if (strpos($url, $code_url) !== false) {
-        $local_file = $code_dir . substr($url, strlen($code_url));
+    if (strpos($url, $code_url) !== false || strpos($url, $dyn_url) !== false) {
+        $local_file = str_replace($code_url, $code_dir, $url);
+        $local_file = str_replace($dyn_url, $dyn_dir, $local_file);
 
         // PHP files should never be cached
         if (str_ends_with($local_file, ".php")) {

@@ -41,6 +41,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
     "d3": "^6.6.2",
+    "gettext.js": "^2.0.3",
     "jquery": "^3.5.1",
     "resumablejs": "^1.1.0",
     "xregexp": "^4.2.4"
