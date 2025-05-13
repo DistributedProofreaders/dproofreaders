@@ -52,26 +52,15 @@ function get_upload_args()
 {
     global $code_url;
 
-    $upload_messages = [
-        'working' => _("Working, please wait..."),
-        'uploadFailed' => _("Upload failed"),
-        'finalizingUpload' => _("Upload complete. Running file checks, please wait..."),
-        'invalidChars' => _("The filename contains invalid characters"),
-        'nameTooLong' => _("The filename must have no more than 200 characters"),
-        'mustBeZip' => _("File name extension must be '.zip'"),
-        'fileTooBig' => _("The file is too big (see note)."),
-        'noFile' => _("No file selected"),
-    ];
-    $upload_messages = json_encode($upload_messages);
-
     return [
         'js_files' => [
             "$code_url/node_modules/resumablejs/resumable.js",
+        ],
+        'js_modules' => [
             "$code_url/scripts/file_resume.js",
         ],
         'js_data' => "
             var uploadTarget = '$code_url/tools/upload_resumable_file.php';
-            var uploadMessages = $upload_messages;
             var maxResumeSize = " . RESUMABLE_UPLOAD_SIZE . ";
             var maxNormSize = " . get_max_upload_size() . ";
             ",

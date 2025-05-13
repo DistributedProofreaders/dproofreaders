@@ -16,6 +16,13 @@ module.exports = [
             camelcase: "warn",
         },
     },
+    {
+        languageOptions: {
+            globals: globals.browser,
+            sourceType: "module",
+        },
+        files: ["scripts/gettext.js", "scripts/file_resume.js"],
+    },
     pluginJs.configs.recommended,
     eslintConfigPrettier,
 ];
