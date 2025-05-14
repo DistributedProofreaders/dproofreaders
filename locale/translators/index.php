@@ -171,6 +171,8 @@ elseif ($func == "changeenable") {
     $enable = isset($_REQUEST['enable_locale']);
     set_locale_translation_enabled($locale, $enable);
 
+    build_translation_js();
+
     if ($enable) {
         $enable_string = _("Enabled");
     } else {
@@ -486,6 +488,7 @@ function do_upload($locale)
     $po_file = new POFile("$dyn_locales_dir/$locale/LC_MESSAGES/messages.po");
     try {
         $po_file->compile();
+        build_translation_js();
 
         echo "<p>" . _("File successfully uploaded and compiled.") . "</p>";
     } catch (Exception $exception) {
@@ -561,4 +564,42 @@ function validate_locale($locale, $check_dir_exists = true)
         die(sprintf(_("locale %s is not valid"), $locale));
     }
     return $locale;
+}
+
+function build_translation_js()
+{
+    global $dyn_locales_dir;
+
+    $locale_json = [];
+    foreach (get_installed_locale_translations() as $locale) {
+        $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
+        if (!is_locale_translation_enabled($locale)) {
+            continue;
+        }
+
+        if (!$tempfile = tempnam(sys_get_temp_dir(), "translation_js")) {
+            throw new RuntimeException("Unable to create temporary file");
+        }
+        // TODO: Instead of including the entire messages file, just pull out
+        // the strings used in *.js files (unless the files doesn't have any
+        // JS files in which case fall back to loading them all).
+        $pofile = new POFile($po_filename);
+        $pofile->convert_to_json($tempfile);
+        $locale_json[str_replace("_", "-", $locale)] = json_decode(file_get_contents($tempfile));
+        unlink($tempfile);
+    }
+
+    // use "var" not "const" because Safari <14 can't see those within modules
+    // due to some scoping weirdness
+    $file_contents = <<<EOF
+        /* exported translations */
+
+        var translations = %s;
+
+        EOF;
+
+    file_put_contents(
+        "$dyn_locales_dir/translations.js",
+        sprintf($file_contents, json_encode($locale_json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+    );
 }
