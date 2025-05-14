@@ -308,6 +308,22 @@ class POFile
             throw new RuntimeException($process->getErrorOutput());
         }
     }
+
+    public function convert_to_json($json_filename)
+    {
+        global $code_dir;
+
+        $process = new Process([
+            "node",
+            "node_modules/gettext.js/bin/po2json",
+            $this->po_filename,
+            $json_filename,
+        ], $code_dir);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new RuntimeException($process->getErrorOutput());
+        }
+    }
 }
 
 
