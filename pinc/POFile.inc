@@ -126,9 +126,9 @@ class POFile
         return $content_type;
     }
 
-    public function create_template($basedir, $pot_filename)
+    private function create_pot_from_php(string $basedir): string
     {
-        // create the new template in a temporary file in case xtext fails
+        // create the new template in a temporary file
         if (!$tempfile = tempnam(sys_get_temp_dir(), "xtext")) {
             throw new RuntimeException("Unable to create temporary file");
         }
@@ -139,6 +139,8 @@ class POFile
             "./vendor/bin/xtext",
             "-x", "./vendor",
             "-x", "./SETUP",
+            "-x", "./node_modules",
+            "-x", "./pinc/3rdparty",
             "-i", "*.php",
             "-i", "*.inc",
             "-c", "TRANSLATORS",
@@ -149,6 +151,103 @@ class POFile
                 file_put_contents($tempfile, $buffer, FILE_APPEND);
             }
         });
+        if (!$process->isSuccessful()) {
+            unlink($tempfile);
+            throw new RuntimeException($process->getErrorOutput());
+        }
+
+        // the file we return needs a .pot extension to make xgettext happy
+        rename($tempfile, "$tempfile.pot");
+        return "$tempfile.pot";
+    }
+
+    private function create_pot_from_js(string $basedir): string
+    {
+        // create the new template in a temporary file
+        if (!$pot_tempfile = tempnam(sys_get_temp_dir(), "xgettext-pot")) {
+            throw new RuntimeException("Unable to create temporary file");
+        }
+
+        // and we need an input file for xgettext
+        if (!$input_tempfile = tempnam(sys_get_temp_dir(), "xgettext-input")) {
+            throw new RuntimeException("Unable to create temporary file");
+        }
+
+        // Find all the JS files we want to translate
+        $dir_iter = new RecursiveDirectoryIterator($basedir, RecursiveDirectoryIterator::SKIP_DOTS);
+
+        // Walk through our iterator writing JS filenames to our input file
+        if (!$input_fh = fopen($input_tempfile, "w")) {
+            throw new RuntimeException("Error opening temporary file for writing");
+        }
+
+        foreach (new RecursiveIteratorIterator($dir_iter) as $filename) {
+            $filename = str_replace($basedir, ".", $filename);
+            if (str_starts_with($filename, "./SETUP") or
+                str_starts_with($filename, "./vendor") or
+                str_starts_with($filename, "./node_modules") or
+                str_starts_with($filename, "./pinc/3rdparty")) {
+                continue;
+            }
+            if (str_ends_with($filename, ".js")) {
+                if ($filename == "./eslint.config.js") {
+                    continue;
+                }
+                fwrite($input_fh, "$filename\n");
+            }
+        }
+        fclose($input_fh);
+
+        $process = new Process([
+            "xgettext",
+            "--language", "javascript",
+            "--from-code", "UTF-8",
+            "--add-comments", "TRANSLATORS",
+            "--sort-by-file",
+            "--files-from", $input_tempfile,
+            "--output", "-",
+        ], $basedir);
+        $process->run(function ($type, $buffer) use ($pot_tempfile) {
+            if (Process::OUT === $type) {
+                file_put_contents($pot_tempfile, $buffer, FILE_APPEND);
+            }
+        });
+        unlink($input_tempfile);
+        if (!$process->isSuccessful()) {
+            unlink($pot_tempfile);
+            throw new RuntimeException($process->getErrorOutput());
+        }
+
+        // the file we return needs a .pot extension to make xgettext happy
+        rename($pot_tempfile, "$pot_tempfile.pot");
+        return "$pot_tempfile.pot";
+    }
+
+    public function create_template($basedir, $pot_filename)
+    {
+        $php_pot = $this->create_pot_from_php($basedir);
+        $js_pot = $this->create_pot_from_js($basedir);
+
+        // now merge the two POTs together into a temporary file
+        if (!$tempfile = tempnam(sys_get_temp_dir(), "xgettext-merge")) {
+            throw new RuntimeException("Unable to create temporary file");
+        }
+
+        $process = new Process([
+            "xgettext",
+            "--sort-by-file",
+            "--join-existing",
+            "--output", $tempfile,
+            $php_pot,
+            $js_pot,
+        ], $basedir);
+        $process->run(function ($type, $buffer) use ($tempfile) {
+            if (Process::OUT === $type) {
+                file_put_contents($tempfile, $buffer, FILE_APPEND);
+            }
+        });
+        unlink($php_pot);
+        unlink($js_pot);
         if (!$process->isSuccessful()) {
             unlink($tempfile);
             throw new RuntimeException($process->getErrorOutput());
