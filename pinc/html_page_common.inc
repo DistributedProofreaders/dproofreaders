@@ -83,7 +83,6 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     // Global JS
     $js_files = [
         "$code_url/node_modules/jquery/dist/jquery.min.js",
-        "$code_url/scripts/api.js",
     ];
 
     // The translation.js file may not exist

@@ -16,11 +16,6 @@ try {
 }
 $user = User::load_current();
 
-$js_files = [
-    "$code_url/scripts/control_bar.js",
-    "$code_url/tools/proofers/proof_image.js",
-];
-
 $storage_key = "proof-std" . (($user->profile->i_layout == 1) ? "-v" : "-h");
 
 $image_data = json_encode([
@@ -30,8 +25,8 @@ $image_data = json_encode([
 ]);
 
 $header_args = [
-    "js_files" => $js_files,
-    "js_data" => get_control_bar_texts() . "
+    "js_modules" => ["$code_url/tools/proofers/proof_image.js"],
+    "js_data" => "
             var imageData = $image_data;
         ",
     "body_attributes" => 'id="standard_interface_image"',

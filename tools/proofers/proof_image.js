@@ -1,4 +1,5 @@
-/*global $ makeImageWidget imageData */
+/*global $ imageData */
+import { makeImageWidget } from "../../scripts/control_bar.js";
 
 window.addEventListener("DOMContentLoaded", function () {
     let imageDiv = $("#image-view");

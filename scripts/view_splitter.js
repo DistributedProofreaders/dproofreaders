@@ -1,9 +1,10 @@
-/* global splitControl proofIntData codeUrl */
-/* exported viewSplitter */
+/* global proofIntData codeUrl */
+
+import { splitControl } from "./splitControl.js";
 
 // Construct the button for horizontal/vertical split
 // and return a splitter variable.
-var viewSplitter = function (container, storageKey) {
+export var viewSplitter = function (container, storageKey) {
     const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
     if (!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {

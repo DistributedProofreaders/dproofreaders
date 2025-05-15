@@ -57,9 +57,10 @@ $initialFreq = getInitialCutoff($freqCutoff, $cutoffOptions);
 
 $header_args = [
     "js_files" => [
-        "$code_url/scripts/splitControl.js",
-        "$code_url/tools/project_manager/show_all_good_word_suggestions.js",
         "$code_url/scripts/word_freq_table.js",
+    ],
+    "js_modules" => [
+        "$code_url/tools/project_manager/show_all_good_word_suggestions.js",
     ],
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw"',
 ];

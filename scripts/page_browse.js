@@ -1,5 +1,8 @@
-/*global $ proofIntData ajax makeImageWidget makeTextWidget viewSplitter */
-/* exported pageBrowse */
+/*global $ proofIntData */
+import { ajax } from "./api.js";
+import { viewSplitter } from "./view_splitter.js";
+import { makeImageWidget } from "./control_bar.js";
+import { makeTextWidget } from "./text_view.js";
 
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
@@ -88,7 +91,7 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     return controls;
 }
 
-function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowFile = function () {}) {
+export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowFile = function () {}) {
     // parameters will be null if not defined
     let projectId = params.get("project");
     let displayMode = params.get("mode");
