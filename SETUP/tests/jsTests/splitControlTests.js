@@ -1,4 +1,6 @@
-/* global $ QUnit splitControl */
+/* global $ QUnit */
+
+import { splitControl } from "../../../scripts/splitControl.js";
 
 QUnit.module("splitControl tests", {
     beforeEach: function () {

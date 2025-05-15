@@ -9,12 +9,13 @@
 <body>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
+  <script>
+    let codeUrl = "https://www.dummy.org";
+  </script>
   <script src="https://code.jquery.com/qunit/qunit-2.11.0.js"></script>
   <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="../../../node_modules/xregexp/xregexp-all.js"></script>
   <script src="../../../tools/proofers/preview.js"></script>
-  <script src="../../../scripts/splitControl.js"></script>
-  <script src="../../../scripts/api.js"></script>
   <script src="../../../tools/proofers/srchrep.js"></script>
   <script src="../../../accounts/addproofer.js"></script>
   <script src="../../../scripts/character_test.js"></script>
@@ -22,11 +23,11 @@
 
   <!-- tests -->
   <script src="./characterValidation.js"></script>
-  <script src="./splitControlTests.js"></script>
+  <script src="./splitControlTests.js" type="module"></script>
   <script src="./formatPreviewTests.js"></script>
   <script src="./srchrepTests.js"></script>
   <script src="./addprooferTests.js"></script>
   <script src="./dp_proofTests.js"></script>
-  <script src="./ajaxTests.js"></script>
+  <script src="./ajaxTests.js" type="module"></script>
 </body>
 </html>

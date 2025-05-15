@@ -1,4 +1,5 @@
-/* global splitControl */
+import { splitControl } from "../../../../scripts/splitControl.js";
+
 window.addEventListener("DOMContentLoaded", function () {
     let mainSplit = splitControl(document.getElementById("top-container"), { dragBarColor: "green" });
     let subSplit = splitControl(document.getElementById("sub-container"), { splitVertical: false, dragBarSize: 10, dragBarColor: "blue" });
