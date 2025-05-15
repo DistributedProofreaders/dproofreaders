@@ -30,12 +30,7 @@ $details = json_encode([
 ]);
 
 $header_args = [
-    "js_files" => [
-        "$code_url/scripts/splitControl.js",
-        "$code_url/scripts/control_bar.js",
-        "$code_url/scripts/view_splitter.js",
-        "$code_url/scripts/text_view.js",
-        "$code_url/scripts/page_browse.js",
+    "js_modules" => [
         "$code_url/tools/project_manager/show_word_context.js",
     ],
     "js_data" => get_proofreading_interface_data_js() .

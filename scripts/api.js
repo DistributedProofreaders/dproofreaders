@@ -1,8 +1,6 @@
 /*global codeUrl */
-/* exported ajax */
-/* exported AJAX_ERROR_CODES */
 
-const AJAX_ERROR_CODES = {
+export const AJAX_ERROR_CODES = {
     UNKNOWN_ERROR: 999,
     INCORRECT_RESPONSE_TYPE: 998,
     NETWORK_ERROR: 997,
@@ -17,7 +15,7 @@ class AjaxError extends Error {
     }
 }
 
-async function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
+export async function ajax(method, apiUrl, queryParams = {}, data = {}, fetchPromise = fetch) {
     let url = new URL(codeUrl + "/api/index.php");
     let searchParams = new URLSearchParams();
     searchParams.append("url", apiUrl);
