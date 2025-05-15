@@ -1,5 +1,3 @@
-/* exported splitControl */
-
 /*
  * Create a splitter between two <div>s within a container.
  * Arguments for splitControl:
@@ -27,7 +25,7 @@
  *     a percentage parameter. It enables the split percentage to be stored so
  *     that when splitControl is used again the split ratio can be persisted.
  */
-var splitControl = function (container, { splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray", splitLimit = 0.1 } = {}) {
+export var splitControl = function (container, { splitVertical = true, splitPercent = 50, dragBarSize = 6, dragBarColor = "darkgray", splitLimit = 0.1 } = {}) {
     let splitRatio = splitPercent / 100;
     // base, splitPos, range units in principal direction
     let base;

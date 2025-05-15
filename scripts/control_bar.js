@@ -1,7 +1,6 @@
 /*global $ texts */
-/* exported makeImageWidget */
 
-function makeControlDiv(container, content, controls) {
+export function makeControlDiv(container, content, controls) {
     let barKey;
     let compassPoint;
     let begMidEnd;
@@ -245,7 +244,7 @@ function makeControlDiv(container, content, controls) {
     };
 }
 
-function makeImageWidget(container, align = "C") {
+export function makeImageWidget(container, align = "C") {
     const content = document.createElement("div");
     const grabCursor = "grab";
     // use plain js image so width or style.width is clearly differentiated

@@ -1,7 +1,6 @@
-/* global QUnit ajax AJAX_ERROR_CODES */
-/* exported codeUrl */
+/* global QUnit */
 
-let codeUrl = "https://www.dummy.org";
+import { ajax, AJAX_ERROR_CODES } from "../../../scripts/api.js";
 
 QUnit.module("Ajax test", function () {
     QUnit.test("Return correct data", async function (assert) {
