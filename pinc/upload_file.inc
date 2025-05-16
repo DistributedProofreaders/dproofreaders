@@ -66,7 +66,7 @@ function get_upload_args()
 
     return [
         'js_files' => [
-            "$code_url/pinc/3rdparty/resumablejs/resumable.js",
+            "$code_url/node_modules/resumablejs/resumable.js",
             "$code_url/scripts/file_resume.js",
         ],
         'js_data' => "

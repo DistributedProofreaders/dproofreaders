@@ -99,14 +99,11 @@ configure_script_file=$script_dir/configure
 $configure_script_file $site_config_file $_CODE_DIR.new
 
 # ------------------------------------------------------------------------------
-# Install PHP dependencies via composer
+# Install dependencies
 
-echo
-echo "Installing PHP dependencies..."
-composer install --no-dev --working-dir=$_CODE_DIR.new
-echo "Require all denied" > $_CODE_DIR.new/vendor/.htaccess
+$script_dir/install_dependencies.sh -p -d $_CODE_DIR.new
 chgrp -R $GROUP $_CODE_DIR.new/vendor
-echo
+chgrp -R $GROUP $_CODE_DIR.new/node_modules
 
 # ------------------------------------------------------------------------------
 # Apply any local customizations.

@@ -28,6 +28,9 @@ echo "<p>" . _("The following open source dependencies are used by the dproofrea
 $credit_details = load_composer_credit_details();
 output_credit_details($credit_details);
 
+$credit_details = load_npm_credit_details();
+output_credit_details($credit_details);
+
 //----------------------------------------------------------------------------
 
 function output_credit_details($credit_details)
@@ -89,6 +92,31 @@ function load_composer_credit_details()
             "url" => $package->homepage ?? null,
             "license" => join(", ", $package->license),
         ];
+    }
+
+    uksort($credit_details, "strcasecmp");
+    return $credit_details;
+}
+
+function load_npm_credit_details()
+{
+    global $code_dir;
+
+    $packages = json_decode(file_get_contents("$code_dir/package-lock.json"), true);
+
+    // first just load the immediate set of non-dev dependencies
+    $dependencies = array_keys($packages["packages"][""]["dependencies"]);
+
+    // now pull the license details
+    foreach ($packages["packages"] as $name => $package) {
+        $short_name = str_replace("node_modules/", "", $name);
+        if (in_array($short_name, $dependencies)) {
+            $credit_details[$name] = [
+                "name" => $short_name,
+                "url" => null,
+                "license" => $package["license"],
+            ];
+        }
     }
 
     uksort($credit_details, "strcasecmp");

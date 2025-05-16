@@ -14,6 +14,9 @@ Scripts supporting this upgrade are in `SETUP/upgrade/23`
 
 This release requires PHP 8.1 or later.
 
+Starting this release, the deployment process requires `npm` to pull down
+JavaScript code that is served up to the browser. See [INSTALL.md](INSTALL.md).
+
 ### Changes
 
 * Authors code (`tools/authors/*`) has been removed. Biographies will be
