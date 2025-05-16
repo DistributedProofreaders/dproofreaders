@@ -3,7 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'slim_header.inc');
-include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once($relPath.'abort.inc');
 include_once('PPage.inc');
 
