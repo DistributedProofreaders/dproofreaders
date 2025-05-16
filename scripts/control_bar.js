@@ -1,4 +1,5 @@
-/*global $ texts */
+/*global $ */
+import translate from "./gettext.js";
 
 export function makeControlDiv(container, content, controls) {
     let barKey;
@@ -22,7 +23,7 @@ export function makeControlDiv(container, content, controls) {
     controlBar.append(control1, control2, control3);
 
     const menu = $("<div>", { class: "control-bar-menu" });
-    const menuButton = $("<button>", { title: texts.adjustPanel })
+    const menuButton = $("<button>", { title: translate.gettext("Adjust control bar position and layout") })
         .append($("<i>", { class: "fas fa-cog" }))
         .click(function () {
             if (menu.is(":hidden")) {
@@ -95,19 +96,29 @@ export function makeControlDiv(container, content, controls) {
         controlBar.css({ "text-align": "center", "flex-direction": "column" });
     }
 
-    const leftButton = $("<button>", { class: "navbutton", title: texts.controlLeft }).append($("<i>", { class: "fas fa-caret-left" }));
-    const centerButton = $("<button>", { class: "navbutton", title: texts.controlCenter }).append("|");
-    const rightButton = $("<button>", { class: "navbutton", title: texts.controlRight }).append($("<i>", { class: "fas fa-caret-right" }));
-    const topButton = $("<button>", { class: "navbutton", title: texts.controlTop }).append($("<i>", { class: "fas fa-caret-up" }));
-    const midButton = $("<button>", { class: "navbutton", title: texts.controlMid }).append("−");
-    const botButton = $("<button>", { class: "navbutton", title: texts.controlBot }).append($("<i>", { class: "fas fa-caret-down" }));
+    const leftButton = $("<button>", { class: "navbutton", title: translate.gettext("Left-align controls") }).append($("<i>", { class: "fas fa-caret-left" }));
+    const centerButton = $("<button>", { class: "navbutton", title: translate.gettext("Center-align controls") }).append("|");
+    const rightButton = $("<button>", { class: "navbutton", title: translate.gettext("Right-align controls") }).append(
+        $("<i>", { class: "fas fa-caret-right" }),
+    );
+    const topButton = $("<button>", { class: "navbutton", title: translate.gettext("Top-align controls") }).append($("<i>", { class: "fas fa-caret-up" }));
+    const midButton = $("<button>", { class: "navbutton", title: translate.gettext("Middle-align controls") }).append("−");
+    const botButton = $("<button>", { class: "navbutton", title: translate.gettext("Bottom-align controls") }).append($("<i>", { class: "fas fa-caret-down" }));
 
-    const westButton = $("<button>", { class: "navbutton", title: texts.dockLeft }).append($("<i>", { class: "fas fa-arrow-left" }));
-    const northButton = $("<button>", { class: "navbutton", title: texts.dockTop }).append($("<i>", { class: "fas fa-arrow-up" }));
-    const southButton = $("<button>", { class: "navbutton", title: texts.dockBot }).append($("<i>", { class: "fas fa-arrow-down" }));
-    const eastButton = $("<button>", { class: "navbutton", title: texts.dockRight }).append($("<i>", { class: "fas fa-arrow-right" }));
+    const westButton = $("<button>", { class: "navbutton", title: translate.gettext("Dock control bar to left") }).append(
+        $("<i>", { class: "fas fa-arrow-left" }),
+    );
+    const northButton = $("<button>", { class: "navbutton", title: translate.gettext("Dock control bar to top") }).append(
+        $("<i>", { class: "fas fa-arrow-up" }),
+    );
+    const southButton = $("<button>", { class: "navbutton", title: translate.gettext("Dock control bar to bottom") }).append(
+        $("<i>", { class: "fas fa-arrow-down" }),
+    );
+    const eastButton = $("<button>", { class: "navbutton", title: translate.gettext("Dock control bar to right") }).append(
+        $("<i>", { class: "fas fa-arrow-right" }),
+    );
 
-    const hideButton = $("<button>", { class: "navbutton", title: texts.hideMenu }).append("×");
+    const hideButton = $("<button>", { class: "navbutton", title: translate.gettext("Hide this menu") }).append("×");
 
     menu.append(navBox);
     control1.append($("<div>", { class: "condiv center-align" }).append(menuButton), menu);
@@ -336,7 +347,7 @@ export function makeImageWidget(container, align = "C") {
     let sine = 0;
     let cosine = 1;
 
-    const percentInput = $("<input>", { type: "number", value: percent, title: texts.zoomPercent });
+    const percentInput = $("<input>", { type: "number", value: percent, title: translate.gettext("Zoom to percentage of 1000 pixels wide") });
     let contentWidth, contentHeight, imageWidth, imDivWidth, vertOffset;
 
     function setImageStyle() {
@@ -451,7 +462,7 @@ export function makeImageWidget(container, align = "C") {
         setDrawSave();
     });
 
-    const fitWidth = $("<button>", { title: texts.fitWidth })
+    const fitWidth = $("<button>", { title: translate.gettext("Fit image to width of window") })
         .click(function () {
             const contentWidth = getComputedStyle(content).width;
             if (sine == 0) {
@@ -466,7 +477,7 @@ export function makeImageWidget(container, align = "C") {
         })
         .append($("<i>", { class: "fas fa-arrows-alt-h" }));
 
-    const fitHeight = $("<button>", { title: texts.fitHeight })
+    const fitHeight = $("<button>", { title: translate.gettext("Fit image to height of window") })
         .click(function () {
             const contentHeight = getComputedStyle(content).height;
             if (sine == 0) {
@@ -481,28 +492,28 @@ export function makeImageWidget(container, align = "C") {
         })
         .append($("<i>", { class: "fas fa-arrows-alt-v" }));
 
-    const zoomIn = $("<button>", { title: texts.zoomIn })
+    const zoomIn = $("<button>", { title: translate.gettext("Zoom in 10%") })
         .click(function () {
             percent *= 1.1;
             setDrawSave();
         })
         .append($("<i>", { class: "fas fa-search-plus" }));
 
-    const zoomOut = $("<button>", { title: texts.zoomOut })
+    const zoomOut = $("<button>", { title: translate.gettext("Zoom out 10%") })
         .click(function () {
             percent /= 1.1;
             setDrawSave();
         })
         .append($("<i>", { class: "fas fa-search-minus" }));
 
-    const clockRotateInput = $("<button>", { title: texts.clockRotate })
+    const clockRotateInput = $("<button>", { title: translate.gettext("Rotate image clockwise 90°") })
         .append($("<i>", { class: "fas fa-redo-alt" }))
         .click(function () {
             [sine, cosine] = [-cosine, sine];
             initAll();
         });
 
-    const counterclockRotateInput = $("<button>", { title: texts.counterclockRotate })
+    const counterclockRotateInput = $("<button>", { title: translate.gettext("Rotate image counterclockwise 90°") })
         .append($("<i>", { class: "fas fa-undo-alt" }))
         .click(function () {
             [sine, cosine] = [cosine, -sine];
