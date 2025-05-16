@@ -1,0 +1,30 @@
+services:
+  mysql:
+    image: mysql:8.0.42
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      # the following will create a dp_db DB with utf8mb4 collation
+      MYSQL_DATABASE: dp_db
+      MYSQL_USER: dp_user
+      MYSQL_PASSWORD: dp_password
+    volumes:
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql
+    expose:
+      - "3306"
+
+  dpdev:
+    build: ./SETUP/devex/dpdev-docker
+    volumes:
+      - ./:/src
+      - ./:/var/www/html/c
+      - type: volume
+        source: dyndir-data
+        target: /var/www/html/d
+    ports:
+      - 8080:80
+
+volumes:
+  mysql-data:
+  dyndir-data:

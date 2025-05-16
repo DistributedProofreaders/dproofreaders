@@ -39,10 +39,10 @@ If you need assistance with the code, inquire within the
 
 ## Code development
 
-To get involved with development on this code base, see
+To get involved with development on this code base, see the
+[development](SETUP/DEVELOPMENT.md) document in this repo. And also
 [DP Code Development](https://www.pgdp.net/wiki/DP_Code_Development:_dproofreaders)
-in the pgdp.net wiki. See also the [development](SETUP/DEVELOPMENT.md) document
-in this repo.
+in the pgdp.net wiki.
 
 ## License
 

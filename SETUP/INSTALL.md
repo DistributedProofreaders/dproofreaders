@@ -22,7 +22,7 @@ on PHP versions < 8.3.
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
 * Internationalization - php-intl
-* json - php-json (PHP <8.0)
+* gettext (this is often compiled into PHP, but not always)
 * mbstring - php-mbstring
 * memcached - php-memcached (for API rate limiting and stats caching)
 * MySQL - php-mysql
