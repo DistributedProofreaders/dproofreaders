@@ -10,7 +10,7 @@ CSS. It uses a MySQL backend database and requires a web server -- pgdp.net
 uses Apache but Nginx should work as well. See the [installation docs](INSTALL.md)
 for information on minimum middleware versions.
 
-The code does not use a PHP framework or an ORM. It was developed 20 years ago
+The code does not use a PHP framework or an ORM. It was developed 25 years ago
 and has grown very organically over the years. There has been effort in the
 past decade to standardize things but you'll find many different patterns remain.
 We have a defined [coding style](CODE_STYLE.md) for the codebase and a set of
@@ -43,11 +43,10 @@ repo.
 
 ## Development Environment
 
-The best current development environment is using the
-[DP development VM](https://www.pgdp.net/wiki/DP_Code_Development_VM) which
-comes with a recent release of the DP code, all required middleware, and some
-sample data. There is a desire to get a true local development environment --
-via vagrant or docker -- created but that has not yet been completed.
+The current development environment is using the [docker compose](devex/README.md)
+provided with this repo. If your OS doesn't allow running containers, consider
+spinning up an Ubuntu-based virtual machine and running the containers within
+that.
 
 ### Tooling
 
@@ -91,7 +90,7 @@ The code is loosely organized around the following ideas:
     See the [3rdparty readme](../pinc/3rdparty/README.md).
 * `scripts/` - JS files used for various features.
 * `styles/` - CSS scripts which include `.less` source files and the rendered
-  `.css` files. See [CSS / style documentation](../style/README.md).
+  `.css` files. See [CSS / style documentation](../styles/README.md).
 * `SETUP/` - Non-runtime code, such as site admin docs, development docs, tests,
   tooling and other miscellanea. The expectation is that this directory
   will not, and should not be, accessible via the web context on a live site.

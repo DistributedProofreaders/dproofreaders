@@ -16,4 +16,5 @@ vendor
 .php-cs-fixer.cache
 .phpdoc
 .phpstan.cache
-
+# local devex artifacts
+SETUP/devex/dpdev-docker/container_startup_local.sh
