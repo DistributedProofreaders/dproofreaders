@@ -9,7 +9,7 @@ include_once($relPath.'languages.inc');
  * "Best" is tricky, because there are multiple ways that a user could
  * indicate (either explicitly or implicitly) what language they want a page
  * returned in. We walk through the following possibilities in this order:
- * - If $_GET['lang'] is set (a page is requested as eg: default.php?lang=sr)
+ * - If $_GET['lang'] is set (a page is requested as eg: index.php?lang=sr)
  *   and requested language is installed, then use that language and set
  *   language cookie so that after clicking on links user would remain in the
  *   language. This is useful for external linking to a localised version.

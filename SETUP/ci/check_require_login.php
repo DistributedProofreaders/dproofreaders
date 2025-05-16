@@ -8,7 +8,7 @@ $basedir = $argv[1] ?? "../../";
 // List of accepted unauthenticated files
 $ok_files = [
     // Base website
-    "default.php",
+    "index.php",
     "credits.php",
     "sitemap.php",
     "project.php",
@@ -47,7 +47,7 @@ $ok_files = [
     // Simple redirect
     "quiz/index.php",
     // Stats graphs that we make globally available
-    "stats/default.php",
+    "stats/index.php",
     "stats/percent_users_who_proof.php",
     "stats/pp_stage_goal.php",
     "stats/round_backlog_days.php",

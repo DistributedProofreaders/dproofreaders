@@ -12,9 +12,6 @@ $ok_not_includes_base = [
     // Settings files
     "pinc/site_vars.php",
     "pinc/udb_user.php",
-    // Simple redirects
-    "stats/default.php",
-    "faq/default.php",
     // API loads bootstrap directly
     "api/index.php",
     // Privacy is a dual-mode include page and the UI version has base.inc

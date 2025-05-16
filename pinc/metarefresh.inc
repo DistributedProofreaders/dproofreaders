@@ -39,7 +39,7 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
     // If $allow_external is FALSE and the URL isn't local, redirect the
     // user to the homepage.
     if (!$allow_external && !str_starts_with($absolute_url, $code_url)) {
-        $absolute_url = "$code_url/default.php";
+        $absolute_url = "$code_url/index.php";
     }
 
     // If headers haven't been sent yet and the redirect is for 0 seconds

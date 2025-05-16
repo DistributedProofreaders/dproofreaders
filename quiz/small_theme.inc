@@ -33,7 +33,7 @@ function output_small_header($quiz)
     }
 
     $links = [
-        ['text' => $site_abbreviation, 'url' => "$code_url/default.php", 'target' => '_top'],
+        ['text' => $site_abbreviation, 'url' => "$code_url/index.php", 'target' => '_top'],
         ['text' => "<span class='currentpage'>$quiz_name</span>"],
     ];
 

@@ -184,7 +184,7 @@ function get_jump_words(bool $flatten_aliases = false): array
             "alias" => "ah",
         ],
         "home" => [
-            "url" => "$code_url/default.php",
+            "url" => "$code_url/index.php",
             "desc" => _("Home Page"),
         ],
         "myprojects" => [
@@ -208,7 +208,7 @@ function get_jump_words(bool $flatten_aliases = false): array
             "alias" => "quiz",
         ],
         "statistics" => [
-            "url" => "$code_url/stats/stats_central.php",
+            "url" => "$code_url/stats/index.php",
             "desc" => _("Statistics Central"),
             "alias" => "stats",
         ],
