@@ -12,7 +12,7 @@ function abort_if_not_manager()
             Please contact a <a href='%s'>site manager</a>
             about resolving this problem."), "mailto:$site_manager_email_addr")."
               </p><p>
-              ".sprintf(_("Back to <a href='%s'>home page</a>"), "$code_url/default.php")."
+              ".sprintf(_("Back to <a href='%s'>home page</a>"), "$code_url/index.php")."
               </p>";
         exit();
     }

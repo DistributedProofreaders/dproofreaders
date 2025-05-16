@@ -15,7 +15,7 @@ if (User::is_logged_in()) {
 
 metarefresh(
     0,
-    "../default.php",
+    "../index.php",
     _("Logout Complete"),
-    "<a href=\"../default.php\">"._("Return to DP Home Page.")."</a>"
+    "<a href=\"../index.php\">"._("Return to DP Home Page.")."</a>"
 );
