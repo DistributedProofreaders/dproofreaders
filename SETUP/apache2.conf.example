@@ -4,8 +4,6 @@
 # In particular, ensure the directories and paths referenced here match
 # those set in your configuration.sh.
 
-DirectoryIndex index.php index.html default.html
-
 # To ensure that word lists and other project artifacts are downloaded
 # with the correct character set, tell Apache to use UTF-8 for those
 # files in the _PROJECTS_DIR directory.
