@@ -1,7 +1,7 @@
 /*global showWordContext */
+import translate from "../../scripts/gettext.js";
 import { splitControl } from "../../scripts/splitControl.js";
 import { pageBrowse } from "../../scripts/page_browse.js";
-import translate from "../../scripts/gettext.js";
 
 window.addEventListener("DOMContentLoaded", function () {
     let storageKeyLayout = showWordContext.storageKey + "-layout";
@@ -30,7 +30,7 @@ window.addEventListener("DOMContentLoaded", function () {
     mainSplit.reLayout();
 
     function setSplitLink() {
-        switchLink.textContent = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
+        switchLink.textContent = splitVertical ? translate.gettext("Change to horizontal layout") : translate.gettext("Change to vertical layout");
     }
 
     setSplitLink();
