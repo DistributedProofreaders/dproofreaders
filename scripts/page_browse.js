@@ -1,4 +1,5 @@
-/*global $ proofIntData */
+/*global $ codeUrl */
+import translate from "./gettext.js";
 import { ajax } from "./api.js";
 import { viewSplitter } from "./view_splitter.js";
 import { makeImageWidget } from "./control_bar.js";
@@ -7,12 +8,12 @@ import { makeTextWidget } from "./text_view.js";
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
     const pageSelector = document.createElement("select");
-    const controls = $("<span>", { class: "nowrap" }).append(proofIntData.strings.page + " ", pageSelector);
+    const controls = $("<span>", { class: "nowrap" }).append(translate.gettext("Page") + " ", pageSelector);
 
     if (!selectedImageFileName) {
         // when no page is defined, "Select a page" option is added
         pageSelector.required = true;
-        const firstOption = new Option(proofIntData.strings.selectAPage, 0, true, true);
+        const firstOption = new Option(translate.gettext("Please select a page"), 0, true, true);
         firstOption.disabled = true;
         pageSelector.add(firstOption);
         pages.forEach(function (page, index) {
@@ -32,8 +33,8 @@ function makePageControl(pages, selectedImageFileName, changePage) {
         pageSelector.add(new Option(imageFilename, index, selected, selected));
     });
 
-    const prevButton = $("<input>", { type: "button", value: proofIntData.strings.previous });
-    const nextButton = $("<input>", { type: "button", value: proofIntData.strings.next });
+    const prevButton = $("<input>", { type: "button", value: translate.gettext("Previous") });
+    const nextButton = $("<input>", { type: "button", value: translate.gettext("Next") });
 
     function prevEnabled() {
         return pageSelector.selectedIndex > 0;
@@ -133,14 +134,14 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
     }
 
     async function displayPages(pages) {
-        const textButton = $("<input>", { type: "button", value: proofIntData.strings.showText });
-        const imageButton = $("<input>", { type: "button", value: proofIntData.strings.showImage });
-        const imageTextButton = $("<input>", { type: "button", value: proofIntData.strings.showImageText });
+        const textButton = $("<input>", { type: "button", value: translate.gettext("Show Text only") });
+        const imageButton = $("<input>", { type: "button", value: translate.gettext("Show Image only") });
+        const imageTextButton = $("<input>", { type: "button", value: translate.gettext("Show Image & Text") });
         let imageWidget = null;
         let textWidget = null;
 
         function getRoundControls() {
-            return $("<span>", { class: "nowrap" }).append(proofIntData.strings.round + " ", roundSelector);
+            return $("<span>", { class: "nowrap" }).append(translate.gettext("Round") + " ", roundSelector);
         }
 
         function showCurrentPage(page) {
@@ -152,7 +153,7 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
                 // displayMode and set the url
                 const imageFileName = page.image;
                 params.set("imagefile", imageFileName);
-                document.title = proofIntData.strings.displayPageX.replace("%s", imageFileName);
+                document.title = translate.gettext("Display Page: %s").replace("%s", imageFileName);
                 if (displayMode !== "text") {
                     if (imageWidget) {
                         imageWidget.setImage(page.image_url);
@@ -275,7 +276,7 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
 
         // if there are no pages in the project show alert message
         if (pages.length === 0) {
-            alert(proofIntData.strings.noPages);
+            alert(translate.gettext("There are no pages in this project"));
             return;
         }
 
@@ -288,7 +289,7 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
                 if (currentPage) {
                     showCurrentPage(currentPage);
                 } else {
-                    alert(proofIntData.strings.noPageX.replace("%s", currentImageFileName));
+                    alert(translate.gettext("There is no page %s in this project").replace("%s", currentImageFileName));
                     params.delete("imagefile");
                     replaceUrl();
                     await initialPageSelect();
@@ -312,15 +313,15 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
         // just show the project input
         fixHead.empty();
         $(".imtext").remove();
-        document.title = proofIntData.strings.browsePages;
+        document.title = translate.gettext("Browse pages");
 
-        const projectSelectButton = $("<input>", { type: "button", value: proofIntData.strings.selectProject });
+        const projectSelectButton = $("<input>", { type: "button", value: translate.gettext("Select Project") });
         const projectInput = $("<input>", { type: "text", required: true });
 
         projectSelectButton.click(function () {
             projectId = projectInput.val();
             if ("" === projectId) {
-                alert(proofIntData.strings.enterID);
+                alert(translate.gettext("Please enter a project ID"));
                 return;
             }
             params.set("project", projectId);
@@ -328,7 +329,7 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
             getProjectData();
         });
 
-        fixHead.append($("<span>", { class: "nowrap" }).append(proofIntData.strings.projectid, " ", projectInput, projectSelectButton));
+        fixHead.append($("<span>", { class: "nowrap" }).append(translate.gettext("Project ID"), " ", projectInput, projectSelectButton));
     }
 
     async function getPages() {
@@ -344,11 +345,11 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
     function showProjectTitle(projectData) {
         fixHead.empty();
         // show project name and button to select another
-        const resetButton = $("<input>", { type: "button", value: proofIntData.strings.reset });
+        const resetButton = $("<input>", { type: "button", value: translate.gettext("Select a different project") });
         resetButton.click(function () {
             selectAProject();
         });
-        const projectRef = new URL(proofIntData.projectFile);
+        const projectRef = new URL(`${codeUrl}/project.php`);
         projectRef.searchParams.append("id", projectId);
         fixHead.append($("<p>").append($("<a>", { href: projectRef }).append(projectData.title)), resetButton);
         getPages();
