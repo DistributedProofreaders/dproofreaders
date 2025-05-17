@@ -5,7 +5,7 @@ include_once($relPath."base.inc");
 // fixed, non-project pages to include in the listing with their
 // change frequency
 $fixed_pages = [
-    "default.php" => "monthly",
+    "index.php" => "monthly",
 ];
 
 header('Content-type: application/xml; charset=utf-8');

@@ -171,7 +171,7 @@ function get_installed_locale_translations($state = "all")
         "disabled" => [],
     ];
 
-    $files = scandir($dyn_locales_dir);
+    $files = @scandir($dyn_locales_dir);
     if (!$files) {
         return $translation_cache[$state];
     }

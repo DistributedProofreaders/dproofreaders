@@ -20,7 +20,7 @@ SERVER_LOG = "server.log"
 NOLOGIN_TESTS = [
     {'path': 'accounts/addproofer.php'},
     {'path': 'credits.php'},
-    {'path': 'default.php'},
+    {'path': 'index.php'},
     {'path': 'list_etexts.php'},
     {'path': 'list_etexts.php?x=g'},
     {'path': 'list_etexts.php?x=s'},
@@ -171,7 +171,7 @@ STATS_TESTS = [
     {'path': 'stats/requested_books.php'},
     {'path': 'stats/round_backlog.php'},
     {'path': 'stats/round_backlog_days.php'},
-    {'path': 'stats/stats_central.php'},
+    {'path': 'stats/index.php'},
     {'path': 'stats/user_logon_graphs.php'},
 ]
 

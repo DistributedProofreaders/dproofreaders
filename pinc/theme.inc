@@ -403,7 +403,7 @@ function html_navbar()
         // on the same line.
         echo "<span id='navbar-right'>";
         $links = [];
-        $links[] = ['text' => _("Stats"), 'url' => "stats/stats_central.php"];
+        $links[] = ['text' => _("Stats"), 'url' => "stats/index.php"];
 
         echo headerbar_text_array($links);
         echo "  &#183; ";
@@ -558,7 +558,7 @@ function html_statsbar($nameofpage)
             show_birthdays();
         }
 
-        if (strpos($_SERVER['PHP_SELF'], 'default.php') !== false) {
+        if (strpos($_SERVER['PHP_SELF'], 'index.php') !== false) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";
@@ -598,7 +598,7 @@ function html_statsbar($nameofpage)
     }
 
     echo "<p class='more-link'>";
-    echo "<a href='$code_url/stats/stats_central.php'>";
+    echo "<a href='$code_url/stats/index.php'>";
     echo _("More Statistics...");
     echo "</a>";
     echo "</p>";

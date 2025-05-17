@@ -30,7 +30,7 @@ class ForumJson
     protected function load_from_json()
     {
         if (! is_file($this->json_file)) {
-            return null;
+            return [];
         }
 
         return json_decode(file_get_contents($this->json_file), true);
