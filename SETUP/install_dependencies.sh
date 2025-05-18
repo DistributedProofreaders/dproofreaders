@@ -66,6 +66,11 @@ fi
 
 if [ $PROD -eq 1 ]; then
     npm ci --omit dev --omit optional
+
+    # We only want node_modules to be pulling in JS and CSS assets, but
+    # there's a chance they might have .php scripts in them too which we
+    # don't want, so find and delete them if any exist.
+    find node_modules -name '*.php' -delete
 else
     npm install
 fi
