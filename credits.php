@@ -25,10 +25,11 @@ echo "<h2>" . _("Dependencies"). "</h2>";
 
 echo "<p>" . _("The following open source dependencies are used by the dproofreaders code.") . "</p>";
 
-$credit_details = load_composer_credit_details();
-output_credit_details($credit_details);
-
-$credit_details = load_npm_credit_details();
+$credit_details = array_merge(
+    load_composer_credit_details(),
+    load_npm_credit_details()
+);
+uksort($credit_details, "strcasecmp");
 output_credit_details($credit_details);
 
 //----------------------------------------------------------------------------
@@ -94,7 +95,6 @@ function load_composer_credit_details()
         ];
     }
 
-    uksort($credit_details, "strcasecmp");
     return $credit_details;
 }
 
@@ -111,7 +111,7 @@ function load_npm_credit_details()
     foreach ($packages["packages"] as $name => $package) {
         $short_name = str_replace("node_modules/", "", $name);
         if (in_array($short_name, $dependencies)) {
-            $credit_details[$name] = [
+            $credit_details[$short_name] = [
                 "name" => $short_name,
                 "url" => null,
                 "license" => $package["license"],
@@ -119,7 +119,6 @@ function load_npm_credit_details()
         }
     }
 
-    uksort($credit_details, "strcasecmp");
     return $credit_details;
 }
 
