@@ -1,7 +1,5 @@
 /* eslint-disable no-use-before-define, camelcase */
-/* exported previewControl */
-/* global $ makePreview, fontStyles fontFamilies MathJax validateText tagNames previewStrings
-previewMessages defaultStyles */
+/* global $ fontStyles fontFamilies MathJax validateText tagNames previewStrings */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has display:none; which means it is not displayed and the page
@@ -12,7 +10,8 @@ This is reversed when "Quit" is pressed.
 The configuration screen is handled in the same way.
 previewStrings are translated strings in header args
 */
-var previewControl;
+
+import { makePreview, defaultStyles } from "../../scripts/analyse_format.js";
 
 window.addEventListener("DOMContentLoaded", () => {
     "use strict";
@@ -57,10 +56,6 @@ window.addEventListener("DOMContentLoaded", () => {
     var font_size;
     var preview;
 
-    function getMessage(index) {
-        return previewMessages[index];
-    }
-
     function makeColorStyles(config) {
         let styleString = "";
         Object.keys(tagNames).forEach(function (tag) {
@@ -79,7 +74,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function writePreviewText() {
         // makePreview is defined in analyse_format.js
-        preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles, getMessage);
+        preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles);
         prevWin.style.whiteSpace = preview.ok && wrapMode ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         if (preview.ok && previewStyles.allowMathPreview) {
@@ -228,7 +223,7 @@ window.addEventListener("DOMContentLoaded", () => {
         testDiv.style.backgroundColor = tempStyle.t.bg;
         testDiv.style.color = tempStyle.t.fg;
         makeColorStyles(tempStyle);
-        preview = makePreview(previewStrings.previewDemo, "no_tags", false, tempStyle, getMessage);
+        preview = makePreview(previewStrings.previewDemo, "no_tags", false, tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 
@@ -299,7 +294,8 @@ window.addEventListener("DOMContentLoaded", () => {
         localStorage.preview_data = JSON.stringify(previewStyles);
     }
 
-    previewControl = {
+    // This is a hack to make previewControl global outside this module
+    window.previewControl = {
         reSizeText: function (ratio) {
             font_size *= ratio;
             prevWin.style.fontSize = font_size.toFixed(1) + "px";

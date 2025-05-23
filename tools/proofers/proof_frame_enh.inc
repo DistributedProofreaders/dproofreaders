@@ -29,8 +29,6 @@ function echo_proof_frame_enh(PPage $ppage): void
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
             "$code_url/node_modules/xregexp/xregexp-all.js",
-            "$code_url/scripts/analyse_format.js",
-            "$code_url/tools/proofers/previewControl.js",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
             "$code_url/tools/proofers/proof_validate.js",
@@ -39,6 +37,7 @@ function echo_proof_frame_enh(PPage $ppage): void
         ],
         "js_modules" => [
             "$code_url/tools/proofers/proof_image.js",
+            "$code_url/tools/proofers/previewControl.js",
         ],
         "js_data" => get_preview_js_vars() . get_preview_font_data_js() . "
         var imageData = $image_data;
