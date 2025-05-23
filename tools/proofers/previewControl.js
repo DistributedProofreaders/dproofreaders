@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, camelcase */
-/* global $ fontStyles fontFamilies MathJax validateText tagNames previewStrings */
+/* global $ fontStyles fontFamilies MathJax validateText */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has display:none; which means it is not displayed and the page
@@ -8,9 +8,9 @@ When the preview button is pressed the function "show" changes its display style
 to "block" and changes the display style of the normal view (proofDiv) to "none"
 This is reversed when "Quit" is pressed.
 The configuration screen is handled in the same way.
-previewStrings are translated strings in header args
 */
 
+import translate from "../../scripts/gettext.js";
 import { makePreview, defaultStyles } from "../../scripts/analyse_format.js";
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -36,6 +36,20 @@ window.addEventListener("DOMContentLoaded", () => {
     let colorTable = $("#color_table");
     let fontSelector = document.getElementById("id_font_sel");
     let previewStyles = defaultStyles;
+
+    const tagNames = {
+        t: translate.gettext("Plain text"),
+        i: translate.gettext("Italic"),
+        b: translate.gettext("Bold"),
+        g: translate.gettext("Gesperrt"),
+        sc: translate.gettext("Small caps"),
+        f: translate.gettext("Font change"),
+        etc: translate.gettext("Other tags"),
+        err: translate.gettext("Issues"),
+        hlt: translate.gettext("Poss. Issues"),
+        blockquote: translate.gettext("Block quote"),
+        nowrap: translate.gettext("No wrap"),
+    };
 
     const previewColorStyle = document.createElement("style");
     document.head.appendChild(previewColorStyle);
@@ -220,17 +234,35 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // functions for setting up the configuration screen
     function testDraw() {
+        const superscript = translate.gettext("superscript");
+        const subscript = translate.gettext("subscript");
+        const previewDemo = [
+            `${tagNames["t"]} _{${subscript}} <i>${tagNames["i"]}</i> ^{${superscript}}`,
+            `<b>${tagNames["b"]}</b> <g>${tagNames["g"]}</g> <sc>${tagNames["sc"]}</sc> <f>${tagNames["f"]}</f>`,
+            "",
+            "/#",
+            "This is a block quote",
+            "#/",
+            "",
+            "/*",
+            "This is no-wrap text",
+            "*/",
+        ].join("\n");
         testDiv.style.backgroundColor = tempStyle.t.bg;
         testDiv.style.color = tempStyle.t.fg;
         makeColorStyles(tempStyle);
-        preview = makePreview(previewStrings.previewDemo, "no_tags", false, tempStyle);
+        preview = makePreview(previewDemo, "no_tags", false, tempStyle);
         testDiv.innerHTML = preview.txtout;
     }
 
     function initColorSelector() {
         const foreBackGround = ["fg", "bg"];
         colorTable.append(
-            $("<tr>").append("<th>", $("<th>", { colspan: "2", text: previewStrings.text }), $("<th>", { colspan: "2", text: previewStrings.background })),
+            $("<tr>").append(
+                "<th>",
+                $("<th>", { colspan: "2", text: translate.gettext("Text") }),
+                $("<th>", { colspan: "2", text: translate.gettext("Background") }),
+            ),
         );
 
         Object.keys(tagNames).forEach(function (tag) {
@@ -308,7 +340,7 @@ window.addEventListener("DOMContentLoaded", () => {
             }
             var msie = document.documentMode;
             if (msie < 9) {
-                alert(previewStrings.ieWarn);
+                alert(translate.gettext("This function is not available for Internet Explorer versions less than 9"));
                 return;
             }
             old_rows = proofFrameSet.getAttribute("rows");
