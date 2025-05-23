@@ -103,7 +103,7 @@ const analyse = function (txt, config) {
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
     const ILTags = getILTags(config);
-    var issueType = {
+    let issueType = {
         noStartTag: 1,
         noEndTag: 1,
         noEndTagInPara: 1,
@@ -144,9 +144,9 @@ const analyse = function (txt, config) {
         boldPara: 0,
     };
 
-    var issArray = []; // stores issues for markup-insertion later
+    const issArray = []; // stores issues for markup-insertion later
 
-    // this records issues which could prevent checkSC and testBoldBlock from
+    // this records issues which could prevent checkSmallCaps and testBoldBlock from
     // working. Not all definite issues mean bad parse
     let parseOK = true;
     function badParse() {
@@ -480,15 +480,15 @@ const analyse = function (txt, config) {
     }
 
     // check for no upper case between small caps tags
-    function checkSC() {
-        var result;
-        var re = /<sc>([^]*?)<\/sc>/g; // <sc> text
-        var res1;
+    function checkSmallCaps() {
+        let result;
+        const re = /<sc>([^]*?)<\/sc>/g;
         while ((result = re.exec(txt)) !== null) {
-            res1 = result[1];
+            const res1 = result[1];
             if (res1 === res1.toLowerCase()) {
                 if (res1.charAt(0) !== "*") {
-                    // definite issue
+                    // could be fragment of a word at beginning
+                    // otherwise definite issue
                     reportIssue(result.index, 4, "scNoCap", 1);
                 } else {
                     // a lower case fragment, mark first character
@@ -852,9 +852,9 @@ const analyse = function (txt, config) {
     if (parseOK) {
         txt = removeAllNotes(txt);
         parseInLine();
-        // if inline parse fails then checkSC might not work
+        // if inline parse fails then checkSmallCaps might not work
         if (parseOK) {
-            checkSC();
+            checkSmallCaps();
         }
         checkBlankNumber();
         if (parseOK) {
