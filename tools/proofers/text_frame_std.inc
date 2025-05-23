@@ -17,7 +17,7 @@ function echo_text_frame_std(PPage $ppage): void
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
             "$code_url/node_modules/xregexp/xregexp-all.js",
-            "$code_url/tools/proofers/preview.js",
+            "$code_url/scripts/analze_format.js",
             "$code_url/tools/proofers/previewControl.js",
             "$code_url/scripts/character_test.js",
             "$code_url/scripts/text_validator.js",
