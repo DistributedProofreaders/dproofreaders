@@ -1,50 +1,6 @@
 <?php
 $relPath = "./../../pinc/";
 
-function get_preview_js_vars()
-{
-    $superscript = _("superscript");
-    $subscript = _("subscript");
-
-    $tag_names = [
-        "t" => _("Plain text"),
-        "i" => _("Italic"),
-        "b" => _("Bold"),
-        "g" => _("Gesperrt"),
-        "sc" => _("Small caps"),
-        "f" => _("Font change"),
-        "etc" => _("Other tags"),
-        "err" => _("Issues"),
-        "hlt" => _("Poss. Issues"),
-        "blockquote" => _("Block quote"),
-        "nowrap" => _("No wrap"),
-    ];
-
-    $demo_string = <<<DEMO
-        {$tag_names['t']} _{{$subscript}} <i>{$tag_names['i']}</i> ^{{$superscript}}
-        <b>{$tag_names['b']}</b> <g>{$tag_names['g']}</g> <sc>{$tag_names['sc']}</sc> <f>{$tag_names['f']}</f>
-
-        /#
-        This is a block quote
-        #/
-
-        /*
-        This is no-wrap text
-        */
-        DEMO;
-
-    $preview_strings = json_encode([
-        "background" => _("Background"),
-        "text" => _("Text"),
-        "previewDemo" => $demo_string,
-        "ieWarn" => _("This function is not available for Internet Explorer versions less than 9"),
-    ]);
-
-    $tag_names = json_encode($tag_names);
-
-    return "var tagNames = $tag_names; var previewStrings = $preview_strings; ";
-}
-
 function output_preview_div()
 {
     global $code_url;

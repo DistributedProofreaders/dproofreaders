@@ -26,7 +26,7 @@ function echo_text_frame_std(PPage $ppage): void
         "js_modules" => [
             "$code_url/tools/proofers/previewControl.js",
         ],
-        "js_data" => get_preview_js_vars() . get_preview_font_data_js() . "
+        "js_data" => get_preview_font_data_js() . "
         function ldAll() {
             top.initializeStuff(0);
         }
