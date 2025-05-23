@@ -99,10 +99,12 @@ const getILTags = function (configuration) {
     return ILTags;
 };
 
-const analyse = function (txt, config) {
+function analyse(txt, config) {
+    config.suppress ?? (config.suppress = {});
+    const ILTags = getILTags(config);
+
     // the default issue types, can be over-ridden
     // 1 means a definite issue, 0 a possible issue
-    const ILTags = getILTags(config);
     let issueType = {
         noStartTag: 1,
         noEndTag: 1,
@@ -899,7 +901,7 @@ const analyse = function (txt, config) {
         text: txt,
         noteArray: notes,
     };
-}; // end of analyse
+} // end of analyse
 
 /*
 This function checks the text for formatting issues and adds the markup
