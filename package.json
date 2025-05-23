@@ -25,14 +25,14 @@
   },
   "homepage": "https://github.com/DistributedProofreaders/dproofreaders",
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "eslint": "^9.9.0",
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
     "eslint-config-prettier": "^9.1.0",
-    "geckodriver": "^4.4.3",
-    "globals": "^15.9.0",
-    "less": "^4.2.0",
-    "prettier": "^3.3.3",
-    "selenium-webdriver": "^4.23.0"
+    "geckodriver": "^5.0.0",
+    "globals": "^16.1.0",
+    "less": "^4.3.0",
+    "prettier": "^3.5.3",
+    "selenium-webdriver": "^4.32.0"
   },
   "prettier": {
     "tabWidth": 4,
