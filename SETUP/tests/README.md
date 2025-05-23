@@ -10,12 +10,6 @@ Including:
 
 ## phpunit tests
 
-### Version requirements
-
-The phpunit tests, as-coded, will work with phpunit 6.x, 7.x, 8.x, and 9.x.
-
-### Running tests
-
 `phpunit.xml` contains configuration information like bootstrap
 requirements, so running the full suite is as simple as:
 ```bash
@@ -27,3 +21,13 @@ To run the page compare test only:
 ```bash
 ../../../vendor/bin/phpunit PageCompareTest.php
 ```
+
+## JS tests
+
+The QUnit-based JS tests can be run from the base of the repo with:
+```bash
+npm run test
+```
+
+You can also load the `SETUP/tests/jsTests/qunit.html` file in your web browser
+to run them and see any failures.
