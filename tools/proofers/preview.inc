@@ -1,51 +1,6 @@
 <?php
 $relPath = "./../../pinc/";
 
-function get_preview_messages()
-{
-    return [
-        "noStartTag" => _("No start tag for this end tag"),
-        "noEndTag" => _("No end tag for this start tag"),
-        "noEndTagInPara" => _("No corresponding end tag in paragraph"),
-        "misMatchTag" => _("End tag does not match start tag"),
-        "nestedTag" => _("Tag nested within same tag"),
-        "unRecTag" => _("Unrecognized tag"),
-        "charBefore" => _("No characters should precede this"),
-        "blankBefore" => _("A blank line should precede this"),
-        "blankAfter" => _("A blank line should follow %s"),
-        "NWinNW" => _("No-wrap inside no-wrap"),
-        "BQinNW" => _("Block quote inside no-wrap"),
-        "charAfter" => _("No characters should follow %s"),
-        "OolPrev" => _("Out-of-line start tag should not be preceded by normal text"),
-        "OolNext" => _("Out-of-line end tag should not be followed by normal text"),
-        "blankLines124" => _("Only 1, 2 or 4 blank lines should be used"),
-        "puncAfterStart" => _("Punctuation after start tag"),
-        "spaceAfterStart" => _("Space after start tag"),
-        "nlAfterStart" => _("Newline after start tag"),
-        "nlBeforeEnd" => _("Newline before end tag"),
-        "spaceBeforeEnd" => _("Space before end tag"),
-        "noBold" => _("Heading should not be entirely bold"),
-        "scNoCap" => _("Small caps must contain at least one upper case character"),
-        "charBeforeStart" => _("Character or punctuation before inline start tag"),
-        "charAfterEnd" => _("Character after inline end tag"),
-        "puncBEnd" => _(", ; or : before end tag"),
-        "noCloseBrack" => _("No matching closing bracket"),
-        "footnoteId" => _("Footnote identifier should be a letter or number"),
-        "starAnchor" => _("Footnote anchor should be an upper-case letter"),
-        "noFootnote" => _("No corresponding footnote on this page"),
-        "noAnchor" => _("No anchor for this footnote"),
-        "noColon" => _("Footnote must have a colon"),
-        "colonNext" => _("The colon should immediately follow *[Footnote"),
-        "spaceNext" => _("Footnote should be followed by one space and identifier"),
-        "dupNote" => _("Duplicate footnote identifier"),
-        "continueFirst" => _("Continuation footnote should precede others"),
-        "sideNoteBlank" => _("A blank line should precede and follow Sidenote"),
-        "emptyTag" => _("Empty tag"),
-        "multipleAnchors" => _("Multiple anchors for same footnote"),
-        "boldPara" => _("Entirely bold paragraph or section heading"),
-    ];
-}
-
 function get_preview_js_vars()
 {
     $superscript = _("superscript");
@@ -85,17 +40,15 @@ function get_preview_js_vars()
         "ieWarn" => _("This function is not available for Internet Explorer versions less than 9"),
     ]);
 
-    $preview_msg = json_encode(get_preview_messages());
     $tag_names = json_encode($tag_names);
 
-    return "var previewMessages = $preview_msg; var tagNames = $tag_names; var previewStrings = $preview_strings; ";
+    return "var tagNames = $tag_names; var previewStrings = $preview_strings; ";
 }
 
 function output_preview_div()
 {
     global $code_url;
 
-    $messages = get_preview_messages();
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
     $add_font = attr_safe(_("Add Font"));
@@ -120,12 +73,8 @@ function output_preview_div()
     $select = html_safe(_("Select"));
     $options = html_safe(_("Options"));
     $initial_mode = html_safe(_("Initial view mode"));
-
-    $supp_set = ['charBeforeStart', 'sideNoteBlank'];
-    $supp_item_string = "";
-    foreach ($supp_set as $supp_item) {
-        $supp_item_string .= ("<label><input type='checkbox' id='$supp_item'>" . html_safe($messages[$supp_item]) . "</label><br>\n");
-    }
+    $char_before_start = html_safe(_("Character or punctuation before inline start tag"));
+    $side_note_blank = html_safe(_("A blank line should precede and follow Sidenote"));
 
     // draw the format preview and controls
     echo <<<END
@@ -176,7 +125,8 @@ function output_preview_div()
             </fieldset>
             <fieldset>
                 <legend>$suppress_warnings</legend>
-                $supp_item_string
+                <label><input type='checkbox' id='charBeforeStart'>$char_before_start</label><br>
+                <label><input type='checkbox' id='sideNoteBlank'>$side_note_blank</label><br>
             </fieldset>
             <fieldset>
                 <legend>$initial_mode</legend>
