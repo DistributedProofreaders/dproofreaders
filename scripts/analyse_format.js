@@ -1,8 +1,6 @@
-/* exported makePreview */
-/* exported analyse */
-/* exported processExMath */
-/* exported defaultStyles */
 /* global XRegExp */
+
+import translate from "./gettext.js";
 
 // The formatting rules are applied as if proofers' notes were
 // invisible so remove them first and save for later. But first check if they
@@ -22,7 +20,7 @@
 // gesperrt, smallcaps, font change, other tags, highlighting issues
 // and possible issues.
 // An empty color string means use default color
-const defaultStyles = {
+export const defaultStyles = {
     t: { bg: "#fffcf4", fg: "#000000" },
     i: { bg: "", fg: "#0000ff" },
     b: { bg: "", fg: "#c55a1b" },
@@ -45,7 +43,7 @@ const defaultStyles = {
 
 // processes the text by textFunction but in math mode only outside math markup
 // define this at top level so we can test it
-function processExMath(text, textFunction, allowMath) {
+export function processExMath(text, textFunction, allowMath) {
     if (!allowMath) {
         return textFunction(text);
     } else {
@@ -66,7 +64,7 @@ function processExMath(text, textFunction, allowMath) {
 
 // find index of next unmatched ] return 0 if none found
 const re = /\[|\]/g; // [ or ]
-function findClose(txt, index) {
+export function findClose(txt, index) {
     let result;
     let nestLevel = 0;
     re.lastIndex = index;
@@ -99,7 +97,7 @@ const getILTags = function (configuration) {
     return ILTags;
 };
 
-function analyse(txt, config) {
+export function analyse(txt, config) {
     config.suppress ?? (config.suppress = {});
     const ILTags = getILTags(config);
 
@@ -157,13 +155,12 @@ function analyse(txt, config) {
 
     // make an entry in issArray. start, len: position in text to mark
     // code: issue, optional type overrides issueType,
-    // subText is text to substitute in some messages
-    function reportIssue(start, len, code, type = null, subText = "") {
+    function reportIssue(start, len, code, text, type = null) {
         if (!config.suppress[code]) {
             if (type == null) {
                 type = issueType[code];
             }
-            issArray.push({ start: start, len: len, code: code, type: type, subText: subText });
+            issArray.push({ start: start, len: len, code: code, text: text, type: type });
         }
     }
 
@@ -176,7 +173,7 @@ function analyse(txt, config) {
             closeIndex = findClose(txt, reNoteStart.lastIndex);
             if (0 === closeIndex) {
                 // no ] found
-                reportIssue(result.index, 3, "noCloseBrack", 1);
+                reportIssue(result.index, 3, "noCloseBrack", translate.gettext("No matching closing bracket"), 1);
                 badParse();
                 return;
             } else {
@@ -241,7 +238,7 @@ function analyse(txt, config) {
         const ix = start + len;
         const end = findEnd(ix);
         if (/\S/.test(txt.slice(ix, end))) {
-            reportIssue(start, len, "charAfter", type, descriptor);
+            reportIssue(start, len, "charAfter", translate.gettext("No characters should follow %s").replace("%s", descriptor), type);
             return true;
         }
         return false;
@@ -285,7 +282,7 @@ function analyse(txt, config) {
             }
 
             if (/./.test(txt.charAt(start - 1))) {
-                reportIssue(start, len, "charBefore");
+                reportIssue(start, len, "charBefore", translate.gettext("No characters should precede this"));
             }
         }
 
@@ -301,7 +298,7 @@ function analyse(txt, config) {
             if (tagString.charAt(0) === "/" && start > 1 && txt.charAt(start - 2) !== "\n") {
                 prevLin = findPrevLine(start);
                 if (!("/#" === prevLin || "/*" === prevLin)) {
-                    reportIssue(start, 2, "OolPrev");
+                    reportIssue(start, 2, "OolPrev", translate.gettext("Out-of-line start tag should not be preceded by normal text"));
                 }
             }
             // for a closing tag check following line is blank
@@ -309,7 +306,7 @@ function analyse(txt, config) {
             // allow also closing no-wrap to avoid misleading error message
             if (tagString.charAt(1) === "/") {
                 if (/[^#*\n\]]/.test(txt.charAt(findEnd(start + 2) + 1))) {
-                    reportIssue(start, 2, "OolNext");
+                    reportIssue(start, 2, "OolNext", translate.gettext("Out-of-line end tag should not be followed by normal text"));
                 }
             }
 
@@ -318,7 +315,7 @@ function analyse(txt, config) {
                     // start tag
                     tagStack.push({ tag: tagString, start: start });
                 } else {
-                    reportIssue(start, 2, "noStartTag");
+                    reportIssue(start, 2, "noStartTag", translate.gettext("No start tag for this end tag"));
                 }
             } else {
                 // there are tags in the stack
@@ -331,15 +328,15 @@ function analyse(txt, config) {
                             break;
                         case "#/": // close BQ
                             tagStack.pop();
-                            reportIssue(start, 2, "misMatchTag");
-                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            reportIssue(start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
+                            reportIssue(stackTop.start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
                             break;
                         case "/*": // open NW
-                            reportIssue(start, 2, "NWinNW");
+                            reportIssue(start, 2, "NWinNW", translate.gettext("No-wrap inside no-wrap"));
                             tagStack.push({ tag: tagString, start: start });
                             break;
                         default: // open BQ
-                            reportIssue(start, 2, "BQinNW");
+                            reportIssue(start, 2, "BQinNW", translate.gettext("Block quote inside no-wrap"));
                             tagStack.push({ tag: tagString, start: start });
                             break;
                     }
@@ -351,8 +348,8 @@ function analyse(txt, config) {
                             break;
                         case "*/": // close NW
                             tagStack.pop();
-                            reportIssue(start, 2, "misMatchTag");
-                            reportIssue(stackTop.start, 2, "misMatchTag");
+                            reportIssue(start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
+                            reportIssue(stackTop.start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
                             break;
                         default: // open either
                             tagStack.push({ tag: tagString, start: start });
@@ -364,7 +361,7 @@ function analyse(txt, config) {
         // if there are any tags on the stack mark them as errors
         while (tagStack.length !== 0) {
             stackTop = tagStack.pop();
-            reportIssue(stackTop.start, 2, "noEndTag");
+            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
         }
     }
 
@@ -395,7 +392,7 @@ function analyse(txt, config) {
             if (possTagResult[0] === "\n\n") {
                 while (tagStack.length !== 0) {
                     stackTop = tagStack.pop();
-                    reportIssue(stackTop.start, stackTop.tagLen, "noEndTagInPara");
+                    reportIssue(stackTop.start, stackTop.tagLen, "noEndTagInPara", translate.gettext("No corresponding end tag in paragraph"));
                     badParse();
                 }
                 continue;
@@ -407,7 +404,7 @@ function analyse(txt, config) {
             const goodTagResult = possibleTag.match(reGoodTag);
             start = possTagResult.index;
             if (!goodTagResult) {
-                reportIssue(start, 1, "unRecTag");
+                reportIssue(start, 1, "unRecTag", translate.gettext("Unrecognized tag"));
                 // start next search after < in case another < follows
                 rePossTag.lastIndex = start + 1;
                 continue;
@@ -423,52 +420,52 @@ function analyse(txt, config) {
                 // end tag
                 // check for , ; or : before end tag except at end of text
                 if (/[,;:]/.test(preChar) && txt.length !== end) {
-                    reportIssue(start - 1, 1, "puncBEnd");
+                    reportIssue(start - 1, 1, "puncBEnd", translate.gettext(", ; or : before end tag"));
                 }
                 if (preChar === " ") {
-                    reportIssue(start - 1, 1, "spaceBeforeEnd");
+                    reportIssue(start - 1, 1, "spaceBeforeEnd", translate.gettext("Space before end tag"));
                 }
                 if (preChar === "\n") {
-                    reportIssue(start, tagLen, "nlBeforeEnd");
+                    reportIssue(start, tagLen, "nlBeforeEnd", translate.gettext("Newline before end tag"));
                 }
                 // letter or number after end tag
                 if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) {
-                    reportIssue(end, 1, "charAfterEnd");
+                    reportIssue(end, 1, "charAfterEnd", translate.gettext("Character after inline end tag"));
                 }
                 if (tagStack.length === 0) {
                     // missing start tag
-                    reportIssue(start, tagLen, "noStartTag");
+                    reportIssue(start, tagLen, "noStartTag", translate.gettext("No start tag for this end tag"));
                     badParse();
                 } else {
                     stackTop = tagStack.pop();
                     if (stackTop.tag !== tagString) {
-                        reportIssue(start, tagLen, "misMatchTag");
-                        reportIssue(stackTop.start, stackTop.tagLen, "misMatchTag");
+                        reportIssue(start, tagLen, "misMatchTag", translate.gettext("End tag does not match start tag"));
+                        reportIssue(stackTop.start, stackTop.tagLen, "misMatchTag", translate.gettext("End tag does not match start tag"));
                         badParse();
                     } else if (stackTop.start + stackTop.tagLen === start) {
-                        reportIssue(start, tagLen, "emptyTag");
-                        reportIssue(stackTop.start, stackTop.tagLen, "emptyTag");
+                        reportIssue(start, tagLen, "emptyTag", translate.gettext("Empty tag"));
+                        reportIssue(stackTop.start, stackTop.tagLen, "emptyTag", translate.gettext("Empty tag"));
                     }
                 }
             } else {
                 // startTag
                 if (tagStack.some(match)) {
                     // check if any already in stack
-                    reportIssue(start, tagLen, "nestedTag");
+                    reportIssue(start, tagLen, "nestedTag", translate.gettext("Tag nested within same tag"));
                     badParse();
                 }
                 if (/[,.;:!?]/.test(postChar)) {
-                    reportIssue(end, 1, "puncAfterStart");
+                    reportIssue(end, 1, "puncAfterStart", translate.gettext("Punctuation after start tag"));
                 }
                 if (postChar === " ") {
-                    reportIssue(end, 1, "spaceAfterStart");
+                    reportIssue(end, 1, "spaceAfterStart", translate.gettext("Space after start tag"));
                 }
                 if (postChar === "\n") {
-                    reportIssue(start, tagLen, "nlAfterStart");
+                    reportIssue(start, tagLen, "nlAfterStart", translate.gettext("Newline after start tag"));
                 }
                 // letter or ,.;:
                 if (XRegExp("\\pL|[,.;:]", "Ag").test(preChar)) {
-                    reportIssue(start - 1, 1, "charBeforeStart");
+                    reportIssue(start - 1, 1, "charBeforeStart", translate.gettext("Character or punctuation before inline start tag"));
                 }
                 tagStack.push({ tag: tagString, start: start, tagLen: tagLen });
             }
@@ -476,7 +473,7 @@ function analyse(txt, config) {
         // if there are any tags on the stack mark them as errors
         while (tagStack.length !== 0) {
             stackTop = tagStack.pop();
-            reportIssue(stackTop.start, stackTop.tagLen, "noEndTag");
+            reportIssue(stackTop.start, stackTop.tagLen, "noEndTag", translate.gettext("No end tag for this start tag"));
             badParse();
         }
     }
@@ -491,11 +488,11 @@ function analyse(txt, config) {
                 if (res1.charAt(0) !== "*") {
                     // could be fragment of a word at beginning
                     // otherwise definite issue
-                    reportIssue(result.index, 4, "scNoCap", 1);
+                    reportIssue(result.index, 4, "scNoCap", translate.gettext("Small caps must contain at least one upper case character"), 1);
                 } else {
                     // a lower case fragment, mark first character
                     // incase no tags shown
-                    reportIssue(result.index + 4, 1, "scNoCap", 0);
+                    reportIssue(result.index + 4, 1, "scNoCap", translate.gettext("Small caps must contain at least one upper case character"), 0);
                 }
             }
         }
@@ -510,7 +507,7 @@ function analyse(txt, config) {
         while ((result = re.exec(txt)) !== null) {
             re.lastIndex -= 1; // in case only one char, include it in next search
             end = result.index + result[0].length;
-            reportIssue(end - 1, 1, "blankLines124");
+            reportIssue(end - 1, 1, "blankLines124", translate.gettext("Only 1, 2 or 4 blank lines should be used"));
             badParse();
         }
     }
@@ -563,7 +560,7 @@ function analyse(txt, config) {
             if (txt.indexOf("<b>", blockStart) === blockStart && txt.indexOf("</b>", blockStart) === blockEend - "</b>".length) {
                 // heading: issue, paragraph: possible issue
                 if (headBlock) {
-                    reportIssue(blockStart, 3, "noBold");
+                    reportIssue(blockStart, 3, "noBold", translate.gettext("Heading should not be entirely bold"));
                 } else {
                     // highlight after tags to avoid interleaved spans with style markup
                     let markPoint = blockStart + "<b>".length;
@@ -571,7 +568,7 @@ function analyse(txt, config) {
                     while (txt.charAt(markPoint) == "<") {
                         markPoint = txt.indexOf(">", markPoint) + 1;
                     }
-                    reportIssue(markPoint, 1, "boldPara");
+                    reportIssue(markPoint, 1, "boldPara", translate.gettext("Entirely bold paragraph or section heading"));
                 }
             }
         }
@@ -595,7 +592,7 @@ function analyse(txt, config) {
                 return fNote.id === anch.id;
             }
             if (!footnoteArray.some(match)) {
-                reportIssue(anch.index, anch.id.length + 2, "noFootnote");
+                reportIssue(anch.index, anch.id.length + 2, "noFootnote", translate.gettext("No corresponding footnote on this page"));
             }
         }
 
@@ -610,14 +607,14 @@ function analyse(txt, config) {
             }
 
             function dupReport(index) {
-                reportIssue(index, markLen, "multipleAnchors");
+                reportIssue(index, markLen, "multipleAnchors", translate.gettext("Multiple anchors for same footnote"));
             }
 
             // make an array of anchor indexes for this footnote
             anchorArray.forEach(findId);
             var noteNum = anchorIx.length;
             if (0 === noteNum) {
-                reportIssue(fNote.index, 9, "noAnchor");
+                reportIssue(fNote.index, 9, "noAnchor", translate.gettext("No anchor for this footnote"));
             } else if (noteNum > 1) {
                 markLen = fNote.id.length + 2;
                 anchorIx.forEach(dupReport);
@@ -629,7 +626,7 @@ function analyse(txt, config) {
         while ((result = anchorRegex.exec(txt)) !== null) {
             if (result[1] === "*") {
                 // found [*]
-                reportIssue(result.index, 3, "starAnchor");
+                reportIssue(result.index, 3, "starAnchor", translate.gettext("Footnote anchor should be an upper-case letter"));
                 continue;
             }
             anchorArray.push({ index: result.index, id: result[1] });
@@ -646,29 +643,29 @@ function analyse(txt, config) {
             colonIndex = noteLine.indexOf(":");
             footnoteStartIndex = result.index;
             if (-1 === colonIndex) {
-                reportIssue(footnoteStartIndex, 9, "noColon");
+                reportIssue(footnoteStartIndex, 9, "noColon", translate.gettext("Footnote must have a colon"));
                 continue;
             }
             if (txt.charAt(footnoteStartIndex - 1) === "*") {
                 // continuation
                 if (colonIndex !== 0) {
-                    reportIssue(footnoteStartIndex, 9, "colonNext");
+                    reportIssue(footnoteStartIndex, 9, "colonNext", translate.gettext("The colon should immediately follow *[Footnote"));
                 } else if (footnoteArray.length > 0) {
-                    reportIssue(footnoteStartIndex, 9, "continueFirst");
+                    reportIssue(footnoteStartIndex, 9, "continueFirst", translate.gettext("Continuation footnote should precede others"));
                 }
                 continue;
             }
             if (!/^ [^ ]/.test(noteLine)) {
-                reportIssue(footnoteStartIndex, 9, "spaceNext");
+                reportIssue(footnoteStartIndex, 9, "spaceNext", translate.gettext("Footnote should be followed by one space and identifier"));
                 continue;
             }
             noteLine = noteLine.slice(1, colonIndex); // the id
             if (!footnoteIDRegex.test(noteLine)) {
-                reportIssue(footnoteStartIndex, 9, "footnoteId");
+                reportIssue(footnoteStartIndex, 9, "footnoteId", translate.gettext("Footnote identifier should be a letter or number"));
                 continue;
             }
             if (footnoteArray.some(match)) {
-                reportIssue(footnoteStartIndex, 9, "dupNote");
+                reportIssue(footnoteStartIndex, 9, "dupNote", translate.gettext("Duplicate footnote identifier"));
                 continue;
             }
             footnoteArray.push({ index: footnoteStartIndex, id: noteLine });
@@ -685,9 +682,9 @@ function analyse(txt, config) {
         // check for chars before tag or on previous line
         function chkBefore(start, len, checkBlank) {
             if (/./.test(txt.charAt(start - 1))) {
-                reportIssue(start, len, "charBefore");
+                reportIssue(start, len, "charBefore", translate.gettext("No characters should precede this"));
             } else if (checkBlank && /./.test(txt.charAt(start - 2))) {
-                reportIssue(start, len, "blankBefore");
+                reportIssue(start, len, "blankBefore", translate.gettext("A blank line should precede this"));
             }
         }
 
@@ -707,7 +704,7 @@ function analyse(txt, config) {
 
             const end = findEnd(start + len);
             if (checkBlank && !endNWorBlank(end + 1)) {
-                reportIssue(start, len, "blankAfter", type, descriptor);
+                reportIssue(start, len, "blankAfter", translate.gettext("A blank line should follow %s").replace("%s", descriptor), type);
             }
         }
 
@@ -722,7 +719,7 @@ function analyse(txt, config) {
             end1 = findClose(txt, end);
             if (0 === end1) {
                 // no ] found
-                reportIssue(start, len, "noCloseBrack");
+                reportIssue(start, len, "noCloseBrack", translate.gettext("No matching closing bracket"));
             } else {
                 end = end1 + 1;
                 len = 1;
@@ -744,7 +741,7 @@ function analyse(txt, config) {
             end1 = findClose(txt, end);
             if (0 === end1) {
                 // no ] found
-                reportIssue(start, len, "noCloseBrack");
+                reportIssue(start, len, "noCloseBrack", translate.gettext("No matching closing bracket"));
             } else {
                 end = end1 + 1;
                 len = 1;
@@ -761,7 +758,7 @@ function analyse(txt, config) {
             end1 = findClose(txt, end);
             if (0 === end1) {
                 // no ] found
-                reportIssue(start, len, "noCloseBrack");
+                reportIssue(start, len, "noCloseBrack", translate.gettext("No matching closing bracket"));
             } else {
                 end = end1 + 1;
                 len = 1;
@@ -795,7 +792,7 @@ function analyse(txt, config) {
                 if (tag === "(" || tag === "[") {
                     tagStack.push({ tag: tag, start: start });
                 } else {
-                    reportIssue(start, 2, "noStartTag");
+                    reportIssue(start, 2, "noStartTag", translate.gettext("No start tag for this end tag"));
                 }
             } else {
                 // there are tags in the stack
@@ -813,12 +810,12 @@ function analyse(txt, config) {
                             // report error for stack tag push the new one
                             tagStack.pop();
                             tagStack.push({ tag: tag, start: start });
-                            reportIssue(stackTop.start, 2, "noEndTag");
+                            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
                             break;
                         case ")":
                             tagStack.pop();
-                            reportIssue(stackTop.start, 2, "misMatchTag");
-                            reportIssue(start, 2, "misMatchTag");
+                            reportIssue(stackTop.start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
+                            reportIssue(start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
                             break;
                     }
                 } else {
@@ -832,12 +829,12 @@ function analyse(txt, config) {
                             // report error for stack tag push the new one
                             tagStack.pop();
                             tagStack.push({ tag: tag, start: start });
-                            reportIssue(stackTop.start, 2, "noEndTag");
+                            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
                             break;
                         case "]":
                             tagStack.pop();
-                            reportIssue(stackTop.start, 2, "misMatchTag");
-                            reportIssue(start, 2, "misMatchTag");
+                            reportIssue(stackTop.start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
+                            reportIssue(start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
                             break;
                     }
                 }
@@ -846,7 +843,7 @@ function analyse(txt, config) {
         // if there are any tags on the stack mark them as errors
         while (tagStack.length !== 0) {
             stackTop = tagStack.pop();
-            reportIssue(stackTop.start, 2, "noEndTag");
+            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
         }
     }
 
@@ -907,13 +904,12 @@ function analyse(txt, config) {
 This function checks the text for formatting issues and adds the markup
 for colouring and issue highlighting.
 It can be used alone with a simple html interface for testing.
-getMessage is a function to get a translated message.
 txt is the text to analyse.
 viewMode determines if the inline tags are to be shown or hidden
 wrapMode whether to re-wrap the text.
 styler is an object containing colour and font options.
 */
-const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
+export const makePreview = function (txt, viewMode, wrapMode, styler) {
     const ILTags = getILTags(styler);
     const endSpan = "</span>";
 
@@ -1206,8 +1202,7 @@ const makePreview = function (txt, viewMode, wrapMode, styler, getMessage) {
     let issueEnds = [];
     issArray.forEach(function (issue) {
         let issueStyle = issue.type === 0 ? "hlt_color" : "err_color";
-        let message = getMessage(issue.code).replace("%s", issue.subText);
-        issueStarts.push({ start: issue.start, text: `<span class='${issueStyle}' title='${message}'>` });
+        issueStarts.push({ start: issue.start, text: `<span class='${issueStyle}' title='${issue.text}'>` });
         issueEnds.push({ start: issue.start + issue.len, text: endSpan });
     });
 
