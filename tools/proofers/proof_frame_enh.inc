@@ -39,7 +39,7 @@ function echo_proof_frame_enh(PPage $ppage): void
             "$code_url/tools/proofers/proof_image.js",
             "$code_url/tools/proofers/previewControl.js",
         ],
-        "js_data" => get_preview_js_vars() . get_preview_font_data_js() . "
+        "js_data" => get_preview_font_data_js() . "
         var imageData = $image_data;
         function ldAll() {
             top.initializeStuff(1);
