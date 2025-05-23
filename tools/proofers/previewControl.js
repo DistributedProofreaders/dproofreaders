@@ -78,7 +78,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     function writePreviewText() {
-        // makePreview is defined in preview.js
+        // makePreview is defined in analyse_format.js
         preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles, getMessage);
         prevWin.style.whiteSpace = preview.ok && wrapMode ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
