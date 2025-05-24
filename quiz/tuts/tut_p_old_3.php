@@ -30,6 +30,12 @@ echo "</table>\n";
 
 echo "<p>" . _("These may be proofread as macrons <kbd>ū</kbd>, tildes <kbd>ũ</kbd>, or according to the meaning (i.e. <kbd>u[n]</kbd> or <kbd>u[m]</kbd>), depending on the Project Manager's instructions.") . "</p>\n";
 
+echo "<p>" . sprintf(
+    _("Inserting characters with diacritical marks, such as macron and tilde, is described in the guidelines: <a href='%s' target='_blank'>Characters with Diacritical Marks</a> and <a href='%s' target='_blank'>Inserting Special Characters</a>."),
+    get_faq_url("proofreading_guidelines.php") . "#d_chars",
+    get_faq_url("proofreading_guidelines.php") . "#insert_char"
+) . "</p>\n";
+
 echo "<h3>" . _("Blackletter") . "</h3>\n";
 echo "<p>" . sprintf(
     _("Text like this: %1\$s is in a font known as <i>blackletter</i>.  If you have trouble reading it, see the wiki article on <a href='%2\$s' target='_blank'>Proofing blackletter</a> for images of the alphabet in that font."),
