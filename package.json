@@ -2,12 +2,14 @@
   "name": "dproofreaders",
   "version": "1.0.0",
   "description": "Distributed Proofreaders is a web application intended to ease the process of converting public domain books into e-texts.",
+  "private": true,
   "scripts": {
     "lint": "eslint --max-warnings=0",
     "lint-fix": "eslint --fix",
     "format-check": "prettier '**/*.js' --check",
     "format": "prettier '**/*.js' --write",
-    "test": "node ./SETUP/tests/jsTests/jsUnit.js"
+    "test": "node ./SETUP/tests/jsTests/jsUnit.js",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
   "homepage": "https://github.com/DistributedProofreaders/dproofreaders",
   "devDependencies": {
     "@eslint/js": "^9.27.0",
+    "browserlist": "^1.0.1",
     "eslint": "^9.27.0",
     "eslint-config-prettier": "^9.1.0",
     "geckodriver": "^5.0.0",
@@ -33,7 +36,10 @@
     "less": "^4.3.0",
     "prettier": "^3.5.3",
     "qunit": "^2.24.1",
-    "selenium-webdriver": "^4.32.0"
+    "selenium-webdriver": "^4.32.0",
+    "webpack": "^5.99.8",
+    "webpack-cli": "^6.0.1",
+    "webpack-manifest-plugin": "^5.0.1"
   },
   "prettier": {
     "tabWidth": 4,
@@ -45,5 +51,12 @@
     "gettext.js": "^2.0.3",
     "jquery": "^3.5.1",
     "resumablejs": "^1.1.0"
-  }
+  },
+  "browserslist": [
+    "chrome 64",
+    "firefox 78",
+    "edge 79",
+    "opera 51",
+    "safari 11"
+  ]
 }
