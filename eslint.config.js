@@ -4,7 +4,7 @@ const eslintConfigPrettier = require("eslint-config-prettier");
 
 module.exports = [
     { files: ["**/*.js"] },
-    { ignores: ["pinc/3rdparty", "**/vendor", "eslint.config.js", "dist/**"] },
+    { ignores: ["pinc/3rdparty", "**/vendor", "eslint.config.js", "dist/**", "webpack.config.js"] },
     {
         languageOptions: {
             globals: globals.browser,

@@ -18,3 +18,5 @@ vendor
 .phpstan.cache
 # local devex artifacts
 SETUP/devex/dpdev-docker/container_startup_local.sh
+# build artifacts
+dist/
