@@ -91,22 +91,19 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     }
 
     // Per-page JS
-    if (isset($extra_args['js_files'])) {
-        $js_files = array_merge($js_files, $extra_args['js_files']);
-    }
+    $js_files = array_merge(
+        $js_files,
+        $extra_args['js_files'] ?? [],
+        $extra_args['js_modules'] ?? []
+    );
 
     foreach ($js_files as $js_file) {
-        $cache_fixer = get_local_file_browser_cache_key($js_file);
-        echo "<script src='$js_file$cache_fixer'></script>\n";
-    }
-
-    // JS modules
-    $js_modules = [];
-    if (isset($extra_args['js_modules'])) {
-        $js_modules = array_merge($js_modules, $extra_args['js_modules']);
-    }
-    foreach ($js_modules as $js_file) {
-        echo "<script src='$js_file' type='module'></script>\n";
+        if (in_array($js_file, $extra_args['js_modules'] ?? [])) {
+            echo "<script src='$js_file' type='module'></script>\n";
+        } else {
+            $cache_fixer = get_local_file_browser_cache_key($js_file);
+            echo "<script src='$js_file$cache_fixer'></script>\n";
+        }
     }
 
     // Per-page Javascript
