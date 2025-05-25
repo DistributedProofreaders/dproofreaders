@@ -352,6 +352,13 @@ your DP code checkout:
 ./SETUP/install_dependencies.sh -p
 ```
 
+This will:
+1. Install PHP dependencies
+2. Install JS dependencies required for building JS-bundled code used in browser
+3. Build bundled JS code
+4. Reinstall JS dependencies, this time only for the static assets served to the
+   browser at runtime
+
 ### Configure the DP code (with site-specific settings)
 Make an editable copy of `c/SETUP/configuration.sh`, and put it outside
 your webserver's document hierarchy.
