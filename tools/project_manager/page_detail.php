@@ -111,7 +111,8 @@ function echo_filter_box(string $projectid, int $show_image_size, ?string $usern
     echo "</select></tr>";
     echo "<tr>";
     echo "<td colspan=2>";
-    echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
+    echo "<input type='submit' value='" . attr_safe(_("Apply")) . "'>";
+    echo " &nbsp; <a href='?project=$projectid'>" . html_safe(_("Reset")) . "</a>";
     echo "</td>";
     echo "</tr>";
     echo "</table>";
