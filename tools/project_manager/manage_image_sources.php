@@ -64,6 +64,7 @@ if ($action == 'update_oneshot') {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
             Otherwise, choose a different ID for this source.'), $db_requests_email_addr) . "<br>";
+            $source = new ImageSource();
         }
 
         if ($errmsgs) {
