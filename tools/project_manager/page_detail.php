@@ -24,13 +24,13 @@ if ($username_for_page_selection === '') {
 
 $project = new Project($projectid);
 
-// Only the project PM (and SA/PFs) can use select_by_user. This is to prevent
+// Only the project PM/PP/PPV (and SA/PFs) can use select_by_user. This is to prevent
 // users from using this value to determine what user proofread what page in a
 // project. This is possible because while the table renderer will hide
 // usernames for users not privileged to access them, select_by_user and
 // select_by_round will still only present the requested rows allowing the
 // requester to determine what pages a user did in which round.
-$may_select_user = $project->can_be_managed_by_current_user;
+$may_select_user = $project->names_can_be_seen_by_user(User::current_username());
 
 // Validate user selection
 if ($username_for_page_selection) {
