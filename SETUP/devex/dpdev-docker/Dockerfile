@@ -1,14 +1,18 @@
 FROM php:8.1-apache
 
+# Configure PHP for development and increase memory for phpstan
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN echo "memory_limit = 512M" >> "$PHP_INI_DIR/php.ini"
+
 # Install dependency packages
 RUN apt-get update
 # DP deps: mariadb-client gettext aspell aspell-fr pngcheck
 # Handy dev deps: unzip git
 RUN apt-get install -y mariadb-client gettext aspell aspell-fr pngcheck git unzip
 
-# Install PHP extensions
+# Install PHP extensions (mbstring and xml already included in image)
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN install-php-extensions intl mbstring memcached gettext mysqli xml zip
+RUN install-php-extensions intl memcached gettext mysqli zip
 
 # And composer
 COPY install_composer.sh /tmp
