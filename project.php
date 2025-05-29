@@ -1886,6 +1886,7 @@ function echo_smoothreading_options(Project $project): void
 
     // no space after bracket commas
     echo_file_downloads(glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE), $smooth_url);
+    echo_file_downloads(glob("$smooth_dir/*.pdf"), $smooth_url);
 
     // original uploaded zip file
     $file_base_name = $project->projectid . "_smooth_avail.zip";
