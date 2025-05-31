@@ -202,7 +202,7 @@ class POFile
             "xgettext",
             "--language", "javascript",
             "--from-code", "UTF-8",
-            "--add-comments", "TRANSLATORS",
+            "--add-comments=TRANSLATORS",
             "--sort-by-file",
             "--files-from", $input_tempfile,
             "--output", "-",
