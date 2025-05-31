@@ -1,4 +1,6 @@
-/* global $ splitControl */
+/* global $ */
+import { splitControl } from "../../../../scripts/splitControl.js";
+
 window.addEventListener("DOMContentLoaded", function () {
     function appendControlButton(controlDiv, theSplit, splitVert) {
         let vSwitchButton = $("<input>", { type: "button", value: "Switch to Vertical Split" });

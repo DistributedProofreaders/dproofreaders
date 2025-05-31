@@ -1,4 +1,4 @@
-/*global splitControl */
+import { splitControl } from "../../scripts/splitControl.js";
 
 window.addEventListener("DOMContentLoaded", function () {
     let mainSplit = splitControl(document.getElementById("suggestions_container"), {

@@ -8,8 +8,7 @@ include_once($relPath.'slim_header.inc');
 $title = _('Two Pane Switchable Split with Flex Layout');
 
 $header_args = [
-    "js_files" => [
-        "$code_url/scripts/splitControl.js",
+    "js_modules" => [
         "switchable_split.js",
     ],
     "css_files" => ["split_test.css"],

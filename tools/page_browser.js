@@ -1,4 +1,5 @@
-/*global pageBrowse mentorMode */
+/*global mentorMode */
+import { pageBrowse } from "../scripts/page_browse.js";
 
 window.addEventListener("DOMContentLoaded", function () {
     let url = new URL(window.location.href);

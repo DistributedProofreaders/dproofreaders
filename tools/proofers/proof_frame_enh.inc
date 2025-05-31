@@ -3,7 +3,6 @@ include_once($relPath.'http_headers.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'codepoint_validator.inc');
 include_once($relPath.'button_defs.inc');
-include_once($relPath.'control_bar.inc'); // get_control_bar_texts()
 include_once('PPage.inc');
 include_once('image_block_enh.inc');
 include_once('preview.inc');
@@ -37,11 +36,11 @@ function echo_proof_frame_enh(PPage $ppage): void
             "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/text_data_processor.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
-            "$code_url/scripts/control_bar.js",
+        ],
+        "js_modules" => [
             "$code_url/tools/proofers/proof_image.js",
         ],
-        "js_data" => get_preview_js_vars() . get_preview_font_data_js() .
-        get_control_bar_texts() . "
+        "js_data" => get_preview_js_vars() . get_preview_font_data_js() . "
         var imageData = $image_data;
         function ldAll() {
             top.initializeStuff(1);

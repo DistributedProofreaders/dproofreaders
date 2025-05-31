@@ -1,7 +1,9 @@
-/*global $ proofIntData splitControl makeControlDiv */
-/* exported makeTextWidget */
+/*global $ proofIntData */
+import translate from "./gettext.js";
+import { splitControl } from "./splitControl.js";
+import { makeControlDiv } from "./control_bar.js";
 
-function makeTextWidget(container, splitter = false) {
+export function makeTextWidget(container, splitter = false) {
     const textArea = document.createElement("textarea");
     textArea.classList.add("text-pane");
     textArea.readOnly = !splitter;
@@ -14,9 +16,9 @@ function makeTextWidget(container, splitter = false) {
     }
 
     const fontFaceSelector = document.createElement("select");
-    fontFaceSelector.title = proofIntData.strings.changeFontFace;
+    fontFaceSelector.title = translate.gettext("Change Font Face");
     const fontSizeSelector = document.createElement("select");
-    fontSizeSelector.title = proofIntData.strings.changeFontSize;
+    fontSizeSelector.title = translate.gettext("Change Font Size");
 
     function setFontFace(fontFaceIndex) {
         textArea.style.fontFamily = proofIntData.font.faceFamilies[fontFaceIndex];
@@ -41,7 +43,7 @@ function makeTextWidget(container, splitter = false) {
     }
 
     proofIntData.font.sizes.forEach(function (fontSize) {
-        const displayFontSize = fontSize === "" ? proofIntData.strings.browserDefault : fontSize;
+        const displayFontSize = fontSize === "" ? translate.gettext("Browser default") : fontSize;
         fontSizeSelector.add(new Option(displayFontSize, fontSize));
     });
 
@@ -65,7 +67,7 @@ function makeTextWidget(container, splitter = false) {
         setWrap(textWrap);
     });
 
-    const wrapControl = $("<label>", { class: "nowrap", text: proofIntData.strings.wrap }).append(wrapCheck);
+    const wrapControl = $("<label>", { class: "nowrap", text: translate.gettext("Wrap") }).append(wrapCheck);
 
     const content = $("<div>");
     const controls = [fontFaceSelector, fontSizeSelector, wrapControl];

@@ -1,9 +1,10 @@
-/* global splitControl proofIntData codeUrl */
-/* exported viewSplitter */
+/* global codeUrl */
+import translate from "./gettext.js";
+import { splitControl } from "./splitControl.js";
 
 // Construct the button for horizontal/vertical split
 // and return a splitter variable.
-var viewSplitter = function (container, storageKey) {
+export var viewSplitter = function (container, storageKey) {
     const storageKeyLayout = storageKey + "-layout";
     let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
     if (!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
@@ -35,7 +36,7 @@ var viewSplitter = function (container, storageKey) {
 
     function setSplitControls() {
         splitButton.style.backgroundImage = splitVertical ? `url("${iconFolder}/octicon-rows-24.svg")` : `url("${iconFolder}/octicon-columns-24.svg")`;
-        splitButton.title = splitVertical ? proofIntData.strings.layoutHorizontal : proofIntData.strings.layoutVertical;
+        splitButton.title = splitVertical ? translate.gettext("Change to horizontal layout") : translate.gettext("Change to vertical layout");
     }
 
     function fireSetSplitDir() {
