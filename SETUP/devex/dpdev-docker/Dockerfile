@@ -8,7 +8,7 @@ RUN echo "memory_limit = 512M" >> "$PHP_INI_DIR/php.ini"
 RUN apt-get update
 # DP deps: mariadb-client gettext aspell aspell-fr pngcheck
 # Handy dev deps: unzip git
-RUN apt-get install -y mariadb-client gettext aspell aspell-fr pngcheck git unzip
+RUN apt-get install -y mariadb-client gettext aspell aspell-fr pngcheck git unzip locales locales-all
 
 # Install PHP extensions (mbstring and xml already included in image)
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
