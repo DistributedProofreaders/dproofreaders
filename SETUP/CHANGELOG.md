@@ -17,6 +17,11 @@ This release requires PHP 8.1 or later.
 Starting this release, the deployment process requires `npm` to pull down
 JavaScript code that is served up to the browser. See [INSTALL.md](INSTALL.md).
 
+Some translated strings were moved from PHP files to JS files. If you have
+site translations enabled, after upgrading the code you must regenerate the
+PO template and refresh the PO file for each enabled language to have the
+strings be picked up by the JS code.
+
 ### Changes
 
 * Authors code (`tools/authors/*`) has been removed. Biographies will be
