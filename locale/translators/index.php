@@ -565,27 +565,49 @@ function validate_locale($locale, $check_dir_exists = true)
     return $locale;
 }
 
+function generate_js_only_po($po_filename)
+{
+    if (!$tempfile = tempnam(sys_get_temp_dir(), "js_only")) {
+        throw new RuntimeException("Unable to create temporary file");
+    }
+
+    if (!$output_fh = fopen($tempfile, "w")) {
+        throw new RuntimeException("Error opening temporary file for writing");
+    }
+
+    $chunk_index = 0;
+    foreach (new POFileIterator($po_filename) as $chunk) {
+        if ($chunk_index == 0 or preg_match("/^#.*\.js\b/", $chunk)) {
+            fputs($output_fh, "$chunk\n");
+        }
+        $chunk_index += 1;
+    }
+
+    fclose($output_fh);
+    return $tempfile;
+}
+
 function build_translation_js()
 {
     global $dyn_locales_dir;
 
     $locale_json = [];
-    foreach (get_installed_locale_translations() as $locale) {
+    foreach (get_installed_locale_translations("enabled", true) as $locale) {
         $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
-        if (!is_locale_translation_enabled($locale)) {
-            continue;
-        }
 
         if (!$tempfile = tempnam(sys_get_temp_dir(), "translation_js")) {
             throw new RuntimeException("Unable to create temporary file");
         }
-        // TODO: Instead of including the entire messages file, just pull out
-        // the strings used in *.js files (unless the files doesn't have any
-        // JS files in which case fall back to loading them all).
-        $pofile = new POFile($po_filename);
+
+        // Only include translations with strings in JS files rather than
+        // the whole site translation which might be huge.
+        $js_po_file = generate_js_only_po($po_filename);
+
+        $pofile = new POFile($js_po_file);
         $pofile->convert_to_json($tempfile);
         $locale_json[str_replace("_", "-", $locale)] = json_decode(file_get_contents($tempfile));
         unlink($tempfile);
+        unlink($js_po_file);
     }
 
     // use "var" not "const" because Safari <14 can't see those within modules
@@ -599,6 +621,6 @@ function build_translation_js()
 
     file_put_contents(
         "$dyn_locales_dir/translations.js",
-        sprintf($file_contents, json_encode($locale_json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+        sprintf($file_contents, json_encode($locale_json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
     );
 }
