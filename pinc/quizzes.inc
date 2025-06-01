@@ -88,7 +88,7 @@ new QuizLevel(
             [
                 'p_mod1_1' => _('Superscripts'),
                 'p_mod1_2' => _('End-of-line hyphenation, contractions, dashes'),
-                'p_mod1_3' => _('Accented characters, fractions'),
+                'p_mod1_3' => _('Non-ASCII characters, fractions'),
                 'p_mod1_4' => _('OCR problems (1-l-I, 0-O)'),
                 'p_mod1_5' => _('Footnotes'),
             ],

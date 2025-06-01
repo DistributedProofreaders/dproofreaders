@@ -28,7 +28,8 @@ echo "    <td>complete</td>\n";
 echo "  </tr>\n";
 echo "</table>\n";
 
-echo "<p>" . _("These may be proofread as macrons <kbd>ū</kbd>, tildes <kbd>ũ</kbd>, or according to the meaning (i.e. <kbd>u[n]</kbd> or <kbd>u[m]</kbd>), depending on the Project Manager's instructions.") . "</p>\n";
+echo "<p>" . _("These may be proofread as macrons <kbd>ū</kbd>, tildes <kbd>ũ</kbd>, or according to the meaning (i.e. <kbd>u[n]</kbd> or <kbd>u[m]</kbd>), depending on the Project Manager's instructions.");
+echo " " . _("In a regular project, if the PM does not give any guidance, please ask in the project discussion.") . "</p>\n";
 
 echo "<p>" . sprintf(
     _("Inserting characters with diacritical marks, such as macron and tilde, is described in the guidelines: <a href='%s' target='_blank'>Characters with Diacritical Marks</a> and <a href='%s' target='_blank'>Inserting Special Characters</a>."),
