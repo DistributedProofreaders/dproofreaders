@@ -102,18 +102,12 @@ _DYN_URL=$base_url/d
 #         For the purposes pf 'gettext', this directory is bound to the
 #         'messages' domain.
 #
-# --- $_DYN_DIR/pg/catalog.rdf
-#         The current PG catalog, obtained from the PG site.
-#
 # --- $_DYN_DIR/stats/automodify_logs/*.txt
 #         Logs of runs of automodify.php
 #
 # --- $_DYN_DIR/teams/avatar/*
 # --- $_DYN_DIR/teams/icon/*
 #         Avatar and icon images for teams.
-#
-# --- $_DYN_DIR/xmlfeeds/*.xml
-#         News feeds for the site.
 
 # XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 

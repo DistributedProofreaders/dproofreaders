@@ -34,8 +34,6 @@ $dyn_url = '<<DYN_URL>>';
 
 $dyn_locales_dir = "$dyn_dir/locale";
 
-$xmlfeeds_dir = "$dyn_dir/xmlfeeds";
-
 $blog_url = '<<BLOG_URL>>';
 
 $wiki_url = '<<WIKI_URL>>';
