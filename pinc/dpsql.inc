@@ -5,26 +5,16 @@ define("DPSQL_SHOW_RANK", true);
 define("DPSQL_NO_RIGHT_ALIGN_INTS", false);
 define("DPSQL_RIGHT_ALIGN_INTS", true);
 
-function dpsql_dump_table($table_name)
-{
-    dpsql_dump_query("SELECT * FROM $table_name");
-}
-
 function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
-    $result = dpsql_query($query);
+    $result = DPDatabase::query($query);
     dpsql_dump_query_result($result, $start_at, $show_rank);
 }
 
 function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
 {
-    $result = dpsql_query($query);
+    $result = DPDatabase::query($query);
     dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints);
-}
-
-function dpsql_query($query)
-{
-    return DPDatabase::query($query);
 }
 
 function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
@@ -121,28 +111,6 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
     }
 
     echo "</table>\n";
-}
-// -----------------------------------------------------------------------------
-
-/**
- * Constructs an array with a ($key => $value) pair for each row in $res
- *
- * $key is the first element of the row, and $value is the rest of the row.
- *
- * Typically, you'd use this when the first column in the result set satisfies
- * a uniqueness constraint. If that's not the case, and two rows have the same
- * value for the first element, the later one will overwrite the earlier one.
- * However, this too can be a useful behaviour.
- */
-function dpsql_fetch_all_keyed($res)
-{
-    $arr = [];
-    while ($row = mysqli_fetch_row($res)) {
-        $key = $row[0];
-        $value = array_slice($row, 1);
-        $arr[$key] = $value;
-    }
-    return $arr;
 }
 
 // -----------------------------------------------------------------------------
