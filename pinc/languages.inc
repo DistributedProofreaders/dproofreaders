@@ -154,14 +154,15 @@ function get_installed_system_locales()
  *   - "all" - all installed locale translations
  *   - "enabled" - locale translation is enabled
  *   - "disabled" - locale translation is disabled
+ * @return string[]
  */
-function get_installed_locale_translations($state = "all")
+function get_installed_locale_translations(string $state = "all", bool $reload_cache = false): array
 {
     global $dyn_locales_dir;
 
     static $translation_cache = null;
 
-    if ($translation_cache !== null) {
+    if ($translation_cache !== null && ! $reload_cache) {
         return $translation_cache[$state];
     }
 
