@@ -27,6 +27,7 @@ strings be picked up by the JS code.
 * Authors code (`tools/authors/*`) has been removed. Biographies will be
   inserted directly into the project comments with the included upgrade script
   (cpeel)
+* Updated minimum browser versions, see [INSTALL.md](INSTALL.md).
 
 ## R202503
 Scripts supporting this upgrade are in `SETUP/upgrade/22`

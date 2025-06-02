@@ -1,5 +1,6 @@
-/*global validCharRegex charMatch */
-/* exported validateText */
+/*global validCharRegex */
+
+import { charMatch } from "./character_test.js";
 
 // charMatch (constructed in character_test.js) matches any unicode character
 // possibly with combining marks: non-mark codepoint + 0 or more mark codes
@@ -18,7 +19,7 @@ function htmlSafe(str) {
     return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-var validateText;
+export var validateText;
 
 window.addEventListener("DOMContentLoaded", function () {
     var textArea = document.getElementById("text_data");

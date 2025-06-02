@@ -28,15 +28,12 @@ function echo_proof_frame_enh(PPage $ppage): void
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
-            "$code_url/node_modules/xregexp/xregexp-all.js",
-            "$code_url/scripts/character_test.js",
-            "$code_url/scripts/text_validator.js",
-            "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/text_data_processor.js",
             "$code_url/tools/proofers/process_diacritcal_markup.js",
         ],
         "js_modules" => [
             "$code_url/tools/proofers/proof_image.js",
+            "$code_url/tools/proofers/proof_validate.js",
             "$code_url/tools/proofers/previewControl.js",
         ],
         "js_data" => get_preview_font_data_js() . "

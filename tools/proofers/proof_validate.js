@@ -1,4 +1,6 @@
-/*global validateText standardInterface switchConfirm revertConfirm */
+/*global standardInterface switchConfirm revertConfirm */
+
+import { validateText } from "../../scripts/text_validator.js";
 
 window.addEventListener("DOMContentLoaded", function () {
     // special handling for certain buttons

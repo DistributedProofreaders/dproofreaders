@@ -1,5 +1,3 @@
-/* global XRegExp */
-
 import translate from "./gettext.js";
 
 // The formatting rules are applied as if proofers' notes were
@@ -429,7 +427,7 @@ export function analyse(txt, config) {
                     reportIssue(start, tagLen, "nlBeforeEnd", translate.gettext("Newline before end tag"));
                 }
                 // letter or number after end tag
-                if (XRegExp("\\pL|\\pN", "Ag").test(postChar)) {
+                if (/\p{L}|\p{N}/gu.test(postChar)) {
                     reportIssue(end, 1, "charAfterEnd", translate.gettext("Character after inline end tag"));
                 }
                 if (tagStack.length === 0) {
@@ -464,7 +462,7 @@ export function analyse(txt, config) {
                     reportIssue(start, tagLen, "nlAfterStart", translate.gettext("Newline after start tag"));
                 }
                 // letter or ,.;:
-                if (XRegExp("\\pL|[,.;:]", "Ag").test(preChar)) {
+                if (/\p{L}|[,.;:]/gu.test(preChar)) {
                     reportIssue(start - 1, 1, "charBeforeStart", translate.gettext("Character or punctuation before inline start tag"));
                 }
                 tagStack.push({ tag: tagString, start: start, tagLen: tagLen });

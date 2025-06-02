@@ -2,7 +2,9 @@
 /* exported evaluateWordChange */
 /* exported markBox */
 /* exported confirmExit */
-/* global testText wordCheckMessages */
+/* global wordCheckMessages */
+
+import { testText } from "../../scripts/character_test.js";
 
 // the number of edit boxes with bad characters
 var badBoxes = 0;
@@ -138,15 +140,18 @@ function acceptWord(wordIDprefix, wordNumber) {
 
     return false;
 }
+window.acceptWord = acceptWord;
 
 function evaluateWordChange(wordID) {
     if (isWordChanged(wordID)) markPageChanged();
 }
+window.evaluateWordChange = evaluateWordChange;
 
 // store wordID for char pickers to use
 function markBox(wordID) {
     top.txtBoxID = wordID;
 }
+window.markBox = markBox;
 
 // Confirm exit if changes have been made
 function confirmExit() {
@@ -159,3 +164,4 @@ function confirmExit() {
     // return true (ie: confirm exit) if no changes were made
     return true;
 }
+window.confirmExit = confirmExit;
