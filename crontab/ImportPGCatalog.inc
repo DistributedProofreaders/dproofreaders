@@ -123,9 +123,6 @@ class ImportPGCatalog extends BackgroundJob
 
     private function process_catalog()
     {
-        global $dyn_dir;
-        $title_authors = [];
-
         $mime_types_not_in_display_mapping = [];
 
         echo "Scanning files in {$this->local_catalog_dir}...\n";
@@ -257,24 +254,6 @@ class ImportPGCatalog extends BackgroundJob
             DPDatabase::query($sql);
 
             $n_rdf_files_processed += 1;
-
-
-            // Pull out title and author for text-based catalog
-            // Use xpath wildcards instead of full xpath
-            $authors = [];
-            foreach ($root->xpath('//pgterms:name') as $author_value_element) {
-                $authors[] = (string)$author_value_element;
-            }
-            $author = join("; ", $authors);
-
-            $title = "";
-            foreach ($root->xpath('//dcterms:title') as $title_value_element) {
-                $t_as_string = $title_value_element->asXML();
-                $t_as_string = str_replace('&#13;', '', $t_as_string);
-                $t_as_string = str_replace(PHP_EOL, ' / ', $t_as_string);
-                $title .= strip_tags($t_as_string);
-            }
-            $title_authors[$etext_number] = [$title, $author];
         }
 
         echo "Finished processing $n_rdf_files_processed RDF files.\n";
@@ -288,37 +267,6 @@ class ImportPGCatalog extends BackgroundJob
                 echo sprintf("    %3d %s\n", $count, $mime_type);
             }
         }
-
-        // Create the text-based catalog used by noncvs/in_progress_check.php
-        echo "Creating text catalog...\n";
-        $pg_catalog_converted = "$dyn_dir/pg/catalog.txt";
-        $text_catalog = fopen($pg_catalog_converted, 'w');
-        if (!$text_catalog) {
-            throw new RuntimeException("Unable to open $pg_catalog_converted for writing");
-        }
-
-        // Include the current time as the first line of the output file so
-        // search results can display it.
-        fwrite(
-            $text_catalog,
-            sprintf(
-                "Catalog retrieved: %s (converted on %s)\n",
-                date("F d, Y"),
-                date("F j, Y, g:i a")
-            )
-        );
-
-        ksort($title_authors); // sort numerically by $etext_number
-        foreach ($title_authors as $etext_number => [$title, $author]) {
-            // Skip entries which are placeholder PG numbers by
-            // checking that $author is not empty.
-            if ($author) {
-                $output = "$etext_number \"$title\" by $author";
-                $output = preg_replace('/\s+/', ' ', $output);
-                fwrite($text_catalog, "$output\n");
-            }
-        }
-        fclose($text_catalog);
 
         $this->stop_message = sprintf("Processed %d etexts", $n_rdf_files_processed);
     }
