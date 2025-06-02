@@ -427,7 +427,7 @@ export function analyse(txt, config) {
                     reportIssue(start, tagLen, "nlBeforeEnd", translate.gettext("Newline before end tag"));
                 }
                 // letter or number after end tag
-                if (RegExp("\\p{L}|\\p{N}", "ug").test(postChar)) {
+                if (/\p{L}|\p{N}/gu.test(postChar)) {
                     reportIssue(end, 1, "charAfterEnd", translate.gettext("Character after inline end tag"));
                 }
                 if (tagStack.length === 0) {
@@ -462,7 +462,7 @@ export function analyse(txt, config) {
                     reportIssue(start, tagLen, "nlAfterStart", translate.gettext("Newline after start tag"));
                 }
                 // letter or ,.;:
-                if (RegExp("\\p{L}|[,.;:]", "ug").test(preChar)) {
+                if (/\p{L}|[,.;:]/gu.test(preChar)) {
                     reportIssue(start - 1, 1, "charBeforeStart", translate.gettext("Character or punctuation before inline start tag"));
                 }
                 tagStack.push({ tag: tagString, start: start, tagLen: tagLen });

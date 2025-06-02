@@ -1,7 +1,7 @@
 /*global validCharRegex */
 
 // this matches any character: non-mark codepoint followed by 0 or more marks
-export const charMatch = RegExp("\\P{M}\\p{M}*", "ug");
+export const charMatch = /\P{M}\p{M}*/gu;
 
 // return false if text contains any bad characters
 export function testText(text) {
