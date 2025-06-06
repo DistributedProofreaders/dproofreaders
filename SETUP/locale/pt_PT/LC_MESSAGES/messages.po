@@ -526,7 +526,6 @@ msgstr "Estes livros foram processados no nosso sítio e publicados no arquivo do
 #: pinc/showtexts.inc:27
 #: pinc/filter_project_list.inc:149
 #: stats/books/book_list.php:13
-#: tools/authors/search.inc:69
 #: locale/translators/index.php:78
 #: activity_hub.php:198
 #: activity_hub.php:203
@@ -776,8 +775,6 @@ msgstr "Título"
 #: tools/proofers/md_available.php:29
 #: tools/proofers/md_available.php:82
 #: tools/proofers/md_phase1.php:93
-#: tools/authors/author.php:28
-#: tools/authors/author.php:32
 #: tools/project_manager/external_catalog_search.php:79
 #: tools/project_manager/external_catalog_search.php:207
 #: tools/project_manager/show_image_sources.php:194
@@ -1117,11 +1114,6 @@ msgid "Bibliography"
 msgstr "Bibliografia"
 
 #: pinc/genres.inc:15
-#: tools/authors/addbio.php:113
-#: tools/authors/manage.php:522
-#: tools/authors/authors.inc:34
-#: tools/authors/authors.inc:38
-#: tools/authors/bio.php:51
 msgid "Biography"
 msgstr "Biografia"
 
@@ -1734,7 +1726,6 @@ msgid "Password:"
 msgstr "Senha:"
 
 #: pinc/theme.inc:253
-#: accounts/signin.php:8
 #: accounts/login.php:136
 #: accounts/activate.php:108
 msgid "Sign In"
@@ -3051,8 +3042,6 @@ msgid "Displaying entries %1$d-%2$d of %3$d."
 msgstr "A apresentar resultados %1$d-%2$d de %3$d."
 
 #: pinc/BrowseUtility.inc:158
-#: tools/authors/manage.php:418
-#: tools/authors/manage.php:420
 msgid "all"
 msgstr ""
 
@@ -3352,8 +3341,6 @@ msgstr "Projectos %d a %d de %d"
 #: pinc/list_projects.inc:91
 #: stats/teams/tlist.php:77
 #: stats/members/mbr_list.php:100
-#: tools/authors/manage.php:460
-#: tools/authors/listing.php:48
 #: tools/project_manager/diff.php:159
 #: tools/project_manager/projectmgr.php:566
 #: tools/project_manager/displayimage.php:78
@@ -3363,8 +3350,6 @@ msgstr "Anterior"
 #: pinc/list_projects.inc:112
 #: stats/teams/tlist.php:81
 #: stats/members/mbr_list.php:104
-#: tools/authors/manage.php:464
-#: tools/authors/listing.php:52
 #: tools/project_manager/diff.php:164
 #: tools/project_manager/projectmgr.php:582
 #: tools/project_manager/displayimage.php:81
@@ -5156,10 +5141,6 @@ msgstr "Não tem permissões para editar esta equipa..."
 #: stats/includes/team.inc:78
 #: tools/site_admin/manage_site_word_lists.php:110
 #: tools/site_admin/sitenews.php:257
-#: tools/authors/manage.php:448
-#: tools/authors/manage.php:506
-#: tools/authors/listing.php:75
-#: tools/authors/listing.php:90
 #: tools/project_manager/page_table.inc:146
 #: tools/project_manager/page_table.inc:345
 #: tools/project_manager/manage_image_sources.php:255
@@ -5168,8 +5149,6 @@ msgstr "Editar"
 
 #: stats/teams/tedit.php:40
 #: stats/teams/tedit.php:67
-#: tools/authors/addbio.php:118
-#: tools/authors/add.php:375
 msgid "Preview"
 msgstr "Pré-visualizar"
 
@@ -5220,7 +5199,6 @@ msgstr "Opções"
 
 #: stats/teams/tlist.php:62
 #: tools/mentors/view_page_text_image.php:158
-#: tools/authors/manage.php:450
 msgid "View"
 msgstr "Ver"
 
@@ -5268,8 +5246,6 @@ msgid "ordering"
 msgstr "ordenação"
 
 #: stats/release_queue.php:56
-#: tools/authors/manage.php:408
-#: tools/authors/manage.php:410
 msgid "enabled"
 msgstr "activado"
 
@@ -5747,7 +5723,6 @@ msgstr "Total de Páginas Revistas Por Mês"
 
 #: stats/misc_stats1.php:126
 #: stats/misc_stats1.php:154
-#: tools/authors/add.php:317
 msgid "Month"
 msgstr "Mês"
 
@@ -6557,7 +6532,6 @@ msgid "(optional)"
 msgstr "(opcional)"
 
 #: tools/mentors/view_page_text_image.php:161
-#: tools/authors/search.inc:153
 msgid "Reset"
 msgstr "Repor"
 
@@ -6818,7 +6792,6 @@ msgstr "Nome do ficheiro"
 
 #: tools/site_admin/manage_site_word_lists.php:110
 #: tools/site_admin/sitenews.php:258
-#: tools/authors/manage.php:450
 #: tools/project_manager/page_table.inc:157
 #: tools/project_manager/page_table.inc:384
 #: tools/project_manager/page_table.inc:435
@@ -8274,7 +8247,6 @@ msgid "The <a href='%s'>%s release queues</a> show the books that are waiting to
 msgstr "As <a href='%s'>filas de espera de %s</a> apresentam os livros que aguardam processamento nesta ronda."
 
 #: tools/proofers/text_frame_std.inc:52
-#: tools/authors/manage.php:406
 msgid "View:"
 msgstr "Ver:"
 
@@ -8299,585 +8271,16 @@ msgstr ""
 msgid "Original"
 msgstr "Original"
 
-#: tools/authors/menu.inc:20
-msgid "List authors"
-msgstr "Listar autores"
-
-#: tools/authors/menu.inc:23
-#: tools/authors/add.php:145
-msgid "Add author"
-msgstr "Adicionar autor"
-
-#: tools/authors/menu.inc:26
-msgid "Edit author"
-msgstr "Editar autor"
-
-#: tools/authors/menu.inc:27
-#: tools/authors/addbio.php:88
-msgid "Add biography"
-msgstr "Adicionar biografia"
-
-#: tools/authors/menu.inc:30
-msgid "Edit biography"
-msgstr "Editar biografia"
-
-#: tools/authors/menu.inc:34
-msgid "Manage authors"
-msgstr "Gerir autores"
-
-#: tools/authors/addbio.php:37
-msgid "The biography was successfully updated in the database!"
-msgstr "A biografia foi actualizada na base de dados com sucesso!"
-
-#: tools/authors/addbio.php:45
-msgid "The biography was successfully entered into the database!"
-msgstr "A biografia foi submetida na base de dados com sucesso!"
-
-#: tools/authors/addbio.php:58
-#: tools/authors/addbio.php:74
-msgid "An error has occured"
-msgstr "Ocorreu um erro"
-
-#: tools/authors/addbio.php:59
-msgid "It was not possible to save the biography."
-msgstr "Não foi possível guardar a biografia."
-
-#: tools/authors/addbio.php:59
-msgid "The following error-message was received:"
-msgstr "Foi recebida a seguinte mensagem de erro:"
-
-#: tools/authors/addbio.php:75
-msgid "Some information is missing and this page can not be displayed. This has most likely occured "
-msgstr ""
-
-#: tools/authors/addbio.php:76
-msgid "because you have entered the URL manually. Please enter this page by following links from other pages."
-msgstr ""
-
-#: tools/authors/addbio.php:113
-msgid "HTML"
-msgstr "HTML"
-
-#: tools/authors/addbio.php:119
-#: tools/authors/add.php:376
-msgid "Save and Exit"
-msgstr "Guardar e Sair"
-
-#: tools/authors/addbio.php:120
-msgid "Save and View"
-msgstr "Gravar e Ver"
-
-#: tools/authors/addbio.php:121
-msgid "Save and add Author"
-msgstr "Gravar e Adicionar Autor"
-
-#: tools/authors/addbio.php:122
-#: tools/authors/add.php:379
-msgid "Exit without saving"
-msgstr "Sair sem guardar"
-
-#: tools/authors/manage.php:11
-msgid "Manage biographies"
-msgstr "Gerir biografias"
-
-#: tools/authors/manage.php:141
-msgid ""
-"This is the web interface for managing the authors. You should not be using this if you\n"
-"  simply want to add or edit an author &mdash; this is for performing unusual tasks such as\n"
-"  removing duplicates and enabling or disabling the view of a specific author."
-msgstr ""
-
-#: tools/authors/manage.php:145
-msgid ""
-"The directives you give below are processed 'right to left', i.e. first biographies are removed,\n"
-"  then biographies are moved, then authors are deleted, and finally authors are (un-)checked as enabled."
-msgstr ""
-
-#: tools/authors/manage.php:148
-msgid ""
-"You should not be able to mark a biography for removal <b>and</b> moval, nor should you be able to\n"
-"  delete an author without first (or simultaneously) deleting or moving all biographies connected to it. The site is\n"
-"  supposed to prevent you from doing so, but please don't try."
-msgstr ""
-
-#: tools/authors/manage.php:413
-#: tools/authors/manage.php:415
-msgid "disabled"
-msgstr "desactivado"
-
-#: tools/authors/manage.php:436
-msgid "Move to here"
-msgstr "Mover para aqui"
-
-#: tools/authors/manage.php:437
-msgid "reset"
-msgstr "repor"
-
-#: tools/authors/manage.php:449
-#: tools/authors/authors.inc:38
-msgid "Biographies"
-msgstr "Biografias"
-
-#: tools/authors/manage.php:450
-msgid "Move"
-msgstr "Mover"
-
-#: tools/authors/listing.php:11
-msgid "Authors"
-msgstr "Autores"
-
-#: tools/authors/listing.php:64
-msgid "Id"
-msgstr "Id"
-
-#: tools/authors/listing.php:66
-#: tools/authors/add.php:362
-msgid "Last name"
-msgstr "Último nome"
-
-#: tools/authors/listing.php:68
-#: tools/authors/add.php:363
-msgid "Other name(s)"
-msgstr "Outro(s) nome(s)"
-
-#: tools/authors/listing.php:70
-#: tools/authors/add.php:364
-msgid "Born"
-msgstr ""
-
-#: tools/authors/listing.php:72
-#: tools/authors/add.php:369
-msgid "Deceased"
-msgstr ""
-
-#: tools/authors/harvest.php:23
-msgid "Harvest existing biographies from project comments"
-msgstr ""
-
-#: tools/authors/harvest.php:29
-msgid "The tables have not been created! Please create them by having a Site Admin run create_authors_bios_tables.php."
-msgstr ""
-
-#: tools/authors/harvest.php:36
-msgid "The table 'authors' is not empty. Please empty it and try again."
-msgstr "A tabela 'autores' não está vazia. Por favor, limpe-a e tente de novo."
-
-#: tools/authors/harvest.php:42
-msgid "The table 'biographies' is not empty. Please empty it and try again."
-msgstr "A tabela 'biografias' não está vazia. Por favor, limpe-a e tente de novo."
-
-#: tools/authors/harvest.php:53
-#, php-format
-msgid "When you click the button below, the project comments of all projects will be searched for biographies. Records in the database will be created for both the author and the biography, but they will of course need to be examined. This will be done using the <a href='%1$s'>managing tool</a> and the process is explained further below."
-msgstr ""
-
-#: tools/authors/harvest.php:55
-msgid "Please do note that this is a one-time event."
-msgstr ""
-
-#: tools/authors/harvest.php:60
-#: tools/authors/harvest.php:81
-#: tools/authors/harvest.php:87
-msgid "Simulate harvest"
-msgstr ""
-
-#: tools/authors/harvest.php:65
-msgid "Following the harvest"
-msgstr ""
-
-#: tools/authors/harvest.php:67
-msgid "The authors and biographies need be examined for duplicates and obvious errors such as misplaced data."
-msgstr "Os autores e biografias necessitam ser examinados para evitar duplicações e erros óbvios como dados colocados em locais incorrectos."
-
-#: tools/authors/harvest.php:69
-#, php-format
-msgid "This will be done using the <a href='%1$s'>managing tool</a>:"
-msgstr ""
-
-#: tools/authors/harvest.php:71
-msgid "Select to only view non-enabled authors."
-msgstr ""
-
-#: tools/authors/harvest.php:72
-msgid "Authors and biographies are linked the way they were found in the database harvest. This means they are all in a one-to-one relationship. There may be duplicate entries for the same author. There should only be one author entry per author, and it should link to all biographies. This is done manually. Multiple occurances of a biography should be reduced to one."
-msgstr ""
-
-#: tools/authors/harvest.php:73
-msgid "Make frequent and possibly creative use of the searching and listing possibilities to identify duplicate authors."
-msgstr ""
-
-#: tools/authors/harvest.php:74
-msgid "The authors and biographies are all marked as 'not enabled' in the database. Until you check the 'enabled' box next to it in this listing and submit, the author/bio will not appear to the average user but you will see it here. After that, it will be the other way round. This means you should only check that box when you are certain you won't need to edit that author again or move more biographies to it."
-msgstr ""
-
-#: tools/authors/harvest.php:84
-msgid "<strong>Simulating!</strong> Queries are not run. Check that there are no peculiarities below that you believe should be addressed, and click the \\'Harvest\\'-button."
-msgstr ""
-
-#: tools/authors/harvest.php:88
-msgid "Harvest"
-msgstr ""
-
-#: tools/authors/harvest.php:93
-msgid "<strong>Harvesting!</strong> Below should be a log of what has been done."
-msgstr ""
-
-#: tools/authors/harvest.php:114
-msgid "It seems the biography in this project was not properly marked. Please check manually:"
-msgstr ""
-
-#: tools/authors/harvest.php:136
-#, php-format
-msgid "Name split into '%1$s', '%2$s'."
-msgstr ""
-
-#: tools/authors/harvest.php:141
-msgid "Name not split"
-msgstr ""
-
-#: tools/authors/harvest.php:197
-#: tools/authors/harvest.php:214
-msgid "The following query would have been run:"
-msgstr ""
-
-#: tools/authors/harvest.php:204
-msgid "An error occured while saving the author:"
-msgstr "Ocorreu um erro ao guardar o autor:"
-
-#: tools/authors/harvest.php:208
-#, php-format
-msgid "The author was inserted into the database with the id %1$d."
-msgstr ""
-
-#: tools/authors/harvest.php:219
-msgid "An error occured while saving the biography:"
-msgstr ""
-
-#: tools/authors/harvest.php:222
-#, php-format
-msgid "The biography was inserted into the database with the id %1$d."
-msgstr ""
-
-#: tools/authors/harvest.php:226
-msgid "Done. All projects searched."
-msgstr ""
-
-#: tools/authors/authors.inc:3
-#: tools/authors/authors.inc:58
-#: tools/authors/authors.inc:83
-#: tools/authors/add.php:162
-#: tools/authors/add.php:322
 #: tools/project_manager/manage_image_sources.php:343
 #: tools/project_manager/show_image_sources.php:70
 #: tools/project_manager/show_image_sources.php:92
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: tools/authors/authors.inc:4
-msgid "January"
-msgstr "Janeiro"
-
-#: tools/authors/authors.inc:4
-msgid "February"
-msgstr "Fevereiro"
-
-#: tools/authors/authors.inc:4
-msgid "March"
-msgstr "Março"
-
-#: tools/authors/authors.inc:5
-msgid "April"
-msgstr "Abril"
-
-#: tools/authors/authors.inc:5
-msgid "May"
-msgstr "Maio"
-
-#: tools/authors/authors.inc:5
-msgid "June"
-msgstr "Junho"
-
-#: tools/authors/authors.inc:6
-msgid "July"
-msgstr "Julho"
-
-#: tools/authors/authors.inc:6
-msgid "August"
-msgstr "Agosto"
-
-#: tools/authors/authors.inc:6
-msgid "September"
-msgstr "Setembro"
-
-#: tools/authors/authors.inc:7
-msgid "October"
-msgstr "Outubro"
-
-#: tools/authors/authors.inc:7
-msgid "November"
-msgstr "Novembro"
-
-#: tools/authors/authors.inc:7
-msgid "December"
-msgstr "Dezembro"
-
-#: tools/authors/authors.inc:34
-#, php-format
-msgid "Biography %d"
-msgstr "Biografia %d"
-
-#: tools/authors/authors.inc:41
-#, php-format
-msgid "Biography %s"
-msgstr "Biografia %s"
-
-#: tools/authors/authors.inc:111
-msgid "A. D."
-msgstr "D. C."
-
-#: tools/authors/authors.inc:113
-#: tools/authors/add.php:325
-msgid "B. C."
-msgstr "A. C."
-
-#: tools/authors/authors.inc:141
-#: tools/authors/authors.inc:153
-msgid "Sorry"
-msgstr ""
-
-#: tools/authors/authors.inc:142
-#: tools/authors/authors.inc:154
-msgid "Sorry!"
-msgstr ""
-
-#: tools/authors/authors.inc:143
-#: tools/authors/authors.inc:155
-msgid ""
-"You do not have permission to access this page.\n"
-"              If you believe you should, please contact a system administrator."
-msgstr ""
-
-#: tools/authors/author.php:12
-msgid "No author-id specified"
-msgstr "ID do autor não especificado"
-
-#: tools/authors/author.php:13
-msgid "There was an error: No author-id was specified."
-msgstr "Ocorreu um erro: Não foi especificado nenhum ID de autor."
-
-#: tools/authors/author.php:14
-msgid "If you believe this to be the result of perfectly legitimate actions taken by you, please "
-msgstr "Se acha que este seria o resultado de acções perfeitamente legítimas tomadas por si, por favor"
-
-#: tools/authors/author.php:15
-msgid "report it to us"
-msgstr "relate-nos isso"
-
-#: tools/authors/author.php:16
-msgid "You may return to <a href=\"listing.php\">the authors-listing</a>."
-msgstr "Pode voltar para a <a href=\"listing.php\">lista de autores</a>."
-
-#: tools/authors/add.php:56
-msgid "The author was successfully updated in the database!"
-msgstr "O autor foi actualizado com sucesso na base de dados!"
-
-#: tools/authors/add.php:63
-#: tools/authors/add.php:68
-msgid "The author was successfully entered into the database!"
-msgstr "O autor foi submetido com sucesso na base de dados!"
-
-#: tools/authors/add.php:84
-msgid "The author could not be added into the database."
-msgstr "O autor não pôde ser adicionado à base de dados."
-
-#: tools/authors/add.php:85
-#: tools/project_manager/replace_image.php:52
-msgid "Please try again."
-msgstr "Por favor, tente novamente."
-
-#: tools/authors/add.php:86
-msgid "If the problem persists, please contact a system administrator."
-msgstr "Se o problema persistir, por favor, contacte um administrador de sistema."
-
-#: tools/authors/add.php:179
-msgid "Invalid last name."
-msgstr "Último nome inválido."
-
-#: tools/authors/add.php:187
-msgid "Invalid birth year."
-msgstr "Ano de nascimento inválido."
-
-#: tools/authors/add.php:193
-msgid "No birth year entered, but B. C. checked. Inconsecvent."
-msgstr ""
-
-#: tools/authors/add.php:201
-msgid "Invalid death year."
-msgstr "Ano de morte inválido."
-
-#: tools/authors/add.php:207
-msgid "No death year entered, but B. C. checked. Inconsecvent."
-msgstr ""
-
-#: tools/authors/add.php:222
-msgid "Invalid birth-date: Bad mix of unknown/known constraints."
-msgstr ""
-
-#: tools/authors/add.php:226
-msgid "Invalid date of death: Bad mix of unknown/known constraints."
-msgstr ""
-
-#: tools/authors/add.php:239
-msgid "Invalid combination of year of birth and year of death."
-msgstr ""
-
-#: tools/authors/add.php:243
-msgid "Invalid length of life."
-msgstr "Longevidade inválida."
-
-#: tools/authors/add.php:319
-msgid "Day"
-msgstr "Dia"
-
-#: tools/authors/add.php:321
-msgid "Year"
-msgstr "Ano"
-
-#: tools/authors/add.php:323
-msgid "As entered"
-msgstr ""
-
-#: tools/authors/add.php:326
-msgid "Comments (in<br />English, please)"
-msgstr "Comentários (em<br />Inglês, por favor)"
-
-#: tools/authors/add.php:327
-msgid "Handy links:"
-msgstr "Ligações úteis:"
-
-#: tools/authors/add.php:349
-msgid "When entering birth- and death-dates, please make sure you get the data from a trustable source. This is unfortunately a hard term to define, but at the bottom of the page, you will find a list of suggested sites that provide a lot of data like this."
-msgstr ""
-
-#: tools/authors/add.php:351
-msgid "You can provide a comment with each date, but it should be short and concise. It will be displayed with the date as e.g. \"200 B. C. (circa)\", \"(circa)\" being the comment. If you wish to imply that the date is unknown, simply leave the field empty (do not type \"Unknown\" since that string will not be displayed in the other users' preferred languages)."
-msgstr ""
-
-#: tools/authors/add.php:359
-msgid "Edit Author"
-msgstr "Editar Autor"
-
-#: tools/authors/add.php:361
-msgid "Add Author"
-msgstr "Adicionar Autor"
-
-#: tools/authors/add.php:377
-msgid "Save and add Biography"
-msgstr "Guardar e adicionar Biografia"
-
-#: tools/authors/add.php:378
-msgid "Save and add Another"
-msgstr "Guardar e adicionar Outra"
-
-#: tools/authors/add.php:387
-msgid "Are you looking for birth- and death-data for an author? These links are good and trustable sources of information in our experience:"
-msgstr ""
-
-#: tools/authors/add.php:390
-msgid "Catholic Encyclopedia"
-msgstr "Catholic Encyclopedia"
-
-#: tools/authors/add.php:391
-msgid "Columbia Encyclopedia"
-msgstr "Columbia Encyclopedia"
-
-#: tools/authors/add.php:393
-msgid "24 major university research libraries in the UK and Ireland searchable at one place"
-msgstr ""
-
-#: tools/authors/add.php:394
-msgid "Encyclop&aelig;dia Britannica"
-msgstr "Encyclop&aelig;dia Britannica"
-
-#: tools/authors/add.php:395
-msgid "birth- and death-dates can be accessed without registering"
-msgstr ""
-
-#: tools/authors/add.php:396
-msgid "The Library of Congress"
-msgstr ""
-
-#: tools/authors/search.inc:54
-msgid "Search results"
-msgstr "Resultados de pesquisa"
-
-#: tools/authors/search.inc:107
-msgid "descending"
-msgstr "descendente"
-
-#: tools/authors/search.inc:143
-#: tools/authors/search.inc:152
 #: tools/project_manager/external_catalog_search.php:105
 #: tools/project_manager/projectmgr.php:407
 msgid "Search"
 msgstr "Pesquisar"
-
-#: tools/authors/search.inc:144
-msgid "Case insensitive."
-msgstr ""
-
-#: tools/authors/search.inc:146
-#, php-format
-msgid "Use %1$s for partial matches or %2$s to match exactly one character."
-msgstr ""
-
-#: tools/authors/search.inc:147
-#, php-format
-msgid "%3$s encodes start-of-string and %4$s encodes end-of-string."
-msgstr ""
-
-#: tools/authors/search.inc:156
-msgid "List all"
-msgstr "Listar tudo"
-
-#: tools/authors/search.inc:170
-msgid "sorted by"
-msgstr "ordenado por"
-
-#: tools/authors/bio.php:18
-msgid "No biography-id specified"
-msgstr ""
-
-#: tools/authors/bio.php:19
-#: tools/authors/bio.php:29
-msgid "An error has occured:"
-msgstr "Ocorreu um erro:"
-
-#: tools/authors/bio.php:19
-msgid "No biography-id was specified."
-msgstr ""
-
-#: tools/authors/bio.php:20
-#: tools/authors/bio.php:30
-#, php-format
-msgid "You may return to the <a href=\"%1$s\">authors-listing</a>."
-msgstr "Pode voltar à <a href=\"%1$s\">lista de autores</a>."
-
-#: tools/authors/bio.php:28
-msgid "Invalid biography-id specified"
-msgstr ""
-
-#: tools/authors/bio.php:29
-msgid "The specified biography-id was invalid."
-msgstr ""
-
-#: tools/authors/bio.php:47
-msgid "Biography:"
-msgstr "Biografia:"
-
-#: tools/authors/bio.php:61
-msgid "To include this biography into the project comments of a project, insert the following snippet into the project comments:"
-msgstr ""
 
 #: tools/catalog/index.php:8
 #, php-format
@@ -11677,11 +11080,6 @@ msgstr "Os Comentários do Projecto foram alterados!"
 msgid "This project has been made available for smooth reading until %s."
 msgstr "Este projecto está disponível para leitura suave até %s."
 
-#: project.php:427
-#: ad_hoc.php:104
-msgid "See below."
-msgstr "Ver em baixo."
-
 #: project.php:430
 msgid "Project State"
 msgstr "Estado do Projecto"
@@ -12267,10 +11665,6 @@ msgid_plural "%d users like this."
 msgstr[0] ""
 msgstr[1] ""
 
-#: accounts/signin.php:11
-msgid "ID and Password are case sensitive.<BR>Make sure your caps lock is not on."
-msgstr "ID e Senha são sensíveis às maiúsculas.<BR>Verifique se o seu caps lock não está ligado."
-
 #: accounts/login.php:18
 msgid "Login Failed"
 msgstr "Acesso Falhou"
@@ -12720,13 +12114,9 @@ msgstr "Vigiar automaticamente os tópicos do seu projecto"
 msgid "Automatically send your projects to the post-processing pool"
 msgstr "Enviar automaticamente os seus projectos para a lista de pós-processamento"
 
-#: access.php:113
-msgid "Change user"
-msgstr "Alterar utilizador"
-
-#: access.php:129
-msgid "update"
-msgstr "actualizar"
+#: tools/site_admin/manage_site_access_privileges.php:151
+msgid "Update"
+msgstr "Actualizar"
 
 #: locale/translators/new_lang.php:9
 #: locale/translators/new_index.php:70

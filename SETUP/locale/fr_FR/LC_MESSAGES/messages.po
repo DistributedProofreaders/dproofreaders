@@ -87,7 +87,6 @@ msgstr ""
 
 #. TRANSLATORS: ID is an abbreviation for username in the navbar
 #: accounts/activate.php:161 pinc/theme.inc:223 stats/members/mbr_list.php:90
-#: tools/authors/listing.php:62
 #: tools/project_manager/manage_image_sources.php:109
 msgid "ID"
 msgstr "ID"
@@ -570,13 +569,11 @@ msgstr "Projets"
 # srjfoo: still needs to have context added.
 # .
 # Need to dig out what all needs the context.
-# (1) and (2) tools/authors/manage.php "All" -- is one of the choices for what authors to show in the list of those for which there are available biographies.
-# (3) Still tools/authors/manage.php, but I'm not finding where it's displayed. Still has to do with "all authors/biographies".
-# (4) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
+# (1) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
 # So ... "All projects using this image source".
-# (5) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
-# (6) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
-# (7)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
+# (2) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
+# (3) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
+# (4)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
 # .
 # Personal opinion -- we don't need to worry about the authors and bio management -- just like we're not worrying about translation and site admin stuff that isn't shared. However, the show_image_sources, filter-related and AH display, we probably need to provide context for.
 #: activity_hub.php:184 activity_hub.php:188 activity_hub.php:221
@@ -2530,7 +2527,6 @@ msgstr ""
 
 #: locale/translators/index.php:159 locale/translators/index.php:272
 #: locale/translators/index.php:367 stats/release_queue.php:101
-#: tools/authors/manage.php:409 tools/authors/manage.php:411
 #: tools/project_manager/manage_image_sources.php:500
 #: tools/site_admin/manage_site_charsuites.php:53
 #: tools/site_admin/manage_special_days.php:387
@@ -2538,8 +2534,7 @@ msgid "Enabled"
 msgstr "Activé"
 
 #: locale/translators/index.php:161 locale/translators/index.php:274
-#: locale/translators/index.php:369 tools/authors/manage.php:415
-#: tools/authors/manage.php:417
+#: locale/translators/index.php:369
 #: tools/project_manager/manage_image_sources.php:504
 #: tools/project_manager/show_image_sources.php:52
 #: tools/project_manager/show_specials.php:51
@@ -2674,7 +2669,6 @@ msgstr ""
 
 #: locale/translators/index.php:307 locale/translators/index.php:325
 #: locale/translators/index.php:381 stats/includes/member.inc:203
-#: tools/authors/manage.php:407 tools/authors/manage.php:452
 #: tools/project_manager/handle_bad_page.php:107
 #: tools/proofers/text_frame_std.inc:80
 #: tools/site_admin/manage_random_rules.php:54
@@ -3083,13 +3077,11 @@ msgstr "Affichage saisies %1$d-%2$d sur %3$d."
 # srjfoo: still needs to have context added.
 # .
 # Need to dig out what all needs the context.
-# (1) and (2) tools/authors/manage.php "All" -- is one of the choices for what authors to show in the list of those for which there are available biographies.
-# (3) Still tools/authors/manage.php, but I'm not finding where it's displayed. Still has to do with "all authors/biographies".
-# (4) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
+# (1) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
 # So ... "All projects using this image source".
-# (5) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
-# (6) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
-# (7)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
+# (2) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
+# (3) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
+# (4)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
 # .
 # Personal opinion -- we don't need to worry about the authors and bio management -- just like we're not worrying about translation and site admin stuff that isn't shared. However, the show_image_sources, filter-related and AH display, we probably need to provide context for.
 #: pinc/BrowseUtility.inc:195
@@ -3403,8 +3395,8 @@ msgstr "Titre"
 #: pinc/showavailablebooks.inc:56 pinc/showavailablebooks.inc:243
 #: project.php:411 stats/PP_unknown.php:33 stats/release_queue.php:242
 #: stats/requested_books.php:44 stats/requested_books.php:67
-#: stats/requested_books.php:89 tools/authors/author.php:21
-#: tools/authors/author.php:23 tools/changestate.php:72
+#: stats/requested_books.php:89
+#: tools/changestate.php:72
 #: tools/post_proofers/ppv_report.php:409
 #: tools/project_manager/clearance_check.php:58
 #: tools/project_manager/edit_project_word_lists.php:239
@@ -3624,7 +3616,6 @@ msgstr "Recherche pour des projets correspondant aux critères suivants:"
 
 #: pinc/ProjectSearchForm.inc:375 stats/members/mbr_list.php:75
 #: stats/teams/tlist.php:59 tasks.php:327 tasks.php:338
-#: tools/authors/search.inc:150 tools/authors/search.inc:165
 #: tools/project_manager/external_catalog_search.php:168
 #: tools/project_manager/projectmgr.php:127 tools/proofers/srchrep.php:17
 msgid "Search"
@@ -3802,8 +3793,8 @@ msgstr "Bloqué"
 
 #: pinc/ProjectSearchResults.inc:469 pinc/list_projects.inc:91
 #: pinc/page_controls.inc:12 stats/members/mbr_list.php:134
-#: stats/teams/tlist.php:106 tools/authors/listing.php:45
-#: tools/authors/manage.php:462 tools/project_manager/diff.php:248
+#: stats/teams/tlist.php:106
+#: tools/project_manager/diff.php:248
 msgid "Previous"
 msgstr "Page précédente"
 
@@ -3816,8 +3807,8 @@ msgstr "Projets %1$d - %2$d sur %3$d"
 
 #: pinc/ProjectSearchResults.inc:482 pinc/list_projects.inc:112
 #: pinc/page_controls.inc:13 stats/members/mbr_list.php:138
-#: stats/teams/tlist.php:110 tools/authors/listing.php:49
-#: tools/authors/manage.php:466 tools/project_manager/diff.php:253
+#: stats/teams/tlist.php:110
+#: tools/project_manager/diff.php:253
 msgid "Next"
 msgstr "Page suivante"
 
@@ -3867,8 +3858,7 @@ msgstr "Nb. de jours"
 msgid "Set options"
 msgstr "Appliquer les options"
 
-#: pinc/ProjectSearchResultsConfig.inc:155 tools/authors/manage.php:439
-#: tools/authors/search.inc:166
+#: pinc/ProjectSearchResultsConfig.inc:155
 msgid "Reset"
 msgstr "Réinitialiser"
 
@@ -4602,7 +4592,6 @@ msgstr "Impossible d'effacer un profil qui n'existe pas"
 #: pinc/project_quick_check.inc:84 pinc/project_quick_check.inc:249
 #: pinc/project_quick_check.inc:513 pinc/project_quick_check.inc:677
 #: pinc/project_quick_check.inc:685 stats/teams/teams_xml.php:14
-#: tools/authors/addbio.php:77 tools/authors/addbio.php:86
 #: tools/changestate.php:128 tools/project_manager/add_files.php:743
 #: tools/project_manager/editproject.php:114
 #: tools/project_manager/remote_file_manager.php:1058
@@ -5280,7 +5269,6 @@ msgstr "Montrer tout le texte"
 
 #. TRANSLATORS: PM = project manager
 #: pinc/button_defs.inc:161 stats/teams/tedit.php:50 stats/teams/tedit.php:75
-#: tools/authors/add.php:421 tools/authors/addbio.php:138
 #: tools/post_proofers/ppv_report.php:574
 #: tools/project_manager/editproject.php:425
 msgid "Preview"
@@ -5654,11 +5642,6 @@ msgstr "Autobiographie"
 #: pinc/genres.inc:21
 msgid "Bibliography"
 msgstr "Bibliographie"
-
-#: pinc/genres.inc:22 tools/authors/addbio.php:133 tools/authors/bio.php:47
-#: tools/authors/bio.php:49 tools/authors/manage.php:537
-msgid "Biography"
-msgstr "Biographie"
 
 #: pinc/genres.inc:23
 msgid "Biology"
@@ -6584,9 +6567,7 @@ msgstr "Utilisateur"
 
 #: pinc/page_table.inc:336 pinc/page_table.inc:436
 #: stats/includes/member.inc:208 stats/includes/team.inc:85
-#: stats/teams/tedit.php:39 tools/authors/listing.php:73
-#: tools/authors/listing.php:89 tools/authors/manage.php:450
-#: tools/authors/manage.php:515
+#: stats/teams/tedit.php:39
 #: tools/project_manager/manage_image_sources.php:246
 #: tools/site_admin/manage_site_word_lists.php:94
 #: tools/site_admin/manage_special_days.php:229
@@ -6604,7 +6585,6 @@ msgid "Bad/Fix"
 msgstr "Mauvais/Corriger"
 
 #: pinc/page_table.inc:345 pinc/page_table.inc:470 pinc/page_table.inc:522
-#: tools/authors/manage.php:452
 #: tools/project_manager/remote_file_manager.php:646
 #: tools/proofers/images_index.php:123 tools/proofers/images_index.php:163
 #: tools/site_admin/manage_random_rules.php:60
@@ -17261,7 +17241,6 @@ msgid "Total Pages Proofread Per Month"
 msgstr "Nombre Total de Pages Relues Par Mois"
 
 #: stats/misc_stats1.php:184 stats/misc_stats1.php:214
-#: tools/authors/add.php:370
 msgid "Month"
 msgstr "Mois"
 
@@ -17883,434 +17862,22 @@ msgstr ""
 msgid "You must supply a valid related topic ID."
 msgstr ""
 
-#: tools/authors/add.php:82
-msgid "The author was successfully updated in the database!"
-msgstr ""
-"La mise à jour de l'auteur s'est effectuée avec succès dans la base des "
-"données!"
-
-#: tools/authors/add.php:108 tools/authors/add.php:113
-msgid "The author was successfully entered into the database!"
-msgstr ""
-"L'inscription de l'auteur s'est effectuée avec succès dans la base des "
-"données!"
-
-#: tools/authors/add.php:129
-msgid "The author could not be added into the database."
-msgstr "L'auteur n'a pas pu être inscrite dans la base des données."
-
-#: tools/authors/add.php:130 tools/project_manager/update_illos.php:108
+#: tools/project_manager/update_illos.php:108
 msgid "Please try again."
 msgstr "Veuillez réessayer."
 
-#: tools/authors/add.php:131
-msgid "If the problem persists, please contact a system administrator."
-msgstr "Si le problème perdure, veuillez contacter un administrateur système."
-
-#: tools/authors/add.php:182 tools/authors/menu.inc:16
-msgid "Edit author"
-msgstr "Modifier l'auteur"
-
-#: tools/authors/add.php:184 tools/authors/add.php:186
-#: tools/authors/menu.inc:14
-msgid "Add author"
-msgstr "Ajoutez auteur"
-
-#: tools/authors/add.php:207 tools/authors/add.php:375
-#: tools/authors/authors.inc:3 tools/authors/authors.inc:59
-#: tools/authors/authors.inc:89
 #: tools/project_manager/manage_image_sources.php:328
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: tools/authors/add.php:225
-msgid "Invalid last name."
-msgstr "Nom de famille invalide."
-
-#: tools/authors/add.php:233
-msgid "Invalid birth year."
-msgstr "Année de naissance invalide."
-
-#: tools/authors/add.php:239
-msgid "No birth year entered, but B. C. checked."
-msgstr ""
-
-#: tools/authors/add.php:247
-msgid "Invalid death year."
-msgstr "Année du décès invalide."
-
-#: tools/authors/add.php:253
-msgid "No death year entered, but B. C. checked."
-msgstr ""
-
-#: tools/authors/add.php:268
-msgid "Invalid birth-date: Bad mix of unknown/known constraints."
-msgstr ""
-"Année de naissance invalide: Mauvais mélange de contraintes inconnues/"
-"connues."
-
-#: tools/authors/add.php:272
-msgid "Invalid date of death: Bad mix of unknown/known constraints."
-msgstr ""
-"Année de décès invalide: Mauvais mélange de contraintes inconnues/connues."
-
-#: tools/authors/add.php:285
-msgid "Invalid combination of year of birth and year of death."
-msgstr "Combinaison année de naisssance et année de décès invalide."
-
-#: tools/authors/add.php:289
-msgid "Invalid length of life."
-msgstr "Durée de vie invalide."
-
-#: tools/authors/add.php:372
-msgid "Day"
-msgstr "Jour"
-
-#: tools/authors/add.php:374
-msgid "Year"
-msgstr "Année"
-
-#: tools/authors/add.php:376
-msgid "As entered"
-msgstr "Ajouté tel quel"
-
-#. TRANSLATORS: Abbreviation for 'before Christ' (years < 0)
-#: tools/authors/add.php:378 tools/authors/authors.inc:123
-msgid "B. C."
-msgstr "av. J.-C."
-
-#: tools/authors/add.php:379
-msgid "Comments (in<br>English, please)"
-msgstr "Commentaires (en<br />anglais, s.v.p.)"
-
-#: tools/authors/add.php:380
-msgid "Handy links:"
-msgstr "Liens commodes:"
-
-#: tools/authors/add.php:401
-msgid ""
-"When entering birth- and death-dates, please make sure you get the data from "
-"a trustable source. This is unfortunately a hard term to define, but at the "
-"bottom of the page, you will find a list of suggested sites that provide a "
-"lot of data like this."
-msgstr ""
-"Lors de la saisie de dates de naissance et de décès, veuillez veiller à ce "
-"que les données viennent d'une source fiable. Il s'agit malheureusement d'un "
-"terme difficilement définissable, mais en bas de page, une liste de sites "
-"vous est proposée qui fournissent de telles données."
-
-#: tools/authors/add.php:403
-msgid ""
-"You can provide a comment with each date, but it should be short and "
-"concise. It will be displayed with the date as e.g. \"200 B. C. (circa)\", "
-"\"(circa)\" being the comment. If you wish to imply that the date is "
-"unknown, simply leave the field empty (do not type \"Unknown\" since that "
-"string will not be displayed in the other users' preferred languages)."
-msgstr ""
-"Vous pouvez laisser un commentaire pour chaque date, mais il doit être court "
-"et concis. Il sera affiché avec la date comme p.e. «200 av. J.-C. (environ)» "
-"où «(environ)» représente le commentaire. Si vous désirez indiquer que la "
-"date semble inconnue, laisser simplement le champ vide (ne tapez pas "
-"«inconnue», compte tenu que cette chaîne ne sera pas affichée dans les "
-"langues préférées de l'autre utilisateur."
-
-#: tools/authors/add.php:408 tools/authors/listing.php:64
-msgid "Last name"
-msgstr "Nom de famille"
-
-#: tools/authors/add.php:409 tools/authors/listing.php:66
-msgid "Other name(s)"
-msgstr "Autre(s) nom(s)"
-
-#: tools/authors/add.php:410 tools/authors/listing.php:68
-msgid "Born"
-msgstr "Né"
-
-#: tools/authors/add.php:415 tools/authors/listing.php:70
-msgid "Deceased"
-msgstr "Décédé"
-
-#: tools/authors/add.php:422 tools/authors/addbio.php:139
-msgid "Save and Exit"
-msgstr "Sauvegarder et Quitter"
-
-#: tools/authors/add.php:423
-msgid "Save and add Biography"
-msgstr "Sauvegarder et ajouter Biographie"
-
-#: tools/authors/add.php:424
-msgid "Save and add Another"
-msgstr "Sauvegarder et ajouter un Autre"
-
-#: tools/authors/add.php:425 tools/authors/addbio.php:142
-msgid "Exit without saving"
-msgstr "Quitter sans sauvegarder"
-
-#: tools/authors/add.php:432
-msgid ""
-"Are you looking for birth- and death-data for an author? These links are "
-"good and trustable sources of information in our experience:"
-msgstr ""
-"Vous cherchez les dates de naissance et de décès d'un auteur? D'après notre "
-"expérience, ces liens sont des sources d'information valables et fiables:"
-
-#: tools/authors/add.php:438
-msgid "birth- and death-dates can be accessed without registering"
-msgstr ""
-"il n'est pas nécessaire de s'inscrire pour la recherche des dates de "
-"naissance et de décès"
-
-#: tools/authors/addbio.php:50
-msgid "The biography was successfully updated in the database!"
-msgstr "La biographie a été mise à jour avec succès dans la base des données!"
-
-#: tools/authors/addbio.php:64
-msgid "The biography was successfully entered into the database!"
-msgstr "La biographie a été inscrite avec succès dans la base des données!"
-
-#: tools/authors/addbio.php:78
-msgid "It was not possible to save the biography."
-msgstr "La biographie n'a pas pu être sauvegardée."
-
-#: tools/authors/addbio.php:87
-msgid ""
-"Some information is missing and this page can not be displayed. This has "
-"most likely occurred because you have entered the URL manually. Please enter "
-"this page by following links from other pages."
-msgstr ""
-"Il y a des renseignements manquants et la page ne peut pas être affichée. "
-"C'est probablement dû au fait que vous avez introduit l'URL manuellement. "
-"Veuillez introduire cette page en suivant les liens d'autres pages."
-
-#: tools/authors/addbio.php:99 tools/authors/menu.inc:17
-msgid "Add biography"
-msgstr "Ajoutez la biographie"
-
-#: tools/authors/addbio.php:99 tools/authors/menu.inc:20
-msgid "Edit biography"
-msgstr "Modifier la biographie"
-
-#: tools/authors/addbio.php:140
-msgid "Save and View"
-msgstr "Sauvegarder et Afficher"
-
-#: tools/authors/addbio.php:141
-msgid "Save and add Author"
-msgstr "Sauvegarder et ajouter Auteur"
-
-#: tools/authors/authors.inc:4
-msgid "February"
-msgstr "Février"
-
-# The months need to be fixed to either be all lower case or all upper case in translation, but I don't know which. In looking at the authors interface, it appears that the code shows the date in "month day, year" order, and I don't have the time now to dig into the code and see whether the order can be localized or whether it's built into the code at this point.
-# I went ahead and standardized for capitalization for now, but the topic needs to be revisitied at some point, as well as the localization of date order, but right now the authors/bios aren't being used much.
-#: tools/authors/authors.inc:4
-msgid "January"
-msgstr "Janvier"
-
-#: tools/authors/authors.inc:4
-msgid "March"
-msgstr "Mars"
-
-#: tools/authors/authors.inc:5
-msgid "April"
-msgstr "Avril"
-
-#: tools/authors/authors.inc:5
-msgid "June"
-msgstr "Juin"
-
-#: tools/authors/authors.inc:5
-msgid "May"
-msgstr "Mai"
-
-#: tools/authors/authors.inc:6
-msgid "August"
-msgstr "Août"
-
-#: tools/authors/authors.inc:6
-msgid "July"
-msgstr "Juillet"
-
-#: tools/authors/authors.inc:6
-msgid "September"
-msgstr "Septembre"
-
-#: tools/authors/authors.inc:7
-msgid "December"
-msgstr "Décembre"
-
-#: tools/authors/authors.inc:7
-msgid "November"
-msgstr "Novembre"
-
-#: tools/authors/authors.inc:7
-msgid "October"
-msgstr "Octobre"
-
-#: tools/authors/authors.inc:39 tools/authors/manage.php:451
-msgid "Biographies"
-msgstr "Biographies"
-
-#: tools/authors/authors.inc:42
-#, php-format
-msgid "Biography %d"
-msgstr "Biographie %d"
-
-#. TRANSLATORS: Abbreviation for 'anno Domini' (years > 0)
-#: tools/authors/authors.inc:120
-msgid "A. D."
-msgstr "ap. J.-C."
-
-#: tools/authors/authors.inc:155 tools/authors/authors.inc:157
-#: tools/authors/authors.inc:168 tools/authors/authors.inc:170
-msgid "Sorry!"
-msgstr "Excusez-nous!"
-
-# It's really rather silly to have the spacing in the code (though I think it's probably due to whoever coded it not knowing what they were doing). Taking the return and the spaces out of the translation -- they're not displayed.
-#: tools/authors/authors.inc:158 tools/authors/authors.inc:171
-msgid ""
-"You do not have permission to access this page.\n"
-"                If you believe you should, please contact a system "
-"administrator."
-msgstr ""
-"Vous n'êtes pas autorisé à accéder à cette page. Si vous pensez que vous "
-"devriez, veuillez contacter un administrateur du site."
-
-#: tools/authors/bio.php:18
-msgid "No biography-id specified"
-msgstr ""
-
-#: tools/authors/bio.php:19 tools/authors/bio.php:30
 #: tools/project_manager/update_illos.php:106
 msgid "An error occurred."
 msgstr "Une erreur s'est produite."
 
-#: tools/authors/bio.php:19
-msgid "No biography-id was specified."
-msgstr ""
 
-#: tools/authors/bio.php:20 tools/authors/bio.php:31
-#, php-format
-msgid "You may return to the <a href=\"%1$s\">authors-listing</a>."
-msgstr "Vous pouvez retourner à <a href=\"%1$s\">authors-listing</a>."
-
-#: tools/authors/bio.php:29
-msgid "Invalid biography-id specified"
-msgstr "L'ID biographie n'est pas valable"
-
-#: tools/authors/bio.php:30
-msgid "The specified biography-id was invalid."
-msgstr ""
-
-#: tools/authors/bio.php:57
-msgid ""
-"To include this biography into the project comments of a project, insert the "
-"following snippet into the project comments:"
-msgstr ""
-"Afin d'inclure cette biographie dans les commentaires d'un projet, insérez "
-"le fragment suivant dans les commentaires de projet:"
-
-#: tools/authors/listing.php:13
-msgid "Authors"
-msgstr "Auteurs"
-
-#: tools/authors/manage.php:16 tools/authors/menu.inc:24
-msgid "Manage authors"
-msgstr "Gérer les auteurs"
-
-# usage of em-dash spacing inconsistent in French translation. This may be confusing to new proofers. That is -- when giving tutorial and quiz instructions, it clearaly says that there are to be no spaces around em-dashes and long dashes, but when em-dashes are used in the explanatory text, they may be spaced or may not be spaced.
-#: tools/authors/manage.php:143
-msgid ""
-"This is the web interface for managing the authors. You should not be using "
-"this if you\n"
-"simply want to add or edit an author &mdash; this is for performing unusual "
-"tasks such as\n"
-"removing duplicates and enabling or disabling the view of a specific author."
-msgstr ""
-"Vous êtes sur l'interface internet de la gestion des auteurs. Vous ne "
-"devriez pas l'utiliser si\n"
-"vous désirez simplement ajouter ou éditer un auteur &mdash; ici on est "
-"supposé d'effectuer\n"
-"la suppression des doublons et d'activer ou désactiver l'affichage d'un "
-"auteur spécifique."
-
-#: tools/authors/manage.php:147
-msgid ""
-"The directives you give below are processed 'right to left', i.e. first "
-"biographies are removed,\n"
-"then biographies are moved, then authors are deleted, and finally authors "
-"are (un-)checked as enabled."
-msgstr ""
-"Les instructions données ci-dessous sont traité de «droite à gauche», c.à.d. "
-"que les biographies sont ,\n"
-"supprimées en premier, les biographies sont déplacées après , ensuite les "
-"auteurs sont effacés, et enfin les auteurs sont (dé)cochés comme activés."
-
-# "moval" seems to be an error, should probably be "moving".
-#: tools/authors/manage.php:150
-msgid ""
-"You should not be able to mark a biography for removal <b>and</b> moving, "
-"nor should you be able to\n"
-"delete an author without first (or simultaneously) deleting or moving all "
-"biographies connected to it. The site is\n"
-"supposed to prevent you from doing so, but please don't try."
-msgstr ""
-
-# Need to dig out what all needs the context.
-# (1) and (2) tools/authors/manage.php "All" -- is one of the choices for what authors to show in the list of those for which there are available biographies.
-# (3) Still tools/authors/manage.php, but I'm not finding where it's displayed. Still has to do with "all authors/biographies".
-# (5)pinc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
-# .
-# Personal opinion -- we don't need to worry about the authors and bio management -- just like we're not worrying about translation and site admin stuff that isn't shared. However, the show_image_sources, filter-related and AH display, we probably need to provide context for.
-#: tools/authors/manage.php:421 tools/authors/manage.php:423
-#: tools/authors/search.inc:71
-msgctxt "all authors"
-msgid "All"
-msgstr ""
-
-#: tools/authors/manage.php:438
-msgid "Move to here"
-msgstr "Déplacer vers ici"
-
-#: tools/authors/manage.php:452
-msgid "Move"
-msgstr "Déplacer"
-
-#: tools/authors/menu.inc:12
-msgid "List authors"
-msgstr "Lister les auteurs"
-
-#: tools/authors/search.inc:55 tools/search.php:45
+#: tools/search.php:45
 msgid "Search Results"
 msgstr "Résultats de la recherche"
-
-#: tools/authors/search.inc:110
-msgid "descending"
-msgstr "decendant"
-
-#: tools/authors/search.inc:151
-msgid "Case insensitive."
-msgstr "Insensible à la casse."
-
-#: tools/authors/search.inc:153
-#, php-format
-msgid ""
-"Use %1$s for partial matches or %2$s to match exactly one character.%3$s "
-"encodes start-of-string and %4$s encodes end-of-string."
-msgstr ""
-"Utilisez %1$s pour les correspondances partielles ou %2$s pour une "
-"correspondance exacte.%3$s pour encoder le début et %4$s pour la fin d'une "
-"chaîne."
-
-# List all (authors)
-#: tools/authors/search.inc:169
-msgid "List all"
-msgstr "Listez-les toutes"
-
-#: tools/authors/search.inc:187
-msgid "sorted by"
-msgstr "tries par"
 
 #: tools/change_sr_commitment.php:34
 #, php-format
@@ -21421,13 +20988,11 @@ msgstr "La politique en matière de stockage des images est inconnue."
 # srjfoo: still needs to have context added.
 # .
 # Need to dig out what all needs the context.
-# (1) and (2) tools/authors/manage.php "All" -- is one of the choices for what authors to show in the list of those for which there are available biographies.
-# (3) Still tools/authors/manage.php, but I'm not finding where it's displayed. Still has to do with "all authors/biographies".
-# (4) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
+# (1) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
 # So ... "All projects using this image source".
-# (5) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
-# (6) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
-# (7)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
+# (2) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
+# (3) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
+# (4)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
 # .
 # Personal opinion -- we don't need to worry about the authors and bio management -- just like we're not worrying about translation and site admin stuff that isn't shared. However, the show_image_sources, filter-related and AH display, we probably need to provide context for.
 #: tools/project_manager/show_image_sources.php:162
@@ -24272,13 +23837,11 @@ msgstr ""
 # srjfoo: still needs to have context added.
 # .
 # Need to dig out what all needs the context.
-# (1) and (2) tools/authors/manage.php "All" -- is one of the choices for what authors to show in the list of those for which there are available biographies.
-# (3) Still tools/authors/manage.php, but I'm not finding where it's displayed. Still has to do with "all authors/biographies".
-# (4) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
+# (1) tools/project_manager/show_image_sources.php - For each item in the show_image_sources list, the last column shows a count of works in progress/completed and total. If you click on a linked number, it'll list the projects in that state. You have the choice of choosing "All" from that page if you chose in progress or completed to get to the list, meaning all projects for that image source, whether completed or not.
 # So ... "All projects using this image source".
-# (5) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
-# (6) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
-# (7)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
+# (2) binc/BrowseUtility.inc -- also appears to be related to authors/bios, so not a big deal.
+# (3) pinc/filter_project_list.inc -- this is what handles the filters on the round and pool pages. In this case, "All" means "All difficulties".
+# (4)+  -- used on activity hub, and in showavailablebooks.inc -- for the AH, it's part of the site progress snapshot table header -- "Projects - All | Filtered", both in the proofing/formatting table and in the post-processing table.
 # .
 # Personal opinion -- we don't need to worry about the authors and bio management -- just like we're not worrying about translation and site admin stuff that isn't shared. However, the show_image_sources, filter-related and AH display, we probably need to provide context for.
 #: tools/site_admin/show_access_log.php:12
