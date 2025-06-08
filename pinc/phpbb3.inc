@@ -25,12 +25,12 @@ $this_is_top_level_cli_invocation = (
 if ($this_is_top_level_cli_invocation) {
     // We assume it was invoked from the pinc/ directory.
     $relPath = './';
-    include_once($relPath.'site_vars.php'); // $forums_phpbb_dir
+    require_once $relPath.'SiteConfig.inc';
 }
 
 // PHPBB includes (from the standard installation)
 define('IN_PHPBB', true);
-$phpbb_root_path = $forums_phpbb_dir.'/';
+$phpbb_root_path = SiteConfig::get()->forums_phpbb_dir.'/';
 $phpEx = 'php';
 include_once($phpbb_root_path . 'common.'.$phpEx);
 include_once($phpbb_root_path . 'includes/functions_posting.'.$phpEx);
@@ -61,7 +61,7 @@ function phpbb3_create_user(
     $email,
     $lang
 ) {
-    global $forums_phpbb_table_prefix;
+    $forums_phpbb_table_prefix = SiteConfig::get()->forums_phpbb_table_prefix;
 
     // get the group_id for the REGISTERED user group
     global $db;
@@ -135,7 +135,7 @@ function phpbb3_add_post(
     $poster_name,
     $poster_is_real
 ) {
-    global $forums_phpbb_table_prefix;
+    $forums_phpbb_table_prefix = SiteConfig::get()->forums_phpbb_table_prefix;
 
     // Which forum is the topic in?
     global $db;
@@ -182,7 +182,7 @@ function _insert_post(
     $poster_is_real,
     $watch_topic = null
 ) {
-    global $forums_phpbb_table_prefix;
+    $forums_phpbb_table_prefix = SiteConfig::get()->forums_phpbb_table_prefix;
     global $db, $user, $auth;
 
     // Populate $user and determine $auth & $poster_id from that

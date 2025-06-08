@@ -5,16 +5,15 @@ include_once($relPath.'faq.inc');
 
 function output_small_header($quiz)
 {
-    global $code_url, $site_name, $site_abbreviation;
-
     output_html_header('');
 
+    $code_url = SiteConfig::get()->code_url;
     $quiz_name = $quiz->short_name;
 
     echo "\n<div id='header'>\n";
     echo "<a href='$code_url'>\n";
     echo "<div id='logo'>\n";
-    echo "<img src='$code_url/graphics/dp-logo.svg' alt='$site_name'>\n";
+    echo "<img src='$code_url/graphics/dp-logo.svg' alt='" . attr_safe(SiteConfig::get()->site_name) . "'>\n";
     echo "</div>\n";
     echo "</a>";
     echo "</div>\n";
@@ -33,7 +32,7 @@ function output_small_header($quiz)
     }
 
     $links = [
-        ['text' => $site_abbreviation, 'url' => "$code_url/index.php", 'target' => '_top'],
+        ['text' => SiteConfig::get()->site_abbreviation, 'url' => "$code_url/index.php", 'target' => '_top'],
         ['text' => "<span class='currentpage'>$quiz_name</span>"],
     ];
 

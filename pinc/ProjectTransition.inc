@@ -192,8 +192,6 @@ class ProjectTransition
      */
     public function do_state_change(Project $project, string $who, array $extras): string
     {
-        global $testing;
-
         // make sure this transition is valid
         if (!$this->is_valid_for($project, $who)) {
             throw new Exception("User '$who' is not authorized for this transition.");
@@ -272,7 +270,7 @@ class ProjectTransition
         }
         // finished expanding the template, so we can go ahead and update the table
 
-        if ($testing) {
+        if (SiteConfig::get()->testing) {
             echo "    settings: $settings<br>\n";
         }
 
@@ -1230,8 +1228,7 @@ function round_release_collateral(Project $old_project, Project $project, Projec
     configure_gettext_for_user();
     notify_project_event_subscribers($project, 'round_available', ['round' => $round]);
 
-    global $auto_post_to_project_topic;
-    if ($auto_post_to_project_topic) {
+    if (SiteConfig::get()->auto_post_to_project_topic) {
         $project->ensure_topic();
 
         topic_add_post(
@@ -1265,8 +1262,7 @@ function round_complete_collateral(Project $old_project, Project $project, Proje
 
     notify_project_event_subscribers($project, 'round_complete', ['round' => $round]);
 
-    global $auto_post_to_project_topic;
-    if ($auto_post_to_project_topic) {
+    if (SiteConfig::get()->auto_post_to_project_topic) {
         $project->ensure_topic();
 
         topic_add_post(
@@ -1297,7 +1293,6 @@ function proj_would_go_to_PP_out(Project $project, ProjectTransition $transition
 
 function round_to_PP_avail_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
-    global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files($project, $from_round->id, 'LE', false, '');
 
@@ -1313,7 +1308,6 @@ function round_to_PP_avail_collateral(Project $old_project, Project $project, Pr
     // are not getting it
     if (!empty($old_project->checkedoutby)) {
         $reserved_PPer = $old_project->checkedoutby;
-        global $site_manager_email_addr;
 
         $PPer = new User($reserved_PPer);
         $PPer_email_addr = $PPer->email;
@@ -1325,11 +1319,11 @@ function round_to_PP_avail_collateral(Project $old_project, Project $project, Pr
              "It has not been checked out to you because you are not currently  \n" .
              "permitted to check projects out for PPing.\n" .
              "If you believe you are receiving this message in error, please contact\n" .
-             "a site manager by emailing $site_manager_email_addr.\n";
+             "a site manager by emailing " . SiteConfig::get()->site_manager_email_addr . ".\n";
 
         send_mail(
             $PPer_email_addr,
-            "$site_abbreviation: Reserved book sent to PP pool",
+            SiteConfig::get()->site_abbreviation . ": Reserved book sent to PP pool",
             $body_blurb
         );
     }
@@ -1357,7 +1351,6 @@ function to_PP_available_collateral(Project $old_project, Project $project, Proj
 
 function round_to_PP_out_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
-    global $site_abbreviation;
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files($project, $from_round->id, 'LE', false, '');
 
@@ -1403,7 +1396,7 @@ function round_to_PP_out_collateral(Project $old_project, Project $project, Proj
 
         send_mail(
             $PPer_email_addr,
-            "$site_abbreviation: Reserved book available for Post-Processing",
+            SiteConfig::get()->site_abbreviation . ": Reserved book available for Post-Processing",
             $body_blurb
         );
     }
@@ -1434,8 +1427,6 @@ function to_PPV_available_collateral(Project $old_project, Project $project, Pro
 
 function return_to_PP_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
-    global $site_abbreviation;
-
     $PPer_username = $project->checkedoutby;
     $PPer = new User($PPer_username);
     $PPer_email_addr = $PPer->email;
@@ -1443,7 +1434,7 @@ function return_to_PP_collateral(Project $old_project, Project $project, Project
     configure_gettext_for_user($PPer_username);
     $body_blurb = $project->email_introduction() . "\n" .
         _("This project has been returned to you for further work.") . "\n";
-    $subject = "$site_abbreviation: " . _("Return to Post-Processor");
+    $subject = SiteConfig::get()->site_abbreviation . ": " . _("Return to Post-Processor");
     configure_gettext_for_user();
 
     send_mail($PPer_email_addr, $subject, $body_blurb);
@@ -1463,8 +1454,6 @@ function project_was_not_returned_from_PPV(Project $project, ProjectTransition $
 
 function return_from_PP_to_PPV_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
 {
-    global $site_abbreviation;
-
     $PPVer_username = $project->checkedoutby;
     $PPVer = new User($PPVer_username);
     $PPVer_email_addr = $PPVer->email;
@@ -1472,7 +1461,7 @@ function return_from_PP_to_PPV_collateral(Project $old_project, Project $project
     configure_gettext_for_user($PPVer_username);
     $body_blurb = $project->email_introduction() . "\n" .
         _("This project has been returned to you for verification after further work by the post-processor.") . "\n";
-    $subject = "$site_abbreviation: " . _("Return to Post Processing Verifier");
+    $subject = SiteConfig::get()->site_abbreviation . ": " . _("Return to Post Processing Verifier");
     configure_gettext_for_user();
 
     send_mail($PPVer_email_addr, $subject, $body_blurb);

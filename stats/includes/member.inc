@@ -92,7 +92,6 @@ function days_to_now($timestamp)
 
 function showMbrDpProfile($user)
 {
-    global $site_abbreviation;
     // Days since joined:
     $daysInExistenceString = days_to_now($user->date_created);
     if ($user->t_last_activity != 0) {
@@ -102,7 +101,7 @@ function showMbrDpProfile($user)
     $t = new ThemedTable(
         2,
         // TRANSLATORS: %s is the site abbreviation
-        sprintf(_("%s Profile"), $site_abbreviation)
+        sprintf(_("%s Profile"), SiteConfig::get()->site_abbreviation)
     );
     $t->set_column_widths(30, 70);
 
@@ -195,8 +194,6 @@ function showMbrRoles($user)
 
 function showForumProfile($username)
 {
-    global $site_abbreviation;
-
     $bb_user = get_forum_user_details($username);
     if (is_null($bb_user)) {
         echo "<p class='error'>";
@@ -488,7 +485,6 @@ function showMbrPageStats($user, $tally_name)
 
 function showMbrNeighbors($user, $tally_name)
 {
-    global $site_abbreviation;
     $now = time();
 
     $t = new ThemedTable(
@@ -500,7 +496,7 @@ function showMbrNeighbors($user, $tally_name)
     $t->column_headers(
         _("Rank"),
         _("Username"),
-        sprintf(_("Date Joined %s"), $site_abbreviation),
+        sprintf(_("Date Joined %s"), SiteConfig::get()->site_abbreviation),
         _("Overall Pages Completed")
     );
 

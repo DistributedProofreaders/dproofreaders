@@ -16,11 +16,11 @@ header("Content-Type: application/json");
 
 handle_cors_headers();
 
-if ($maintenance) {
+if (SiteConfig::get()->maintenance) {
     throw new ApiException("Site is in maintenance mode");
 }
 
-if (!@$api_enabled) {
+if (!SiteConfig::get()->api_enabled) {
     throw new ApiException("API is not enabled");
 }
 
@@ -73,10 +73,7 @@ function api_authenticate()
 
 function api_rate_limit($key)
 {
-    global $api_rate_limit;
-    global $api_rate_limit_requests_per_window, $api_rate_limit_seconds_in_window;
-
-    if (!$api_rate_limit) {
+    if (!SiteConfig::get()->api_rate_limit) {
         return;
     }
 
@@ -91,7 +88,7 @@ function api_rate_limit($key)
     // initialize or reset our expire time
     $expire_time = $memcache->get("$key:expire");
     if ($expire_time === false || $expire_time < time()) {
-        $expire_time = time() + $api_rate_limit_seconds_in_window;
+        $expire_time = time() + SiteConfig::get()->api_rate_limit_seconds_in_window;
         $memcache->set("$key:expire", $expire_time);
         $count = 0;
     }
@@ -115,14 +112,14 @@ function api_rate_limit($key)
 
     // enforce exceeding the limit
     $seconds_before_reset = $expire_time - time();
-    if ($count > $api_rate_limit_requests_per_window) {
+    if ($count > SiteConfig::get()->api_rate_limit_requests_per_window) {
         throw new RateLimitExceeded(
             "Rate limit exceeded, resets in $seconds_before_reset seconds"
         );
     }
 
-    $requests_left_before_reset = $api_rate_limit_requests_per_window - $count;
-    header("X-Rate-Limit-Limit: $api_rate_limit_requests_per_window");
+    $requests_left_before_reset = SiteConfig::get()->api_rate_limit_requests_per_window - $count;
+    header("X-Rate-Limit-Limit: " . SiteConfig::get()->api_rate_limit_requests_per_window);
     header("X-Rate-Limit-Remaining: $requests_left_before_reset");
     header("X-Rate-Limit-Reset: $seconds_before_reset");
 }
@@ -207,14 +204,12 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
 
 function handle_cors_headers()
 {
-    global $testing;
-
     // Enable CORS for some sites
     $allowed_origins = [
         "https://editor.swagger.io",
     ];
 
-    if (! $testing) {
+    if (! SiteConfig::get()->testing) {
         $origin = @$_SERVER["HTTP_ORIGIN"];
         if (in_array($origin, $allowed_origins)) {
             header("Access-Control-Allow-Origin: $origin");

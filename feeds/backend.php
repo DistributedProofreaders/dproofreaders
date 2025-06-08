@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'pg.inc');
 
 $content = get_enumerated_param($_GET, 'content', 'posted', ['posted', 'postprocessing', 'proofing', 'smoothreading']); // Which feed the user wants
-$rssfeed = generate_rss_feed($content, $site_name, $code_url, $site_manager_email_addr);
+$rssfeed = generate_rss_feed($content, SiteConfig::get()->site_name, SiteConfig::get()->code_url, SiteConfig::get()->site_manager_email_addr);
 
 // Let the browser cache it for $cache_duration seconds
 $cache_duration = 30 * 60;

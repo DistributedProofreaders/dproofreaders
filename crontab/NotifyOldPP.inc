@@ -36,7 +36,7 @@ class NotifyOldPP extends BackgroundJob
 
     private function send_pp_reminders($PPer, $projects, $which_message)
     {
-        global $code_url, $db_requests_email_addr, $site_abbreviation, $site_name;
+        global $code_url;
         global $pp_alert_threshold_days;
 
         $user = new User($PPer);
@@ -74,7 +74,7 @@ class NotifyOldPP extends BackgroundJob
         $message = [];
         if ($which_message == "first") {
             // TRANSLATORS: %s is the site abbreviation (eg: 'DP')
-            $subject = sprintf(_("%s: Renew or Return Post-Processing Projects"), $site_abbreviation);
+            $subject = sprintf(_("%s: Renew or Return Post-Processing Projects"), SiteConfig::get()->site_abbreviation);
 
             $message[] = sprintf(_("Hello %s,"), $PPer);
             $message[] = sprintf(_("Our database system indicates that you have had one or more projects checked out for Post-Processing for more than %d days:"), $pp_alert_threshold_days);
@@ -92,23 +92,23 @@ class NotifyOldPP extends BackgroundJob
             $message[] = _("If you have questions about how to handle a difficult table or need some help tidying up awkward illustrations, remember that the DP Post-Processing forum is full of volunteers with a wide range of skills and interests who are able and willing to help.");
 
             $message[] = mdmail_heading(4, _("Are there any problems?"));
-            $message[] = sprintf(_("If any project is missing page images or illustrations, please contact the Project Manager (PM) for assistance. If the PM does not respond within a reasonable amount of time, please email %s and request help concerning any problems."), $db_requests_email_addr);
-            $message[] = sprintf(_("Thank you for volunteering with %s!"), $site_name);
+            $message[] = sprintf(_("If any project is missing page images or illustrations, please contact the Project Manager (PM) for assistance. If the PM does not respond within a reasonable amount of time, please email %s and request help concerning any problems."), SiteConfig::get()->db_requests_email_addr);
+            $message[] = sprintf(_("Thank you for volunteering with %s!"), SiteConfig::get()->site_name);
         } else {
             // TRANSLATORS: %s is the site abbreviation (eg: 'DP')
-            $subject = sprintf(_("%s Second Notice: Renew or Return Post-Processing Projects"), $site_abbreviation);
+            $subject = sprintf(_("%s Second Notice: Renew or Return Post-Processing Projects"), SiteConfig::get()->site_abbreviation);
 
             $message[] = sprintf(_("Hello %s,"), $PPer);
             $message[] = _("An automated reminder was sent to you on the first of the month to ask whether you wished to renew the projects you have checked out for Post-Processing. You are receiving this second automated notice because you have not renewed or returned the projects.");
             $message[] = $projects_list_string;
-            $message[] = sprintf(_("If you have already notified %s of an expected absence, you may safely ignore this message. Otherwise, any projects in your queue for which a previous notice has been sent may be reclaimed if you do not respond or renew within the next 7 days."), $db_requests_email_addr);
-            $message[] = sprintf(_("Thank you for volunteering with %s!"), $site_name);
+            $message[] = sprintf(_("If you have already notified %s of an expected absence, you may safely ignore this message. Otherwise, any projects in your queue for which a previous notice has been sent may be reclaimed if you do not respond or renew within the next 7 days."), SiteConfig::get()->db_requests_email_addr);
+            $message[] = sprintf(_("Thank you for volunteering with %s!"), SiteConfig::get()->site_name);
         }
 
         $email = $user->email;
         $message_string = implode("\n\n", $message);
 
-        $mail_accepted = send_mail($email, $subject, $message_string, null, $db_requests_email_addr);
+        $mail_accepted = send_mail($email, $subject, $message_string, null, SiteConfig::get()->db_requests_email_addr);
         if (!$mail_accepted) {
             echo "WARNING: Email failed to send for $PPer <$email>\n";
             $this->notifications_failed += 1;

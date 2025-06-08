@@ -20,7 +20,7 @@ if ($topic_id == null) {
     $title = _("Failure creating project topic");
     slim_header($title);
     echo "<h1>$title</h1>";
-    echo "<p class='error'>" . sprintf(_("An error occurred when trying to create a new forum topic for this project. Please contact <a href='%s'>a site manager</a> and let them know the following information."), "mailto:$site_manager_email_addr") . "</p>";
+    echo "<p class='error'>" . sprintf(_("An error occurred when trying to create a new forum topic for this project. Please contact <a href='%s'>a site manager</a> and let them know the following information."), "mailto:" . SiteConfig::get()->site_manager_email_addr) . "</p>";
 
     echo <<<EOF
         <pre>
