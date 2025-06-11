@@ -99,13 +99,13 @@ if ($request_method == 'GET') {
 
 // This section sets up all the "pick from a list" properties of a task.
 
-$tasks_array = [
+const TASK_TYPE = [
     1 => "Bug Report",
     2 => "Feature Request",
     3 => "Support Request",
     4 => "Site Administrator Request",
 ];
-$severity_array = [
+const TASK_SEVERITY = [
     1 => "Catastrophic",
     2 => "Critical",
     3 => "Major",
@@ -114,49 +114,49 @@ $severity_array = [
     6 => "Trivial",
     7 => "Enhancement",
 ];
-$priority_array = [
+const TASK_PRIORITY = [
     1 => "Very High",
     2 => "High",
     3 => "Medium",
     4 => "Low",
     5 => "Very Low",
 ];
-$categories_array = [
-    1 => "None",
+const TASK_CATEGORIES = [
+    7 => "Activity Hub",
     2 => "Documentation",
     3 => "Entrance",
-    4 => "Log in/out",
-    5 => "New Member",
-    6 => "Proofreading Interface",
-    7 => "Activity Hub",
-    8 => "Post-Processing",
-    9 => "Preferences",
-    10 => "Pre-Processing",
-    11 => "Project Page",
-    12 => "Project Lists",
-    13 => "Project Manager",
-    14 => "Site wide",
-    15 => "Statistics, Page Counts",
-    16 => "Translation",
-    17 => "Task Center",
-    18 => "Smooth Reading",
-    19 => "OCR Pool",
-    20 => "HTML Pool",
+    32 => "Format Preview",
     21 => "Forums, Private Messages",
-    22 => "WordCheck",
-    23 => "Project Search",
+    20 => "HTML Pool",
+    4 => "Log in/out",
     24 => "Mentoring",
     25 => "My Projects",
-    26 => "Page Details, Diffs",
-    27 => "Quizzes",
-    28 => "Rounds",
-    29 => "Release Queues",
-    30 => "Teams",
-    31 => "Project Notifications",
-    32 => "Format Preview",
+    5 => "New Member",
+    1 => "None",
+    19 => "OCR Pool",
     99 => "Other",
+    26 => "Page Details, Diffs",
+    8 => "Post-Processing",
+    10 => "Pre-Processing",
+    9 => "Preferences",
+    12 => "Project Lists",
+    13 => "Project Manager",
+    31 => "Project Notifications",
+    11 => "Project Page",
+    23 => "Project Search",
+    6 => "Proofreading Interface",
+    29 => "Release Queues",
+    28 => "Rounds",
+    14 => "Site wide",
+    18 => "Smooth Reading",
+    15 => "Statistics, Page Counts",
+    17 => "Task Center",
+    16 => "Translation",
+    22 => "WordCheck",
+    27 => "Quizzes",
+    30 => "Teams",
+    // 32 max
 ];
-asort($categories_array);
 $tasks_status_array = [
     1 => "New",
     2 => "Accepted",
@@ -166,15 +166,18 @@ $tasks_status_array = [
     18 => "In Progress",
 ];
 asort($tasks_status_array);
-$os_array = [
+const TASK_OS = [
     0 => "All",
-    1 => "Windows 3.1",
-    2 => "Windows 95",
-    3 => "Windows 98",
-    4 => "Windows ME",
-    5 => "Windows 2000",
-    6 => "Windows NT",
-    7 => "Windows XP",
+    37 => "Android",
+    21 => "BeOS",
+    17 => "BSDI",
+    18 => "FreeBSD",
+    22 => "HP-UX",
+    23 => "IRIX",
+    35 => "iOS",
+    36 => "iPadOS",
+    16 => "Linux",
+    15 => "Mac OS X / macOS",
     8 => "Mac System 7",
     9 => "Mac System 7.5",
     10 => "Mac System 7.6.1",
@@ -182,101 +185,98 @@ $os_array = [
     12 => "Mac System 8.5",
     13 => "Mac System 8.6",
     14 => "Mac System 9.x",
-    15 => "Mac OS X / macOS",
-    16 => "Linux",
-    17 => "BSDI",
-    18 => "FreeBSD",
     19 => "NetBSD",
-    20 => "OpenBSD",
-    21 => "BeOS",
-    22 => "HP-UX",
-    23 => "IRIX",
     24 => "Neutrino",
+    20 => "OpenBSD",
     25 => "OpenVMS",
     26 => "OS/2",
     27 => "OSF/1",
+    99 => "Other",
     28 => "Solaris",
     29 => "SunOS",
+    5 => "Windows 2000",
     30 => "Windows 2003",
-    31 => "Windows Vista",
+    1 => "Windows 3.1",
     32 => "Windows 7",
     33 => "Windows 8",
     34 => "Windows 10",
-    35 => "iOS",
-    36 => "iPadOS",
-    37 => "Android",
-    99 => "Other",
+    2 => "Windows 95",
+    3 => "Windows 98",
+    6 => "Windows NT",
+    4 => "Windows ME",
+    31 => "Windows Vista",
+    7 => "Windows XP",
+    // max 37
 ];
-natcasesort($os_array);
-$browser_array = [
+const TASK_BROWSERS = [
     0 => "All",
-    1 => "Internet Explorer 6.x",
-    2 => "Netscape 6.x",
-    3 => "Internet Explorer 5.x",
-    4 => "Netscape 7.x",
-    5 => "Netscape 3.x",
-    6 => "Netscape 4.x",
-    7 => "Opera",
-    8 => "Netscape 5.x",
-    9 => "Internet Explorer 4.x",
-    10 => "Lynx",
     11 => "Avant Browser",
-    12 => "Netscape 2.x",
-    13 => "Slimbrowser",
+    52 => "Chrome / Chromium",
+    27 => "Galeon",
     14 => "Interarchy",
-    15 => "Straw",
-    16 => "MSN TV",
-    17 => "Mozilla 1.4",
-    18 => "Mozilla 1.5",
-    19 => "Mozilla 1.6",
-    20 => "Mozilla Firefox 0.6",
-    22 => "Mozilla Firefox 0.7",
+    29 => "Internet Explorer 3.x",
+    9 => "Internet Explorer 4.x",
+    3 => "Internet Explorer 5.x",
+    1 => "Internet Explorer 6.x",
+    42 => "Internet Explorer 7.x",
+    48 => "Internet Explorer 8.x",
+    10 => "Lynx",
+    28 => "Konquerer",
+    51 => "Microsoft Edge",
     23 => "Mozilla 1.1",
     24 => "Mozilla 1.2",
     25 => "Mozilla 1.3",
-    26 => "Safari",
-    27 => "Galeon",
-    28 => "Konquerer",
-    29 => "Internet Explorer 3.x",
+    17 => "Mozilla 1.4",
+    18 => "Mozilla 1.5",
+    19 => "Mozilla 1.6",
     30 => "Mozilla 1.7",
     31 => "Mozilla 1.8",
-    32 => "Mozilla Firefox 0.8",
-    33 => "Mozilla Firefox 0.9",
-    34 => "Opera 6.x",
-    35 => "Opera 7.x",
-    36 => "Mozilla Firefox 1.0",
     37 => "Mozilla Camino 0.7",
     38 => "Mozilla Camino 0.8.x",
-    39 => "Opera 8.x",
-    40 => "Opera 9.x",
-    41 => "Mozilla Firefox 1.5.x",
-    42 => "Internet Explorer 7.x",
     43 => "Mozilla Camino 1.x",
-    44 => "Safari 2.x",
+    36 => "Mozilla Firefox 1.0",
+    20 => "Mozilla Firefox 0.6",
+    22 => "Mozilla Firefox 0.7",
+    32 => "Mozilla Firefox 0.8",
+    33 => "Mozilla Firefox 0.9",
+    41 => "Mozilla Firefox 1.5.x",
     45 => "Mozilla Firefox 2.x",
     46 => "Mozilla Firefox 3.x",
-    47 => "Safari 3.x",
-    48 => "Internet Explorer 8.x",
-    49 => "Safari 4.x",
+    16 => "MSN TV",
+    12 => "Netscape 2.x",
+    2 => "Netscape 6.x",
+    4 => "Netscape 7.x",
+    5 => "Netscape 3.x",
+    6 => "Netscape 4.x",
+    8 => "Netscape 5.x",
+    7 => "Opera",
     50 => "Opera 10.x",
-    51 => "Microsoft Edge",
-    52 => "Chrome / Chromium",
+    34 => "Opera 6.x",
+    35 => "Opera 7.x",
+    39 => "Opera 8.x",
+    40 => "Opera 9.x",
     99 => "Other",
+    26 => "Safari",
+    44 => "Safari 2.x",
+    47 => "Safari 3.x",
+    49 => "Safari 4.x",
+    13 => "Slimbrowser",
+    15 => "Straw",
+    // max 99
 ];
-asort($browser_array);
-$tasks_close_array = [
+const TASK_CLOSE_REASON = [
+    6 => "Deferred",
+    5 => "Duplicate",
+    7 => "Fixed",
+    8 => "Implemented",
+    9 => "Resolved",
     1 => "Not a Bug",
     2 => "Won't Fix",
     3 => "Won't Implement",
     4 => "Works for Me",
-    5 => "Duplicate",
-    6 => "Deferred",
-    7 => "Fixed",
-    8 => "Implemented",
-    9 => "Resolved",
+    // max 8
 ];
-asort($tasks_close_array);
-$percent_complete_array = [
+const TASK_PERCENT_COMPLETE = [
     0 => "0%",
     10 => "10%",
     20 => "20%",
@@ -306,11 +306,11 @@ $task_assignees_array = [0 => 'Unassigned'] + $task_assignees_array;
 
 $SearchParams_choices = [
     'task_status' => [998 => _('All Tasks'), 999 => _('All Open Tasks')] + $tasks_status_array,
-    'task_type' => [999 => _('All Task Types')] + $tasks_array,
-    'task_severity' => [999 => _('All Severities')] + $severity_array,
-    'task_priority' => [999 => _('All Priorities')] + $priority_array,
+    'task_type' => [999 => _('All Task Types')] + TASK_TYPE,
+    'task_severity' => [999 => _('All Severities')] + TASK_SEVERITY,
+    'task_priority' => [999 => _('All Priorities')] + TASK_PRIORITY,
     'task_assignee' => [999 => _('All Developers')] + $task_assignees_array,
-    'task_category' => [999 => _('All Categories')] + $categories_array,
+    'task_category' => [999 => _('All Categories')] + TASK_CATEGORIES,
 ];
 
 // XXX Re task_assignee, there's a long-standing bug involving
@@ -427,27 +427,19 @@ function SearchParams_get_url_query_string(): string
 
 function make_default_task_object(): object
 {
-    global $tasks_array;
-    global $categories_array;
     global $tasks_status_array;
-    global $severity_array;
-    global $priority_array;
-    global $os_array;
-    global $browser_array;
-    global $percent_complete_array;
-
     $task = new stdClass();
-    $task->task_severity = get_property_key("Normal", $severity_array);
-    $task->task_priority = get_property_key("Medium", $priority_array);
-    $task->task_type = get_property_key("Bug Report", $tasks_array);
-    $task->task_category = get_property_key("None", $categories_array);
+    $task->task_severity = get_property_key("Normal", TASK_SEVERITY);
+    $task->task_priority = get_property_key("Medium", TASK_PRIORITY);
+    $task->task_type = get_property_key("Bug Report", TASK_TYPE);
+    $task->task_category = get_property_key("None", TASK_CATEGORIES);
     $task->task_status = get_property_key("New", $tasks_status_array);
-    $task->task_os = get_property_key("All", $os_array);
-    $task->task_browser = get_property_key("All", $browser_array);
+    $task->task_os = get_property_key("All", TASK_OS);
+    $task->task_browser = get_property_key("All", TASK_BROWSERS);
     $task->task_assignee = 0;
     $task->task_summary = "";
     $task->task_details = "";
-    $task->percent_complete = get_property_key("0%", $percent_complete_array);
+    $task->percent_complete = get_property_key("0%", TASK_PERCENT_COMPLETE);
     $task->opened_by = "";
     $task->task_id = 0;
     return $task;
@@ -455,14 +447,8 @@ function make_default_task_object(): object
 
 function create_task_from_form_submission(array $formsub): ?string
 {
-    global $tasks_array;
-    global $categories_array;
-    global $tasks_status_array;
     global $task_assignees_array;
-    global $severity_array;
-    global $priority_array;
-    global $os_array;
-    global $browser_array;
+    global $tasks_status_array;
     global $now_sse;
     global $requester_u_id;
     global $site_abbreviation;
@@ -476,14 +462,14 @@ function create_task_from_form_submission(array $formsub): ?string
 
     assert(!isset($formsub['task_id']));
     // Create a new task.
-    $newt_type = (int) get_enumerated_param($formsub, 'task_type', null, array_keys($tasks_array));
-    $newt_category = (int) get_enumerated_param($formsub, 'task_category', null, array_keys($categories_array));
+    $newt_type = (int) get_enumerated_param($formsub, 'task_type', null, array_keys(TASK_TYPE));
+    $newt_category = (int) get_enumerated_param($formsub, 'task_category', null, array_keys(TASK_CATEGORIES));
     $newt_status = (int) get_enumerated_param($formsub, 'task_status', null, array_keys($tasks_status_array));
     $newt_assignee = (int) get_enumerated_param($formsub, 'task_assignee', null, array_keys($task_assignees_array));
-    $newt_severity = (int) get_enumerated_param($formsub, 'task_severity', null, array_keys($severity_array));
-    $newt_priority = (int) get_enumerated_param($formsub, 'task_priority', null, array_keys($priority_array));
-    $newt_os = (int) get_enumerated_param($formsub, 'task_os', null, array_keys($os_array));
-    $newt_browser = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys($browser_array));
+    $newt_severity = (int) get_enumerated_param($formsub, 'task_severity', null, array_keys(TASK_SEVERITY));
+    $newt_priority = (int) get_enumerated_param($formsub, 'task_priority', null, array_keys(TASK_PRIORITY));
+    $newt_os = (int) get_enumerated_param($formsub, 'task_os', null, array_keys(TASK_OS));
+    $newt_browser = (int) get_enumerated_param($formsub, 'task_browser', null, array_keys(TASK_BROWSERS));
 
     // Validate the assignee, skipping the case where it is 0 (Unassigned).
     if ($newt_assignee != 0) {
@@ -634,16 +620,8 @@ function handle_action_on_a_specified_task(): void
     global $action, $tasks_url;
 
     // data array
-    global $tasks_status_array;
-    global $tasks_array;
-    global $categories_array;
     global $task_assignees_array;
-    global $severity_array;
-    global $priority_array;
-    global $os_array;
-    global $browser_array;
-    global $percent_complete_array;
-    global $tasks_close_array;
+    global $tasks_status_array;
 
     // Default 'action' when a task is specified:
     if (is_null($action)) {
@@ -714,15 +692,15 @@ function handle_action_on_a_specified_task(): void
             // Update a pre-existing task.
             NotificationMail($task_id, "$pguser edited this task.");
 
-            $edit_type = (int) get_enumerated_param($_POST, 'task_type', null, array_keys($tasks_array));
-            $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys($categories_array));
+            $edit_type = (int) get_enumerated_param($_POST, 'task_type', null, array_keys(TASK_TYPE));
+            $edit_category = (int) get_enumerated_param($_POST, 'task_category', null, array_keys(TASK_CATEGORIES));
             $edit_status = (int) get_enumerated_param($_POST, 'task_status', null, array_keys($tasks_status_array));
             $edit_assignee = (int) get_enumerated_param($_POST, 'task_assignee', null, array_keys($task_assignees_array));
-            $edit_severity = (int) get_enumerated_param($_POST, 'task_severity', null, array_keys($severity_array));
-            $edit_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys($priority_array));
-            $edit_os = (int) get_enumerated_param($_POST, 'task_os', null, array_keys($os_array));
-            $edit_browser = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys($browser_array));
-            $edit_percent = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys($percent_complete_array));
+            $edit_severity = (int) get_enumerated_param($_POST, 'task_severity', null, array_keys(TASK_SEVERITY));
+            $edit_priority = (int) get_enumerated_param($_POST, 'task_priority', null, array_keys(TASK_PRIORITY));
+            $edit_os = (int) get_enumerated_param($_POST, 'task_os', null, array_keys(TASK_OS));
+            $edit_browser = (int) get_enumerated_param($_POST, 'task_browser', null, array_keys(TASK_BROWSERS));
+            $edit_percent = (int) get_enumerated_param($_POST, 'percent_complete', null, array_keys(TASK_PERCENT_COMPLETE));
 
             $sql = sprintf(
                 "
@@ -763,10 +741,10 @@ function handle_action_on_a_specified_task(): void
         }
     } elseif ($action == 'close') {
         if (user_is_a_sitemanager() || user_is_taskcenter_mgr()) {
-            $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys($tasks_close_array));
+            $tc_reason = (int) get_enumerated_param($_POST, 'closed_reason', null, array_keys(TASK_CLOSE_REASON));
             NotificationMail(
                 $task_id,
-                "$pguser closed this task.\nThe reason for closing was: " . $tasks_close_array[$tc_reason] . "."
+                "$pguser closed this task.\nThe reason for closing was: " . TASK_CLOSE_REASON[$tc_reason] . "."
             );
             $sql = sprintf(
                 "
@@ -781,7 +759,7 @@ function handle_action_on_a_specified_task(): void
                     edited_by = %d
                 WHERE task_id = %d
                 ",
-                get_property_key("100%", $percent_complete_array),
+                get_property_key("100%", TASK_PERCENT_COMPLETE),
                 get_property_key("Closed", $tasks_status_array),
                 $now_sse,
                 $requester_u_id,
@@ -849,8 +827,8 @@ function handle_action_on_a_specified_task(): void
         $related_posting_topic = get_integer_param($_POST, 'related_posting', null, 1, null);
         process_related_topic($pre_task, 'remove', $related_posting_topic);
     } elseif ($action == 'add_metoo') {
-        $vote_os = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys($os_array));
-        $vote_browser = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys($browser_array));
+        $vote_os = (int) get_enumerated_param($_POST, 'metoo_os', null, array_keys(TASK_OS));
+        $vote_browser = (int) get_enumerated_param($_POST, 'metoo_browser', null, array_keys(TASK_BROWSERS));
 
         // Do not insert two votes for the same user
         $meTooCount = get_me_too_count($task_id, $requester_u_id);
@@ -985,7 +963,7 @@ function process_related_topic(object $pre_task, string $action, int $related_to
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/** @param array<string, string> $array */
+/** @param array<string|int, string> $array */
 function dropdown_select(string $field_name, string $current_value, array $array): string
 {
     $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
@@ -1182,10 +1160,9 @@ function select_and_list_tasks(string $sql_condition): void
 
 function TaskForm(object $task): void
 {
-    global $requester_u_id, $tasks_array, $severity_array, $categories_array, $tasks_status_array;
-    global $os_array, $browser_array, $percent_complete_array;
+    global $requester_u_id, $tasks_status_array;
     global $task_assignees_array;
-    global $priority_array, $tasks_url;
+    global $tasks_url;
 
     // Non-managers can only set the task status to New.
     if (!user_is_a_sitemanager() && !user_is_taskcenter_mgr()) {
@@ -1221,19 +1198,19 @@ function TaskForm(object $task): void
 
     echo "<div class='task-detail'>";
     echo "<table class='task-detail-block'>\n";
-    property_echo_select_tr('task_severity', $task->task_severity, $severity_array);
-    property_echo_select_tr('task_priority', $task->task_priority, $priority_array);
-    property_echo_select_tr('task_category', $task->task_category, $categories_array);
-    property_echo_select_tr('task_os', $task->task_os, $os_array);
-    property_echo_select_tr('task_browser', $task->task_browser, $browser_array);
+    property_echo_select_tr('task_severity', $task->task_severity, TASK_SEVERITY);
+    property_echo_select_tr('task_priority', $task->task_priority, TASK_PRIORITY);
+    property_echo_select_tr('task_category', $task->task_category, TASK_CATEGORIES);
+    property_echo_select_tr('task_os', $task->task_os, TASK_OS);
+    property_echo_select_tr('task_browser', $task->task_browser, TASK_BROWSERS);
     echo "</table>";
 
     echo "<table class='task-detail-block'>\n";
-    property_echo_select_tr('task_type', $task->task_type, $tasks_array);
+    property_echo_select_tr('task_type', $task->task_type, TASK_TYPE);
     property_echo_select_tr('task_status', $task->task_status, $tasks_status_array);
     property_echo_select_tr('task_assignee', $task->task_assignee, $task_assignees_array);
     if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && !empty($task->task_id)) {
-        property_echo_select_tr('percent_complete', $task->percent_complete, $percent_complete_array); /** @phpstan-ignore-line */
+        property_echo_select_tr('percent_complete', $task->percent_complete, TASK_PERCENT_COMPLETE); /** @phpstan-ignore-line */
     }
     echo "</table>";
     echo "</div>";
@@ -1286,7 +1263,6 @@ function load_task(int $tid, bool $is_assoc = true)
 function TaskDetails(int $tid, string $action): void
 {
     global $requester_u_id, $tasks_url;
-    global $os_array, $browser_array, $tasks_close_array;
     global $pguser;
 
     $task = load_task($tid);
@@ -1411,7 +1387,7 @@ function get_me_too_count($task_id, $requester_u_id)
 
 function MeToo($tid, $os, $browser)
 {
-    global $tasks_url, $browser_array, $os_array;
+    global $tasks_url;
     global $requester_u_id;
 
     $meTooAllowed = get_me_too_count($tid, $requester_u_id) == 0;
@@ -1434,13 +1410,13 @@ function MeToo($tid, $os, $browser)
     echo "<tr>";
     echo "<th>" . _("Operating System") . "</th>";
     echo "<td>";
-    echo dropdown_select('metoo_os', $os, $os_array);
+    echo dropdown_select('metoo_os', $os, TASK_OS);
     echo "</td>";
     echo "</tr>";
     echo "<tr>";
     echo "<th>" . _("Browser") . "</th>";
     echo "<td>";
-    echo dropdown_select('metoo_browser', $browser, $browser_array);
+    echo dropdown_select('metoo_browser', $browser, TASK_BROWSERS);
     echo "</td>";
     echo "</th>";
     echo "</tr>";
@@ -1774,13 +1750,6 @@ function property_get_label($property_id, $for_list_of_tasks)
 function property_format_value(string $property_id, array $task_a, bool $for_list_of_tasks): string
 {
     global $code_url, $tasks_url;
-    global $browser_array;
-    global $categories_array;
-    global $os_array;
-    global $priority_array;
-    global $severity_array;
-    global $tasks_array;
-    global $tasks_close_array;
     global $tasks_status_array;
 
     $raw_value = $task_a[$property_id] ?? null;
@@ -1792,21 +1761,21 @@ function property_format_value(string $property_id, array $task_a, bool $for_lis
 
             // The raw value is an index into an array.
         case 'closed_reason':
-            return $tasks_close_array[$raw_value] ?? "";
+            return TASK_CLOSE_REASON[$raw_value] ?? "";
         case 'task_browser':
-            return $browser_array[$raw_value];
+            return TASK_BROWSERS[$raw_value];
         case 'task_category':
-            return $categories_array[$raw_value];
+            return TASK_CATEGORIES[$raw_value];
         case 'task_os':
-            return $os_array[$raw_value];
+            return TASK_OS[$raw_value];
         case 'task_priority':
-            return $priority_array[$raw_value];
+            return TASK_PRIORITY[$raw_value];
         case 'task_severity':
-            return $severity_array[$raw_value];
+            return TASK_SEVERITY[$raw_value];
         case 'task_status':
             return $tasks_status_array[$raw_value];
         case 'task_type':
-            return $tasks_array[$raw_value];
+            return TASK_TYPE[$raw_value];
 
             // The raw value is an integer denoting seconds-since-epoch.
         case 'date_edited':
@@ -1916,7 +1885,7 @@ function property_format_value(string $property_id, array $task_a, bool $for_lis
                 if ($row['vote_os'] == $task_a['task_os']) {
                     continue;
                 }
-                $list[] = $os_array[$row['vote_os']];
+                $list[] = TASK_OS[$row['vote_os']];
             }
             $list = array_unique($list);
             if ($list) {
@@ -1941,7 +1910,7 @@ function property_format_value(string $property_id, array $task_a, bool $for_lis
                 if ($row['vote_browser'] == $task_a['task_browser']) {
                     continue;
                 }
-                $list[] = $browser_array[$row['vote_browser']];
+                $list[] = TASK_BROWSERS[$row['vote_browser']];
             }
             $list = array_unique($list);
             if ($list) {
@@ -1953,7 +1922,7 @@ function property_format_value(string $property_id, array $task_a, bool $for_lis
             // no break
         case 'maybe_close_button':
             if ((user_is_a_sitemanager() || user_is_taskcenter_mgr()) && empty($task_a['closed_reason'])) {
-                $dropdown = dropdown_select('closed_reason', "", $tasks_close_array);
+                $dropdown = dropdown_select('closed_reason', "", TASK_CLOSE_REASON);
 
                 return "
                       <form action='$tasks_url' method='post'>
