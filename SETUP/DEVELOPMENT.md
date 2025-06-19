@@ -72,6 +72,50 @@ To install nodejs dependencies run the following in the repo base:
 npm install
 ```
 
+### JS development & deployment
+
+tl;dr: To develop JS: Delete `dist/manifest.php` if it exists. Either delete
+`dist/*` _or_ run `npm run build` whenever you change JS code.
+
+The site uses JS code only in the browser. This code uses ES6 modules which
+work directly in the browser (see [INSTALL.md](INSTALL.md) for the list of
+supported browsers). However, effectively using ES6 modules in production
+requires bundling the code such that all files have content-based hashes in
+the filenames to thwart browser caching when new code is released.
+
+The code uses [webpack](https://webpack.js.org/) to bundle the JS code and
+create a JSON manifest file that can be consumed by the PHP code. The JSON
+manifest file can then optionally be converted into a PHP file which is cached
+in the PHP opcache making it very fast and efficient.
+
+That means there are three possible ways the JS code can be served to a client:
+* as an ES6 modules directly in the code (works for development, does not work
+  for production due to browser caching)
+* as a webpack-built `dist/` code with a JSON manifest (works for development,
+  not ideal for production)
+* as a webpack-built `dist/` code with manifest-as-PHP-file (not ideal for
+  development, best for production)
+
+The code will happily work with any configuration automatically and as a
+developer working with the JS it's important to know the following logic:
+1. If the `dist/manifest.php` file exists it will be used
+2. If not, and the `dist/manifest.json` file exists, it will be used
+3. If neither exist, the ES6 modules will be presented to the browser as-is
+
+For JS developers, you either want to be working with the ES6 module code being
+served directly to the browser (delete `dist/*`) or you want the `dist/*js` files
+being auto-generated upon file change change (still delete `dist/manifest.php`).
+
+webpack can watch the JS files and automatically rebuild `dist/*` with:
+```bash
+npx webpack --watch --progress
+```
+
+To generate the manifest files -- JSON or PHP -- directly, the flow is:
+1. `npm run build` runs webpack and creates `dist/*` contents with JSON manifest
+2. `php ./SETUP/generate_manifest_cache.php` generates a PHP file from the JSON
+   manifest
+
 ## Organizing Principles
 
 The code is loosely organized around the following ideas:

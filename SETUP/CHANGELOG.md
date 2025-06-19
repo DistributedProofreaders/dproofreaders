@@ -15,7 +15,8 @@ Scripts supporting this upgrade are in `SETUP/upgrade/23`
 This release requires PHP 8.1 or later.
 
 Starting this release, the deployment process requires `npm` to pull down
-JavaScript code that is served up to the browser. See [INSTALL.md](INSTALL.md).
+JavaScript code that is served up to the browser and bundle it as part of
+deployment. See [INSTALL.md](INSTALL.md).
 
 Some translated strings were moved from PHP files to JS files. If you have
 site translations enabled, after upgrading the code you must regenerate the
