@@ -187,7 +187,7 @@ function sr_echo_withdrawal_form($projectid)
  */
 function handle_smooth_reading_change($project, $postcomments, $days, $extend)
 {
-    global $pguser, $auto_post_to_project_topic;
+    global $pguser;
 
     $projectid = $project->projectid;
 
@@ -230,7 +230,7 @@ function handle_smooth_reading_change($project, $postcomments, $days, $extend)
 
     notify_project_event_subscribers($project, 'sr_available');
 
-    if ($auto_post_to_project_topic) {
+    if (SiteConfig::get()->auto_post_to_project_topic) {
         // Add an auto-post to the project's discussion topic.
         $project->ensure_topic();
         topic_add_post(

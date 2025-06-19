@@ -7,6 +7,7 @@ include_once($relPath."faq.inc");
 define('SIX_MONTHS_IN_SECONDS', 15778463);
 
 // URLs for Quiz links
+$wiki_url = SiteConfig::get()->wiki_url;
 $default_feedbackurl = get_url_to_view_topic(55121);
 $old_texts_url = "$wiki_url/Proofing_old_texts";
 $Greek_translit_url = "$wiki_url/Transliterating_Greek";

@@ -278,7 +278,7 @@ new Pool(
             get_faq_url("post_proof.php")
         ),
         _("Select an easy work to get started on (usually fiction with a low page count is a good starter book; projects whose manager is BEGIN make excellent first projects for a new post-processor)."),
-        sprintf(_("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum($post_processing_forum_idx)),
+        sprintf(_("Check out the <a href='%s'>Post-Processing Forum</a> to post all your questions."), get_url_to_view_forum(SiteConfig::get()->post_processing_forum_idx)),
         _("If nothing interests you right now, check back later and there will be more!"),
         "</p>",
 
@@ -334,7 +334,7 @@ new Pool(
         "<p>",
         sprintf(
             _("As always, the <a href='%s'>Post-Processing Forum</a> is available for any of your questions."),
-            get_url_to_view_forum($post_processing_forum_idx)
+            get_url_to_view_forum(SiteConfig::get()->post_processing_forum_idx)
         ),
         "</p>",
     ]

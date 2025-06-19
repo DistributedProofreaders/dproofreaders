@@ -5,9 +5,9 @@ include_once($relPath."faq.inc");
 
 function echo_manager_links()
 {
-    global $theme, $code_url, $external_catalog_locator, $db_requests_email_addr;
+    global $theme, $code_url;
 
-    $create_project_url = (empty($external_catalog_locator)
+    $create_project_url = (empty(SiteConfig::get()->external_catalog_locator)
         ? "$code_url/tools/project_manager/editproject.php?action=createnew"
         : "$code_url/tools/project_manager/external_catalog_search.php?action=show_query_form&hide_nontext=on");
 

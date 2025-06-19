@@ -53,7 +53,7 @@ function get_desired_language()
     return get_valid_locale_for_translation($locale);
 }
 
-function configure_gettext($locale, $dyn_locales_dir, $system_locales_dir)
+function configure_gettext($locale)
 {
     $locale .= ".UTF-8";
 
@@ -66,8 +66,8 @@ function configure_gettext($locale, $dyn_locales_dir, $system_locales_dir)
     // Specify location of translation tables and choose domain
     $gettext_domain = 'messages';
     if (function_exists('bindtextdomain')) {
-        bindtextdomain($gettext_domain, $dyn_locales_dir);
-        bindtextdomain("iso_639", $system_locales_dir);
+        bindtextdomain($gettext_domain, SiteConfig::get()->dyn_locales_dir);
+        bindtextdomain("iso_639", SiteConfig::get()->system_locales_dir);
         if (function_exists("bind_textdomain_codeset")) {
             bind_textdomain_codeset($gettext_domain, 'UTF-8');
             bind_textdomain_codeset("iso_639", 'UTF-8');
@@ -100,10 +100,8 @@ function get_user_language($user = null)
  */
 function configure_gettext_for_user($user = null)
 {
-    global $dyn_locales_dir, $system_locales_dir;
-
     $locale = get_user_language($user);
-    configure_gettext($locale, $dyn_locales_dir, $system_locales_dir);
+    configure_gettext($locale);
 }
 
 // If the gettext extension is compiled into PHP, then the function named '_'

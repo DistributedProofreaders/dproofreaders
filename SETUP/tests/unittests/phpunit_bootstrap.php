@@ -1,9 +1,5 @@
 <?php
-global $relPath, $forum_type, $projects_dir;
-global $waiting_projects_forum_idx, $projects_forum_idx, $pp_projects_forum_idx, $posted_projects_forum_idx,
-$completed_projects_forum_idx, $deleted_projects_forum_idx, $preceding_proofer_restriction,
-$aspell_executable, $aspell_prefix, $api_storage_keys, $forums_phpbb_table_prefix, $site_name, $testing;
-
+global $relPath, $code_url, $projects_dir;
 
 $relPath = '../../../pinc/';
 include_once($relPath.'base.inc');

@@ -67,7 +67,7 @@ function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
 
 function output_footer($nameofpage, $show_statsbar = true)
 {
-    global $code_url, $site_name, $PAGE_START_TIME;
+    global $code_url, $PAGE_START_TIME;
 
     $user = User::load_current();
     // Display stats bar on left (1) or right (0)
@@ -95,7 +95,7 @@ function output_footer($nameofpage, $show_statsbar = true)
     echo "<p>\n";
     echo "<small>\n";
 
-    echo "&copy;" . html_safe($site_name);
+    echo "&copy;" . html_safe(SiteConfig::get()->site_name);
 
     echo "<span id='buildtime'>";
     echo " &middot; ";
@@ -121,15 +121,13 @@ function output_footer($nameofpage, $show_statsbar = true)
 
 function html_logobar()
 {
-    global $code_url, $site_name;
-    global $maintenance, $testing, $alert_message;
-    global $blog_url, $wiki_url;
+    global $code_url;
 
     echo "\n<div id='header'>\n";
 
     echo "<div id='logo'>\n";
     echo "<a href='$code_url'>\n";
-    echo "<img id='logo-img' src='$code_url/graphics/dp-logo.svg' alt='" . attr_safe($site_name) . "'>\n";
+    echo "<img id='logo-img' src='$code_url/graphics/dp-logo.svg' alt='" . attr_safe(SiteConfig::get()->site_name) . "'>\n";
     echo "</a>\n";
     echo "</div>\n"; // logo
 
@@ -164,18 +162,18 @@ function html_logobar()
                 "url" => get_url_for_forum(),
             ];
         }
-        if (!empty($wiki_url)) {
+        if (SiteConfig::get()->wiki_url) {
             $icon_links[] = [
                 "name" => _("Wiki"),
                 "class" => "fas fa-scroll fa-2x",
-                "url" => $wiki_url,
+                "url" => SiteConfig::get()->wiki_url,
             ];
         }
-        if (!empty($blog_url)) {
+        if (SiteConfig::get()->blog_url) {
             $icon_links[] = [
                 "name" => _("Blog"),
                 "class" => "fab fa-wordpress fa-2x",
-                "url" => $blog_url,
+                "url" => SiteConfig::get()->blog_url,
             ];
         }
         $icon_links[] = [
@@ -231,16 +229,16 @@ function html_logobar()
     // determine and output any important site-wide messages
     $messages = [];
     $id = 'alertbar';
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         $messages[] = _("This is a test site!");
         $id = 'testbar';
     }
-    if ($maintenance) {
+    if (SiteConfig::get()->maintenance) {
         $messages[] = "<span class='error'>" . _("Site is in maintenance mode.") . "</span>";
         $id = 'testbar';
     }
-    if ($alert_message) {
-        $messages[] = $alert_message;
+    if (SiteConfig::get()->alert_message) {
+        $messages[] = SiteConfig::get()->alert_message;
     }
     if (user_is_a_sitemanager()) {
         $failed_jobs = count_job_log_failures(1);
@@ -269,7 +267,7 @@ function html_logobar()
  */
 function html_navbar()
 {
-    global $code_url, $blog_url, $wiki_url;
+    global $code_url;
 
     echo "<div id='navbar-outer'>";
     echo "<div id='navbar'>";
@@ -278,11 +276,11 @@ function html_navbar()
     $user = User::load_current();
     if (!$user) {
         $links = [];
-        if (!empty($blog_url)) {
-            $links[] = ['text' => _("Blog"), 'url' => $blog_url];
+        if (SiteConfig::get()->blog_url) {
+            $links[] = ['text' => _("Blog"), 'url' => SiteConfig::get()->blog_url];
         }
-        if (!empty($wiki_url)) {
-            $links[] = ['text' => _("Wiki"), 'url' => $wiki_url];
+        if (SiteConfig::get()->wiki_url) {
+            $links[] = ['text' => _("Wiki"), 'url' => SiteConfig::get()->wiki_url];
         }
         if (get_url_for_forum()) {
             $links[] = ['text' => _("Forums"), 'url' => get_url_for_forum()];
@@ -886,8 +884,6 @@ function show_user_teams()
 
 function show_birthdays()
 {
-    global $site_abbreviation;
-
     $seconds_in_month = 30 * 24 * 60 * 60;
 
     // Only show birthdays for members who have been active in the past
@@ -926,7 +922,7 @@ function show_birthdays()
     }
 
     echo "<div id='birthdays'>\n";
-    echo "<h2>" . sprintf(_("Today's %s Birthdays"), $site_abbreviation) . "</h2>\n";
+    echo "<h2>" . sprintf(_("Today's %s Birthdays"), SiteConfig::get()->site_abbreviation) . "</h2>\n";
 
     echo "<ul>";
 
@@ -1140,13 +1136,11 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
  */
 function get_dyn_image_url_for_file($filename)
 {
-    global $dyn_dir, $dyn_url;
-
     $image_extensions = ["", ".png", ".jpg", ".gif"];
 
     foreach ($image_extensions as $extension) {
-        $test_path = "$dyn_dir/code_images/$filename$extension";
-        $test_url = "$dyn_url/code_images/$filename$extension";
+        $test_path = SiteConfig::get()->dyn_dir . "/code_images/$filename$extension";
+        $test_url = SiteConfig::get()->dyn_url . "/code_images/$filename$extension";
         if (file_exists($test_path)) {
             return $test_url;
         }

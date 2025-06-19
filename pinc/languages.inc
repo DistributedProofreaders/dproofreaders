@@ -157,8 +157,6 @@ function get_installed_system_locales()
  */
 function get_installed_locale_translations($state = "all")
 {
-    global $dyn_locales_dir;
-
     static $translation_cache = null;
 
     if ($translation_cache !== null) {
@@ -171,13 +169,13 @@ function get_installed_locale_translations($state = "all")
         "disabled" => [],
     ];
 
-    $files = @scandir($dyn_locales_dir);
+    $files = @scandir(SiteConfig::get()->dyn_locales_dir);
     if (!$files) {
         return $translation_cache[$state];
     }
 
     foreach ($files as $file) {
-        if (!is_dir("$dyn_locales_dir/$file")) {
+        if (!is_dir(SiteConfig::get()->dyn_locales_dir . "/$file")) {
             continue;
         }
 
@@ -187,7 +185,7 @@ function get_installed_locale_translations($state = "all")
 
         $translation_cache["all"][] = $file;
 
-        if (is_file("$dyn_locales_dir/$file/enabled")) {
+        if (is_file(SiteConfig::get()->dyn_locales_dir . "/$file/enabled")) {
             $translation_cache["enabled"][] = $file;
         } else {
             $translation_cache["disabled"][] = $file;
@@ -199,8 +197,6 @@ function get_installed_locale_translations($state = "all")
 
 function is_locale_translation_enabled($locale)
 {
-    global $dyn_locales_dir;
-
     // Locale 'en_US' is always enabled because that's the default
     // language of all the internal strings. We have to check for
     // it because there is no translation file for it.
@@ -224,9 +220,7 @@ function get_valid_locale_for_translation($locale)
 
 function set_locale_translation_enabled($locale, $enable)
 {
-    global $dyn_locales_dir;
-
-    $translation_base = "$dyn_locales_dir/$locale";
+    $translation_base = SiteConfig::get()->dyn_locales_dir . "/$locale";
     $enabled_file = "$translation_base/enabled";
 
     if (!is_dir($translation_base)) {
