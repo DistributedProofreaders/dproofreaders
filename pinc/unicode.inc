@@ -461,7 +461,7 @@ function get_utf8_to_ascii_codepoints(): array
             'U+2007', // figure space
             'U+2008', // punctuation space
             'U+2009', // thin space
-            'U+20a0', // hair space
+            'U+200a', // hair space
             'U+202f', // narrow no-break space
             'U+205f', // medium mathematical space
             'U+3000', // ideographic space
