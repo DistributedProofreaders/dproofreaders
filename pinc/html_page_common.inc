@@ -14,7 +14,7 @@ define('SHOW_STATSBAR', true);
  */
 function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
 {
-    global $code_url, $dyn_url, $dyn_dir, $site_abbreviation;
+    global $code_url, $code_dir, $dyn_url, $dyn_dir, $site_abbreviation;
 
     static $was_output = false;
     if ($was_output) {
@@ -91,22 +91,38 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     }
 
     // Per-page JS
-    if (isset($extra_args['js_files'])) {
-        $js_files = array_merge($js_files, $extra_args['js_files']);
-    }
+    $js_files = array_merge(
+        $js_files,
+        $extra_args['js_files'] ?? [],
+        $extra_args['js_modules'] ?? []
+    );
 
+    $manifest = get_js_manifest();
+
+    $include_runtime = false;
     foreach ($js_files as $js_file) {
-        $cache_fixer = get_local_file_browser_cache_key($js_file);
-        echo "<script src='$js_file$cache_fixer'></script>\n";
+        $bundle_filename = $manifest[basename($js_file)] ?? "";
+        if ($bundle_filename) {
+            $include_runtime = true;
+            if (in_array($js_file, $extra_args['js_modules'] ?? [])) {
+                echo "<script src='$code_url/$bundle_filename' type='module'></script>\n";
+            } else {
+                echo "<script src='$code_url/$bundle_filename'></script>\n";
+            }
+        } else {
+            if (in_array($js_file, $extra_args['js_modules'] ?? [])) {
+                echo "<script src='$js_file' type='module'></script>\n";
+            } else {
+                $cache_fixer = get_local_file_browser_cache_key($js_file);
+                echo "<script src='$js_file$cache_fixer'></script>\n";
+            }
+        }
     }
-
-    // JS modules
-    $js_modules = [];
-    if (isset($extra_args['js_modules'])) {
-        $js_modules = array_merge($js_modules, $extra_args['js_modules']);
-    }
-    foreach ($js_modules as $js_file) {
-        echo "<script src='$js_file' type='module'></script>\n";
+    if ($include_runtime) {
+        $runtime_bundle = $manifest["runtime.js"];
+        echo "<script src='$code_url/$runtime_bundle' type='module'></script>\n";
+        $vendor_bundle = $manifest["vendors.js"];
+        echo "<script src='$code_url/$vendor_bundle' type='module'></script>\n";
     }
 
     // Per-page Javascript
@@ -182,4 +198,56 @@ function get_local_file_browser_cache_key($url)
     }
 
     return $cache_fixer;
+}
+
+/**
+ * @return string[]
+ */
+function get_js_manifest(): array
+{
+    global $code_dir;
+
+    // first, see if the PHP version of our manifest file exists, and if so
+    // load it and get the opcache-cached version without hitting the disk
+    if (is_file("$code_dir/dist/manifest.php")) {
+        require_once("$code_dir/dist/manifest.php");
+        return get_cached_js_manifest(); // @phpstan-ignore function.notFound
+    }
+
+    // if it doesn't exist, see if the JSON version exists and if so load
+    // and process it
+    if (is_file("$code_dir/dist/manifest.json")) {
+        $raw_manifest = json_decode(file_get_contents("$code_dir/dist/manifest.json"), true) ?? [];
+        // webpack puts "auto" in the pathname, no idea why
+        foreach ($raw_manifest as $filename => $path) {
+            $manifest[$filename] = str_replace("auto", "dist", $path);
+        }
+        return $manifest;
+    }
+
+    // otherwise, just return an empty manifest
+    return [];
+}
+
+/**
+ * @param string[] $manifest
+ */
+function generate_cached_js_manifest(array $manifest): void
+{
+    global $code_dir;
+
+    if (!$manifest) {
+        return;
+    }
+
+    $serialized_manifest = serialize($manifest);
+    $cached_php_file = <<<EOF
+        <?php
+        function get_cached_js_manifest(): array
+        {
+            return unserialize('$serialized_manifest');
+        }
+        EOF;
+
+    file_put_contents("$code_dir/dist/manifest.php", $cached_php_file);
 }

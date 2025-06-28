@@ -6,6 +6,7 @@ set -e
 
 PROD=0
 DIR=$(pwd)
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 usage() {
     echo "Usage: $0 [-p] [-d <dir>]" 1>&2;
@@ -65,6 +66,16 @@ if [ ! -f "package-lock.json" ]; then
 fi
 
 if [ $PROD -eq 1 ]; then
+    echo "Installing the dev dependencies for building artifacts..."
+    npm ci
+
+    echo "Building the dist/* artifacts..."
+    npm run build
+
+    # create the manifest cache
+    $SCRIPT_DIR/generate_manifest_cache.php $DIR/pinc/
+
+    echo "Installing only the production dependencies..."
     npm ci --omit dev --omit optional
 
     # We only want node_modules to be pulling in JS and CSS assets, but
@@ -73,4 +84,16 @@ if [ $PROD -eq 1 ]; then
     find node_modules -name '*.php' -delete
 else
     npm install
+
+    if [ -f "$DIR/dist/manifest.php" ]; then
+        echo "Deleting cached manifest"
+        rm "$DIR/dist/manifest.php"
+    fi
+fi
+
+echo "--------------------------------------------"
+if [ $PROD -eq 1 ]; then
+    echo "Production dependencies installed"
+else
+    echo "Development dependencies installed"
 fi

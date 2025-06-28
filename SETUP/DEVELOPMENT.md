@@ -72,6 +72,80 @@ To install nodejs dependencies run the following in the repo base:
 npm install
 ```
 
+### JS development & deployment
+
+tl;dr: To develop JS: Delete `dist/manifest.php` if it exists. Either delete
+`dist/*` _or_ run `npm run build` whenever you change JS code.
+
+The site uses JS code only in the browser. This code uses ES6 modules which
+work directly in the browser (see [INSTALL.md](INSTALL.md) for the list of
+supported browsers). However, effectively using ES6 modules in production
+requires bundling the code such that all files have content-based hashes in
+the filenames to thwart browser caching when new code is released.
+
+The code uses [webpack](https://webpack.js.org/) to bundle the JS code and
+create a JSON manifest file that can be consumed by the PHP code. The JSON
+manifest file can then optionally be converted into a PHP file which is cached
+in the PHP opcache making it very fast and efficient.
+
+That means there are three possible ways the JS code can be served to a client:
+* as an ES6 modules directly in the code (works for development, does not work
+  for production due to browser caching)
+* as a webpack-built `dist/` code with a JSON manifest (works for development,
+  not ideal for production)
+* as a webpack-built `dist/` code with manifest-as-PHP-file (not ideal for
+  development, best for production)
+
+The code will happily work with any configuration automatically and as a
+developer working with the JS it's important to know the following logic:
+1. If the `dist/manifest.php` file exists it will be used
+2. If not, and the `dist/manifest.json` file exists, it will be used
+3. If neither exist, the ES6 modules will be presented to the browser as-is
+
+For JS developers, you either want to be working with the ES6 module code being
+served directly to the browser (delete `dist/*`) or you want the `dist/*js` files
+being auto-generated upon file change change (still delete `dist/manifest.php`).
+
+webpack can watch the JS files and automatically rebuild `dist/*` with:
+```bash
+npx webpack --watch --progress
+```
+
+To generate the manifest files -- JSON or PHP -- directly, the flow is:
+1. `npm run build` runs webpack and creates `dist/*` contents with JSON manifest
+2. `php ./SETUP/generate_manifest_cache.php` generates a PHP file from the JSON
+   manifest
+
+### Browser caching & ES6 modules
+
+The DP code assumes browsers are going to aggressively cache content like
+JS and images. Indeed, the Apache config for pgdp.net explicitly tells the
+browser to cache images, CSS, JS, and web fonts for a month to reduce the
+amount of content served up to users. To make this work in practice, it falls
+to the DP code to tell the browsers when that content has changed so the
+browser will fetch the new content. This is particularly important for CSS
+and JS.
+
+The code does this by appending a query param to JS and CSS with the
+modification time of the file (see `pinc/html_page_common.inc`). If the file
+changes, the query param changes and browsers will fetch the new code.
+
+For instance:
+```html
+<link type='text/css' rel='Stylesheet' href='https://www.pgdp.net/c/styles/statsbar.css?20250624204935'>
+<script src='https://www.pgdp.org/c/scripts/api.js?20250624204935'></script>
+```
+
+This works great until we get to ES6 modules which allows JS files to reference
+and include other JS files. The included JS files have static filenames without
+query params (indeed, they are not supported) so there's no way to tell the
+browser these files have changed without changing the filename itself.
+
+This is where bundlers like webpack come in. The bundlers rename the files
+to include a hash of the file contents and update all references to use the
+new hashed filename. This forces web browsers to download the new file since
+the filename has changed.
+
 ## Organizing Principles
 
 The code is loosely organized around the following ideas:
