@@ -116,6 +116,36 @@ To generate the manifest files -- JSON or PHP -- directly, the flow is:
 2. `php ./SETUP/generate_manifest_cache.php` generates a PHP file from the JSON
    manifest
 
+### Browser caching & ES6 modules
+
+The DP code assumes browsers are going to aggressively cache content like
+JS and images. Indeed, the Apache config for pgdp.net explicitly tells the
+browser to cache images, CSS, JS, and web fonts for a month to reduce the
+amount of content served up to users. To make this work in practice, it falls
+to the DP code to tell the browsers when that content has changed so the
+browser will fetch the new content. This is particularly important for CSS
+and JS.
+
+The code does this by appending a query param to JS and CSS with the
+modification time of the file (see `pinc/html_page_common.inc`). If the file
+changes, the query param changes and browsers will fetch the new code.
+
+For instance:
+```html
+<link type='text/css' rel='Stylesheet' href='https://www.pgdp.net/c/styles/statsbar.css?20250624204935'>
+<script src='https://www.pgdp.org/c/scripts/api.js?20250624204935'></script>
+```
+
+This works great until we get to ES6 modules which allows JS files to reference
+and include other JS files. The included JS files have static filenames without
+query params (indeed, they are not supported) so there's no way to tell the
+browser these files have changed without changing the filename itself.
+
+This is where bundlers like webpack come in. The bundlers rename the files
+to include a hash of the file contents and update all references to use the
+new hashed filename. This forces web browsers to download the new file since
+the filename has changed.
+
 ## Organizing Principles
 
 The code is loosely organized around the following ideas:
