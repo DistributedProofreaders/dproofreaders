@@ -53,10 +53,10 @@
     "resumablejs": "^1.1.0"
   },
   "browserslist": [
-    "chrome 61",
-    "firefox 60",
-    "edge 16",
-    "opera 48",
+    "chrome 64",
+    "firefox 78",
+    "edge 79",
+    "opera 51",
     "safari 11"
   ]
 }
