@@ -565,7 +565,7 @@ function html_statsbar($nameofpage)
 
             // Show "More..." link
             echo "<p class='more-link'>";
-            echo "<a href='list_etexts.php?x=g&amp;sort=5'>";
+            echo "<a href='$code_url/list_etexts.php?x=g&amp;sort=5'>";
             echo _("More Completed Titles...") . "</a></p>";
 
             echo "</div>";
@@ -578,7 +578,7 @@ function html_statsbar($nameofpage)
 
             // Show "More..." link
             echo "<p class='more-link'>";
-            echo "<a href='list_etexts.php?x=b&amp;sort=5'>";
+            echo "<a href='$code_url/list_etexts.php?x=b&amp;sort=5'>";
             echo _("More Recently Begun Titles...") . "</a></p>";
 
             echo "</div>";
