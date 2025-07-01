@@ -8,7 +8,7 @@ include_once($relPath.'page_tally.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'walkthrough.inc');
 
-output_header(_("Welcome"), true);
+output_header(_("Welcome"), SHOW_STATSBAR);
 $etext_limit = 10;
 
 $image = get_page_header_image("FRONT");

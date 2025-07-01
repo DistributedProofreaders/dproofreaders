@@ -37,7 +37,7 @@ if ($user == User::load_current()) {
     $desc = sprintf(_("Details for user %s"), $user_referent);
 }
 
-output_header($desc, SHOW_STATSBAR, [
+output_header($desc, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
 ]);
 

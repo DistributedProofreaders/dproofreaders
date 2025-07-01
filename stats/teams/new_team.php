@@ -21,7 +21,7 @@ $ticon = $_POST["ticon"] ?? "";
 
 if (isset($_POST['mkPreview'])) {
     $title = sprintf(_("Preview %s"), $teamname);
-    output_header($title, SHOW_STATSBAR, $theme_extra_args);
+    output_header($title, NO_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1, "", "both");
     $curTeam['id'] = 0;
     $curTeam['topic_id'] = 0;
@@ -50,7 +50,7 @@ if (isset($_POST['mkPreview'])) {
     $result = DPDatabase::query($sql);
     if (mysqli_num_rows($result) > 0 || $teamname == "") {
         $name = _("Create Team");
-        output_header($name);
+        output_header($name, NO_STATSBAR);
         $teamimages = uploadImages(1, "", "both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if ($teamname == "") {
@@ -60,7 +60,6 @@ if (isset($_POST['mkPreview'])) {
         }
 
         showEdit($teamname, $text_data, $teamwebpage, 1, 0);
-        echo "<br></div><br>";
     } else {
         $sql = sprintf(
             "
@@ -119,7 +118,7 @@ if (isset($_POST['mkPreview'])) {
     metarefresh(0, "$code_url/activity_hub.php", $title, $desc);
 } else {
     $name = _("Create a New Team");
-    output_header($name, SHOW_STATSBAR, $theme_extra_args);
+    output_header($name, NO_STATSBAR, $theme_extra_args);
     echo "<div class='center-align'><br>";
     showEdit("", "", "", 1, 0);
     echo "</div>";

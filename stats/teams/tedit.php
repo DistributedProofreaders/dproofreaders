@@ -36,7 +36,7 @@ if (($user->u_id != $curTeam['owner']) && (!user_is_a_sitemanager())) {
 
 if (isset($_GET['tid'])) {
     $edit = _("Edit");
-    output_header($edit . " " . $curTeam['teamname'], SHOW_STATSBAR, $theme_extra_args);
+    output_header($edit . " " . $curTeam['teamname'], NO_STATSBAR, $theme_extra_args);
     echo "<div class='center-align'><br>";
     showEdit($curTeam['teamname'], $curTeam['team_info'], $curTeam['webpage'], 0, $tid);
     echo "</div>";
@@ -46,7 +46,7 @@ if (isset($_GET['tid'])) {
     metarefresh(0, "tdetail.php?tid=$tid", $title, $desc);
 } elseif (isset($_POST['edPreview'])) {
     $preview = _("Preview");
-    output_header($preview . " " . $teamname, SHOW_STATSBAR, $theme_extra_args);
+    output_header($preview . " " . $teamname, NO_STATSBAR, $theme_extra_args);
     $teamimages = uploadImages(1, $tid, "both");
     $curTeam['teamname'] = $teamname;
     $curTeam['team_info'] = $text_data;
@@ -71,7 +71,7 @@ if (isset($_GET['tid'])) {
     $result = DPDatabase::query($sql);
     if (mysqli_num_rows($result) > 0 || $teamname == '') {
         $preview = _("Preview");
-        output_header($preview, SHOW_STATSBAR, $theme_extra_args);
+        output_header($preview, NO_STATSBAR, $theme_extra_args);
         $teamimages = uploadImages(1, $tid, "both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if ($teamname == "") {

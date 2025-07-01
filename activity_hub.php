@@ -25,7 +25,7 @@ $userSettings = & Settings::get_Settings($pguser);
 
 $title = _("Activity Hub");
 
-output_header($title);
+output_header($title, SHOW_STATSBAR);
 
 echo "<h1>$title</h1>";
 

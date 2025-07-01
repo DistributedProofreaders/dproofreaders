@@ -34,7 +34,7 @@ try {
 // create a record in the users table, create a profile, stats data, etc.
 // and send a welcome mail.
 $title = _('Activate account');
-output_header($title);
+output_header($title, SHOW_STATSBAR);
 echo "<h1>$title</h1>";
 
 if (!isset($user->id)) {

@@ -10,7 +10,7 @@ if (!isset($relPath)) {
     include_once($relPath.'theme.inc');
 
     if (!isset($_GET['embedded'])) {
-        output_header(_("Privacy Statement"), false);
+        output_header(_("Privacy Statement"), NO_STATSBAR);
     }
 }
 
