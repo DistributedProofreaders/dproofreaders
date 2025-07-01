@@ -65,13 +65,13 @@ if ($func == "download" || $func == "view") {
         // Send the template file as a plain/text document. No encoding is necessary.
         readfile($filename);
     } else {
-        output_header(_("Translation Center"), false);
+        output_header(_("Translation Center"));
         echo "<p>" . _("The requested file does not exist.") . "</p>";
     }
     exit();
 }
 
-output_header(_("Translation Center"), false);
+output_header(_("Translation Center"));
 
 // Main Translation Center page
 if (empty($func)) {

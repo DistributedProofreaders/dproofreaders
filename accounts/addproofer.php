@@ -76,7 +76,7 @@ if (count($_POST)) {
 
             // Page shown when account is successfully created
             $title = _("Registration complete");
-            output_header($title);
+            output_header($title, SHOW_STATSBAR);
             echo "<h1>$title</h1>";
 
             // Send them an activation e-mail

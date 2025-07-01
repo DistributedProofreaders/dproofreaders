@@ -23,7 +23,7 @@ if (!$curTeam) {
 // TRANSLATORS: %s is a team name
 $title = sprintf(_("%s Statistics"), $curTeam['teamname']);
 
-output_header($title, SHOW_STATSBAR, [
+output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
 ]);
 echo "<br><div class='center-align'>";
