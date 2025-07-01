@@ -595,12 +595,6 @@ function html_statsbar($nameofpage)
         show_tally_specific_stats($tally_name);
     }
 
-    echo "<p class='more-link'>";
-    echo "<a href='$code_url/stats/index.php'>";
-    echo _("More Statistics...");
-    echo "</a>";
-    echo "</p>";
-
     if ($user) {
         // requestor is a logged-in user.
         echo "<hr class='divider'>\n";
