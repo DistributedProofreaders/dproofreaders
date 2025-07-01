@@ -566,6 +566,21 @@ function uploadImages($preview, $tid, $type)
         'icon' => null,
     ];
 
+    // see if $team_avatars_dir exists and if not try to create it
+    if (! is_dir($team_avatars_dir)) {
+        if (!mkdir($team_avatars_dir, 0777, true)) {
+            throw new RuntimeException(_("Error creating team avatar directory."));
+        }
+    }
+
+    // ditto $team_icons_dir
+    if (! is_dir($team_icons_dir)) {
+        if (!mkdir($team_icons_dir, 0777, true)) {
+            throw new RuntimeException(_("Error creating team icons directory."));
+        }
+    }
+
+
     if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
         if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
             if ($_FILES['teamavatar']['size'] > 2097152) {
