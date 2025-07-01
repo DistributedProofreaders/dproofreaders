@@ -828,6 +828,12 @@ function show_tally_specific_stats($tally_name)
 function show_tally_vs_goal($label, $goal, $actual)
 {
     $goal = $goal == null ? 0 : $goal;
+
+    // If there's no goal, just return rather than divide by zero
+    if (! $goal) {
+        return;
+    }
+
     $percent = $actual == 0 ? 0 : $actual / $goal * 100;
     echo "<tr>";
     echo "<th>$label</th>";
