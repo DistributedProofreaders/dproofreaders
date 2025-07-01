@@ -51,7 +51,7 @@ if (isset($news_page_id)) {
     show_all_news_items_for_page($news_page_id);
 } else {
     $title = _("Site News Central");
-    output_header($title, true);
+    output_header($title, SHOW_STATSBAR);
     echo "<h1>$title</h1>";
     echo "<ul>";
     echo "\n";

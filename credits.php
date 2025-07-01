@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
 $title = _("Credits");
-output_header($title);
+output_header($title, SHOW_STATSBAR);
 
 echo "<h1>$title</h1>";
 
