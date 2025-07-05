@@ -4,7 +4,7 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
 $title = _("Login Required");
-output_header($title);
+output_header($title, SHOW_STATSBAR);
 
 if (isset($_REQUEST["destination"])) {
     echo "<p>" . _("The page you requested requires a login. You will be redirected there once you have signed in.") . "</p>";

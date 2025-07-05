@@ -39,7 +39,7 @@ if (!$error) {
 }
 
 $title = _("Login Failed");
-output_header($title);
+output_header($title, SHOW_STATSBAR);
 
 echo "<br>\n";
 echo "<b>$error</b>\n";

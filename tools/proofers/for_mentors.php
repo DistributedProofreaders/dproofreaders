@@ -12,7 +12,7 @@ require_login();
 
 // Display page header.
 $title = _("For Mentors");
-output_header($title);
+output_header($title, SHOW_STATSBAR);
 
 echo "<h1>$title</h1>";
 

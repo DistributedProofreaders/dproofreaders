@@ -16,7 +16,7 @@ include_once($relPath.'job_log.inc');
  * Emit the opening markup and theme tags, and register a callback
  * to close the page after the caller finishes output.
  */
-function output_header($nameofpage, $show_statsbar = true, $extra_args = [])
+function output_header($nameofpage, $show_statsbar = false, $extra_args = [])
 {
     global $code_url;
 
@@ -595,12 +595,6 @@ function html_statsbar($nameofpage)
         show_tally_specific_stats($tally_name);
     }
 
-    echo "<p class='more-link'>";
-    echo "<a href='$code_url/stats/index.php'>";
-    echo _("More Statistics...");
-    echo "</a>";
-    echo "</p>";
-
     if ($user) {
         // requestor is a logged-in user.
         echo "<hr class='divider'>\n";
@@ -834,6 +828,12 @@ function show_tally_specific_stats($tally_name)
 function show_tally_vs_goal($label, $goal, $actual)
 {
     $goal = $goal == null ? 0 : $goal;
+
+    // If there's no goal, just return rather than divide by zero
+    if (! $goal) {
+        return;
+    }
+
     $percent = $actual == 0 ? 0 : $actual / $goal * 100;
     echo "<tr>";
     echo "<th>$label</th>";
