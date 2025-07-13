@@ -319,12 +319,6 @@ hierarchy:
     d/teams
     d/teams/avatar
     d/teams/icon
-    d/pg
-    d/xmlfeeds
-
-And create the following temporary directory to house WordCheck temp files:
-
-    /tmp/sp_check
 
 These should have permissions `drwxrwsr-x` and have the owner & group
 of the user that the DP code runs as (probably 'nobody' or 'www-data').

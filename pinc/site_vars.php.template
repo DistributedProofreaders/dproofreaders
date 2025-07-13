@@ -23,6 +23,15 @@ $maintenance_message = '<<MAINTENANCE_MESSAGE>>';
 $alert_message = '<<ALERT_MESSAGE>>';
 //---------------------------------------------------------------------------
 
+
+// Database configuration
+$db_server = '<<DB_SERVER>>';
+$db_user = '<<DB_USER>>';
+$db_password = '<<DB_PASSWORD>>';
+$db_name = '<<DB_NAME>>';
+$archive_db_name = '<<ARCHIVE_DB_NAME>>';
+
+//---------------------------------------------------------------------------
 $code_dir = '<<CODE_DIR>>';
 $code_url = '<<CODE_URL>>';
 
@@ -33,8 +42,6 @@ $dyn_dir = '<<DYN_DIR>>';
 $dyn_url = '<<DYN_URL>>';
 
 $dyn_locales_dir = "$dyn_dir/locale";
-
-$xmlfeeds_dir = "$dyn_dir/xmlfeeds";
 
 $blog_url = '<<BLOG_URL>>';
 

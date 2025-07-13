@@ -27,14 +27,12 @@ include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
  */
 function get_pages_proofed_maybe_simulated(?string $username = null): int
 {
-    global $testing;
-
     if ($username === null) {
         $username = User::current_username();
     }
 
     $pagesproofed = user_get_ELR_page_tally($username);
-    $max_pagesproofed = $testing ? null : $pagesproofed;
+    $max_pagesproofed = SiteConfig::get()->testing ? null : $pagesproofed;
     $pagesproofed = get_integer_param($_GET, 'numofpages', $pagesproofed, 0, $max_pagesproofed);
 
     return $pagesproofed;
@@ -42,7 +40,7 @@ function get_pages_proofed_maybe_simulated(?string $username = null): int
 
 function welcome_see_beginner_forum(int $pagesproofed, $page_id, ?string $username = null): void
 {
-    global $code_url, $ELR_round, $beginners_site_forum_idx;
+    global $code_url, $ELR_round;
 
     if ($username === null) {
         $username = User::current_username();
@@ -107,7 +105,7 @@ function welcome_see_beginner_forum(int $pagesproofed, $page_id, ?string $userna
             echo "</p>";
         }
         echo "<p>";
-        echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum($beginners_site_forum_idx));
+        echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum(SiteConfig::get()->beginners_site_forum_idx));
         echo "</p>";
 
         echo "<p><small>";

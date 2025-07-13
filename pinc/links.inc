@@ -39,24 +39,6 @@ function recycle_window_link($href, $linktext, $target)
 
 /**
  * Returns a string containing a snippet of HTML
- * for a link that opens a help topic in a new window.
- */
-function new_help_window_link($help_topic_id, $linktext)
-{
-    global $code_url;
-
-    $a = "<a href=\"JavaScript:newHelpWin('$help_topic_id');\">$linktext</a>";
-
-    $title = _('Link opens in a new window');
-    $img = "<img src='$code_url/graphics/New-Window.gif' title='$title'>";
-
-    return "$a $img";
-}
-
-// -----------------------------------------------------------------------------
-
-/**
- * Returns a string containing a snippet of HTML
  * for a link that opens a window to send a PM to the
  * specified user.
  *

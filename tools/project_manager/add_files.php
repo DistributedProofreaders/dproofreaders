@@ -79,7 +79,7 @@ if ($rel_source == '') {
     }
 }
 
-$abs_source = "$uploads_dir/$rel_source";
+$abs_source = SiteConfig::get()->uploads_dir . "/$rel_source";
 
 if (!file_exists($abs_source)) {
     die("source does not exist: $abs_source");
@@ -110,10 +110,9 @@ if (substr($abs_source, -4) == ".zip") {
 // we chdir into $source_project_dir and do *local* commands from there.
 // That way, we don't have to worry about any shell-special or
 // glob-special characters in $source_project_dir.
-$r = chdir($source_project_dir);
-if (!$r) {
+if (! @chdir($source_project_dir)) {
     echo "<p class='error'>";
-    echo sprintf(_("Directory '%s' does not exist, or is inaccessible."), html_safe($source_project_dir));
+    echo sprintf(_("'%s' is not a directory, does not exist, or is inaccessible."), html_safe($source_project_dir));
     echo "</p>";
     echo "<hr>\n";
     echo return_to_project_page_link($projectid) . "\n";

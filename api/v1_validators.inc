@@ -93,9 +93,7 @@ function validate_document(string $document): string
 
 function validate_storage_key(string $storage_key, array $data): string
 {
-    global $api_storage_keys;
-
-    if (!in_array($storage_key, $api_storage_keys)) {
+    if (!in_array($storage_key, SiteConfig::get()->api_storage_keys)) {
         throw new NotFoundError("$storage_key is not a valid storage key");
     }
     return $storage_key;

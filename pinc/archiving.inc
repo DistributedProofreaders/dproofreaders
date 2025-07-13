@@ -4,10 +4,6 @@ include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 
 use Symfony\Component\Process\Process;
 
-// include udb_user.php to place $archive_db_name in this file's scope.
-global $archive_projects_dir, $archive_db_name;
-include($relPath.'udb_user.php'); // $archive_db_name
-
 /**
  * Archive a project
  *
@@ -25,7 +21,8 @@ include($relPath.'udb_user.php'); // $archive_db_name
  */
 function archive_project(Project $project, bool $dry_run = false)
 {
-    global $archive_projects_dir, $archive_db_name;
+    $archive_projects_dir = SiteConfig::get()->archive_projects_dir;
+    $archive_db_name = SiteConfig::get()->archive_db_name;
 
     if (!is_dir($archive_projects_dir)) {
         throw new RuntimeException(sprintf(_("Error: archive directory %s does not exist."), $archive_projects_dir));
@@ -201,7 +198,7 @@ function archive_ancillary_data_for_project(Project $project, string $indent, bo
  */
 function move_project_rows_to_archive_db(string $projectid, string $table_name, string $indent, bool $dry_run)
 {
-    global $archive_db_name;
+    $archive_db_name = SiteConfig::get()->archive_db_name;
 
     echo $indent, "$projectid $table_name: ";
 

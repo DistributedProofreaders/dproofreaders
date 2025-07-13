@@ -59,11 +59,10 @@ if (!isset($user->id)) {
         echo "</p>";
 
         echo "<p>";
-        $mailto_url = "mailto:$general_help_email_addr";
         echo sprintf(
             _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
-            $mailto_url,
-            $general_help_email_addr
+            "mailto:" . SiteConfig::get()->general_help_email_addr,
+            SiteConfig::get()->general_help_email_addr
         );
         echo "</p>";
     }
@@ -85,11 +84,10 @@ if ($create_user_status !== true) {
     echo "<!-- Forum error: $create_user_status -->";
     echo "\n";
     error_log("activate.php - Error activating $reg_token: $create_user_status");
-    $mailto_url = "mailto:$general_help_email_addr";
     echo sprintf(
         _('For assistance, please contact <a href="%1$s">%2$s</a>.'),
-        $mailto_url,
-        $general_help_email_addr
+        "mailto:" . SiteConfig::get()->general_help_email_addr,
+        SiteConfig::get()->general_help_email_addr
     );
     echo "\n";
     echo sprintf(
@@ -147,7 +145,7 @@ echo " ";
 // TRANSLATORS: %s is the site name
 printf(
     _("Please check the e-mail being sent to you for further information about %s."),
-    $site_name
+    SiteConfig::get()->site_name
 );
 echo "</p>";
 

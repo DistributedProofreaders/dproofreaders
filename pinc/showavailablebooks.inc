@@ -378,7 +378,7 @@ function show_project_listing(
     $optional_join_clause = "",
     $optional_select_clause = ""
 ) {
-    global $code_url, $pguser, $testing;
+    global $code_url, $pguser;
 
     // Some columns (notably those with numbers in them)
     // have special formatting styles -- specify them here.
@@ -450,7 +450,7 @@ function show_project_listing(
             $presort
             $curr_sql_orderclause
     ";
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         echo_html_comment($query);
     }
     $result = DPDatabase::query($query);

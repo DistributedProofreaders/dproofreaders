@@ -87,7 +87,6 @@ msgstr ""
 
 #. TRANSLATORS: ID is an abbreviation for username in the navbar
 #: accounts/activate.php:161 pinc/theme.inc:223 stats/members/mbr_list.php:90
-#: tools/authors/listing.php:62
 #: tools/project_manager/manage_image_sources.php:109
 msgid "ID"
 msgstr "Benutzername"
@@ -2573,7 +2572,6 @@ msgstr "Gebietsschema %s gelöscht."
 
 #: locale/translators/index.php:159 locale/translators/index.php:272
 #: locale/translators/index.php:367 stats/release_queue.php:101
-#: tools/authors/manage.php:409 tools/authors/manage.php:411
 #: tools/project_manager/manage_image_sources.php:500
 #: tools/site_admin/manage_site_charsuites.php:53
 #: tools/site_admin/manage_special_days.php:387
@@ -2581,8 +2579,7 @@ msgid "Enabled"
 msgstr "Aktiviert"
 
 #: locale/translators/index.php:161 locale/translators/index.php:274
-#: locale/translators/index.php:369 tools/authors/manage.php:415
-#: tools/authors/manage.php:417
+#: locale/translators/index.php:369
 #: tools/project_manager/manage_image_sources.php:504
 #: tools/project_manager/show_image_sources.php:52
 #: tools/project_manager/show_specials.php:51
@@ -2708,7 +2705,6 @@ msgstr "Verwalten"
 
 #: locale/translators/index.php:307 locale/translators/index.php:325
 #: locale/translators/index.php:381 stats/includes/member.inc:203
-#: tools/authors/manage.php:407 tools/authors/manage.php:452
 #: tools/project_manager/handle_bad_page.php:107
 #: tools/proofers/text_frame_std.inc:80
 #: tools/site_admin/manage_random_rules.php:54
@@ -3449,8 +3445,8 @@ msgstr "Titel"
 #: pinc/showavailablebooks.inc:56 pinc/showavailablebooks.inc:243
 #: project.php:411 stats/PP_unknown.php:33 stats/release_queue.php:242
 #: stats/requested_books.php:44 stats/requested_books.php:67
-#: stats/requested_books.php:89 tools/authors/author.php:21
-#: tools/authors/author.php:23 tools/changestate.php:72
+#: stats/requested_books.php:89
+#: tools/changestate.php:72
 #: tools/post_proofers/ppv_report.php:409
 #: tools/project_manager/clearance_check.php:58
 #: tools/project_manager/edit_project_word_lists.php:239
@@ -3667,7 +3663,6 @@ msgstr "Projekte suchen, die den folgenden Kriterien entspechen:"
 
 #: pinc/ProjectSearchForm.inc:375 stats/members/mbr_list.php:75
 #: stats/teams/tlist.php:59 tasks.php:327 tasks.php:338
-#: tools/authors/search.inc:150 tools/authors/search.inc:165
 #: tools/project_manager/external_catalog_search.php:168
 #: tools/project_manager/projectmgr.php:127 tools/proofers/srchrep.php:17
 msgid "Search"
@@ -3837,8 +3832,8 @@ msgstr "Auf Halt"
 
 #: pinc/ProjectSearchResults.inc:469 pinc/list_projects.inc:91
 #: pinc/page_controls.inc:12 stats/members/mbr_list.php:134
-#: stats/teams/tlist.php:106 tools/authors/listing.php:45
-#: tools/authors/manage.php:462 tools/project_manager/diff.php:248
+#: stats/teams/tlist.php:106
+#: tools/project_manager/diff.php:248
 msgid "Previous"
 msgstr "Vorherige"
 
@@ -3850,8 +3845,8 @@ msgstr "Projekte %1$d bis %2$d von %3$d"
 
 #: pinc/ProjectSearchResults.inc:482 pinc/list_projects.inc:112
 #: pinc/page_controls.inc:13 stats/members/mbr_list.php:138
-#: stats/teams/tlist.php:110 tools/authors/listing.php:49
-#: tools/authors/manage.php:466 tools/project_manager/diff.php:253
+#: stats/teams/tlist.php:110
+#: tools/project_manager/diff.php:253
 msgid "Next"
 msgstr "Nächste"
 
@@ -3900,8 +3895,7 @@ msgstr "Tage zurück"
 msgid "Set options"
 msgstr "Optionen einstellen"
 
-#: pinc/ProjectSearchResultsConfig.inc:155 tools/authors/manage.php:439
-#: tools/authors/search.inc:166
+#: pinc/ProjectSearchResultsConfig.inc:155
 msgid "Reset"
 msgstr "Zurücksetzen"
 
@@ -4656,7 +4650,6 @@ msgstr "Kann nicht existierendes Profil nicht löschen"
 #: pinc/project_quick_check.inc:84 pinc/project_quick_check.inc:249
 #: pinc/project_quick_check.inc:513 pinc/project_quick_check.inc:677
 #: pinc/project_quick_check.inc:685 stats/teams/teams_xml.php:14
-#: tools/authors/addbio.php:77 tools/authors/addbio.php:86
 #: tools/changestate.php:128 tools/project_manager/add_files.php:743
 #: tools/project_manager/editproject.php:114
 #: tools/project_manager/remote_file_manager.php:1058
@@ -5352,7 +5345,6 @@ msgstr "Gesamten Text Anzeigen"
 
 #. TRANSLATORS: PM = project manager
 #: pinc/button_defs.inc:161 stats/teams/tedit.php:50 stats/teams/tedit.php:75
-#: tools/authors/add.php:421 tools/authors/addbio.php:138
 #: tools/post_proofers/ppv_report.php:574
 #: tools/project_manager/editproject.php:425
 msgid "Preview"
@@ -5725,8 +5717,7 @@ msgstr "Autobiografie"
 msgid "Bibliography"
 msgstr "Bibliografie"
 
-#: pinc/genres.inc:22 tools/authors/addbio.php:133 tools/authors/bio.php:47
-#: tools/authors/bio.php:49 tools/authors/manage.php:537
+#: pinc/genres.inc:22
 msgid "Biography"
 msgstr "Biografie"
 
@@ -6665,9 +6656,7 @@ msgstr "Benutzer"
 
 #: pinc/page_table.inc:336 pinc/page_table.inc:436
 #: stats/includes/member.inc:208 stats/includes/team.inc:85
-#: stats/teams/tedit.php:39 tools/authors/listing.php:73
-#: tools/authors/listing.php:89 tools/authors/manage.php:450
-#: tools/authors/manage.php:515
+#: stats/teams/tedit.php:39
 #: tools/project_manager/manage_image_sources.php:246
 #: tools/site_admin/manage_site_word_lists.php:94
 #: tools/site_admin/manage_special_days.php:229
@@ -6685,7 +6674,6 @@ msgid "Bad/Fix"
 msgstr "Defekt/Reparieren"
 
 #: pinc/page_table.inc:345 pinc/page_table.inc:470 pinc/page_table.inc:522
-#: tools/authors/manage.php:452
 #: tools/project_manager/remote_file_manager.php:646
 #: tools/proofers/images_index.php:123 tools/proofers/images_index.php:163
 #: tools/site_admin/manage_random_rules.php:60
@@ -16829,7 +16817,6 @@ msgid "Total Pages Proofread Per Month"
 msgstr "Insgesamt Korrektur gelesene Seiten pro Monat"
 
 #: stats/misc_stats1.php:184 stats/misc_stats1.php:214
-#: tools/authors/add.php:370
 msgid "Month"
 msgstr "Monat"
 
@@ -17445,408 +17432,17 @@ msgstr ""
 msgid "You must supply a valid related topic ID."
 msgstr ""
 
-#: tools/authors/add.php:82
-msgid "The author was successfully updated in the database!"
-msgstr "Der Autor wurde erfolgreich in der Datenbank aktualisiert!"
-
-#: tools/authors/add.php:108 tools/authors/add.php:113
-msgid "The author was successfully entered into the database!"
-msgstr "Der Autor wurde erfolgreich zur Datenbank hinzugefügt!"
-
-#: tools/authors/add.php:129
-msgid "The author could not be added into the database."
-msgstr "Der Autor konnte nicht zur Datenbank hinzugefügt werden."
-
-#: tools/authors/add.php:130 tools/project_manager/update_illos.php:108
+#: tools/project_manager/update_illos.php:108
 msgid "Please try again."
 msgstr "Bitte versuchen Sie es noch einmal."
 
-#: tools/authors/add.php:131
-msgid "If the problem persists, please contact a system administrator."
-msgstr ""
-"Wenn das Problem weiter besteht, kontaktieren Sie bitte einen System-"
-"Administrator."
-
-#: tools/authors/add.php:182 tools/authors/menu.inc:16
-msgid "Edit author"
-msgstr "Autor bearbeiten"
-
-#: tools/authors/add.php:184 tools/authors/add.php:186
-#: tools/authors/menu.inc:14
-msgid "Add author"
-msgstr "Autor hinzufügen"
-
-#: tools/authors/add.php:207 tools/authors/add.php:375
-#: tools/authors/authors.inc:3 tools/authors/authors.inc:59
-#: tools/authors/authors.inc:89
 #: tools/project_manager/manage_image_sources.php:328
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: tools/authors/add.php:225
-msgid "Invalid last name."
-msgstr "Ungültiger Nachname."
-
-#: tools/authors/add.php:233
-msgid "Invalid birth year."
-msgstr "Ungültiges Geburtsjahr."
-
-#: tools/authors/add.php:239
-msgid "No birth year entered, but B. C. checked."
-msgstr "Kein Geburtsjahr eingegeben, aber v. Chr. markiert."
-
-#: tools/authors/add.php:247
-msgid "Invalid death year."
-msgstr "Ungültiges Todesjahr."
-
-#: tools/authors/add.php:253
-msgid "No death year entered, but B. C. checked."
-msgstr "Kein Todesjahr eingegeben, aber v. Chr. markiert."
-
-#: tools/authors/add.php:268
-msgid "Invalid birth-date: Bad mix of unknown/known constraints."
-msgstr ""
-"Ungültiges Geburtsdatum: Schlechte Mischung aus unbekannten/bekannten "
-"Einschränkungen."
-
-#: tools/authors/add.php:272
-msgid "Invalid date of death: Bad mix of unknown/known constraints."
-msgstr ""
-"Ungültiges Todesdatum: Schlechte Mischung aus unbekannten/ bekannten "
-"Einschränkungen."
-
-#: tools/authors/add.php:285
-msgid "Invalid combination of year of birth and year of death."
-msgstr "Ungültige Kombination von Geburtsjahr und Todesjahr."
-
-#: tools/authors/add.php:289
-msgid "Invalid length of life."
-msgstr "Ungültige Lebensdauer."
-
-#: tools/authors/add.php:372
-msgid "Day"
-msgstr "Tag"
-
-#: tools/authors/add.php:374
-msgid "Year"
-msgstr "Jahr"
-
-#: tools/authors/add.php:376
-msgid "As entered"
-msgstr "Wie eingegeben"
-
-#. TRANSLATORS: Abbreviation for 'before Christ' (years < 0)
-#: tools/authors/add.php:378 tools/authors/authors.inc:123
-msgid "B. C."
-msgstr "v. Chr."
-
-#: tools/authors/add.php:379
-msgid "Comments (in<br>English, please)"
-msgstr "Kommentare (bitte<br>auf Englisch)"
-
-#: tools/authors/add.php:380
-msgid "Handy links:"
-msgstr "Nützliche Links:"
-
-#: tools/authors/add.php:401
-msgid ""
-"When entering birth- and death-dates, please make sure you get the data from "
-"a trustable source. This is unfortunately a hard term to define, but at the "
-"bottom of the page, you will find a list of suggested sites that provide a "
-"lot of data like this."
-msgstr ""
-"Wenn Sie Geburts- und Todesdaten eingeben, stellen Sie bitte sicher, dass "
-"die Angaben aus einer verlässlichen Quelle stammen. Leider ist das ein "
-"schwierig zu definierender Begriff, aber unten auf der Seite finden Sie eine "
-"Liste von Webseiten, die Daten dieser Art zur Verfügung stellen."
-
-#: tools/authors/add.php:403
-msgid ""
-"You can provide a comment with each date, but it should be short and "
-"concise. It will be displayed with the date as e.g. \"200 B. C. (circa)\", "
-"\"(circa)\" being the comment. If you wish to imply that the date is "
-"unknown, simply leave the field empty (do not type \"Unknown\" since that "
-"string will not be displayed in the other users' preferred languages)."
-msgstr ""
-"Sie können zu jedem Datum einen Kommentar hinzufügen, aber er sollte kurz "
-"und präzise sein. Er wird z.B. dargestellt als „200 B. C. (circa)“, wobei "
-"„(circa)“ der Kommentar ist. Wenn Sie sagen möchten, dass das Datum "
-"unbekannt ist, lassen Sie das Feld einfach leer (tippen Sie nicht "
-"„Unbekannt“, da dieser String nicht in der bevorzugten Sprache der anderen "
-"Benutzer dargestellt wird)."
-
-#: tools/authors/add.php:408 tools/authors/listing.php:64
-msgid "Last name"
-msgstr "Nachname"
-
-#: tools/authors/add.php:409 tools/authors/listing.php:66
-msgid "Other name(s)"
-msgstr "Andere/r Name/n"
-
-#: tools/authors/add.php:410 tools/authors/listing.php:68
-msgid "Born"
-msgstr "Geboren"
-
-#: tools/authors/add.php:415 tools/authors/listing.php:70
-msgid "Deceased"
-msgstr "Gestorben"
-
-#: tools/authors/add.php:422 tools/authors/addbio.php:139
-msgid "Save and Exit"
-msgstr "Speichern und Beenden"
-
-#: tools/authors/add.php:423
-msgid "Save and add Biography"
-msgstr "Speichern und Biographie hinzufügen"
-
-#: tools/authors/add.php:424
-msgid "Save and add Another"
-msgstr "Speichern und Weiteren hinzufügen"
-
-#: tools/authors/add.php:425 tools/authors/addbio.php:142
-msgid "Exit without saving"
-msgstr "Beenden ohne zu speichern"
-
-#: tools/authors/add.php:432
-msgid ""
-"Are you looking for birth- and death-data for an author? These links are "
-"good and trustable sources of information in our experience:"
-msgstr ""
-"Suchen Sie nach Geburts- und Todesdaten eines Autors? Unserer Erfahrung nach "
-"sind diese Seiten gute und vertrauenswürdige Quellen:"
-
-#: tools/authors/add.php:438
-msgid "birth- and death-dates can be accessed without registering"
-msgstr "der Zugang zu Geburts- und Todesdaten ist ohne Registrierung möglich"
-
-#: tools/authors/addbio.php:50
-msgid "The biography was successfully updated in the database!"
-msgstr "Die Biographie wurde erfolgreich in der Datenbank aktualisiert!"
-
-#: tools/authors/addbio.php:64
-msgid "The biography was successfully entered into the database!"
-msgstr "Die Biographie wurde erfolgreich in die Datenbank eingefügt!"
-
-#: tools/authors/addbio.php:78
-msgid "It was not possible to save the biography."
-msgstr "Es war nicht möglich, die Biographie zu speichern."
-
-#: tools/authors/addbio.php:87
-msgid ""
-"Some information is missing and this page can not be displayed. This has "
-"most likely occurred because you have entered the URL manually. Please enter "
-"this page by following links from other pages."
-msgstr ""
-"Einige Information fehlt und diese Seite kann nicht angezeigt werden. Dies "
-"ist höchstwahrscheinlich aufgetreten weil sie die URL manuell eingegeben "
-"haben. Bitte rufen Sie die Seite durch Folgen von Links auf anderen Seiten "
-"auf."
-
-#: tools/authors/addbio.php:99 tools/authors/menu.inc:17
-msgid "Add biography"
-msgstr "Biographie hinzufügen"
-
-#: tools/authors/addbio.php:99 tools/authors/menu.inc:20
-msgid "Edit biography"
-msgstr "Biographie bearbeiten"
-
-#: tools/authors/addbio.php:140
-msgid "Save and View"
-msgstr "Speichern und Anzeigen"
-
-#: tools/authors/addbio.php:141
-msgid "Save and add Author"
-msgstr "Speichern und Autor hinzufügen"
-
-#: tools/authors/authors.inc:4
-msgid "February"
-msgstr "Februar"
-
-#: tools/authors/authors.inc:4
-msgid "January"
-msgstr "Januar"
-
-#: tools/authors/authors.inc:4
-msgid "March"
-msgstr "März"
-
-#: tools/authors/authors.inc:5
-msgid "April"
-msgstr "April"
-
-#: tools/authors/authors.inc:5
-msgid "June"
-msgstr "Juni"
-
-#: tools/authors/authors.inc:5
-msgid "May"
-msgstr "Mai"
-
-#: tools/authors/authors.inc:6
-msgid "August"
-msgstr "August"
-
-#: tools/authors/authors.inc:6
-msgid "July"
-msgstr "Juli"
-
-#: tools/authors/authors.inc:6
-msgid "September"
-msgstr "September"
-
-#: tools/authors/authors.inc:7
-msgid "December"
-msgstr "Dezember"
-
-#: tools/authors/authors.inc:7
-msgid "November"
-msgstr "November"
-
-#: tools/authors/authors.inc:7
-msgid "October"
-msgstr "Oktober"
-
-#: tools/authors/authors.inc:39 tools/authors/manage.php:451
-msgid "Biographies"
-msgstr "Biographien"
-
-#: tools/authors/authors.inc:42
-#, php-format
-msgid "Biography %d"
-msgstr "Biographie %d"
-
-#. TRANSLATORS: Abbreviation for 'anno Domini' (years > 0)
-#: tools/authors/authors.inc:120
-msgid "A. D."
-msgstr "n. Chr."
-
-#: tools/authors/authors.inc:155 tools/authors/authors.inc:157
-#: tools/authors/authors.inc:168 tools/authors/authors.inc:170
-msgid "Sorry!"
-msgstr "Entschuldigung!"
-
-#: tools/authors/authors.inc:158 tools/authors/authors.inc:171
-msgid ""
-"You do not have permission to access this page.\n"
-"                If you believe you should, please contact a system "
-"administrator."
-msgstr ""
-"Sie haben keine Berechtigung auf diese Seite zuzugreifen.\n"
-"                Falls Sie glauben, dass Sie das können sollten, kontaktieren "
-"Sie bitte einen System-Administrator."
-
-#: tools/authors/bio.php:18
-msgid "No biography-id specified"
-msgstr "Keine biography-id angegeben"
-
-#: tools/authors/bio.php:19 tools/authors/bio.php:30
-#: tools/project_manager/update_illos.php:106
-msgid "An error occurred."
-msgstr "Ein Fehler ist aufgetreten."
-
-#: tools/authors/bio.php:19
-msgid "No biography-id was specified."
-msgstr "Keine biography-id wurde angegeben."
-
-#: tools/authors/bio.php:20 tools/authors/bio.php:31
-#, php-format
-msgid "You may return to the <a href=\"%1$s\">authors-listing</a>."
-msgstr "Sie können zur <a href=\"%1$s\">Autoren-Liste</a> zurückkehren."
-
-#: tools/authors/bio.php:29
-msgid "Invalid biography-id specified"
-msgstr "Ungültige biography-id angegeben"
-
-#: tools/authors/bio.php:30
-msgid "The specified biography-id was invalid."
-msgstr "Die angegebene biography-id war ungültig."
-
-#: tools/authors/bio.php:57
-msgid ""
-"To include this biography into the project comments of a project, insert the "
-"following snippet into the project comments:"
-msgstr ""
-"Um diese Biographie dem Projekt-Kommentar für ein Projekt hinzuzufügen, "
-"fügen Sie das Folgende in den Projekt-Kommentar ein:"
-
-#: tools/authors/listing.php:13
-msgid "Authors"
-msgstr "Autoren"
-
-#: tools/authors/manage.php:16 tools/authors/menu.inc:24
-msgid "Manage authors"
-msgstr "Autoren verwalten"
-
-#: tools/authors/manage.php:143
-msgid ""
-"This is the web interface for managing the authors. You should not be using "
-"this if you\n"
-"simply want to add or edit an author &mdash; this is for performing unusual "
-"tasks such as\n"
-"removing duplicates and enabling or disabling the view of a specific author."
-msgstr ""
-
-#: tools/authors/manage.php:147
-msgid ""
-"The directives you give below are processed 'right to left', i.e. first "
-"biographies are removed,\n"
-"then biographies are moved, then authors are deleted, and finally authors "
-"are (un-)checked as enabled."
-msgstr ""
-
-#: tools/authors/manage.php:150
-msgid ""
-"You should not be able to mark a biography for removal <b>and</b> moving, "
-"nor should you be able to\n"
-"delete an author without first (or simultaneously) deleting or moving all "
-"biographies connected to it. The site is\n"
-"supposed to prevent you from doing so, but please don't try."
-msgstr ""
-
-#: tools/authors/manage.php:421 tools/authors/manage.php:423
-#: tools/authors/search.inc:71
-msgctxt "all authors"
-msgid "All"
-msgstr "Alle"
-
-#: tools/authors/manage.php:438
-msgid "Move to here"
-msgstr "Hierher verschieben"
-
-#: tools/authors/manage.php:452
-msgid "Move"
-msgstr "Verschieben"
-
-#: tools/authors/menu.inc:12
-msgid "List authors"
-msgstr "Autoren auflisten"
-
-#: tools/authors/search.inc:55 tools/search.php:45
+#: tools/search.php:45
 msgid "Search Results"
 msgstr "Suchergebnisse"
-
-#: tools/authors/search.inc:110
-msgid "descending"
-msgstr "absteigend"
-
-#: tools/authors/search.inc:151
-msgid "Case insensitive."
-msgstr "Gro&szlig;- oder Kleinschreibung."
-
-#: tools/authors/search.inc:153
-#, php-format
-msgid ""
-"Use %1$s for partial matches or %2$s to match exactly one character.%3$s "
-"encodes start-of-string and %4$s encodes end-of-string."
-msgstr ""
-
-#: tools/authors/search.inc:169
-msgid "List all"
-msgstr "Zeige alle"
-
-#: tools/authors/search.inc:187
-msgid "sorted by"
-msgstr "sortiert nach"
 
 #: tools/change_sr_commitment.php:34
 #, php-format

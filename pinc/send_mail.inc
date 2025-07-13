@@ -27,16 +27,14 @@ use PHPMailer\PHPMailer\Exception;
  */
 function send_mail($to, $subject, $message, $from = null, $reply_to = null)
 {
-    global $testing, $phpmailer_smtp_config, $auto_email_addr, $site_name, $site_url;
-
     // If From & Reply-To given, use them
     // If only From given, use it, and don't include Reply-To at all
     // If only Reply-To given, use it, and use default email address for From
     // If neither given, use default email address for From and Reply-To
     if (is_null($from)) {
-        $from = $auto_email_addr;
+        $from = SiteConfig::get()->auto_email_addr;
         if (is_null($reply_to)) {
-            $reply_to = $auto_email_addr;
+            $reply_to = SiteConfig::get()->auto_email_addr;
         }
     }
 
@@ -51,9 +49,9 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
 
     $html_message = render_markdown_as_html($message) . $html_footer;
 
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         echo "\n<hr style='border-style:double;'>\n";
-        echo "\$testing is $testing. If it were FALSE, the following Markdown mail would have been sent:\n";
+        echo "\$testing is TRUE. If it were FALSE, the following Markdown mail would have been sent:\n";
         echo "<pre style='white-space: pre-wrap'>\n";
         echo html_safe("To: $to\n");
         echo html_safe("Subject: $subject\n");
@@ -78,7 +76,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
         // Server settings
         $mail->CharSet = 'UTF-8';
         $mail->isSMTP();
-        foreach ($phpmailer_smtp_config as $key => $value) {
+        foreach (SiteConfig::get()->phpmailer_smtp_config as $key => $value) {
             $mail->$key = $value;
         }
 
@@ -108,8 +106,6 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
 
 function send_mail_project_manager($project, $info, $prefix)
 {
-    global $code_url, $site_abbreviation, $site_name;
-
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
@@ -121,12 +117,12 @@ function send_mail_project_manager($project, $info, $prefix)
         $project->email_introduction(),
         $info,
         "",  // spacer for a blank line
-        sprintf(_("Thank you for volunteering with %s!"), $site_name),
+        sprintf(_("Thank you for volunteering with %s!"), SiteConfig::get()->site_name),
     ]);
 
     configure_gettext_for_user();
     $user = new User($username);
-    return send_mail($user->email, "$site_abbreviation: $prefix: \"$nameofwork\"", $body);
+    return send_mail($user->email, SiteConfig::get()->site_abbreviation . ": $prefix: \"$nameofwork\"", $body);
 }
 
 /**
@@ -137,21 +133,19 @@ function send_mail_project_manager($project, $info, $prefix)
  */
 function get_standard_email_footers()
 {
-    global $site_url, $site_name;
-
     $automated_message = "This is an automated message.";
     $text_footer = implode("\n", [
         "",
-        str_repeat("-", strlen($site_name)), // make <hr> from hyphens
-        $site_name,
-        $site_url,
+        str_repeat("-", strlen(SiteConfig::get()->site_name)), // make <hr> from hyphens
+        SiteConfig::get()->site_name,
+        SiteConfig::get()->site_url,
         "",
         $automated_message,
         "",
     ]);
     $html_footer = implode("\n", [
         "<hr style='width:12em; margin-left:0; margin-top:2em;'>",
-        "<a href='$site_url'>$site_name</a><br>",
+        sprintf("<a href='%s'>%s</a><br>", SiteConfig::get()->site_url, SiteConfig::get()->site_name),
         "<small>$automated_message</small><br>",
     ]);
     return [$text_footer, $html_footer];

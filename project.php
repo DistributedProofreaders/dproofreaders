@@ -1886,11 +1886,12 @@ function echo_smoothreading_options(Project $project): void
 
     // no space after bracket commas
     echo_file_downloads(glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE), $smooth_url);
+    echo_file_downloads(glob("$smooth_dir/*.pdf"), $smooth_url);
 
-    // original uploaded zip file
+    // original uploaded zip file if there is more than one component file
     $file_base_name = $project->projectid . "_smooth_avail.zip";
     $file = "$project->dir/$file_base_name";
-    if (file_exists($file)) {
+    if (file_exists($file) && count(glob("$smooth_dir/*")) > 1) {
         echo_download_item($project->url, $file, $file_base_name, "Download all formats");
     }
     echo "</ul>";

@@ -12,7 +12,7 @@ include_once($relPath.'metarefresh.inc');
 
 require_login();
 
-$tasks_url = $code_url . "/" . basename(__FILE__);
+$tasks_url = SiteConfig::get()->code_url . "/" . basename(__FILE__);
 
 $user = User::load_current();
 $requester_u_id = $user->u_id;
@@ -358,12 +358,12 @@ function SearchParams_echo_controls(): void
  */
 function SearchParams_get_sql_condition(array $request_params): string
 {
-    global $testing, $SearchParams_choices;
+    global $SearchParams_choices;
 
     $condition = "1";
     if (isset($request_params['search_text'])) {
         $search_text = normalize_whitespace($request_params['search_text']);
-        if ($testing) {
+        if (SiteConfig::get()->testing) {
             echo_html_comment("\$request_params['search_text'] = $search_text");
         }
 
@@ -465,7 +465,6 @@ function create_task_from_form_submission(array $formsub): ?string
     global $browser_array;
     global $now_sse;
     global $requester_u_id;
-    global $site_abbreviation;
 
     $task_summary = trim($formsub['task_summary'] ?? '');
     $task_details = trim($formsub['task_details'] ?? '');
@@ -538,10 +537,10 @@ function create_task_from_form_submission(array $formsub): ?string
     // If $newt_assignee is 0, there is no user assigned so no notification
     // to send out.
     if ($newt_assignee != 0) {
-        global $tasks_url, $code_url;
+        global $tasks_url;
         send_mail(
             $task_assignee_user->email,
-            "$site_abbreviation Task Center: Task #$task_id has been assigned to you",
+            SiteConfig::get()->site_abbreviation . " Task Center: Task #$task_id has been assigned to you",
             $task_assignee_user->username . ", you have been assigned task #$task_id.  Please visit this task at $tasks_url?action=show&task_id=$task_id.\n\nIf you do not want to accept this task please edit the task and change the assignee to 'Unassigned'."
         );
     }
@@ -1002,7 +1001,7 @@ function dropdown_select(string $field_name, string $current_value, array $array
 
 function TaskHeader(string $header, bool $show_new_alert = false): void
 {
-    global $tasks_url, $pguser, $code_url;
+    global $tasks_url, $pguser;
 
     // Allow this function to be called more than once but only output the
     // header once. This allows ShowError() to call the function to ensure
@@ -1013,7 +1012,7 @@ function TaskHeader(string $header, bool $show_new_alert = false): void
     }
     $header_output = true;
 
-    $header_args = ["js_files" => ["$code_url/scripts/tasks.js"]];
+    $header_args = ["js_files" => [SiteConfig::get()->code_url . "/scripts/tasks.js"]];
     output_header($header, NO_STATSBAR, $header_args);
 
     $userSettings = & Settings::get_Settings($pguser);
@@ -1527,7 +1526,7 @@ function TaskComments($tid, $action)
 
 function NotificationMail($tid, $message, $new_task = false)
 {
-    global $site_abbreviation, $code_url, $tasks_url, $pguser, $site_name;
+    global $tasks_url, $pguser;
 
     $task = load_task($tid);
     if (!$task) {
@@ -1535,7 +1534,7 @@ function NotificationMail($tid, $message, $new_task = false)
     }
     $task_summary = $task['task_summary'];
 
-    $subject = "$site_abbreviation Task #$tid: $task_summary";
+    $subject = SiteConfig::get()->site_abbreviation . " Task #$tid: $task_summary";
     $footer = "\n\n$tasks_url?task_id=$tid";
 
     if ($new_task) {
@@ -1773,7 +1772,7 @@ function property_get_label($property_id, $for_list_of_tasks)
 
 function property_format_value(string $property_id, array $task_a, bool $for_list_of_tasks): string
 {
-    global $code_url, $tasks_url;
+    global $tasks_url;
     global $browser_array;
     global $categories_array;
     global $os_array;

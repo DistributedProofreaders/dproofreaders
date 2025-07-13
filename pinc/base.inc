@@ -43,14 +43,14 @@ if (DPDatabase::get_connection()) {
     dpsession_resume();
 }
 
-configure_gettext(get_desired_language(), $dyn_locales_dir, $system_locales_dir);
+configure_gettext(get_desired_language());
 
 // Load the site structure. We do this here and not in bootstrap.inc because
 // it uses _() on some strings but we need to configure_gettext() first
 // or those won't be in the user's language.
 include_once($relPath.'site_structure.inc');
 
-if ($maintenance && !@$maintenance_override) {
+if (SiteConfig::get()->maintenance && !@$maintenance_override) {
     /*
     Including user_is.inc causes a perf impact because it includes
     page_tally.inc, which includes stages.inc - all of which have a
@@ -62,15 +62,15 @@ if ($maintenance && !@$maintenance_override) {
     include_once($relPath.'slim_header.inc');
 
     if (!user_is_a_sitemanager()) {
-        $title = sprintf(_("%s Maintenance"), $site_name);
+        $title = sprintf(_("%s Maintenance"), SiteConfig::get()->site_name);
         slim_header($title);
         echo "<h1>$title</h1>";
 
         $message = _("We are currently performing maintenance on the server.  Please be patient, we should have the site back up and running shortly.");
         echo "<p>$message</p>";
 
-        if ($maintenance_message) {
-            echo $maintenance_message;
+        if (SiteConfig::get()->maintenance_message) {
+            echo SiteConfig::get()->maintenance_message;
         }
 
         exit();

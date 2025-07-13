@@ -132,14 +132,12 @@ function reassemble()
 
 function report_error($error, $response_code = 204)
 {
-    global $testing;
-
     // by default return a 204 which will cause the resumable upload
     // to retry the chunk upload
     http_response_code($response_code);
 
     // log on non-retry errors or if we're testing
-    if ($response_code != 204 || $testing) {
+    if ($response_code != 204 || SiteConfig::get()->testing) {
         error_log("upload_resumable_file.php - $error");
     }
 }

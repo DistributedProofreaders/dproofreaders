@@ -12,7 +12,7 @@ $order = get_enumerated_param($_GET, 'order', 'nameofwork', ['nameofwork', 'auth
 
 echo "<h1>$title</h1>\n";
 
-echo sprintf(_("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a href='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:$general_help_email_addr", "$general_help_email_addr");
+echo sprintf(_("We don't know for sure who PPd these books; if you do know, or if you did, please send an email: <a href='%1\$s'>%2\$s</a> quoting the other information in the row, including the project ID. Thanks!"), "mailto:" . SiteConfig::get()->general_help_email_addr, SiteConfig::get()->general_help_email_addr);
 
 //get projects that have been PPd but we don't know by whom
 $psd = get_project_status_descriptor('PPd');

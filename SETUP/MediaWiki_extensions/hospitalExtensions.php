@@ -40,7 +40,7 @@ function wfHospitalInfo()
 function listHospitalProjects($input, $argv)
 {
     global $relPath, $code_url;
-    include_once($relPath.'site_vars.php');
+    include_once($relPath.'SiteConfig.php');
     include_once($relPath.'DPDatabase.inc');
 
     DPDatabase::connect();

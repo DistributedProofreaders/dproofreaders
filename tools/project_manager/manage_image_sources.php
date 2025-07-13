@@ -63,7 +63,8 @@ if ($action == 'update_oneshot') {
         if ($source->code_name && !isset($_REQUEST['editing'])) {
             $errmsgs .= sprintf(_('An Image Source with this ID already exists. If you
             wish to edit the details of an existing source, please contact %s.
-            Otherwise, choose a different ID for this source.'), $db_requests_email_addr) . "<br>";
+            Otherwise, choose a different ID for this source.'), SiteConfig::get()->db_requests_email_addr) . "<br>";
+            $source = new ImageSource();
         }
 
         if ($errmsgs) {
@@ -321,7 +322,6 @@ class ImageSource
 
     public function _show_edit_permissions_row()
     {
-        global $site_abbreviation;
         $cols = [
             ['field' => 'ok_keep_images', 'label' => _('Images may be stored')],
             ['field' => 'ok_show_images', 'label' => _('Images may be published')],
@@ -366,7 +366,7 @@ class ImageSource
             // TRANSLATORS: PMs = project managers
             '1' => _('Also PMs'),
             // TRANSLATORS: %s is the site abbreviation
-            '2' => sprintf(_("All %s Users"), $site_abbreviation),
+            '2' => sprintf(_("All %s Users"), SiteConfig::get()->site_abbreviation),
             '3' => _('Publicly Visible'), ] as $val => $opt) {
             {
                 $editing .= "<option value='$val' " .
@@ -456,7 +456,7 @@ class ImageSource
 
     public function approve()
     {
-        global $pguser, $site_abbreviation, $site_name;
+        global $pguser;
         $this->_set_field('is_active', 1);
         $this->_set_field('info_page_visibility', 1);
 
@@ -471,7 +471,7 @@ class ImageSource
             $userSettings = & Settings::get_Settings($username);
             $userSettings->remove_value('is_approval_notify', $this->code_name);
 
-            $subject = sprintf(_('%1$s: Image Source %2$s has been approved!'), $site_abbreviation, $this->display_name);
+            $subject = sprintf(_('%1$s: Image Source %2$s has been approved!'), SiteConfig::get()->site_abbreviation, $this->display_name);
 
             $body = "Hello $username,\n\n" .
                 "The Image Source that you proposed, $this->display_name, has been\n".
@@ -537,7 +537,6 @@ class ImageSource
 
     public function _showto($show_to)
     {
-        global $site_abbreviation;
         switch ($show_to) {
             case '0':
                 $to_whom = _("Image Managers Only");
@@ -546,7 +545,7 @@ class ImageSource
                 $to_whom = _("Project Managers");
                 break;
             case '2':
-                $to_whom = sprintf(_("Any %s User"), $site_abbreviation);
+                $to_whom = sprintf(_("Any %s User"), SiteConfig::get()->site_abbreviation);
                 break;
             case '3':
                 $to_whom = _("All Users and Visitors");
@@ -557,22 +556,28 @@ class ImageSource
 
     public function log_request_for_approval($requestor_username)
     {
-        global $general_help_email_addr,$image_sources_manager_addr,$code_url,$site_abbreviation,$site_name;
-
         $userSettings = & Settings::get_Settings($requestor_username);
         $userSettings->add_value('is_approval_notify', $this->code_name);
 
-        $subject = sprintf(_('%s: New Image Source proposed'), $site_abbreviation)." : ".$this->display_name;
+        $subject = sprintf(_('%s: New Image Source proposed'), SiteConfig::get()->site_abbreviation)." : ".$this->display_name;
 
-        $body = "Hello,\n\nYou are receiving this email because\n".
-        "you are listed as an Image Sources manager at the $site_name\n".
-        "site. If this is an error, please contact <$general_help_email_addr>.\n\n".
-        "$requestor_username has proposed that $this->display_name be added\n".
-        "to the list of Image Sources. To edit or approve this Image Source,\n".
-        "visit\n    $code_url/tools/project_manager/manage_image_sources.php?action=show_sources#$this->code_name".
-        "\n";
+        $body = sprintf(
+            "Hello,\n\nYou are receiving this email because\n".
+            "you are listed as an Image Sources manager at the %s\n".
+            "site. If this is an error, please contact <%s>.\n\n".
+            "%s has proposed that %s be added\n".
+            "to the list of Image Sources. To edit or approve this Image Source,\n".
+            "visit\n    %s/tools/project_manager/manage_image_sources.php?action=show_sources#%s".
+            "\n",
+            SiteConfig::get()->site_name,
+            SiteConfig::get()->general_help_email_addr,
+            $requestor_username,
+            $this->display_name,
+            SiteConfig::get()->code_url,
+            $this->code_name
+        );
 
-        send_mail($image_sources_manager_addr, $subject, $body);
+        send_mail(SiteConfig::get()->image_sources_manager_addr, $subject, $body);
     }
 }
 

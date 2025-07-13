@@ -13,9 +13,9 @@
 /** @return never */
 function metarefresh(int $seconds, string $url, string $title = "", string $body = "", bool $allow_external = false)
 {
-    global $testing, $code_url;
+    global $code_url;
 
-    if ($testing && (headers_sent() || ob_get_length())) {
+    if (SiteConfig::get()->testing && (headers_sent() || ob_get_length())) {
         $sec = $seconds + 15;
         // That may not be long enough to read everything,
         // but it should be long enough to Select All + Copy.
@@ -67,7 +67,7 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
 
     echo "$body\n";
 
-    if ($testing) {
+    if (SiteConfig::get()->testing) {
         echo "\n<hr>\n<i>";
         echo sprintf(_('Normally, you would be directed to the next page in %1$d seconds. However, as we are in testing mode, this has been increased to %2$d seconds. If you don\'t want to wait that long, or if you want this page inserted into your browser history, <a href="%3$s">click here</a>.'), $seconds, $sec, attr_safe($absolute_url));
         echo "</i>";

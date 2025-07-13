@@ -81,8 +81,8 @@ function user_can_modify_access_of(?string $subject_username): array
         $can_revoke = false;
     }
 
-    global $testing, $pguser;
-    if ($testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser) { /** @phpstan-ignore-line */
+    global $pguser;
+    if (SiteConfig::get()->testing && (!$can_grant || !$can_revoke) && $subject_username == $pguser) { /** @phpstan-ignore-line */
         static $shown = false;
         if (!$shown) {
             echo "<p class='test_warning'>";
@@ -246,7 +246,6 @@ function user_has_DU_access(): bool
 
 function user_can_see_queue_settings(): bool
 {
-    global $ordinary_users_can_see_queue_settings;
-    return $ordinary_users_can_see_queue_settings ||
+    return SiteConfig::get()->ordinary_users_can_see_queue_settings ||
         user_is_a_sitemanager() || user_is_proj_facilitator();
 }

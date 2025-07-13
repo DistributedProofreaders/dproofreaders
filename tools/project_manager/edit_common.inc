@@ -2,7 +2,7 @@
 include_once($relPath.'iso_lang_list.inc');
 include_once($relPath.'genres.inc'); // load_genre_translation_array
 include_once($relPath.'wordcheck_engine.inc'); // get_project_word_file
-include_once($relPath.'links.inc'); // new_window_link, new_help_window_link
+include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
 include_once($relPath.'special_colors.inc'); // load_special_days()
 include_once($relPath.'User.inc');
@@ -258,8 +258,6 @@ function special_list($special)
 
 function image_source_list($image_source)
 {
-    global $site_abbreviation;
-
     $imso_array = [];
     foreach (load_image_sources() as $code => $source) {
         if (($source["is_active"] == 1 && can_user_see_image_source($source)) ||
@@ -283,7 +281,7 @@ function image_source_list($image_source)
     }
 
     echo "</select> ";
-    echo "<span class='small'>". html_safe(sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), $site_abbreviation))."</span>";
+    echo "<span class='small'>". html_safe(sprintf(_("'%1\$s Internal' if scanned by or for a %1\$s user."), SiteConfig::get()->site_abbreviation))."</span>";
     echo " " . new_window_link("show_image_sources.php", _("Details of Image Sources"));
     echo "<br>";
 }

@@ -308,10 +308,10 @@ function page_info_fetch($res)
 /** @return array{0: string, 1: string} */
 function generate_project_images_zip(string $projectid): array
 {
-    global $dyn_dir, $dyn_url, $projects_dir;
+    global $projects_dir;
 
-    $zipfile_path = "$dyn_dir/download_tmp/{$projectid}_images.zip";
-    $zipfile_url = "$dyn_url/download_tmp/{$projectid}_images.zip";
+    $zipfile_path = SiteConfig::get()->dyn_dir . "/download_tmp/{$projectid}_images.zip";
+    $zipfile_url = SiteConfig::get()->dyn_url . "/download_tmp/{$projectid}_images.zip";
     $project_path = "$projects_dir/$projectid";
 
     // If there's already a zip file, check if its contents are up to

@@ -25,10 +25,10 @@ $login_failures = [
     'no_username' => _("You did not supply a username."),
     'no_password' => _("You did not supply a password."),
     'auth_failure' => _("Unable to authenticate. The username/password may be incorrect or your account may be locked."),
-    'banned' => sprintf(_("Your account has been banned. If you feel this is in error, please contact a <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr"),
-    'unknown_failure' => sprintf(_("An unexpected failure occurred, please contact a <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr"),
+    'banned' => sprintf(_("Your account has been banned. If you feel this is in error, please contact a <a href='%s'>site manager</a>."), "mailto:" . SiteConfig::get()->site_manager_email_addr),
+    'unknown_failure' => sprintf(_("An unexpected failure occurred, please contact a <a href='%s'>site manager</a>."), "mailto:" . SiteConfig::get()->site_manager_email_addr),
     'too_many_attempts' => sprintf(_("You exceeded the maximum number of failed logins. Go <a href='%s'>log into the forums</a> and answer the CAPTCHA. Once you have successfully logged in there, return here and try again."), get_url_for_forum_user_login()),
-    'reg_mismatch' => sprintf(_("You are registered with the forum software, but not with %s."), $site_abbreviation),
+    'reg_mismatch' => sprintf(_("You are registered with the forum software, but not with %s."), SiteConfig::get()->site_abbreviation),
     'form_timeout' => _("Form submission timeout, go back and try again."),
 ];
 
@@ -51,7 +51,7 @@ if ($error_code == "banned") {
 
 echo "<p>" . _("Please attempt again to log in above. If problems persist, review the following possible fixes:") . "</p>";
 echo "<ol>";
-if ($testing) {
+if (SiteConfig::get()->testing) {
     echo "<li class='test_warning'>" . _("Register! (Note that this is a test site, and has a separate database from the production site, so you need to register separately.)") . "</li>\n";
 }
 echo "<li>" . _("Type your username in the exact same way as when you registered.") . "</li>\n";
@@ -61,9 +61,9 @@ echo "<li>" . sprintf(_("Accept cookies (at least from us at %s)."), $_SERVER["H
 echo "<li>" . sprintf(_("Allow popup windows (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";
 echo "<li>" . _("Ensure your computer's clock is set to the correct date &amp; time.") . "</li>\n";
 echo "</ol>";
-echo "<p>" . sprintf(_("If all of this fails, contact a <a href='%s'>site manager</a>."), "mailto:$site_manager_email_addr") . "</p>";
-if ($testing) {
-    echo "<p class='test_warning'>" . sprintf(_("Note: This is a testing site, and is not set up to send emails. If you have just registered, the page generated should have had an activation link on the page for you to copy and paste into a new browser tab. If you closed that page and can no longer access the information on it, please contact a <a href='%s'>site manager</a> to solve the problem."), "mailto:$site_manager_email_addr") . "</p>";
+echo "<p>" . sprintf(_("If all of this fails, contact a <a href='%s'>site manager</a>."), "mailto:" . SiteConfig::get()->site_manager_email_addr) . "</p>";
+if (SiteConfig::get()->testing) {
+    echo "<p class='test_warning'>" . sprintf(_("Note: This is a testing site, and is not set up to send emails. If you have just registered, the page generated should have had an activation link on the page for you to copy and paste into a new browser tab. If you closed that page and can no longer access the information on it, please contact a <a href='%s'>site manager</a> to solve the problem."), "mailto:" . SiteConfig::get()->site_manager_email_addr) . "</p>";
 } else {
-    echo "<p>" . sprintf(_("Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox. Once it does, please click the activation link to complete the registration (this is to prevent others from signing you up to the site without your knowledge). If you have waited for an hour or so and have still not received any mail from us (please check any spam filters!), it is likely that you misentered your email-address. Please contact a <a href='%s'>site manager</a> to solve the problem."), "mailto:$site_manager_email_addr") . "</p>";
+    echo "<p>" . sprintf(_("Note: If you have just registered, you will need to wait for the welcome mail to arrive to your mailbox. Once it does, please click the activation link to complete the registration (this is to prevent others from signing you up to the site without your knowledge). If you have waited for an hour or so and have still not received any mail from us (please check any spam filters!), it is likely that you misentered your email-address. Please contact a <a href='%s'>site manager</a> to solve the problem."), "mailto:" . SiteConfig::get()->site_manager_email_addr) . "</p>";
 }

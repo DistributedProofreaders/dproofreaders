@@ -116,7 +116,7 @@ function show_query_form()
         echo "<p>";
         echo sprintf(
             _("If you believe you should be seeing the Create Project page please contact a <a href='%s'>Site Administrator</a>"),
-            "mailto:".$GLOBALS['site_manager_email_addr']
+            "mailto:" . SiteConfig::get()->site_manager_email_addr
         );
         echo "</p>";
     } else {
@@ -188,11 +188,10 @@ function do_search_and_show_hits()
         $fullquery = query_format();
     }
 
-    global $external_catalog_locator;
     // We request UTF-8 character set, but according to the docs (and our testing)
     // most servers ignore this and return ISO-8859-1 anyway. The strings get
     // converted to UTF-8 via MARCRecord::__get() instead.
-    $id = yaz_connect($external_catalog_locator, ["charset" => "UTF-8"]);
+    $id = yaz_connect(SiteConfig::get()->external_catalog_locator, ["charset" => "UTF-8"]);
     yaz_syntax($id, "usmarc");
     yaz_element($id, "F");
     yaz_search($id, "rpn", trim(str_replace("\n", " ", $fullquery)));
