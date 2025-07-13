@@ -23,7 +23,7 @@ function automodify(?string $projectid = null): void
     $trace = false;
 
     if ($projectid) {
-        $verbose = $GLOBALS['testing'];
+        $verbose = SiteConfig::get()->testing;
         $condition = sprintf("projectid = '%s'", DPDatabase::escape($projectid));
         $single_project = true;
     } else {
