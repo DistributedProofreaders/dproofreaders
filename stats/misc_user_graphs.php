@@ -14,7 +14,7 @@ $graphs = [
     ["barLineGraph", "new_users", new_users("month")],
 ];
 
-output_header($title, SHOW_STATSBAR, [
+output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
     "js_data" => build_svg_graph_inits($graphs),
 ]);
