@@ -58,7 +58,7 @@ foreach ($day_options as $days) {
     $graphs[] = ["pieGraph", "equilibria_$days", display_graph($days)];
 }
 
-output_header($title, SHOW_STATSBAR, [
+output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
     "js_data" => build_svg_graph_inits($graphs),
 ]);

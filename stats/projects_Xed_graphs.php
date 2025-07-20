@@ -17,7 +17,7 @@ $graphs = [
     ["barLineGraph", "cumulative_total_proj_graph", cumulative_total_proj_graph($which)],
 ];
 
-output_header($psd->graphs_title, SHOW_STATSBAR, [
+output_header($psd->graphs_title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
     "js_data" => build_svg_graph_inits($graphs),
 ]);
