@@ -49,7 +49,7 @@ Use this area to have a discussion with your fellow teammates! :-D
 
 
     // appropriate forum to create thread in
-    $forum_id = $teams_forum_idx;
+    $forum_id = SiteConfig::get()->teams_forum_idx;
 
     $post_subject = $tname;
 
