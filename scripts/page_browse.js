@@ -101,10 +101,10 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     // declare this here to avoid use before define warning
     let getProjectData;
 
-    let resizeAction = function() {};
+    let resizeAction = function () {};
     function resize() {
         resizeAction();
-    };
+    }
 
     const topDiv = $("#page-browser");
     // the non-scrolling area which will contain the page controls
@@ -379,5 +379,5 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
 
     return {
         resize,
-    }
+    };
 }
