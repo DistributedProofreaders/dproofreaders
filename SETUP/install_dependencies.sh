@@ -73,7 +73,7 @@ if [ $PROD -eq 1 ]; then
     npm run build
 
     # create the manifest cache
-    $SCRIPT_DIR/generate_manifest_cache.php $DIR/pinc/
+    $SCRIPT_DIR/generate_manifest_cache.php $DIR
 
     echo "Installing only the production dependencies..."
     npm ci --omit dev --omit optional
