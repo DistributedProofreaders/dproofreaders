@@ -254,7 +254,7 @@ $messages["P_fnmarkermissing"] = [
 ];
 $messages["P_fnbottombrackets"] = [
     "message_title" => _("Footnote marker bracketed at footnote text"),
-    "message_body" => _("Precede the footnote text with the same mark you used in the text, but <b>without</b> square brackets."),
+    "message_body" => _("Precede the footnote text with the same mark you used in the text, but <b>without</b> the square brackets."),
     "guideline" => "footnotes",
 ];
 $messages["P_fnbottomsuper"] = [
@@ -264,7 +264,7 @@ $messages["P_fnbottomsuper"] = [
 ];
 $messages["P_fnbottomnospace"] = [
     "message_title" => _("Footnote marker not spaced from footnote text"),
-    "message_body" => _("Precede the footnote text with the same mark you used in the text, without square brackets but <b>with a space between them</b>."),
+    "message_body" => _("Precede the footnote text with the same mark you used in the text, without the square brackets but <b>with a space between them</b>."),
     "guideline" => "footnotes",
 ];
 $messages["P_fnmarkup"] = [
@@ -274,7 +274,7 @@ $messages["P_fnmarkup"] = [
 ];
 $messages["P_fnbottommarker"] = [
     "message_title" => _("Footnote marker missing at footnote text"),
-    "message_body" => _("Precede the footnote text with the same mark you used in the text, but without square brackets."),
+    "message_body" => _("Precede the footnote text with the same mark you used in the text. In the text, the mark is surrounded by square brackets to set it off from the text. The square brackets should be omitted when labeling the footnote."),
     "guideline" => "footnotes",
 ];
 $messages["P_fnspace"] = [
