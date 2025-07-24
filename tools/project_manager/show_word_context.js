@@ -62,7 +62,8 @@ window.addEventListener("DOMContentLoaded", function () {
     function showImage(imageFile) {
         if (!ShowImageFile) {
             params.set("imagefile", imageFile);
-            pageBrowse(params, showWordContext.storageKey, function () {}, false, setShowImageFile);
+            const pageBrowser = pageBrowse(params, showWordContext.storageKey, function () {}, false, setShowImageFile);
+            mainSplit.onResize.add(pageBrowser.resize);
         } else {
             ShowImageFile(imageFile);
         }
