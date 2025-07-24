@@ -7,5 +7,7 @@ window.addEventListener("DOMContentLoaded", function () {
         window.history.replaceState(null, "", url.href);
     }
 
-    pageBrowse(url.searchParams, "page-browse", replaceUrl, mentorMode);
+    const pageBrowser = pageBrowse(url.searchParams, "page-browse", replaceUrl, mentorMode);
+
+    window.addEventListener("resize", pageBrowser.resize);
 });

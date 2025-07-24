@@ -101,6 +101,11 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
     // declare this here to avoid use before define warning
     let getProjectData;
 
+    let resizeAction = function() {};
+    function resize() {
+        resizeAction();
+    };
+
     const topDiv = $("#page-browser");
     // the non-scrolling area which will contain the page controls
     const fixHead = $("<div>", { class: "fixed-box control-pane" });
@@ -199,7 +204,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                     const imageDiv = $("<div>");
                     imageWidget = makeImageWidget(imageDiv);
                     imageWidget.setup(storageKey);
-                    window.addEventListener("resize", imageWidget.reScroll);
+                    resizeAction = imageWidget.reScroll;
                     stretchDiv.append(imageDiv);
                     showImageText();
                 } else {
@@ -221,6 +226,7 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
                             imageWidget = makeImageWidget(imageDiv);
                             stretchDiv.append(imageDiv, textDiv);
                             const theSplitter = viewSplitter(stretchDiv[0], storageKey);
+                            resizeAction = theSplitter.resize;
                             if (mentorMode) {
                                 // make a text widget with splitter
                                 textWidget = makeTextWidget(textDiv, true);
@@ -369,5 +375,9 @@ function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowF
         }
     } else {
         selectAProject();
+    }
+
+    return {
+        resize,
     }
 }

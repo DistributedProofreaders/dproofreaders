@@ -12,7 +12,6 @@ var viewSplitter = function (container, storageKey) {
     let splitVertical = layout.splitDirection === "vertical";
 
     const mainSplit = splitControl(container, { splitVertical: splitVertical });
-    window.addEventListener("resize", mainSplit.reLayout);
 
     const splitButton = document.createElement("button");
     splitButton.type = "button";
@@ -69,5 +68,6 @@ var viewSplitter = function (container, storageKey) {
         preSetSplitDirCallback,
         postSetSplitDirCallback,
         fireSetSplitDir,
+        resize: mainSplit.reLayout,
     };
 };
