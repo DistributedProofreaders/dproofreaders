@@ -10,7 +10,7 @@ define('SIX_MONTHS_IN_SECONDS', 15778463);
 $wiki_url = SiteConfig::get()->wiki_url;
 $default_feedbackurl = get_url_to_view_topic(55121);
 $old_texts_url = "$wiki_url/Proofing_old_texts";
-$Greek_translit_url = "$wiki_url/Transliterating_Greek";
+$Greek_translit_url = "$wiki_url/The_Greek_Alphabet";
 $ae_oe_ligatures_url = "$wiki_url/Ae_and_oe_ligatures";
 $thorn_url = "$wiki_url/Thorn";
 $fraktur_url = "$wiki_url/Common_Fraktur_OCR_errors";

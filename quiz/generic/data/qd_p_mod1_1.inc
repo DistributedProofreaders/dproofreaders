@@ -9,7 +9,7 @@ $solutions = [
     "warm bath on March 8^{th} (who shall say hereafter\nthat science is unfeeling!), upon which the grateful\nsnail put his head cautiously out of his shell,\nwalked up to the top of the basin, and began to take\na survey of British institutions with his four eye-bearing\ntentacles. So strange a recovery from a\nlong torpid condition deserved an exceptional amount\nof scientific recognition. The desert snail at\n\nDesert snail.\n\nonce found himself famous. Nay, he actually sat\nfor his portrait to an eminent zoological artist, Mr.",
 ];
 $criteria = ["e-*b"];
-$parting_message = "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("In many books a page footer consisting of a number and/or letter will appear on some pages but not others.  These are <i>printer's marks</i>, used to assist the printer in assembling the sections of the book in order.  They often only appear every 16 pages.  Printer's marks should be deleted like any other page footer.") . "</p>";
 
 // error messages

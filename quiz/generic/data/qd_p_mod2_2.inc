@@ -5,7 +5,7 @@ $intro_title = sprintf(_("Moderate Proofreading Quiz: Part %1\$d, Page %2\$d"), 
 $initial_instructions = $initial_instructions__P;
 $initial_text = "its terrestrial excursions. Just above\nthe gills, lie climbing perch has\ninvented a wholly original water chamber\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen\n--or O2 to scientists--from\nthe stored-up water\nduring the course of its aerial peregrinations\n. While on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of us own,\nand does not despise fruits and berries";
 $solutions = ["its terrestrial excursions. Just above\nthe gills, the climbing perch has\ninvented a wholly original water chamber,\ncontaining within it a\nfrilled bony organ, which\nenables it to extract oxygen--or\nO_{2} to scientists--from\nthe stored-up water\nduring the course of its aërial peregrinations.\nWhile on shore it picks up\nsmall insects, worms, and grubs; but it\nalso has vegetarian tastes of its own,\nand does not despise fruits and berries."];
-$parting_message = "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("The texts that we proofread sometimes have different spellings than what we use today, including accents in words like <kbd>coöperate</kbd> and <kbd>preëminent</kbd>. OCR programs often miss the accents, so be sure to check the image carefully when proofreading.") . "</p>";
 
 // error messages
