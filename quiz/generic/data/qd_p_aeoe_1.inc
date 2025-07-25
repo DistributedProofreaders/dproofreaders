@@ -6,7 +6,7 @@ $intro_title = sprintf(_("Ligatures Proofreading Quiz, page %d"), 1);
 $initial_instructions = $initial_instructions__P;
 $initial_text = "Colleges.' But his chef-d'ceuvre was his\nemphatic recognition of all the doctors, both the\nproctors, as if the numerical antithesis threw\nthose excellent personages into a charming\ntableau vinant.'\n\nThey proceeded down High Street, and then\nsaw Mr. Baternan, a bore at least of the second\nmagnitude. It is very difficult duly to delineate\na borc in a narrative, for the very reason that he\nis a bore. But eventually the truth bursts on\nyou, apparent dirae facies, you are in the\nclutches of a bore. You may yield, or you may\nflee; you cannot conquer.";
 $solutions = ["Colleges.' But his chef-d'œuvre was his\nemphatic recognition of all the doctors, both the\nproctors, as if the numerical antithesis threw\nthose excellent personages into a charming\ntableau vivant.\"\n\nThey proceeded down High Street, and then\nsaw Mr. Bateman, a bore at least of the second\nmagnitude. It is very difficult duly to delineate\na bore in a narrative, for the very reason that he\nis a bore. But eventually the truth bursts on\nyou, apparent diræ facies, you are in the\nclutches of a bore. You may yield, or you may\nflee; you cannot conquer."];
-$parting_message = "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("If something is not clear in the image, please leave a [**note] in the text or ask in the project discussion rather than guessing.") . "</p>";
 
 

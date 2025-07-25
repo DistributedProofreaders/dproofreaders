@@ -9,7 +9,7 @@ $solutions = [
     "pedagogue, of Birmingham manufacture, <i>viz.,\nDr</i>. Parr, had amassed a considerable quantity of\ngold plate. But growing every day more afraid\nof being murdered, which he knew that he could\nnot stand, he transferred the whole to the blacksmith;\nconceiving, no doubt, that the murder of\na blacksmith would fall more lightly on the\nsalus reipublicæ, than that of a pedagogue. But I\nhave heard this greatly disputed; and it seems\nnow generally agreed, that one good horse-shoe\nis worth about 2-1/4 Spital sermons.",
     "pedagogue, of Birmingham manufacture, viz.,\nDr. Parr, had amassed a considerable quantity of\ngold plate. But growing every day more afraid\nof being murdered, which he knew that he could\nnot stand, he transferred the whole to the blacksmith;\nconceiving, no doubt, that the murder of\na blacksmith would fall more lightly on the\nsalus reipublicæ, than that of a pedagogue. But I\nhave heard this greatly disputed; and it seems\nnow generally agreed, that one good horse-shoe\nis worth about 2-1/4 Spital sermons.",
 ];
-$parting_message = "<h3>" . _("Handy Fact") . "</h3>\n" .
+$parting_message = "<h3>" . _("Handy Tip") . "</h3>\n" .
                                     "<p>" . _("During proofreading we write out fractions as <kbd>1/4</kbd> rather than <kbd>¼</kbd> because not all fractions are available as single symbols. Other fractions such as 2/7 may also appear in the text and it would be inconsistent to mix the two notations.") . "</p>";
 
 // error messages
