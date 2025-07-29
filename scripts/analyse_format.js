@@ -1,65 +1,5 @@
 import translate from "./gettext.js";
 
-// The formatting rules are applied as if proofers' notes were
-// invisible so remove them first and save for later. But first check if they
-// are malformed, if so mark the problem and do nothing else.
-
-// Then analyse the text without notes and make an array of issues.
-// html encode the notes.
-// The issues and the notes are then merged back into the text.
-
-// The last stage is to interpret any tags to show the styling.
-// The final text should not contain any invalid html which would cause the
-// browser to leave it out.
-
-// these are the default values. If the user changes anything the new
-// styles are saved in local storage and reloaded next time.
-// the foreground and background colours for plain text, italic, bold,
-// gesperrt, smallcaps, font change, other tags, highlighting issues
-// and possible issues.
-// An empty color string means use default color
-export const defaultStyles = {
-    t: { bg: "#fffcf4", fg: "#000000" },
-    i: { bg: "", fg: "#0000ff" },
-    b: { bg: "", fg: "#c55a1b" },
-    g: { bg: "", fg: "#8a2be2" },
-    sc: { bg: "", fg: "#009700" },
-    f: { bg: "", fg: "#ff0000" },
-    u: { bg: "", fg: "" },
-    etc: { bg: "#ffcaaf", fg: "" },
-    err: { bg: "#ff0000", fg: "" },
-    hlt: { bg: "#ceff09", fg: "" },
-    blockquote: { bg: "#fecafe", fg: "" },
-    nowrap: { bg: "#d1fcff", fg: "" },
-    color: true, // colour the markup or not
-    allowUnderline: false,
-    defFontIndex: 0,
-    suppress: {},
-    initialViewMode: "no_tags",
-    allowMathPreview: false,
-};
-
-// processes the text by textFunction but in math mode only outside math markup
-// define this at top level so we can test it
-export function processExMath(text, textFunction, allowMath) {
-    if (!allowMath) {
-        return textFunction(text);
-    } else {
-        // find whole math strings \[ ... \] or \( ... \)
-        let txtOut = "";
-        let mathRegex = /\\\[[^]*?\\\]|\\\([^]*?\\\)/g;
-        let result;
-        let startIndex = 0;
-        while ((result = mathRegex.exec(text)) !== null) {
-            txtOut += textFunction(text.slice(startIndex, result.index)) + result[0];
-            startIndex = mathRegex.lastIndex;
-        }
-        // no more found, process to end
-        txtOut += textFunction(text.slice(startIndex));
-        return txtOut;
-    }
-}
-
 // find index of next unmatched ] return 0 if none found
 const re = /\[|\]/g; // [ or ]
 export function findClose(txt, index) {
@@ -87,7 +27,7 @@ function removeTrail(txt) {
     return txt;
 }
 
-const getILTags = function (configuration) {
+export const getILTags = function (configuration) {
     let ILTags = "[ibfg]|sc";
     if (configuration.allowUnderline) {
         ILTags += "|u";
@@ -774,74 +714,41 @@ export function analyse(txt, config) {
     }
 
     // check that math delimiters \[ \], \( \) are matched
-    // allow inline math inside display math (in text{})
     function checkMath() {
-        var tagStack = []; // holds start tag [ or (
-        var stackTop;
         const mathRe = /\\\[|\\\]|\\\(|\\\)/g;
+        let openTag = null;
         let result;
         let tag;
-        let start;
+        let startIndex;
+        let tagIndex;
         while ((result = mathRe.exec(txt)) !== null) {
-            start = result.index;
+            tagIndex = result.index;
             tag = result[0].charAt(1);
-            if (tagStack.length === 0) {
-                // no tags on stack
+            if (!openTag) {
                 if (tag === "(" || tag === "[") {
-                    tagStack.push({ tag: tag, start: start });
+                    openTag = tag;
+                    startIndex = tagIndex;
                 } else {
-                    reportIssue(start, 2, "noStartTag", translate.gettext("No start tag for this end tag"));
+                    // found an end tag
+                    reportIssue(tagIndex, 2, "noStartTag", translate.gettext("No start tag for this end tag"));
                 }
             } else {
-                // there are tags in the stack
-                stackTop = tagStack[tagStack.length - 1];
-                if (stackTop.tag === "[") {
-                    // ] or ( ok, [ or ) error
-                    switch (tag) {
-                        case "]":
-                            tagStack.pop();
-                            break;
-                        case "(":
-                            tagStack.push({ tag: tag, start: start });
-                            break;
-                        case "[":
-                            // report error for stack tag push the new one
-                            tagStack.pop();
-                            tagStack.push({ tag: tag, start: start });
-                            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
-                            break;
-                        case ")":
-                            tagStack.pop();
-                            reportIssue(stackTop.start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
-                            reportIssue(start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
-                            break;
-                    }
+                // there is an open tag
+                if (tag === "(" || tag === "[") {
+                    reportIssue(startIndex, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
+                    openTag = tag;
+                    startIndex = tagIndex;
+                } else if ((openTag === "(" && tag === "]") || (openTag === "[" && tag === ")")) {
+                    reportIssue(tagIndex, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
+                    reportIssue(startIndex, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
                 } else {
-                    // stacktop is (, ) ok else error
-                    switch (tag) {
-                        case ")":
-                            tagStack.pop();
-                            break;
-                        case "(":
-                        case "[":
-                            // report error for stack tag push the new one
-                            tagStack.pop();
-                            tagStack.push({ tag: tag, start: start });
-                            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
-                            break;
-                        case "]":
-                            tagStack.pop();
-                            reportIssue(stackTop.start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
-                            reportIssue(start, 2, "misMatchTag", translate.gettext("End tag does not match start tag"));
-                            break;
-                    }
+                    // ok
+                    openTag = null;
                 }
             }
         }
-        // if there are any tags on the stack mark them as errors
-        while (tagStack.length !== 0) {
-            stackTop = tagStack.pop();
-            reportIssue(stackTop.start, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
+        if (openTag) {
+            reportIssue(startIndex, 2, "noEndTag", translate.gettext("No end tag for this start tag"));
         }
     }
 
@@ -896,365 +803,4 @@ export function analyse(txt, config) {
         text: txt,
         noteArray: notes,
     };
-} // end of analyse
-
-/*
-This function checks the text for formatting issues and adds the markup
-for colouring and issue highlighting.
-It can be used alone with a simple html interface for testing.
-txt is the text to analyse.
-viewMode determines if the inline tags are to be shown or hidden
-wrapMode whether to re-wrap the text.
-styler is an object containing colour and font options.
-*/
-export const makePreview = function (txt, viewMode, wrapMode, styler) {
-    const ILTags = getILTags(styler);
-    const endSpan = "</span>";
-
-    function htmlEncode(s) {
-        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    }
-
-    // add style and optional colouring for marked-up text
-    function showStyle() {
-        const sc1 = "┌sc┐";
-        const sc2 = "┌/sc┐";
-        // a string of small capitals
-        let smallCapRegex = new RegExp(sc1 + "([^]+?)" + sc2, "g");
-
-        function boxHtml(txt) {
-            return txt.replace(/┌/g, "&lt;").replace(/┐/g, "&gt;").replace(/▙/g, "&amp;");
-        }
-
-        function transformSC(match, p1) {
-            // if all upper case transform to lower
-            let scString = p1;
-            // remove tags such as <i> within the string so that all
-            // uppercase string is correctly identified, (only 1 char)
-            scString = scString.replace(/┌\/?.┐/g, "");
-            if (scString === scString.toUpperCase()) {
-                // found no lower-case
-                return sc1 + '<span class="tt">' + p1 + endSpan + sc2;
-            } else {
-                return match;
-            }
-        }
-
-        function decideClass(colorClass, formatClass) {
-            let classes = [];
-            if (styler.color) {
-                classes.push(`${colorClass}_color`);
-            }
-            if (viewMode !== "flat") {
-                classes.push(formatClass);
-            }
-            return classes.length > 0 ? ` class='${classes.join(" ")}'` : "";
-        }
-
-        function spanStyle(match, p1, p2) {
-            // p1 is "/" or "", p2 is the tag id
-            var tagMap = {
-                i: "_",
-                b: "=",
-                f: "~",
-                g: "$",
-                sc: "",
-                u: "%",
-            };
-
-            var tagMark = "";
-            switch (viewMode) {
-                case "show_tags":
-                    tagMark = boxHtml(match);
-                    break;
-                case "flat":
-                    tagMark = tagMap[p2];
-                    break;
-                default: // no_tags
-                    break;
-            }
-            if (p1 === "/") {
-                // end tag
-                return tagMark + endSpan;
-            }
-            let styleClass = decideClass(p2, p2);
-            return `<span${styleClass}>${tagMark}`;
-        }
-
-        // inline tags
-        // the way html treats small cap text is different to the dp convention
-        // so if sc-marked text is all upper-case transform to lower
-        if (viewMode !== "flat") {
-            txt = txt.replace(smallCapRegex, transformSC);
-        }
-        // find inline tags
-        var reTag = new RegExp("┌(\\/?)(" + ILTags + ")┐", "g");
-        txt = txt.replace(reTag, spanStyle);
-
-        // out of line tags and <tb>
-        if (!wrapMode && styler.color) {
-            // not re-wrap and colouring
-            txt = txt.replace(/┌tb┐/g, function replacer(match) {
-                return `<span class="etc_color">${boxHtml(match)}</span>`;
-            });
-            txt = txt.replace(/\/#/g, "<span class='blockquote_color'>$&");
-            txt = txt.replace(/\/\*/g, "<span class='nowrap_color'>$&");
-            txt = txt.replace(/#\/|\*\//g, "$&</span>");
-        }
-
-        // encode any unrecognised tags
-        txt = boxHtml(txt);
-
-        // show sub- and super-scripts
-        function showSubSuper(text) {
-            function ssReplace(regex, ssClass) {
-                let styleClass = decideClass("etc", ssClass);
-                let tagText = viewMode === "no_tags" ? "$1" : "$&";
-                text = text.replace(regex, `<span${styleClass}>${tagText}</span>`);
-            }
-            ssReplace(/_\{(.+?)\}/g, "sub");
-            ssReplace(/\^\{(.+?)\}/g, "sup");
-            // single char superscript -  any char except {
-            // do not allow < as a single char superscript
-            // incase it's a tag which would give overlapping markup
-            ssReplace(/\^([^{<])/g, "sup");
-            return text;
-        }
-
-        // do not process sub- and super-scripts inside math markup
-        txt = processExMath(txt, showSubSuper, styler.allowMathPreview);
-    }
-
-    // Attempt to make an approximate representation of formatted text.
-    // Remove proofers' notes.
-    // Treat illustration, footnote, sidenote like ordinary text.
-    // Re-wrap except for no-wrap markup.
-    // First-line indent paragraphs except for continuation at start of page.
-    // Extra indent for each block-quote markup.
-    // Centre and embolden headings and sub-headings, except for a
-    // sub-heading in block-quote or no-wrap. (subsequent sub-headings will
-    // be centred).
-    // Mark thought breaks by a horizontal line.
-
-    function reWrap() {
-        const lines = txt.split("\n");
-        let lineIndex = 0;
-
-        function getNextLine() {
-            if (lineIndex >= lines.length) {
-                return null;
-            }
-            return lines[lineIndex++];
-        }
-
-        const PARA = 0;
-        const HEAD1 = 1;
-        const HEAD2 = 2;
-        const CONT = 3;
-
-        let txtOut = "";
-        let line;
-
-        function processTB() {
-            if ("&lt;tb&gt;" === line) {
-                txtOut += '<div class="tb"></div>';
-                return true;
-            }
-            return false;
-        }
-
-        // Count the number of consecutive blank lines, then at a non-blank line
-        // set the blockType according to number of blanks and reset blank counter.
-        // At start of each text block output <div> with appropriate style.
-        // Output </div> at next blank line or end of text.
-
-        let blanks = 0;
-        let inBlock = false;
-        let indent = 0;
-        let blockType = CONT;
-        let blockQuote = 0;
-        const noWrapColor = styler.color ? " nowrap_color" : "";
-
-        function terminate() {
-            if (inBlock) {
-                txtOut += "</div>";
-                inBlock = false;
-            }
-            blanks += 1;
-        }
-
-        for (;;) {
-            line = getNextLine();
-            if (null === line) {
-                terminate();
-                break;
-            } else if ("" === line) {
-                terminate();
-            } else {
-                switch (blanks) {
-                    case 4:
-                        blockType = HEAD1;
-                        break;
-                    case 2:
-                        blockType = PARA;
-                        break;
-                    case 1:
-                        if (blockType === CONT) {
-                            blockType = PARA;
-                        } else if (blockType === HEAD1) {
-                            // sub heading next
-                            blockType = HEAD2;
-                        }
-                        // else retain blockType
-                        break;
-                    default:
-                        // 0, do nothing
-                        break;
-                }
-                blanks = 0;
-                if ("/#" === line) {
-                    blockQuote += 1;
-                    indent += 1;
-                } else if ("#/" === line) {
-                    blockQuote -= 1;
-                    indent -= 1;
-                } else if ("/*" === line) {
-                    // no wrap
-                    txtOut += `<div style='margin-left: ${indent}em;' class='no-wrap${noWrapColor}'>`;
-                    for (;;) {
-                        line = getNextLine();
-                        if (processTB()) {
-                            continue;
-                        }
-                        if (line === "*/") {
-                            txtOut += "</div>";
-                            break;
-                        } else {
-                            txtOut += line + "\n";
-                        }
-                    }
-                } else if (processTB()) {
-                    continue;
-                } else {
-                    // text line
-                    const paraColor = styler.color && blockQuote ? " blockquote_color" : "";
-                    if (!inBlock) {
-                        inBlock = true;
-                        switch (blockType) {
-                            case HEAD1:
-                                txtOut += '<div class="head1">';
-                                break;
-                            case HEAD2:
-                                if (blockQuote) {
-                                    // use paragraph style
-                                    txtOut += `<div style='margin-left: 1em;' class='para${paraColor}'>`;
-                                } else {
-                                    txtOut += '<div class="head2">';
-                                }
-                                break;
-                            case PARA:
-                                txtOut += `<div style='margin-left: ${indent}em;' class='para${paraColor}'>`;
-                                break;
-                            case CONT:
-                                txtOut += `<div style='margin-left: ${indent}em;' class='cont-para${paraColor}'>`;
-                                break;
-                        }
-                    }
-                    txtOut += line + "\n";
-                }
-            }
-        }
-        txt = txtOut;
-    }
-
-    // Show style is done after merging text and proofers notes.
-    // To distinguish the < and > characters in text from those in the notes
-    // (so we don't style the notes)
-    // html encode the notes but in text encode < > to box characters.
-    // We must also encode ampersand to avoid accidental entities like &copy; and
-    // must do it before introducing html entities for < and > (&lt; &gt;),
-    // but we can't html encode it now because if & occurs in all upper case
-    // small caps markup which we have to convert to lower case because of
-    // dp convention it would make it appear as not all upper case.
-    // So encode & to a box character ▙ and convert to &amp; later.
-    function boxEncode(txt) {
-        return txt.replace(/</g, "┌").replace(/>/g, "┐").replace(/&/g, "▙");
-    }
-
-    let analysis = analyse(txt, styler);
-    let issArray = analysis.issues;
-    let issues = 0;
-    let possIss = 0;
-    issArray.forEach(function (issue) {
-        if (issue.type === 1) {
-            issues += 1;
-        } else {
-            possIss += 1;
-        }
-    });
-
-    // ok true if no errors which would cause showstyle() or reWrap() to fail
-    let ok = issues === 0;
-
-    let issueStarts = [];
-    let issueEnds = [];
-    issArray.forEach(function (issue) {
-        let issueStyle = issue.type === 0 ? "hlt_color" : "err_color";
-        issueStarts.push({ start: issue.start, text: `<span class='${issueStyle}' title='${issue.text}'>` });
-        issueEnds.push({ start: issue.start + issue.len, text: endSpan });
-    });
-
-    var tArray = analysis.text.split("");
-
-    let noteArray;
-    if (ok && wrapMode) {
-        // leave out proofers' notes
-        noteArray = [];
-    } else {
-        noteArray = analysis.noteArray;
-        noteArray.forEach(function (note) {
-            note.text = htmlEncode(note.text);
-        });
-    }
-
-    if (!ok) {
-        tArray = tArray.map(htmlEncode);
-    } else {
-        tArray = tArray.map(boxEncode);
-    }
-
-    // merge issue arrays with notes so that if both start at same
-    // index the issueStart appears after the note but the issueEnd
-    // appears before the note.
-    // there cannot be > one issue at the same index (if there were, one
-    // will have been discarded) but there can be more than one note, so
-    // ensure order of notes is unchanged
-    let allInserts = issueEnds.concat(noteArray).concat(issueStarts);
-    allInserts.sort(function (a, b) {
-        // if starts are same return 0, order unchanged
-        return a.start - b.start;
-    });
-    // reverse the array so splice last elements first
-    allInserts.reverse();
-    // splice issue marking and notes into text
-    allInserts.forEach(function (insert) {
-        tArray.splice(insert.start, 0, insert.text);
-    });
-
-    // join it back into a string
-    txt = tArray.join("");
-
-    if (ok) {
-        showStyle();
-        if (wrapMode) {
-            reWrap();
-        }
-    }
-
-    return {
-        ok: ok,
-        txtout: txt,
-        issues: issues,
-        possIss: possIss,
-    };
-};
+}

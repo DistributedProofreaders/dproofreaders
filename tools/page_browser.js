@@ -1,4 +1,3 @@
-/*global mentorMode */
 import { pageBrowse } from "../scripts/page_browse.js";
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -8,7 +7,6 @@ window.addEventListener("DOMContentLoaded", function () {
         window.history.replaceState(null, "", url.href);
     }
 
-    const pageBrowser = pageBrowse(url.searchParams, "page-browse", replaceUrl, mentorMode);
-
-    window.addEventListener("resize", pageBrowser.resize);
+    const container = document.getElementById("page_browser");
+    pageBrowse(container, url.searchParams, replaceUrl);
 });

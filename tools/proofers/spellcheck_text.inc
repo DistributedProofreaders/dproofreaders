@@ -408,7 +408,7 @@ function output_wordcheck_interface(User $user, PPage $ppage, string $text_data,
     } else {
         echo '<div>';
     }
-    echo '<form name="spcorrects" action="processtext.php" method="POST" onsubmit="return top.submitForm(this)">';
+    echo '<form name="spcorrects" action="processtext.php" method="POST">';
 
     // change all EOL characters to [lf]
     $revert_text = str_replace(["\r", "\n\n", "\n"], ["\n", "[lf]", "[lf]"], $revert_text);

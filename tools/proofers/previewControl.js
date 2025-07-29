@@ -12,7 +12,7 @@ The configuration screen is handled in the same way.
 
 import translate from "../../scripts/gettext.js";
 import { ajax } from "../../scripts/api.js";
-import { makePreview, defaultStyles } from "../../scripts/analyse_format.js";
+import { makePreview, defaultStyles } from "../../scripts/show_format.js";
 import { validateText } from "../../scripts/text_validator.js";
 
 window.addEventListener("DOMContentLoaded", () => {

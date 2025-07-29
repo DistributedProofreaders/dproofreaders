@@ -4,6 +4,8 @@ import { splitControl } from "../../scripts/splitControl.js";
 import { pageBrowse } from "../../scripts/page_browse.js";
 
 window.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("page-browser");
+
     let storageKeyLayout = showWordContext.storageKey + "-layout";
     let layout;
     try {
@@ -62,8 +64,7 @@ window.addEventListener("DOMContentLoaded", function () {
     function showImage(imageFile) {
         if (!ShowImageFile) {
             params.set("imagefile", imageFile);
-            const pageBrowser = pageBrowse(params, showWordContext.storageKey, function () {}, false, setShowImageFile);
-            mainSplit.onResize.add(pageBrowser.resize);
+            pageBrowse(container, params, function () {}, setShowImageFile);
         } else {
             ShowImageFile(imageFile);
         }

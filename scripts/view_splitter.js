@@ -2,73 +2,81 @@
 import translate from "./gettext.js";
 import { splitControl } from "./splitControl.js";
 
-// Construct the button for horizontal/vertical split
-// and return a splitter variable.
-export var viewSplitter = function (container, storageKey) {
-    const storageKeyLayout = storageKey + "-layout";
-    let layout = JSON.parse(localStorage.getItem(storageKeyLayout));
-    if (!layout || (layout.splitDirection !== "horizontal" && layout.splitDirection !== "vertical")) {
-        layout = { splitDirection: "horizontal" };
+export var viewSplitter = function (container, userSettings) {
+    // userSettings.splitVertical ??= true; if poss.
+    userSettings.splitVertical ?? (userSettings.splitVertical = true);
+
+    function getPercentKey() {
+        return `${userSettings.splitVertical ? "v" : "h"}percent`;
     }
-    let splitVertical = layout.splitDirection === "vertical";
 
-    const mainSplit = splitControl(container, { splitVertical: splitVertical });
+    function getPercent() {
+        return userSettings[getPercentKey()] ?? 50;
+    }
 
-    const splitButton = document.createElement("button");
-    splitButton.type = "button";
-    splitButton.innerHTML = "&nbsp;";
-    let splitKey;
-    const preSetSplitDirCallback = [];
-    const postSetSplitDirCallback = new Set();
+    const mainSplit = splitControl(container, { splitVertical: userSettings.splitVertical, splitPercent: getPercent() });
+    window.addEventListener("resize", mainSplit.reLayout);
 
-    preSetSplitDirCallback.push(function (storageKey) {
-        // get the split percent for vertical or horizontal
-        splitKey = storageKey + "-split";
-        let directionData = JSON.parse(localStorage.getItem(splitKey));
-        if (!directionData || (typeof directionData.splitPercent !== "number" && typeof directionData.splitPercent !== "string")) {
-            directionData = { splitPercent: 50 };
-        }
-        mainSplit.setSplitPercent(directionData.splitPercent);
+    function imageButton(title, icon) {
+        const iconFolder = `${codeUrl}/pinc/3rdparty/iconify`;
+        const iButton = document.createElement("img");
+        iButton.src = `${iconFolder}/${icon}`;
+        iButton.title = title;
+        iButton.classList.add("image_button");
+        return iButton;
+    }
+
+    const splitVerticalButton = imageButton(translate.gettext("Change to vertical layout"), "codicon--split-horizontal.svg");
+    const splitHorizontalButton = imageButton(translate.gettext("Change to horizontal layout"), "codicon--split-vertical.svg");
+
+    const setSplitDirCallback = [];
+
+    setSplitDirCallback.push(function () {
+        mainSplit.setSplitPercent(getPercent());
     });
 
-    const iconFolder = `${codeUrl}/pinc/3rdparty/iconify`;
-
-    function setSplitControls() {
-        splitButton.style.backgroundImage = splitVertical ? `url("${iconFolder}/octicon-rows-24.svg")` : `url("${iconFolder}/octicon-columns-24.svg")`;
-        splitButton.title = splitVertical ? translate.gettext("Change to horizontal layout") : translate.gettext("Change to vertical layout");
-    }
-
     function fireSetSplitDir() {
-        preSetSplitDirCallback.forEach(function (preSetSplitDirCallbackFunction) {
-            preSetSplitDirCallbackFunction(storageKey + "-" + layout.splitDirection);
+        setSplitDirCallback.forEach(function (setSplitDirCallbackFunction) {
+            setSplitDirCallbackFunction(userSettings.splitVertical);
         });
         mainSplit.reLayout();
-        postSetSplitDirCallback.forEach(function (postSetSplitDirCallbackFunction) {
-            postSetSplitDirCallbackFunction();
-        });
     }
 
-    splitButton.addEventListener("click", function () {
-        splitVertical = !splitVertical;
-        layout.splitDirection = splitVertical ? "vertical" : "horizontal";
-        localStorage.setItem(storageKeyLayout, JSON.stringify(layout));
-        mainSplit.setSplit(splitVertical);
+    function setSplitControls() {
+        const [activeButton, inactiveButton] = userSettings.splitVertical
+            ? [splitHorizontalButton, splitVerticalButton]
+            : [splitVerticalButton, splitHorizontalButton];
+        activeButton.disabled = false;
+        activeButton.classList.remove("opaque");
+        inactiveButton.disabled = true;
+        inactiveButton.classList.add("opaque");
+    }
+
+    function setSplitDirection(splitV) {
+        userSettings.splitVertical = splitV;
         setSplitControls();
+        mainSplit.setSplit(userSettings.splitVertical);
         fireSetSplitDir();
+    }
+
+    splitVerticalButton.addEventListener("click", function () {
+        setSplitDirection(true);
+    });
+
+    splitHorizontalButton.addEventListener("click", function () {
+        setSplitDirection(false);
     });
 
     setSplitControls();
 
     mainSplit.onDragEnd.add(function (percent) {
-        localStorage.setItem(splitKey, JSON.stringify({ splitPercent: percent }));
+        userSettings[getPercentKey()] = percent;
     });
 
     return {
         mainSplit,
-        button: splitButton,
-        preSetSplitDirCallback,
-        postSetSplitDirCallback,
+        setSplitDirCallback,
         fireSetSplitDir,
-        resize: mainSplit.reLayout,
+        buttons: [splitVerticalButton, splitHorizontalButton],
     };
 };

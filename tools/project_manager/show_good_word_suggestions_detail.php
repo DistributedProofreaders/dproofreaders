@@ -32,8 +32,13 @@ $header_args = [
     "js_modules" => [
         "$code_url/tools/project_manager/show_word_context.js",
     ],
+    "js_files" => [
+        "$code_url/scripts/misc.js",
+    ],
     "js_data" => "var showWordContext = $details;",
-
+    "css_files" => [
+        "$code_url/styles/struct.css",
+    ],
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw;"',
 ];
 slim_header(_("Suggestion Detail"), $header_args);

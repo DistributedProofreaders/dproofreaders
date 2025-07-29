@@ -19,9 +19,11 @@ $mru_title = javascript_safe(_("Most recently used"));
 $mru_abbreviation = javascript_safe(_("MRU"));
 
 $header_args = [
+    "js_modules" => [
+        "$code_url/tools/proofers/toolbox.js",
+    ],
     "js_files" => [
         "$code_url/tools/proofers/character_selector.js",
-        "$code_url/tools/proofers/toolbox.js",
     ],
     "js_data" => "
         var projectID = '$projectid';

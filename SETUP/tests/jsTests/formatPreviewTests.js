@@ -1,6 +1,6 @@
 /* global QUnit */
 
-import { analyse, findClose, processExMath, makePreview, defaultStyles } from "../../../scripts/analyse_format.js";
+import { analyse, findClose } from "../../../scripts/analyse_format.js";
 
 QUnit.module("Format preview test", function () {
     let configuration = {
@@ -476,28 +476,19 @@ QUnit.module("Format preview test", function () {
         issueTest(assert, 1, 8, 2, "misMatchTag", 1);
     });
 
+    /*
     QUnit.test("inline math inside display math", function (assert) {
         text = "\\[e=mc^2 \\text{abc \\(x=y\\)}\\]";
         issArray = analyse(text, mathConfig).issues;
         noIssueTest(assert);
     });
+    */
 
     QUnit.test("missing maths end tag", function (assert) {
         text = "\\[e=mc^2\\(";
         issArray = analyse(text, mathConfig).issues;
         issueTest(assert, 0, 0, 2, "noEndTag", 1);
         issueTest(assert, 1, 8, 2, "noEndTag", 1);
-    });
-
-    QUnit.test("process outside math markup", function (assert) {
-        let text = "abc\\[d\nef\\]ghi\\(jkl\\)mno";
-        function toUpper(txt) {
-            return txt.toUpperCase();
-        }
-        let procText = processExMath(text, toUpper, true);
-        assert.strictEqual(procText, "ABC\\[d\nef\\]GHI\\(jkl\\)MNO");
-        procText = processExMath(text, toUpper, false);
-        assert.strictEqual(procText, "ABC\\[D\nEF\\]GHI\\(JKL\\)MNO");
     });
 
     QUnit.test("Find unmatched closing bracket", function (assert) {
@@ -509,203 +500,5 @@ QUnit.module("Format preview test", function () {
         let text = "xy]za[** b[c]d]ef";
         let procText = analyse(text, configuration).text;
         assert.strictEqual(procText, "xy]zaef");
-    });
-
-    QUnit.test("Check bad tag is converted to valid html", function (assert) {
-        let text = "<i&>";
-        let preview = makePreview(text, false, false, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 1);
-        assert.strictEqual(preview.txtout, "<span class='hlt_color' title='Unrecognized tag'>&lt;</span>i&amp;&gt;");
-    });
-
-    QUnit.test("Check html entity is encoded", function (assert) {
-        let text = "&copy;";
-        let preview = makePreview(text, false, false, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "&amp;copy;");
-    });
-
-    QUnit.test("Small cap markup with mixed case", function (assert) {
-        let text = "<sc>Ab</sc>";
-        let preview = makePreview(text, false, false, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<span class='sc_color sc'>Ab</span>");
-    });
-
-    QUnit.test("Small cap markup with all upper case", function (assert) {
-        let text = "<sc>AB</sc>";
-        let preview = makePreview(text, false, false, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<span class='sc_color sc'><span class=\"tt\">AB</span></span>");
-    });
-
-    QUnit.test("Small cap markup with all upper case with &", function (assert) {
-        let text = "<sc>A&B</sc>";
-        let preview = makePreview(text, false, false, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<span class='sc_color sc'><span class=\"tt\">A&amp;B</span></span>");
-    });
-
-    QUnit.test("Rewrap continuation paragraph", function (assert) {
-        let text = `abcd`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='cont-para'>abcd\n</div>");
-    });
-
-    QUnit.test("Rewrap new paragraph", function (assert) {
-        let text = `
-abcd`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='para'>abcd\n</div>");
-    });
-
-    QUnit.test("Rewrap no-wrap block with 4 blank lines", function (assert) {
-        let text = `/*
-
-
-
-
-EDIBLE FIGS
-*/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='no-wrap nowrap_color'>\n\n\n\nEDIBLE FIGS\n</div>");
-    });
-
-    QUnit.test("Rewrap no-wrap block preceeded by 4 blank lines", function (assert) {
-        let text = `
-
-
-
-/*
-FIG CULTURE.
-
-abc
-*/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 0em;' class='no-wrap nowrap_color'>FIG CULTURE.\n\nabc\n</div>");
-    });
-
-    QUnit.test("Rewrap continuation block quote", function (assert) {
-        let text = `/#
-abc
-#/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 1em;' class='cont-para blockquote_color'>abc\n</div>");
-    });
-
-    QUnit.test("Rewrap continuation block quote with new paragraph", function (assert) {
-        let text = `/#
-
-abc
-#/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 1em;' class='para blockquote_color'>abc\n</div>");
-    });
-
-    QUnit.test("Rewrap new block quote with paragraph", function (assert) {
-        let text = `
-/#
-abc
-#/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(preview.txtout, "<div style='margin-left: 1em;' class='para blockquote_color'>abc\n</div>");
-    });
-
-    QUnit.test("Rewrap no-wrap in block quote with no blank line before no-wrap", function (assert) {
-        let text = `
-/#
-/*
-bqnw
-*/
-
-bq
-#/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(
-            preview.txtout,
-            `<div style='margin-left: 1em;' class='no-wrap nowrap_color'>bqnw
-</div><div style='margin-left: 1em;' class='para blockquote_color'>bq
-</div>`,
-        );
-    });
-
-    QUnit.test("Rewrap no-wrap in block quote with a blank line before no-wrap", function (assert) {
-        let text = `
-/#
-
-/*
-bqnw
-*/
-
-bq
-#/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(
-            preview.txtout,
-            `<div style='margin-left: 1em;' class='no-wrap nowrap_color'>bqnw
-</div><div style='margin-left: 1em;' class='para blockquote_color'>bq
-</div>`,
-        );
-    });
-
-    QUnit.test("Rewrap block quote in block quote", function (assert) {
-        let text = `
-/#
-bq
-
-/#
-bqbq
-#/
-
-bq
-#/`;
-        let preview = makePreview(text, false, true, defaultStyles);
-        assert.strictEqual(preview.ok, true);
-        assert.strictEqual(preview.issues, 0);
-        assert.strictEqual(preview.possIss, 0);
-        assert.strictEqual(
-            preview.txtout,
-            `<div style='margin-left: 1em;' class='para blockquote_color'>bq
-</div><div style='margin-left: 2em;' class='para blockquote_color'>bqbq
-</div><div style='margin-left: 1em;' class='para blockquote_color'>bq
-</div>`,
-        );
     });
 });

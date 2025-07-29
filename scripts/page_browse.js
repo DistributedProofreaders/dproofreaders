@@ -1,40 +1,25 @@
-/*global $ codeUrl */
+/*global makeUrl codeUrl actionButton makeLabel hide show */
+
 import translate from "./gettext.js";
 import { ajax } from "./api.js";
 import { viewSplitter } from "./view_splitter.js";
-import { makeImageWidget } from "./control_bar.js";
-import { makeTextWidget } from "./text_view.js";
+import { makeImageWidget } from "./image_widget.js";
+import { makeTextWidget } from "./text_widget.js";
 
 function makePageControl(pages, selectedImageFileName, changePage) {
     // changePage is a callback to act when page changes
+
     const pageSelector = document.createElement("select");
-    const controls = $("<span>", { class: "nowrap" }).append(translate.gettext("Page") + " ", pageSelector);
+    const pageSelectorLabel = makeLabel([translate.gettext("Page") + ": ", pageSelector]);
 
-    if (!selectedImageFileName) {
-        // when no page is defined, "Select a page" option is added
-        pageSelector.required = true;
-        const firstOption = new Option(translate.gettext("Please select a page"), 0, true, true);
-        firstOption.disabled = true;
-        pageSelector.add(firstOption);
-        pages.forEach(function (page, index) {
-            pageSelector.add(new Option(page.image, index, false, false));
-        });
-
-        pageSelector.addEventListener("change", function () {
-            changePage(pages[pageSelector.value]);
-        });
-
-        return controls;
-    }
+    const prevButton = actionButton(translate.gettext("Previous"));
+    const nextButton = actionButton(translate.gettext("Next"));
 
     pages.forEach(function (page, index) {
         const imageFilename = page.image;
         const selected = selectedImageFileName === imageFilename;
         pageSelector.add(new Option(imageFilename, index, selected, selected));
     });
-
-    const prevButton = $("<input>", { type: "button", value: translate.gettext("Previous") });
-    const nextButton = $("<input>", { type: "button", value: translate.gettext("Next") });
 
     function prevEnabled() {
         return pageSelector.selectedIndex > 0;
@@ -45,8 +30,8 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     }
 
     function enableButtons() {
-        prevButton.prop("disabled", !prevEnabled());
-        nextButton.prop("disabled", !nextEnabled());
+        prevButton.disabled = !prevEnabled();
+        nextButton.disabled = !nextEnabled();
     }
 
     function pageChange() {
@@ -56,12 +41,12 @@ function makePageControl(pages, selectedImageFileName, changePage) {
 
     pageSelector.addEventListener("change", pageChange);
 
-    prevButton.click(function () {
+    prevButton.addEventListener("click", function () {
         pageSelector.selectedIndex -= 1;
         pageChange();
     });
 
-    nextButton.click(function () {
+    nextButton.addEventListener("click", function () {
         pageSelector.selectedIndex += 1;
         pageChange();
     });
@@ -88,11 +73,13 @@ function makePageControl(pages, selectedImageFileName, changePage) {
     });
 
     enableButtons();
-    controls.append(prevButton, nextButton);
-    return controls;
+    return [pageSelectorLabel, prevButton, nextButton];
 }
 
-export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, setShowFile = function () {}) {
+export async function pageBrowse(container, params, replaceUrl, setShowFile = function () {}) {
+    // clear anything in the container
+    container.innerHTML = "";
+
     // parameters will be null if not defined
     let projectId = params.get("project");
     let displayMode = params.get("mode");
@@ -105,21 +92,74 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
     // declare this here to avoid use before define warning
     let getProjectData;
 
-    let resizeAction = function () {};
-    function resize() {
-        resizeAction();
+    const titlePara = document.createElement("p");
+    const projectTitleSpan = document.createElement("span");
+    const projectLink = document.createElement("a");
+    projectLink.textContent = translate.gettext("Project Page");
+    titlePara.append(projectTitleSpan, " ", projectLink);
+
+    const pageControlDiv = document.createElement("div");
+    pageControlDiv.classList.add("fixed-box", "top_settings_box");
+
+    const imageTextDiv = document.createElement("div");
+    imageTextDiv.classList.add("stretch-box");
+
+    if (!simpleHeader) {
+        container.append(titlePara);
+    }
+    container.append(pageControlDiv, imageTextDiv);
+
+    const textButton = actionButton(translate.gettext("Show Text only"));
+    const imageButton = actionButton(translate.gettext("Show Image only"));
+    const imageTextButton = actionButton(translate.gettext("Show Image & Text"));
+    const resetButton = actionButton(translate.gettext("Select a different project"));
+
+    let imageWidget = null;
+    let textWidget = null;
+    let page = null;
+    let roundSelector = null;
+
+    async function showCurrentPage() {
+        // show image and/or text for current page according to the
+        // displayMode and set the url
+        const imageFileName = page.image;
+        params.set("imagefile", imageFileName);
+        replaceUrl();
+        document.title = translate.gettext("Display Page: %s").replace("%s", imageFileName);
+
+        if (displayMode !== "text") {
+            imageWidget.setImage(page.image_url);
+        }
+        if (displayMode !== "image") {
+            // if the supplied round_id was invalid it will be replaced
+            // by the shown (first) option
+            const round = roundSelector.value;
+            params.set("round_id", round);
+            try {
+                const data = await ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`);
+                textWidget.setText(data.text);
+            } catch (error) {
+                alert(error.message);
+            }
+        }
     }
 
-    const topDiv = $("#page-browser");
-    // the non-scrolling area which will contain the page controls
-    const fixHead = $("<div>", { class: "fixed-box control-pane" });
-    // replace any previous content of topDiv
-    topDiv.html(fixHead);
+    let pages;
 
-    // controlSpan holds controls varying with mode
-    const controlSpan = $("<span>");
+    function findPage(imageFile) {
+        return pages.find(function (page) {
+            return imageFile === page.image;
+        });
+    }
 
-    let roundSelector = null;
+    function showImageFile(imageFile) {
+        page = findPage(imageFile);
+        showCurrentPage();
+    }
+
+    setShowFile(showImageFile);
+
+    let roundControl;
     // this allows rounds to be obtained from server only once when needed
     // the roundSelector retains its selected item so we do not have to
     async function populateRoundSelector() {
@@ -129,203 +169,123 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
         try {
             const rounds = await ajax("GET", "v1/projects/pagerounds");
             roundSelector = document.createElement("select");
+            roundControl = makeLabel([translate.gettext("Round") + ": ", roundSelector]);
+
             rounds.forEach(function (round) {
                 let selected = currentRound === round;
                 roundSelector.add(new Option(round, round, selected, selected));
             });
+            roundSelector.addEventListener("change", showCurrentPage);
         } catch (error) {
             alert(error.message);
         }
     }
 
-    async function displayPages(pages) {
-        const textButton = $("<input>", { type: "button", value: translate.gettext("Show Text only") });
-        const imageButton = $("<input>", { type: "button", value: translate.gettext("Show Image only") });
-        const imageTextButton = $("<input>", { type: "button", value: translate.gettext("Show Image & Text") });
-        let imageWidget = null;
-        let textWidget = null;
+    let pageControls;
+    let userSettings;
 
-        function getRoundControls() {
-            return $("<span>", { class: "nowrap" }).append(translate.gettext("Round") + " ", roundSelector);
+    async function showCurrentMode() {
+        let textDiv, imageDiv;
+        // the view splitter manipulates its style causing side-effects
+        // clear out any contents and style
+        imageTextDiv.innerHTML = "";
+        imageTextDiv.style = "";
+
+        if (displayMode !== "image") {
+            await populateRoundSelector();
+            textDiv = document.createElement("div");
+            textDiv.classList.add("column-flex");
+            textWidget = makeTextWidget(textDiv, userSettings);
         }
-
-        function showCurrentPage(page) {
-            // show a page selector and previous and next buttons and display the
-            // page in current mode with controls
-
-            async function showImageText() {
-                // show image and/or text for current page according to the
-                // displayMode and set the url
-                const imageFileName = page.image;
-                params.set("imagefile", imageFileName);
-                document.title = translate.gettext("Display Page: %s").replace("%s", imageFileName);
-                if (displayMode !== "text") {
-                    if (imageWidget) {
-                        imageWidget.setImage(page.image_url);
-                    }
-                }
-                if (displayMode !== "image") {
-                    // if the supplied round_id was invalid it will be replaced
-                    // by the shown (first) option
-                    const round = roundSelector.value;
-                    params.set("round_id", round);
-                    try {
-                        const data = await ajax("GET", `v1/projects/${projectId}/pages/${imageFileName}/pagerounds/${round}`);
-                        textWidget.setText(data.text);
-                    } catch (error) {
-                        alert(error.message);
-                    }
-                }
-                replaceUrl();
-            }
-
-            const pageControls = makePageControl(pages, page.image, function (newPage) {
-                page = newPage;
-                showImageText();
-            });
-
-            async function showCurrentMode() {
-                // url with correct mode will be set in showImageText()
-                params.set("mode", displayMode);
-
-                // remove current image/text div if present
-                // re-make the div here rather than making it higher up the chain
-                // and emptying it here because the view splitter manipulates its
-                // style causing side-effects if re-using it
-                $(".imtext").remove();
-                const stretchDiv = $("<div>", { class: "imtext stretch-box" });
-                topDiv.append(stretchDiv);
-                // remove any old controls from controlSpan
-                controlSpan.children().detach();
-
-                if (displayMode === "image") {
-                    if (simpleHeader) {
-                        controlSpan.append(pageControls);
-                    } else {
-                        controlSpan.append(textButton, imageTextButton, pageControls);
-                    }
-
-                    const imageDiv = $("<div>");
-                    imageWidget = makeImageWidget(imageDiv);
-                    imageWidget.setup(storageKey);
-                    resizeAction = imageWidget.reScroll;
-                    stretchDiv.append(imageDiv);
-                    showImageText();
+        if (displayMode !== "text") {
+            imageDiv = document.createElement("div");
+            imageDiv.classList.add("column-flex");
+            imageWidget = makeImageWidget(imageDiv, userSettings);
+        }
+        pageControlDiv.innerHTML = "";
+        switch (displayMode) {
+            case "image":
+                if (simpleHeader) {
+                    pageControlDiv.append(...pageControls);
                 } else {
-                    // in case initial round_id was invalid, get round from
-                    // round selector, but wait until it is drawn
-                    await populateRoundSelector();
-                    const roundControls = getRoundControls();
-                    $(roundSelector).change(showImageText);
-                    const textDiv = $("<div>");
-                    switch (displayMode) {
-                        case "text":
-                            textWidget = makeTextWidget(textDiv);
-                            textWidget.setup(storageKey);
-                            controlSpan.append(imageButton, imageTextButton, pageControls, roundControls);
-                            stretchDiv.append(textDiv);
-                            break;
-                        case "imageText": {
-                            const imageDiv = $("<div>");
-                            imageWidget = makeImageWidget(imageDiv);
-                            stretchDiv.append(imageDiv, textDiv);
-                            const theSplitter = viewSplitter(stretchDiv[0], storageKey);
-                            resizeAction = theSplitter.resize;
-                            if (mentorMode) {
-                                // make a text widget with splitter
-                                textWidget = makeTextWidget(textDiv, true);
-                                theSplitter.mainSplit.onResize.add(textWidget.reLayout);
-                            } else {
-                                textWidget = makeTextWidget(textDiv);
-                            }
-                            theSplitter.mainSplit.onResize.add(imageWidget.reScroll);
-                            theSplitter.preSetSplitDirCallback.push(imageWidget.setup, textWidget.setup);
-                            theSplitter.postSetSplitDirCallback.add(imageWidget.initAll);
-                            controlSpan.append(imageButton, textButton, pageControls, roundControls, theSplitter.button);
-                            theSplitter.fireSetSplitDir();
-                            break;
-                        }
-                    }
-                    showImageText();
+                    pageControlDiv.append(resetButton, textButton, imageTextButton, ...pageControls);
                 }
-            } // end of showCurrentMode
-
-            textButton.click(function () {
-                displayMode = "text";
-                showCurrentMode();
-            });
-
-            imageButton.click(function () {
-                displayMode = "image";
-                showCurrentMode();
-            });
-
-            imageTextButton.click(function () {
-                displayMode = "imageText";
-                showCurrentMode();
-            });
-
-            showCurrentMode();
-        } // end of showCurrentPage
-
-        async function initialPageSelect() {
-            controlSpan.empty();
-            const initialPageControls = makePageControl(pages, null, function (page) {
-                showCurrentPage(page);
-            });
-            controlSpan.append(initialPageControls);
-            if (displayMode !== "image") {
-                await populateRoundSelector();
-                controlSpan.append(getRoundControls());
+                imageTextDiv.append(imageDiv);
+                break;
+            case "text":
+                pageControlDiv.append(resetButton, imageButton, imageTextButton, ...pageControls, roundControl);
+                imageTextDiv.append(textDiv);
+                break;
+            case "imageText": {
+                imageTextDiv.append(imageDiv, textDiv);
+                const theSplitter = viewSplitter(imageTextDiv, userSettings);
+                theSplitter.mainSplit.onResize.add(textWidget.reLayout);
+                theSplitter.mainSplit.onResize.add(imageWidget.reSize);
+                theSplitter.setSplitDirCallback.push(textWidget.setup, imageWidget.reset);
+                pageControlDiv.append(resetButton, imageButton, textButton, ...pageControls, roundControl, ...theSplitter.buttons);
+                theSplitter.fireSetSplitDir();
+                break;
             }
         }
+        showCurrentPage();
+    }
 
-        // if there are no pages in the project show alert message
-        if (pages.length === 0) {
-            alert(translate.gettext("There are no pages in this project"));
-            return;
-        }
+    textButton.addEventListener("click", async () => {
+        displayMode = "text";
+        await showCurrentMode();
+    });
 
-        async function showCurrentImageFile(currentImageFileName) {
-            if (currentImageFileName) {
-                // does filename exist in the project?
-                const currentPage = pages.find(function (page) {
-                    return currentImageFileName === page.image;
-                });
-                if (currentPage) {
-                    showCurrentPage(currentPage);
-                } else {
-                    alert(translate.gettext("There is no page %s in this project").replace("%s", currentImageFileName));
-                    params.delete("imagefile");
-                    replaceUrl();
-                    await initialPageSelect();
-                }
-            } else {
-                await initialPageSelect();
+    imageButton.addEventListener("click", async () => {
+        displayMode = "image";
+        await showCurrentMode();
+    });
+
+    imageTextButton.addEventListener("click", async () => {
+        displayMode = "imageText";
+        await showCurrentMode();
+    });
+
+    async function displayPages() {
+        // is a page given?
+        const imageFile = params.get("imagefile");
+        if (!imageFile) {
+            // display first page
+            page = pages[0];
+        } else {
+            page = findPage(imageFile);
+            if (!page) {
+                alert(translate.gettext("There is no page %s in this project").replace("%s", imageFile));
+                page = pages[0];
             }
         }
+        pageControls = makePageControl(pages, imageFile, function (newPage) {
+            page = newPage;
+            showCurrentPage();
+        });
 
-        await showCurrentImageFile(params.get("imagefile"));
-        // showCurrentImageFile can be used to show subsequent images
-        // without redrawing the whole page
-        setShowFile(showCurrentImageFile);
-    } // end of displayPages
+        showCurrentMode();
+    }
 
     function selectAProject() {
         params.delete("project");
         params.delete("imagefile");
         // keep mode and round
         replaceUrl();
-        // just show the project input
-        fixHead.empty();
-        $(".imtext").remove();
         document.title = translate.gettext("Browse pages");
+        // just show the project input
+        projectTitleSpan.textContent = translate.gettext("Browse pages");
+        hide(projectLink);
+        pageControlDiv.innerHTML = "";
+        imageTextDiv.innerHTML = "";
 
-        const projectSelectButton = $("<input>", { type: "button", value: translate.gettext("Select Project") });
-        const projectInput = $("<input>", { type: "text", required: true });
+        const projectInput = document.createElement("input");
+        projectInput.type = "text";
+        const projectSelectButton = actionButton(translate.gettext("Select Project"));
+        const projectInputLabel = makeLabel([translate.gettext("Project ID") + ": ", projectInput]);
+        pageControlDiv.append(projectInputLabel, projectSelectButton);
 
-        projectSelectButton.click(function () {
-            projectId = projectInput.val();
+        projectSelectButton.addEventListener("click", function () {
+            projectId = projectInput.value;
             if ("" === projectId) {
                 alert(translate.gettext("Please enter a project ID"));
                 return;
@@ -334,30 +294,23 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
             replaceUrl();
             getProjectData();
         });
-
-        fixHead.append($("<span>", { class: "nowrap" }).append(translate.gettext("Project ID"), " ", projectInput, projectSelectButton));
     }
 
+    resetButton.addEventListener("click", selectAProject);
+
     async function getPages() {
-        fixHead.append(controlSpan);
         try {
-            const pages = await ajax("GET", `v1/projects/${projectId}/pages`);
-            displayPages(pages);
+            pages = await ajax("GET", `v1/projects/${projectId}/pages`);
+            await displayPages();
         } catch (error) {
             alert(error.message);
         }
     }
 
     function showProjectTitle(projectData) {
-        fixHead.empty();
-        // show project name and button to select another
-        const resetButton = $("<input>", { type: "button", value: translate.gettext("Select a different project") });
-        resetButton.click(function () {
-            selectAProject();
-        });
-        const projectRef = new URL(`${codeUrl}/project.php`);
-        projectRef.searchParams.append("id", projectId);
-        fixHead.append($("<p>").append($("<a>", { href: projectRef }).append(projectData.title)), resetButton);
+        projectLink.href = makeUrl(`${codeUrl}/project.php`, { id: projectId });
+        show(projectLink);
+        projectTitleSpan.textContent = projectData.title;
         getPages();
     }
 
@@ -371,17 +324,18 @@ export function pageBrowse(params, storageKey, replaceUrl, mentorMode = false, s
         }
     };
 
-    if (projectId) {
-        if (!simpleHeader) {
-            getProjectData();
+    try {
+        userSettings = await ajax("GET", `v1/storage/newpi`);
+        if (projectId) {
+            if (!simpleHeader) {
+                getProjectData();
+            } else {
+                getPages();
+            }
         } else {
-            getPages();
+            selectAProject();
         }
-    } else {
-        selectAProject();
+    } catch (error) {
+        alert(error.message);
     }
-
-    return {
-        resize,
-    };
 }

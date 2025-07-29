@@ -137,6 +137,7 @@ As well as the eslint tooling:
 ```bash
 docker compose exec dpdev npm run format-check
 docker compose exec dpdev npm run format
+docker compose exec dpdev npm run lint
 ```
 
 Or you can just shell into the container to do things too:
