@@ -457,6 +457,43 @@ export function makeProofTextWidget(container, projectId, userSettings, language
     const qHide = new Parchment.StyleAttributor("display", "display", config);
     Quill.register(qHide);
 
+    const Embed = Quill.import("blots/embed");
+    class DFormula extends Embed {
+        static blotName = "dformula";
+        static className = "ql-dformula";
+        static tagName = "SPAN";
+
+        static create(value) {
+            // @ts-expect-error
+            if (window.katex == null) {
+                throw new Error("Formula module requires KaTeX.");
+            }
+            const node = super.create(value);
+            if (typeof value === "string") {
+                // @ts-expect-error
+                window.katex.render(value, node, {
+                    throwOnError: false,
+                    errorColor: "#f00",
+                    displayMode: true,
+                    // output: "mathml",
+                });
+                node.setAttribute("data-value", value);
+            }
+            return node;
+        }
+
+        static value(domNode) {
+            return domNode.getAttribute("data-value");
+        }
+
+        html() {
+            const { dformula } = this.value();
+            return `<span>${dformula}</span>`;
+        }
+    }
+
+    Quill.register(DFormula);
+
     const { setup, reLayout, setText, quill, editBox, controlBar, setParaSpacing, qlEditor, extraSettings, onDoneSettings } = makeTextWidget(
         container,
         userSettings,

@@ -18,10 +18,12 @@ $header_args = [
     ],
     "js_files" => [
         "$code_url/scripts/misc.js",
+        "$code_url/node_modules/katex/dist/katex.min.js",
         "$code_url/node_modules/quill/dist/quill.js",
     ],
     "css_files" => [
         "$code_url/styles/struct.css",
+        "$code_url/node_modules/katex/dist/katex.min.css",
         "$code_url/node_modules/quill/dist/quill.core.css",
     ],
     "body_attributes" => 'class="no-margin overflow-hidden fix-full"',
