@@ -23,6 +23,9 @@ site translations enabled, after upgrading the code you must regenerate the
 PO template and refresh the PO file for each enabled language to have the
 strings be picked up by the JS code.
 
+This is the last release to include the Greek Transliteration tool in the
+proofreading interface and the Greek Transliteration quiz.
+
 ### Changes
 
 * Authors code (`tools/authors/*`) has been removed. Biographies will be
