@@ -33,7 +33,7 @@ if ($format == "update") {
     $format = "html";
 }
 
-[$bad_words_w_freq, $messages] = _get_word_list($projectid);
+[$bad_words_w_freq, $messages] = _get_possible_bad_word_list($projectid);
 $title = _("Candidates for Bad Words List from Site's Possible bad words file");
 $page_text = _("Displayed below are the words from this project that are found in the site's Possible Bad Words files.");
 $page_text .= " ";
@@ -122,7 +122,7 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list($projectid)
+function _get_possible_bad_word_list(string $projectid): array
 {
     $messages = [];
 

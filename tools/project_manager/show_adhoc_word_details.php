@@ -78,7 +78,7 @@ echo "</form>";
 if (count($queryWords)) {
     echo "<hr>";
 
-    [$words_w_freq, $messages] = _get_word_list($projectid, $queryWords);
+    [$words_w_freq, $messages] = _get_adhoc_word_list($projectid, $queryWords);
 
     // what is the initial cutoff frequecny?
     $initialFreq = getInitialCutoff($freqCutoff, $cutoffOptions, $words_w_freq);
@@ -152,7 +152,7 @@ if (count($queryWords)) {
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list($projectid, $queryWords)
+function _get_adhoc_word_list(string $projectid, array $queryWords): array
 {
     $messages = [];
 
