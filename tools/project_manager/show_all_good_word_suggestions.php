@@ -145,7 +145,7 @@ foreach ($projects as $projectid => $projectdata) {
 
     // get the data
     [$suggestions_w_freq, $suggestions_w_occurrences] =
-        _get_word_list($projectid, $timeCutoffActual);
+        _get_all_suggestions_word_list($projectid, $timeCutoffActual);
 
     // if no words are returned (probably because something was
     // suggested but is no longer in the text) skip this project
@@ -199,7 +199,7 @@ echo "</div></div>";
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list(string $projectid, int $time_cutoff): array
+function _get_all_suggestions_word_list(string $projectid, int $time_cutoff): array
 {
     $suggestions = load_project_good_word_suggestions_flat($projectid, $time_cutoff);
 
