@@ -32,7 +32,7 @@ if ($format == "update") {
     $format = "html";
 }
 
-[$bad_words_w_freq, $messages] = _get_word_list($projectid);
+[$bad_words_w_freq, $messages] = _get_current_flagged_word_list($projectid);
 $title = _("Candidates for Good Words List from WordCheck");
 $page_text = _("Displayed below are the words from this project that WordCheck would currently flag for proofreaders.");
 $page_text .= " ";
@@ -138,7 +138,7 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list($projectid)
+function _get_current_flagged_word_list(string $projectid): array
 {
     $messages = [];
 

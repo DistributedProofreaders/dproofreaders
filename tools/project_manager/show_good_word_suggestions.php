@@ -43,7 +43,7 @@ if ($format == "update") {
 }
 
 [$all_suggestions_w_freq, $all_suggestions_w_occurrences, $round_suggestions_w_freq, $round_suggestions_w_occurrences, $rounds, $round_page_count, $messages] =
-    _get_word_list($projectid, $timeCutoff);
+    _get_suggestions_word_list($projectid, $timeCutoff);
 
 $title = _("Candidates for Good Words List from Proofreaders");
 $page_text = sprintf(_("Displayed below are the words that proofreaders have suggested (via the %s button) in the WordCheck interface that have not been already included in the project's Good Words List."), "<img src='$code_url/graphics/Book-Plus-Small.gif'>");
@@ -240,7 +240,7 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
-function _get_word_list($projectid, $timeCutoff)
+function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
 {
     $messages = [];
 
