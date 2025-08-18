@@ -1,7 +1,3 @@
-/* exported acceptWord */
-/* exported evaluateWordChange */
-/* exported markBox */
-/* exported confirmExit */
 /* global wordCheckMessages */
 
 import { testText } from "../../scripts/character_test.js";
@@ -67,7 +63,7 @@ function enableAW(wordID) {
 }
 
 // Disable a bad word's Unflag button
-function disableAW(wordID) {
+export function disableAW(wordID) {
     var a = document.getElementById("a_" + wordID);
 
     // If the value of the input field hasn't changed, don't disable
@@ -92,12 +88,13 @@ function disableAW(wordID) {
 
     return false;
 }
+window.disableAW = disableAW;
 
 // function to accept specified words in the spellcheck
 // it works by finding (span) elements with IDs in the format
 // word_# and when found sets the content of the span
 // to be just the word thereby removing the select and button
-function acceptWord(wordIDprefix, wordNumber) {
+export function acceptWord(wordIDprefix, wordNumber) {
     var wordID = wordIDprefix + "_" + wordNumber;
 
     // Get the original word
@@ -142,19 +139,19 @@ function acceptWord(wordIDprefix, wordNumber) {
 }
 window.acceptWord = acceptWord;
 
-function evaluateWordChange(wordID) {
+export function evaluateWordChange(wordID) {
     if (isWordChanged(wordID)) markPageChanged();
 }
 window.evaluateWordChange = evaluateWordChange;
 
 // store wordID for char pickers to use
-function markBox(wordID) {
+export function markBox(wordID) {
     top.txtBoxID = wordID;
 }
 window.markBox = markBox;
 
 // Confirm exit if changes have been made
-function confirmExit() {
+export function confirmExit() {
     // see if changes have been made
     var changesMade = document.getElementById("is_changed").value;
     if (changesMade == 1) {
