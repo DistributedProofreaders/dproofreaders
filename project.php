@@ -94,8 +94,6 @@ if (!User::is_logged_in()) {
     do_project_info_table();
     do_blurb_box($bottom_blurb);
 
-    do_smooth_reading();
-
     echo "<br>\n";
     return;
 } else {
@@ -1774,33 +1772,24 @@ function do_smooth_reading(): void
 
             if (!$project->PPer_is_current_user) {
                 echo "<ul class='list-head'>";
-                // We don't allow guests to upload the results of smooth-reading.
-                if (User::is_logged_in()) {
-                    echo "<li class='list-head'>";
-                    echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
-                    echo _("Upload a Smooth Read report") ;
-                    echo "</a>";
-                    echo "</li>\n";
-                    // The upload does not cause the project to change state --
-                    // it's still checked out to PPer.
+                echo "<li class='list-head'>";
+                echo "<a href='$code_url/tools/upload_text.php?project=$projectid&stage=smooth_done'>";
+                echo _("Upload a Smooth Read report") ;
+                echo "</a>";
+                echo "</li>\n";
+                // The upload does not cause the project to change state --
+                // it's still checked out to PPer.
 
-                    if (!sr_user_is_committed($projectid, $pguser)) {
-                        echo "<li class='list-head'>";
-                        echo _('Volunteer to Smooth Read this project for the PPer by pressing:');
-                        sr_echo_commitment_form($projectid);
-                        echo "</li>\n";
-                    } else {
-                        echo "<li class='list-head'>";
-                        echo _('You have volunteered to Smooth Read this project. If you wish to withdraw from Smooth Reading it, please press:');
-                        sr_echo_withdrawal_form($projectid);
-                        echo "</li>";
-                    }
-                } else {
-                    echo "<li>";
-                    echo _('Please note that while unregistered guests are welcome to download texts for Smooth Reading, only registered volunteers are able to upload annotated texts.');
-                    echo "\n";
-                    echo _('A registration link is available at the top of this page.');
+                if (!sr_user_is_committed($projectid, $pguser)) {
+                    echo "<li class='list-head'>";
+                    echo _('Volunteer to Smooth Read this project for the PPer by pressing:');
+                    sr_echo_commitment_form($projectid);
                     echo "</li>\n";
+                } else {
+                    echo "<li class='list-head'>";
+                    echo _('You have volunteered to Smooth Read this project. If you wish to withdraw from Smooth Reading it, please press:');
+                    sr_echo_withdrawal_form($projectid);
+                    echo "</li>";
                 }
                 echo "</ul>";
             }
