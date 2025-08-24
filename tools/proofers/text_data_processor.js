@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", function () {
         textDataElement.value = [...textDataElement.value]
             .map((character) => {
                 const conversion = conversionMap[character] || character;
-                selectionEnd += conversion.length - 1;
+                selectionEnd += [...conversion].length - 1;
                 return conversion;
             })
             .join("");
