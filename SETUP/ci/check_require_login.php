@@ -10,7 +10,6 @@ $ok_files = [
     // Base website
     "index.php",
     "credits.php",
-    "project.php",
     "list_etexts.php",
     "locale/debug_ui_language.php",
     // RSS feeds

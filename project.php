@@ -21,7 +21,9 @@ include_once($relPath.'faq.inc');
 include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
 include_once($relPath.'special_colors.inc'); // load_special_days
 
-// If the requestor is not logged in, we refer to them as a "guest".
+// This page originally allowed unauthenticated users and showed them a limited
+// set of information but now we require users to be authenticated.
+require_login();
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -49,7 +51,7 @@ $title_for_theme = sprintf(_('"%s" project page'), $project->nameofwork);
 
 $title = $project->nameofwork;
 
-if (User::is_logged_in() && $mark_bookmark !== null) {
+if ($mark_bookmark !== null) {
     upi_set_bookmark($pguser, $project->projectid, $mark_bookmark);
 }
 
@@ -86,24 +88,12 @@ echo "<h1>" . get_bookmark_form() . html_safe($title) . "</h1>\n";
 
 maybe_output_new_proofer_project_message($project);
 
-if (!User::is_logged_in()) {
-    // Guests see a reduced version of the project page.
-
-    [$top_blurb, $bottom_blurb] = decide_blurbs();
-    do_blurb_box($top_blurb);
-    do_project_info_table();
-    do_blurb_box($bottom_blurb);
-
-    echo "<br>\n";
-    return;
-} else {
-    upi_set_t_latest_home_visit(
-        $pguser,
-        $project->projectid,
-        time(),
-        $project->PPer_is_current_user or $project->PPVer_is_current_user
-    );
-}
+upi_set_t_latest_home_visit(
+    $pguser,
+    $project->projectid,
+    time(),
+    $project->PPer_is_current_user or $project->PPVer_is_current_user
+);
 
 if ($detail_level == 1) {
     do_expected_state();
@@ -483,20 +473,17 @@ function do_project_info_table(): void
         echo_row_a(_("Image Source"), $project->image_source_name, true);
     }
 
-    // We choose not to show guests anything involving users' names.
-    if (User::is_logged_in()) {
-        echo_row_a(_("Project Manager"), $project->username, true);
+    echo_row_a(_("Project Manager"), $project->username, true);
 
-        if ($project->PPer) {
-            echo_row_a(_("Post Processor"), $project->PPer, true);
-        }
-
-        if ($project->PPVer) {
-            echo_row_a(_("PP Verifier"), $project->PPVer, true);
-        }
-
-        echo_row_a(_("Credits line so far"), $project->credits_line, true);
+    if ($project->PPer) {
+        echo_row_a(_("Post Processor"), $project->PPer, true);
     }
+
+    if ($project->PPVer) {
+        echo_row_a(_("PP Verifier"), $project->PPVer, true);
+    }
+
+    echo_row_a(_("Credits line so far"), $project->credits_line, true);
 
     // -------------------------------------------------------------------------
     // Current activity
@@ -529,37 +516,34 @@ function do_project_info_table(): void
 
     // -------------------------------------------------------------------------
 
-    // We choose not to show guests the word lists.
-    if (User::is_logged_in()) {
-        $good_bad = [
-            'good' => _("Good Words"),
-            'bad' => _("Bad Words"),
-        ];
+    $good_bad = [
+        'good' => _("Good Words"),
+        'bad' => _("Bad Words"),
+    ];
 
-        $links = '';
-        foreach ($good_bad as $gb => $label) {
-            $f = get_project_word_file($projectid, $gb);
-            if ($f->size > 0) {
-                $links .= new_window_link($f->abs_url, $label);
-                $links .= " - " . _("Last modified") . ": " . icu_date_template("long+time", $f->mod_time);
-            } else {
-                $links .= $label . " " . _("(empty)");
-            }
-            $links .= "<br>";
+    $links = '';
+    foreach ($good_bad as $gb => $label) {
+        $f = get_project_word_file($projectid, $gb);
+        if ($f->size > 0) {
+            $links .= new_window_link($f->abs_url, $label);
+            $links .= " - " . _("Last modified") . ": " . icu_date_template("long+time", $f->mod_time);
+        } else {
+            $links .= $label . " " . _("(empty)");
         }
-
-        echo_row_a(_("Word Lists"), $links);
-
-        if ($project->pages_table_exists && !$project->is_utf8) {
-            echo_row_a(_("Encoding"), "<span class='error'>" . _("Project table is not UTF-8.") . "</span>");
-        }
-
-        $project_charsuites = [];
-        foreach ($project->get_charsuites() as $charsuite) {
-            $project_charsuites[] = "<a href='tools/charsuites.php?projectid=$projectid#" . attr_safe($charsuite->name) . "'>" . html_safe($charsuite->title) . "</a>";
-        }
-        echo_row_a(_("Character Suites"), implode(", ", $project_charsuites));
+        $links .= "<br>";
     }
+
+    echo_row_a(_("Word Lists"), $links);
+
+    if ($project->pages_table_exists && !$project->is_utf8) {
+        echo_row_a(_("Encoding"), "<span class='error'>" . _("Project table is not UTF-8.") . "</span>");
+    }
+
+    $project_charsuites = [];
+    foreach ($project->get_charsuites() as $charsuite) {
+        $project_charsuites[] = "<a href='tools/charsuites.php?projectid=$projectid#" . attr_safe($charsuite->name) . "'>" . html_safe($charsuite->title) . "</a>";
+    }
+    echo_row_a(_("Character Suites"), implode(", ", $project_charsuites));
 
     // -------------------------------------------------------------------------
 
@@ -586,84 +570,73 @@ function do_project_info_table(): void
         echo_row_a(_("Last Forum Post"), $last_post_date, true);
     }
 
-    // If the topic is only visible to logged-in users,
-    // there's little point showing guests the link to it.
-    if (User::is_logged_in()) {
-        if (($state == PROJ_DELETE) && ($topic_id == "")) {
-            echo_row_a(_("Forum"), _("The project has been deleted, and no discussion exists."), true);
+    if (($state == PROJ_DELETE) && ($topic_id == "")) {
+        echo_row_a(_("Forum"), _("The project has been deleted, and no discussion exists."), true);
+    } else {
+        if ($topic_id == "") {
+            $blurb = html_safe(_("Start a discussion about this project"));
+            $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
+            echo_row_a(_("Forum"), "<a href='$url' id='no_topic_yet'>$blurb</a>");
         } else {
-            if ($topic_id == "") {
-                $blurb = html_safe(_("Start a discussion about this project"));
-                $url = "$code_url/tools/proofers/project_topic.php?project=$projectid";
-                echo_row_a(_("Forum"), "<a href='$url' id='no_topic_yet'>$blurb</a>");
+            $details = get_topic_details($topic_id);
+            if ($details) {
+                $replies = sprintf(_("(%d replies)"), $details['num_replies']);
             } else {
-                $details = get_topic_details($topic_id);
-                if ($details) {
-                    $replies = sprintf(_("(%d replies)"), $details['num_replies']);
-                } else {
-                    $replies = '';
-                }
-                $blurb = html_safe(_("Discuss this project"));
-                $url = get_url_to_view_topic($topic_id);
-                echo_row_a(_("Forum"), "<a href='$url'>$blurb</a> $replies");
+                $replies = '';
             }
+            $blurb = html_safe(_("Discuss this project"));
+            $url = get_url_to_view_topic($topic_id);
+            echo_row_a(_("Forum"), "<a href='$url'>$blurb</a> $replies");
         }
     }
 
     // -------------------------------------------------------------------------
 
-    // For now, we say that guests can't see page details or page browser
-    if (User::is_logged_in()) {
-
-        if ($detail_level >= 4) {
-            // We'll call do_page_table later, so we don't need the "Page Detail" link.
-        } else {
-            $detail = "";
-            if ($project->pages_table_exists) {
-                $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
-                $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
-                $url2 = "$url&amp;select_by_user";
-                $blurb2 = html_safe(_("Just my pages"));
-                $detail = "<a href='$url'>$blurb</a> (<a href='$url2'><b>$blurb2</b></a>)";
-                if ($project->has_entered_formatting_round()) {
-                    $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
-                    $blurb3 = html_safe(_("Compare without formatting"));
-                    $detail .= "<br><a href='$url3'>$blurb3</a>";
-                }
-            } else {
-                $detail = $project->pages_table_missing_reason();
+    if ($detail_level >= 4) {
+        // We'll call do_page_table later, so we don't need the "Page Detail" link.
+    } else {
+        $detail = "";
+        if ($project->pages_table_exists) {
+            $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
+            $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
+            $url2 = "$url&amp;select_by_user";
+            $blurb2 = html_safe(_("Just my pages"));
+            $detail = "<a href='$url'>$blurb</a> (<a href='$url2'><b>$blurb2</b></a>)";
+            if ($project->has_entered_formatting_round()) {
+                $url3 = "$code_url/tools/project_manager/page_compare.php?project=$projectid";
+                $blurb3 = html_safe(_("Compare without formatting"));
+                $detail .= "<br><a href='$url3'>$blurb3</a>";
             }
-            echo_row_a(_("Page Detail"), $detail);
+        } else {
+            $detail = $project->pages_table_missing_reason();
         }
+        echo_row_a(_("Page Detail"), $detail);
+    }
 
-        if ($detail_level >= 3 && $project->pages_table_exists) {
-            $pages = $project->get_page_names_from_db();
-            $imageparam = $pages ? ("&amp;imagefile=" . $pages[0]) : "";
-            // get the first page image
-            $url = "$code_url/tools/page_browser.php?project=$projectid$imageparam";
-            $images_url = "$url&amp;mode=image";
-            $text_url = "$url&amp;mode=text";
-            $both_url = "$url&amp;mode=imageText";
-            $blurb = sprintf(
-                _("Browse page: <a href='%s'>images</a> &middot; <a href='%s'>texts</a> &middot; <a href='%s'>both</a>"),
-                $images_url,
-                $text_url,
-                $both_url
-            );
+    if ($detail_level >= 3 && $project->pages_table_exists) {
+        $pages = $project->get_page_names_from_db();
+        $imageparam = $pages ? ("&amp;imagefile=" . $pages[0]) : "";
+        // get the first page image
+        $url = "$code_url/tools/page_browser.php?project=$projectid$imageparam";
+        $images_url = "$url&amp;mode=image";
+        $text_url = "$url&amp;mode=text";
+        $both_url = "$url&amp;mode=imageText";
+        $blurb = sprintf(
+            _("Browse page: <a href='%s'>images</a> &middot; <a href='%s'>texts</a> &middot; <a href='%s'>both</a>"),
+            $images_url,
+            $text_url,
+            $both_url
+        );
 
-            echo_row_a(_("Page Browser"), $blurb);
-        }
+        echo_row_a(_("Page Browser"), $blurb);
     }
 
     // -------------------------------------------------------------------------
     // Personal data with respect to this project
 
-    // If you're not logged in, we certainly can't show your personal data.
-    if (User::is_logged_in()) {
-        if ($round && $detail_level > 1) {
-            recentlyproofed(0);
-            recentlyproofed(1);
-        }
+    if ($round && $detail_level > 1) {
+        recentlyproofed(0);
+        recentlyproofed(1);
     }
 
     // -------------------------------------------------------------------------
@@ -672,7 +645,7 @@ function do_project_info_table(): void
 
     $postcomments = get_formatted_postcomments($project->projectid);
 
-    if (User::is_logged_in() && $postcomments != '') {
+    if ($postcomments != '') {
         if ($available_for_SR) {
             $class = 'sr-instructions';
             echo_row_b(_("Instructions for Smooth Reading"), '', $class);
@@ -696,39 +669,35 @@ function do_project_info_table(): void
 
     // --------
 
-    // For now, we suppress Project Comments for guests.
-    // (They might be confused by the instructions for proofreaders.)
-    if (User::is_logged_in()) {
-        $comments = $project->comments;
+    $comments = $project->comments;
 
-        // insert e.g. templates and biographies
-        $comments = parse_project_comments($project);
+    // insert e.g. templates and biographies
+    $comments = parse_project_comments($project);
 
-        if ($comments == '') {
-            // Put in *something*, otherwise it'll probably look odd.
-            $comments = '&nbsp;';
-        }
-
-        if ($round) {
-            $a = sprintf(
-                _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
-                get_faq_url($round->document)
-            );
-            $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
-
-            $time_str = icu_date_template("long+time", $project->t_last_change_comments);
-            $c = "(" . _("Last modified") . ": " . $time_str . ")";
-
-            $comments_blurb = "$a<br>$b<br>$c";
-        } else {
-            $comments_blurb = "";
-        }
-
-        $class = 'project-comments';
-        echo_row_b("<span id='project-comments'>" . _("Project Comments") . "</span>", $comments_blurb, $class);
-
-        echo_row_c($comments);
+    if ($comments == '') {
+        // Put in *something*, otherwise it'll probably look odd.
+        $comments = '&nbsp;';
     }
+
+    if ($round) {
+        $a = sprintf(
+            _("The <a href='%s'>Guidelines</a> give detailed instructions for working in this round."),
+            get_faq_url($round->document)
+        );
+        $b = _('The instructions below are particular to this project, and <b>take precedence over those guidelines</b>.');
+
+        $time_str = icu_date_template("long+time", $project->t_last_change_comments);
+        $c = "(" . _("Last modified") . ": " . $time_str . ")";
+
+        $comments_blurb = "$a<br>$b<br>$c";
+    } else {
+        $comments_blurb = "";
+    }
+
+    $class = 'project-comments';
+    echo_row_b("<span id='project-comments'>" . _("Project Comments") . "</span>", $comments_blurb, $class);
+
+    echo_row_c($comments);
 
     // -------------------------------------------------------------------------
 
