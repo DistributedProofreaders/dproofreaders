@@ -163,7 +163,7 @@ new Round(
     _("The page-texts have already been proofread, but now need to be formatted with markup which may be specific to the project."),
     'formatting_guidelines.php',
     $pi_tools_for_F,
-    35, // daily_page_limit
+    25, // daily_page_limit
     [],
     [
         0 => _('Formatting Neophyte'),
