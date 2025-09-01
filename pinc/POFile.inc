@@ -292,6 +292,11 @@ class POFile
         if (!$process->isSuccessful()) {
             throw new RuntimeException($process->getErrorOutput());
         }
+
+        // if msgmerge doesn't think the PO file needs updating it won't
+        // change it, but we rely on the timestamp of the file to know it
+        // was merged with the template, so always update it
+        touch($this->po_filename);
     }
 
     public function compile()
