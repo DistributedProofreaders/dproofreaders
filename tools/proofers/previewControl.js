@@ -178,9 +178,9 @@ window.addEventListener("DOMContentLoaded", () => {
         // check if MathJax already loaded. Will break if load more than once
         if (previewStyles.allowMathPreview && typeof MathJax === "undefined") {
             window.MathJax = {
-                loader: {load: ['input/tex', 'output/svg', '[tex]/unicode']},
-                tex: {packages: {'[+]': ['unicode']}}
-            }
+                loader: { load: ["input/tex", "output/svg", "[tex]/unicode"] },
+                tex: { packages: { "[+]": ["unicode"] } },
+            };
             const mathJaxScriptElement = document.createElement("script");
             mathJaxScriptElement.type = "text/javascript";
             mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
