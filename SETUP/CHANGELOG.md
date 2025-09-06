@@ -7,7 +7,7 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R??????
+## R202509
 Scripts supporting this upgrade are in `SETUP/upgrade/23`
 
 ### Notices & Deprecations
@@ -26,12 +26,20 @@ strings be picked up by the JS code.
 This is the last release to include the Greek Transliteration tool in the
 proofreading interface and the Greek Transliteration quiz.
 
+In the next release, project pages will require authentication and the
+sitemap will be removed.
+
 ### Changes
 
+* Updated minimum PHP to 8.1 and upgraded dependencies to match (cpeel)
 * Authors code (`tools/authors/*`) has been removed. Biographies will be
   inserted directly into the project comments with the included upgrade script
   (cpeel)
 * Updated minimum browser versions, see [INSTALL.md](INSTALL.md).
+* Access to smoothreading now requires authentication (cpeel)
+* Quiz & tutorial updates (mrducky4, srjfoo)
+* Include PDF formats for smoothreading if available (70ray)
+* Code improvements to the Task Center (bpfoley)
 
 ## R202503
 Scripts supporting this upgrade are in `SETUP/upgrade/22`
