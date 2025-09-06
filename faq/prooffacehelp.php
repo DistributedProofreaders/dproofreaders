@@ -538,14 +538,13 @@ see if there are exceptions to the general guidelines.
     <li><input type='button' value='ABC'> — changes selected characters to ALL CAPS</li>
     <li><input type='button' value='Abc'> — changes selected characters to Title Case</li>
     <li><input type='button' value='abc'> — changes selected characters to all lower case</li>
-    <li><input type='button' value='[Greek: ]'> — used to identify text transliterated from Greek. Selected text will be preceded by '[Greek: ' and followed by ']'.</li>
     <li><input type='button' value='[** ]'> — Proofreader's note.</li>
     <li><input type='button' value='[ ]'> — square brackets. Used to identify footnote markers where they appear in the body of the text.</li>
     <li><input type='button' value='{ }'> — curly braces. Used to identify subscripts and multi-character superscripts.</li>
     <li><input type='button' value='[Blank Page]'> — Removes any text from the page and adds the '[Blank Page]' tag at the top.</li>
 </ul>
 <p>
-Except for the [Blank Page] tag, all of the buttons listed above will operate on selected text. [Greek: ], [** ], [] and {} can also be entered standalone and the text added.
+Except for the [Blank Page] tag, all of the buttons listed above will operate on selected text. [** ], [] and {} can also be entered standalone and the text added.
 </p>
 
 <h4>
@@ -624,42 +623,6 @@ Below the tags are several links to both popup tools and documentation.
 </p>
 <p>
     To replace matched text with a new line, \n may be used in the replace field.
-</p>
-
-<h4>Greek transliteration popup</h4>
-
-<p>
-    The most common non-Latin alphabet we encounter is Greek.
-    Even though Project Managers have the option of enabling one
-    of the Greek character suites, some may wish to request that
-    Greek be transliterated, especially if there are only a few
-    words of Greek in a book. The transliterated Greek should be
-    wrapped in a tag [Greek: ].
-    So
-    <blockquote>
-    βιβλος
-    </blockquote>
-    in the image is rendered as
-    <pre>
-    [Greek: biblos]
-    </pre>
-    in the proofread page.
-</p>
-<p>
-    To make it easier to select the correct transliterated characters,
-    this tool has been provided.
-    Click on the Greek button and a small window pops up,
-    containing upper and lower case Greek alphabets and a text box.
-</p>
-<p>
-    All of the Greek letters in the popup box are clickable.
-    Click the ones that appear in the Greek word in the image,
-    and the Latin transliterations appear in the text box,
-    from whence they can be cut-and-pasted into the proofread text
-    and surrounded with [Greek: ] tags.
-</p>
-<p>
-    For more information please see the Proofreading Guidelines.
 </p>
 
 <h4>Help</h4>
