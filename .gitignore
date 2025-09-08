@@ -20,3 +20,5 @@ vendor
 SETUP/devex/dpdev-docker/container_startup_local.sh
 # build artifacts
 dist/
+# stupid macOS
+.DS_Store
