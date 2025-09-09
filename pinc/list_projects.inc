@@ -69,6 +69,8 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
         $group_clause = "";
     }
 
+    $is_user_logged_in = User::is_logged_in();
+
     // first get the number of projects, we cache this value for an hour
     // so it might be a bit out of sync with the full listing, but it means
     // we don't have to do this query twice
@@ -163,7 +165,7 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
         // Counter
         // Title
         echo "<span class='book-title'>";
-        if (is_null($postednum)) {
+        if ($is_user_logged_in && is_null($postednum)) {
             echo "<a href='$code_url/project.php?id=$projectid'>" . html_safe($title) . "</a>";
         } else {
             echo html_safe($title);

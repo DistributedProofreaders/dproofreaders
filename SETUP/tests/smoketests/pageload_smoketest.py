@@ -25,7 +25,6 @@ NOLOGIN_TESTS = [
     {'path': 'list_etexts.php?x=g'},
     {'path': 'list_etexts.php?x=s'},
     {'path': 'list_etexts.php?x=b'},
-    {'path': 'sitemap.php'},
 ]
 
 BASE_TESTS = [
