@@ -10,7 +10,6 @@ define('SIX_MONTHS_IN_SECONDS', 15778463);
 $wiki_url = SiteConfig::get()->wiki_url;
 $default_feedbackurl = get_url_to_view_topic(55121);
 $old_texts_url = "$wiki_url/Proofing_old_texts";
-$Greek_translit_url = "$wiki_url/Greek/The_Greek_Alphabet";
 $ae_oe_ligatures_url = "$wiki_url/Ae_and_oe_ligatures";
 $thorn_url = "$wiki_url/Thorn";
 $fraktur_url = "$wiki_url/Common_Fraktur_OCR_errors";
@@ -141,25 +140,6 @@ new QuizLevel(
                 'p_old_1' => _('Long s, decorative ligatures, catchwords'),
                 'p_old_2' => _('Usage of u/v and i/j, ampersands'),
                 'p_old_3' => _('Nasal abbreviations, blackletter'),
-            ],
-            [
-                'maximum_age' => SIX_MONTHS_IN_SECONDS,
-            ]
-        ),
-
-        new Quiz(
-            "p_greek",
-            _("Greek Transliteration Quiz and Tutorial"),
-            _("Greek Transliteration Quiz"),
-            "<p><a href='$Greek_translit_url'>" . _("Information") . "</a><br>" .
-                _("Note: Since quiz messages are generated automatically, in some situations the feedback may not correspond to what you have done. This is particularly true for Greek transliteration, so if the message doesn't make sense or isn't helpful please use the forum link provided in the error message to get feedback.") . "</p>",
-            "", // **fixme** insert Greek quiz feedback thread url, once it exists
-            [
-                'p_greek_1' => _('Basic transliteration'),
-                'p_greek_2' => _('Upsilon transliteration, diacritical marks'),
-                'p_greek_3' => _('Gamma transliteration, diacritical marks'),
-                'p_greek_4' => _('Greek punctuation'),
-                'p_greek_5' => _('Double letters, variant forms'),
             ],
             [
                 'maximum_age' => SIX_MONTHS_IN_SECONDS,
