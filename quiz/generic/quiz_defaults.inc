@@ -434,4 +434,3 @@ $messages["P_ijchange"] = [
     "message_title" => _("Primary Rule"),
     "message_body" => _("The primary rule of proofreading is <i>\"Don't change what the author wrote!\"</i> Please do not modernize the spelling when proofreading.  Old texts often use the letters '<kbd>i</kbd>' and '<kbd>j</kbd>' in different ways than we do today, but we keep what the author wrote."),
 ];
-
