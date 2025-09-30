@@ -15,6 +15,6 @@ echo "<p><img src='../generic/images/Fraktur_alphabet.png' alt='" . _("Fraktur a
 
 echo "<p>" . _("There are two different forms of the lower case letter 's'.  The 'normal' (or 'round') s is used at the end of a syllable, the 'long s' (ſ) elsewhere. The two forms both get proofread as plain 's'.") . "</p>\n";
 
-echo "<p>" . sprintf(_("If you have difficulty identifying letters in fraktur, there is a <a target='_blank' href='%s'>fraktur tool</a> similar to the Greek Transliterator but using the fraktur alphabet."), "http://www.kurald-galain.com/fraktur2ascii.html") . "</p>\n";
+echo "<p>" . sprintf(_("If you have difficulty identifying letters in fraktur, there is a <a target='_blank' href='%s'>fraktur tool</a> for the fraktur alphabet."), "http://www.kurald-galain.com/fraktur2ascii.html") . "</p>\n";
 
 echo "<p><a href='../generic/main.php?quiz_page_id=p_fraktur'>" . _("Continue to quiz page") . "</a></p>\n";
