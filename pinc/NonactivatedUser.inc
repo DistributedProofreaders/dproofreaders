@@ -264,4 +264,21 @@ class NonactivatedUser
         $user->load('email', $email);
         return $user;
     }
+
+    /**
+     * Prune old records
+     */
+    public static function prune(int $days_to_keep): void
+    {
+        $cutoff = new DateTimeImmutable(sprintf("%d days ago", $days_to_keep));
+        $sql = sprintf(
+            "
+            DELETE
+            FROM non_activated_users
+            WHERE date_created < %d
+            ",
+            $cutoff->format("U")
+        );
+        DPDatabase::query($sql);
+    }
 }
