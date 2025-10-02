@@ -20,3 +20,4 @@
 50 0 1 * * JOB=NotifyOldPP; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 50 0 15 * * JOB=NotifyOldPP; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 50 0 28 * * JOB=PruneJobLogs; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
+50 0 28 * * JOB=PruneNonActivatedUsers; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
