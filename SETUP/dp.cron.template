@@ -14,7 +14,6 @@
 50  0 * * * JOB=CleanUploadsTrash; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 55  0 * * * JOB=ExtendSiteTallyGoals; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 00  4 * * * JOB=ToggleSpecialDayQueues; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
-45  3 * * * JOB=ImportPGCatalog; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB
 
 # monthly:
 50 0 1 * * JOB=NotifyOldPP; <<PHP_CLI_EXECUTABLE>> <<CODE_DIR>>/crontab/run_background_job.php $JOB

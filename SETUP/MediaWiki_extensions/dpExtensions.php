@@ -29,63 +29,7 @@ $wgExtensionCredits['parserhook'][] = [
     'description' => 'Provides custom tags for listing DP projects and PG titles',
 ];
 
-$wgExtensionFunctions[] = "wfPgFormats";
 $wgExtensionFunctions[] = "wfProjectInfo";
-
-function wfPgFormats()
-{
-    $parser = \MediaWiki\MediaWikiServices::getInstance()->getParser();
-    $parser->setHook("pg_formats", "getPgFormats");
-}
-
-function getPgFormats($input, $argv)
-{
-    global $relPath, $code_url;
-    include_once($relPath.'SiteConfig.inc');
-    include_once($relPath.'DPDatabase.inc');
-
-    DPDatabase::connect();
-
-    $err = "<strong style='color: red;'>[Error: getPgFormats: %s]</strong>";
-
-    $etext = $argv['etext'];
-    if (empty($etext) || !is_numeric($etext)) {
-        return sprintf($err, "invalid etext number");
-    }
-
-    $sql = sprintf(
-        "
-        SELECT formats
-        FROM pg_books
-        WHERE etext_number = '%d'
-        LIMIT 1
-        ",
-        $etext
-    );
-    $result = DPDatabase::query($sql);
-
-    $row = mysqli_fetch_assoc($result);
-    if (!$row) {
-        return sprintf($err, "invalid etext number; possibly not yet posted");
-    }
-
-    $formats = '[' . $row["formats"] . ']';
-
-    if (empty($input)) {
-        return $formats;
-    }
-
-    @preg_match('/([^,]+),(.*)/', $input, $matches);
-
-    if (empty($matches[1]) || empty($matches[2])) {
-        return sprintf($err, "No comma in input text. Use short tag instead.");
-    }
-
-    return "<a href='https://www.gutenberg.org/ebooks/$etext' class='extiw'>" .
-        "$matches[1]</a>, $matches[2] -- $formats";
-}
-
-// ----------------------------------------------------------------------------
 
 function wfProjectInfo()
 {
