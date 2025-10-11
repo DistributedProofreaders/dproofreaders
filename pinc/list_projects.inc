@@ -50,23 +50,11 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
     global $code_url;
 
     if ($metal == "gold") {
-        $join = "
-            LEFT OUTER JOIN pg_books
-            ON projects.postednum=pg_books.etext_number
-        ";
-        $join_columns = "formats,";
         $where_condition = SQL_CONDITION_GOLD;
-        $group_clause = "GROUP BY postednum";
     } elseif ($metal == "silver") {
-        $join = "";
-        $join_columns = "";
         $where_condition = SQL_CONDITION_SILVER;
-        $group_clause = "";
     } elseif ($metal == "bronze") {
-        $join = "";
-        $join_columns = "";
         $where_condition = SQL_CONDITION_BRONZE;
-        $group_clause = "";
     }
 
     // first get the number of projects, we cache this value for an hour
@@ -87,12 +75,9 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
             n_pages,
             modifieddate,
             postednum,
-            $join_columns
             state
         FROM projects
-            $join
         WHERE $where_condition
-        $group_clause
         $order_clause
         LIMIT $per_page OFFSET $offset
     ";
@@ -184,9 +169,6 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
         // Download info
         if (!is_null($postednum)) {
             echo get_pg_catalog_link_for_etext($postednum);
-            if ($project['formats'] ?? false) {
-                echo " [{$project['formats']}]";
-            }
             echo "<br>";
         }
         echo "<br>";

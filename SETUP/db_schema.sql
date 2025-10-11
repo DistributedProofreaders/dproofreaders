@@ -181,16 +181,6 @@ CREATE TABLE `past_tallies` (
 );
 
 --
--- Table structure for table `pg_books`
---
-
-CREATE TABLE `pg_books` (
-  `etext_number` int(10) unsigned NOT NULL,
-  `formats` varchar(255) NOT NULL DEFAULT '',
-  PRIMARY KEY (`etext_number`)
-) COMMENT='Each row represents a different PG etext';
-
---
 -- Table structure for table `project_events`
 --
 
