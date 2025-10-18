@@ -340,7 +340,7 @@ class Loader
             }
         }
 
-        ksort($this->page_file_table, SORT_STRING);
+        ksort($this->page_file_table, SORT_STRING);  // @phpstan-ignore-line
 
         // echo "<pre>"; var_dump($this->page_file_table); echo "</pre>";
 
@@ -596,7 +596,6 @@ class Loader
         }
 
         // There's a file in source dir.
-        assert(count($src_exts) == 1);
         [$src_ext] = $src_exts;
         $src_file = $base . $src_ext;
 
@@ -631,7 +630,6 @@ class Loader
         }
 
         // There's a file in the source dir *and* info in the db.
-        assert(count($db_exts) == 1);
         [$db_ext] = $db_exts;
         $db_file = $base . $db_ext;
 

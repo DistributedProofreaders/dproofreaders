@@ -278,7 +278,7 @@ try {
                 $languages[] = $_POST["aux_language"];
             }
             if (isset($_POST["remove_language"])) {
-                $languages = array_diff($languages, array_keys($_POST["remove_language"] ?? []));
+                $languages = array_diff($languages, array_keys($_POST["remove_language"]));
             }
             $accepted_words = explode(' ', $_POST["accepted_words"]);
             $_SESSION["is_header_visible"] = get_integer_param($_POST, 'is_header_visible', 0, 0, 1);

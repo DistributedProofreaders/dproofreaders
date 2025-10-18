@@ -52,9 +52,7 @@ function dpsession_resume(): void
         );
 
         // set global variable $pguser
-        if (isset($_SESSION['pguser'])) {
-            $pguser = $_SESSION['pguser'];
-        }
+        $pguser = $_SESSION['pguser'];
         $user_is_logged_in = true;
     } else {
         session_unset();

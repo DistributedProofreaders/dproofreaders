@@ -248,7 +248,7 @@ class Project
                 $this->$key = $value;
             }
             $this->_create_source = "array";
-        } elseif ($arg === null) {
+        } elseif ($arg === null) {  // @phpstan-ignore-line
             $this->_init_fields_to_defaults();
             $this->_create_source = "empty";
         } else {

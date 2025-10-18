@@ -961,9 +961,6 @@ function set_col_str(string $colname, string $s): string
  */
 function set_col_num(string $colname, int $i): string
 {
-    if (!is_numeric($i)) {
-        throw new InvalidArgumentException("$i is not a number");
-    }
     return sprintf("%s=%d", $colname, $i);
 }
 

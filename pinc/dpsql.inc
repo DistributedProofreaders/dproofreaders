@@ -86,7 +86,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
             throw new ServerError(DPDatabase::log_error());
         }
         $type[$c] = $field_data->type;
-        $align = ($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '';
+        $align = (is_mysqli_field_type_int($type[$c]) && $ralign_ints) ? " style='text-align: right;'" : '';
         echo "<th$align>\n";
         echo $field_data->name;
         echo "</th>\n";
@@ -102,8 +102,8 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
         }
 
         for ($c = 0; $c < $n_query_cols; $c++) {
-            echo '<td' . (($type[$c] == 'int' && $ralign_ints) ? " style='text-align: right;'" : '') . '>';
-            echo ($type[$c] == 'int') ? number_format($row[$c]) : $row[$c];
+            echo '<td' . ((is_mysqli_field_type_int($type[$c]) && $ralign_ints) ? " style='text-align: right;'" : '') . '>';
+            echo is_mysqli_field_type_int($type[$c]) ? number_format($row[$c]) : $row[$c];
             echo "</td>\n";
         }
         echo "</tr>\n";
@@ -131,4 +131,13 @@ function dpsql_fetch_columns($res)
         }
     }
     return $columns;
+}
+
+function is_mysqli_field_type_int(int $type): bool
+{
+    return $type == MYSQLI_TYPE_TINY ||
+        $type == MYSQLI_TYPE_SHORT ||
+        $type == MYSQLI_TYPE_LONG ||
+        $type == MYSQLI_TYPE_LONGLONG ||
+        $type == MYSQLI_TYPE_INT24;
 }

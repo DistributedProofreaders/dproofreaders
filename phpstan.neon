@@ -23,12 +23,16 @@ parameters:
         # Errors in third party code, and our interfaces to it
         - message: '#Property .* does not accept false#'
           path: pinc/3rdparty/mediawiki/DairikiDiff.php
-        - message: '#Comparison operation .* results in an error#'
+        - message: '#Parameter &\$changed by-ref type of method DiffEngine::shiftBoundaries\(\) expects .* given#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
         - message: '#^Parameter \#2 \$.* of function array_fill expects int, float given\.$#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
+        - message: '#Call to function wfDebug\(\) on a separate line has no effect.#'
+          path: pinc/3rdparty/mediawiki/DiffEngine.php
         - message: '#Instantiated class DiffFormatter is abstract#'
           path: pinc/DifferenceEngineWrapper.inc
+        - message: '#Call to function is_array\(\) with array<string> will always evaluate to true.#'
+          path: pinc/3rdparty/mediawiki/WordLevelDiff.php
 
         - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
         - message: '#Variable .* might not be defined#'

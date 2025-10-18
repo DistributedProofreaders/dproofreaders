@@ -6,7 +6,7 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'forum_interface.inc');
 
 if (User::is_logged_in()) {
-    logout_forum_user();
+    logout_forum_user();  // @phpstan-ignore-line
 
     dpsession_end();
 
