@@ -243,7 +243,7 @@ function fetch_queue_data(int $queueid): ?array
     return _queue_data($res);
 }
 
-function _queue_data(array $row, int $length = null, int $unheld_length = null): array
+function _queue_data(array $row, ?int $length = null, ?int $unheld_length = null): array
 {
     $round = Rounds::get_by_id($row["round_id"]);
     if (is_null($length) || is_null($unheld_length)) {
