@@ -5,6 +5,6 @@ class PruneNonActivatedUsers extends BackgroundJob
 {
     public function work()
     {
-        NonactivatedUser::prune(90); // ~3 months
+        NonactivatedUser::prune(SiteConfig::get()->days_to_retain_pending_accounts);
     }
 }
