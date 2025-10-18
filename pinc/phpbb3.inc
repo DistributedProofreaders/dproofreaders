@@ -257,7 +257,8 @@ function _insert_post(
         $subject = utf8_encode_ucr($subject);
     }
 
-    $poll = $uid = $bitfield = $options = '';
+    $poll = $uid = $bitfield = '';
+    $options = 0;
     generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 
     $data = [

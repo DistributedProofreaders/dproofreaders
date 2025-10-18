@@ -791,7 +791,7 @@ function load_project_good_word_suggestions($projectid, $start_time = 0)
         [$time, $round, $page, $proofer, $words] = $event;
 
         if (count($words)) {
-            if (!is_array(@$wordsArray[$round][$page])) {
+            if (!isset($wordsArray[$round][$page])) {
                 $wordsArray[$round][$page] = [];
             }
             $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page], $words);

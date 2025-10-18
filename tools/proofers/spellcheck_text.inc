@@ -342,7 +342,7 @@ function spellcheck_apply_corrections()
 
         // now iterate over the lines and offsets doing the corrections
         foreach ($affectedRows as $affectedRow) {
-            foreach ($offsetList[$affectedRow] as $offsetKey) { /** @phpstan-ignore-line Fixed in https://github.com/phpstan/phpstan/issues/9403 */
+            foreach ($offsetList[$affectedRow] as $offsetKey) {
                 $i = $offsetLookup["{$affectedRow}_{$offsetKey}"];
 
                 // hidden values line|offset|word length

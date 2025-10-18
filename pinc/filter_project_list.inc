@@ -207,7 +207,7 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
     ];
     // overwrite the default display state of the form fields with any
     // custom display requests
-    if ($custom_display_fields && is_array($custom_display_fields)) {
+    if ($custom_display_fields) {
         $display_fields = array_merge($display_fields, $custom_display_fields);
     }
     // if there is data save it, else get saved data

@@ -31,7 +31,7 @@ if ($action == "update") {
         if (preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/", $key, $matches)) {
             $projectid = $matches[1];
             $word = decode_word($val);
-            if (!is_array(@$newProjectWords[$projectid])) {
+            if (!isset($newProjectWords[$projectid])) {
                 $newProjectWords[$projectid] = [];
             }
             array_push($newProjectWords[$projectid], $word);

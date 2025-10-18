@@ -118,9 +118,9 @@ foreach ($record as $r) {
         if (array_key_exists($field, $field_info)) {
             $info = $field_info[$field];
             $attr = " class='bold' title='" . attr_safe($info["tooltip"]) . "'";
-            if (array_key_exists("url", $info)) {
+            if (array_key_exists("url", $info)) {  /** @phpstan-ignore-line */
                 $match[2] = "<a href='{$info['url']}'{$attr}>{$field}</a>";
-            } else { /** @phpstan-ignore-line */
+            } else {
                 $match[2] = "<span {$attr}>{$field}</span>";
             }
             $label = $match[1] . $match[2] . $match[3];

@@ -74,7 +74,7 @@ output_link_box($username);
 echo "<h1>" . get_usertext($page_header) . "</h1>";
 
 $allowed_stages = array_keys(get_stages_user_can_work_in($username));
-$can_view_post_processing = in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages);
+$can_view_post_processing = (in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages));
 $proof_heading = _("Proofreading & Formatting Projects");
 $pool_heading = _("Post-Processing Projects");
 if ($can_view_post_processing) {

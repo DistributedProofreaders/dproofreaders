@@ -275,8 +275,6 @@ class PPage
             return; // to let the caller do the appropriate normal thing
         }
 
-        assert($dpl_reached);
-
         if ($saved) {
             $title = _("Saved, but at limit");
             $sentence = sprintf(
