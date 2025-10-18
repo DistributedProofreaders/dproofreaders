@@ -6,6 +6,6 @@ class PruneJobLogs extends BackgroundJob
 {
     public function work()
     {
-        prune_job_log_entries(365 + 30); // ~13 months
+        prune_job_log_entries(SiteConfig::get()->days_to_retain_job_logs);
     }
 }

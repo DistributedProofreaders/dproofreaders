@@ -21,6 +21,12 @@ class SiteConfig
     public ?string $archive_db_name;
     public ?string $archive_projects_dir;
 
+    // data retention configuration
+    public int $days_to_retain_projects_before_archiving = 100;
+    public int $days_to_retain_page_data_after_posting = 365;
+    public int $days_to_retain_pending_accounts = 90;
+    public int $days_to_retain_job_logs = 365 + 30; // ~13 months
+
     // directories & URLs
     public string $code_dir;
     public string $code_url;
