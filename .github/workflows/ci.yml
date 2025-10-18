@@ -6,6 +6,7 @@ jobs:
       matrix:
         cfg:
           - { os: 'ubuntu-24.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.4' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -38,6 +39,7 @@ jobs:
       matrix:
         cfg:
           - { os: 'ubuntu-24.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.4' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -103,6 +105,7 @@ jobs:
       matrix:
         cfg:
           - { os: 'ubuntu-24.04', php: '8.3' }
+          - { os: 'ubuntu-24.04', php: '8.4' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code

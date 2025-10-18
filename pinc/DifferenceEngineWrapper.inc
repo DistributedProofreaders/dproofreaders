@@ -30,7 +30,7 @@ abstract class DifferenceEngineWrapper
     private $newText;
     private $formatter;
 
-    protected function __construct(DiffFormatter $formatter = null)
+    protected function __construct(?DiffFormatter $formatter = null)
     {
         if ($formatter === null) {
             $formatter = new DiffFormatter();
