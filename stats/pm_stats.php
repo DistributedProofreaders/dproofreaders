@@ -19,7 +19,7 @@ dpsql_dump_themed_query("
             // TRANSLATORS: PMs = project managers
             . DPDatabase::escape(_("Different PMs")) . "'
     FROM projects
-", 0, DPSQL_NO_RANK, DPSQL_NO_RIGHT_ALIGN_INTS);
+");
 
 echo "<br>\n";
 
