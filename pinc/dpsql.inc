@@ -2,19 +2,16 @@
 define("DPSQL_NO_RANK", false);
 define("DPSQL_SHOW_RANK", true);
 
-define("DPSQL_NO_RIGHT_ALIGN_INTS", false);
-define("DPSQL_RIGHT_ALIGN_INTS", true);
-
 function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
     $result = DPDatabase::query($query);
     dpsql_dump_query_result($result, $start_at, $show_rank);
 }
 
-function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
+function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
     $result = DPDatabase::query($query);
-    dpsql_dump_themed_query_result($result, $start_at, $show_rank, $ralign_ints);
+    dpsql_dump_themed_query_result($result, $start_at, $show_rank);
 }
 
 function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
@@ -59,7 +56,7 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
     echo "</table>\n";
 }
 
-function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK, $ralign_ints = DPSQL_RIGHT_ALIGN_INTS)
+function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
 {
     $n_query_cols = mysqli_num_fields($result);
     $n_curr_row = $start_at;
@@ -86,8 +83,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
             throw new ServerError(DPDatabase::log_error());
         }
         $type[$c] = $field_data->type;
-        $align = (is_mysqli_field_type_int($type[$c]) && $ralign_ints) ? " style='text-align: right;'" : '';
-        echo "<th$align>\n";
+        echo "<th>\n";
         echo $field_data->name;
         echo "</th>\n";
     }
@@ -102,7 +98,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
         }
 
         for ($c = 0; $c < $n_query_cols; $c++) {
-            echo '<td' . ((is_mysqli_field_type_int($type[$c]) && $ralign_ints) ? " style='text-align: right;'" : '') . '>';
+            echo '<td>';
             echo is_mysqli_field_type_int($type[$c]) ? number_format($row[$c]) : $row[$c];
             echo "</td>\n";
         }
