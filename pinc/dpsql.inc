@@ -2,19 +2,19 @@
 define("DPSQL_NO_RANK", false);
 define("DPSQL_SHOW_RANK", true);
 
-function dpsql_dump_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
+function dpsql_dump_query(string $query, int $start_at = 0, bool $show_rank = DPSQL_NO_RANK): void
 {
     $result = DPDatabase::query($query);
     dpsql_dump_query_result($result, $start_at, $show_rank);
 }
 
-function dpsql_dump_themed_query($query, $start_at = 0, $show_rank = DPSQL_NO_RANK)
+function dpsql_dump_themed_query(string $query, int $start_at = 0, bool $show_rank = DPSQL_NO_RANK): void
 {
     $result = DPDatabase::query($query);
     dpsql_dump_themed_query_result($result, $start_at, $show_rank);
 }
 
-function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
+function dpsql_dump_query_result(mysqli_result $result, int $start_at = 0, bool $show_rank = DPSQL_NO_RANK): void
 {
     $n_cols = mysqli_num_fields($result);
     $n_curr_row = $start_at;
@@ -56,7 +56,7 @@ function dpsql_dump_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_R
     echo "</table>\n";
 }
 
-function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPSQL_NO_RANK)
+function dpsql_dump_themed_query_result(mysqli_result $result, int $start_at = 0, bool $show_rank = DPSQL_NO_RANK): void
 {
     $n_query_cols = mysqli_num_fields($result);
     $n_curr_row = $start_at;
@@ -114,7 +114,7 @@ function dpsql_dump_themed_query_result($result, $start_at = 0, $show_rank = DPS
 /**
  * Return an array of arrays, one for each column of the result-set.
  */
-function dpsql_fetch_columns($res)
+function dpsql_fetch_columns(mysqli_result $res): array
 {
     $columns = [];
     $num_cols = mysqli_num_fields($res);
