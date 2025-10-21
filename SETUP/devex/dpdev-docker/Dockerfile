@@ -1,5 +1,8 @@
 FROM php:8.1-apache
 
+# Set apt to noninteractive mode for the build.
+ARG DEBIAN_FRONTEND=noninteractive
+
 # Configure PHP for development and increase memory for phpstan
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN echo "memory_limit = 512M" >> "$PHP_INI_DIR/php.ini"
