@@ -4,7 +4,6 @@ include_once($relPath.'archiving.inc');
 // Find projects that were posted to PG a while ago and archive them.
 class ArchiveProjects extends BackgroundJob
 {
-    private int $days_to_retain = 100;
     public bool $requires_web_context = true;
 
     public function work()
@@ -14,11 +13,12 @@ class ArchiveProjects extends BackgroundJob
             SELECT *
             FROM projects
             WHERE
-                modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * {$this->days_to_retain}
+                modifieddate <= UNIX_TIMESTAMP() - (24 * 60 * 60) * %d
                 AND archived = '0'
                 AND state = '%s'
             ORDER BY modifieddate
             ",
+            SiteConfig::get()->days_to_retain_projects_before_archiving,
             DPDatabase::escape(PROJ_SUBMIT_PG_POSTED)
         );
         $result = DPDatabase::query($sql);
