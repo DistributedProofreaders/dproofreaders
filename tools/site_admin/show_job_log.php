@@ -64,7 +64,7 @@ echo "<th>" . _("Status") . "</th>";
 echo "<th>" . _("Event") . "</th>";
 echo "<th>" . _("Comments") . "</th>";
 echo "</tr>";
-foreach (get_job_log_entries($start_timestamp, $job, null, $succeeded) as $row) {
+foreach (get_job_log_entries($start_timestamp, $job, /*$event*/null, $succeeded) as $row) {
     if ($row["succeeded"] === null) {
         $status = "";
     } elseif ($row["succeeded"]) {
