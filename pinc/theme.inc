@@ -247,7 +247,7 @@ function html_logobar()
             $messages[] = sprintf(
                 _("%d <a href='%s'>background jobs</a> failed in the past day."),
                 $failed_jobs,
-                "$code_url/tools/site_admin/show_job_log.php"
+                "$code_url/tools/site_admin/show_job_log.php?succeeded=0"
             );
         }
     }

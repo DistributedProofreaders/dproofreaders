@@ -464,6 +464,8 @@ function get_bool_param(array $arr, string $key, ?bool $default = null, bool $al
                 return true;
             } elseif ($s === "false" || $s === "0") {
                 return false;
+            } elseif ($s === "" && $allownull) {
+                return null;
             }
 
             // fall through to handle other strings as an exception
