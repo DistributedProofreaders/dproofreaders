@@ -943,6 +943,24 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
+/** @param array<string,string|string[]> $query_params */
+function api_v1_project_page_format_preview(string $method, array $data, array $query_params): void
+{
+    try {
+        $project = $data[":projectid"];
+        $proof_project = new ProofProject($project);
+
+        $project_page = $data[":pagename"];
+        $proof_project_page = new ProofProjectPage($proof_project, $project_page);
+
+        $proof_project_page->fp_report();
+    } catch (ProjectException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    } catch (UserAccessException $exception) {
+        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+    }
+}
+
 /** @param array<string, string|string[]> $query_params */
 function api_v1_project_page_report_bad(string $method, array $data, array $query_params): void
 {

@@ -48,6 +48,7 @@ $router->add_route("GET", "v1/projects/:projectid/pagedetails", "api_v1_project_
 $router->add_route("GET", "v1/projects/:projectid/pages", "api_v1_project_pages");
 $router->add_route("PUT", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename", "api_v1_project_page");
+$router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/formatpreview", "api_v1_project_page_format_preview");
 $router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/reportbad", "api_v1_project_page_report_bad");
 $router->add_route("PUT", "v1/projects/:projectid/pages/:pagename/wordcheck", "api_v1_project_page_wordcheck");
 $router->add_route("GET", "v1/projects/:projectid/pages/:pagename/pagerounds/:pageroundid", "api_v1_project_page_round");

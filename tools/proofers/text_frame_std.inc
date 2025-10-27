@@ -13,6 +13,11 @@ function echo_text_frame_std(PPage $ppage): void
     $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
     $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
 
+    $image_data = json_encode([
+        "projectId" => $project->projectid,
+        "image" => $ppage->lpage->imagefile,
+    ]);
+
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],
         "js_files" => [
@@ -31,6 +36,7 @@ function echo_text_frame_std(PPage $ppage): void
         var standardInterface = true;
         var switchConfirm = '$switch_confirm';
         var revertConfirm = '$revert_confirm';
+        var imageData = $image_data;
         ",
         "body_attributes" => "id='standard_interface_text' onload='ldAll()'",
     ];

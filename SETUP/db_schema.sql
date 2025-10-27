@@ -56,6 +56,21 @@ INSERT INTO charsuites
     SET name='basic-latin';
 
 --
+-- Table structure for table `format_preview_events`
+--
+
+CREATE TABLE `format_preview_events` (
+  `event_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `projectid` varchar(22) NOT NULL,
+  `image` varchar(12) NOT NULL,
+  `round_id` char(2) NOT NULL,
+  `username` varchar(25) NOT NULL,
+  `timestamp` int unsigned NOT NULL,
+  PRIMARY KEY (`event_id`),
+  UNIQUE KEY `pc_compound` (`projectid`,`image`,`round_id`,`username`)
+);
+
+--
 -- Table structure for table `image_sources`
 --
 

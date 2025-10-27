@@ -60,6 +60,7 @@ function get_rounds_to_display($project)
  *             "username": "username",
  *             "user_page_tally": "117"
  *             "wordcheck_ran": "0",
+ *             "format_preview_ran": "0",
  *             "modified_timestamp": "1175026200",
  *         },
  *         "P2": {
@@ -103,14 +104,18 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         $include_ocr = in_array("OCR", $only_rounds);
     }
 
-    // load wordcheck_event counts for this table for lookup in building the
-    // page table later, this is faster than doing subqueries in single SQL
+    // load wordcheck_event and format_preview_events for this table,
+    // this is faster than doing subqueries in a single SQL
     $round_ids_to_load_wordcheck_events = [];
+    $round_ids_to_load_format_preview_events = [];
     foreach ($rounds_to_display as $round) {
         if (!is_formatting_round($round)) {
             $round_ids_to_load_wordcheck_events[] = $round->id;
+        } else {
+            $round_ids_to_load_format_preview_events[] = $round->id;
         }
     }
+
     if ($round_ids_to_load_wordcheck_events) {
         $sql = sprintf(
             "
@@ -130,6 +135,26 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
         }
     } else {
         $wordcheck_events = [];
+    }
+
+    if ($round_ids_to_load_format_preview_events) {
+        $sql = sprintf(
+            "
+            SELECT image, username, round_id
+            FROM format_preview_events
+            WHERE projectid = '%s' and round_id in (%s)
+            ",
+            DPDatabase::escape($project->projectid),
+            surround_and_join($round_ids_to_load_format_preview_events, "'", "'", ",")
+        );
+        $res = DPDatabase::query($sql);
+
+        $format_preview_events = [];
+        while ([$image, $username, $round_id] = mysqli_fetch_row($res)) {
+            $format_preview_events["$image$username$round_id"] = 1;
+        }
+    } else {
+        $format_preview_events = [];
     }
 
     $rounds_with_data = get_rounds_with_data($project);
@@ -225,8 +250,10 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
 
             if (is_formatting_round($round)) {
                 $wordcheck_ran = null;
+                $format_preview_ran = $format_preview_events[$row['image'] . $row[$round->user_column_name] . $round->id] ?? 0;
             } else {
                 $wordcheck_ran = $wordcheck_events[$row['image'] . $row[$round->user_column_name] . $round->id] ?? 0;
+                $format_preview_ran = null;
             }
 
             $pagerounds[$round->id] = [
@@ -235,6 +262,7 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
                 "username" => $row[$round->user_column_name],
                 "user_page_tally" => (int)$row["$rn.user_page_tally"],
                 "wordcheck_ran" => $wordcheck_ran,
+                "format_preview_ran" => $format_preview_ran,
                 "modified_timestamp" => $row[$round->time_column_name],
             ];
         }
@@ -649,7 +677,15 @@ function echo_cells_for_round(
             $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
         }
 
-        echo "<td $cell_class_attr>" . private_message_link($R_username, null) . " ($R_pages_completed)$wordcheck_status</td>\n";
+        if ($round_data["format_preview_ran"] === null) {
+            $format_preview_status = '';
+        } elseif ($round_data["format_preview_ran"]) {
+            $format_preview_status = '&nbsp;<span title="' . _('Format Preview was used on this page.') . '">&check;</span>';
+        } else {
+            $format_preview_status = '&nbsp;<span title="' . _('Format Preview was not used on this page.') . '">&#x2717;</span>';
+        }
+
+        echo "<td $cell_class_attr>" . private_message_link($R_username, null) . " ($R_pages_completed)$wordcheck_status$format_preview_status</td>\n";
     } else {
         echo "<td></td>\n";
     }
