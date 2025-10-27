@@ -681,6 +681,8 @@ function echo_cells_for_round(
             $format_preview_status = '';
         } elseif ($round_data["format_preview_ran"]) {
             $format_preview_status = '&nbsp;<span title="' . _('Format Preview was used on this page.') . '">&check;</span>';
+        } elseif ($R_time < 1765472400) {
+            $format_preview_status = '&nbsp;<span title="' . _('This page was saved before Format Preview usage was tracked.') . '">?</span>';
         } else {
             $format_preview_status = '&nbsp;<span title="' . _('Format Preview was not used on this page.') . '">&#x2717;</span>';
         }
