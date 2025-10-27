@@ -768,6 +768,16 @@ function recentlyproofed(int $wlist): void
 
     if (is_formatting_round($round)) {
         $wordcheck_query = "NULL as wordcheck_status";
+        $format_preview_query = "
+            (
+                SELECT count(*)
+                FROM format_preview_events
+                WHERE projectid = '$projectid' AND
+                    image = $projectid.image AND
+                    username = $round->user_column_name AND
+                    round_id = '$round->id'
+            ) as format_preview_status
+        ";
     } else {
         $wordcheck_query = "
             (
@@ -779,10 +789,11 @@ function recentlyproofed(int $wlist): void
                     round_id = '$round->id'
             ) as wordcheck_status
         ";
+        $format_preview_query = "NULL as format_preview_status";
     }
 
     $sql = "
-        SELECT $projectid.image, $projectid.state, {$round->time_column_name}, $wordcheck_query
+        SELECT $projectid.image, $projectid.state, {$round->time_column_name}, $wordcheck_query, $format_preview_query
         FROM $projectid
         WHERE {$round->user_column_name}='" . DPDatabase::escape($pguser) . "'
             AND $state_condition
@@ -809,6 +820,14 @@ function recentlyproofed(int $wlist): void
                 true
             );
 
+            if ($row["format_preview_status"] == null) {
+                $format_preview_status = '';
+            } elseif ($row["format_preview_status"] > 0) {
+                $format_preview_status = '&nbsp;<span title="' . _('Format Preview was used on this page.') . '">&check;</span>';
+            } else {
+                $format_preview_status = '&nbsp;<span title="' . _('Format Preview was not used on this page.') . '">&#x2717;</span>';
+            }
+
             if ($row["wordcheck_status"] == null) {
                 $wordcheck_status = '';
             } elseif ($row["wordcheck_status"] > 0) {
@@ -816,11 +835,12 @@ function recentlyproofed(int $wlist): void
             } else {
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
             }
+
             echo "<td class='center-align'>";
             echo "<a href=\"$eURL\">";
             // TRANSLATORS: This is an ICU-formatted string
             echo icu_date(_("MMM dd"), $timestamp) . ": " . $imagefile;
-            echo "</a>$wordcheck_status";
+            echo "</a>$wordcheck_status$format_preview_status";
             echo "</td>";
             $colnum++;
             $rownum++;

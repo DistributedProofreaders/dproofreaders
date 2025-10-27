@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define, camelcase */
-/* global $ fontStyles fontFamilies MathJax  */
+/* global $ fontStyles fontFamilies MathJax imageData */
 /*
 This file controls the user interface functions. Initially nothing is displayed
 because "prevdiv" has display:none; which means it is not displayed and the page
@@ -11,6 +11,7 @@ The configuration screen is handled in the same way.
 */
 
 import translate from "../../scripts/gettext.js";
+import { ajax } from "../../scripts/api.js";
 import { makePreview, defaultStyles } from "../../scripts/analyse_format.js";
 import { validateText } from "../../scripts/text_validator.js";
 
@@ -108,6 +109,12 @@ window.addEventListener("DOMContentLoaded", () => {
             return previewStyles.suppress[key];
         });
         someSupp.style.display = warn ? "inline" : "none";
+
+        try {
+            ajax("PUT", `v1/projects/${imageData.projectId}/pages/${imageData.image}/formatpreview`);
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
     // this makes a copy of the style data
