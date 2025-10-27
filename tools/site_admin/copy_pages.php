@@ -44,6 +44,7 @@ $action = get_enumerated_param($_POST, 'action', 'showform', ['showform', 'showa
 $transfer_notifications = get_bool_param($_POST, 'transfer_notifications', false);
 $add_deletion_reason = get_bool_param($_POST, 'add_deletion_reason', false);
 $merge_wordcheck_data = get_bool_param($_POST, 'merge_wordcheck_data', false);
+$copy_format_preview_data = get_bool_param($_POST, 'copy_format_preview_data', false);
 $repeat_project = get_enumerated_param($_POST, 'repeat_project', null, ['TO', 'FROM', 'NONE'], true);
 
 switch ($action) {
@@ -54,6 +55,7 @@ switch ($action) {
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
+            $copy_format_preview_data,
             $repeat_project,
             false
         );
@@ -66,6 +68,7 @@ switch ($action) {
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
+            $copy_format_preview_data,
             $repeat_project,
             true
         );
@@ -78,6 +81,7 @@ switch ($action) {
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
+            $copy_format_preview_data,
             true
         );
 
@@ -87,7 +91,8 @@ switch ($action) {
             $from_image_,
             $transfer_notifications,
             $add_deletion_reason,
-            $merge_wordcheck_data
+            $merge_wordcheck_data,
+            $copy_format_preview_data
         );
         echo "\n<input type='hidden' name='action' value='docopy'>";
         echo "\n<input type='submit' name='submit_button' value='" . attr_safe(_("Do it")) ."'>";
@@ -102,6 +107,7 @@ switch ($action) {
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
+            $copy_format_preview_data,
             false
         );
 
@@ -124,7 +130,8 @@ switch ($action) {
             $from_image_,
             $transfer_notifications,
             $add_deletion_reason,
-            $merge_wordcheck_data
+            $merge_wordcheck_data,
+            $copy_format_preview_data
         );
 
         echo "<input type='hidden' name='action' value='showagain'>\n";
@@ -145,6 +152,7 @@ function display_copy_pages_form(
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data,
+    bool $copy_format_preview_data,
     ?string $repeat_project,
     bool $repeating
 ): void {
@@ -191,6 +199,12 @@ function display_copy_pages_form(
         $repeating,
         $merge_wordcheck_data
     );
+    do_radio_button_pair(
+        _("Copy Format Preview events into destination project:"),
+        "copy_format_preview_data",
+        $repeating,
+        $copy_format_preview_data
+    );
 
     echo "<tr><td></td><td>";
     echo "<input type='hidden' name='action' value='check'>\n";
@@ -233,7 +247,8 @@ function display_hiddens(
     array $from_image_,
     bool $transfer_notifications,
     bool $add_deletion_reason,
-    bool $merge_wordcheck_data
+    bool $merge_wordcheck_data,
+    bool $copy_format_preview_data
 ): void {
     echo "\n<input type='hidden' name='from_image_[lo]'        value='" . attr_safe($from_image_['lo']) . "'>";
     echo "\n<input type='hidden' name='from_image_[hi]'        value='" . attr_safe($from_image_['hi']) . "'>";
@@ -242,6 +257,7 @@ function display_hiddens(
     echo "\n<input type='hidden' name='transfer_notifications' value='" . ($transfer_notifications ? 1 : 0) . "'>";
     echo "\n<input type='hidden' name='add_deletion_reason'    value='" . ($add_deletion_reason ? 1 : 0) . "'>";
     echo "\n<input type='hidden' name='merge_wordcheck_data'   value='" . ($merge_wordcheck_data ? 1 : 0) . "'>";
+    echo "\n<input type='hidden' name='copy_format_preview_data' value='" . ($copy_format_preview_data ? 1 : 0) . "'>";
 }
 
 function copy_pages(
@@ -250,6 +266,7 @@ function copy_pages(
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data,
+    bool $copy_format_preview_data,
     bool $just_checking
 ): void {
     if (is_null($projectid_)) {
@@ -504,6 +521,14 @@ function copy_pages(
         echo _("WordCheck files and events WILL NOT be merged");
     }
     echo "</li>\n";
+
+    echo "<li>\n";
+    if ($copy_format_preview_data) {
+        echo _("Format Preview events from the source project WILL be merged into the destination project");
+    } else {
+        echo _("Format Preview events WILL NOT be merged");
+    }
+    echo "</li>\n";
     echo "</ul>\n";
 
     if ($just_checking) {
@@ -663,6 +688,13 @@ function copy_pages(
         echo "<p>" . _("Merging WordCheck files and events.") . "</p>\n";
         if ($for_real) { /** @phpstan-ignore-line */
             merge_project_wordcheck_data($projectid_['from'], $projectid_['to'], $c_src_image_);
+        }
+    }
+
+    if ($copy_format_preview_data) {
+        echo "<p>" . _("Copying Format Preview events.") . "</p>\n";
+        if ($for_real) { /** @phpstan-ignore-line */
+            FormatPreview::copy_project_events($projectid_['from'], $projectid_['to'], $c_src_image_);
         }
     }
 }

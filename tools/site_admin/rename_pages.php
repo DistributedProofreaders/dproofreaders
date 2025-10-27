@@ -388,6 +388,26 @@ switch ($submit_button) {
                     ";
                 }
 
+                // now the format_preview_events table
+                $fpe_query = sprintf(
+                    "
+                    UPDATE format_preview_events
+                    SET image = '%s'
+                    WHERE projectid = '%s' AND image = '%s'
+                    ",
+                    DPDatabase::escape($new_image),
+                    DPDatabase::escape($projectid),
+                    DPDatabase::escape($old_image)
+                );
+                echo $fpe_query;
+                if ($for_real) { /** @phpstan-ignore-line */
+                    DPDatabase::query($fpe_query);
+                    $n = DPDatabase::affected_rows();
+                    echo "
+                        $n rows affected.
+                    ";
+                }
+
                 // finally, the page_events table
                 $pe_query = sprintf(
                     "

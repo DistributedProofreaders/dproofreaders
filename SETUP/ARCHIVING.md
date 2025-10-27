@@ -2,8 +2,8 @@
 
 After projects are completed, they can be archived. This includes moving the
 project files into a separate archive directory, moving the project tables into
-a separate archive database, and moving a project's page_events and
-wordcheck_events into the archive database.
+a separate archive database, and moving a project's `page_events`,
+`wordcheck_events`, and `format_preview_events` into the archive database.
 
 The database instructions in this file resemble those for the main database. See
 [INSTALL.md](INSTALL.md) for more information on how to run database commands.
@@ -31,8 +31,8 @@ project directory.
    GRANT ALL  ON dp_archive.* TO dp_user@localhost IDENTIFIED BY 'dp_password';
    ```
 
-4. Create the `page_events` and `wordcheck_events` table in the archive
-   database. Find the 'CREATE TABLE' commands for those 2 tables in
+4. Create the `page_events`, `wordcheck_events`, and `format_preview_events` tables
+   in the archive database. Find the 'CREATE TABLE' commands for those 2 tables in
    `db_schema.sql`. These commands create those tables in the main database;
    the corresponding tables in the archive database have exactly the same
    structure. So to create them, make the archive db the current database

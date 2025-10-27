@@ -21,6 +21,7 @@ to allow a three-character round-id, you'd need to do:
     ALTER TABLE page_events      MODIFY COLUMN round_id   CHAR(3);
     ALTER TABLE queue_defns      MODIFY COLUMN round_id   CHAR(3);
     ALTER TABLE wordcheck_events MODIFY COLUMN round_id   CHAR(3);
+    ALTER TABLE format_preview_events MODIFY COLUMN round_id   CHAR(3);
     ALTER TABLE best_tally_rank  MODIFY COLUMN tally_name CHAR(3);
     ALTER TABLE current_tallies  MODIFY COLUMN tally_name CHAR(3);
     ALTER TABLE past_tallies     MODIFY COLUMN tally_name CHAR(3);

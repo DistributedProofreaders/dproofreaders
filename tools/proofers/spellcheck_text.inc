@@ -616,6 +616,8 @@ function get_wordcheck_page_header_args(User $user, PPage $ppage): array
     $storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
 
     $image_data = json_encode([
+        "projectId" => $project->projectid,
+        "image" => $ppage->lpage->imagefile,
         "imageUrl" => $ppage->url_for_image(),
         "storageKey" => $storage_key,
         "align" => "L",
