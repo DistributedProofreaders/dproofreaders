@@ -22,7 +22,8 @@ $title = _("Copy Pages");
 output_header($title, NO_STATSBAR, $extra_args);
 echo "<h1>" . $title . "</h1>\n";
 
-echo "<p>" . _("This tool will allow you to copy pages from one project to another.") . "</p>";
+echo "<p>" . _("This tool will allow you to copy pages from one project to another.") . " ";
+echo sprintf(_("It no longer renames pages, use the <a href='%s'>Rename Pages</a> script if there are page name collisions."), "rename_pages.php") . "</p>";
 // Validate the $projectid_ and $from_image_ 'by hand'
 $projectid_ = $_POST['projectid_'] ?? null;
 if (is_array($projectid_)) {
@@ -40,7 +41,6 @@ if (is_array($from_image_)) {
 }
 
 $action = get_enumerated_param($_POST, 'action', 'showform', ['showform', 'showagain', 'check', 'docopy']);
-$page_name_handling = get_enumerated_param($_POST, 'page_name_handling', null, ['PRESERVE_PAGE_NAMES', 'RENUMBER_PAGES'], true);
 $transfer_notifications = get_bool_param($_POST, 'transfer_notifications', false);
 $add_deletion_reason = get_bool_param($_POST, 'add_deletion_reason', false);
 $merge_wordcheck_data = get_bool_param($_POST, 'merge_wordcheck_data', false);
@@ -51,7 +51,6 @@ switch ($action) {
         display_copy_pages_form(
             $projectid_,
             $from_image_,
-            $page_name_handling,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
@@ -64,7 +63,6 @@ switch ($action) {
         display_copy_pages_form(
             $projectid_,
             $from_image_,
-            $page_name_handling,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
@@ -77,7 +75,6 @@ switch ($action) {
         copy_pages(
             $projectid_,
             $from_image_,
-            $page_name_handling,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
@@ -88,7 +85,6 @@ switch ($action) {
         display_hiddens(
             $projectid_,
             $from_image_,
-            $page_name_handling,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data
@@ -103,7 +99,6 @@ switch ($action) {
         copy_pages(
             $projectid_,
             $from_image_,
-            $page_name_handling,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
@@ -127,7 +122,6 @@ switch ($action) {
         display_hiddens(
             $projectid_,
             $from_image_,
-            $page_name_handling,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data
@@ -148,7 +142,6 @@ switch ($action) {
 function display_copy_pages_form(
     ?array $projectid_,
     ?array $from_image_,
-    ?string $page_name_handling,
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data,
@@ -179,27 +172,6 @@ function display_copy_pages_form(
     }
     echo "<tr><th>" . _("Destination Project:") . "</th>\n";
     echo "<td><input type='text' name='projectid_[to]' size='28' $val required> (projectid)</td></tr>\n";
-
-    // If we are repeating, we want the same buttons to be checked
-    echo "<tr><td></td><td>\n";
-    echo "<fieldset>\n";
-    echo "<legend>" . _("Page number handling:") . "</legend>";
-
-    if (!$repeating || $page_name_handling == 'PRESERVE_PAGE_NAMES') {
-        $checked1 = 'CHECKED';
-        $checked2 = '';
-    } else {
-        $checked1 = '';
-        $checked2 = 'CHECKED';
-    }
-
-    echo "<input type='radio' name='page_name_handling' id='pnh-1' value='PRESERVE_PAGE_NAMES' $checked1>\n";
-    echo "<label for='pnh-1'>" . _("Preserve page numbers") . "</label>";
-
-    echo "<input type='radio' name='page_name_handling' id='pnh-2' value='RENUMBER_PAGES' $checked2>\n";
-    echo "<label for='pnh-2'>" . _("Renumber pages") . "</label>\n";
-    echo "</fieldset>\n";
-    echo "</td></tr>\n";
 
     do_radio_button_pair(
         _("Transfer event notifications:"),
@@ -259,7 +231,6 @@ function do_radio_button_pair(string $prompt, string $input_name, bool $repeatin
 function display_hiddens(
     array $projectid_,
     array $from_image_,
-    string $page_name_handling,
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data
@@ -268,7 +239,6 @@ function display_hiddens(
     echo "\n<input type='hidden' name='from_image_[hi]'        value='" . attr_safe($from_image_['hi']) . "'>";
     echo "\n<input type='hidden' name='projectid_[from]'       value='" . attr_safe($projectid_['from']) . "'>";
     echo "\n<input type='hidden' name='projectid_[to]'         value='" . attr_safe($projectid_['to']) . "'>";
-    echo "\n<input type='hidden' name='page_name_handling'     value='" . attr_safe($page_name_handling) . "'>";
     echo "\n<input type='hidden' name='transfer_notifications' value='" . ($transfer_notifications ? 1 : 0) . "'>";
     echo "\n<input type='hidden' name='add_deletion_reason'    value='" . ($add_deletion_reason ? 1 : 0) . "'>";
     echo "\n<input type='hidden' name='merge_wordcheck_data'   value='" . ($merge_wordcheck_data ? 1 : 0) . "'>";
@@ -277,7 +247,6 @@ function display_hiddens(
 function copy_pages(
     ?array $projectid_,
     ?array $from_image_,
-    string $page_name_handling,
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data,
@@ -459,28 +428,6 @@ function copy_pages(
 
     // ----------------------------------------------------
 
-    if ($page_name_handling == 'PRESERVE_PAGE_NAMES') {
-        // fine
-    } elseif ($page_name_handling == 'RENUMBER_PAGES') {
-        if (count($all_fileid_values_['to']) == 0) {
-            $c_dst_format = '%03d';
-            $c_dst_start_b = 1;
-        } else {
-            $max_dst_fileid = str_max($all_fileid_values_['to']);
-            $max_dst_image = str_max($all_image_values_['to']);
-            $max_dst_image_base = preg_replace('/\.[^.]+$/', '', $max_dst_image);
-            $max_dst_base = (
-                strcmp($max_dst_fileid, $max_dst_image_base) > 0
-                ? $max_dst_fileid
-                : $max_dst_image_base
-            );
-            $c_dst_format = '%0' . strlen($max_dst_base) . 'd';
-            $c_dst_start_b = 1 + intval($max_dst_base);
-        }
-    } else {
-        throw new ValueError("Bad \$page_name_handling");
-    }
-
     // The c_ prefix means that it only pertains to *copied* pages.
 
     $c_src_image_ = [];
@@ -491,18 +438,8 @@ function copy_pages(
     for ($i = $lo_i; $i <= $hi_i; $i++) {
         $c_src_image = $all_image_values_['from'][$i];
         $c_src_fileid = $all_fileid_values_['from'][$i];
-
-        if ($page_name_handling == 'PRESERVE_PAGE_NAMES') {
-            $c_dst_fileid = $c_src_fileid;
-            $c_dst_image = $c_src_image;
-        } elseif ($page_name_handling == 'RENUMBER_PAGES') {
-            $c_src_image_ext = preg_replace('/.*\./', '', $c_src_image);
-            $c_dst_b = ($i - $lo_i + $c_dst_start_b);
-            $c_dst_fileid = sprintf($c_dst_format, $c_dst_b);
-            $c_dst_image = "$c_dst_fileid.$c_src_image_ext";
-        } else {
-            throw new UnexpectedValueException("Unexpected page_name_handling $page_name_handling");
-        }
+        $c_dst_fileid = $c_src_fileid;
+        $c_dst_image = $c_src_image;
 
         $c_src_image_[] = $c_src_image;
         $c_src_fileid_[] = $c_src_fileid;
@@ -538,23 +475,11 @@ function copy_pages(
         throw new RuntimeException(_("Aborting due to page name collisions!"));
     }
 
-    echo "<p>";
-    if ($page_name_handling == 'PRESERVE_PAGE_NAMES') {
-        echo _("There don't appear to be any page name collisions.");
-    } elseif ($page_name_handling == 'RENUMBER_PAGES') {
-        echo _("As expected, there aren't any page name collisions.");
-    }
-    echo "</p>";
-
     // Report the settings/selections that were chosen
 
     echo "<h3>" . _("Per your request:") . "</h3>";
 
     echo "<ul>";
-    echo "<li>" . _("Page Name Handling:");
-    echo "&nbsp;<code>" . html_safe($page_name_handling) . "</code>";
-    echo "</li>\n";
-
     echo "<li>";
     if ($transfer_notifications) {
         echo _("Event notifications WILL be transferred");
