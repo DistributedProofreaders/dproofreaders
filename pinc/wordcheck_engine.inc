@@ -632,8 +632,10 @@ function delete_project_wordcheck_events($projectid)
  * Merge the word list from the source project into the destination
  * project, and also copy the wordcheck events to the destination
  * project.
+ *
+ * @param string[] $images
  */
-function merge_project_wordcheck_data($from_projectid, $to_projectid)
+function merge_project_wordcheck_data(string $from_projectid, string $to_projectid, array $images = []): void
 {
     // good words
     $from_words = load_project_good_words($from_projectid);
@@ -648,29 +650,36 @@ function merge_project_wordcheck_data($from_projectid, $to_projectid)
     save_project_bad_words($to_projectid, $to_words);
 
     // suggestions
-    copy_project_wordcheck_events($from_projectid, $to_projectid);
+    copy_project_wordcheck_events($from_projectid, $to_projectid, $images);
 }
 
 /**
  * Copy wordcheck events from one project to another project.
  *
- * This is used for instance when splitting or rejoining project parts.
+ * This is used when splitting or rejoining project parts.
+ *
+ * @param string[] $images
  */
-function copy_project_wordcheck_events($from_projectid, $to_projectid)
+function copy_project_wordcheck_events(string $from_projectid, string $to_projectid, array $images = []): void
 {
+    if ($images) {
+        $images_where = " AND image in (" . surround_and_join(array_map("DPDatabase::escape", $images), '"', '"', ",") . ")";
+    } else {
+        $images_where = "";
+    }
+
     $sql = sprintf(
         "
         INSERT INTO wordcheck_events
             (projectid, timestamp, image, round_id, username, suggestions)
         SELECT '%s', timestamp, image, round_id, username, suggestions
         FROM wordcheck_events
-        WHERE projectid = '%s'
+        WHERE projectid = '%s' $images_where
         ",
         DPDatabase::escape($to_projectid),
         DPDatabase::escape($from_projectid)
     );
     DPDatabase::query($sql);
-    // no results for an INSERT clause, so no need to free the results.
 }
 
 // -----------------------------------------------------------------------------

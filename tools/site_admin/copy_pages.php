@@ -737,7 +737,7 @@ function copy_pages(
     if ($merge_wordcheck_data) {
         echo "<p>" . _("Merging WordCheck files and events.") . "</p>\n";
         if ($for_real) { /** @phpstan-ignore-line */
-            merge_project_wordcheck_data($projectid_['from'], $projectid_['to']);
+            merge_project_wordcheck_data($projectid_['from'], $projectid_['to'], $c_src_image_);
         }
     }
 }
