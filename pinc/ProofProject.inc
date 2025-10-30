@@ -110,6 +110,26 @@ class ProofProjectPage extends LPage
             $accepted_words
         );
     }
+
+    public function fp_report(): void
+    {
+        global $pguser;
+
+        _Page_require(
+            $this->projectid,
+            $this->imagefile,
+            [$this->round->page_out_state, $this->round->page_temp_state],
+            $this->round->user_column_name,
+            $pguser,
+            'report'
+        );
+        FormatPreview::save_event(
+            $this->projectid,
+            $this->round->id,
+            $this->imagefile,
+            $pguser
+        );
+    }
 }
 
 class ProofProject

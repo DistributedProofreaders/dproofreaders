@@ -399,6 +399,7 @@ function output_page_list_table(Round $mentored_round, string $projectid)
     echo "<th>" . _("Saved") . "</th>";
     echo "<th>" . _("Proofreader") . "</th>";
     echo "<th>" . _("WordCheck Events") . "</th>";
+    echo "<th>" . _("Format Preview Events") . "</th>";
     echo "<th>" . _("Current Page State") . "</th>";
     echo "<th>" . _("Current Proofreader") . "</th>";
     echo "</tr>";
@@ -432,7 +433,15 @@ function output_page_list_table(Round $mentored_round, string $projectid)
                     AND round_id = '$mentored_round->id'
                     AND username = p.{$mentored_round->user_column_name}
                     AND image = p.image
-            ) AS wc_events
+            ) AS wc_events,
+            (
+                SELECT count(*)
+                FROM format_preview_events
+                WHERE projectid = '$projectid'
+                    AND round_id = '$mentored_round->id'
+                    AND username = p.{$mentored_round->user_column_name}
+                    AND image = p.image
+            ) AS fp_events
         FROM $projectid AS p
         ORDER BY $order
     ";
@@ -443,6 +452,7 @@ function output_page_list_table(Round $mentored_round, string $projectid)
         echo "<td>" . icu_date("yyyy MMM dd HH:mm", $row["saved_date"]) . "</td>";
         echo "<td>" . $row["username"] . "</td>";
         echo "<td>" . $row["wc_events"] . "</td>";
+        echo "<td>" . $row["fp_events"] . "</td>";
         echo "<td>" . $row["state"] . "</td>";
         echo "<td>" . $row["current_username"] . "</td>";
         echo "</tr>";
