@@ -1210,11 +1210,35 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
 
+  /projects/{projectid}/pages/{pagename}/formatpreview:
+    put:
+      tags:
+      - project
+      description: Report Format Preview usage
+      parameters:
+      - $ref: '#/components/parameters/projectid'
+      - $ref: '#/components/parameters/pagename'
+      responses:
+        200:
+          description: OK
+        '400':
+          $ref: '#/components/responses/InvalidValue'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimitExceeded'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+
   /projects/{projectid}/pages/{pagename}/wordcheck:
     put:
       tags:
       - project
-      description: Report wordcheck reults
+      description: Report WordCheck usage and results
       parameters:
       - $ref: '#/components/parameters/projectid'
       - $ref: '#/components/parameters/pagename'
