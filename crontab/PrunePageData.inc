@@ -59,6 +59,16 @@ class PrunePageData extends BackgroundJob
             );
             DPDatabase::query($sql);
 
+            // then format_preview_events
+            $sql = sprintf(
+                "
+                DELETE FROM $database.format_preview_events
+                WHERE projectid = '%s'
+                ",
+                DPDatabase::escape($project_id)
+            );
+            DPDatabase::query($sql);
+
             // then page_events
             $sql = sprintf(
                 "

@@ -665,6 +665,7 @@ class Project
         }
 
         delete_project_wordcheck_events($this->projectid);
+        FormatPreview::delete_project_events($this->projectid);
 
         // Formerly, if the project was in the 'New' state, we would here
         // delete it from the projects table and log a 'deletion' event.
