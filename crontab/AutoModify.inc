@@ -17,7 +17,7 @@ class AutoModify extends BackgroundJob
         if (! is_dir($logs_dir)) {
             mkdir($logs_dir, 0777, true);
         }
-        $this->logfile = sprintf("$logs_dir/%s.txt", date("Y-m-d_H:i:s"));
+        $this->logfile = sprintf("$logs_dir/%s.txt", date("Y-m-d_H:i:s_T"));
         $this->filehandle = fopen($this->logfile, "wt");
         ob_start([$this, 'flush'], 1024);
 
