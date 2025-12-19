@@ -79,6 +79,10 @@ if (!$verbose) {
 }
 if (count($projects) == 0) {
     echo "<p>" . $round_view_options[$round_view]["text_none"] . "</p>";
+
+    // clear the suggestions cache so if they get access to rounds and come
+    // back to the page, we re-evaluate their suggestions
+    $user_suggestions->clear_cache();
 } else {
     if ($explain_why) {
         // we don't html_safe() as they can contain HTML
