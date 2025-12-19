@@ -104,10 +104,12 @@ class UserSuggestions
             }
         }
         // if the user hasn't proofread any projects, lets assume they'll want to
-        // proofread in the language the UI is in and fall back to English
+        // proofread in the language the UI is in and fall back to English.
+        // Project languages are in English, so we need to return the English
+        // name of the language.
         if (!$user_languages) {
             $user_languages = [
-                lang_name(short_lang_code(get_user_language($this->_username))) => 5,
+                eng_name(short_lang_code(get_user_language($this->_username))) => 5,
             ];
             $user_languages["English"] = 1;
         }
