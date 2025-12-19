@@ -53,6 +53,14 @@ class UserSuggestions
         }
     }
 
+    public function clear_cache(): void
+    {
+        // only clear the cache for the user looking at their own suggestions
+        if ($this->_username == User::current_username()) {
+            unset($_SESSION[$this->_cache_key]);
+        }
+    }
+
     private function _calculate_normalized_weights(array $criteria): array
     {
         $new_criteria = [];
