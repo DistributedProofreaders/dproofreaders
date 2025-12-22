@@ -18,7 +18,7 @@ include_once($relPath.'links.inc'); // new_window_link
 include_once($relPath.'project_edit.inc'); // check_user_can_load_projects
 include_once($relPath.'forum_interface.inc'); // get_last_post_time_in_topic & get_url_*()
 include_once($relPath.'faq.inc');
-include_once($relPath.'daily_page_limit.inc'); // get_dpl_count_for_user_in_round
+include_once($relPath.'daily_page_limit.inc'); // get_dpl_enforcement_for_user
 include_once($relPath.'special_colors.inc'); // load_special_days
 
 // This page originally allowed unauthenticated users and showed them a limited
@@ -264,8 +264,11 @@ function decide_blurbs(): array
     //
     $page_limit_warning = "";
     if ($round->has_a_daily_page_limit()) {
-        $user_dpl_count = get_dpl_count_for_user_in_round($pguser, $round);
-        if ($user_dpl_count >= $round->daily_page_limit) {
+        $user_dpl_count = get_dpl_enforcement_for_user($pguser, $round, $project);
+        if ($user_dpl_count === null) {
+            $msg = _('This project is currently exempt from the daily page limit.');
+            $page_limit_warning = "<br>\n<span class='warning'>$msg</span>\n";
+        } elseif ($user_dpl_count >= $round->daily_page_limit) {
             // User has reached this round's DPL.
             $msg = sprintf(
                 _('%1$s limits you to %2$d page-saves per day, and you have already reached that limit today.'),

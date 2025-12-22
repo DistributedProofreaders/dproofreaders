@@ -399,8 +399,8 @@ class LPage
     public function attemptSaveAsDone(string $text_data, string $pguser): array
     {
         if ($this->round->has_a_daily_page_limit()) {
-            $pre_save_dpl_count = get_dpl_count_for_user_in_round($pguser, $this->round);
-            if ($pre_save_dpl_count >= $this->round->daily_page_limit) {
+            $pre_save_dpl_count = get_dpl_enforcement_for_user($pguser, $this->round, $this->project);
+            if ($pre_save_dpl_count !== null && $pre_save_dpl_count >= $this->round->daily_page_limit) {
                 // The user has already reached their limit of this kind of page.
                 return [false, true];
             }
@@ -414,6 +414,8 @@ class LPage
 
         $dpl_has_now_been_reached = (
             $this->round->has_a_daily_page_limit()
+            &&
+            $pre_save_dpl_count !== null
             &&
             ($pre_save_dpl_count + 1 >= $this->round->daily_page_limit)
         );
