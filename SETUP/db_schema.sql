@@ -543,36 +543,6 @@ CREATE TABLE `user_filters` (
 );
 
 --
--- Table structure for table `user_profiles`
---
-
-CREATE TABLE `user_profiles` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `u_ref` int(10) unsigned NOT NULL default '0',
-  `profilename` varchar(30) NOT NULL default 'default',
-  `i_type` tinyint(1) default '0',
-  `i_layout` tinyint(1) default '0',
-  `v_fnts` tinyint(2) default '0',
-  `v_fntf` tinyint(1) default '2',
-  `v_fntf_other` varchar(32) default '',
-  `v_tframe` tinyint(2) default '50',
-  `v_tlines` tinyint(2) unsigned default '40',
-  `v_tchars` tinyint(2) unsigned default '65',
-  `v_tscroll` tinyint(1) default '1',
-  `v_twrap` tinyint(1) default '0',
-  `h_fnts` tinyint(2) default '0',
-  `h_fntf` tinyint(1) default '2',
-  `h_fntf_other` varchar(32) default '',
-  `h_tframe` tinyint(2) default '35',
-  `h_tlines` tinyint(2) unsigned default '6',
-  `h_tchars` tinyint(2) unsigned default '70',
-  `h_tscroll` tinyint(1) default '1',
-  `h_twrap` tinyint(1) default '0',
-  PRIMARY KEY (`id`),
-  KEY `u_ref` (`u_ref`)
-);
-
---
 -- Table structure for table `user_project_info`
 --
 
@@ -648,7 +618,6 @@ CREATE TABLE `users` (
   `u_align` tinyint(1) NOT NULL default '0',
   `i_theme` varchar(100) NOT NULL default 'project_gutenberg',
   `u_id` int(10) unsigned NOT NULL auto_increment,
-  `u_profile` int(10) unsigned NOT NULL default '0',
   `u_intlang` varchar(25) default '',
   `u_privacy` tinyint(1) default '0',
   `api_key` varchar(38) DEFAULT NULL,

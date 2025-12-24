@@ -39,12 +39,9 @@ $tabs = [
     0 => [
         "label" => _('General'),
     ],
-    1 => [
-        "label" => _('Proofreading'),
-    ],
 ];
 if (user_is_PM()) {
-    $tabs[2] = [
+    $tabs[1] = [
         "label" => _('Project managing'),
     ];
 }
@@ -53,14 +50,6 @@ $selected_tab = get_integer_param($_REQUEST, "tab", 0, 0, max(array_keys($tabs))
 
 $user = User::load_current();
 $userSettings = & Settings::get_Settings($user->username);
-
-if (isset($_POST["swProfile"])) {
-    // User clicked "Switch profile"
-    $c_profile = get_integer_param($_POST, "c_profile", null, 0, null);
-    $user->profile = new UserProfile($c_profile);
-    $eURL = "$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
-    metarefresh(0, $eURL, _('Profile Selection'), _('Loading Selected Profile....'));
-}
 
 //just a way to get them back to someplace on quit button
 if (isset($_POST["quitnc"])) {
@@ -76,34 +65,12 @@ if (($_POST["insertdb"] ?? "") != "") {
     if ($selected_tab == 0) {
         save_general_tab($user);
     } elseif ($selected_tab == 1) {
-        save_proofreading_tab($user);
-    } elseif ($selected_tab == 2) {
         save_pm_tab($user);
     }
 
-    if (isset($_POST["saveAndQuit"]) || isset($_POST["mkProfileAndQuit"])) {
+    if (isset($_POST["saveAndQuit"])) {
         // Quit immediately after saving
         metarefresh(0, $origin, _("Quit"));
-    } elseif (isset($_POST["deletenc"])) {
-        // Delete the profile which was displayed on the previous screen.
-        // This is slightly cumbersome because the user has to switch to a profile
-        // profile in order to be able to delete it, meaning the code has to handle
-        // the aftereffects by setting a new current profile once that has been done.
-        // Deletion is prevented when the user has only one profile by disabling
-        // the button in the options at the bottom of the proofreading tab.
-
-        // Delete currently selected profile.
-        $user->profile->delete();
-
-        // Set the first remaining available profile to be active.
-        $profiles = UserProfile::load_user_profiles($user->u_id);
-        $new_profile = $profiles[0];
-        $user->profile = $new_profile;
-
-        // Bounce user back to the proofreading preferences tab.
-        $selected_tab = 1;
-        $url = "$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
-        metarefresh(0, $url, _('Delete profile'), _('Reloading current tab....'));
     } else {
         // Show the same tab that was just saved
         $url = "$code_url/userprefs.php?tab=$selected_tab&amp;origin=" . urlencode($origin);
@@ -119,62 +86,6 @@ $theme_extra_args["js_files"] = [
 ];
 $theme_extra_args["js_data"] = "
     var popHelpData = " . get_pophelp_json("prefs") . ";
-
-    function do_font_sample_update(font_index, size_index, layout) {
-        if(font_index != null) {
-            var font_family;
-            if(font_index == 0) {
-                font_family = '';
-            } else if(font_index == 1) {
-                font_family = document.querySelector('input[name=\"' + layout + '_fntf_other\"]').value.trim();
-            } else {
-                font_family = font_face_mapping[font_index]
-            }
-            if(font_family) {
-                font_family += ', ' + font_face_fallback;
-            } else {
-                font_family = font_face_fallback;
-            }
-            document.getElementById(layout + '_font_sample').style.fontFamily = font_family;
-        }
-        if(size_index != null) {
-            var font_size = 'unset';
-            if(size_index != 0) {
-                font_size = font_size_mapping[size_index];
-            }
-            document.getElementById(layout + '_font_sample').style.fontSize = font_size;
-        }
-    }
-
-    // add listeners to the font controls when the page is ready to update the
-    // font_sample when they change.
-    window.addEventListener('DOMContentLoaded', () => {
-        for (const orientation of ['v', 'h']) {
-            document.querySelectorAll('input[name=\"' + orientation + '_fntf\"]').forEach(radio => {
-                radio.addEventListener('change', function () {
-                    do_font_sample_update(this.value, null, orientation);
-                });
-            });
-            let otherInput = document.querySelector('input[name=\"' + orientation + '_fntf_other\"]');
-            if (otherInput) {
-                otherInput.addEventListener('input', function() {
-                    const otherRadio = document.querySelector('input[name=\"' + orientation + '_fntf\"][value=\"1\"]')
-                    otherRadio.checked = true;
-                    do_font_sample_update(otherRadio.value, null, orientation);
-                });
-            }
-            let fontSizeSelector = document.getElementById(orientation + '_fnts');
-            if (fontSizeSelector) {
-                fontSizeSelector.addEventListener('change', function() {
-                    do_font_sample_update(null, this.value, orientation);
-                });
-            }
-        }
-    });
-
-    var font_face_mapping = " . json_encode(get_available_proofreading_font_faces()) . ";
-    var font_size_mapping = " . json_encode(get_available_proofreading_font_sizes()) . ";
-    var font_face_fallback = \"" . get_proofreading_font_family_fallback() . "\";
 ";
 
 set_csrf_token();
@@ -199,9 +110,7 @@ echo "<table class='preferences'>";
 
 // display one of the tabs
 
-if ($selected_tab == 1) {
-    echo_proofreading_tab($user);
-} elseif ($selected_tab == 2 && user_is_PM()) {
+if ($selected_tab == 1 && user_is_PM()) {
     echo_pm_tab($user);
 } else { // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
     echo_general_tab($user);
@@ -440,294 +349,6 @@ function save_general_tab(User $user): void
     $userSettings->set_value('project_detail', $_POST["project_detail"]);
 }
 
-function echo_proofreading_tab(User $user): void
-{
-    // see if they already have 10 profiles, etc.
-    $profiles = UserProfile::load_user_profiles($user->u_id);
-
-    echo "<tr>\n";
-    show_preference(
-        _('Profile Name'),
-        'profilename',
-        'profilename',
-        $user->profile->profilename,
-        'textfield',
-        ['100%', 'required', '']
-    );
-    // show profile switcher if there are more than one
-    if (count($profiles) > 1) {
-        echo "<td colspan='2' class='center-align'>";
-        echo "<select name='c_profile' ID='c_profile'>";
-        foreach ($profiles as $profile) {
-            echo "<option value='$profile->id'";
-            if ($profile->id == $user->profile->id) {
-                echo " SELECTED";
-            }
-            echo ">$profile->profilename</option>";
-        }
-        echo "</select>";
-        echo " <input type='submit' value='".attr_safe(_("Switch Profiles"))."' name='swProfile'>";
-
-        echo "</td>";
-    } else {
-        echo "<td colspan='3'></td>";
-    }
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    th_label_long(6, _('Profile details'));
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('Interface Type'),
-        'i_type',
-        'facetype',
-        $user->profile->i_type,
-        'radio_group',
-        [0 => _("Standard"), 1 => _("Enhanced")]
-    );
-    show_preference(
-        _('Interface Layout'),
-        'i_layout',
-        'layout',
-        $user->profile->i_layout,
-        'radio_group',
-        [
-            1 => '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'.attr_safe(_("Vertical")).'">',
-            0 => '<img src="tools/proofers/gfx/bt5.png" width="26" alt="'.attr_safe(_("Horizontal")).'">',
-        ]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    th_label_long(
-        2,
-        "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences"),
-        'vertprefs'
-    );
-    th_label_long(
-        2,
-        "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences"),
-        'horzprefs'
-    );
-    echo "</tr>\n";
-
-    $proofreading_font_faces = get_available_proofreading_font_faces();
-    echo "<tr>\n";
-    show_preference(
-        _('Font Face'),
-        'v_fntf',
-        'v_fontface',
-        $user->profile->v_fntf,
-        'fontface_selection',
-        $user->profile->v_fntf_other
-    );
-    show_preference(
-        _('Font Face'),
-        'h_fntf',
-        'h_fontface',
-        $user->profile->h_fntf,
-        'fontface_selection',
-        $user->profile->h_fntf_other
-    );
-    echo "</tr>\n";
-
-    $font_sample = wordwrap(
-        sprintf(
-            "
-        The lazy brown fox was puzzled by these commonly-confused
-        characters: %s",
-            "O0o l1iI BE3 RK"
-        ),
-        40,
-        "<br>"
-    );
-
-    $proofreading_font_sizes = get_available_proofreading_font_sizes();
-    echo "<tr>\n";
-    $proofreading_font_sizes[0] = BROWSER_DEFAULT_STR;
-    show_preference(
-        _('Font Size'),
-        'v_fnts',
-        'v_fontsize',
-        $user->profile->v_fnts,
-        'dropdown',
-        $proofreading_font_sizes
-    );
-    show_preference(
-        _('Font Size'),
-        'h_fnts',
-        'h_fontsize',
-        $user->profile->h_fnts,
-        'dropdown',
-        $proofreading_font_sizes
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    [, , $font_family, $font_size] = get_user_proofreading_font(1);
-    th_label(_("Font Sample"), "font_sample");
-    echo "<td id='v_font_sample' style=\"font-family: $font_family; font-size: $font_size\">" . $font_sample . "</td>";
-
-    [, , $font_family, $font_size] = get_user_proofreading_font(0);
-    th_label(_("Font Sample"), "font_sample");
-    echo "<td id='h_font_sample' style=\"font-family: $font_family; font-size: $font_size\">" . $font_sample . "</td>";
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('Text Frame Size'),
-        'v_tframe',
-        'v_textsize',
-        $user->profile->v_tframe,
-        'numberfield',
-        // xgettext:no-php-format
-        ['5em', 'required', _("% of browser width")]
-    );
-    show_preference(
-        _('Text Frame Size'),
-        'h_tframe',
-        'h_textsize',
-        $user->profile->h_tframe,
-        'numberfield',
-        // xgettext:no-php-format
-        ['5em', 'required', _("% of browser height")]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('Scroll Text Frame'),
-        'v_tscroll',
-        'v_scroll',
-        $user->profile->v_tscroll,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
-    show_preference(
-        _('Scroll Text Frame'),
-        'h_tscroll',
-        'h_scroll',
-        $user->profile->h_tscroll,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('Number of Text Lines'),
-        'v_tlines',
-        'v_textlines',
-        $user->profile->v_tlines,
-        'numberfield',
-        ['5em', 'required', ""]
-    );
-    show_preference(
-        _('Number of Text Lines'),
-        'h_tlines',
-        'h_textlines',
-        $user->profile->h_tlines,
-        'numberfield',
-        ['5em', 'required', ""]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('Length of Text Lines'),
-        'v_tchars',
-        'v_textlength',
-        $user->profile->v_tchars,
-        'numberfield',
-        ['5em', 'required', " "._("characters")]
-    );
-    show_preference(
-        _('Length of Text Lines'),
-        'h_tchars',
-        'h_textlength',
-        $user->profile->h_tchars,
-        'numberfield',
-        ['5em', 'required', " "._("characters")]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
-        _('Wrap Text'),
-        'v_twrap',
-        'v_wrap',
-        $user->profile->v_twrap,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
-    show_preference(
-        _('Wrap Text'),
-        'h_twrap',
-        'h_wrap',
-        $user->profile->h_twrap,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
-    echo "</tr>\n";
-
-    // buttons
-    echo "<tr><td colspan='6' class='center-align'>";
-    echo "<input type='submit' value='" . attr_safe(_("Save Preferences"))
-        . "' name='change'> &nbsp;";
-    echo "<input type='submit' value='"
-        . attr_safe(_("Save Preferences and Quit"))
-        . "' name='saveAndQuit'> &nbsp;";
-    if (count($profiles) < 10) {
-        echo "<input type='submit' value='"
-            . attr_safe(_("Save as New Profile"))
-            . "' name='mkProfile'> &nbsp;";
-        echo "<input type='submit' value='"
-            . attr_safe(_("Save as New Profile and Quit"))
-            . "' name='mkProfileAndQuit'> &nbsp;";
-    }
-    echo "<input type='submit' value='" . attr_safe(_("Quit"))
-        . "' name='quitnc'> &nbsp;";
-    if (count($profiles) > 1) {
-        echo "<input type='submit' value='" . attr_safe(_("Delete this Profile"))
-            . "' name='deletenc'>";
-    }
-    echo "</td></tr>\n";
-}
-
-function save_proofreading_tab(User $user): void
-{
-    $create_new_profile = false;
-    if (isset($_POST["mkProfile"]) || isset($_POST["mkProfileAndQuit"])) {
-        $create_new_profile = true;
-    }
-
-    $profile_fields = [
-        "profilename", "v_fntf_other", "h_fntf_other", "i_type",
-        "i_layout", "v_fntf", "v_fnts",
-        "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap",
-        "h_fntf", "h_fnts", "h_tframe", "h_tscroll", "h_tlines",
-        "h_tchars", "h_twrap",
-    ];
-
-    $profile = new UserProfile();
-    $profile->u_ref = $user->u_id;
-    foreach ($profile_fields as $field) {
-        $profile->$field = $_POST[$field];
-    }
-
-    if (!$create_new_profile) {
-        $profile->id = $user->profile->id;
-        ;
-    }
-    $profile->save();
-
-    if ($create_new_profile) {
-        $user->profile = $profile;
-    }
-}
-
 function echo_pm_tab(User $user): void
 {
     global $userSettings;
@@ -835,31 +456,6 @@ function show_preference(
     $function_name = '_show_' . $type;
     $function_name($field_name, $current_value, $extras);
     echo "</td>";
-}
-
-// ---------------------------------------------------------
-
-function _show_fontface_selection(string $field_name, string $current_value, string $font_other): void
-{
-    $available_fonts = get_available_proofreading_font_faces();
-    foreach ($available_fonts as $index => $font_name) {
-        if ($index == 0) {
-            $font_name = BROWSER_DEFAULT_STR;
-        }
-        if ($index == 1) {
-            $font_name = _("Other");
-        }
-
-        echo "<input type='radio' name='{$field_name}' value='$index'";
-        if ($current_value == $index) {
-            echo " CHECKED";
-        }
-        echo "> $font_name";
-        if ($index == 1) {
-            echo ": <input type='text' name='{$field_name}_other' value='" . attr_safe($font_other) . "'>";
-        }
-        echo "<br>";
-    }
 }
 
 // ---------------------------------------------------------

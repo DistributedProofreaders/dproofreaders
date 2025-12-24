@@ -103,17 +103,14 @@ class DailyLimitExceededException extends UserAccessException
  * @property bool $u_align;
  * @property string $i_theme;
  * @property-read int $u_id;
- * @property int $u_profile;
  * @property string $u_intlang;
  * @property bool $u_privacy;
  * @property string $api_key;
- * @property UserProfile $profile;
  * @property int $navbar_activity_menu;
  */
 class User
 {
     private $table_row;
-    private $current_profile;
 
     // List of fields that when set for a user should never change
     private $immutable_fields = [
@@ -156,83 +153,12 @@ class User
             );
         }
 
-        switch ($name) {
-            case "profile":
-                // set the user's profile, but first make sure it's a valid
-                // profile and they own it
-                if ((! $value instanceof UserProfile) || $value->u_ref != $this->u_id) {
-                    throw new NonexistentUserProfileException(
-                        "Invalid profile"
-                    );
-                }
-                $this->current_profile = $value;
-
-                // persist the current profile ID to the database
-                $sql = sprintf(
-                    "
-                    UPDATE users
-                    SET u_profile = %d
-                    WHERE u_id = %d
-                    ",
-                    $this->current_profile->id,
-                    $this->u_id
-                );
-                DPDatabase::query($sql);
-
-                // now set the profile cookie if this is for the current user
-                if ($this->username == User::current_username()) {
-                    dp_setcookie("profile", $this->current_profile->id);
-                }
-                break;
-            default:
-                $this->table_row[$name] = $value;
-        }
+        $this->table_row[$name] = $value;
     }
 
     public function __get($name)
     {
-        switch ($name) {
-            case "profile":
-                if ($this->current_profile) {
-                    return $this->current_profile;
-                }
-
-                // If this is the current user and a profile cookie is set,
-                // use that profile ID if it exists and belongs to the user.
-                // This allows a user to use different profiles across
-                // different browsers/devices.
-                if ($this->username == User::current_username() && @$_COOKIE["profile"]) {
-                    try {
-                        $profile = new UserProfile((int)$_COOKIE["profile"]);
-                        if ($profile->u_ref != $this->u_id) {
-                            throw new NonexistentUserProfileException(
-                                "Profile does not belong to user"
-                            );
-                        }
-                        $this->current_profile = $profile;
-                    } catch (NonexistentUserProfileException $exception) {
-                        // reset the cookie since the value was invalid
-
-                        // We can only reset the cookie if the headers haven't
-                        // yet been sent. Resetting the cookie is a nicety
-                        // since it will only be used if it is valid, so it's
-                        // OK if we can't.
-                        if (!headers_sent()) {
-                            dp_setcookie("profile");
-                        }
-
-                        // fall through to getting the profile from the user record
-                    }
-                }
-
-                if (!$this->current_profile) {
-                    $this->current_profile = new UserProfile($this->u_profile);
-                }
-
-                return $this->current_profile;
-            default:
-                return $this->table_row[$name];
-        }
+        return $this->table_row[$name];
     }
 
     public function __isset($name)

@@ -55,7 +55,6 @@ $ok_files = [
     "styles/design_philosophy.php",
     // Tools
     "tools/setlangcookie.php",  // allows unauth users to set their language
-    "tools/proofers/ctrl_frame.php",  // required for unauth quiz access
     // Dev tools
     ".php-cs-fixer.dist.php",
 ];

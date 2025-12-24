@@ -10,13 +10,8 @@ REPLACE INTO `projects` VALUES ('An Empty Project','Fletcher, Jessica','English'
 /* `users` rows populated by INSERTs in accounts/activate.php.
  * Can't do this programatically yet.
  */
-REPLACE INTO `users` VALUES ('userID1234567890abc', 'Adam Adminston', 'admin', 'a@example.com', 1234567890, 1234567890, 1234567890, 1, '', '', '', 10, 0, 'project_gutenberg', 1, 110, '', 0, 'admin_key', 1);
-REPLACE INTO `users` VALUES ('userID460b20a8a8a71','BKeir','teststeel','teststeel@localhost',1175134376,1175134406,1175134457,1,'','','',10,0,'project_gutenberg',110,119,'en_US',0,NULL,1);
-
-/* $up = new UserProfile(); $up->foo = bar; $up->save(); does not allow new
- * profiles to be created with programmatic control of id.
- */
-REPLACE INTO `user_profiles` VALUES (110,105,'default',1,1,5,6,'',50,40,65,1,0,5,6,'',35,20,70,1,0);
+REPLACE INTO `users` VALUES ('userID1234567890abc', 'Adam Adminston', 'admin', 'a@example.com', 1234567890, 1234567890, 1234567890, 1, '', '', '', 10, 0, 'project_gutenberg', 1, '', 0, 'admin_key', 1);
+REPLACE INTO `users` VALUES ('userID460b20a8a8a71','BKeir','teststeel','teststeel@localhost',1175134376,1175134406,1175134457,1,'','','',10,0,'project_gutenberg',110,'en_US',0,NULL,1);
 
 /* This can be done with $s = new Settings('admin'); $s->set_true('sitemanager');
  * But there's not much point until we can do some of the rest with code.

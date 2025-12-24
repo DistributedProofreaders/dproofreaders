@@ -4,25 +4,8 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'faq.inc');
 
-$i_type = 0;
-if (isset($_GET['i_type'])) {
-    $i_type = $_GET['i_type'];
-} else {
-    $user = User::load_current();
-    if ($user) {
-        $i_type = $user->profile->i_type;
-    }
-}
-
-// -----------------------------------------------------------------------------
-
-if ($i_type == 0) {
-    output_header('Standard Proofreading Interface Help', NO_STATSBAR);
-    echo "<h1>Standard Proofreading Interface Help</h1>";
-} else {
-    output_header('Enhanced Proofreading Interface Help', NO_STATSBAR);
-    echo "<h1>Enhanced Proofreading Interface Help</h1>";
-}
+output_header('Proofreading Interface Help', NO_STATSBAR);
+echo "<h1>Proofreading Interface Help</h1>";
 
 // -----------------------------------------------------------------------------
 
@@ -321,8 +304,7 @@ $help['Revert to Original Document'] = "
 
 // -----------------------------------------------------------------------------
 
-if ($i_type == 0) {
-    echo "<form>\n";
+{
     echo "<dl>\n";
     foreach (
         [
@@ -400,91 +382,7 @@ if ($i_type == 0) {
     </dd>
     ";
     echo "</dl>\n";
-    echo "</form>\n";
-} else {
-    $faq_url = get_faq_url("ProoferFAQ.php");
-    $guidelines_url = get_faq_url("proofreading_guidelines.php");
-    ?>
-
-<DIV ALIGN="CENTER"><TABLE
-BORDER="1" WIDTH="98%" CELLPADDING="6">
-
-<TR><TD
-COLSPAN="2">
-<p><A HREF="#ibtns"><B>Button and Selection Menu</B></A></p>
-<p><A HREF="#ikeys"><B>Accelerator Keys (accesskeys)</B></A></p>
-<p><A HREF="#proofing_toolbox"><B>Help for Proofreading Toolbox</B></A></p>
-<p><B>Additional Help Files</B>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="<?php echo $faq_url; ?>">Proofreader's Frequently Asked Questions</A>
-<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <A HREF="<?php echo $guidelines_url; ?>">Proofreading Guidelines</A></p>
-</TD></TR>
-<TR><TD ALIGN="CENTER" COLSPAN="2">
-<p class='large'><A NAME="ibtns"> </A>Button and Selection Menu</p></TD></TR>
-
-<?php
-
-function echo_row($name, $tooltip, $button_image_base, $accelerator)
-{
-    global $help;
-    echo "<TR><TD class='top-align'>\n";
-    $tooltip_esc = attr_safe($tooltip);
-    foreach (explode('+', $button_image_base) as $bib) {
-        echo "<IMG SRC='../tools/proofers/gfx/{$bib}.png'
-        ALT='$tooltip_esc' TITLE='$tooltip_esc'
-        WIDTH='26' HEIGHT='26' BORDER='0'>\n";
-    }
-    echo "</TD><TD class='top-align'><B>$name</B><BR>\n";
-    if ($accelerator != '') {
-        echo "Accelerator key: <B>$accelerator</B><br>\n";
-    }
-    echo "$help[$name]</TD></TR>\n";
 }
-
-    echo_row('Stop Proofreading', 'Stop Proofreading without Saving', 'bt1', '9');
-    echo_row("Save as 'Done'", "Save as 'Done'", 'bt13', '');
-    echo_row("Save as 'Done' & Proofread Next Page", "Save as 'Done' & Proofread Next Page", 'bt2', '8');
-    echo_row("Save as 'In Progress'", "Save as 'In Progress'", 'bt3', '7');
-    echo_row('Report Bad Page', 'Report Bad Page', 'bt14', '');
-    echo_row('Return Page to Round', 'Return Page to Round', 'bt15', '');
-    echo_row('Change Interface Layout', 'Change Interface Layout', 'bt4+bt5', '6');
-    echo_row('Run WordCheck', 'Run WordCheck', 'bt16', '');
-    echo_row('View Project Comments', 'View Project Comments', 'bt12', '');
-    echo_row('Preview', 'Format preview', 'bt20', '');
-    echo_row('Show All Text', 'Show All Text', 'bt9', '');
-    echo_row('Undo Revert', 'Undo Revert', 'bt7', '');
-    echo_row('Revert to Original Document', 'Revert to Original Document', 'bt8', ''); ?>
-
-<TR><TD><B>Font Size</B>
-<BR>Selection Menu</TD><TD class='top-align'>Select a point size (pt) for the current font
-from the dropdown menu to change the font size of the proofreading text.
-</TD></TR>
-
-<TR><TD VALIGN="TOP"><B>Font Face</B>
-<BR>Selection Menu</TD><TD class='top-align'>Select a font from the dropdown menu.
-</TD></TR>
-
-<TR><TD ALIGN="CENTER" COLSPAN="2">
-<P><A NAME="ikeys"> </A> <P><FONT SIZE="+1">Accelerator Keys (accesskeys)</FONT><P></TD></TR>
-<TR>
-<TD VALIGN="TOP" COLSPAN="2">
-<p>These accelerator keys may not work for everyone, and the modifier key
-(shown as Alt below) may be different depending on your Operating System and browser.</p>
-
-<p>Several of the commonly used interface buttons have been assigned an accesskey value.
-On browsers that support accelerator keys, pressing ALT+ the accesskey assigned to the
-button will commit the same action as clicking on the button.</p>
-
-<P>If a button has an accelerator key, the key assigned to it will be listed in the function
-description in the <A HREF="#ibtns"><B>Button and Selection Menu</B></A> area.</p>
-
-</TD></TR>
-</TABLE></DIV>
-
-<?php
-}
-// -----------------------------------------------------------------------------
 ?>
 
 <hr>

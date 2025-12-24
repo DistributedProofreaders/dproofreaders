@@ -15,7 +15,7 @@ require_login();
 $extra_args = [
     'css_data' => '
         .mono {
-            font-family: ' . get_proofreading_font_family_fallback() . ';
+            font-family: monospace;
         }
     ',
     'js_data' => '

@@ -1,5 +1,41 @@
 <?php
 
+// "pi" = "proofing interface"
+
+function url_for_pi_do_whichever_page(string $projectid, string $proj_state, bool $escape_amp = false): string
+{
+    global $code_url;
+    if ($escape_amp) {
+        $amp = '&amp;';
+    } else {
+        $amp = '&';
+    }
+    return "$code_url/tools/proofers/proof.php"
+        . "?"
+        . "projectid=$projectid"
+        . $amp
+        . "proj_state=$proj_state";
+}
+
+function url_for_pi_do_particular_page(string $projectid, string $proj_state, string $imagefile, string $page_state, bool $escape_amp = false): string
+{
+    global $code_url;
+    if ($escape_amp) {
+        $amp = '&amp;';
+    } else {
+        $amp = '&';
+    }
+    return "$code_url/tools/proofers/proof.php"
+        . "?"
+        . "projectid=$projectid"
+        . $amp
+        . "imagefile=$imagefile"
+        . $amp
+        . "proj_state=$proj_state"
+        . $amp
+        . "page_state=$page_state";
+}
+
 function draw_toolbox()
 {
     echo "

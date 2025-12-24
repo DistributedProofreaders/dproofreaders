@@ -94,7 +94,7 @@ class Round extends Stage
      *       'tool_links' => 'ALL',
      *   ]
      *   ```
-     *   See `pinc/ProofreadingToolbox.inc` for which tools are available
+     *   See `scripts/toolbox.js` for which tools are available
      *   and their names.
      * @param ?int $daily_page_limit
      *   This is either NULL (indicating no daily page limit for this round)

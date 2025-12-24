@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
-include_once($relPath.'../tools/proofers/PPage.inc'); // url_for_pi_do_particular_page
+include_once($relPath.'pi_structure.inc'); // url_for_pi_do_particular_page
 include_once($relPath.'links.inc'); // private_message_link
 
 /**

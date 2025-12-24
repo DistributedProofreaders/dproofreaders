@@ -19,7 +19,6 @@
 //
 // - in the proofing interface:
 //   See LPage::attemptSaveAsDone() in LPage.inc
-//   and PPage::attempt_to_save_as_done() in PPage.inc
 
 include_once($relPath.'User.inc');
 include_once($relPath.'TallyBoard.inc');

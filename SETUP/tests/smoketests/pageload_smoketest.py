@@ -91,7 +91,6 @@ QUIZ_TESTS = [
     {'path': 'quiz/generic/hints.php?quiz_page_id=p_basicx_2&error=arid&number=1'},
     {'path': 'quiz/generic/main.php?quiz_page_id=p_basic_1'},
     {'path': 'quiz/generic/orig.php?quiz_page_id=p_basic_2'},
-    {'path': 'quiz/generic/proof.php?quiz_page_id=p_basic_3'},
     {'path': 'quiz/generic/returnfeed.php?quiz_page_id=p_thorn'},
     {'path': 'quiz/generic/right.php?quiz_page_id=p_fraktur'},
     {'path': 'quiz/generic/wizard/default_messages.php'},
@@ -319,9 +318,6 @@ TOOLS_PROJECT_MANAGER_TESTS = [
 TOOLS_PROOFERS_TESTS = [
     {'path': 'tools/proofers/for_mentors.php?round_id=P3'},
     # TODO not installed
-    {'path': 'tools/proofers/ctrl_frame.php?round_id=P3&project_id=projectID5e23a810ef693'},
-    {'path': 'tools/proofers/image_frame_std.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail&imagefile=001.png&page_state=P3.page_saved'},
-    {'path': 'tools/proofers/text_frame_std.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail&imagefile=001.png&page_state=P3.page_saved'},
     {'path': 'tools/proofers/images_index.php?project=projectID5e23a810ef693'},
     {'path': 'tools/proofers/mktable.php'},
     # TODO make non-empty
@@ -336,18 +332,6 @@ TOOLS_PROOFERS_TESTS = [
     {'path': 'tools/proofers/my_suggestions.php?round_view=familiar'},
     {'path': 'tools/proofers/my_suggestions.php?round_view=style'},
     {'path': 'tools/proofers/my_suggestions.php?round_view=different'},
-    # TODO make a valid state
-    {
-        'method': 'POST',
-        'path': 'tools/proofers/processtext.php',
-        'data': {
-            'projectid': 'projectID5e23a810ef693',
-            'proj_state': 'P3.proj_unavail',
-            'imagefile': '001.png',
-            'page_state': 'P3.page_saved',
-            'button4': '1', # B_SWITCH_LAYOUT. NB this fails because not P3.page_temp
-        },
-    },
     # TODO check redirect URL
     {
         'path': 'tools/proofers/project_topic.php?project=projectID5e23a810ef693',
@@ -355,23 +339,10 @@ TOOLS_PROOFERS_TESTS = [
     },
     # TODO proof a valid state
     {'path': 'tools/proofers/proof.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail'},
-    # TODO proof a valid state
-    {'path': 'tools/proofers/proof_frame.php?projectid=projectID5e23a810ef693&proj_state=P3.proj_unavail'},
-    {
-        'method': 'POST',
-        'path': 'tools/proofers/report_bad_page.php',
-        'data': {
-            'projectid': 'projectID5e23a810ef693',
-            'proj_state': 'P3.proj_unavail',
-            'imagefile': '001.png',
-            'page_state': 'P3.page_saved',
-        },
-    },
     # TODO: Needs page_events or user_project_info entries to exercise properly
     {'path': 'tools/proofers/review_work.php?username=teststeel'},
     # TODO: Needs projects in P3.proj_avail to exercise properly
     {'path': 'tools/proofers/round.php?round_id=P3'},
-    {'path': 'tools/proofers/srchrep.php'},
 ]
 
 TOOLS_SITE_ADMIN_TESTS = [

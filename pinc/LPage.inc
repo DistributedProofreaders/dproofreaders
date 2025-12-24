@@ -304,8 +304,6 @@ class LPage
         $this->reverting_to_orig = $reverting_to_orig;
 
         // It's debatable whether LPage should have a 'reverting_to_orig' property.
-        // You could argue that it's an interface-level artifact,
-        // and thus belongs in PPage.
 
         $this->round = get_Round_for_page_state($page_state);
     }

@@ -122,19 +122,6 @@ $u_id = mysqli_insert_id(DPDatabase::get_connection()); // auto-incremented user
 // Delete record in non_activated_users.
 $user->delete();
 
-// create profile
-$profile = new UserProfile();
-$profile->u_ref = $u_id;
-$profile->save();
-
-// add ref to profile
-$refString = sprintf(
-    "UPDATE users SET u_profile=%d WHERE u_id=%d",
-    $profile->id,
-    $u_id
-);
-DPDatabase::query($refString);
-
 // Send them an introduction e-mail
 send_welcome_mail($user->email, $user->real_name, $user->username);
 

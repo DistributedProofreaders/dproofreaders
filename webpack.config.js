@@ -4,15 +4,11 @@ const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 module.exports = {
     mode: "production",
     entry: {
-        control_bar: "./scripts/control_bar.js",
         file_resume: "./scripts/file_resume.js",
         page_browser: "./tools/page_browser.js",
         show_all_good_word_suggestions: "./tools/project_manager/show_all_good_word_suggestions.js",
         show_word_context: "./tools/project_manager/show_word_context.js",
-        toolbox: "./tools/proofers/toolbox.js",
         proof: "./tools/proofers/proof.js",
-        proof_image: "./tools/proofers/proof_image.js",
-        previewControl: "./tools/proofers/previewControl.js",
     },
     output: {
         filename: "[name].bundle.[contenthash].js",
