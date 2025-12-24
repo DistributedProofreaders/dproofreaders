@@ -2731,6 +2731,7 @@ td.has-diff {
 /* CharSuite Explorer */
 .gs-char {
   font-size: 1.5em;
+  font-family: DP Sans Mono;
 }
 .gs-codepoint {
   font-size: 0.7em;
