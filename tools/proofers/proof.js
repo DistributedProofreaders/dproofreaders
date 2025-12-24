@@ -75,6 +75,9 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
 
         function setPageData(data) {
+            pageName = data.pagename;
+            params.set("imagefile", pageName);
+
             setPageState(data);
             imageWidget.setImage(data.image_url);
             let infoText = `Page: ${data.pagenum}`;
@@ -94,6 +97,7 @@ window.addEventListener("DOMContentLoaded", async () => {
                 infoText += ` &mdash; ${infoMap.join(", ")}`;
             }
             document.getElementById("page_number").innerHTML = infoText;
+            document.getElementById("view_other_pages").href = makeUrl(`${codeUrl}/tools/page_browser.php`, { project: projectId, imagefile: pageName });
         }
 
         async function ajaxPage(method, action, data = {}) {
@@ -156,8 +160,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             try {
                 textWidget.initWordCheck();
                 const data = await ajax("PUT", `v1/projects/${projectId}/checkout`, { state: projectState });
-                pageName = data.pagename;
-                params.set("imagefile", pageName);
                 setPageData(data);
                 enableAction();
             } catch (error) {
@@ -176,7 +178,6 @@ window.addEventListener("DOMContentLoaded", async () => {
             nextPage();
         }
 
-        document.getElementById("view_other_pages").href = makeUrl(`${codeUrl}/tools/page_browser.php`, { project: projectId, imagefile: pageName });
         document.getElementById("project_page").href = makeUrl(`${codeUrl}/project.php`, { id: projectId, expected_state: projectState }, "project-comments");
 
         function checkValidateText(error) {
