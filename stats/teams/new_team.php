@@ -2,7 +2,7 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'js_newpophelp.inc');
+include_once($relPath.'pophelp.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc'); // showEdit()
 
@@ -10,7 +10,10 @@ require_login();
 
 $user = User::load_current();
 
-$theme_extra_args = ["js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_")];
+$theme_extra_args = [
+    "js_data" => "var popHelpData = " . get_pophelp_json("teams") . ";",
+    "js_files" => ["$code_url/scripts/pophelp.js"],
+];
 
 $teamname = trim($_POST["teamname"] ?? "");
 $text_data = stripAllString($_POST["text_data"] ?? "");

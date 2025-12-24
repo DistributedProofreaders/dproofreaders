@@ -8,7 +8,7 @@ include_once($relPath.'languages.inc'); // bilingual_name()
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'Settings.inc');
-include_once($relPath.'js_newpophelp.inc');
+include_once($relPath.'pophelp.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_url_to_edit_profile()
 include_once($relPath.'User.inc');
 include_once($relPath.'Project.inc');
@@ -114,9 +114,12 @@ if (($_POST["insertdb"] ?? "") != "") {
 
 // header, start of table, form, etc. common to all tabs
 $header = _("Personal Preferences");
-$theme_extra_args["js_files"] = ["$code_url/scripts/userprefs.js"];
-$theme_extra_args["js_data"] =
-    get_newHelpWin_javascript("$code_url/pophelp.php?category=prefs&name=set_") . "
+$theme_extra_args["js_files"] = [
+    "$code_url/scripts/userprefs.js",
+    "$code_url/scripts/pophelp.js",
+];
+$theme_extra_args["js_data"] = "
+    var popHelpData = " . get_pophelp_json("prefs") . ";
 
     function do_font_sample_update(font_index, size_index, layout) {
         if(font_index != null) {
@@ -181,7 +184,7 @@ echo "<h1>$header</h1>";
 
 output_tab_bar($tabs, $selected_tab, "tab", "origin=" . urlencode($origin));
 
-echo "<p>" . _("Click the ? for help on that specific preference.") . "</p>";
+echo "<p>" . _("Hover over a setting to get more information about it.") . "</p>";
 
 echo "<form action='userprefs.php' method='post'>";
 
@@ -469,7 +472,6 @@ function echo_proofreading_tab(User $user): void
         echo " <input type='submit' value='".attr_safe(_("Switch Profiles"))."' name='swProfile'>";
 
         echo "</td>";
-        td_pophelp('switch');
     } else {
         echo "<td colspan='3'></td>";
     }
@@ -542,14 +544,14 @@ function echo_proofreading_tab(User $user): void
     echo "<tr>\n";
     th_label_long(
         2,
-        "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences")
+        "<img src='tools/proofers/gfx/bt4.png'>" . _("Vertical Interface Preferences"),
+        'vertprefs'
     );
-    td_pophelp('vertprefs');
     th_label_long(
         2,
-        "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences")
+        "<img src='tools/proofers/gfx/bt5.png'>" . _("Horizontal Interface Preferences"),
+        'horzprefs'
     );
-    td_pophelp('horzprefs');
     echo "</tr>\n";
 
     $proofreading_font_faces = get_available_proofreading_font_faces();
@@ -606,14 +608,12 @@ function echo_proofreading_tab(User $user): void
 
     echo "<tr>\n";
     [, , $font_family, $font_size] = get_user_proofreading_font(1);
-    th_label(_("Font Sample"));
+    th_label(_("Font Sample"), "font_sample");
     echo "<td id='v_font_sample' style=\"font-family: $font_family; font-size: $font_size\">" . $font_sample . "</td>";
-    td_pophelp("font_sample");
 
     [, , $font_family, $font_size] = get_user_proofreading_font(0);
-    th_label(_("Font Sample"));
+    th_label(_("Font Sample"), "font_sample");
     echo "<td id='h_font_sample' style=\"font-family: $font_family; font-size: $font_size\">" . $font_sample . "</td>";
-    td_pophelp("font_sample");
     echo "</tr>\n";
 
     echo "<tr>\n";
@@ -868,7 +868,7 @@ function show_preference(
     // Extras is untyped as it varies based on $type.
     $extras
 ): void {
-    th_label($label);
+    th_label($label, $pophelp_name);
 
     echo "<td>";
     // This is a bit sneaky, calling a function via a non-static name.
@@ -876,8 +876,6 @@ function show_preference(
     $function_name = '_show_' . $type;
     $function_name($field_name, $current_value, $extras);
     echo "</td>";
-
-    td_pophelp($pophelp_name);
 }
 
 // ---------------------------------------------------------
@@ -1019,11 +1017,10 @@ function show_link_as_if_preference(
     string $link_url,
     string $link_text
 ): void {
-    th_label($label);
+    th_label($label, $pophelp_name);
     echo "<td>";
     echo "<a href='$link_url'>$link_text</a>";
     echo "</td>";
-    td_pophelp($pophelp_name);
 }
 
 function show_blank(): void
@@ -1035,19 +1032,14 @@ function show_blank(): void
 
 // ---------------------------------------------------------
 
-function th_label(string $label): void
+function th_label(string $label, string $pophelp_name = ""): void
 {
-    echo "<th class='label'>$label</th>";
+    $pophelp_attr = $pophelp_name ? "data-pophelp='set_$pophelp_name'" : "";
+    echo "<th class='label' $pophelp_attr>$label</th>";
 }
 
-function th_label_long(int $colspan, string $label): void
+function th_label_long(int $colspan, string $label, string $pophelp_name = ""): void
 {
-    echo "<th class='longlabel' colspan='$colspan'>$label</th>";
-}
-
-function td_pophelp(string $pophelp_name): void
-{
-    echo "<td class='center-align'>";
-    echo "<b>&nbsp;<a href=\"javascript:newHelpWin('$pophelp_name');\">?</a>&nbsp;</b>";
-    echo "</td>\n";
+    $pophelp_attr = $pophelp_name ? "data-pophelp='set_$pophelp_name'" : "";
+    echo "<th class='longlabel' colspan='$colspan' $pophelp_attr>$label</th>";
 }

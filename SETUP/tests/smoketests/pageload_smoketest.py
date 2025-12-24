@@ -30,7 +30,6 @@ NOLOGIN_TESTS = [
 BASE_TESTS = [
     {'path': 'activity_hub.php'},
     {'path': 'pastnews.php'},
-    {'path': 'pophelp.php?category=teams&name=edit_teamname'},
     {'path': 'project.php?id=projectID5e23a810ef693'},
     {'path': 'project.php?id=projectID5e23a810ef693&detail_level=1'},
     {'path': 'project.php?id=projectID5e23a810ef693&detail_level=2'},

@@ -490,28 +490,28 @@ function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)
     echo "</th></tr>";
 
     echo "<tr>";
-    echo "<td class='right-align'><b>"._("Team Name")."</b>:</td>";
-    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50' maxlength='50' required>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamname');\">?</a></b></td>";
+    echo "<td class='right-align' data-pophelp='edit_teamname'><b>"._("Team Name")."</b>:</td>";
+    echo "<td class='left-align'><input type='text' value='" . attr_safe($tname) . "' name='teamname' size='50' maxlength='50' required></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td class='right-align'><b>"._("Team Webpage")."</b>:</td>";
-    echo "<td class='left-align'><input type='text' value='$twebpage' name='teamwebpage' size='50' maxlength='255'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamwebpage');\">?</a></b></td>";
+    echo "<td class='right-align' data-pophelp='edit_teamwebpage'><b>"._("Team Webpage")."</b>:</td>";
+    echo "<td class='left-align'><input type='text' value='$twebpage' name='teamwebpage' size='50' maxlength='255'></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td class='right-align'><b>"._("Team Avatar")."</b>:</td>";
-    echo "<td class='left-align'><input type='file' name='teamavatar' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamavatar');\">?</a></b></td>";
+    echo "<td class='right-align' data-pophelp='edit_teamavatar'><b>"._("Team Avatar")."</b>:</td>";
+    echo "<td class='left-align'><input type='file' name='teamavatar' size='50'></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td class='right-align'><b>"._("Team Icon")."</b>:</td>";
-    echo "<td class='left-align'><input type='file' name='teamicon' size='50'>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamicon');\">?</a></b></td>";
+    echo "<td class='right-align' data-pophelp='edit_teamicon'><b>"._("Team Icon")."</b>:</td>";
+    echo "<td class='left-align'><input type='file' name='teamicon' size='50'></td>";
     echo "</tr>";
 
     echo "<tr>";
-    echo "<td  class='right-align' style='vertical-align: top;'><b>"._("Team Description")."</b></td>";
-    echo "<td  class='left-align' style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe(unstripAllString($ttext)) . "</textarea>&nbsp;<b><a href=\"JavaScript:newHelpWin('teamdesc');\">?</a></b></td>";
+    echo "<td  class='right-align'  data-pophelp='edit_teamdesc' style='vertical-align: top;'><b>"._("Team Description")."</b></td>";
+    echo "<td  class='left-align' style='vertical-align: top;'><textarea name='text_data' cols='40' rows='6'>" . html_safe(unstripAllString($ttext)) . "</textarea></td>";
     echo "</tr>";
 
     echo "<tr>";

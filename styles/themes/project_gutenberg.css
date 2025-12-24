@@ -2823,6 +2823,19 @@ p.mentor-oldest {
   text-align: center;
 }
 /* ------------------------------------------------------------------------ */
+/* Popup Help */
+.pophelp {
+  border: thin solid #000000;
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 0 5px;
+  border-radius: 5px;
+  z-index: 1000;
+  font-size: 90%;
+}
+/* ------------------------------------------------------------------------ */
 /* Diff styling */
 /* Import diff styling from MediaWiki */
 /*!
