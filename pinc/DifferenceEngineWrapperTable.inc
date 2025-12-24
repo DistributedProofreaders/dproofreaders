@@ -1,7 +1,6 @@
 <?php
 // This file inherits from DifferenceEngineWrapper to facilitate
 // formatting diffs in an HTML table.
-include_once($relPath."prefs_options.inc"); // get_user_proofreading_font()
 include_once($relPath."DifferenceEngineWrapper.inc");
 include_once($relPath."3rdparty/mediawiki/TableDiffFormatter.php");
 
@@ -62,11 +61,6 @@ class DifferenceEngineWrapperTable extends DifferenceEngineWrapper
  */
 function get_DifferenceEngine_css_data()
 {
-    [, $font_size, $font_family] = get_user_proofreading_font();
-    if ($font_size != '') {
-        $font_size = "font-size: $font_size;";
-    }
-
     return "
 .diff-otitle,
 .diff-ntitle {
@@ -76,8 +70,7 @@ function get_DifferenceEngine_css_data()
 .diff-addedline,
 .diff-deletedline,
 .diff-context {
-    font-family: $font_family;
-    $font_size
+    font-family: DP Sans Mono;
 }
 /* Adjust padding to prevent descenders from being chopped off. Task 1936 */
 .diff-deletedline .diffchange,

@@ -4,7 +4,6 @@ include_once($relPath."base.inc");
 include_once($relPath."theme.inc");
 include_once($relPath."unicode.inc");
 include_once($relPath."CharSuites.inc");
-include_once($relPath."prefs_options.inc");
 include_once($relPath."Project.inc"); // get_projectID_param()
 
 require_login();
@@ -30,12 +29,9 @@ if ($charsuite_name && !$projectid) {
     }
 }
 
-[, , $font_family, ] = get_user_proofreading_font();
-$extra_args['css_data'] = ".gs-char { font-family: $font_family; }";
-
 if ($charsuite) {
     $title = _("Character Suite");
-    output_header($title, NO_STATSBAR, $extra_args);
+    output_header($title, NO_STATSBAR);
     echo "<h1>" . html_safe($title) . "</h1>";
     echo "<p><a href='?'>" . _("View all character suites") . "</a></p>";
     echo "<p>";
@@ -48,7 +44,7 @@ if ($charsuite) {
 } elseif ($projectid) {
     $project = new Project($projectid);
     $title = _("Project Character Suites");
-    output_header($title, NO_STATSBAR, $extra_args);
+    output_header($title, NO_STATSBAR);
     echo "<h1>" . html_safe($title) . "</h1>";
     echo "<p>" . sprintf(
         _("Character Suites for <a href='%s'>%s</a>."),
@@ -61,7 +57,7 @@ if ($charsuite) {
     }
 } else {
     $title = _("All Character Suites");
-    output_header($title, NO_STATSBAR, $extra_args);
+    output_header($title, NO_STATSBAR);
     echo "<h1>" . html_safe($title) . "</h1>";
     echo "<p>";
     echo _("Below are all enabled character suites in the system.");
