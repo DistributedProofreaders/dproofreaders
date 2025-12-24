@@ -71,13 +71,6 @@ _("<p>This setting specifies how your credits will appear when a project is comp
             'content' => _("<p>The language that the site will be presented in.</p>"),
         ],
 
-    // OBSOLETED. MAYBE.
-    //'set_lang' =>
-    //    array (
-    //    'title' => _("Language"),
-    //    'content' => _("Your primary language.")
-    //    );
-
     'set_name' =>
         [
             'title' => _("Name"),
@@ -181,15 +174,13 @@ have them assigned directly to you.</p>
         [
             'title' => _("Interface Type"),
             'content' =>
-_("<p>This setting determines which proofreading interface you prefer.</p>
-
-<p>The Standard Interface is the default and is designed to work with very minimal 
-browser requirements.</p>
-
-<p>The Enhanced Interface has additional tools and features which are not present in the 
-Standard Interface and may require a more recent browser for complete functionality.</p>
-
-<p>Both interfaces require a frames and JavaScript enabled browser as a minimum.</p>"),
+_("<p>This setting determines which proofreading interface you prefer. Both interfaces require a frames and JavaScript enabled browser as a minimum.</p>
+<ul>
+<li>The Standard Interface is the default, uses text-based buttons,
+and is designed to work with minimal browser requirements.</li>
+<li>The Enhanced Interface uses images that have tooltips for buttons,
+and some buttons not present in the Standard Interface.</li>
+</ul>"),
         ],
 
     // FIXME In the userprefs display, add hover text to these icons
