@@ -79,6 +79,74 @@ function convertPunctuation(string) {
         .join("");
 }
 
+function convertDiacriticalMarkup(string) {
+    const above = {
+        "=": "\u0304", // macron
+        ":": "\u0308", // diaeresis
+        ".": "\u0307", // dot
+        "`": "\u0300", // grave
+        "'": "\u0301", // acute
+        "^": "\u0302", // circumflex
+        ")": "\u0306", // breve
+        "~": "\u0303", // tilde
+        v: "\u030C", // caron
+        "*": "\u030A", // ring
+        "(": "\u0311", // inverted breve
+    };
+
+    const below = {
+        "=": "\u0331", // macron
+        ":": "\u0324", // diaeresis
+        ".": "\u0323", // dot
+        "`": "\u0316", // grave
+        "'": "\u0317", // acute
+        "^": "\u032D", // circumflex
+        ")": "\u032E", // breve
+        "~": "\u0330", // tilde
+        ",": "\u0327", // cedilla
+        v: "\u032C", // caron
+        "*": "\u0325", // ring
+        "(": "\u032F", // inverted breve
+    };
+
+    const ligatures = {
+        ae: "\u00e6",
+        AE: "\u00c6",
+        oe: "\u0153",
+        OE: "\u0152",
+    };
+
+    // if it's not a valid diacritical markup string, bail early
+    if (string.length !== 4 || string[0] !== "[" || string[3] !== "]") {
+        return string;
+    }
+
+    var replaceChar = ligatures[string.slice(1, 3)];
+    if (replaceChar) {
+        return replaceChar;
+    }
+
+    let char1 = string[1];
+    let char2 = string[2];
+    var code = above[char1];
+    if (code) {
+        replaceChar = char2 + code;
+    } else {
+        code = below[char2];
+        if (code) {
+            replaceChar = char1 + code;
+        }
+    }
+
+    if (replaceChar) {
+        // TODO: confirm that the normalized character is a valid one
+        // for the project
+        return replaceChar.normalize("NFC");
+    } else {
+        return string;
+    }
+}
+
 function makeBasicTextWidget(editBox, userSettings) {
     const quill = new Quill(editBox, {
         modules: { toolbar: false },
@@ -98,13 +166,30 @@ function makeBasicTextWidget(editBox, userSettings) {
                 if (Object.hasOwn(op, "retain")) {
                     retain = op.retain;
                 } else if (Object.hasOwn(op, "insert")) {
-                    const insert = op.insert;
-                    const converted = convertPunctuation(insert);
-                    if (insert != converted) {
-                        quill.deleteText(retain, [...insert].length);
-                        quill.insertText(retain, converted);
-                        if ([...insert].length != [...converted].length) {
-                            setTimeout(() => quill.setSelection(retain + [...converted].length, 0), 0);
+                    // check if we should attempt diacritical conversion, we only support
+                    // the user typing this in so the op.insert will always end with ]
+                    if ([...op.insert].reverse()[0] == "]") {
+                        // find the start and end of our markup, we can treat
+                        // this as basic ASCII since all of our diacritical
+                        // markup is basic ASCII
+                        var maybeMarkupStartIndex = Math.max(0, retain + [...op.insert].length - 4);
+                        var maybeMarkup = quill.getText(maybeMarkupStartIndex, 4);
+                        const converted = convertDiacriticalMarkup(maybeMarkup);
+                        if (maybeMarkup != converted) {
+                            quill.deleteText(maybeMarkupStartIndex, 4);
+                            quill.insertText(maybeMarkupStartIndex, converted);
+                            setTimeout(() => quill.setSelection(maybeMarkupStartIndex + [...converted].length, 0), 0);
+                        }
+                    }
+                    // if not, see if we need to convert any punctuation
+                    else {
+                        const converted = convertPunctuation(op.insert);
+                        if (op.insert != converted) {
+                            quill.deleteText(retain, [...op.insert].length);
+                            quill.insertText(retain, converted);
+                            if ([...op.insert].length != [...converted].length) {
+                                setTimeout(() => quill.setSelection(retain + [...converted].length, 0), 0);
+                            }
                         }
                     }
                 }

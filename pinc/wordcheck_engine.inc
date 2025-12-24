@@ -8,7 +8,7 @@ use voku\helper\UTF8;
 
 // Handle dp-specific notation for non-Latin-1 characters
 // See faq/proofreading_guidelines.php#d_chars
-// and tools/proofers/process_diacritcal_markup.js
+// and scripts/text_widget.js
 // And handle [n] [m] and [que] as parts of a word as described
 // in the Proofing old texts wiki page.
 // $base and $mark are only used to define $bracketed_character_pattern
