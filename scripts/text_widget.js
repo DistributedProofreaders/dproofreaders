@@ -61,6 +61,24 @@ function editOperations(quill) {
     };
 }
 
+function convertPunctuation(string) {
+    const conversionMap = {
+        "‘": "'",
+        "“": '"',
+        "’": "'",
+        "”": '"',
+        "—": "--",
+        "…": "...",
+    };
+
+    return [...string]
+        .map((character) => {
+            const conversion = conversionMap[character] || character;
+            return conversion;
+        })
+        .join("");
+}
+
 function makeBasicTextWidget(editBox, userSettings) {
     const quill = new Quill(editBox, {
         modules: { toolbar: false },
@@ -72,6 +90,27 @@ function makeBasicTextWidget(editBox, userSettings) {
     });
 
     quill.root.setAttribute("spellcheck", false);
+
+    quill.on("text-change", (delta, oldDelta, source) => {
+        if (source == "user") {
+            var retain = 0;
+            [...delta.ops].map((op) => {
+                if (Object.hasOwn(op, "retain")) {
+                    retain = op.retain;
+                } else if (Object.hasOwn(op, "insert")) {
+                    const insert = op.insert;
+                    const converted = convertPunctuation(insert);
+                    if (insert != converted) {
+                        quill.deleteText(retain, [...insert].length);
+                        quill.insertText(retain, converted);
+                        if ([...insert].length != [...converted].length) {
+                            setTimeout(() => quill.setSelection(retain + [...converted].length, 0), 0);
+                        }
+                    }
+                }
+            });
+        }
+    });
 
     const qlEditor = editBox.firstChild;
 
