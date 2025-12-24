@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'js_newwin.inc'); // get_js_for_links_to_project_pages(),  get_onclick_attr_for_link_to_project_page()
 include_once($relPath.'Settings.inc');
 include_once($relPath.'pg.inc'); // get_pg_catalog_link_for_etext()
 include_once($relPath.'gradual.inc'); // maybe_output_new_proofer_message()
@@ -65,9 +64,7 @@ $page_header = [
     "text_other" => sprintf(_("%s's Projects"), $username),
 ];
 
-$extra_args['js_data'] = get_js_for_links_to_project_pages();
-
-output_header(get_usertext($page_header), NO_STATSBAR, $extra_args);
+output_header(get_usertext($page_header), NO_STATSBAR);
 
 output_link_box($username);
 
@@ -166,8 +163,7 @@ if (mysqli_num_rows($res) == 0) {
             echo html_safe($orig_nameofwork) . " <i>" .  _("merged into") . "</i> ";
         }
         $url = "$code_url/project.php?id=$projectid";
-        $onclick_attr = get_onclick_attr_for_link_to_project_page($url);
-        echo "<a href='$url' $onclick_attr>" . html_safe($nameofwork) . "</a>";
+        echo "<a href='$url'>" . html_safe($nameofwork) . "</a>";
         echo "</td>\n";
 
         if (isset($colspecs['state'])) {

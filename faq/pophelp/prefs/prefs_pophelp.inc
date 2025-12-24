@@ -310,34 +310,6 @@ The lower control frame is not included when calculating this percentage.</p>"),
             'content' => _("<p>Enable/Disable wrapping of lines in the proofreading area that exceed the 'Length of Text Lines' setting.</p>"),
         ],
 
-    'set_newwindow' =>
-        [
-            'title' => _("Launch in New Window"),
-            'content' =>
-_("<p>This setting specifies if the proofreading interface will launch in a new window or not.</p>"),
-        ],
-
-    'set_statusbar' =>
-        [
-            'title' => _("Show Status Bar"),
-            'content' =>
-_("<p>This setting specifies if the standard browser status bar should be displayed when 'Launch in New Window' is set to Yes.</p>"),
-        ],
-
-    'set_toolbar' =>
-        [
-            'title' => _("Show Toolbar"),
-            'content' =>
-_("<p>This setting specifies if the standard browser toolbars should be displayed when 'Launch in New Window' is set to Yes.</p>"),
-        ],
-
-    // FIXME This setting, and all the code that uses it and the 1000px for calculations should die. :D
-    'set_screenres' =>
-        [
-            'title' => _("Screen Resolution"),
-            'content' => _("<p>You may select a screen resolution from the dropdown list.</p>"),
-        ],
-
     'set_showspecialcolors' =>
         [
             'title' => _("Show Special Colors"),
