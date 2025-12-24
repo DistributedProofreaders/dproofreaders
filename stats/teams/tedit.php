@@ -2,13 +2,16 @@
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
-include_once($relPath.'js_newpophelp.inc');
+include_once($relPath.'pophelp.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
 
 require_login();
 
-$theme_extra_args = ["js_data" => get_newHelpWin_javascript("$code_url/pophelp.php?category=teams&name=edit_")];
+$theme_extra_args = [
+    "js_data" => "var popHelpData = " . get_pophelp_json("teams") . ";",
+    "js_files" => ["$code_url/scripts/pophelp.js"],
+];
 
 // Either the parameter is $_POST['tsid'] when coming from the edit form,
 // or it is $_GET['tid'] when using the link on top of the team summary.

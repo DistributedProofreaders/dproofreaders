@@ -11,11 +11,8 @@ include_once($relPath.'comment_inclusions.inc');
 include_once('edit_common.inc');
 include_once($relPath.'project_edit.inc');
 include_once($relPath.'wordcheck_engine.inc');
-include_once($relPath.'js_newpophelp.inc');
 
 require_login();
-
-$theme_args['js_data'] = get_newHelpWin_javascript("$code_url/faq/pophelp/project_manager/");
 
 $return = $_REQUEST["return"] ?? "$code_url/tools/project_manager/projectmgr.php";
 
@@ -52,7 +49,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
         }
     }
 
-    output_header($page_title, NO_STATSBAR, $theme_args);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     if ($errors) {
@@ -107,7 +104,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
             $fatal_error = sprintf(_("parameter '%s' is invalid"), 'action') . ": '$requested_action'";
     }
 
-    output_header($page_title, NO_STATSBAR, $theme_args);
+    output_header($page_title, NO_STATSBAR);
     echo "<h1>$page_title</h1>\n";
 
     if ($fatal_error != '') {
