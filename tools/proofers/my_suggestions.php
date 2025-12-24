@@ -4,7 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'User.inc');
-include_once($relPath.'js_newwin.inc'); // get_js_for_links_to_project_pages(),  get_onclick_attr_for_link_to_project_page()
 include_once($relPath.'gradual.inc'); // get_pages_proofed_maybe_simulated()
 include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
 
@@ -49,9 +48,7 @@ if ($username == User::current_username()) {
     $title = sprintf(_("%s's Suggestions"), $username);
 }
 
-$extra_args['js_data'] = get_js_for_links_to_project_pages();
-
-output_header($title, NO_STATSBAR, $extra_args);
+output_header($title, NO_STATSBAR);
 
 output_link_box($username, $verbose);
 
@@ -245,8 +242,7 @@ function output_suggestion_table($projects, $colspecs, $username)
 
         echo "<td>";
         $url = "$code_url/project.php?id=" . $row["projectid"];
-        $onclick_attr = get_onclick_attr_for_link_to_project_page($url);
-        echo "<a href='$url' $onclick_attr>" . html_safe($row["nameofwork"]) . "</a>";
+        echo "<a href='$url'>" . html_safe($row["nameofwork"]) . "</a>";
         echo "</td>\n";
 
         if (isset($colspecs['round'])) {

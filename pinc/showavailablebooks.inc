@@ -4,7 +4,6 @@ include_once($relPath.'Settings.inc');
 include_once($relPath.'special_colors.inc');
 include_once($relPath.'forum_interface.inc'); // get_forum_email_address get_url_to_compose_message_to_user
 include_once($relPath.'user_is.inc'); // user_is_a_sitemanager
-include_once($relPath.'js_newwin.inc'); // prep_for_links_to_project_pages get_onclick_attr_for_link_to_project_page
 include_once($relPath.'genres.inc');
 include_once($relPath.'post_processing.inc');
 
@@ -455,10 +454,6 @@ function show_project_listing(
     }
     $result = DPDatabase::query($query);
 
-    if (is_a($stage, 'Round')) {
-        prep_for_links_to_project_pages();
-    }
-
     // Start the table.
     echo "\n<table id='$anchor' class='availprojectlisting stage_$stage->id'>";
     echo "<tr class='center-align'>";
@@ -522,12 +517,7 @@ function show_project_listing(
                 }
             } elseif ($col_id == "nameofwork") {
                 $eURL = "$code_url/project.php?id={$book['projectid']}&amp;expected_state={$book['state']}";
-                $onclick_attr = (
-                    is_a($stage, 'Round')
-                    ? get_onclick_attr_for_link_to_project_page($eURL)
-                    : ""
-                );
-                $cell = "<a href=\"$eURL\" $onclick_attr>" . html_safe($book['nameofwork']) . "</a>";
+                $cell = "<a href=\"$eURL\">" . html_safe($book['nameofwork']) . "</a>";
             } elseif ($col_id == "genre") {
                 $genre = $book['trans_genre'];
                 if ($book['difficulty'] == "beginner") {

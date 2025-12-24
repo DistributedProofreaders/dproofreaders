@@ -46,7 +46,7 @@ INSERT INTO `project_events` VALUES (1,1451401587,'projectID5682a1735f76a','pm',
 
 INSERT INTO `projects` VALUES ('Demonology','Doe, John','English','pm','Match the scan, man!','html','projectID5682a1735f76a','','proofer',1451401669,1458275991,1451401587,1599454842,'','P1.proj_avail',NULL,'testingonly',NULL,1,'Other','average',0,'','',33,32,NULL,'_internal','pm','pm','',0,'','');
 
-INSERT INTO `user_profiles` VALUES (1,1,'default',1,0,0,0,0,1,0,0,'',50,40,65,1,0,0,0,'',35,6,70,1,0),(2,2,'default',1,0,0,0,0,1,0,0,'',50,40,65,1,0,0,0,'',35,6,70,1,0),(3,3,'default',1,0,0,0,0,1,0,2,'',50,40,65,1,0,0,0,'',35,6,70,1,0);
+INSERT INTO `user_profiles` VALUES (1,1,'default',0,0,0,0,'',50,40,65,1,0,0,0,'',35,6,70,1,0),(2,2,'default',0,0,0,0,'',50,40,65,1,0,0,0,'',35,6,70,1,0),(3,3,'default',0,0,0,2,'',50,40,65,1,0,0,0,'',35,6,70,1,0);
 
 INSERT INTO `user_project_info` VALUES ('proofer','projectID5682a1735f76a',1599454853,1599454842,0,0,0,0,0,0,0,0,0);
 

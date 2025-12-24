@@ -8,12 +8,8 @@ class NonexistentUserProfileException extends Exception
  * @property int $id;
  * @property int $u_ref;
  * @property string $profilename;
- * @property int $i_res;
  * @property int $i_type;
  * @property int $i_layout;
- * @property bool $i_toolbar;
- * @property bool $i_statusbar;
- * @property bool $i_newwin;
  * @property int $v_fnts;
  * @property int $v_fntf;
  * @property string $v_fntf_other;
