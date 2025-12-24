@@ -6,7 +6,6 @@ include_once($relPath.'LPage.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'Stopwatch.inc');
-include_once($relPath.'page_controls.inc');
 include_once($relPath.'post_files.inc');
 include_once("./word_freq_table.inc");
 
@@ -33,8 +32,7 @@ $header_args = [
     "js_modules" => [
         "$code_url/tools/project_manager/show_word_context.js",
     ],
-    "js_data" => get_proofreading_interface_data_js() . "
-        var showWordContext = $details;",
+    "js_data" => "var showWordContext = $details;",
 
     "body_attributes" => 'class="no-margin overflow-hidden" style="height: 100vh; width: 100vw;"',
 ];
