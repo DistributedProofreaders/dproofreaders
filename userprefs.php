@@ -2,7 +2,6 @@
 $relPath = "./pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
-include_once($relPath.'resolution.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'languages.inc'); // bilingual_name()
 include_once($relPath.'theme.inc');
@@ -443,8 +442,6 @@ function save_general_tab(User $user): void
 
 function echo_proofreading_tab(User $user): void
 {
-    global $i_resolutions;
-
     // see if they already have 10 profiles, etc.
     $profiles = UserProfile::load_user_profiles($user->u_id);
 
@@ -483,25 +480,6 @@ function echo_proofreading_tab(User $user): void
 
     echo "<tr>\n";
     show_preference(
-        _('Screen Resolution'),
-        'i_res',
-        'screenres',
-        $user->profile->i_res,
-        'dropdown',
-        $i_resolutions
-    );
-    show_preference(
-        _('Launch in New Window'),
-        'i_newwin',
-        'newwindow',
-        $user->profile->i_newwin,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
-    show_preference(
         _('Interface Type'),
         'i_type',
         'facetype',
@@ -509,17 +487,6 @@ function echo_proofreading_tab(User $user): void
         'radio_group',
         [0 => _("Standard"), 1 => _("Enhanced")]
     );
-    show_preference(
-        _('Show Toolbar'),
-        'i_toolbar',
-        'toolbar',
-        $user->profile->i_toolbar,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
-    );
-    echo "</tr>\n";
-
-    echo "<tr>\n";
     show_preference(
         _('Interface Layout'),
         'i_layout',
@@ -530,14 +497,6 @@ function echo_proofreading_tab(User $user): void
             1 => '<img src="tools/proofers/gfx/bt4.png" width="26" alt="'.attr_safe(_("Vertical")).'">',
             0 => '<img src="tools/proofers/gfx/bt5.png" width="26" alt="'.attr_safe(_("Horizontal")).'">',
         ]
-    );
-    show_preference(
-        _('Show Status Bar'),
-        'i_statusbar',
-        'statusbar',
-        $user->profile->i_statusbar,
-        'radio_group',
-        [1 => _("Yes"), 0 => _("No")]
     );
     echo "</tr>\n";
 
@@ -745,8 +704,8 @@ function save_proofreading_tab(User $user): void
     }
 
     $profile_fields = [
-        "profilename", "v_fntf_other", "h_fntf_other", "i_res", "i_type",
-        "i_layout", "i_newwin", "i_toolbar", "i_statusbar", "v_fntf", "v_fnts",
+        "profilename", "v_fntf_other", "h_fntf_other", "i_type",
+        "i_layout", "v_fntf", "v_fnts",
         "v_tframe", "v_tscroll", "v_tlines", "v_tchars", "v_twrap",
         "h_fntf", "h_fnts", "h_tframe", "h_tscroll", "h_tlines",
         "h_tchars", "h_twrap",
