@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* exported srchrep */
 
 var srchrep = (function () {

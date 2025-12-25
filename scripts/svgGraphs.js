@@ -1,6 +1,7 @@
 /* global d3 */
 /* exported barLineGraph, stackedAreaGraph, pieGraph */
 
+// eslint-disable-next-line no-unused-vars
 const { barLineGraph, stackedAreaGraph, pieGraph } = (function () {
     const margin = {
         top: 30,

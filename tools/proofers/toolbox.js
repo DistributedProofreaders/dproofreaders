@@ -1,4 +1,4 @@
-/*global */
+/* eslint-disable no-unused-vars */
 /* exported openToolboxPopup */
 
 var openedToolboxPopups = [];

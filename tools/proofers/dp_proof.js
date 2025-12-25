@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define, no-undef, camelcase */
+/* eslint-disable no-use-before-define, no-undef, camelcase, no-unused-vars */
 /* exported insertCharacter, surroundSelection, changeFontFamily, changeFontSize, showNW, replaceAllText, transformText, submitForm */
 // This variable is set by initializeStuff() in dp_scroll.js
 var docRef = null;
