@@ -1,5 +1,6 @@
 <?php
 include_once($relPath.'faq.inc');
+include_once("api_common.inc");
 
 /** @param array<string, string|string[]> $query_params */
 function api_v1_documents(string $method, array $data, array $query_params): array
@@ -14,10 +15,12 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
                 $docs_with_lang[] = $doc;
             }
         }
-        return $docs_with_lang;
+        $docs = $docs_with_lang;
     } else {
-        return array_keys($external_faq_overrides);
+        $docs = array_keys($external_faq_overrides);
     }
+    send_cache_header(60 * 60 * 24, "public");
+    return $docs;
 }
 
 /** @param array<string, string|string[]> $query_params */
@@ -29,6 +32,7 @@ function api_v1_document(string $method, array $data, array $query_params): stri
     if ("" === $faq_url) {
         throw new NotFoundError("$document is not available in language code '$lang_code'");
     }
+    send_cache_header(60 * 60 * 24, "public");
     return $faq_url;
 }
 
@@ -37,5 +41,6 @@ function api_v1_dictionaries(string $method, array $data, array $query_params): 
 {
     $dict_list = get_languages_with_dictionaries();
     asort($dict_list);
+    send_cache_header(60 * 60 * 24, "public");
     return $dict_list;
 }

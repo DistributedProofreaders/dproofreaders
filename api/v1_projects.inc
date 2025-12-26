@@ -887,6 +887,7 @@ function api_v1_project_wordcheck(string $method, array $data, array $query_para
 function api_v1_project_pickersets(string $method, array $data, array $query_params): array
 {
     $project = $data[":projectid"];
+    send_cache_header(60 * 60, "public");
     return $project->get_verbose_pickersets();
 }
 
