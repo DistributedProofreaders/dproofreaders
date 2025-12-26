@@ -24,3 +24,25 @@ function get_flag_value(array $query_params, string $flagname)
         return $bool;
     }
 }
+
+/**
+ * Send headers telling the client it's OK to cache the page
+ */
+function send_cache_header(int $cache_time, ?string $cache_type = "private", bool $immutable = true): void
+{
+    if ($cache_type && !in_array($cache_type, ["public", "private"])) {
+        throw new ValueError("Invalid value for 'cache_type'");
+    }
+
+    $cache_settings = ["max-age=$cache_time"];
+
+    if ($cache_type) {
+        $cache_settings[] = $cache_type;
+    }
+
+    if ($immutable) {
+        $cache_settings[] = "immutable";
+    }
+
+    header("Cache-Control: " . join(", ", $cache_settings));
+}
