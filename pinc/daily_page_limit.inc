@@ -31,11 +31,27 @@ include_once($relPath.'TallyBoard.inc');
  * page-tally for that round since the last snapshot.
  * (i.e., the net number of save-as-dones in that round today.)
  */
-function get_dpl_count_for_user_in_round($username, $round)
+function get_dpl_count_for_user_in_round(string $username, Round $round): int
 {
     $user = new User($username);
 
     $round_tallyboard = new TallyBoard($round->id, 'U');
 
     return $round_tallyboard->get_delta_since_latest_snapshot($user->u_id);
+}
+
+/**
+ * Get the current daily page limit enforcement value
+ *
+ * If the DPL is enforced for this user, it returns the number of pages
+ * the user has done in the specified round. If the DPL is not enforced
+ * for this user/round/project for some reason, return Null.
+ */
+function get_dpl_enforcement_for_user(string $username, Round $round, Project $project): ?int
+{
+    // This function is a placeholder for sites to add any per-project
+    // customizations that might bypass the DPL enforcement. So while it
+    // doesn't currently return null, it might after site-specific updates.
+
+    return get_dpl_count_for_user_in_round($username, $round);
 }
