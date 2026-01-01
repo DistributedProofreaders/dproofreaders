@@ -33,8 +33,6 @@ parameters:
           path: pinc/DifferenceEngineWrapper.inc
         - message: '#Call to function is_array\(\) with array<string> will always evaluate to true.#'
           path: pinc/3rdparty/mediawiki/WordLevelDiff.php
-        - message: '#Function get_dpl_enforcement_for_user\(\) never returns null.*#'
-          path: pinc/daily_page_limit.inc
 
         - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
         - message: '#Variable .* might not be defined#'

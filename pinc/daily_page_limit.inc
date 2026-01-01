@@ -49,9 +49,15 @@ function get_dpl_count_for_user_in_round(string $username, Round $round): int
  */
 function get_dpl_enforcement_for_user(string $username, Round $round, Project $project): ?int
 {
-    // This function is a placeholder for sites to add any per-project
-    // customizations that might bypass the DPL enforcement. So while it
-    // doesn't currently return null, it might after site-specific updates.
+    // pgdp-production - projects with some primary languages bypass DPL
+    $dpl_exempt_languages = [
+        "French",
+        "French, Middle (ca.1400-1600)",
+        "French, Old (842-ca.1400)",
+    ];
+    if (in_array($project->languages[0], $dpl_exempt_languages)) {
+        return null;
+    }
 
     return get_dpl_count_for_user_in_round($username, $round);
 }
