@@ -4,20 +4,20 @@
 /* Statsbar */
 
 #statsbar {
-    .left-align;
-    .top-align;
+    .left-align();
+    .top-align();
     width: 25%;
     padding: 0.5em;
     padding-left: 1em;
     display: table-cell;
-    .small;
+    .small();
     h2 {
-        .center-align;
+        .center-align();
         font-size: 1.5em;
     }
     .more-link {
-        .center-align;
-        .really-small;
+        .center-align();
+        .really-small();
         padding: 0 0 1em 0;
     }
 }
@@ -46,13 +46,13 @@
 @media only screen and (max-width: 768px) {
     #content-container {
         &.left-statsbar, &.right-statsbar {
-            .full-width;
+            .full-width();
         }
     }
 
     #statsbar {
         display: block;
-        .full-width;
+        .full-width();
         &.left-statsbar {
             display: block;
             order: 2;
@@ -69,57 +69,57 @@
 
 #statsbar #completed-titles,
 #statsbar #recent-titles {
-    .plain-list;
+    .plain-list();
     li {
         margin-top: 1em;
         line-height: 1.5em;
     }
     .title-listing {
-        .really-small;
+        .really-small();
     }
 }
 
 #completed-projects {
-    .center-align;
+    .center-align();
     table {
-        .no-border;
-        .no-cellpadding;
-        .no-cellspacing;
-        .full-width;
+        .no-border();
+        .no-cellpadding();
+        .no-cellspacing();
+        .full-width();
         .month {
             width: 60%;
-            .right-align;
+            .right-align();
         }
         .count {
             width: 40%;
-            .left-align;
+            .left-align();
         }
     }
 }
 
 #birthdays {
-    .center-align;
-    .plain-list;
+    .center-align();
+    .plain-list();
 }
 
 #tally-stats {
     margin-top: 1em;
     #server-time {
-        .center-align;
+        .center-align();
         padding: 0;
     }
     .this-user {
-        .bold;
+        .bold();
     }
 }
 
 #key-help-documents, #teams-nav {
-    .plain-list;
+    .plain-list();
     li {
         margin-top: 5px;
     }
 }
 
 #about-dp {
-    .small;
+    .small();
 }

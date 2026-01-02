@@ -63,7 +63,7 @@
         input, select, button {
             background-color: @text-pane-background;
             color: @text-pane-text;
-            .solid-border;
+            .solid-border();
         }
 
         input[type=submit]:disabled, input[type=button]:disabled, button:disabled {
@@ -89,17 +89,17 @@
 /* Standard Editing Interface */
 
 #standard_interface_image {
-    .no-padding;
-    .no-margin;
-    .page-interface;
+    .no-padding();
+    .no-margin();
+    .page-interface();
 
     #imagedisplay {
-        .center-align;
+        .center-align();
     }
 }
 
 #standard_interface_text {
-    .no-margin;
+    .no-margin();
     background-color: white;
     color: black;
     #editform {
@@ -140,30 +140,30 @@
 /* Enhanced Editing Interface */
 
 #enhanced_interface {
-    .center-align;
+    .center-align();
     overflow: hidden;
-    .page-interface;
+    .page-interface();
 
     #tbtext {
         margin-left: auto;
         margin-right: auto;
         border-collapse: collapse;
         overflow: auto;
-        .solid-border;
+        .solid-border();
     }
     #tdtop {
-        .middle-align;
+        .middle-align();
         padding: 2px;
-        .solid-border;
-        .page-interface .control-pane;
+        .solid-border();
+        .page-interface .control-pane();
     }
     #tdtext, #tdbottom {
-        .top-align;
-        .solid-border;
+        .top-align();
+        .solid-border();
         padding: 2px;
     }
     #tdtext {
-        .page-interface;
+        .page-interface();
     }
     #tdbottom {
         background-color: @control-pane-background;
@@ -174,7 +174,7 @@
     #text_data, #text_data:focus {
         padding: 2px;
         outline: none;
-        .page-interface .text-pane;
+        .page-interface .text-pane();
     }
     .dropsmall {
         font-size: 75%;
@@ -185,27 +185,27 @@
 /* WordCheck Interface */
 
 #wordcheck_interface {
-    .center-align;
+    .center-align();
     overflow: auto;
-    .page-interface;
+    .page-interface();
 
     #tbtext {
         margin-left: auto;
         margin-right: auto;
         padding: 10px;
-        .solid-border;
+        .solid-border();
     }
     #tdtop {
         padding: 2px;
-        .solid-border;
-        .page-interface .control-pane;
+        .solid-border();
+        .page-interface .control-pane();
     }
     #tdtext {
-        .top-align;
-        .left-align;
+        .top-align();
+        .left-align();
         padding: 0.5em;
-        .solid-border;
-        .page-interface .text-pane;
+        .solid-border();
+        .page-interface .text-pane();
         .proofingfont {
             input {
                 background-color: white;
@@ -224,10 +224,10 @@
 
     #wc_header {
         input, select {
-            .page-interface .text-pane;
+            .page-interface .text-pane();
         }
         button, input[type=submit], input[type=button] {
-            .button;
+            .button();
         }
         .dict-selection {
             margin: 5px;
@@ -238,8 +238,8 @@
                     display: inline;
                 }
                 .remove-language {
-                    .page-interface .text-pane;
-                    .solid-border;
+                    .page-interface .text-pane();
+                    .solid-border();
                     border-radius: 5px;
                     font-size: 0.9em;
                     display: inline;
@@ -264,7 +264,7 @@
 }
 .noWC {
     background-color: @noWC;
-    .bold;
+    .bold();
 }
 .WC {
     background-color: @WC;
@@ -274,13 +274,13 @@
 /* Format Preview */
 
 #format_preview {
-    .page-interface;
+    .page-interface();
 }
 
 .ilb {
    .solid-border(#404040);
     border-radius: 2px;
-    .page-interface .control-pane;
+    .page-interface .control-pane();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -295,14 +295,14 @@
 .fixedbox {
     flex: 0 0 auto;
     padding: 2px;
-    .page-interface .control-pane;
+    .page-interface .control-pane();
 }
 
 .stretchbox {
     flex: auto;
     min-height: 10px;
     overflow: auto;
-    .page-interface .text-pane;
+    .page-interface .text-pane();
 }
 
 .ws-pre {
@@ -321,7 +321,7 @@
 .control-frame {
     padding: 0;
     margin: 0;
-    .page-interface .control-pane;
+    .page-interface .control-pane();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -329,11 +329,11 @@
 
 #toolbox {
     padding: 2px;
-    .sans-serif;
-    .page-interface .control-pane;
+    .sans-serif();
+    .page-interface .control-pane();
 
     .selector_button {
-        .page-interface .control-pane .menu;
+        .page-interface .control-pane .menu();
         margin-top: 1px;
         font-size: 1em;
         padding: 0.1em 0.15em 0 0.15em;
@@ -342,7 +342,7 @@
     }
 
     .selected-tab {
-        .bold;
+        .bold();
         background-color: @text-pane-background;
         box-shadow: -1px -1px grey;
     }
@@ -445,7 +445,7 @@
         flex: 1 1 100%;
         min-height: 10px;
     }
-    .page-interface;
+    .page-interface();
 
     .control-pane {
         padding: 0 1em;
@@ -507,7 +507,7 @@
     input, select, button {
         background-color: @text-pane-background;
         color: @text-pane-text;
-        .solid-border;
+        .solid-border();
     }
 
     input[type=number] {
