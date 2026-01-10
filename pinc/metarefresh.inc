@@ -37,8 +37,15 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
     }
 
     // If $allow_external is FALSE and the URL isn't local, redirect the
-    // user to the homepage.
-    if (!$allow_external && !str_starts_with($absolute_url, $code_url)) {
+    // user to the homepage. Local is defined as the URLs having the same
+    // scheme, host, and port -- ignoring any path.
+    $absolute_url_parts = parse_url($absolute_url);
+    $code_url_parts = parse_url($code_url);
+    if (!$allow_external && !(
+        ($absolute_url_parts["scheme"] == $code_url_parts["scheme"]) &&
+        ($absolute_url_parts["host"] == $code_url_parts["host"]) &&
+        (($absolute_url_parts["port"] ?? "") == ($code_url_parts["port"] ?? ""))
+    )) {
         $absolute_url = "$code_url/index.php";
     }
 
