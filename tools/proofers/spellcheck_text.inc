@@ -49,6 +49,8 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $languages, $accept
     // prepare the text for checking, in this case change all EOLs to spaces
     $orig_text = str_replace('[lf]', ' ', $orig_text);
 
+    // If the user deselected all languages, then fully suppress all bad words in order to
+    // suppress all input boxes so that uncommon script highlighting covers the entire text.
     if (!empty($languages)) {
         [$badWordHash, $languages, $messages] =
             get_bad_word_levels_for_project_text($orig_text, $projectid, $languages, $accepted_words);
