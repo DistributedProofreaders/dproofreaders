@@ -55,7 +55,7 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $languages, $accept
         [$badWordHash, $languages, $messages] =
             get_bad_word_levels_for_project_text($orig_text, $projectid, $languages, $accepted_words);
     } else {
-        [$badWordHash, $languages, $messages] = [ [], [], [] ];
+        [$badWordHash, $languages, $messages] = [[], [], []];
     }
 
     [$uncommonScriptWords, $uncommonScripts] =
