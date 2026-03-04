@@ -59,7 +59,7 @@ class DifferenceEngineWrapperTable extends DifferenceEngineWrapper
 /**
  * Override default css for DP customizations
  */
-function get_DifferenceEngine_css_data()
+function get_DifferenceEngine_css_data($font_family)
 {
     return "
 .diff-otitle,
@@ -70,7 +70,7 @@ function get_DifferenceEngine_css_data()
 .diff-addedline,
 .diff-deletedline,
 .diff-context {
-    font-family: DP Sans Mono;
+    font-family: $font_family, monospace;
 }
 /* Adjust padding to prevent descenders from being chopped off. Task 1936 */
 .diff-deletedline .diffchange,

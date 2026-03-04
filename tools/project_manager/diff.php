@@ -26,6 +26,12 @@ $format = get_enumerated_param($_GET, "format", null, ["keep", "remove"], true);
 $only_nonempty_diffs = @$_GET['only_nonempty_diffs'] === 'on';
 $bb_diffs = (@$_GET['bb_diffs'] === 'on' and user_can_mentor_in_any_round());
 
+$user_diff_font = Settings::get_Settings(User::current_username())->get_value("diff_font", "DP Sans Mono");
+$diff_fonts = array_diff(array_values(get_available_proofreading_font_faces()), ['']);
+$diff_font = get_enumerated_param($_GET, "diff_font", $user_diff_font, $diff_fonts);
+if ($diff_font != $user_diff_font) {
+    Settings::get_Settings(User::current_username())->set_value("diff_font", $diff_font);
+}
 
 $project = new Project($projectid);
 $state = $project->state;
@@ -92,7 +98,7 @@ $title = sprintf(_('Difference for page %s'), $image);
 $image_url = "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=$image";
 $image_link = sprintf($link_text, new_window_link($image_url, $image));
 $extra_args = [
-    "css_data" => get_DifferenceEngine_css_data(),
+    "css_data" => get_DifferenceEngine_css_data($diff_font),
     "js_data" => "
         function copyToClip(textstring) {
             navigator.clipboard.writeText(textstring).catch(function () {alert('Unable to copy!');});
@@ -113,7 +119,8 @@ $navigation_text = get_navigation(
     $L_user,
     $format,
     $only_nonempty_diffs,
-    $bb_diffs
+    $bb_diffs,
+    $diff_font
 );
 echo $navigation_text;
 
@@ -183,8 +190,11 @@ function get_navigation(
     $L_user,
     $format,
     $only_nonempty_diffs,
-    $bb_diffs
+    $bb_diffs,
+    $diff_font
 ) {
+    global $diff_fonts;
+
     $navigation_text = "";
     $jump_to_js = "this.form.image.value=this.form.jumpto[this.form.jumpto.selectedIndex].value; this.form.submit();";
 
@@ -273,6 +283,17 @@ function get_navigation(
 
     $navigation_text .= "\n<input type='checkbox' name='only_nonempty_diffs' $checked_attribute id='only_nonempty_diffs' onclick='this.form.submit()'>\n";
     $navigation_text .= "\n<label for='only_nonempty_diffs'>" . html_safe(_('Skip empty diffs')) . "</label>\n";
+
+    $navigation_text .= "&nbsp;&middot;&nbsp;";
+
+    $navigation_text .= "\n<label for='diff_font'>" . html_safe(_('Font')) . ": </label>\n";
+    $navigation_text .= "\n<select name='diff_font' id='diff_font' onchange='this.form.submit()'>\n";
+    foreach ($diff_fonts as $font_family) {
+        $selected = $font_family == $diff_font ? "selected" : "";
+        $navigation_text .= "\n<option value='" . attr_safe($font_family) . "' $selected>" . html_safe($font_family) . "</option>";
+    }
+    $navigation_text .= "\n</select>";
+
     $navigation_text .= "\n</form>\n";
 
     return $navigation_text;
