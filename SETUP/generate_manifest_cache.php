@@ -7,12 +7,11 @@ if (php_sapi_name() == "cli") {
     throw new RuntimeException("Script is meant to be run via CLI");
 }
 
-if (! is_file("$relPath/base.inc")) {
+if (! is_file("$relPath/manifest.inc")) {
     throw new RuntimeException("First argument '$relPath' does not point to `pinc/` directory");
 }
 
-include_once($relPath."base.inc");
-include_once($relPath."html_page_common.inc");
+include_once($relPath."manifest.inc");
 
 $manifest = get_js_manifest($basedir);
 if (!$manifest) {
