@@ -7,13 +7,22 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R??????
+## R202603
 Scripts supporting this upgrade are in `SETUP/upgrade/24`
 
 ### Notices & Deprecations
 
-This is the last release to support PHP 8.1. Future releases will only
+This is the last release to support PHP 8.1 and 8.2. Future releases will only
 support PHP 8.3 and later.
+
+## Changes
+
+* Page data (`page_events`, `wordcheck_events`, etc) older than 1 year is now
+  pruned (cpeel)
+* Removed Greek quizzes and transliteration tool (mrducky4)
+* Access to project pages now requires authentication (cpeel)
+* Using Format Preview on a page is now tracked similar to WordCheck usage (cpeel)
+* Sitemap has been removed now that most pages require authentication (cpeel)
 
 ## R202509
 Scripts supporting this upgrade are in `SETUP/upgrade/23`
