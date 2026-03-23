@@ -2,12 +2,11 @@
 $relPath = '../../../pinc/';
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 class PageCompareTest extends PHPUnit\Framework\TestCase
 {
-    /**
-     * @dataProvider textProvider
-     */
-
+    #[DataProvider('textProvider')]
     public function testRemoveFormatting($formatted_file, $expected_result_file): void
     {
         $un_formatter = new PageUnformatter();
