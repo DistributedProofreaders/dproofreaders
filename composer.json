@@ -8,7 +8,7 @@
         "ezyang/htmlpurifier" : "v4.*",
         "erusev/parsedown": "1.8.0",
         "erusev/parsedown-extra": "0.9.0",
-        "voku/portable-utf8": "^6.0",
+        "voku/portable-utf8": "dev-master#c4b3774",
         "phpmailer/phpmailer": "^7.0",
         "vertilia/text": "^1.5",
         "nikic/php-parser": "^5.0",
