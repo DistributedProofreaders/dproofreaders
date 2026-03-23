@@ -16,8 +16,7 @@ The following lists supported versions for the four primary middleware
 components.
 
 ### PHP
-PHP version 8.1 is the minimum supported version although limited testing has been done
-on PHP versions < 8.3.
+PHP version 8.3 is the minimum supported version.
 
 The following PHP extensions are required. They are listed below with their
 Ubuntu system package names.
@@ -58,11 +57,11 @@ change `core.disable_super_globals` to `false`, and flush the phpbb cache.
 
 ## Distro support
 These middleware components match the following major distribution releases:
-* Ubuntu 20.04, Focal (with PHP 8.1 upgrade)
-* Ubuntu 22.04, Jammy
+* Ubuntu 20.04, Focal (with PHP 8.3 upgrade)
+* Ubuntu 22.04, Jammy (with PHP 8.3 upgrade)
 * Ubuntu 24.04, Noble
-* RHEL / CentOS 8.x family (with PHP 8.1 upgrade)
-* RHEL / CentOS 9.x family
+* RHEL / CentOS 8.x family (with PHP 8.3 upgrade)
+* RHEL / CentOS 9.x family (with PHP 8.3 upgrade)
 
 ## Browser support
 The following are the lowest known supported browser versions for the code:

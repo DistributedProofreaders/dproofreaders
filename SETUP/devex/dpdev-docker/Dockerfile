@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.3-apache
 
 # Set apt to noninteractive mode for the build.
 ARG DEBIAN_FRONTEND=noninteractive
