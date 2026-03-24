@@ -1208,7 +1208,7 @@ function get_distinct_words_in_text($text)
         foreach ($text as $index => $chunk) {
             $partial_text .= " $chunk";
             if (strlen($partial_text) >= $break_point || $index == count($text) - 1) {
-                foreach (array_count_values(get_all_words_in_text($partial_text)) as $word => $count) {
+                foreach (array_count_values(get_all_words_in_text($partial_text)) as $word => $count) {  // @phpstan-ignore foreach.emptyArray
                     @$input_words_w_freq[$word] += $count;
                 }
                 $partial_text = "";
