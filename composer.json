@@ -6,20 +6,19 @@
     "minimum-stability": "stable",
     "require": {
         "ezyang/htmlpurifier" : "v4.*",
-        "erusev/parsedown": "1.8.0-beta-7",
-        "erusev/parsedown-extra": "0.8.0",
-        "voku/portable-utf8": "^6.0",
-        "phpmailer/phpmailer": "^6.8",
+        "erusev/parsedown": "1.8.0",
+        "erusev/parsedown-extra": "0.9.0",
+        "voku/portable-utf8": "dev-master#c4b3774",
+        "phpmailer/phpmailer": "^7.0",
         "vertilia/text": "^1.5",
         "nikic/php-parser": "^5.0",
-        "symfony/process": "^6.0",
-        "symfony/polyfill-php82": "^1.31",
-        "symfony/polyfill-php83": "^1.31",
-        "symfony/polyfill-php84": "^1.31"
+        "symfony/process": "^7.0",
+        "symfony/polyfill-php84": "^1.31",
+        "symfony/polyfill-php85": "^1.33"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.57",
-        "phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^12.0",
         "phpstan/phpstan": "^2.1.31"
     },
     "replace": {
@@ -33,6 +32,8 @@
         "symfony/polyfill-php74": "*",
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-intl-grapheme": "*",
         "symfony/polyfill-intl-normalizer": "*",
@@ -40,7 +41,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.1"
+            "php": "8.3"
         }
     }
 }
