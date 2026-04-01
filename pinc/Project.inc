@@ -1367,8 +1367,8 @@ class Project
             'pp' => $this->postproofer,     // username
             'ip' => $this->image_preparer,  // username
             'tp' => $this->text_preparer,   // username
-            'ec' => $this->extra_credits,   // arbitrary text
-            'cp' => $this->scannercredit,    // username or arbitrary text
+            'ec' => trim($this->extra_credits), // arbitrary text
+            'cp' => trim($this->scannercredit), // username or arbitrary text
         ];
 
         foreach ($creditables as $role => $name) {
@@ -1961,7 +1961,7 @@ function get_credit_name(string $login_name): string
             $name = $login_name;
         }
     }
-    return $name;
+    return trim($name);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
