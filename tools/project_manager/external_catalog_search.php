@@ -98,7 +98,6 @@ if ($action == 'show_query_form') {
 
 function show_query_form()
 {
-    global $code_url;
     global $search_params;
     global $PGLAF_inprogress_url;
 
@@ -128,9 +127,8 @@ function show_query_form()
         echo _("Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.");
         echo "</p><p>";
         echo sprintf(
-            _("This catalog search does not check for duplicates. Before creating a project, <strong>please check for duplicates</strong> using <a href='%1\$s'>PG's In Progress search</a> and <a href='%2\$s'>DP's Project Search</a>!"),
-            $PGLAF_inprogress_url,
-            "$code_url/tools/search.php"
+            _("This catalog search does not check for duplicates. Before creating a project, <strong>please check for duplicates</strong> using <a href='%s'>PG's In Progress search</a>!"),
+            $PGLAF_inprogress_url
         );
         echo "</p>";
 
