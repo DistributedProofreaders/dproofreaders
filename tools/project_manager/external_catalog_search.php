@@ -7,7 +7,7 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'MARCRecord.inc');
-
+include_once($relPath.'pg.inc');
 
 $title_attrs = [
     // Bib-1 Use, Title (attribute 4)
@@ -99,6 +99,7 @@ if ($action == 'show_query_form') {
 function show_query_form()
 {
     global $search_params;
+    global $PGLAF_inprogress_url;
 
     $title = _("Create a Project");
     output_header($title);
@@ -124,6 +125,11 @@ function show_query_form()
 
         echo "<p>";
         echo _("Please put in as much information as possible to search for your project.  The more information the better but if not accurate enough may rule out results.");
+        echo "</p><p>";
+        echo sprintf(
+            _("This catalog search does not check for duplicates. Before creating a project, <strong>please check for duplicates</strong> using <a href='%s'>PG's In Progress search</a>!"),
+            $PGLAF_inprogress_url
+        );
         echo "</p>";
 
         $url = "external_catalog_search.php?" . search_query_params();

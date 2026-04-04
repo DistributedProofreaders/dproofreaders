@@ -6,6 +6,7 @@ global $PG_home_url;
 $PG_home_url = "https://www.gutenberg.org";
 $PG_faq_url = "https://www.gutenberg.org/help/faq.html";
 $PGLAF_upload_url = "https://upload.pglaf.org";
+$PGLAF_inprogress_url = "https://inprogress.pglaf.org";
 
 // -----------------------------------------------------------------------------
 
