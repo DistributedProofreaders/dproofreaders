@@ -61,8 +61,8 @@ $field_info = [
     "246" => ["tooltip" => "Varying Form of Title", "url" => "$loc_bib/bd246.html"],
     "247" => ["tooltip" => "Former Title", "url" => "$loc_bib/bd247.html"],
     "250" => ["tooltip" => "Edition Statement", "url" => "$loc_bib/bd250.html"],
-    "257" => ["tooltip" => "Edition Statement", "url" => "$loc_bib/bd250.html"],
-    "260" => ["tooltip" => "Country of Producing Entity", "url" => "$loc_bib/bd257.html"],
+    "257" => ["tooltip" => "Country of Producing Entity", "url" => "$loc_bib/bd257.html"],
+    "260" => ["tooltip" => "Publication, Distribution, etc. (Imprint)", "url" => "$loc_bib/bd260.html"],
     "264" => ["tooltip" => "Production, Publication, Distribution, Manufacture, and Copyright Notice", "url" => "$loc_bib/bd264.html"],
     "300" => ["tooltip" => "Physical Description", "url" => "$loc_bib/bd300.html"],
     "336" => ["tooltip" => "Content Type", "url" => "$loc_bib/bd336.html"],
@@ -105,6 +105,9 @@ $field_info = [
     "740" => ["tooltip" => "Added Entry - Uncontrolled Related/Analytical Title", "url" => "$loc_bib/bd740.html"],
     "800" => ["tooltip" => "Series Added Entry - Personal Name", "url" => "$loc_bib/bd800.html"],
     "856" => ["tooltip" => "Electronic Location and Access", "url" => "$loc_bib/bd856.html"],
+    "906" => ["tooltip" => "OCLC Locally Defined"],
+    "925" => ["tooltip" => "OCLC Locally Defined"],
+    "955" => ["tooltip" => "OCLC Locally Defined"],
 ];
 
 echo "<table class='basic striped'>\n";
@@ -118,7 +121,7 @@ foreach ($record as $r) {
         if (array_key_exists($field, $field_info)) {
             $info = $field_info[$field];
             $attr = " class='bold' title='" . attr_safe($info["tooltip"]) . "'";
-            if (array_key_exists("url", $info)) {  /** @phpstan-ignore-line */
+            if (array_key_exists("url", $info)) {
                 $match[2] = "<a href='{$info['url']}'{$attr}>{$field}</a>";
             } else {
                 $match[2] = "<span {$attr}>{$field}</span>";
