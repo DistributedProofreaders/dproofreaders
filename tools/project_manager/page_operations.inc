@@ -21,12 +21,29 @@ function page_del($projectid, $image)
         return _("There is no page with that imagename.");
     }
 
+    // Delete related page records from events tables.
+    // Note that we don't delete the page_events records to retain the fact
+    // that this page at one point existed and had operations done against it.
+    // Indeed, the delete operation below will add a delete event_type.
+    foreach (["wordcheck_events", "format_preview_events"] as $table_name) {
+        $query = sprintf(
+            "
+            DELETE FROM %s
+            WHERE projectid = '%s' AND image = '%s'
+            ",
+            $table_name,
+            DPDatabase::escape($projectid),
+            DPDatabase::escape($image)
+        );
+        DPDatabase::query($query);
+    }
+
     global $pguser;
     Page_delete($projectid, $image, $pguser);
 
     // Delete the image file from the project directory.
-    global $projects_dir;
-    $image_path = "$projects_dir/$projectid/$image";
+    $project = new Project($projectid);
+    $image_path = "$project->dir/$image";
     if (! unlink($image_path)) {
         return sprintf(_('Unable to remove file %s'), $image_path);
     }
