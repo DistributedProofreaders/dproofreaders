@@ -666,7 +666,11 @@ function _test_project_for_valid_clearance($projectid)
     $test_name = _("Clearance");
     $test_desc = _("This test checks if the project has a clearance in a valid form. This doesn't mean that the clearance itself is good, just that it looks like it could be.");
 
-    $details = "<p><b>" . _("Clearance Line") . "</b>: " . html_safe($clearance) . "</p>";
+    if ($project->clearance_line_can_be_seen_by_current_user()) {
+        $details = "<p><b>" . _("Clearance Line") . "</b>: " . html_safe($clearance) . "</p>";
+    } else {
+        $details = "<p class='warning'>" . _("You are not authorized to see the clearance line.") . "</p>";
+    }
 
     $valid_pattern_1 = '/^20[0-9]{12}[a-z]+\.?$/';
     $valid_pattern_2 = '/^gbn[0-9]/';
