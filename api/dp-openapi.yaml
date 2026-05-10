@@ -1361,7 +1361,7 @@ paths:
               schema:
                 type: object
                 additionalProperties:
-                  $ref: '#/components/schemas/round_stats'
+                  $ref: '#/components/schemas/site_round_stats'
 
   /stats/site/rounds/{roundid}:
     get:
@@ -1381,7 +1381,55 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/round_stats'
+                $ref: '#/components/schemas/site_round_stats'
+
+  /stats/user/{username}/rounds:
+    get:
+      tags:
+      - stats
+      description: Gets the user statistics for all rounds
+      parameters:
+      - name: username
+        in: path
+        description: Username
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Requested round statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/user_round_stats'
+
+  /stats/user/{username}/rounds/{roundid}:
+    get:
+      tags:
+      - stats
+      description: Gets the user statistics for a round
+      parameters:
+      - name: username
+        in: path
+        description: Username
+        required: true
+        schema:
+          type: string
+      - name: roundid
+        in: path
+        description: Round ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Requested round statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_round_stats'
 
   /documents:
     get:
@@ -1898,7 +1946,7 @@ components:
       description: Project statistics by state/stage
         Keys are state/stage ID, values are the number of projects in that state
 
-    round_stats:
+    site_round_stats:
       type: object
       properties:
         today_goal:
@@ -1923,6 +1971,23 @@ components:
           type: integer
           readOnly: true
       description: Statistics for a round
+
+    user_round_stats:
+      type: object
+      properties:
+        pages_today:
+          type: integer
+          readOnly: true
+        pages_yesterday:
+          type: integer
+          readOnly: true
+        pages_total:
+          type: integer
+          readOnly: true
+        current_rank:
+          type: integer
+          readOnly: true
+      description: User statistics for a round
 
     wordlist:
       type: array

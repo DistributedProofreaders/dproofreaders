@@ -160,3 +160,56 @@ function api_v1_stats_site_round(string $method, array $data, array $query_param
 
     return render_round_stats($round->id);
 }
+
+//---------------------------------------------------------------------------
+// stats/user/:username/rounds
+
+function render_round_user_stats(User $user, Round $round)
+{
+    if (!user_is_a_sitemanager()) {
+        if ($user->username != User::current_username()) {
+            throw new UnauthorizedError("You do not have permission to view stats for another user");
+        }
+    }
+
+    $tallyboard = new TallyBoard($round->id, 'U');
+
+    $current_tally = $tallyboard->get_current_tally($user->u_id);
+    $current_rank = $tallyboard->get_rank($user->u_id);
+
+    $snapshot_info = $tallyboard->get_info_from_latest_snapshot($user->u_id);
+    $yesterday_page_delta = $snapshot_info['tally_delta'];
+    $today_page_delta = $current_tally - $snapshot_info['tally_value'];
+
+    return [
+        "pages_today" => (int)$today_page_delta,
+        "pages_yesterday" => (int)$yesterday_page_delta,
+        "pages_total" => (int)$current_tally,
+        "current_rank" => (int)$current_rank,
+    ];
+}
+
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_user_rounds(string $method, array $data, array $query_params)
+{
+    $user = $data[":username"];
+
+    $return = [];
+    foreach (Rounds::get_all() as $round) {
+        $return[$round->id] = render_round_user_stats($user, $round);
+    }
+    return $return;
+}
+
+
+//---------------------------------------------------------------------------
+// stats/user/:username/rounds/:roundid
+//
+/** @param array<string,string|string[]> $query_params */
+function api_v1_stats_user_round(string $method, array $data, array $query_params)
+{
+    $user = $data[":username"];
+    $round = $data[":roundid"];
+
+    return render_round_user_stats($user, $round);
+}

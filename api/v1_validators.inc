@@ -98,3 +98,12 @@ function validate_storage_key(string $storage_key, array $data): string
     }
     return $storage_key;
 }
+
+function validate_username(string $username): User
+{
+    try {
+        return new User($username);
+    } catch (NonexistentUserException | NonuniqueUserException $exception) {
+        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+    }
+}
