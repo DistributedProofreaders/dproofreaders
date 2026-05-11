@@ -285,10 +285,13 @@ class ProjectInfoHolder
         if (user_is_a_sitemanager()) {
             $this->project->username = @$_POST['username'];
         } elseif (user_is_proj_facilitator()) {
-            // PFs can create a project in which case the project should
-            // be assigned to them. For existing projects, theirs or others,
-            // they can't change the PM.
-            if (!$this->project->projectid) {
+            // If a PF clones a project, keep the original PM.
+            // If they create a new project, assign it to them, otherwise
+            // the PM is unchanged.
+            if (isset($this->clone_projectid)) {
+                $orig_project = new Project($this->clone_projectid);
+                $this->project->username = $orig_project->username;
+            } elseif (!$this->project->projectid) {
                 $this->project->username = $pguser;
             }
         } else {
