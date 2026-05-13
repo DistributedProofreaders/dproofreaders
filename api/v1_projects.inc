@@ -70,8 +70,13 @@ function api_v1_projects(string $method, array $data, array $query_params)
     foreach ($query as $field => $values) {
         $values = array_map("DPDatabase::escape", $values);
         $column_name = $valid_fields[$field];
-
-        if (in_array($field, ["author", "title", "languages", "clearance"])) {
+        // Languages occur as one language or two and are stored as
+        // "Lang1" or "Lang1 with Lang2" in projects.language.
+        // See Project.inc:encode_languages
+        if ($field == "languages") {
+            $column_name = "language";
+        }
+        if (in_array($field, ["author", "title", "language", "clearance"])) {
             $likes_str = surround_and_join($values, "$column_name LIKE '%", "%'", ' OR ');
             $where .= " AND ($likes_str)";
         } else {
