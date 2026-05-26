@@ -7,7 +7,7 @@ This directory holds web fonts we make available to all DP users.
 [DP Sans Mono](https://www.pgdp.net/wiki/DP_Sans_Mono) is a font created by
 DP volunteer lvl with feedback from numerous other volunteers. It is derived
 from DejaVu Sans Mono (see below) and is under the
-[DP Sans Mono License](DP%20Sans%20Mono%20License.txt). This is version "Draft 14".
+[DP Sans Mono License](DP%20Sans%20Mono%20License.txt). This is version "Draft 17".
 
 Various characters have been tweaked to help disambiguate them from
 similar-looking characters.
@@ -17,6 +17,8 @@ This font is the spiritual successor to DPCustomMono2.
 The font is available as a
 [True-Type Font](https://github.com/DistributedProofreaders/dproofreaders/raw/master/styles/fonts/DPSansMono.ttf)
 for download and local install.
+
+The WOFF and WOFF2 formats were created from the TTF with https://fontsource.org/tools/converter
 
 # DejaVu Sans Mono
 
