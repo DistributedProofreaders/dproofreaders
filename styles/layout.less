@@ -1088,10 +1088,15 @@ table.availprojectlisting {
         th {
             .bold();
             .left-align();
-            .solid-border-bottom();
             img {
                 border: 0;
             }
+            /* Sticky header, solid bg, bottom shadow */
+            position: sticky;
+            top: -1px;
+            z-index: 10;
+            background: inherit;
+            box-shadow: 0 1px 0 @border-color-base;
         }
         td {
             .solid-border-bottom(@border-color-base-mediumc);
@@ -1249,11 +1254,15 @@ table.themed {
             padding: 0.1em;
         }
         th {
-            background-color: @navbar-background;
+            background: @navbar-background;
             color: @navbar-text;
             a:link, a:visited {
                 color: @navbar-text;
             }
+            /* Sticky header, solid bg, bottom shadow */
+            position: sticky;
+            top: -1px;
+            z-index: 10;
         }
     }
 }
