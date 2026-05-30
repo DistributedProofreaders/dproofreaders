@@ -176,7 +176,8 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
     // it. Most notably, the `php -S` CLI server we use for testing.
     // See https://www.php.net/manual/en/reserved.variables.server.php
     $proto = !empty($_SERVER['HTTPS'] ?? '') ? 'https://' : 'http://';
-    $script_uri = $proto . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $url_path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $script_uri = $proto . $_SERVER['HTTP_HOST'] . $url_path;
     $link_base = $script_uri . "?";
     if (stripos($link_base, $_GET["url"]) === false) {
         $link_base .= "url=" . $_GET["url"] . "&";
