@@ -2154,7 +2154,12 @@ table.availprojectlisting tr th {
 table.availprojectlisting tr th {
   font-weight: bold;
   text-align: left;
-  border-bottom: thin solid #000000;
+  /* Sticky header, solid bg, bottom shadow */
+  position: sticky;
+  top: -1px;
+  z-index: 10;
+  background: inherit;
+  box-shadow: 0 1px 0 #000000;
 }
 table.availprojectlisting tr th img {
   border: 0;
@@ -2321,8 +2326,12 @@ table.themed tr td {
   padding: 0.1em;
 }
 table.themed tr th {
-  background-color: #000099;
+  background: #000099;
   color: #ffffff;
+  /* Sticky header, solid bg, bottom shadow */
+  position: sticky;
+  top: -1px;
+  z-index: 10;
 }
 table.themed tr th a:link,
 table.themed tr th a:visited {
