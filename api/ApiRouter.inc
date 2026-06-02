@@ -64,18 +64,20 @@ class ApiRouter
         $node = $this->root;
         $data = [];
         $parts = explode("/", $url);
+        $path = "";
         foreach ($parts as $part) {
             $next_node = $node->children[$part] ?? null;
             if ($next_node) {
                 $node = $next_node;
             } else {
-                [$param_name, $validator] = $this->get_validator($node);
+                [$param_name, $validator] = $this->get_validator($path, $part, $node);
                 $node = $node->children[$param_name];
                 $data[$param_name] = $validator($part, $data);
             }
+            $path = "$path/$part";
         }
         if (empty($node->handlers)) {
-            throw new InvalidAPI();
+            throw new InvalidAPI($path, null, array_keys($node->children));
         }
         $method = $_SERVER["REQUEST_METHOD"];
         $handler = $node->handlers[$method] ?? null;
@@ -92,14 +94,19 @@ class ApiRouter
     }
 
     /** @return array{0: string, 1: callable} */
-    private function get_validator(TrieNode $node): array
+    private function get_validator(string $path, string $part, TrieNode $node): array
     {
-        foreach (array_keys($node->children) as $route) {
+        if (isset($node->children)) {
+            $children = array_keys($node->children);
+        } else {
+            $children = [];
+        }
+        foreach ($children as $route) {
             if (str_starts_with($route, ":")) {
                 return [$route, $this->_validators[$route]];
             }
         }
-        throw new InvalidAPI();
+        throw new InvalidAPI($path, $part, $children);
     }
 
     /** @return mixed */
