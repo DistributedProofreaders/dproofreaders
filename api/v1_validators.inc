@@ -14,7 +14,7 @@ function validate_stage(string $stageid, array $_data): Stage
         }
         return $stage;
     } catch (InvalidValue $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
 }
 
@@ -27,7 +27,7 @@ function validate_round(string $roundid, array $_data): Round
         }
         return $round;
     } catch (InvalidValue $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
 }
 
@@ -37,7 +37,7 @@ function validate_project(string $projectid, array $_data): Project
     try {
         return new Project($projectid);
     } catch (NonexistentProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
 }
 
@@ -54,7 +54,7 @@ function validate_page_name(string $pagename, array $data): ProjectPage
     try {
         return $data[":projectid"]->get_project_page($pagename);
     } catch (NonexistentPageException | NoProjectPageTable $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
 }
 
@@ -68,7 +68,7 @@ function validate_page_round(string $pageround, array $_data): string
         }
         return $pageround;
     } catch (InvalidPageRoundException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
 }
 
@@ -104,6 +104,6 @@ function validate_username(string $username): User
     try {
         return new User($username);
     } catch (NonexistentUserException | NonuniqueUserException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
 }

@@ -264,7 +264,7 @@ function create_or_update_project(Project $project)
 
         $project->validate(true);
     } catch (ProjectException $exception) {
-        throw new InvalidValue($exception->getMessage(), $exception->getCode());
+        throw InvalidValue::fromException($exception);
     }
 
     // validate charsuites
@@ -513,7 +513,7 @@ function api_v1_project_pages(string $method, array $data)
             ];
         }
     } catch (NoProjectPageTable $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
     return $return_data;
 }
@@ -545,7 +545,7 @@ function api_v1_project_pagedetails(string $method, array $data, array $query_pa
     try {
         $rounds_to_display = get_rounds_to_display($project);
     } catch (NoProjectPageTable $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     }
     if (!is_null($only_rounds)) {
         $rounds_to_display = array_intersect($rounds_to_display, $only_rounds);
@@ -849,9 +849,9 @@ function api_v1_project_checkout(string $method, array $data, array $query_param
         $proof_project = new ProofProject($project);
         return $proof_project->checkout();
     } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     } catch (UserAccessException $exception) {
-        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+        throw ForbiddenError::fromException($exception);
     }
 }
 
@@ -933,9 +933,9 @@ function api_v1_project_page(string $method, array $data, array $query_params)
                 throw new BadRequest("$page_action is not a valid page action.");
         }
     } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     } catch (UserAccessException $exception) {
-        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+        throw ForbiddenError::fromException($exception);
     }
 }
 
@@ -950,9 +950,9 @@ function api_v1_project_page_format_preview(string $method, array $data): void
 
         $proof_project_page->fp_report();
     } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     } catch (UserAccessException $exception) {
-        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+        throw ForbiddenError::fromException($exception);
     }
 }
 
@@ -976,11 +976,11 @@ function api_v1_project_page_report_bad(string $method, array $data): void
         }
         $proof_project_page->markAsBad($pguser, $reason_key);
     } catch (ProjectTransitionException $exception) {
-        throw new UnexpectedError($exception->getMessage(), $exception->getCode());
+        throw UnexpectedError::fromException($exception);
     } catch (ProjectException $exception) {
-        throw new BadRequest($exception->getMessage(), $exception->getCode());
+        throw BadRequest::fromException($exception);
     } catch (UserAccessException $exception) {
-        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+        throw ForbiddenError::fromException($exception);
     }
 }
 
@@ -995,9 +995,9 @@ function api_v1_project_page_wordcheck(string $method, array $data): void
 
         $proof_project_page->wc_report(receive_data_from_request_body("accepted_words") ?? []);
     } catch (ProjectException $exception) {
-        throw new NotFoundError($exception->getMessage(), $exception->getCode());
+        throw NotFoundError::fromException($exception);
     } catch (UserAccessException $exception) {
-        throw new ForbiddenError($exception->getMessage(), $exception->getCode());
+        throw ForbiddenError::fromException($exception);
     }
 }
 
