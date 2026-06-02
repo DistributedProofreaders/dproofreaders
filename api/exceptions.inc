@@ -14,6 +14,11 @@ class ApiException extends Exception
     ) {
         parent::__construct($message, $code);
     }
+
+    public static function fromException(Exception $e): self
+    {
+        return new self($e->getMessage(), $e->getCode());
+    }
 }
 
 //---------------------------------------------------------------------------
