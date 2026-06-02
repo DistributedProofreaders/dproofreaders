@@ -89,8 +89,10 @@ class InvalidAPI extends ApiException
 
 class MethodNotAllowed extends ApiException
 {
-    public function __construct(string $message = "API endpoint doesn't support this method", int $code = 9)
+    public function __construct(string $url, string $invalid, array $valids, $code = 9)
     {
+        $valid = implode(", ", $valids);
+        $message = "API endpoint $url: Method $invalid not supported. Valid methods: $valid.";
         parent::__construct($message, $code, 405);
     }
 }

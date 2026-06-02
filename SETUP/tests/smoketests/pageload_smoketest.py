@@ -71,6 +71,14 @@ API_TESTS = [
     {'path': 'api/index.php?url=v1/stats/site/rounds/P3'},
 ]
 
+API_INVALID_TESTS = [
+    {
+        'method': 'DELETE',
+        'path': 'api/index.php?url=v1/projects',
+        'expect_status': 405
+    },
+]
+
 FAQ_TESTS = [
     {'path': 'faq/doc-copy.php'},
     {'path': 'faq/font_sample.php'},
@@ -450,6 +458,7 @@ WEB_TESTS = (
     NOLOGIN_TESTS +
     BASE_TESTS +
     API_TESTS +
+    API_INVALID_TESTS +
     FAQ_TESTS +
     MISC_TESTS +
     QUIZ_TESTS +
