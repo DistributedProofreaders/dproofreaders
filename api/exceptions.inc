@@ -59,6 +59,14 @@ class InvalidValue extends ApiException
     }
 }
 
+class InvalidParam extends ApiException
+{
+    public function __construct(string $message = "Request contained an invalid parameter", int $code = 12)
+    {
+        parent::__construct($message, $code, 400);
+    }
+}
+
 class ForbiddenError extends ApiException
 {
     public function __construct(string $message = "Forbidden", int $code = 7)

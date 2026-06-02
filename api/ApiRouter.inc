@@ -84,7 +84,16 @@ class ApiRouter
         if (!$handler) {
             throw new MethodNotAllowed($url, $method, array_keys($node->handlers));
         }
-        $this->_response = $handler($method, $data, $query_params);
+        $ref = new ReflectionFunction($handler);
+        if ($ref->getNumberOfParameters() == 2) {
+            if (!empty($query_params)) {
+                $err = "API endpoint $path takes no query parameters, but was called with " . implode(", ", array_keys($query_params));
+                throw new InvalidParam($err);
+            }
+            $this->_response = $handler($method, $data);
+        } else {
+            $this->_response = $handler($method, $data, $query_params);
+        }
         return $this->_response;
     }
 
