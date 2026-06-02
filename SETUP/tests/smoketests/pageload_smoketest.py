@@ -77,6 +77,18 @@ API_INVALID_TESTS = [
         'path': 'api/index.php?url=v1/projects',
         'expect_status': 405
     },
+    {
+        'path': 'api/index.php?url=v1/projectz/projectID5e23a810ef693/wordcheck',
+        'expect_status': 404
+    },
+    {
+        'path': 'api/index.php?url=v1/projects/projectID5e23a810ef693/wordcheck/ai',
+        'expect_status': 404
+    },
+    {
+        'path': 'api/index.php?url=v1/stats',
+        'expect_status': 404
+    },
 ]
 
 FAQ_TESTS = [

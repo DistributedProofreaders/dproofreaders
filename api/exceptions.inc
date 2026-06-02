@@ -81,8 +81,20 @@ class UnexpectedError extends ApiException
 
 class InvalidAPI extends ApiException
 {
-    public function __construct(string $message = "Invalid API path", int $code = 8)
+    public function __construct(string $url, ?string $part, array $children, int $code = 8)
     {
+        if (is_null($part)) {
+            $err = "is missing a part";
+        } else {
+            $err = "has no part $part";
+        }
+
+        if (!empty($children)) {
+            $dym = " Valid child parts: " .implode(", ", $children) . ".";
+        } else {
+            $dym = "";
+        }
+        $message = "API endpoint $url $err.$dym";
         parent::__construct($message, $code, 404);
     }
 }
