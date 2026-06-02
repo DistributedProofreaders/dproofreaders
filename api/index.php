@@ -244,7 +244,7 @@ function handle_cors_headers()
 function production_exception_handler($exception)
 {
     if ($exception instanceof ApiException) {
-        $response_code = $exception->getStatusCode();
+        $response_code = $exception->status_code;
     } else {
         $response_code = 500;
     }
