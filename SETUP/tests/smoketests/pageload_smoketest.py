@@ -89,6 +89,16 @@ API_INVALID_TESTS = [
         'path': 'api/index.php?url=v1/stats',
         'expect_status': 404
     },
+    {
+        'method': 'PUT',
+        'path': 'api/index.php?url=v1/projects/projectID5e23a810ef693/checkout&state=wibble',
+        'expect_status': 400
+    },
+    {
+        'method': 'PUT',
+        'path': 'api/index.php?url=v1/projects/projectID5e23a810ef693/pages/042.png&state=F1.proj_avail&pagestate=wibble',
+        'expect_status': 400
+    },
 ]
 
 FAQ_TESTS = [

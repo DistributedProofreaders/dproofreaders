@@ -1019,8 +1019,10 @@ function validate_project_state(Project $project, ?string $state): void
     if (null === $state) {
         throw new InvalidValue("No project state found in request.");
     }
-    if (!in_array($state, ProjectStates::get_states())) {
-        throw new InvalidValue("Invalid project state");
+    $valid = ProjectStates::get_states();
+    if (!in_array($state, $valid)) {
+        $valid = "Valid states: " . implode(", ", $valid) . ".";
+        throw new InvalidValue("Invalid project state $state. $valid");
     }
     if ($state != $project->state) {
         $err = sprintf(
@@ -1038,8 +1040,10 @@ function validate_page_state(ProjectPage $project_page, ?string $page_state): vo
     if (null === $page_state) {
         throw new InvalidValue("No page state found in request.");
     }
-    if (!in_array($page_state, Rounds::get_page_states())) {
-        throw new InvalidValue(sprintf("%s is not a valid page state", $page_state));
+    $valid = Rounds::get_page_states();
+    if (!in_array($page_state, $valid)) {
+        $valid = "Valid states: " . implode(", ", $valid) . ".";
+        throw new InvalidValue("Invalid page state $page_state. $valid");
     }
     if ($page_state != $project_page->page_state) {
         $err = sprintf(
