@@ -80,7 +80,7 @@ class ApiRouter
         $method = $_SERVER["REQUEST_METHOD"];
         $handler = $node->handlers[$method] ?? null;
         if (!$handler) {
-            throw new MethodNotAllowed();
+            throw new MethodNotAllowed($url, $method, array_keys($node->handlers));
         }
         $this->_response = $handler($method, $data, $query_params);
         return $this->_response;
