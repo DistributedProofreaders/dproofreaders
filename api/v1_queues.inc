@@ -56,8 +56,7 @@ function api_v1_queues(string $method, array $data, array $query_params): array
 
 //---------------------------------------------------------------------------
 // queues/:queueid -- return release queue info
-/** @param array<string,string|string[]> $query_params */
-function api_v1_queue(string $method, array $data, array $query_params): array
+function api_v1_queue(string $method, array $data): array
 {
     $queue = $data[":queueid"];
 
@@ -66,8 +65,7 @@ function api_v1_queue(string $method, array $data, array $query_params): array
 
 //---------------------------------------------------------------------------
 // queue/:queueid/stats -- return release queue stats
-/** @param array<string,string|string[]> $query_params */
-function api_v1_queue_stats(string $method, array $data, array $query_params): array
+function api_v1_queue_stats(string $method, array $data): array
 {
     $queue = $data[":queueid"];
 

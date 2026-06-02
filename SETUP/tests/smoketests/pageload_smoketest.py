@@ -99,6 +99,10 @@ API_INVALID_TESTS = [
         'path': 'api/index.php?url=v1/projects/projectID5e23a810ef693/pages/042.png&state=F1.proj_avail&pagestate=wibble',
         'expect_status': 400
     },
+    {
+        'path': 'api/index.php?url=v1/dictionaries&param1=invalid&param2',
+        'expect_status': 400
+    },
 ]
 
 FAQ_TESTS = [
