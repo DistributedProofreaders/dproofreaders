@@ -103,6 +103,10 @@ API_INVALID_TESTS = [
         'path': 'api/index.php?url=v1/dictionaries&param1=invalid&param2',
         'expect_status': 400
     },
+    {
+        'path': 'api/index.php?url=v1/projects&per_page=1&page=1&state=P3.proj_avail&field[]=title&field[]=title',
+        'expect_status': 400
+    }
 ]
 
 FAQ_TESTS = [

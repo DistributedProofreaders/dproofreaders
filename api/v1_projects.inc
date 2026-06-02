@@ -19,7 +19,7 @@ include_once("api_common.inc");
  * @param ?Project $project
  *   If we're querying a single project, what is it? (Certain fields
  *   aren't queryable or viewable by most users.)
- * @return ?array<string>
+ * @return ?array<string> null means 'render all fields'
  * @throws InvalidValue if any of the filter arguments aren't recognized
  */
 function get_return_fields(array $query_params, ?Project $project)
@@ -31,7 +31,12 @@ function get_return_fields(array $query_params, ?Project $project)
     $valid_render_fields = array_keys(get_project_fields_with_attr(null, $project));
     $invalid_fields = array_diff($return_fields, $valid_render_fields);
     if (!empty($invalid_fields)) {
-        throw new InvalidValue("Invalid filter args: " . implode(", ", $invalid_fields));
+        throw new InvalidValue("Invalid field[] args: " . implode(", ", $invalid_fields));
+    }
+    /** @var list<string> $return_fields */
+    $duplicate_fields = array_keys(array_filter(array_count_values($return_fields), fn ($c) => $c > 1));
+    if (!empty($duplicate_fields)) {
+        throw new InvalidValue("Duplicate field[] args: " . implode(", ", $duplicate_fields));
     }
     return $return_fields;
 }
