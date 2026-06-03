@@ -70,7 +70,8 @@ $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
 // iterate through all the pages until we find $wordInstances of the word
 // we're looking for
 $foundInstances = 0;
-while ([$page_text, $page, $proofer_names] = page_info_fetch($pages_res)) {
+while (($row = page_info_fetch($pages_res)) !== false) {
+    [$page_text, $page, $proofer_names] = $row;
     // get a context string
     [$context_strings, $totalLines] = _get_word_context_from_text($page_text, $word);
     if (!count($context_strings)) {

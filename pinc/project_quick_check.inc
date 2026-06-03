@@ -492,7 +492,8 @@ function _test_project_for_bad_bytes($projectid)
     $n_bad_pages = 0;
     $valid_codepoints = $project->get_valid_codepoints();
 
-    while ([$text, $imagename, $proofers] = page_info_fetch($pages_res)) {
+    while (($row = page_info_fetch($pages_res)) !== false) {
+        [$text, $imagename, $proofers] = $row;
         $round_num = get_round_num_from_proofers($proofers);
         if ($round_num == 0) {
             $round_name = 'OCR';
