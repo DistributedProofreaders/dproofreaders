@@ -50,21 +50,33 @@ class ProjectStates
 
     public static function get_medium_label(?string $state): string
     {
+        if (is_null($state)) {
+            return '';
+        }
         return self::$states[$state]->medium_label ?? '';
     }
 
     public static function get_label(?string $state): string
     {
+        if (is_null($state)) {
+            return '';
+        }
         return self::$states[$state]->label ?? '';
     }
 
     public static function get_forum(?string $state): int
     {
+        if (is_null($state)) {
+            return -1;
+        }
         return self::$states[$state]->forum ?? -1;
     }
 
     public static function get_phase(?string $state): string
     {
+        if (is_null($state)) {
+            return 'NONE';
+        }
         return self::$states[$state]->phase ?? 'NONE';
     }
 }
