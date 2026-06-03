@@ -142,7 +142,8 @@ function write_project_comments($project, $fp)
 function get_page_texts($pages_res)
 {
     $page_texts = [];
-    while ([$page_text, $imagename, $proofer_names] = page_info_fetch($pages_res)) {
+    while (($row = page_info_fetch($pages_res)) !== false) {
+        [$page_text, $imagename, $proofer_names] = $row;
         $page_texts[] = $page_text;
     }
     return $page_texts;
@@ -156,7 +157,8 @@ function get_page_texts($pages_res)
 function join_page_texts($pages_res)
 {
     $text = "";
-    while ([$text_data, $filename, $proofer_names] = page_info_fetch($pages_res)) {
+    while (($row = page_info_fetch($pages_res)) !== false) {
+        [$text_data, $filename, $proofer_names] = $row;
         $text .= $text_data . "\r\n";
     }
     return $text;
@@ -174,7 +176,8 @@ function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
     $eol = $carriagereturn.$linefeed;
 
     $filedata = "";
-    while ([$text_data, $filename, $proofer_names] = page_info_fetch($pages_res)) {
+    while (($row = page_info_fetch($pages_res)) !== false) {
+        [$text_data, $filename, $proofer_names] = $row;
         $info_str = "-----File: $filename---";
         if ($include_proofers) {
             $info_str .= "\\";

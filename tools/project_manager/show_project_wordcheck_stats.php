@@ -62,7 +62,8 @@ $total["num_pages"] = $project->n_pages;
 $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
 $page_stats = [];
 // iterate through all the pages gathering stats
-while ([$page_text, $page, $proofer_names] = page_info_fetch($pages_res)) {
+while (($row = page_info_fetch($pages_res)) !== false) {
+    [$page_text, $page, $proofer_names] = $row;
     // find which words would be flagged for this page
     $page_words_w_freq = get_distinct_words_in_text($page_text);
 
