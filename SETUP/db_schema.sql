@@ -655,7 +655,7 @@ CREATE TABLE `users` (
   `navbar_activity_menu` tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY (`username`),
   UNIQUE KEY `api_key` (`api_key`),
-  KEY `u_id` (`u_id`),
+  UNIQUE KEY `u_id` (`u_id`),
   KEY `last_login` (`last_login`),
   KEY `t_last_activity` (`t_last_activity`),
   KEY `api_key_username` (`api_key`,`username`),
