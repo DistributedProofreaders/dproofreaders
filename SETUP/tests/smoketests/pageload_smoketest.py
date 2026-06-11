@@ -60,6 +60,20 @@ API_TESTS = [
     {'path': 'api/index.php?url=v1/projects/imagesources'},
     {'path': 'api/index.php?url=v1/projects/holdstates'},
 
+    {
+        'method': 'PUT',
+        'path': 'api/index.php?url=v1/projects/projectID5e23a810ef693/validatetext',
+        'json': { 'text': 'Un soupçon de café ♨︎' },
+    },
+    {
+        'method': 'PUT',
+        'path': 'api/index.php?url=v1/projects/projectID5e23a810ef693/wordcheck',
+        'json': {
+            'text': 'Sidenote: A café in the arid desert',
+            'accepted_words': ['café'],
+        },
+    },
+
     {'path': 'api/index.php?url=v1/queues'},
     {'path': 'api/index.php?url=v1/queues/500'},
     {'path': 'api/index.php?url=v1/queues/500/stats'},
