@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 import os
 import re
 import signal
@@ -702,6 +703,12 @@ def main() -> int:
     for test in WEB_TESTS:
         method = test.get('method', 'GET')
         req_data = test.get('data')
+        req_json = test.get('json')
+        if req_data is not None and req_json is not None:
+            print(f"Error: Request cannot have both urlencoded and json "
+                  "encoded body:\n    {method} {path} {req_data} {req_json}")
+            ret = 1
+            break
         path = test['path']
         expect_status = test.get('expect_status', 200)
         if isinstance(expect_status, int):
@@ -714,12 +721,17 @@ def main() -> int:
         )
         if req_data is not None:
             print(f"{method} {path} {req_data}")
+        elif req_json is not None:
+            print(f"{method} {path} {req_json}")
         else:
             print(f"{method} {path}")
 
         if req_data is not None:
             req_data = urlencode(req_data).encode()
+        if req_json is not None:
+            req_data = json.dumps(req_json).encode()
         data, status, _, logs = request(req, req_data)
+
         if args.verbose:
             if data[0:4] == 'PK\3\4':
                 print("ZIP file...")
