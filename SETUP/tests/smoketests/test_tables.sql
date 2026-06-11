@@ -7,6 +7,10 @@ SET FOREIGN_KEY_CHECKS=0;
 REPLACE INTO `projects` VALUES ('*UTF-8 Practice','Lummis, Charles Fletcher','English','admin','notes','html','projectID5e23a810ef693','','',1704080514,1579564017,1579395673,1708309119,'','P3.proj_avail',NULL,'20200118BEGIN001',417,0,'Folklore','beginner',0,'','',15,6,NULL,'TESTING','admin','admin','',0,'','');
 REPLACE INTO `projects` VALUES ('An Empty Project','Fletcher, Jessica','English','admin','notes','html','projectID3141592653589','','',1704080514,1579564017,1579395673,1708309119,'','P3.proj_avail',NULL,'20200118BEGIN001',417,0,'History','beginner',0,'','',15,6,NULL,'TESTING','admin','admin','',0,'','');
 
+/* Charsuites */
+REPLACE INTO `project_charsuites` VALUES ('projectID5e23a810ef693', 'basic-latin');
+REPLACE INTO `project_charsuites` VALUES ('projectID3141592653589', 'basic-latin');
+
 /* `users` rows populated by INSERTs in accounts/activate.php.
  * Can't do this programatically yet.
  */
