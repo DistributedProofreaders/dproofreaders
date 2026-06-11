@@ -568,9 +568,6 @@ def server_ready(site_url: str) -> bool:
             pass
     return False
 
-# For local debugging run the following in a terminal window
-# php -S 127.0.0.1:12345 2> >(tee -a server.log >&2)
-
 class NoRedirect(HTTPErrorProcessor):
     def http_response(self, request, response):
         return response
@@ -641,14 +638,41 @@ def check_error_detect(config) -> bool:
             return False
     return True
 
+# For local debugging (to be able to see PHP logs), start a PHP
+# server in a terminal window:
+# php -S 127.0.0.1:12345 2> >(tee -a server.log >&2)
+# and then run pageload_smoketest.py with
+# --no-server --site-url http://127.0.0.1:12345
 def main() -> int:
     p = argparse.ArgumentParser()
-    p.add_argument('-n', '--no-server', action='store_true')
-    p.add_argument('-v', '--verbose', action='store_true')
-    p.add_argument('-u', '--username', type=str, required=True)
-    p.add_argument('-p', '--password', type=str, required=True)
-    p.add_argument('-k', '--api-key', type=str, required=True)
-    p.add_argument('-s', '--site-url', type=str)
+    p.add_argument('-n', '--no-server',
+        help='''Don\'t automatically start a background PHP server.
+        Requires --site-url for a server to connect to''',
+        action='store_true'
+    )
+    p.add_argument('-v', '--verbose',
+        help="Show response body from PHP code for every request",
+        action='store_true'
+    )
+    p.add_argument('-u', '--username',
+        help="The PGDP user to log in to the server with",
+        type=str,
+        required=True
+    )
+    p.add_argument('-p', '--password',
+        help="The PGDP password to log in to the server with",
+        type=str,
+        required=True
+    )
+    p.add_argument('-k', '--api-key',
+        help="The API key to send with every request",
+        type=str,
+        required=True
+    )
+    p.add_argument('-s', '--site-url',
+        help="The web server to connect to. Eg http://127.0.0.1:12345/",
+        type=str
+    )
     args = p.parse_args()
 
     ret = 0
