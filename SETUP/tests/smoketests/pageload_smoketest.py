@@ -535,21 +535,24 @@ CRON_JOBS = [
 
 def get_site_config() -> dict:
     config = {}
-    with open('pinc/site_vars.php', 'r') as site_vars:
-        for l in site_vars:
-            m = re.match(r"\$site_url\s*=\s*'(.*?)';", l)
-            if m:
-                u = urlparse(m[1])
-                config.update({
-                    'site_url': m[1].rstrip('/'),
-                    'scheme': u.scheme,
-                    'netloc': u.netloc, # hostname:port
-                })
-                continue
-            m = re.match(r"\$code_dir\s*=\s*'(.*?)';", l)
-            if m:
-                config.update({'code_dir': m[1]})
-                continue
+    try:
+        with open('pinc/site_vars.php', 'r') as site_vars:
+            for l in site_vars:
+                m = re.match(r"\$site_url\s*=\s*'(.*?)';", l)
+                if m:
+                    u = urlparse(m[1])
+                    config.update({
+                        'site_url': m[1].rstrip('/'),
+                        'scheme': u.scheme,
+                        'netloc': u.netloc, # hostname:port
+                    })
+                    continue
+                m = re.match(r"\$code_dir\s*=\s*'(.*?)';", l)
+                if m:
+                    config.update({'code_dir': m[1]})
+                    continue
+    except FileNotFoundError:
+        raise Exception("Script must be run from $_CODE_DIR (checkout dir)")
     return config
 
 def start_server(host_port: str):
