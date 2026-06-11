@@ -721,7 +721,10 @@ def main() -> int:
             req_data = urlencode(req_data).encode()
         data, status, _, logs = request(req, req_data)
         if args.verbose:
-            print(data.decode())
+            if data[0:4] == 'PK\3\4':
+                print("ZIP file...")
+            else:
+                print(data.decode())
         if status not in expect_status or test_failed(logs):
             print(f'Status: {status} (expected {expect_status})')
             print('\n'.join(logs))
