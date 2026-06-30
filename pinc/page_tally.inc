@@ -214,7 +214,7 @@ class PageTally_Neighbor
 /**
  * Should we anonymize information about the given user?
  */
-function should_anonymize($username, $user_privacy_setting)
+function should_anonymize(?string $username, int $user_privacy_setting)
 {
     return !can_reveal_details_about($username, $user_privacy_setting);
 }
@@ -261,7 +261,7 @@ $SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
  * - prev_day_{goal,actual}
  * - curr_month_{goal,actual}
  */
-function get_site_page_tally_summary($tally_name)
+function get_site_page_tally_summary(string $tally_name)
 {
     $site_stats = new StdClass();
 
@@ -314,7 +314,7 @@ function get_site_page_tally_summary($tally_name)
     return $site_stats;
 }
 
-function get_site_tally_goal_summed($tally_name, $date_condition)
+function get_site_tally_goal_summed(string $tally_name, string $date_condition)
 {
     $sql = sprintf(
         "
@@ -598,7 +598,7 @@ function calculate_tally_sma(array $array, int $window): array
  *
  * In the returned array, each key is a date-string of the form "YYYY-MM-DD".
  */
-function get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id, $days_back)
+function get_pages_per_day_for_past_n_days(string $tally_name, string $holder_type, int $holder_id, $days_back)
 {
     global $SECONDS_TO_YESTERDAY;
 
