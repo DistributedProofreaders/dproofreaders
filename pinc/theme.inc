@@ -802,7 +802,7 @@ function show_tally_specific_stats($tally_name)
             $neighbors =
                 user_get_page_tally_neighborhood(
                     $tally_name,
-                    $user->username,
+                    $user,
                     $user->u_neigh
                 );
             foreach ($neighbors as $rel_posn => $neighbor) {
