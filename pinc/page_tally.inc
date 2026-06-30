@@ -166,46 +166,14 @@ function user_get_page_tally_neighborhood(string $tally_name, User $user, int $r
 
 class PageTally_Neighbor
 {
-    private bool $is_anonymized;
-    private ?string $username;
-    private ?int $date_joined;
-    private int $u_id;
-    private int $current_page_tally;
-    private int $current_page_tally_rank;
-
-    public function __construct($is_anonymized, $username, $date_joined, $u_id, $current_page_tally, $current_page_tally_rank)
-    {
-        $this->is_anonymized = $is_anonymized;
-        $this->username = $username;
-        $this->date_joined = $date_joined;
-        $this->u_id = $u_id;
-        $this->current_page_tally = $current_page_tally;
-        $this->current_page_tally_rank = $current_page_tally_rank;
-    }
-
-    public function is_anonymized()
-    {
-        return $this->is_anonymized;
-    }
-    public function get_username()
-    {
-        return $this->username;
-    }
-    public function get_date_joined()
-    {
-        return $this->date_joined;
-    }
-    public function get_u_id()
-    {
-        return $this->u_id;
-    }
-    public function get_current_page_tally()
-    {
-        return $this->current_page_tally;
-    }
-    public function get_current_page_tally_rank()
-    {
-        return $this->current_page_tally_rank;
+    public function __construct(
+        public readonly bool $is_anonymized,
+        public readonly ?string $username,
+        public readonly ?int $date_joined,
+        public readonly int $u_id,
+        public readonly int $current_page_tally,
+        public readonly int $current_page_tally_rank,
+    ) {
     }
 }
 

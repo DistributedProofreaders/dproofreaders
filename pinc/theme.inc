@@ -809,9 +809,9 @@ function show_tally_specific_stats($tally_name)
                 if ($rel_posn == 0) {
                     echo "<span class='this-user'>";
                 }
-                echo $neighbor->get_current_page_tally_rank(), ".) ";
-                echo($neighbor->is_anonymized() ? _('Anonymous') : $neighbor->get_username()), " - ";
-                echo number_format($neighbor->get_current_page_tally());
+                echo $neighbor->current_page_tally_rank, ".) ";
+                echo($neighbor->is_anonymized ? _('Anonymous') : $neighbor->username), " - ";
+                echo number_format($neighbor->current_page_tally);
                 if ($rel_posn == 0) {
                     echo "</span>";
                 }
