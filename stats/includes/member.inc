@@ -507,13 +507,13 @@ function showMbrNeighbors($user, $tally_name)
             max($user->u_neigh, 4)
         );
     foreach ($neighbors as $rel_posn => $neighbor) {
-        $rank = $neighbor->get_current_page_tally_rank();
-        $pagescompleted = number_format($neighbor->get_current_page_tally());
+        $rank = $neighbor->current_page_tally_rank;
+        $pagescompleted = number_format($neighbor->current_page_tally);
 
-        if (!$neighbor->is_anonymized()) {
-            $u_id = $neighbor->get_u_id();
-            $username = $neighbor->get_username();
-            $date_created = $neighbor->get_date_joined();
+        if (!$neighbor->is_anonymized) {
+            $u_id = $neighbor->u_id;
+            $username = $neighbor->username;
+            $date_created = $neighbor->date_joined;
 
             $username_html = "<a href='".$GLOBALS['code_url']."/stats/members/mdetail.php?id=$u_id&amp;tally_name=$tally_name'>$username</a>";
             $day_html = date("m/d/Y", $date_created)." <i>("
