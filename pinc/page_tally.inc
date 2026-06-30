@@ -117,13 +117,13 @@ function user_get_ELR_page_tally(User $user): int
 /**
  * Get the user's page tally neighborhood
  * @param string $tally_name
- * @param string $username
+ * @param User $user
  * @param int $radius
  *   (maximum) number of neighbors (on each side) to include in
  *   the neighborhood. (It will include fewer than the maximum iff the target
  *   user is within $radius of the corresponding end of the ranked list.)
  *
- * Return the page-tally neighborhood of $username.
+ * Return the page-tally neighborhood of $user.
  * This is an array where keys are integers from the range [-$radius, +$radius],
  * indicating a user's position relative to the target user (w.r.t. page tally).
  * (So key=0 refers to the target user.)
@@ -132,10 +132,8 @@ function user_get_ELR_page_tally(User $user): int
  *
  * @return PageTally_Neighbor[]
  */
-function user_get_page_tally_neighborhood($tally_name, $username, $radius)
+function user_get_page_tally_neighborhood(string $tally_name, User $user, int $radius)
 {
-    $user = new User($username);
-
     $tallyboard = new TallyBoard($tally_name, 'U');
     $nb =
         $tallyboard->get_neighborhood($user->u_id, $radius);

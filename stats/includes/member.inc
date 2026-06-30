@@ -503,7 +503,7 @@ function showMbrNeighbors($user, $tally_name)
     $neighbors =
         user_get_page_tally_neighborhood(
             $tally_name,
-            $user->username,
+            $user,
             max($user->u_neigh, 4)
         );
     foreach ($neighbors as $rel_posn => $neighbor) {
