@@ -370,7 +370,7 @@ class ApiTest extends ProjectUtils
         global $pguser;
         $project = $this->_create_available_project();
         $pguser = $this->TEST_USERNAME;
-        page_tallies_add("P1", $pguser, 501);
+        page_tallies_add("P1", new User($pguser), 501);
         $response = $this->checkout($project->projectid, "P1.proj_avail");
         $this->assertEquals('001.png', $response['pagename']);
     }
@@ -389,7 +389,7 @@ class ApiTest extends ProjectUtils
         global $pguser;
         $project = $this->_create_available_project();
         $pguser = $this->TEST_OLDUSERNAME;
-        page_tallies_add("P1", $pguser, 501);
+        page_tallies_add("P1", new User($pguser), 501);
 
         // reserved for new proofreaders
         $this->expectExceptionCode(306);
@@ -404,7 +404,7 @@ class ApiTest extends ProjectUtils
         $project = $this->_create_available_project();
         $pguser = $this->TEST_USERNAME;
         // beginners limit is 40 in user_is.inc
-        page_tallies_add("P1", $pguser, 50);
+        page_tallies_add("P1", new User($pguser), 50);
 
         $this->expectExceptionCode(303);
         $this->checkout($project->projectid, "P1.proj_avail");

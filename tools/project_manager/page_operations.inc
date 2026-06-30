@@ -87,7 +87,12 @@ function page_clear($projectid, $image)
     // ------------------------------------------------
     // page will be cleared, so decrement page tallies for user & teams
 
-    page_tallies_add($round->id, $proofer, -1);
+    try {
+        page_tallies_add($round->id, new User($proofer), -1);
+    } catch (NonexistentUserException $exception) {
+        // Newly inserted empty pages may have an empty/[none] usernames.
+        // Clearing the page should still succeed even if tally update can't.
+    }
 
     // ------------------------------------------------
     // now clear the page
