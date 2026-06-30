@@ -451,7 +451,7 @@ class ProjectTest extends ProjectUtils
 
         // user done many pages
         // $page_tally_threshold 500 for new projects in reserve time
-        page_tallies_add("P1", $user->username, 501);
+        page_tallies_add("P1", $user, 501);
         validate_user_can_get_pages_in_project($user, $project, $round);
 
         // few pages, many days on site
@@ -459,7 +459,7 @@ class ProjectTest extends ProjectUtils
         validate_user_can_get_pages_in_project($user, $project, $round);
 
         // many pages, many days on site
-        page_tallies_add("P1", $user->username, 501);
+        page_tallies_add("P1", $user, 501);
         $this->expectExceptionCode(306);
         validate_user_can_get_pages_in_project($user, $project, $round);
     }
@@ -470,7 +470,7 @@ class ProjectTest extends ProjectUtils
         $this->valid_project_data["difficulty"] = "beginner";
         $project = $this->_create_available_project();
         // beginners limit is 40 in user_is.inc
-        page_tallies_add("P1", $user->username, 50);
+        page_tallies_add("P1", $user, 50);
         $round = get_Round_for_round_id("P1");
         $this->expectExceptionCode(303);
         validate_user_can_get_pages_in_project($user, $project, $round);

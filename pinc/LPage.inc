@@ -410,7 +410,7 @@ class LPage
             Page_saveAsDone($this->projectid, $this->imagefile, $this->round, $pguser, $text_data);
 
         // add to user page count
-        page_tallies_add($this->round->id, $pguser, +1);
+        page_tallies_add($this->round->id, new User($pguser), +1);
 
         $dpl_has_now_been_reached = (
             $this->round->has_a_daily_page_limit()
@@ -487,7 +487,7 @@ class LPage
             // Now they are 'unsaving' it, so decrement their page-count.
             // They'll get it back if/when they save-as-done again.
             // (Plugs a former page-count cheat.)
-            page_tallies_add($this->round->id, $pguser, -1);
+            page_tallies_add($this->round->id, new User($pguser), -1);
         } else {
             // Page comes from IN PROGRESS or OUT.
             // Resuming such a page has no actual effect on the page,

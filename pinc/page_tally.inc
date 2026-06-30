@@ -51,11 +51,8 @@ function get_ELR_tallyboards()
  * Add $amount to the user's page tally,
  * and to the page tally of each team that the user currently belongs to.
  */
-function page_tallies_add($tally_name, $username, $amount)
+function page_tallies_add(string $tally_name, User $user, int $amount)
 {
-    // get the user's u_id, and the teams that he/she belongs to
-    $user = new User($username);
-
     // update page tally for user
     $user_tallyboard = new TallyBoard($tally_name, 'U');
     $user_tallyboard->add_to_tally($user->u_id, $amount);
@@ -88,7 +85,7 @@ function get_daily_average($start_time, $total)
 /**
  * Return the user's page tally for the Entry-Level Round.
  */
-function user_get_ELR_page_tally($username)
+function user_get_ELR_page_tally(User $user): int
 {
     [$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
 
@@ -99,9 +96,9 @@ function user_get_ELR_page_tally($username)
         "
         SELECT $user_ELR_page_tally_column
         FROM users $joined_with_user_ELR_page_tallies
-        WHERE username='%s'
+        WHERE u_id=%d
         ",
-        DPDatabase::escape($username)
+        $user->u_id
     );
     $res = DPDatabase::query($sql);
     $row = mysqli_fetch_row($res);

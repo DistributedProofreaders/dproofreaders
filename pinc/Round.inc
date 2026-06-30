@@ -462,7 +462,7 @@ function validate_user_against_project_reserve($user, $project, $round)
                 $days_on_site = ($t_now - $user->date_created) / 86400;
                 // echo "days_on_site = $days_on_site<br>\n";
 
-                $ELR_page_tally = user_get_ELR_page_tally($user->username);
+                $ELR_page_tally = user_get_ELR_page_tally($user);
                 // echo "ELR_page_tally = $ELR_page_tally<br>\n";
 
                 if ($days_on_site < $days_on_site_threshold or $ELR_page_tally < $page_tally_threshold) {
