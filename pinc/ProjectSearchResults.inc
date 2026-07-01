@@ -10,25 +10,18 @@ include_once($relPath.'genres.inc');  // maybe_create_temporary_genre_translatio
 
 class Column
 {
-    public string $id;
-    protected string $label;
-    private string $long_label;
-    private string $css_class;
-    private bool $default_display;
-    public bool $sortable;
-    protected string $db_column;
     private Settings $userSettings;
     private string $search_origin;
 
-    public function __construct(string $id, string $label, string $long_label, string $css_class, bool $default_display, bool $sortable, string $db_column)
-    {
-        $this->id = $id;
-        $this->label = $label;
-        $this->long_label = $long_label;
-        $this->css_class = $css_class;
-        $this->default_display = $default_display;
-        $this->sortable = $sortable;
-        $this->db_column = $db_column;
+    public function __construct(
+        public readonly string $id,
+        protected readonly string $label,
+        private readonly string $long_label,
+        private readonly string $css_class,
+        private readonly bool $default_display,
+        public readonly bool $sortable,
+        protected readonly string $db_column
+    ) {
     }
 
     public function get_label(): string
@@ -141,12 +134,17 @@ class Column
 
 class TimeColumn extends Column
 {
-    private string $time_format;
-
-    public function __construct(string $id, string $label, string $long_label, string $css_class, bool $default_display, bool $sortable, string $db_column, string $time_format)
-    {
+    public function __construct(
+        string $id,
+        string $label,
+        string $long_label,
+        string $css_class,
+        bool $default_display,
+        bool $sortable,
+        string $db_column,
+        private readonly string $time_format
+    ) {
         parent::__construct($id, $label, $long_label, $css_class, $default_display, $sortable, $db_column);
-        $this->time_format = $time_format;
     }
 
     public function get_label(): string
@@ -401,16 +399,14 @@ class HoldColumn extends Column
 
 class ColumnData
 {
-    protected Settings $userSettings;
-    protected string $search_origin;
     public array $columns;
 
-    public function __construct(Settings $userSettings, string $search_origin, string $time_format = '')
-    {
+    public function __construct(
+        protected readonly Settings $userSettings,
+        protected readonly string $search_origin,
+        string $time_format = ''
+    ) {
         global $pguser;
-
-        $this->userSettings = $userSettings;
-        $this->search_origin = $search_origin;
 
         $this->columns = [
             new TitleColumn('title', _("Title"), '', 'left-align', true, true, 'nameofwork'),
