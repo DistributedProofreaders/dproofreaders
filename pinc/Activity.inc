@@ -123,14 +123,6 @@ class Activities
 
 class Activity
 {
-    public string $id;
-    public string $name;
-    /** @var array<string,int> */
-    public array $access_minima;
-    public string $after_satisfying_minima;
-    public string $evaluation_criteria;
-    public ?string $access_change_callback;
-
     /**
      * Activity constructor
      *
@@ -166,21 +158,14 @@ class Activity
      *   where $change is one of `[ "grant", "revoke", "request", "deny_request_for" ]`
      */
     public function __construct(
-        string $id,
-        string $name,
+        public readonly string $id,
+        public readonly string $name,
         /** @var array<string,int> */
-        array $access_minima,
-        string $after_satisfying_minima,
-        string $evaluation_criteria,
-        ?string $access_change_callback
+        public array $access_minima,
+        public readonly string $after_satisfying_minima,
+        public readonly string $evaluation_criteria,
+        public readonly ?string $access_change_callback
     ) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->access_minima = $access_minima;
-        $this->after_satisfying_minima = $after_satisfying_minima;
-        $this->evaluation_criteria = $evaluation_criteria;
-        $this->access_change_callback = $access_change_callback;
-
         if (SiteConfig::get()->testing && !is_null($this->access_minima)) { /** @phpstan-ignore-line */
             // Relax minima.
             foreach ($this->access_minima as $criterion_code => $minimum) {
