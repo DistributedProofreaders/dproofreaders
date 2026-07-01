@@ -14,20 +14,17 @@ include_once($relPath.'Project.inc'); // get_project_difficulties()
 
 class ProjectFilterElement
 {
-    private string $id;
-    public string $label;
     private bool $active;
-    protected $data;
-    protected string $state_sql;
     public array $selected_options;
 
-    public function __construct($id, $label, $data, $state_sql, $active_fields)
-    {
-        $this->id = $id;
-        $this->label = $label;
+    public function __construct(
+        private readonly string $id,
+        public readonly string $label,
+        protected readonly mixed $data,
+        protected readonly string $state_sql,
+        array $active_fields
+    ) {
         $this->active = $active_fields[$id];
-        $this->data = $data;
-        $this->state_sql = $state_sql;
         $this->selected_options = [];
     }
 
@@ -293,13 +290,10 @@ function process_and_display_project_filter_form($username, $filter_type, $filte
 
 class ProjectSearchElement
 {
-    private string $id;
-    protected $data;
-
-    public function __construct($id, $data)
-    {
-        $this->id = $id;
-        $this->data = $data;
+    public function __construct(
+        private readonly string $id,
+        protected readonly mixed $data
+    ) {
     }
 
     public function get_sql_component()
