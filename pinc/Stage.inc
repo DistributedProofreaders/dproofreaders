@@ -20,10 +20,6 @@ class Stages extends Activities
 
 class Stage extends Activity
 {
-    public string $description;
-    public ?string $document;
-    public string $relative_url;
-
     /**
      * Stage constructor
      *
@@ -44,9 +40,9 @@ class Stage extends Activity
         string $after_satisfying_minima,
         string $evaluation_criteria,
         ?string $access_change_callback,
-        string $description,
-        ?string $document,
-        string $relative_url
+        public readonly string $description,
+        public readonly ?string $document,
+        public readonly string $relative_url
     ) {
         parent::__construct(
             $id,
@@ -56,10 +52,6 @@ class Stage extends Activity
             $evaluation_criteria,
             $access_change_callback
         );
-
-        $this->description = $description;
-        $this->document = $document;
-        $this->relative_url = $relative_url;
     }
 
 
