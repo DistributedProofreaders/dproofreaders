@@ -61,22 +61,18 @@ class PickerSet
  */
 class CharSuite
 {
-    public string $name;
-    public string $title;
-    /** @var string[] */
-    public ?array $codepoints;
     public ?string $description = null;
-    public bool $adhoc;
     public $reference_urls = [];
     private ?PickerSet $_pickerset = null;
 
     /** @param ?string[] $codepoints */
-    public function __construct(string $name, string $title, ?array $codepoints = null, bool $adhoc = false)
-    {
-        $this->name = $name;
-        $this->title = $title;
-        $this->codepoints = $codepoints;
-        $this->adhoc = $adhoc;
+    public function __construct(
+        public readonly string $name,
+        public readonly string $title,
+        /** @var string[] */
+        public ?array $codepoints = null,
+        public readonly bool $adhoc = false
+    ) {
     }
 
     public function __get(string $name): ?PickerSet
