@@ -11,10 +11,6 @@ define('PT_AUTO', '[AUTO]');
 
 class ProjectTransition
 {
-    public string $from_state;
-    public string $to_state;
-    public string $who_restriction;
-
     // Populated from $options
     private ?string $project_restriction; // callable
     public ?string $action_name;
@@ -42,15 +38,11 @@ class ProjectTransition
      *   - disabled_during_SR
      */
     public function __construct(
-        string $from_state,
-        string $to_state,
-        string $who_restriction,
+        public readonly string $from_state,
+        public readonly string $to_state,
+        public readonly string $who_restriction,
         array $options
     ) {
-        $this->from_state = $from_state;
-        $this->to_state = $to_state;
-        $this->who_restriction = $who_restriction;
-
         foreach ($options as $option_name => $option_value) {
             $this->$option_name = $option_value;
         }
