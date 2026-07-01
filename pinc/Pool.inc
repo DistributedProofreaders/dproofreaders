@@ -15,10 +15,6 @@ class Pools extends Stages
 
 class Pool extends Stage
 {
-    public string $foo_Header;
-    public string $foo_field_name;
-    /** @var string[] */
-    public array $blather;
     public string $project_available_state;
     public string $project_checkedout_state;
     /** @var string[] */
@@ -48,9 +44,10 @@ class Pool extends Stage
         ?string $access_change_callback,
         string $description,
         ?string $document,
-        string $foo_Header,
-        string $foo_field_name,
-        array $blather
+        public readonly string $foo_Header,
+        public readonly string $foo_field_name,
+        /** @var string[] */
+        public readonly array $blather
     ) {
         parent::__construct(
             $id,
@@ -68,10 +65,6 @@ class Pool extends Stage
         //     $this->project_checkedout_state
         //     $this->project_available_state
         //     $this->states
-
-        $this->foo_Header = $foo_Header;
-        $this->foo_field_name = $foo_field_name;
-        $this->blather = $blather;
     }
 }
 
