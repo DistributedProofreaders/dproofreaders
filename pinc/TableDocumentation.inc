@@ -2,13 +2,10 @@
 
 class TableDocumentation
 {
-    private $display_name;
-    private $columns_information;
-
-    public function __construct(string $display_name, array $columns_information)
-    {
-        $this->display_name = $display_name;
-        $this->columns_information = $columns_information;
+    public function __construct(
+        private readonly string $display_name,
+        private readonly array $columns_information
+    ) {
     }
 
     public function generate_documentation_table(): string
