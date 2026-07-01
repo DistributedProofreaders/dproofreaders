@@ -173,10 +173,6 @@ echo return_to_project_page_link($projectid) . "\n";
 
 class Loader
 {
-    private string $source_project_dir;
-    private string $dest_project_dir;
-    private string $projectid;
-    private bool $allow_text_loads;
     private bool $adding_pages;
     private int $image_field_len;
     /** @var array<string, string> */
@@ -193,13 +189,13 @@ class Loader
     private int $n_errors;
     private ImageUtils $checker;
 
-    public function __construct(string $source_project_dir, string $dest_project_dir, string $projectid, $allow_text_loads = true)
-    {
-        $this->source_project_dir = $source_project_dir;
-        $this->dest_project_dir = $dest_project_dir;
-        $this->projectid = $projectid;
+    public function __construct(
+        private readonly string $source_project_dir,
+        private readonly string $dest_project_dir,
+        private readonly string $projectid,
+        private readonly bool $allow_text_loads = true
+    ) {
         $this->checker = new ImageUtils();
-        $this->allow_text_loads = $allow_text_loads;
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
