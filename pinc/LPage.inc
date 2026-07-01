@@ -264,15 +264,11 @@ function project_continuity_test(Project $project, string $orig_state, bool $no_
  */
 class RoundInfo
 {
-    public string $round_id;
-    public string $username;
-    public ?string $forum_user_id;
-
-    public function __construct(string $round_id, string $username, ?string $forum_user_id)
-    {
-        $this->round_id = $round_id;
-        $this->username = $username;
-        $this->forum_user_id = $forum_user_id;
+    public function __construct(
+        public readonly string $round_id,
+        public readonly string $username,
+        public readonly ?string $forum_user_id
+    ) {
     }
 }
 
@@ -288,20 +284,16 @@ class RoundInfo
  */
 class LPage
 {
-    public Project $project;
-    public string $projectid;
-    public string $imagefile;
-    public string $page_state;
-    public int $reverting_to_orig;
-    public Round $round;
+    public readonly string $projectid;
+    public readonly Round $round;
 
-    public function __construct(Project $project, string $imagefile, string $page_state, int $reverting_to_orig)
-    {
-        $this->project = $project;
+    public function __construct(
+        public readonly Project $project,
+        public readonly string $imagefile,
+        public string $page_state,
+        public int $reverting_to_orig
+    ) {
         $this->projectid = $project->projectid;
-        $this->imagefile = $imagefile;
-        $this->page_state = $page_state;
-        $this->reverting_to_orig = $reverting_to_orig;
 
         // It's debatable whether LPage should have a 'reverting_to_orig' property.
         // You could argue that it's an interface-level artifact,
