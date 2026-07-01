@@ -2,27 +2,14 @@
 
 class ProjectState
 {
-    public string $name;
-    public string $medium_label;
-    public string $label;
-    public int $forum;
-    public string $phase;
-    public string $star_metal;
-
     public function __construct(
-        string $name,
-        string $medium_label,
-        string $label,
-        int $forum,
-        string $phase,
-        string $star_metal
+        public readonly string $name,
+        public readonly string $medium_label,
+        public readonly string $label,
+        public readonly int $forum,
+        public readonly string $phase,
+        public readonly string $star_metal
     ) {
-        $this->name = $name;
-        $this->medium_label = $medium_label;
-        $this->label = $label;
-        $this->forum = $forum;
-        $this->phase = $phase;
-        $this->star_metal = $star_metal;
     }
 }
 
