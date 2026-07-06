@@ -1159,6 +1159,29 @@ function create_project_transitions(): array
     );
 
     // -----------------------------------------------------------------------------
+    // Transitions to PROJ_PARKED.
+
+    foreach (ProjectStates::get_states() as $from_state) {
+        if (in_array($from_state, [PROJ_NEW, PROJ_DELETE, PROJ_PARKED, PROJ_COMPLETE, PROJ_SUBMIT_PG_POSTED])) {
+            continue;
+        }
+
+        $project_transitions[] = new ProjectTransition(
+            $from_state,
+            PROJ_PARKED,
+            'site_manager',
+            [
+                'project_restriction' => null,
+                'action_name' => _('Park Project'),
+                'confirmation_question' => _('Are you sure you want to park this project?'),
+                'detour' => null,
+                'settings_template' => "modifieddate='<TIMESTAMP>'",
+                'collateral_actions' => null,
+            ]
+        );
+    }
+
+    // -----------------------------------------------------------------------------
     // Transitions to PROJ_DELETE.
 
     foreach (ProjectStates::get_states() as $from_state) {
@@ -1189,6 +1212,7 @@ function create_project_transitions(): array
             ]
         );
     }
+
     return $project_transitions;
 }
 

@@ -59,6 +59,7 @@ class SiteConfig
     public ?int $posted_projects_forum_idx;
     public ?int $deleted_projects_forum_idx;
     public ?int $completed_projects_forum_idx;
+    public ?int $parked_projects_forum_idx;
     public ?int $post_processing_forum_idx;
     public ?int $teams_forum_idx;
 
