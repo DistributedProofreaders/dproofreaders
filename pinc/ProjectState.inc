@@ -6,7 +6,7 @@ class ProjectState
         public readonly string $name,
         public readonly string $medium_label,
         public readonly string $label,
-        public readonly int $forum,
+        public readonly ?int $forum,
         public readonly string $phase,
         public readonly string $star_metal
     ) {
@@ -228,6 +228,18 @@ function declare_project_states(array $rounds, array $pools): void
         _("Project Complete"),
         SiteConfig::get()->completed_projects_forum_idx,
         'COMPLETE',
+        ''
+    ));
+
+    // for "parking" a project
+
+    define("PROJ_PARKED", "project_parked");
+    ProjectStates::add_state(new ProjectState(
+        PROJ_PARKED,
+        _("Project Parked"),
+        _("Project Parked"),
+        SiteConfig::get()->parked_projects_forum_idx,
+        'PARKED',
         ''
     ));
 
