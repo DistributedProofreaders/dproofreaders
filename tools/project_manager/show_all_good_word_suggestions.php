@@ -157,7 +157,8 @@ foreach ($projects as $projectid => $projectdata) {
 
     echo "<hr>";
     echo "<h3>$projectname</h3>";
-    echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate</p>";
+    echo "<p><b>" . pgettext("project state", "State") . ":</b> $projectstate";
+    echo " | <a href='$code_url/tools/project_manager/edit_project_word_lists.php?projectid=$projectid'>" . _("Edit project word lists") ."</a></p>";
 
     echo_checkbox_selects($projectid);
 
