@@ -154,8 +154,11 @@ class SiteConfig
         self::$_site_config = new SiteConfig($filename);
     }
 
-    public static function get()
+    public static function get(): SiteConfig
     {
+        if (is_null(self::$_site_config)) {
+            throw new RuntimeException("Configuration error. SiteConfig not loaded.");
+        }
         return self::$_site_config;
     }
 }
