@@ -11,14 +11,8 @@ define('PT_AUTO', '[AUTO]');
 
 class ProjectTransition
 {
-    // Populated from $options
-    private ?string $project_restriction; // callable
-    public ?string $action_name;
-    public ?string $confirmation_question;
-    public ?string $detour;
-    public ?string $settings_template;
-    private ?string $collateral_actions; // callable
-    private ?bool $disabled_during_SR;
+    public readonly string $action_name;
+    public readonly ?string $confirmation_question;
 
     /**
      * Project Transition constructor
@@ -27,38 +21,37 @@ class ProjectTransition
      * a project that satisfies $project_restriction
      * to transit from $from_state to $to_state.
      *
-     * @param array $options
-     *   Associative array containing the following keys
-     *   - project_restriction
-     *   - action_name
-     *   - confirmation_question
-     *   - detour
-     *   - settings_template
-     *   - collateral_actions
-     *   - disabled_during_SR
+     * @param ?\Closure(Project, self): bool $project_restriction
+     * @param ?\Closure(Project, Project, self, string): void $collateral_actions
      */
     public function __construct(
         public readonly string $from_state,
         public readonly string $to_state,
         public readonly string $who_restriction,
-        array $options
+        private readonly ?\Closure $project_restriction = null,
+        string $action_name = '',
+        ?string $confirmation_question = null,
+        public readonly ?string $detour = null,
+        public readonly string $settings_template = '',
+        private readonly ?\Closure $collateral_actions = null,
+        private readonly bool $disabled_during_SR = false,
     ) {
-        foreach ($options as $option_name => $option_value) {
-            $this->$option_name = $option_value;
-        }
-
-        if ($this->action_name == '[default]') {
+        if ($action_name == '[default]') {
             $this->action_name = sprintf(
                 _('Change State to %s'),
                 project_states_text($this->to_state)
             );
+        } else {
+            $this->action_name = $action_name;
         }
 
-        if ($this->confirmation_question == '[default]') {
+        if ($confirmation_question == '[default]') {
             $this->confirmation_question = sprintf(
                 _('Are you sure you want to change the state of this project to %s?'),
                 project_states_text($this->to_state)
             );
+        } else {
+            $this->confirmation_question = $confirmation_question;
         }
     }
 
@@ -68,9 +61,8 @@ class ProjectTransition
             return false;
         }
 
-        if ($this->project_restriction) {
-            $function_name = $this->project_restriction;
-            if (!$function_name($project, $this)) {
+        if ($this->project_restriction !== null) {
+            if (!($this->project_restriction)($project, $this)) {
                 return false;
             }
         }
@@ -156,7 +148,6 @@ class ProjectTransition
     public function why_disabled(Project $project): string
     {
         if ($project->is_available_for_smoothreading() &&
-            isset($this->disabled_during_SR) &&
             $this->disabled_during_SR) {
             return 'SR';
         }
@@ -474,14 +465,12 @@ function create_project_transitions(): array
         PROJ_NEW,
         PROJ_P1_UNAVAILABLE,
         'unrestricted_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => null,
-            'detour' => null,
-            'settings_template' => '',
-            'collateral_actions' => null,
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: null,
+        detour: null,
+        settings_template: '',
+        collateral_actions: null,
     );
 
     // -----------------------------------------------------------------------------
@@ -510,70 +499,60 @@ function create_project_transitions(): array
             // PMs with project loads disabled can't move a project
             // out of unavailable, either
             'unrestricted_manager',
-            [
-                'project_restriction' => null,
-                'action_name' => '[default]',
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => 'modifieddate="<TIMESTAMP>"',
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: '[default]',
+            confirmation_question: null,
+            detour: null,
+            settings_template: 'modifieddate="<TIMESTAMP>"',
+            collateral_actions: null,
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_waiting_state,
             $round->project_unavailable_state,
             'manager',
-            [
-                'project_restriction' => null,
-                'action_name' => '[default]',
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => 'to_unavailable_collateral',
-            ]
+            project_restriction: null,
+            action_name: '[default]',
+            confirmation_question: null,
+            detour: null,
+            settings_template: '',
+            collateral_actions: to_unavailable_collateral(...),
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_waiting_state,
             $round->project_available_state,
             'proj_facilitator|auto',
-            [
-                'project_restriction' => null,
-                'action_name' => '[default]',
-                'confirmation_question' => '[default]',
-                'detour' => null,
-                'settings_template' => 'modifieddate="<TIMESTAMP>"',
-                'collateral_actions' => 'round_release_collateral',
-            ]
+            project_restriction: null,
+            action_name: '[default]',
+            confirmation_question: '[default]',
+            detour: null,
+            settings_template: 'modifieddate="<TIMESTAMP>"',
+            collateral_actions: round_release_collateral(...),
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_bad_state,
             $round->project_unavailable_state,
             'manager',
-            [
-                'project_restriction' => null,
-                'action_name' => '[default]',
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => 'to_unavailable_collateral',
-            ]
+            project_restriction: null,
+            action_name: '[default]',
+            confirmation_question: null,
+            detour: null,
+            settings_template: '',
+            collateral_actions: to_unavailable_collateral(...),
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_bad_state,
             'automodify',
             'manager',
-            [
-                'project_restriction' => null,
-                'action_name' => _('automodify'),
-                'confirmation_question' => null,
-                'detour' => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
-                'settings_template' => '',
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: _('automodify'),
+            confirmation_question: null,
+            detour: "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
+            settings_template: '',
+            collateral_actions: null,
         );
         // automodify.php will leave the project in the appropriate
         // BAD, AVAILABLE, or COMPLETE state.
@@ -584,84 +563,72 @@ function create_project_transitions(): array
             $round->project_available_state,
             $round->project_unavailable_state,
             'manager',
-            [
-                'project_restriction' => null,
-                'action_name' => '[default]',
-                'confirmation_question' => '[default]',
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => 'to_unavailable_collateral',
-            ]
+            project_restriction: null,
+            action_name: '[default]',
+            confirmation_question: '[default]',
+            detour: null,
+            settings_template: '',
+            collateral_actions: to_unavailable_collateral(...),
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_available_state,
             'automodify',
             'manager',
-            [
-                'project_restriction' => null,
-                'action_name' => _('automodify'),
-                'confirmation_question' => null,
-                'detour' => "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
-                'settings_template' => '',
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: _('automodify'),
+            confirmation_question: null,
+            detour: "$code_url/tools/project_manager/automodify.php?project=<PROJECTID>",
+            settings_template: '',
+            collateral_actions: null,
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_waiting_state,
             $round->project_bad_state,
             'auto',
-            [
-                'project_restriction' => null,
-                'action_name' => null,
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: '',
+            confirmation_question: null,
+            detour: null,
+            settings_template: '',
+            collateral_actions: null,
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_available_state,
             $round->project_bad_state,
             'auto',
-            [
-                'project_restriction' => null,
-                'action_name' => null,
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => 'bad_project_collateral',
-            ]
+            project_restriction: null,
+            action_name: '',
+            confirmation_question: null,
+            detour: null,
+            settings_template: '',
+            collateral_actions: bad_project_collateral(...),
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_bad_state,
             $round->project_available_state,
             'auto',
-            [
-                'project_restriction' => null,
-                'action_name' => null,
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: '',
+            confirmation_question: null,
+            detour: null,
+            settings_template: '',
+            collateral_actions: null,
         );
 
         $project_transitions[] = new ProjectTransition(
             $round->project_available_state,
             $round->project_complete_state,
             'auto',
-            [
-                'project_restriction' => null,
-                'action_name' => null,
-                'confirmation_question' => null,
-                'detour' => null,
-                'settings_template' => '',
-                'collateral_actions' => 'round_complete_collateral',
-            ]
+            project_restriction: null,
+            action_name: '',
+            confirmation_question: null,
+            detour: null,
+            settings_template: '',
+            collateral_actions: round_complete_collateral(...),
         );
 
         if ($round->round_number < Rounds::get_last()->round_number) {
@@ -671,42 +638,36 @@ function create_project_transitions(): array
                 $round->project_complete_state,
                 $next_round->project_waiting_state,
                 'auto',
-                [
-                    'project_restriction' => null,
-                    'action_name' => null,
-                    'confirmation_question' => null,
-                    'detour' => null,
-                    'settings_template' => 'modifieddate="<TIMESTAMP>"',
-                    'collateral_actions' => null,
-                ]
+                project_restriction: null,
+                action_name: '',
+                confirmation_question: null,
+                detour: null,
+                settings_template: 'modifieddate="<TIMESTAMP>"',
+                collateral_actions: null,
             );
         } else {
             $project_transitions[] = new ProjectTransition(
                 $round->project_complete_state,
                 PROJ_POST_FIRST_AVAILABLE,
                 'auto',
-                [
-                    'project_restriction' => null,
-                    'action_name' => null,
-                    'confirmation_question' => null,
-                    'detour' => null,
-                    'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby=''",
-                    'collateral_actions' => 'round_to_PP_avail_collateral',
-                ]
+                project_restriction: null,
+                action_name: '',
+                confirmation_question: null,
+                detour: null,
+                settings_template: "modifieddate='<TIMESTAMP>', checkedoutby=''",
+                collateral_actions: round_to_PP_avail_collateral(...),
             );
 
             $project_transitions[] = new ProjectTransition(
                 $round->project_complete_state,
                 PROJ_POST_FIRST_CHECKED_OUT,
                 'auto',
-                [
-                    'project_restriction' => null,
-                    'action_name' => null,
-                    'confirmation_question' => null,
-                    'detour' => null,
-                    'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
-                    'collateral_actions' => 'round_to_PP_out_collateral',
-                ]
+                project_restriction: null,
+                action_name: '',
+                confirmation_question: null,
+                detour: null,
+                settings_template: "modifieddate='<TIMESTAMP>', checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
+                collateral_actions: round_to_PP_out_collateral(...),
             );
         }
 
@@ -726,42 +687,36 @@ function create_project_transitions(): array
                         $from_state,
                         $next_round->project_waiting_state,
                         'site_manager',
-                        [
-                            'project_restriction' => null,
-                            'action_name' => _('Skip this round'),
-                            'confirmation_question' => '[default]',
-                            'detour' => null,
-                            'settings_template' => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}')",
-                            'collateral_actions' => null,
-                        ]
+                        project_restriction: null,
+                        action_name: _('Skip this round'),
+                        confirmation_question: '[default]',
+                        detour: null,
+                        settings_template: "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}')",
+                        collateral_actions: null,
                     );
                 } else {
                     $project_transitions[] = new ProjectTransition(
                         $from_state,
                         PROJ_POST_FIRST_AVAILABLE,
                         'site_manager',
-                        [
-                            'project_restriction' => 'proj_would_go_to_PP_avail',
-                            'action_name' => _('Skip this round'),
-                            'confirmation_question' => '[default]',
-                            'detour' => null,
-                            'settings_template' => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0, checkedoutby=''",
-                            'collateral_actions' => 'round_to_PP_avail_collateral',
-                        ]
+                        project_restriction: proj_would_go_to_PP_avail(...),
+                        action_name: _('Skip this round'),
+                        confirmation_question: '[default]',
+                        detour: null,
+                        settings_template: "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0, checkedoutby=''",
+                        collateral_actions: round_to_PP_avail_collateral(...),
                     );
 
                     $project_transitions[] = new ProjectTransition(
                         $from_state,
                         PROJ_POST_FIRST_CHECKED_OUT,
                         'site_manager',
-                        [
-                            'project_restriction' => 'proj_would_go_to_PP_out',
-                            'action_name' => _('Skip this round'),
-                            'confirmation_question' => '[default]',
-                            'detour' => null,
-                            'settings_template' => "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
-                            'collateral_actions' => 'round_to_PP_out_collateral',
-                        ]
+                        project_restriction: proj_would_go_to_PP_out(...),
+                        action_name: _('Skip this round'),
+                        confirmation_question: '[default]',
+                        detour: null,
+                        settings_template: "modifieddate='<TIMESTAMP>', nameofwork=CONCAT(nameofwork,' {{$round->id} skipped}'), n_available_pages=0, checkedoutby=IF(checkedoutby!='',checkedoutby,username)",
+                        collateral_actions: round_to_PP_out_collateral(...),
                     );
                 }
             }
@@ -777,28 +732,24 @@ function create_project_transitions(): array
         PROJ_POST_FIRST_AVAILABLE,
         PROJ_POST_FIRST_CHECKED_OUT,
         'user_can_check_out_in_stage PP',
-        [
-            'project_restriction' => null,
-            'action_name' => _("Check Out Book"),
-            'confirmation_question' => _("Are you sure you want to check this book out for post processing?"),
-            'detour' => null,
-            'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
-            'collateral_actions' => 'PP_to_PP_out_collateral',
-        ]
+        project_restriction: null,
+        action_name: _("Check Out Book"),
+        confirmation_question: _("Are you sure you want to check this book out for post processing?"),
+        detour: null,
+        settings_template: "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
+        collateral_actions: PP_to_PP_out_collateral(...),
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_AVAILABLE,
         PROJ_POST_SECOND_CHECKED_OUT,
         'user_can_work_in_stage PPV',
-        [
-            'project_restriction' => null,
-            'action_name' => _("Check Out Book"),
-            'confirmation_question' => _("Are you sure you want to check this book out for verifying post processing?"),
-            'detour' => null,
-            'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby='<WHO>'",
-            'collateral_actions' => null,
-        ]
+        project_restriction: null,
+        action_name: _("Check Out Book"),
+        confirmation_question: _("Are you sure you want to check this book out for verifying post processing?"),
+        detour: null,
+        settings_template: "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby='<WHO>'",
+        collateral_actions: null,
     );
 
     // PPer can grab a project back from the PPV pool
@@ -806,14 +757,12 @@ function create_project_transitions(): array
         PROJ_POST_SECOND_AVAILABLE,
         PROJ_POST_FIRST_CHECKED_OUT,
         'holder',
-        [
-            'project_restriction' => null,
-            'action_name' => _("Return to Post-Processor for further work"),
-            'confirmation_question' => _("Are you sure you want to take this book back for further work?"),
-            'detour' => null,
-            'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=''",
-            'collateral_actions' => null,
-        ]
+        project_restriction: null,
+        action_name: _("Return to Post-Processor for further work"),
+        confirmation_question: _("Are you sure you want to take this book back for further work?"),
+        detour: null,
+        settings_template: "modifieddate='<TIMESTAMP>', postproofer=''",
+        collateral_actions: null,
     );
 
     // -----------------------------------------------------------------------------
@@ -826,29 +775,25 @@ function create_project_transitions(): array
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_FIRST_AVAILABLE,
         'holder',
-        [
-            'project_restriction' => null,
-            'action_name' => _("Return to Available"),
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
-            'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
-            'collateral_actions' => 'to_PP_available_collateral',
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: null,
+        action_name: _("Return to Available"),
+        confirmation_question: null,
+        detour: "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_1",
+        settings_template: "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0', postcomments=CONCAT(postcomments,'<G:postcomments>')",
+        collateral_actions: to_PP_available_collateral(...),
+        disabled_during_SR: true,
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_CHECKED_OUT,
         PROJ_POST_SECOND_AVAILABLE,
         'holder',
-        [
-            'project_restriction' => null,
-            'action_name' => _("Return to Available"),
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_2",
-            'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-            'collateral_actions' => 'to_PPV_available_collateral',
-        ]
+        project_restriction: null,
+        action_name: _("Return to Available"),
+        confirmation_question: null,
+        detour: "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=return_2",
+        settings_template: "modifieddate='<TIMESTAMP>', checkedoutby=postproofer, postcomments=CONCAT(postcomments,'<G:postcomments>')",
+        collateral_actions: to_PPV_available_collateral(...),
     );
 
     // -----------------------------------------------------------------------------
@@ -861,63 +806,55 @@ function create_project_transitions(): array
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_SECOND_AVAILABLE,
         'holder',
-        [
-            'project_restriction' => "project_was_not_returned_from_PPV",
-            'action_name' => _("Upload to the PPV pool for verification"),
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-            'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-            'collateral_actions' => 'to_PPV_available_collateral',
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: project_was_not_returned_from_PPV(...),
+        action_name: _("Upload to the PPV pool for verification"),
+        confirmation_question: null,
+        detour: "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
+        settings_template: "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
+        collateral_actions: to_PPV_available_collateral(...),
+        disabled_during_SR: true,
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_SECOND_AVAILABLE,
         'site_manager',
-        [
-            'project_restriction' => "project_was_returned_from_PPV",
-            'action_name' => _("Upload to the PPV pool for verification"),
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
-            'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
-            'collateral_actions' => 'to_PPV_available_collateral',
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: project_was_returned_from_PPV(...),
+        action_name: _("Upload to the PPV pool for verification"),
+        confirmation_question: null,
+        detour: "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=post_1",
+        settings_template: "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, ppverifier=NULL, postcomments=CONCAT(postcomments,'<G:postcomments>')",
+        collateral_actions: to_PPV_available_collateral(...),
+        disabled_during_SR: true,
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_CHECKED_OUT,
         PROJ_POST_FIRST_CHECKED_OUT,
         'holder',
-        [
-            'project_restriction' => null,
-            'action_name' => _("Return to Post-Processor"),
-            'confirmation_question' => _("Are you sure you want to return this book to the post-processor for further work?"),
-            'detour' => null,
-            // formerly ppverifier was only set when the project was uploaded to PG
-            // it is set here so the PPer can return it to the same PPVer
-            // any transition out of PROJ_POST_FIRST_CHECKED_OUT sets it to NULL
-            // this will not affect how the PPVer is ultimately set.
-            'settings_template' => "modifieddate='<TIMESTAMP>', ppverifier=checkedoutby, checkedoutby=postproofer, postproofer=''",
-            'collateral_actions' => "return_to_PP_collateral",
-        ]
+        project_restriction: null,
+        action_name: _("Return to Post-Processor"),
+        confirmation_question: _("Are you sure you want to return this book to the post-processor for further work?"),
+        detour: null,
+        // formerly ppverifier was only set when the project was uploaded to PG
+        // it is set here so the PPer can return it to the same PPVer
+        // any transition out of PROJ_POST_FIRST_CHECKED_OUT sets it to NULL
+        // this will not affect how the PPVer is ultimately set.
+        settings_template: "modifieddate='<TIMESTAMP>', ppverifier=checkedoutby, checkedoutby=postproofer, postproofer=''",
+        collateral_actions: return_to_PP_collateral(...),
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_SECOND_CHECKED_OUT,
         'holder',
-        [
-            'project_restriction' => "project_was_returned_from_PPV",
-            'action_name' => _("Return to your current PPVer for further checking"),
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=re_post_1",
-            'settings_template' => "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby=ppverifier, ppverifier=NULL",
-            'collateral_actions' => "return_from_PP_to_PPV_collateral",
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: project_was_returned_from_PPV(...),
+        action_name: _("Return to your current PPVer for further checking"),
+        confirmation_question: null,
+        detour: "$code_url/tools/upload_text.php?project=<PROJECTID>&stage=re_post_1",
+        settings_template: "modifieddate='<TIMESTAMP>', postproofer=checkedoutby, checkedoutby=ppverifier, ppverifier=NULL",
+        collateral_actions: return_from_PP_to_PPV_collateral(...),
+        disabled_during_SR: true,
     );
 
     // -----------------------------------------------------------------------------
@@ -929,29 +866,25 @@ function create_project_transitions(): array
         PROJ_POST_FIRST_AVAILABLE,
         PROJ_POST_FIRST_UNAVAILABLE,
         'manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => '[default]',
-            'detour' => null,
-            'settings_template' => '',
-            'collateral_actions' => 'to_unavailable_collateral',
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: '[default]',
+        detour: null,
+        settings_template: '',
+        collateral_actions: to_unavailable_collateral(...),
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_FIRST_UNAVAILABLE,
         'manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
-            'detour' => null,
-            'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0'",
-            'collateral_actions' => 'to_unavailable_collateral',
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: _('Someone currently has this project checked out. Are you sure you want to make it unavailable?'),
+        detour: null,
+        settings_template: "modifieddate='<TIMESTAMP>', checkedoutby='', ppverifier=NULL, smoothread_deadline='0'",
+        collateral_actions: to_unavailable_collateral(...),
+        disabled_during_SR: true,
     );
 
     // From PROJ_POST_FIRST_UNAVAILABLE:
@@ -968,14 +901,12 @@ function create_project_transitions(): array
         // PMs with project loads disabled can't move a project
         // out of unavailable, either
         'unrestricted_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => _('Make Project Available for Post-Processing'),
-            'confirmation_question' => $pp_unavail_to_avail_confirm_question,
-            'detour' => null,
-            'settings_template' => "checkedoutby=''",   // Clear reserved PPer
-            'collateral_actions' => 'to_PP_available_collateral',
-        ]
+        project_restriction: null,
+        action_name: _('Make Project Available for Post-Processing'),
+        confirmation_question: $pp_unavail_to_avail_confirm_question,
+        detour: null,
+        settings_template: "checkedoutby=''",   // Clear reserved PPer
+        collateral_actions: to_PP_available_collateral(...),
     );
 
     $project_transitions[] = new ProjectTransition(
@@ -984,14 +915,12 @@ function create_project_transitions(): array
         // PMs with project load disabled can't move a project
         // out of unavailable, either
         'unrestricted_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => _('Check Out Project for Post-Processing'),
-            'confirmation_question' => _("It's unclear whether this transition should even be possible. Are you sure?"),
-            'detour' => null,
-            'settings_template' => "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
-            'collateral_actions' => 'PP_to_PP_out_collateral',
-        ]
+        project_restriction: null,
+        action_name: _('Check Out Project for Post-Processing'),
+        confirmation_question: _("It's unclear whether this transition should even be possible. Are you sure?"),
+        detour: null,
+        settings_template: "modifieddate='<TIMESTAMP>', checkedoutby='<WHO>'",
+        collateral_actions: PP_to_PP_out_collateral(...),
     );
 
     // -----------------------------------------------------------------------------
@@ -1005,43 +934,37 @@ function create_project_transitions(): array
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_POST_COMPLETE,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => $post_complete_question,
-            'detour' => null,
-            'settings_template' => "ppverifier=NULL",
-            'collateral_actions' => null,
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: $post_complete_question,
+        detour: null,
+        settings_template: "ppverifier=NULL",
+        collateral_actions: null,
+        disabled_during_SR: true,
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_AVAILABLE,
         PROJ_POST_COMPLETE,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => $post_complete_question,
-            'detour' => null,
-            'settings_template' => '',
-            'collateral_actions' => null,
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: $post_complete_question,
+        detour: null,
+        settings_template: '',
+        collateral_actions: null,
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_CHECKED_OUT,
         PROJ_POST_COMPLETE,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => $post_complete_question,
-            'detour' => null,
-            'settings_template' => '',
-            'collateral_actions' => null,
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: $post_complete_question,
+        detour: null,
+        settings_template: '',
+        collateral_actions: null,
     );
 
     // -----------------------------------------------------------------------------
@@ -1105,57 +1028,49 @@ function create_project_transitions(): array
         PROJ_POST_FIRST_CHECKED_OUT,
         PROJ_SUBMIT_PG_POSTED,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
-            'settings_template' => $pg_posted_settings_template,
-            'collateral_actions' => 'pg_posted_collateral',
-            'disabled_during_SR' => true,
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: null,
+        detour: "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        settings_template: $pg_posted_settings_template,
+        collateral_actions: pg_posted_collateral(...),
+        disabled_during_SR: true,
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_AVAILABLE,
         PROJ_SUBMIT_PG_POSTED,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
-            'settings_template' => $pg_posted_settings_template,
-            'collateral_actions' => 'pg_posted_collateral',
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: null,
+        detour: "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        settings_template: $pg_posted_settings_template,
+        collateral_actions: pg_posted_collateral(...),
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_SECOND_CHECKED_OUT,
         PROJ_SUBMIT_PG_POSTED,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
-            'settings_template' => $pg_posted_settings_template,
-            'collateral_actions' => 'pg_posted_collateral',
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: null,
+        detour: "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        settings_template: $pg_posted_settings_template,
+        collateral_actions: pg_posted_collateral(...),
     );
 
     $project_transitions[] = new ProjectTransition(
         PROJ_POST_COMPLETE,
         PROJ_SUBMIT_PG_POSTED,
         'site_manager',
-        [
-            'project_restriction' => null,
-            'action_name' => '[default]',
-            'confirmation_question' => null,
-            'detour' => "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
-            'settings_template' => $pg_posted_settings_template,
-            'collateral_actions' => 'pg_posted_collateral',
-        ]
+        project_restriction: null,
+        action_name: '[default]',
+        confirmation_question: null,
+        detour: "$code_url/tools/project_manager/editproject.php?action=edit&project=<PROJECTID>&posted=1",
+        settings_template: $pg_posted_settings_template,
+        collateral_actions: pg_posted_collateral(...),
     );
 
     // -----------------------------------------------------------------------------
@@ -1170,14 +1085,12 @@ function create_project_transitions(): array
             $from_state,
             PROJ_PARKED,
             'site_manager',
-            [
-                'project_restriction' => null,
-                'action_name' => _('Park Project'),
-                'confirmation_question' => _('Are you sure you want to park this project?'),
-                'detour' => null,
-                'settings_template' => "modifieddate='<TIMESTAMP>'",
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: _('Park Project'),
+            confirmation_question: _('Are you sure you want to park this project?'),
+            detour: null,
+            settings_template: "modifieddate='<TIMESTAMP>'",
+            collateral_actions: null,
         );
     }
 
@@ -1202,14 +1115,12 @@ function create_project_transitions(): array
             $from_state,
             PROJ_DELETE,
             $who_may_delete,
-            [
-                'project_restriction' => null,
-                'action_name' => _('Delete Project'),
-                'confirmation_question' => _('You should only delete a project that is beyond repair. Are you sure you want to delete this project?'),
-                'detour' => null,
-                'settings_template' => "modifieddate='<TIMESTAMP>'",
-                'collateral_actions' => null,
-            ]
+            project_restriction: null,
+            action_name: _('Delete Project'),
+            confirmation_question: _('You should only delete a project that is beyond repair. Are you sure you want to delete this project?'),
+            detour: null,
+            settings_template: "modifieddate='<TIMESTAMP>'",
+            collateral_actions: null,
         );
     }
 
