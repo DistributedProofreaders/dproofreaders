@@ -190,7 +190,7 @@ window.addEventListener("DOMContentLoaded", () => {
             };
             const mathJaxScriptElement = document.createElement("script");
             mathJaxScriptElement.type = "text/javascript";
-            mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
+            mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js";
             const scriptLoadPromise = new Promise(function (resolve) {
                 mathJaxScriptElement.onload = function () {
                     resolve();
