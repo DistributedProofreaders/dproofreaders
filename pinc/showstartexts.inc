@@ -1,7 +1,7 @@
 <?php
 include_once($relPath.'list_projects.inc');
 
-function showstartexts($etext_limit, $type)
+function showstartexts(int $etext_limit, string $type): void
 {
     global $code_url;
 
