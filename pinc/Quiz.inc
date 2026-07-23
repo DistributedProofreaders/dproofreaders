@@ -5,6 +5,7 @@ include_once($relPath.'CharSuites.inc'); // CharSuiteSet
 // for groups of quizzes that go together
 class QuizLevel
 {
+    /** @var array<string, QuizLevel> */
     public static $map_quiz_level_id_to_QuizLevel = [];
 
     /** @param Quiz[] $quizzes */
@@ -36,6 +37,10 @@ class Quiz
     /** @var array<string, Quiz> */
     public static $map_quiz_id_to_Quiz = [];
 
+    /**
+     * @param array<string, string> $pages
+     * @param array<string, int> $pass_requirements
+     */
     public function __construct(
         public readonly string $id,
         public readonly string $name,        // appears in the top of the quiz's table
