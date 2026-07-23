@@ -493,7 +493,7 @@ class ProjectSearchResults
         $this->userSettings = & Settings::get_Settings($pguser);
         $this->search_origin = $search_origin;
         $option_data = new OptionData($this->userSettings, $this->search_origin);
-        $this->page_size = $option_data->results_per_page->get_value();
+        $this->page_size = intval($option_data->results_per_page->get_value());
         $time_format = $option_data->time_format->get_value();
 
         $column_data = new ColumnData($this->userSettings, $this->search_origin, $time_format);

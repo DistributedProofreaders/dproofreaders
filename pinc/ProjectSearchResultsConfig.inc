@@ -44,8 +44,12 @@ class ColumnSelector extends Selector
 class OptionSelector extends Selector
 {
     private string $def_value;
+    /** @var array<int|string, int|string> */
     private array $options;
 
+    /**
+     * @param array<int|string, int|string> $options
+     */
     public function __construct(string $id, string $label, string $value, array $options, Settings $userSettings, string $search_origin)
     {
         $this->id = $id;
@@ -69,7 +73,7 @@ class OptionSelector extends Selector
         return $r;
     }
 
-    public function get_value()
+    public function get_value(): string
     {
         $value = $this->userSettings->get_value("search:{$this->search_origin}.option:$this->id", $this->def_value);
 
@@ -83,7 +87,7 @@ class OptionSelector extends Selector
         return $value;
     }
 
-    public function save_value($value): void
+    public function save_value(string $value): void
     {
         // Save the value but only if it has changed and is a valid option
         if ($this->get_value() != $value && isset($this->options[$value])) {
@@ -125,6 +129,7 @@ class OptionData
 
 class ConfigForm extends ColumnData
 {
+    /** @var ColumnSelector[] */
     private array $column_selectors;
     private OptionData $option_data;
 
