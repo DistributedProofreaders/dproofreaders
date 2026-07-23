@@ -4,15 +4,16 @@ include_once($relPath."unicode.inc"); // convert_codepoint_ranges_to_characters(
 
 class CharacterSelector
 {
+    /** @var (?PickerSet)[] */
     private array $picker_sets;
 
-    public function __construct($projectid)
+    public function __construct(string $projectid)
     {
         $project = get_project_or_quiz($projectid);
         $this->picker_sets = $project->get_pickersets();
     }
 
-    public function draw()
+    public function draw(): void
     {
         // The code in tools/proofers/character_selector.js uses these ids and
         // classes and adds the MRU buttons if this code is changed, that code
@@ -40,7 +41,7 @@ class CharacterSelector
                 $selector_string .= "<button type='button' id='$safe_code' class='selector_button' title='$title'>" . html_safe($code) . "</button>";
                 $row_string .= "<div class='$safe_code key-block'>\n";
                 foreach ($picker as $row) {
-                    $row_string .= $this->draw_row(convert_codepoint_ranges_to_characters($row));
+                    $row_string .= $this->format_row(convert_codepoint_ranges_to_characters($row));
                 }
                 $row_string .= "</div>\n";
             }
@@ -52,7 +53,8 @@ class CharacterSelector
         echo "<div id='char-selector' class='nowrap'>$selector_string$row_string</div>\n";
     }
 
-    public function draw_row($chars)
+    /** @param array<?string> $chars */
+    private function format_row(array $chars): string
     {
         $row = "<div class='table-row'>";
 
