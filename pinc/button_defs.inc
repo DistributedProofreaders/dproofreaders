@@ -16,7 +16,8 @@ define('REVERT_TO_LAST_SAVE_DISABLED', 'O');
 define('SHOW_ALL_TEXT', 'P');
 define('PREVIEW', 'S');
 
-function echo_button($button_id, $which_interface)
+/** @param 's'|'a' $which_interface */
+function echo_button(string $button_id, string $which_interface): void
 {
     $CRLF = '\r\n';
     if ($which_interface == 's') {
@@ -184,7 +185,7 @@ function echo_button($button_id, $which_interface)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function echo_img($id)
+function echo_img(string $id): void
 {
     switch ($id) {
         case PROJECT_COMMENTS:
