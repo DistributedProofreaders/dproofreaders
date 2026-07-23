@@ -18,14 +18,14 @@ use PHPMailer\PHPMailer\Exception;
  *   Email subject
  * @param string $message
  *   Email body
- * @param string $from
+ * @param ?string $from
  *   Optional argument for who the email is from. May either take the form
  *   `user@example.com` or `Example User <user@example.com>`.
- * @param string $reply_to
+ * @param ?string $reply_to
  *   Optional argument for who the email is from. May either take the form
  *   `user@example.com` or `Example User <user@example.com>`.
  */
-function send_mail($to, $subject, $message, $from = null, $reply_to = null)
+function send_mail(string $to, string $subject, string $message, ?string $from = null, ?string $reply_to = null): bool
 {
     // If From & Reply-To given, use them
     // If only From given, use it, and don't include Reply-To at all
@@ -104,7 +104,7 @@ function send_mail($to, $subject, $message, $from = null, $reply_to = null)
     return $success;
 }
 
-function send_mail_project_manager($project, $info, $prefix)
+function send_mail_project_manager(Project $project, string $info, string $prefix): bool
 {
     $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
@@ -130,8 +130,10 @@ function send_mail_project_manager($project, $info, $prefix)
  *
  * We intentionally don't translate anything because we don't know
  * what the recipient's language is at this point.
+ *
+ * @return list{string, string}
  */
-function get_standard_email_footers()
+function get_standard_email_footers(): array
 {
     $automated_message = "This is an automated message.";
     $text_footer = implode("\n", [
@@ -156,8 +158,10 @@ function get_standard_email_footers()
  *
  * Split a string of form `user@example.com` or `Example User <user@example.com>`
  * into the name and the email address. Name will be null if not specified.
+ *
+ * @return list{string, string}
  */
-function get_name_address($string)
+function get_name_address(string $string): array
 {
     $string = rtrim($string, '>');
     $results = explode(' <', $string);
@@ -175,7 +179,7 @@ function get_name_address($string)
  *
  * Appends two spaces which are then rendered as <br> in HTML
  */
-function mdmail_append_linebreak($line)
+function mdmail_append_linebreak(string $line): string
 {
     return $line . '  ';
 }
@@ -183,7 +187,7 @@ function mdmail_append_linebreak($line)
 /**
  * Return string for horizontal rule for a Markdown email
  */
-function mdmail_horizontal_rule()
+function mdmail_horizontal_rule(): string
 {
     return '---';
 }
@@ -193,7 +197,7 @@ function mdmail_horizontal_rule()
  *
  * Prepends 4 non-breaking spaces
  */
-function mdmail_indent_line($line)
+function mdmail_indent_line(string $line): string
 {
     return str_repeat("\u{a0}", 4) . $line;
 }
@@ -203,7 +207,7 @@ function mdmail_indent_line($line)
  *
  * Prepends number of hashes corresponding to level
  */
-function mdmail_heading($level, $line)
+function mdmail_heading(int $level, string $line): string
 {
     return str_repeat('#', $level) . ' ' . $line;
 }
