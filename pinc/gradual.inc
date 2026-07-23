@@ -45,7 +45,7 @@ function get_pages_proofed_maybe_simulated(?string $username = null): int
     return $pagesproofed;
 }
 
-function welcome_see_beginner_forum(int $pagesproofed, $page_id, ?string $username = null): void
+function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string $username = null): void
 {
     global $code_url, $ELR_round;
 
@@ -254,7 +254,7 @@ function maybe_output_new_proofer_project_message(Project $project): void
  * Output a callout and encourage the user to work in the round with the
  * highest backlog that they can work in.
  */
-function encourage_highest_round(?string $username, $round_id = null): void
+function encourage_highest_round(?string $username, ?string $round_id = null): void
 {
     global $code_url, $ELR_round, $ACCESS_CRITERIA;
 
