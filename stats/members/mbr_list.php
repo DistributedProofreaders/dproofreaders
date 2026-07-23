@@ -106,8 +106,8 @@ echo "</tr>";
 if (!empty($mRows)) {
     while ($row = mysqli_fetch_assoc($mResult)) {
         echo "<tr>";
-
-        if (can_reveal_details_about($row['username'], $row['u_privacy'])) {
+        $privacy = $row['u_privacy'] == 0 ? PRIVACY_PRIVATE : PRIVACY_ANONYMOUS;
+        if (can_reveal_details_about($row['username'], $privacy)) {
             echo "<td style='text-align: center;'><b>".$row['u_id']."</b></td>";
             echo "<td>".$row['username']."</td>";
             echo "<td style='text-align: center;'>".date("m/d/Y", (int)$row['date_created'])."</td>";
