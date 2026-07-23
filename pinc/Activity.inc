@@ -51,6 +51,7 @@ class Activities
     // This maps the static container class names to the class types
     // they contain. This makes the functions in this base class return the
     // correct subset of items when called from the child classes.
+    /** @var array<string, string> */
     private static $container_to_class_mapping = [
         "Activities" => "Activity",
         "Rounds" => "Round",
@@ -73,6 +74,7 @@ class Activities
 
     /**
      * The return of this function is untyped for now (see the comment above `$_activities` for why).
+     * @return mixed[]
      */
     public static function get_all(): array
     {
@@ -91,7 +93,7 @@ class Activities
      *
      * @param int|string $value
      */
-    protected static function _get(string $attribute, $value)
+    protected static function _get(string $attribute, $value): mixed
     {
         // fast-track lookup by ID
         if ($attribute == "id") {
@@ -115,7 +117,7 @@ class Activities
     /**
      * The return of this function is untyped for now (see the comment above `$_activities` for why).
      */
-    public static function get_by_id(string $id)
+    public static function get_by_id(string $id): mixed
     {
         return self::$_activities[self::_get_class_mapping()][$id] ?? null;
     }
@@ -131,7 +133,7 @@ class Activity
      *   (Should probably conform to the rules for a PHP variable name.)
      * @param string $name
      *   A gettext-translated name for the activity.
-     * @param array $access_minima
+     * @param array<string, int> $access_minima
      *   A (possibly empty) array of minimum requirements that a user must satisfy
      *   in order to be allowed to participate in this activity
      *   (barring special permission).
@@ -160,7 +162,6 @@ class Activity
     public function __construct(
         public readonly string $id,
         public readonly string $name,
-        /** @var array<string,int> */
         public array $access_minima,
         public readonly string $after_satisfying_minima,
         public readonly string $evaluation_criteria,
@@ -221,7 +222,7 @@ class Activity
      * that the user has completed. Otherwise, consult the database.
      */
     // TODO(jchaffraix): Add a class for the UserAccess object for type soundness.
-    public function user_access(?string $username, $n_pages_completed = null): object
+    public function user_access(?string $username, ?int $n_pages_completed = null): object
     {
         if (is_null($username)) {
             $uao = new StdClass(); // user access object
