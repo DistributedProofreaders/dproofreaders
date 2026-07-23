@@ -1,6 +1,7 @@
 <?php
 
-function log_access_change($subject_username, $modifier_username, $activity_id, $action_type)
+/** @return mysqli_result|bool */
+function log_access_change(string $subject_username, string $modifier_username, string $activity_id, string $action_type)
 {
     $setters = join(", ", [
         set_col_num("timestamp", time()),
@@ -16,7 +17,7 @@ function log_access_change($subject_username, $modifier_username, $activity_id, 
     return DPDatabase::query($sql);
 }
 
-function get_first_granted_date($username, $stage)
+function get_first_granted_date(string $username, string $stage): ?int
 {
     $sql = sprintf(
         "
@@ -42,7 +43,8 @@ function get_first_granted_date($username, $stage)
     }
 }
 
-function get_latest_access_change_entry($username, $activity_id)
+/** @return array<string, mixed>|null|false */
+function get_latest_access_change_entry(string $username, string $activity_id): array|null|false
 {
     $sql = sprintf(
         "
