@@ -49,7 +49,7 @@ function get_big_upload_blurb(): string
 /**
  * This supplies the arguments for the header in the page containing the upload
  * form below
- * @return array<string, string|string[]>
+ * @return HeaderExtraArgs
  */
 function get_upload_args(): array
 {

@@ -15,7 +15,7 @@ include_once($relPath.'job_log.inc');
 /**
  * Emit the opening markup and theme tags, and register a callback
  * to close the page after the caller finishes output.
- * @param array<string, mixed> $extra_args
+ * @param HeaderExtraArgs $extra_args
  */
 function output_header(string $nameofpage, bool $show_statsbar = false, array $extra_args = []): void
 {

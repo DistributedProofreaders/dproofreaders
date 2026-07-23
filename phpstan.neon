@@ -275,3 +275,16 @@ parameters:
                 option_label?: string,
             }
             """
+        HeaderExtraArgs: """
+            array{
+                frameset?: bool,          // false (default) | true
+                head_data?: string,       // string to output as-is in <head> tag
+                css_files?: string[],     // CSS files to include in the page
+                css_data?: string,        // CSS to include in the page
+                js_data?: string,         // JS code to include in the page,
+                js_files?: string[],      // array of .js files to link to
+                js_modules?: string[],    // array of .js files to link astype=module
+                js_module_data?: string,  // <script type='module'> code to include
+                body_attributes?: string, // body tag attributes to output
+            }
+            """
