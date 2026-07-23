@@ -36,6 +36,7 @@ function insert_job_log_entry(string $filename, string $event, ?string $comments
     DPDatabase::query($sql);
 }
 
+/** @return array<string, mixed>[] */
 function get_job_log_entries(int $timestamp, ?string $filename = null, ?string $event = null, ?bool $succeeded = null): array
 {
     $filename_where = $filename ? sprintf("AND filename = '%s'", DPDatabase::escape($filename)) : "";
