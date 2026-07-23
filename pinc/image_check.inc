@@ -3,7 +3,7 @@
 $page_image_size_limit = 100; // kb
 $page_image_minimum_dimension = 1000; // pixels
 
-function get_image_size_error($image_size)
+function get_image_size_error(int $image_size): ?string
 {
     global $page_image_size_limit;
     $result = null;
@@ -14,7 +14,7 @@ function get_image_size_error($image_size)
     return $result;
 }
 
-function get_image_small_dimension_error($width, $height)
+function get_image_small_dimension_error(int $width, int $height): ?string
 {
     global $page_image_minimum_dimension;
     $result = null;
