@@ -257,7 +257,7 @@ function move_project_rows_to_archive_db(string $projectid, string $table_name, 
     // this sleep gives the db server some time to recover
     // in between queries.
     global $archival_recovery_multiplier;
-    sleep($t_elapsed * $archival_recovery_multiplier);
+    sleep((int)ceil($t_elapsed * $archival_recovery_multiplier));
 }
 
 $archival_recovery_multiplier = 1;

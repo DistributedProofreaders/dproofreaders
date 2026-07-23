@@ -8,6 +8,7 @@ class Stopwatch
 {
     private bool $running;
     private float $seconds_from_completed_runs;
+    /** @var array<string, int> */
     private array $run_start_tod;
 
     // The time between a 'start' ('resume') and the subsequent 'stop' ('pause')
@@ -19,14 +20,14 @@ class Stopwatch
         $this->seconds_from_completed_runs = 0;
     }
 
-    public function start() // or resume
+    public function start(): void // or resume
     {
         assert(!$this->running);
         $this->run_start_tod = gettimeofday();
         $this->running = true;
     }
 
-    public function read()
+    public function read(): float
     {
         if ($this->running) {
             $now_tod = gettimeofday();
@@ -41,14 +42,14 @@ class Stopwatch
         }
     }
 
-    public function stop() // or pause
+    public function stop(): void // or pause
     {
         assert($this->running);
         $this->seconds_from_completed_runs = $this->read();
         $this->running = false;
     }
 
-    public function reset()
+    public function reset(): void
     {
         // A real stopwatch might let you push the reset button
         // while it's running. This one doesn't.
@@ -57,7 +58,7 @@ class Stopwatch
     }
 }
 
-function test_Stopwatch()
+function test_Stopwatch(): void
 {
     $watch = new Stopwatch();
     sleep(1);
