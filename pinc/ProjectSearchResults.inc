@@ -399,6 +399,7 @@ class HoldColumn extends Column
 
 class ColumnData
 {
+    /** @var Column[] */
     public array $columns;
 
     public function __construct(
@@ -594,7 +595,7 @@ class ProjectSearchResults
         $this->sort_sql .= ", $sec_sort_sql asc";
     }
 
-    /** @return array{0: bool|mysqli_result, 1: int} */
+    /** @return list{bool|mysqli_result, int} */
     private function _search(string $where_condition, int $results_offset): array
     {
         // load a count of the total number of projects
