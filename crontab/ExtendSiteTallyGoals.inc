@@ -5,7 +5,7 @@
 // Extend the current site tally goals into the future
 class ExtendSiteTallyGoals extends BackgroundJob
 {
-    public function work()
+    public function work(): void
     {
         $res = DPDatabase::query("
             SELECT MAX(date) FROM site_tally_goals

@@ -6,7 +6,7 @@ class CleanUploadsTrash extends BackgroundJob
 {
     public bool $requires_web_context = true;
 
-    public function work()
+    public function work(): void
     {
         $trash_dir = realpath(SiteConfig::get()->uploads_dir . "/" . SiteConfig::get()->uploads_subdir_trash);
         if (! is_dir($trash_dir)) {

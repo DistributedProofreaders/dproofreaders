@@ -3,7 +3,7 @@
 // Find projects that were posted to PG a while ago and prune page data.
 class PrunePageData extends BackgroundJob
 {
-    public function work()
+    public function work(): void
     {
         $database = SiteConfig::get()->archive_db_name ? SiteConfig::get()->archive_db_name : SiteConfig::get()->db_name;
 

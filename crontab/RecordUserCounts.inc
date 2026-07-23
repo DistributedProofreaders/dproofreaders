@@ -5,7 +5,7 @@
 // Record active user counts.
 class RecordUserCounts extends BackgroundJob
 {
-    public function work()
+    public function work(): void
     {
         // Each L_<interval> field gives the number of distinct users
         // who logged in sometime in the <interval> preceding the row's timestamp.

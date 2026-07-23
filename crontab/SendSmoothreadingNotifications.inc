@@ -7,7 +7,7 @@ include_once($relPath.'Project.inc');
 // Send SR finish notifications
 class SendSmoothreadingNotifications extends BackgroundJob
 {
-    public function work()
+    public function work(): void
     {
         // Assume smooth read deadlines are at exact hours
         // Select all projects whose smooth reading deadline is within the past hour.

@@ -5,7 +5,7 @@
 // Record current project state counts
 class RecordProjectStateCounts extends BackgroundJob
 {
-    public function work()
+    public function work(): void
     {
         $date_string = date('Y-m-d');
         $sql = sprintf(

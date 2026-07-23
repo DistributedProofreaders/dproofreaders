@@ -21,7 +21,7 @@ class TakeTallySnapshots extends BackgroundJob
         $this->start_message = "Tally snapshot ascribed as $this->midnight";
     }
 
-    public function work()
+    public function work(): void
     {
         $watch = new Stopwatch();
 
