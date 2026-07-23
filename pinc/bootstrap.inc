@@ -31,7 +31,7 @@ spl_autoload_register('dp_class_autoloader');
 require_once($relPath.'../vendor/autoload.php');
 
 // Exception handlers are defined differently for HTML and the API
-set_exception_handler(SiteConfig::get()->testing ? 'test_exception_handler' : 'production_exception_handler');
+set_exception_handler(SiteConfig::get()->testing ? test_exception_handler(...) : production_exception_handler(...));
 
 if (!headers_sent()) {
     // Tell proxies to vary the caching based on the Accept-Language header
@@ -66,7 +66,7 @@ include_once($relPath.'misc.inc');
 //----------------------------------------------------------------------------
 
 // Autoloading functions for DP classes in pinc/
-function dp_class_autoloader($class)
+function dp_class_autoloader(string $class): void
 {
     global $relPath;
     if (is_file($relPath.$class.".inc")) {
@@ -74,7 +74,16 @@ function dp_class_autoloader($class)
     }
 }
 
-function dp_setcookie($name, $value = "", $expires = 0, $options = [])
+/**
+ * @param array{
+ *            expires?: int,
+ *            path?: string,
+ *            secure?: bool,
+ *            httponly?: bool,
+ *            samesite?: 'Lax'|'None'|'Strict'
+ *        } $options
+ */
+function dp_setcookie(string $name, string $value = "", int $expires = 0, $options = []): bool
 {
     $defaults = [
         "expires" => $expires,
