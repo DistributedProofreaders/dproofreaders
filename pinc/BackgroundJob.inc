@@ -24,7 +24,7 @@ abstract class BackgroundJob
         $this->watch = new Stopwatch();
     }
 
-    public function start(?string $message = null)
+    public function start(?string $message = null): void
     {
         $this->watch->start();
         ob_start();
@@ -33,7 +33,7 @@ abstract class BackgroundJob
         }
     }
 
-    public function stop(?string $message = null, ?bool $succeeded = null)
+    public function stop(?string $message = null, ?bool $succeeded = null): void
     {
         $this->output = ob_get_contents();
         ob_end_clean();
@@ -47,7 +47,7 @@ abstract class BackgroundJob
         insert_job_log_entry(get_class($this), "END", $message, $succeeded);
     }
 
-    public function go()
+    public function go(): void
     {
         $hit_error = false;
         try {
@@ -75,5 +75,5 @@ abstract class BackgroundJob
     }
 
     // work() should throw an exception on failure
-    abstract public function work();
+    abstract public function work(): void;
 }

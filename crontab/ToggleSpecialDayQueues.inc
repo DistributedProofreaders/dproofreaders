@@ -12,7 +12,7 @@
  */
 class ToggleSpecialDayQueues extends BackgroundJob
 {
-    public function work()
+    public function work(): void
     {
         /*
         We want the queue for a special day to be open

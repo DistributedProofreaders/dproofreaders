@@ -6,7 +6,7 @@ class CleanDownloadTemp extends BackgroundJob
 {
     public bool $requires_web_context = true;
 
-    public function work()
+    public function work(): void
     {
         $download_temp_dir = realpath(SiteConfig::get()->dyn_dir . "/download_tmp");
         if (! is_dir($download_temp_dir)) {

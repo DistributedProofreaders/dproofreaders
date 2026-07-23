@@ -11,7 +11,7 @@ class NotifyOldPP extends BackgroundJob
     private int $notifications_sent = 0;
     private int $notifications_failed = 0;
 
-    public function work()
+    public function work(): void
     {
         $projects_by_PPer = get_pp_projects_past_threshold();
 
