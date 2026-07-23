@@ -30,11 +30,8 @@ $quiz_type_intro = [
 ];
 
 // show a level of quizzes
-if (
-    ($quiz_level_id = @$_GET['show_level'])
-    &&
-    ($quiz_level = @QuizLevel::$map_quiz_level_id_to_QuizLevel[$quiz_level_id])
-) {
+if (($quiz_level_id = ($_GET['show_level'] ?? null)) &&
+    ($quiz_level = QuizLevel::$map_quiz_level_id_to_QuizLevel[$quiz_level_id] ?? null) !== null) {
     output_header($quiz_level->level_name, SHOW_STATSBAR);
     echo "<h1>".$quiz_level->level_name."</h1>\n";
     echo $quiz_level->info;
@@ -51,11 +48,8 @@ if (
 }
 
 // show a whole category of quizzes (proofing or formatting)
-elseif (
-    ($so = @$_GET['show_only'])
-    &&
-    ($so == 'PQ' || $so == 'FQ' || isset($quiz_type_intro[$so]))
-) {
+elseif (($so = ($_GET['show_only']) ?? null) &&
+        ($so == 'PQ' || $so == 'FQ' || isset($quiz_type_intro[$so]))) {
     if ($so == 'PQ') {
         $activity_type = 'proof';
     } elseif ($so == 'FQ') {
