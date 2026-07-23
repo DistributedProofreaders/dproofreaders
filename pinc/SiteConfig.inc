@@ -84,9 +84,11 @@ class SiteConfig
     public bool $api_rate_limit = false;
     public int $api_rate_limit_requests_per_window = 3600;
     public int $api_rate_limit_seconds_in_window = 3600;
+    /** @var string[] */
     public array $api_storage_keys = [];
 
     // emails
+    /** @var array<string, string|int> */
     public array $phpmailer_smtp_config = [];
     public ?string $no_reply_email_addr;  // only used by noncvs code
     public ?string $general_help_email_addr;
@@ -105,6 +107,7 @@ class SiteConfig
     public bool $auto_post_to_project_topic = false;
     public bool $ordinary_users_can_see_queue_settings = true;
     public string $external_catalog_locator = 'lx2.loc.gov:210/LCDB';
+    /** @var string[] */
     public array $default_project_char_suites = ["basic-latin"];
     public bool $testing = false;
 
@@ -145,7 +148,7 @@ class SiteConfig
         $projects_dir = $this->projects_dir;
     }
 
-    public static function load(string $filename)
+    public static function load(string $filename): void
     {
         if (self::$_site_config) {
             return;
