@@ -113,6 +113,7 @@ function dpsql_dump_themed_query_result(mysqli_result $result, int $start_at = 0
 
 /**
  * Return an array of arrays, one for each column of the result-set.
+ * @return mixed[][]
  */
 function dpsql_fetch_columns(mysqli_result $res): array
 {
