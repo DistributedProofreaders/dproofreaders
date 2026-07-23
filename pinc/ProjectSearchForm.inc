@@ -7,6 +7,7 @@ class ProjectSearchWidget
     protected string $id;
     protected string $label;
     protected string $invert_label;
+    /** @var list{string, string} */
     private array $q_contrib;
     private string $separator;
     private bool $can_be_multiple = false;
@@ -14,8 +15,10 @@ class ProjectSearchWidget
     private bool $has_invert = false;
     private string $type;
     private int $size;
+    /** @var array<string, string> */
     private array $options;
 
+    /** @param array<string, mixed> $properties */
     public function __construct(array $properties)
     {
         foreach ($properties as $property => $value) {
@@ -132,6 +135,7 @@ class ProjectSearchWidget
         return $contribution;
     }
 
+    /** @param mixed[] $values */
     public function sql_from_multi(array $values, string $column_name, string $comparator): ?string
     {
         // if any $value is an array, someone is mucking with the URL
@@ -157,6 +161,7 @@ class ProjectSearchWidget
 
 class SpecialDayWidget extends ProjectSearchWidget
 {
+    /** @param array<mixed> $values */
     public function sql_from_multi(array $values, string $column_name, string $comparator): ?string
     {
         // if any $value is an array, someone is mucking with the URL
@@ -201,6 +206,7 @@ class HoldWidget extends ProjectSearchWidget
 
 class ProjectSearchForm
 {
+    /** @var ProjectSearchWidget[] */
     private array $widgets;
 
     public function __construct()
