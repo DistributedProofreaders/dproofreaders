@@ -6,7 +6,7 @@
  * If it is, return an empty string.
  * If it isn't, return a string detailing the problem.
  */
-function check_email_address($email_address)
+function check_email_address(string $email_address): string
 {
     $email_address_max_len = 100;
     // This is the length of the 'email' field in the 'users' table.
