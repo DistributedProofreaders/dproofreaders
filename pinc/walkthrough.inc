@@ -3,7 +3,7 @@
 // SITE-SPECIFIC
 // Functions that deal with the walkthrough housed in $dyn_dir
 
-function get_walkthrough_url($langcode = null)
+function get_walkthrough_url(?string $langcode = null): string
 {
     // if no langcode was passed in, try to get the user's language
     if (!$langcode) {
