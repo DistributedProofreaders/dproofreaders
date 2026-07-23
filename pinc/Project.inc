@@ -159,13 +159,10 @@ class ProjectTransitionException extends ProjectException
 
 class ProjectPage
 {
-    public $page_name;
-    public $page_state;
-
-    public function __construct(string $pagename, string $pagestate)
-    {
-        $this->page_name = $pagename;
-        $this->page_state = $pagestate;
+    public function __construct(
+        public readonly string $page_name,
+        public readonly string $page_state
+    ) {
     }
 }
 
@@ -193,7 +190,7 @@ class Project
 {
     use CharSuiteSet;
 
-    private $_create_source = null;
+    private ?string $_create_source = null;
     public string $nameofwork;
     public ?string $state;
     public string $special_code;
@@ -234,7 +231,7 @@ class Project
     public int $int_level;
 
     /** @param string|array<string, mixed>|null $arg */
-    public function __construct(mixed $arg = null)
+    public function __construct($arg = null)
     {
         if (is_string($arg)) {
             // $arg is the projectid.
@@ -832,8 +829,8 @@ class Project
     // by joining them with the string " with ". These functions provide a
     // common place for encoding / decoding them.
 
-    /** @param array{0: string, 1?: string} $languages */
-    public static function encode_languages(array $languages): string
+    /** @param list{string}|list{string, string} $languages */
+    public static function encode_languages($languages): string
     {
         // handle the case where the second language is empty
         if (count($languages) == 2 && $languages[1] == '') {
@@ -910,7 +907,7 @@ class Project
     }
 
     /** @param string[]|CharSuite[] $charsuites */
-    public function set_charsuites(mixed $charsuites): void
+    public function set_charsuites(array $charsuites): void
     {
         // We want to allow the project to keep any character suites
         // it already had, even if the character suite was disabled
@@ -940,7 +937,7 @@ class Project
     }
 
     /** @param string|CharSuite $charsuite */
-    public function add_charsuite(mixed $charsuite): void
+    public function add_charsuite($charsuite): void
     {
         $charsuite = CharSuites::resolve($charsuite);
 
@@ -1230,7 +1227,7 @@ class Project
     }
 
     /** @return string[] */
-    public function get_page_states(): array
+    public function get_page_states()
     {
         $states = [];
 
@@ -1337,7 +1334,7 @@ class Project
     }
 
     /** @return string[] */
-    public function get_illustrations(): array
+    public function get_illustrations()
     {
         // Illustrations are the set of files in the project directory that
         // do not match existing image names in the database.
@@ -2091,7 +2088,7 @@ function get_page_image_param(array $arr, string $key, bool $allownull = false):
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Image source functions
 
-/** @return array<string, mixed> */
+/** @return array<string, array<string, mixed>> */
 function load_image_sources(): array
 {
     static $image_sources = [];
