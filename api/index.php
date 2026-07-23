@@ -241,7 +241,7 @@ function handle_cors_headers()
 // set or defined in this file as the handlers may be used before the functions
 // are defined.
 
-function production_exception_handler($exception)
+function production_exception_handler(Throwable $exception): void
 {
     if ($exception instanceof ApiException) {
         $response_code = $exception->status_code;
@@ -256,7 +256,7 @@ function production_exception_handler($exception)
     api_output_response($response, $response_code);
 }
 
-function test_exception_handler($exception)
+function test_exception_handler(Throwable $exception): void
 {
     production_exception_handler($exception);
 }

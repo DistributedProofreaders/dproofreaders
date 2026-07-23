@@ -85,7 +85,7 @@ if (SiteConfig::get()->maintenance && !@$maintenance_override) {
 // set or defined in this file as the handlers may be used before the functions
 // are defined.
 
-function production_exception_handler($exception)
+function production_exception_handler(Throwable $exception): void
 {
     global $maintenance;
 
@@ -110,7 +110,7 @@ function production_exception_handler($exception)
     echo "\n</p>";
 }
 
-function test_exception_handler($exception)
+function test_exception_handler(Throwable $exception): void
 {
     // Show what users would see on PROD. We don't want to call
     // production_exception_handler() here because we don't want the special
@@ -124,7 +124,7 @@ function test_exception_handler($exception)
     throw $exception;
 }
 
-function require_login()
+function require_login(): void
 {
     global $code_url;
     global $relPath;
