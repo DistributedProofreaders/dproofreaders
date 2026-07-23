@@ -9,7 +9,7 @@ include_once($relPath."BBDiffFormatter.inc");
  */
 class DifferenceEngineWrapperBB extends DifferenceEngineWrapper
 {
-    public function __construct($diffurl)
+    public function __construct(string $diffurl)
     {
         parent::__construct(new BBDiffFormatter($diffurl));
     }
@@ -20,12 +20,12 @@ class DifferenceEngineWrapperBB extends DifferenceEngineWrapper
  */
 class DifferenceEngineWrapperBBHTML extends DifferenceEngineWrapper
 {
-    public function __construct($diffurl)
+    public function __construct(string $diffurl)
     {
         parent::__construct(new BBDiffFormatterHTML($diffurl));
     }
 
-    protected function addHeader($diff, $otitle, $ntitle, $multi = '', $notice = '')
+    protected function addHeader(string $diff, string $otitle, string $ntitle, string $multi = '', string $notice = ''): string
     {
         $header = "";
         if (!$diff && !$otitle) {
