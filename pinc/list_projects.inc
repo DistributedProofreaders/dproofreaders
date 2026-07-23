@@ -4,7 +4,7 @@ include_once($relPath.'pg.inc');
 /**
  * Output a list of projects giving very brief information about each
  */
-function list_projects_tersely(string $metal, string $order_clause, string $limit_clause)
+function list_projects_tersely(string $metal, string $order_clause, string $limit_clause): void
 {
     if ($metal == "gold") {
         $where_condition = SQL_CONDITION_GOLD;
@@ -45,7 +45,7 @@ function list_projects_tersely(string $metal, string $order_clause, string $limi
  *
  * url_base is the URL with the beginning of a query string, eg "foo.php?x=10&amp;" or "foo.php?"
  */
-function list_projects(string $metal, string $order_clause, string $url_base, int $per_page = 20, int $offset = 0)
+function list_projects(string $metal, string $order_clause, string $url_base, int $per_page = 20, int $offset = 0): void
 {
     global $code_url;
 
@@ -188,7 +188,7 @@ function list_projects(string $metal, string $order_clause, string $url_base, in
  * This function takes into account that some books are processed as several
  * projects.
  */
-function total_completed_projects()
+function total_completed_projects(): int
 {
     $psd = get_project_status_descriptor('posted');
     $sql = "
