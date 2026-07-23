@@ -29,13 +29,13 @@ class Stage extends Activity
      *   The path (relative to `$code_url/faq/`) of a document that tells you
      *   everything you need to know about working in this stage.
      *   Or NULL if there is no such document.
+     * @param array<string,int> $access_minima
      * @param string $relative_url
      *   The "home" location (relative to `$code_url/`) of the stage.
      */
     public function __construct(
         string $id,
         string $name,
-        /** @var array<string,int> */
         array $access_minima,
         string $after_satisfying_minima,
         string $evaluation_criteria,
