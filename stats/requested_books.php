@@ -78,7 +78,7 @@ dpsql_dump_themed_query(
 echo "<br>\n";
 echo "<h2>" . _("Most Requested Books Posted to Project Gutenberg") . "</h2>\n";
 
-$pg_url1 = DPDatabase::escape(sprintf("<a href='%s", get_pg_catalog_url_for_etext('')));
+$pg_url1 = DPDatabase::escape(sprintf("<a href='%s", get_pg_catalog_url_for_etext(null)));
 dpsql_dump_themed_query(
     "
     SELECT

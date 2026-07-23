@@ -13,10 +13,11 @@ $PGLAF_inprogress_url = "https://inprogress.pglaf.org";
 /**
  * Given a PG etext number, return a URL for the PG catalog page for that text.
  */
-function get_pg_catalog_url_for_etext($etext_number)
+function get_pg_catalog_url_for_etext(?int $etext_number): string
 {
     global $PG_home_url;
-    return "$PG_home_url/ebooks/$etext_number";
+    $n = is_null($etext_number) ? "" : "$etext_number";
+    return "$PG_home_url/ebooks/$n";
 }
 
 // -----------------------------------------------------------------------------
@@ -25,7 +26,7 @@ function get_pg_catalog_url_for_etext($etext_number)
  * Given a PG etext number, return an HTML <a> element
  * that links to the PG catalog page for that text.
  */
-function get_pg_catalog_link_for_etext($etext_number, $link_text = null)
+function get_pg_catalog_link_for_etext(int $etext_number, ?string $link_text = null): string
 {
     $url = get_pg_catalog_url_for_etext($etext_number);
 
