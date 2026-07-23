@@ -13,7 +13,7 @@ define('SHOW_STATSBAR', true);
  * Output the opening HTML page code, including pulling in common styles,
  * page title, etc.
  *
- * @param array<string, mixed> $extra_args
+ * @param HeaderExtraArgs $extra_args
  */
 function output_html_header(?string $nameofpage, array $extra_args = [], bool $show_statsbar = true): void
 {
