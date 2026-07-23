@@ -10,6 +10,7 @@ class ProjectSuggestion extends Project
     public float $priority;
     public string $round;
 
+    /** @param array<string, mixed> $project_array */
     public function __construct(array $project_array)
     {
         foreach (["percent_done", "created", "priority", "round"] as $field) {
@@ -31,6 +32,7 @@ class UserSuggestions
         $this->_username = $username;
     }
 
+    /** @return array<string, mixed> */
     private function _get_cached_criteria(): array
     {
         // We cache this in the session table so we don't calculate it on every
@@ -44,6 +46,7 @@ class UserSuggestions
         }
     }
 
+    /** @param array<string, mixed> $criteria */
     private function _set_cached_criteria(array $criteria): void
     {
         // only cache for the user looking at their own suggestions
@@ -61,6 +64,10 @@ class UserSuggestions
         }
     }
 
+    /**
+     * @param array<string, mixed> $criteria
+     * @return array<string, float>
+     */
     private function _calculate_normalized_weights(array $criteria): array
     {
         $new_criteria = [];
@@ -71,6 +78,7 @@ class UserSuggestions
         return $new_criteria;
     }
 
+    /** @return array<string, mixed> */
     public function get_criteria(bool $flush_cache = false): array
     {
         $criteria = $this->_get_cached_criteria();
@@ -172,6 +180,10 @@ class UserSuggestions
         return $criteria;
     }
 
+    /**
+     * @param 'impact'|'familiar'|'style'|'different'|'getting-started' $round_view
+     * @return list{array<string, mixed>[], string}
+     */
     public function get_suggestions(string $round_view): array
     {
         global $ELR_round;
@@ -406,6 +418,7 @@ class UserSuggestions
         return [$return_projects, $explain_why];
     }
 
+    /** @return array<string, int> */
     private function _get_user_counts_for_project_field(string $field, int $limit = 8): array
     {
         // $field *must* be a valid field in the projects table!
@@ -435,6 +448,10 @@ class UserSuggestions
     }
 }
 
+/**
+ * @param array{priority: mixed, ...} $a
+ * @param array{priority: mixed, ...} $b
+ */
 function compare_array_by_priority(array $a, array $b): int
 {
     if ($a["priority"] == $b["priority"]) {
