@@ -47,6 +47,7 @@ class Round extends Stage
     /** @var array<string, string[]> */
     public array $pi_tools;
     public ?int $daily_page_limit;
+    /** @var array<string> */
     public array $other_rounds_with_visible_usernames;
     /** @var array<int, string> */
     private array $honorifics;
@@ -298,7 +299,7 @@ function get_Round_for_page_state(string $page_state): ?Round
 
 // ---------------------------
 
-function get_Round_for_text_column_name($text_column_name)
+function get_Round_for_text_column_name(string $text_column_name): ?Round
 {
     foreach (Rounds::get_all() as $round) {
         if ($round->text_column_name == $text_column_name) {
@@ -317,7 +318,7 @@ function get_Round_for_text_column_name($text_column_name)
  * which is not very useful. Instead, ORDER BY the result of this function,
  * and it will use the canonical order-of-declaration for page states.
  */
-function sql_collator_for_page_state($state_column)
+function sql_collator_for_page_state(string $state_column): string
 {
     return sprintf(
         "FIELD($state_column, %s)",
@@ -334,7 +335,7 @@ function sql_collator_for_page_state($state_column)
  * (the "mentored" or "mentee" round) will garner feedback by qualified users
  * ("mentors") in a subsequent round (the "mentoring" or "mentor" round).
  */
-function declare_mentoring_pair($mentee_round_id, $mentor_round_id)
+function declare_mentoring_pair(string $mentee_round_id, string $mentor_round_id): void
 {
     $mentee_round = Rounds::get_by_id($mentee_round_id);
     $mentor_round = Rounds::get_by_id($mentor_round_id);
@@ -365,7 +366,7 @@ function declare_mentoring_pair($mentee_round_id, $mentor_round_id)
  * It also doesn't need to check whether any of the project's pages
  * are actually available.
  */
-function validate_user_can_get_pages_in_project($user, $project, $round)
+function validate_user_can_get_pages_in_project(User $user, Project $project, Round $round): void
 {
     // Projects with difficulty='beginner' are treated differently in
     // various ways.
@@ -417,7 +418,7 @@ function validate_user_can_get_pages_in_project($user, $project, $round)
     // None of the above restrictions apply.
 }
 
-function validate_user_against_project_reserve($user, $project, $round)
+function validate_user_against_project_reserve(User $user, Project $project, Round $round): void
 {
     // Allow projects to be reserved for newcomers based on
     // criteria defined in get_reserve_length().
@@ -483,7 +484,7 @@ function validate_user_against_project_reserve($user, $project, $round)
  * If so, return the length of the reserve in days.
  * If not, return 0.
  */
-function get_reserve_length($project, $round)
+function get_reserve_length(Project $project, Round $round): int
 {
     // We only reserve-for-newbies in P1.
     if ($round->id != 'P1') {
@@ -544,7 +545,7 @@ function get_reserve_length($project, $round)
  * If you don't want any criteria to take precedence over column-sorts,
  * return NULL or the empty string.
  */
-function round_project_listing_presort($round)
+function round_project_listing_presort(Round $round): string
 {
     if (is_proofreading_round($round)) {
         return "
@@ -564,12 +565,12 @@ function round_project_listing_presort($round)
     }
 }
 
-function is_proofreading_round($round)
+function is_proofreading_round(Round $round): bool
 {
     return str_starts_with($round->id, 'P');
 }
 
-function is_formatting_round($round)
+function is_formatting_round(Round $round): bool
 {
     return str_starts_with($round->id, 'F');
 }
@@ -577,12 +578,7 @@ function is_formatting_round($round)
 /**
  * From an array & key, get a Round object matching the ID
  *
- * @param array $arr
- * @param string $key
- * @param Round|null $default
- * @param bool $allownull
- *
- * @return Round|null
+ * @param array<string, string> $arr
  *
  * @throws InvalidArgumentException
  */
@@ -594,12 +590,6 @@ function get_round_param(array $arr, string $key, ?Round $default = null, bool $
     }
     if (isset($arr[$key])) {
         $s = $arr[$key];
-        if (!is_string($s)) {
-            throw new InvalidArgumentException(sprintf(
-                _("Parameter '%1\$s' is not a valid type"),
-                $key
-            ));
-        }
         // Trim whitespace from both ends of the string.
         $s = trim($s);
         if ($s == '' && $allownull) {
@@ -633,16 +623,11 @@ function get_round_param(array $arr, string $key, ?Round $default = null, bool $
 /**
  * From an array & key, get a Round object or an OCR pseudo-round
  *
- * @param array $arr
- * @param string $key
- * @param Round|null $default
- * @param bool $allownull
- *
- * @return Round|stdClass|null
+ * @param array<string, string> $arr
  *
  * @throws InvalidArgumentException
  */
-function get_round_or_ocr_param(array $arr, string $key, ?Round $default = null, bool $allownull = false)
+function get_round_or_ocr_param(array $arr, string $key, ?Round $default = null, bool $allownull = false): Round|stdClass|null
 {
     // sanity checks on the args
     if (!is_null($default) && $allownull) {
