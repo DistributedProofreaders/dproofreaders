@@ -31,13 +31,13 @@ class Pool extends Stage
      *   as shown to the user and as a field in the projects table
      *   (e.g. "postprocessor" when listing books available for PPV).
      *   Used by `pinc/showavailablebooks.inc`
+     * @param array<string, int> $access_minima
      * @param string[] $blather
      *   An array of strings to echo on the pool's home page.
      */
     public function __construct(
         string $id,
         string $name,
-        /** @var array<string,int> */
         array $access_minima,
         string $after_satisfying_minima,
         string $evaluation_criteria,
