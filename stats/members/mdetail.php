@@ -20,8 +20,8 @@ if ($id === null) {
 
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names, true);
-
-$can_reveal = can_reveal_details_about($user->username, $user->u_privacy);
+$privacy = $user->u_privacy == 0 ? PRIVACY_PRIVATE : PRIVACY_ANONYMOUS;
+$can_reveal = can_reveal_details_about($user->username, $privacy);
 if ($user == User::load_current()) {
     $desc = _("Your user details");
 } else {

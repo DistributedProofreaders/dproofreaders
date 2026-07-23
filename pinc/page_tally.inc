@@ -181,8 +181,9 @@ class PageTally_Neighbor
 
 /**
  * Should we anonymize information about the given user?
+ * @param PRIVACY_PRIVATE|PRIVACY_ANONYMOUS $user_privacy_setting
  */
-function should_anonymize(?string $username, int $user_privacy_setting)
+function should_anonymize(?string $username, int $user_privacy_setting): bool
 {
     return !can_reveal_details_about($username, $user_privacy_setting);
 }
