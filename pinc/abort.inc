@@ -2,7 +2,7 @@
 include_once($relPath.'slim_header.inc'); // html_safe()
 include_once($relPath.'links.inc');
 
-function abort($error_message)
+function abort(string $error_message): never
 {
     slim_header(_("Error"));
 
@@ -34,7 +34,7 @@ function abort($error_message)
     exit;
 }
 
-function provide_escape_links()
+function provide_escape_links(): void
 {
     global $code_url;
 
@@ -82,8 +82,9 @@ function provide_escape_links()
  * and a non-empty value.
  *
  * Return the value, or NULL if none found.
+ * @param string[] $possible_names
  */
-function get_parameter_value($possible_names)
+function get_parameter_value(array $possible_names): mixed
 {
     foreach ($possible_names as $possible_name) {
         $v = @$_GET[$possible_name];
@@ -99,7 +100,7 @@ function get_parameter_value($possible_names)
     return null;
 }
 
-function dump_request_info()
+function dump_request_info(): void
 {
     $now = time();
     $date = date('Y-m-d H:i:s', $now);
