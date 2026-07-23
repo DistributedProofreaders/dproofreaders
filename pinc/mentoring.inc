@@ -1,4 +1,5 @@
 <?php
+/** @return Round[] */
 function get_mentoring_rounds(): array
 {
     $mentoring_rounds = [];
@@ -11,7 +12,7 @@ function get_mentoring_rounds(): array
     return $mentoring_rounds;
 }
 
-function mentor_banner(Round $round)
+function mentor_banner(Round $round): void
 {
     global $code_url;
 
