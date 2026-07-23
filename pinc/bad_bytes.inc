@@ -637,7 +637,7 @@ $_character_data = [
     0xfffd => ['name' => "replacement character"],
 ];
 
-function define_bad_byte_sequences()
+function define_bad_byte_sequences(): void
 {
     global $_bad_byte_sequences, $_character_data;
 
@@ -703,7 +703,7 @@ function define_bad_byte_sequences()
  *
  * For example, interpreting it as encoded in ISO-8859-1?
  */
-function _utf8_encode_string($seq)
+function _utf8_encode_string(string $seq): string
 {
     $result = "";
     foreach (str_split($seq) as $byte) {
@@ -712,7 +712,7 @@ function _utf8_encode_string($seq)
     return $result;
 }
 
-function _utf8_encode_code_point($cp)
+function _utf8_encode_code_point(int $cp): string
 {
     if ($cp <= 0x007f) {
         // utf8 encodes as 1 byte
@@ -742,7 +742,7 @@ function _utf8_encode_code_point($cp)
     }
 }
 
-function _install_bad_sequence($bytes, $code_point, $why_bad)
+function _install_bad_sequence(string $bytes, int $code_point, string $why_bad): void
 {
     global $_anchored_bad_bytes_regex, $_bad_byte_sequences;
 
@@ -780,7 +780,8 @@ define_bad_byte_sequences();
 define("BOM", "\u{feff}");
 
 // note that this can change $text
-function find_bad_byte_sequences_in_text(&$text)
+/** @return array<string, int> */
+function find_bad_byte_sequences_in_text(string &$text): array
 {
     global $_unanchored_bad_bytes_regex, $_bad_byte_sequences;
 
@@ -850,7 +851,8 @@ function find_bad_byte_sequences_in_text(&$text)
     return $occurrences;
 }
 
-function get_remarks_for_bad_byte_sequence($raw)
+/** @return list{string, string} */
+function get_remarks_for_bad_byte_sequence(string $raw): array
 {
     global $_bad_byte_sequences, $_character_data;
 
@@ -880,7 +882,7 @@ function get_remarks_for_bad_byte_sequence($raw)
     return [$intended_character, $why_bad];
 }
 
-function string_to_hex($str)
+function string_to_hex(string $str): string
 {
     $hex = "";
     foreach (str_split($str) as $byte) {
