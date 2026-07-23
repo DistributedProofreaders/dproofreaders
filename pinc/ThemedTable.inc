@@ -13,7 +13,16 @@ class ThemedTable
     /** @var string[] */
     private array $column_alignments;
 
-    public function __construct($n_cols, $title, $options = [])
+    /**
+     * @param array{
+     *            theme_striped?: mixed,
+     *            border?: int,
+     *            width?: int|string,
+     *            subtitle?: string,
+     *        } $options
+     *    TODO: Make these into keyword args
+     */
+    public function __construct(int $n_cols, string $title, array $options = [])
     {
         $this->n_cols = $n_cols;
 
@@ -35,8 +44,6 @@ class ThemedTable
                 case 'subtitle':
                     $subtitle = $option_value;
                     break;
-                default:
-                    throw new UnexpectedValueException("ThemedTable created with invalid option: '$option_name'");
             }
         }
 
@@ -68,7 +75,7 @@ class ThemedTable
      *
      * If you don't call this method, <td> tags will be output without a 'width' attribute.
      */
-    public function set_column_widths()
+    public function set_column_widths(): void
     {
         // There should be an arg (width) for each column.
         assert(func_num_args() == $this->n_cols);
@@ -78,7 +85,7 @@ class ThemedTable
         assert(array_sum($this->column_widths) == 100);
     }
 
-    public function set_column_alignments()
+    public function set_column_alignments(): void
     {
         assert(func_num_args() == $this->n_cols);
         $this->column_alignments = func_get_args();
@@ -86,19 +93,20 @@ class ThemedTable
         // Should check that they're sensible.
     }
 
-    public function column_headers()
+    public function column_headers(): void
     {
         $args = func_get_args();
         $this->_row($args, true);
     }
 
-    public function row()
+    public function row(): void
     {
         $args = func_get_args();
         $this->_row($args, false);
     }
 
-    public function _row($cell_texts, $is_header)
+    /** @param string[]|string[][] $cell_texts */
+    public function _row(array $cell_texts, bool $is_header): void
     {
         if ($this->n_cols > 1 && count($cell_texts) == 1 && is_array($cell_texts[0])) {
             $cell_texts = $cell_texts[0];
@@ -145,7 +153,7 @@ class ThemedTable
         echo "</tr>\n";
     }
 
-    public function hr($width)
+    public function hr(int $width): void
     {
         echo "\n";
         echo "<tr>";
@@ -155,7 +163,7 @@ class ThemedTable
         echo "</tr>";
     }
 
-    public function end()
+    public function end(): void
     {
         echo "</table><p>";
     }
