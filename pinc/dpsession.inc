@@ -17,7 +17,7 @@ $pguser = null;
  *
  * Record the session variable 'pguser' (from $userID)
  */
-function dpsession_begin($userID)
+function dpsession_begin(string $userID): void
 {
     global $pguser;
 
@@ -80,7 +80,7 @@ function dpsession_resume(): void
 /**
  * End a session.
  */
-function dpsession_end()
+function dpsession_end(): void
 {
     session_unset();
     session_destroy();
@@ -89,7 +89,7 @@ function dpsession_end()
 // -----------------------------------------------------------------------------
 // User-centric session management functions
 
-/** @return array<array{0: string, 1: int}> */
+/** @return list{string, int}[] */
 function load_user_sessions(string $username): array
 {
     $sql = sprintf(
@@ -125,7 +125,7 @@ function delete_user_sessions(string $username): void
 // -----------------------------------------------------------------------------
 // Internal session helper functions
 
-function _update_user_activity_time($update_login_time_too)
+function _update_user_activity_time(bool $update_login_time_too): void
 {
     global $pguser;
 
@@ -237,7 +237,7 @@ class DPSessionHandler implements SessionHandlerInterface
     }
 }
 
-function _session_set_handlers_and_start()
+function _session_set_handlers_and_start(): void
 {
     static $session_handler = null;
     if (! $session_handler) {
@@ -252,17 +252,17 @@ function _session_set_handlers_and_start()
 // -----------------------------------------------------------------------------
 // The 'debouncer' variable
 
-function dpsession_page_set($info)
+function dpsession_page_set(string $info): void
 {
     $_SESSION['debouncer'] = $info;
 }
 
-function dpsession_page_is_set()
+function dpsession_page_is_set(): bool
 {
     return isset($_SESSION['debouncer']);
 }
 
-function dpsession_page_get()
+function dpsession_page_get(): string
 {
     return $_SESSION['debouncer'];
 }
