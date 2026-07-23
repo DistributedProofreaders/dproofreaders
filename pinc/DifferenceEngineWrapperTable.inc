@@ -11,7 +11,7 @@ class DifferenceEngineWrapperTable extends DifferenceEngineWrapper
         parent::__construct(new TableDiffFormatter());
     }
 
-    protected function addHeader($diff, $otitle, $ntitle, $multi = '', $notice = '')
+    protected function addHeader(string $diff, string $otitle, string $ntitle, string $multi = '', string $notice = ''): string
     {
         // lifted from DifferenceEngine::addHeader()
         // but without any of the $userLang bits
@@ -59,7 +59,7 @@ class DifferenceEngineWrapperTable extends DifferenceEngineWrapper
 /**
  * Override default css for DP customizations
  */
-function get_DifferenceEngine_css_data($font_family)
+function get_DifferenceEngine_css_data(string $font_family): string
 {
     return "
 .diff-otitle,

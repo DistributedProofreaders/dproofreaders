@@ -26,9 +26,9 @@ include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
 
 abstract class DifferenceEngineWrapper
 {
-    private $oldText;
-    private $newText;
-    private $formatter;
+    private string $oldText;
+    private string $newText;
+    private DiffFormatter $formatter;
 
     protected function __construct(?DiffFormatter $formatter = null)
     {
@@ -38,13 +38,13 @@ abstract class DifferenceEngineWrapper
         $this->formatter = $formatter;
     }
 
-    public function setText($oldText, $newText)
+    public function setText(string $oldText, string $newText): void
     {
         $this->oldText = $oldText;
         $this->newText = $newText;
     }
 
-    public function getDiff($oldTitle, $newTitle)
+    public function getDiff(string $oldTitle, string $newTitle): string
     {
         $otext = $this->oldText;
         $ntext = $this->newText;
@@ -57,7 +57,7 @@ abstract class DifferenceEngineWrapper
         return $this->addHeader($difftext, $oldTitle, $newTitle);
     }
 
-    private function generateTextDiffBody($otext, $ntext)
+    private function generateTextDiffBody(string $otext, string $ntext): string
     {
         // lifted from DifferenceEngine::generateTextDiffBody()
         global $wgContLang;
@@ -77,37 +77,31 @@ abstract class DifferenceEngineWrapper
     }
 
     // Default implementation adds nothing
-    protected function addHeader($diff, $otitle, $ntitle, $multi = '', $notice = '')
+    protected function addHeader(string $diff, string $otitle, string $ntitle, string $multi = '', string $notice = ''): string
     {
         return $diff;
     }
 
-    private function localiseLineNumbers($text)
+    private function localiseLineNumbers(string $text): string
     {
         // lifted from DifferenceEngine::localiseLineNumbers()
         return preg_replace_callback(
             '/<!--LINE (\d+)-->/',
-            [&$this, 'localiseLineNumbersCb'],
+            fn ($match) => sprintf(_("Line %d"), $match[1]),
             $text
         );
-    }
-
-    private function localiseLineNumbersCb($line_numbers)
-    {
-        // DP-specific function
-        return sprintf(_("Line %d"), $line_numbers[1]);
     }
 }
 
 // stub classes and global instances
 class ContLang
 {
-    public function segmentForDiff($string)
+    public function segmentForDiff(string $string): string
     {
         return $string;
     }
 
-    public function unsegmentForDiff($string)
+    public function unsegmentForDiff(string $string): string
     {
         return $string;
     }
@@ -121,7 +115,7 @@ $wgContLang = new ContLang();
 if (!class_exists("Xml")) {
     class Xml
     {
-        public static function tags($tagName, $className, $contents)
+        public static function tags(string $tagName, ?string $className, string $contents): string
         {
             return "<$tagName>$contents</$tagName>";
         }
@@ -130,7 +124,8 @@ if (!class_exists("Xml")) {
 
 // MW code references wfDebug() in some places
 if (!function_exists("wfDebug")) {
-    function wfDebug($text, $dest = 'all', array $context = [])
+    /** @param array<string, string> $context */
+    function wfDebug(string $text, string $dest = 'all', array $context = []): void
     {
         // don't log any debug messages
     }
