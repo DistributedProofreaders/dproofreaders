@@ -15,7 +15,7 @@ import { ajax } from "../../scripts/api.js";
 import { makePreview, defaultStyles } from "../../scripts/analyse_format.js";
 import { validateText } from "../../scripts/text_validator.js";
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
     "use strict";
     var supp_set = ["charBeforeStart", "sideNoteBlank"];
     // this is a wrapper round text_preview which enables the padding
@@ -88,14 +88,14 @@ window.addEventListener("DOMContentLoaded", () => {
         previewColorStyle.innerHTML = styleString;
     }
 
-    function writePreviewText() {
+    async function writePreviewText() {
         // makePreview is defined in analyse_format.js
         preview = makePreview(txtarea.value, viewMode, wrapMode, previewStyles);
         prevWin.style.whiteSpace = preview.ok && wrapMode ? "normal" : "pre";
         prevWin.innerHTML = preview.txtout;
         if (preview.ok && previewStyles.allowMathPreview) {
             try {
-                MathJax.typeset([prevWin]);
+                await MathJax.typesetPromise([prevWin]);
             } catch (exception) {
                 alert("MathJax error: " + exception);
             }
@@ -190,7 +190,7 @@ window.addEventListener("DOMContentLoaded", () => {
             };
             const mathJaxScriptElement = document.createElement("script");
             mathJaxScriptElement.type = "text/javascript";
-            mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js";
+            mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js";
             const scriptLoadPromise = new Promise(function (resolve) {
                 mathJaxScriptElement.onload = function () {
                     resolve();
@@ -205,7 +205,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 
     initStyle();
-    initView();
+    await initView();
     setupFont();
 
     function colorChange(event) {
@@ -404,8 +404,9 @@ window.addEventListener("DOMContentLoaded", () => {
             saveStyle();
             // if loading MathJax, wait for it to finish
             initView().then(function () {
-                writePreviewText();
-                hideConfig();
+                writePreviewText().then(function () {
+                    hideConfig();
+                });
             });
         },
 
