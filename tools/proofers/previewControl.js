@@ -187,13 +187,14 @@ window.addEventListener("DOMContentLoaded", async () => {
             window.MathJax = {
                 loader: { load: ["input/tex", "output/svg", "[tex]/unicode"] },
                 tex: { packages: { "[+]": ["unicode"] } },
+                output: {font: "mathjax-newcm", fontPath: "../../node_modules/@mathjax/mathjax-newcm-font"},
             };
             const mathJaxScriptElement = document.createElement("script");
             mathJaxScriptElement.type = "text/javascript";
-            mathJaxScriptElement.src = "https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js";
+            mathJaxScriptElement.src = "../../node_modules/mathjax/tex-svg.js";
             const scriptLoadPromise = new Promise(function (resolve) {
                 mathJaxScriptElement.onload = function () {
-                    resolve();
+                    MathJax.startup.promise.then(resolve);
                 };
                 document.body.appendChild(mathJaxScriptElement);
             });
