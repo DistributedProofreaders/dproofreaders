@@ -187,7 +187,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             window.MathJax = {
                 loader: { load: ["input/tex", "output/svg", "[tex]/unicode"] },
                 tex: { packages: { "[+]": ["unicode"] } },
-                output: {font: "mathjax-newcm", fontPath: "../../node_modules/@mathjax/mathjax-newcm-font"},
+                output: { font: "mathjax-newcm", fontPath: "../../node_modules/@mathjax/mathjax-newcm-font" },
             };
             const mathJaxScriptElement = document.createElement("script");
             mathJaxScriptElement.type = "text/javascript";
