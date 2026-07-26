@@ -29,6 +29,10 @@ if (!headers_sent()) {
         // allow inline scripts until we remove them, and cdn.jsdelivr.net
         // for MathJAX
         "script-src 'self' 'unsafe-inline' cdn.jsdelivr.net",
+        // MathJAX 4 dynamically loads fonts and a worker
+        "font-src 'self' data:",
+        "worker-src 'self' blob:",
+        "connect-src 'self' cdn.jsdelivr.net",
         // allow images from anywhere (due to project comments)
         "img-src 'self' *",
         // Disallow other sites from embedding pages in frames/iframes;
