@@ -6,8 +6,9 @@ include_once($relPath.'links.inc'); // private_message_link
 
 /**
  * Given a project, return the rounds that contain useful data
+ * @return Round[]
  */
-function get_rounds_to_display($project)
+function get_rounds_to_display(Project $project): array
 {
     $project_round = get_Round_for_project_state($project->state);
 
@@ -73,22 +74,22 @@ function get_rounds_to_display($project)
  *
  * @param Project $project
  *   Project to get round data for
- * @param string|array $page_selector
+ * @param null|string|string[] $page_selector
  *   Select which pages to return in the query, possible values are:
  *   * null - all pages are returned
  *   * string - this user's pages from all rounds are returned
  *   * array - array of specific image names
- * @param object $work_round
+ * @param ?Round $work_round
  *   Round to limit a user's pages -- must be used with $page_selector set
  *   to a username.
- * @param array $only_rounds
+ * @param ?string[] $only_rounds
  *   Only return page details for a specific round, possible values are:
  *   * null - all rounds with data are returned
  *   * array of round objects and/or "OCR" - only these rounds are returned
  *
- * @return Generator<array>
+ * @return Generator<array<string, mixed>>
  */
-function fetch_page_table_data($project, $page_selector = null, $work_round = null, $only_rounds = null)
+function fetch_page_table_data(Project $project, $page_selector = null, ?Round $work_round = null, ?array $only_rounds = null)
 {
     if (!$project->pages_table_exists) {
         throw new NoProjectPageTable(_("Project page table does not exist."));
@@ -271,13 +272,14 @@ function fetch_page_table_data($project, $page_selector = null, $work_round = nu
     }
 }
 
+/** @param null|string|string[] $page_selector */
 function echo_page_table(
-    $project,
-    $show_image_size,
-    $disable_editing = false,
+    Project $project,
+    bool $show_image_size,
+    bool $disable_editing = false,
     $page_selector = null,
-    $proofed_in_round = null
-) {
+    ?Round $proofed_in_round = null
+): void {
     global $projects_dir, $code_url, $pguser;
 
     $can_edit = $project->can_be_managed_by_current_user;
@@ -527,11 +529,8 @@ function echo_page_table(
  * Can the currently logged in user see the usernames of users who have
  * worked on a particular page in a project?
  *
- * @param Project $project
  * @param string[] $proofer_usernames
  *   List of users who have proofed a page
- *
- * @return bool
  */
 function can_user_see_usernames_for_page(Project $project, array $proofer_usernames): bool
 {
@@ -552,6 +551,7 @@ function can_user_see_usernames_for_page(Project $project, array $proofer_userna
 /**
  * Returns an array of Rounds representing those rounds
  * for which the given project has some useful data.
+ * @return Round[]
  */
 function get_rounds_with_data(Project $project): array
 {
@@ -596,14 +596,14 @@ function get_rounds_with_data(Project $project): array
 }
 
 // -----------------------------------------------------------------------------
-
+/** @param array<string, mixed> $page_res */
 function echo_cells_for_round(
-    $round,
-    $diff_round, // <- These are the only "real" params.
-    $page_res,
-    $projectid,
-    $can_see_names_for_this_page
-) {
+    Round|stdClass $round,
+    Round|stdClass $diff_round, // <- These are the only "real" params.
+    array $page_res,
+    string $projectid,
+    bool $can_see_names_for_this_page
+): void {
     global $pguser, $code_url;
 
     $imagename = $page_res['image'];
@@ -704,7 +704,7 @@ function echo_cells_for_round(
 
 // -----------------------------------------------------------------------------
 
-function page_state_is_a($page_state, $desired_state)
+function page_state_is_a(string $page_state, string $desired_state): bool
 {
     static $state_cache = [];
     if (isset($state_cache[$desired_state][$page_state])) {
@@ -724,7 +724,7 @@ function page_state_is_a($page_state, $desired_state)
 
 // -----------------------------------------------------------------------------
 
-function echo_detail_legend()
+function echo_detail_legend(): void
 {
     ?>
 <table class='pagedetail'>
