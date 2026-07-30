@@ -5,7 +5,7 @@ include_once($relPath.'CharacterSelector.inc');
 class ToolButton
 {
     public string $html;
-    public function __construct($accesskey, $title, $label, $onclick)
+    public function __construct(string $accesskey, string $title, string $label, string $onclick)
     {
         $access_string = $accesskey ? "accesskey='" . attr_safe($accesskey) . "'" : '';
         $this->html = "<button type='button' class='proofbutton' onclick='$onclick' $access_string title='" . attr_safe($title) . "'>$label</button>\n";
@@ -16,7 +16,7 @@ class ToolButton
 class PopupLink
 {
     public string $html;
-    public function __construct($label, $url, $window_name, $width, $height)
+    public function __construct(string $label, string $url, string $window_name, int $width, int $height)
     {
         $js = "return openToolboxPopup('$url', $width, $height, '$window_name');";
         $this->html = "<a href='#' class='nowrap' onClick=\"$js\"\n>$label</a>\n";
@@ -65,7 +65,7 @@ class ProofreadingToolbox
         ];
     }
 
-    public function output($projectid, $round)
+    public function output(string $projectid, Round $round): void
     {
         echo "<div class='display-flex' id='toolbox'>";
         $character_selector = new CharacterSelector($projectid);
@@ -79,7 +79,7 @@ class ProofreadingToolbox
         echo '</div>';
     }
 
-    private function draw_tools($round)
+    private function draw_tools(Round $round): void
     {
         global $code_url;
 
@@ -116,7 +116,12 @@ class ProofreadingToolbox
         echo "</div>";
     }
 
-    private function array_extract($source, $keys)
+    /**
+     * @param array<string, mixed> $source
+     * @param 'ALL'|string[] $keys
+     * @return array<string, mixed>
+     */
+    private function array_extract(array $source, string|array $keys): array
     {
         if ($keys == 'ALL') {
             return $source;
