@@ -2066,7 +2066,7 @@ function do_page_table(): void
         echo "<p>" . _("It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.") . "</p>";
 
         // second arg. indicates to show size of image files.
-        echo_page_table($project, 1);
+        echo_page_table($project, true);
     }
 }
 

@@ -149,7 +149,7 @@ if ($project->pages_table_exists) {
     }
     echo "</p>";
 
-    echo_page_table($project, $show_image_size, false, $username_for_page_selection, $round_for_page_selection);
+    echo_page_table($project, (bool)$show_image_size, false, $username_for_page_selection, $round_for_page_selection);
 } else {
     $warn_message = $project->pages_table_missing_reason();
     echo "<p class='warning'>$warn_message</p>\n";
