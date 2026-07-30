@@ -9,7 +9,7 @@ include_once($relPath.'iso_lang_list.inc');
 
 use Symfony\Component\Process\Process;
 
-function lang_code($language_code)
+function lang_code(string $language_code): string|false
 {
     global $locales;
 
@@ -31,10 +31,9 @@ function lang_code($language_code)
 
 /**
  * Return the 2-letter short code for the specified locale specifier.
- *
  * If no locale is passed in, the locale of the current user is used.
  */
-function short_lang_code($langcode = false)
+function short_lang_code(string|false $langcode = false): string
 {
     if ($langcode === false) {
         $langcode = get_desired_language();
@@ -46,7 +45,7 @@ function short_lang_code($langcode = false)
 /**
  * Given a 2-letter language code, return the language name in that language.
  */
-function lang_name($langcode)
+function lang_name(string $langcode): string
 {
     global $lang_name_data;
 
@@ -60,7 +59,7 @@ function lang_name($langcode)
 /**
  * Given a 2-letter language code, return the language name in English.
  */
-function eng_name($langcode)
+function eng_name(string $langcode): string
 {
     global $eng_name_data;
 
@@ -75,7 +74,7 @@ function eng_name($langcode)
  * Given a 2-letter language code, return a name for that language both
  * in English and in the native language.
  */
-function bilingual_name($langcode)
+function bilingual_name(string $langcode): string
 {
     $a = eng_name($langcode);
     $b = lang_name($langcode);
@@ -95,12 +94,8 @@ function bilingual_name($langcode)
  * Returns either:
  * - LTR for left-to-right languages
  * - RTL for right-to-left languages
- *
- * @param mixed $langcode
- *
- * @return string
  */
-function lang_direction($langcode = false)
+function lang_direction(false|string $langcode = false): string
 {
     if ($langcode === false) {
         $langcode = get_desired_language();
@@ -119,6 +114,7 @@ function lang_direction($langcode = false)
 
 /**
  * Return all installed system locales
+ * @return string[]
  */
 function get_installed_system_locales()
 {
@@ -149,14 +145,14 @@ function get_installed_system_locales()
 /**
  * Get a list of all locale translations.
  *
- * @param string $state
+ * @param 'all'|'enabled'|'disabled' $state
  *   One of:
  *   - "all" - all installed locale translations
  *   - "enabled" - locale translation is enabled
  *   - "disabled" - locale translation is disabled
  * @return string[]
  */
-function get_installed_locale_translations(string $state = "all", bool $reload_cache = false): array
+function get_installed_locale_translations($state = "all", bool $reload_cache = false): array
 {
     static $translation_cache = null;
 
@@ -196,7 +192,7 @@ function get_installed_locale_translations(string $state = "all", bool $reload_c
     return $translation_cache[$state];
 }
 
-function is_locale_translation_enabled($locale)
+function is_locale_translation_enabled(string $locale): bool
 {
     // Locale 'en_US' is always enabled because that's the default
     // language of all the internal strings. We have to check for
@@ -209,7 +205,7 @@ function is_locale_translation_enabled($locale)
     return in_array($locale, $enabled_locales);
 }
 
-function get_valid_locale_for_translation($locale)
+function get_valid_locale_for_translation(?string $locale): string
 {
     // Fall back to en_US (English) if locale isn't set
     // or if we don't have a translation for that locale.
@@ -219,7 +215,7 @@ function get_valid_locale_for_translation($locale)
     return $locale;
 }
 
-function set_locale_translation_enabled($locale, $enable)
+function set_locale_translation_enabled(string $locale, bool $enable): void
 {
     $translation_base = SiteConfig::get()->dyn_locales_dir . "/$locale";
     $enabled_file = "$translation_base/enabled";
@@ -242,6 +238,7 @@ function set_locale_translation_enabled($locale, $enable)
  *
  * Keys are the locale and the value being the name of the
  * language and the locale.
+ * @return array<string, string>
  */
 function get_locale_translation_selection_options()
 {
@@ -277,7 +274,7 @@ function get_locale_translation_selection_options()
  * ```
  * On success it returns an installed locale. On failure it returns NULL.
  */
-function get_locale_matching_browser_accept_language($http_accept)
+function get_locale_matching_browser_accept_language(?string $http_accept): ?string
 {
     // split the languages into their respective parts
     $browser_accepts = explode(",", $http_accept ?? '');
@@ -310,7 +307,7 @@ function get_locale_matching_browser_accept_language($http_accept)
  * Given a browser's accept-language string, return a locale string
  * that most closely matches it.
  */
-function massage_browser_lang_code_to_locale($browser_lang_code)
+function massage_browser_lang_code_to_locale(string $browser_lang_code): string
 {
     // system locales are always in the format xx_YY, but browsers can
     // send accepts in many different formats (eg: en, en-us, en-US)
@@ -344,7 +341,7 @@ function massage_browser_lang_code_to_locale($browser_lang_code)
     return $browser_lang_code;
 }
 
-function lang_html_header($langcode = false)
+function lang_html_header(false|string $langcode = false): string
 {
     if (!$langcode) {
         return '';
