@@ -20,9 +20,185 @@ parameters:
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
-    level: 5
+    level: 6
 
     ignoreErrors:
+        # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
+        - identifier: missingType.return
+          paths:
+              - pinc/3rdparty/mediawiki/DairikiDiff.php
+              - pinc/3rdparty/mediawiki/DiffEngine.php
+              - pinc/3rdparty/mediawiki/DiffFormatter.php
+              - pinc/3rdparty/mediawiki/WordAccumulator.php
+              - pinc/3rdparty/mediawiki/TableDiffFormatter.php
+              - pinc/BBDiffFormatter.inc
+              - api/api_common.inc
+              - api/index.php
+              - api/v1_projects.inc
+              - api/v1_stats.inc
+              - accounts/addproofer.php
+              - accounts/login.php
+              - credits.php
+              - crontab/NotifyOldPP.inc
+              - faq/font_sample.php
+              - faq/privacy.php
+              - faq/prooffacehelp.php
+              - faq/wordcheck_data.php
+              - index.php
+              - locale/translators/index.php
+              - quiz/generic/quiz_page.inc
+              - quiz/generic/returnfeed.php
+              - quiz/generic/wizard/checks.php
+              - quiz/generic/wizard/messages.php
+              - quiz/generic/wizard/output.php
+              - quiz/generic/wizard/output_quiz.php
+              - quiz/generic/wizard/quiz_pages.php
+              - quiz/small_theme.inc
+              - stats/equilibria.php
+              - stats/includes/common.inc
+              - stats/includes/member.inc
+              - stats/includes/team.inc
+              - stats/index.php
+              - stats/misc_stats1.php
+              - stats/pp_stage_goal.php
+              - stats/round_backlog.php
+              - stats/round_backlog_days.php
+              - tasks.php
+              - tools/changestate.php
+              - tools/modify_access.php
+              - tools/post_proofers/ppv_report.php
+              - tools/project_manager/bad_bytes_explainer.php
+              - tools/project_manager/clearance_check.php
+              - tools/project_manager/diff.php
+              - tools/project_manager/edit_common.inc
+              - tools/project_manager/edit_project_word_lists.php
+              - tools/project_manager/editproject.php
+              - tools/project_manager/external_catalog_search.php
+              - tools/project_manager/generate_post_files.php
+              - tools/project_manager/handle_bad_page.php
+              - tools/project_manager/manage_image_sources.php
+              - tools/project_manager/page_detail.php
+              - tools/project_manager/page_operations.inc
+              - tools/project_manager/projectmgr.inc
+              - tools/project_manager/projectmgr.php
+              - tools/project_manager/remote_file_manager.php
+              - tools/project_manager/show_good_word_suggestions_detail.php
+              - tools/project_manager/show_image_sources.php
+              - tools/project_manager/show_specials.php
+              - tools/project_manager/update_illos.php
+              - tools/project_manager/word_freq_table.inc
+              - tools/proofers/for_mentors.php
+              - tools/proofers/image_block_enh.inc
+              - tools/proofers/images_index.php
+              - tools/proofers/mktable.php
+              - tools/proofers/my_projects.php
+              - tools/proofers/my_suggestions.php
+              - tools/proofers/preview.inc
+              - tools/proofers/proof_frame.php
+              - tools/proofers/proof_frame_enh.inc
+              - tools/proofers/proof_frame_std.inc
+              - tools/proofers/review_work.php
+              - tools/proofers/spellcheck_text.inc
+              - tools/set_project_event_subs.php
+              - tools/site_admin/projects_with_odd_values.php
+              - tools/site_search.php
+              - tools/upload_resumable_file.php
+        - identifier: missingType.parameter
+          paths:
+              - pinc/3rdparty/mediawiki/DairikiDiff.php
+              - pinc/3rdparty/mediawiki/DiffEngine.php
+              - pinc/BBDiffFormatter.inc
+              - api/exceptions.inc
+              - api/index.php
+              - api/v1_projects.inc
+              - api/v1_stats.inc
+              - credits.php
+              - crontab/NotifyOldPP.inc
+              - faq/font_sample.php
+              - faq/privacy.php
+              - faq/prooffacehelp.php
+              - faq/wordcheck_data.php
+              - locale/translators/index.php
+              - quiz/generic/quiz_page.inc
+              - quiz/generic/returnfeed.php
+              - quiz/generic/wizard/messages.php
+              - quiz/generic/wizard/output.php
+              - quiz/generic/wizard/output_quiz.php
+              - quiz/generic/wizard/quiz_pages.php
+              - quiz/small_theme.inc
+              - stats/equilibria.php
+              - stats/includes/common.inc
+              - stats/includes/member.inc
+              - stats/includes/team.inc
+              - stats/index.php
+              - stats/misc_stats1.php
+              - stats/pp_stage_goal.php
+              - tasks.php
+              - tools/changestate.php
+              - tools/modify_access.php
+              - tools/post_proofers/ppv_report.php
+              - tools/project_manager/bad_bytes_explainer.php
+              - tools/project_manager/clearance_check.php
+              - tools/project_manager/diff.php
+              - tools/project_manager/edit_common.inc
+              - tools/project_manager/edit_project_word_lists.php
+              - tools/project_manager/editproject.php
+              - tools/project_manager/generate_post_files.php
+              - tools/project_manager/handle_bad_page.php
+              - tools/project_manager/manage_image_sources.php
+              - tools/project_manager/page_operations.inc
+              - tools/project_manager/projectmgr.php
+              - tools/project_manager/show_good_word_suggestions_detail.php
+              - tools/project_manager/update_illos.php
+              - tools/project_manager/word_freq_table.inc
+              - tools/proofers/images_index.php
+              - tools/proofers/mktable.php
+              - tools/proofers/my_projects.php
+              - tools/proofers/my_suggestions.php
+              - tools/proofers/proof_frame.php
+              - tools/proofers/proof_frame_enh.inc
+              - tools/proofers/proof_frame_std.inc
+              - tools/proofers/review_work.php
+              - tools/proofers/spellcheck_text.inc
+              - tools/set_project_event_subs.php
+              - tools/site_admin/projects_with_odd_values.php
+              - tools/upload_resumable_file.php
+        - identifier: missingType.iterableValue
+          paths:
+              - pinc/3rdparty/mediawiki/DiffFormatter.php
+              - pinc/3rdparty/mediawiki/WordLevelDiff.php
+              - pinc/BBDiffFormatter.inc
+              - api/exceptions.inc
+              - api/v1_docs.inc
+              - api/v1_projects.inc
+              - api/v1_queues.inc
+              - api/v1_stats.inc
+              - api/v1_storage.inc
+              - api/v1_validators.inc
+              - credits.php
+              - index.php
+              - tasks.php
+              - tools/project_manager/page_compare.php
+              - tools/project_manager/show_adhoc_word_details.php
+              - tools/project_manager/show_all_good_word_suggestions.php
+              - tools/project_manager/show_current_flagged_words.php
+              - tools/project_manager/show_good_word_suggestions.php
+              - tools/project_manager/show_project_possible_bad_words.php
+              - tools/project_manager/show_project_stealth_scannos.php
+              - tools/project_manager/word_freq_table.inc
+              - tools/proofers/for_mentors.php
+              - tools/proofers/spellcheck_text.inc
+              - tools/site_admin/copy_pages.php
+              - tools/site_admin/delete_pages.php
+              - tools/site_admin/shared_postednums.php
+              - tools/site_search.php
+        - identifier: missingType.property
+          paths:
+              - pinc/3rdparty/mediawiki/DiffEngine.php
+              - pinc/3rdparty/mediawiki/WordAccumulator.php
+              - pinc/BBDiffFormatter.inc
+              - crontab/AutoModify.inc
+
         # Errors in third party code, and our interfaces to it
         - message: '#Property .* does not accept false#'
           path: pinc/3rdparty/mediawiki/DairikiDiff.php
@@ -78,5 +254,24 @@ parameters:
                     string,
                     array{type?: string, x: string[], y: mixed[]}
                     >,
+            }
+            """
+        # TODO: Fix duplication between this and class SpecialDay
+        SpecialDayInfo: """
+            array{
+                spec_code?: string,
+                display_name: string,
+                enable?: int,
+                comment?: string,
+                color: string,
+                open_day?: int,
+                open_month?: int,
+                close_day?: int,
+                close_month?: int,
+                date_changes?: string,
+                info_url?: string,
+                image_url?: string,
+                symbol: string,
+                option_label?: string,
             }
             """
