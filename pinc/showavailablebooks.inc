@@ -9,7 +9,7 @@ include_once($relPath.'post_processing.inc');
 
 // -----------------------------------------------------------------------------
 
-function show_projects_for_round($round, $show_filter_block = true, $allow_special_colors_legend = true)
+function show_projects_for_round(Round $round, bool $show_filter_block = true, bool $allow_special_colors_legend = true): void
 {
     $initial_project_selector = "state = '{$round->project_available_state}'";
 
@@ -38,7 +38,7 @@ function show_projects_for_round($round, $show_filter_block = true, $allow_speci
 
 // -----------------------------------------------------------------------------
 
-function show_projects_for_smooth_reading()
+function show_projects_for_smooth_reading(): void
 {
     global $pguser, $code_url;
 
@@ -156,7 +156,7 @@ function show_projects_for_smooth_reading()
  * 2. an optional "Special Days" color legend, and
  * 3. a listing of projects.
  *
- * @param object $stage
+ * @param Stage $stage
  *   An instance of the Stage class (or a subclass thereof).
  *   This is used for various things, but most importantly,
  *   $stage->id is deemed to identify this listing.
@@ -166,23 +166,23 @@ function show_projects_for_smooth_reading()
  *   user's filter.
  * @param bool $show_filter_block
  *   Should we show the filter widget?
- * @param ?array $filter_custom_display_fields
+ * @param ?array<string, bool> $filter_custom_display_fields
  *   An array naming any custom fields that should appear in the filter widget.
  * @param bool $allow_special_colors_legend
  *   Should we show the special colors legend?
  *   (This can be overridden by the corresponding user preference.)
- * @param array $columns
+ * @param array<string, list{string, string}> $columns
  *   Which columns should appear in the listing.
  */
 function show_projects_for_stage(
-    $stage,
-    $initial_project_selector,
-    $show_filter_block,
-    $filter_custom_display_fields,
-    $allow_special_colors_legend,
-    $columns,
-    $optional_join_clause = ""
-) {
+    Stage $stage,
+    string $initial_project_selector,
+    bool $show_filter_block,
+    ?array $filter_custom_display_fields,
+    bool $allow_special_colors_legend,
+    array $columns,
+    string $optional_join_clause = ""
+): void {
     global $pguser;
 
     // SR is a special snowflake that prints its own header
@@ -231,7 +231,7 @@ function show_projects_for_stage(
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_projects_for_pool($pool, $checkedout_or_available)
+function show_projects_for_pool(Pool $pool, string $checkedout_or_available): void
 {
     global $pguser, $pp_alert_threshold_days;
 
@@ -344,11 +344,11 @@ function show_projects_for_pool($pool, $checkedout_or_available)
  * @param string $filtered_project_selector
  *   An SQL condition (on the 'projects' table) specifying
  *   which projects to list.
- * @param array $columns
+ * @param array<string, list{?string, string}> $columns
  *   The columns to include in the table, this is an associative
  *   array with the key being the column name and the value
  *   being an array consisting of:
- *   - the column's name for the purposes of ext_sort
+ *   - the column's name for the purposes of ext_sort (or null)
  *   - the column's header-label.
  * @param string $ext_sort_param_name
  *   The parameter-name to use when specifying a sort order
@@ -367,16 +367,16 @@ function show_projects_for_pool($pool, $checkedout_or_available)
  *   If needed. Default to "", but useful/necessary for PP
  */
 function show_project_listing(
-    $filtered_project_selector,
-    $columns,
-    $ext_sort_param_name,
-    $ext_sort_setting_name,
-    $default_ext_sort,
-    $anchor,
+    string $filtered_project_selector,
+    array $columns,
+    string $ext_sort_param_name,
+    string $ext_sort_setting_name,
+    string $default_ext_sort,
+    string $anchor,
     $stage,
-    $optional_join_clause = "",
-    $optional_select_clause = ""
-) {
+    string $optional_join_clause = "",
+    string $optional_select_clause = ""
+): void {
     global $code_url, $pguser;
 
     // Some columns (notably those with numbers in them)
@@ -611,7 +611,7 @@ function show_project_listing(
  * - $curr_sql_sort_col - name of the column to sort by
  * - $curr_sql_sort_dir - direction to sort by (asc or desc)
  *
- * @param array $columns
+ * @param array<string, list{?string, string}> $columns
  *   An associative array containing the valid columns in the table
  * @param string $ext_sort_param_name
  *   The parameter-name to use in the URL query-string
@@ -623,10 +623,15 @@ function show_project_listing(
  * @param string $default_ext_sort
  *   The sort to use when one isn't specified by url-parameter or db-setting.
  *
- * @return array
+ * @return list{string, 'asc'|'desc'}
+ *   The sort column name, and the sort direction (asc/desc)
  */
-function process_sorting_control($columns, $ext_sort_param_name, $ext_sort_setting_name, $default_ext_sort)
-{
+function process_sorting_control(
+    array $columns,
+    string $ext_sort_param_name,
+    string $ext_sort_setting_name,
+    string $default_ext_sort
+): array {
     global $pguser;
 
     $local_trace = false; // set to TRUE when debugging
