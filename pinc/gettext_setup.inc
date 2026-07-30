@@ -21,7 +21,7 @@ include_once($relPath.'languages.inc');
  *   same.
  * - If everything else fails, default to en_US.
  */
-function get_desired_language()
+function get_desired_language(): string
 {
     // This function maybe called multiple times within a page load.
     // Only do the calculations to determine the locale once.
@@ -53,7 +53,7 @@ function get_desired_language()
     return get_valid_locale_for_translation($locale);
 }
 
-function configure_gettext($locale)
+function configure_gettext(string $locale): void
 {
     $locale .= ".UTF-8";
 
@@ -79,10 +79,10 @@ function configure_gettext($locale)
 /**
  * Get the language (locale) for the specified user.
  *
- * @param string|object $user
+ * @param null|string|User $user
  *   User object or a username. If NULL, the current user's locale is returned.
  */
-function get_user_language($user = null)
+function get_user_language(null|string|User $user = null): string
 {
     if (!$user) {
         $locale = get_desired_language();
@@ -97,8 +97,10 @@ function get_user_language($user = null)
 
 /**
  * Configure gettext for a specific user, useful for sending emails.
+ * @param null|string|User $user
+ *   User object or a username. If NULL, the current user's locale is returned.
  */
-function configure_gettext_for_user($user = null)
+function configure_gettext_for_user(null|string|User $user = null): void
 {
     $locale = get_user_language($user);
     configure_gettext($locale);
@@ -108,14 +110,14 @@ function configure_gettext_for_user($user = null)
 // (an alias for 'gettext') will be defined.
 // If it's not defined, define it to simply return its argument.
 if (! function_exists('_')) {
-    function _($str)
+    function _(string $str): string
     {
         return $str;
     }
 }
 
 if (! function_exists('ngettext')) {
-    function ngettext($singular, $plural, $number)
+    function ngettext(string $singular, string $plural, int $number): string
     {
         return ($number == 1) ? $singular : $plural;
     }
@@ -125,7 +127,7 @@ if (! function_exists('ngettext')) {
 // mean two different things.
 // http://php.net/manual/en/book.gettext.php#89975
 if (!function_exists('pgettext')) {
-    function pgettext($context, $msgid)
+    function pgettext(string $context, string $msgid): string
     {
         $contextString = "{$context}\004{$msgid}";
         $translation = dcgettext('messages', $contextString, LC_MESSAGES);
@@ -142,8 +144,9 @@ if (!function_exists('pgettext')) {
  * format.
  *
  * https://unicode-org.github.io/icu/userguide/format_parse/datetime/
+ * @param null|string|User $user
  */
-function icu_date($pattern, $timestamp = null, $user = null)
+function icu_date(string $pattern, ?int $timestamp = null, null|string|User $user = null): string
 {
     $locale = get_user_language($user);
     if (!$timestamp) {
@@ -157,8 +160,9 @@ function icu_date($pattern, $timestamp = null, $user = null)
 
 /**
  * Return a localized date from a predefined template
+ * @param null|string|User $user
  */
-function icu_date_template($template, $timestamp = null, $user = null)
+function icu_date_template(string $template, ?int $timestamp = null, null|string|User $user = null): string
 {
     $templates = [
         // TRANSLATORS: ICU-formatted date in long form
