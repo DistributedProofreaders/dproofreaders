@@ -267,7 +267,7 @@ class RoundInfo
     public function __construct(
         public readonly string $round_id,
         public readonly string $username,
-        public readonly ?string $forum_user_id
+        public readonly ?int $forum_user_id
     ) {
     }
 }

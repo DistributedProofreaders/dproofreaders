@@ -12,14 +12,14 @@ if (!SiteConfig::get()->testing) {
 
 class ForumJson
 {
-    protected $json_file;
+    protected string $json_file;
 
-    protected function configure($json_file)
+    protected function configure(string $json_file): void
     {
         $this->json_file = $json_file;
     }
 
-    protected function save_to_json($data)
+    protected function save_to_json(mixed $data): bool
     {
         return file_put_contents(
             $this->json_file,
@@ -27,7 +27,7 @@ class ForumJson
         ) !== false;
     }
 
-    protected function load_from_json()
+    protected function load_from_json(): mixed
     {
         if (! is_file($this->json_file)) {
             return [];
@@ -39,7 +39,7 @@ class ForumJson
 
 class ForumJsonUser extends ForumJson
 {
-    public function __construct($json_file = null)
+    public function __construct(?string $json_file = null)
     {
         if ($json_file) {
             $this->configure($json_file);
@@ -48,7 +48,7 @@ class ForumJsonUser extends ForumJson
         }
     }
 
-    public function add($username, $password, $email)
+    public function add(string $username, string $password, string $email): bool
     {
         $users = $this->load_from_json();
 
@@ -74,7 +74,10 @@ class ForumJsonUser extends ForumJson
         return $this->save_to_json($users);
     }
 
-    public function load($username)
+    /**
+     * @return ?array<string, mixed>
+     */
+    public function load(string $username): ?array
     {
         $users = $this->load_from_json();
         return $users[$username] ?? null;
@@ -83,7 +86,7 @@ class ForumJsonUser extends ForumJson
 
 class ForumJsonPost extends ForumJson
 {
-    public function __construct($json_file = null)
+    public function __construct(?string $json_file = null)
     {
         if ($json_file) {
             $this->configure($json_file);
@@ -92,12 +95,18 @@ class ForumJsonPost extends ForumJson
         }
     }
 
-    public function add_topic($subject, $text, $poster)
+    /**
+     * @return array<string, mixed>
+     */
+    public function add_topic(string $subject, string $text, string $poster): array
     {
         return $this->add_post(null, $subject, $text, $poster);
     }
 
-    public function add_post($topic_id, $subject, $text, $poster)
+    /**
+     * @return array<string, mixed>
+     */
+    public function add_post(?int $topic_id, string $subject, string $text, string $poster): array
     {
         $posts = $this->load_from_json();
 
@@ -130,7 +139,10 @@ class ForumJsonPost extends ForumJson
         return $posts[$id];
     }
 
-    public function load_topic($topic_id)
+    /**
+     * @return ?mixed[]
+     */
+    public function load_topic(int $topic_id): ?array
     {
         $posts = $this->load_from_json();
 
@@ -148,28 +160,35 @@ class ForumJsonPost extends ForumJson
         }
     }
 
-    public function load_post($post_id)
+    public function load_post(int $post_id): mixed
     {
         $posts = $this->load_from_json();
         return $posts[$post_id] ?? [];
     }
 }
 
-function forum_password_hash($password)
+function forum_password_hash(string $password): string
 {
     return password_hash($password, PASSWORD_DEFAULT);
 }
 
-function create_forum_user($username, $password, $email, $password_is_digested = false)
+function create_forum_user(string $username, string $password, string $email, bool $password_is_digested = false): string|true
 {
     if (!$password_is_digested) {
         $password = forum_password_hash($password);
     }
     $userManager = new ForumJsonUser();
-    return $userManager->add($username, $password, $email);
+    if ($userManager->add($username, $password, $email) !== true) {
+        return "user creation error";
+    } else {
+        return true;
+    }
 }
 
-function login_forum_user($username, $password)
+/**
+ * @return list{bool, string}
+ */
+function login_forum_user(string $username, string $password): array
 {
     $userManager = new ForumJsonUser();
     $user = $userManager->load($username);
@@ -184,16 +203,20 @@ function login_forum_user($username, $password)
     }
 }
 
-function logout_forum_user()
+function logout_forum_user(): void
 {
 }
 
-function get_reset_password_url()
+function get_reset_password_url(): string
 {
     return "";
 }
 
-function get_forum_user_details($username)
+/**
+ * @return ?array<string, mixed>
+ * @phpstan-ignore return.unusedType
+ */
+function get_forum_user_details(string $username): ?array
 // Given a username, return details about the user.
 // Returns an associative array. See $interested_columns for the keys.
 // If the user isn't found, the function returns NULL.
@@ -243,8 +266,10 @@ function get_forum_user_details($username)
     return $return_data;
 }
 
-function get_forum_user_id($username)
-// Given a forum username, return the forum user ID.
+/**
+ * Given a forum username, return the forum user ID.
+ */
+function get_forum_user_id(string $username): ?int
 {
     // Use a local in-memory cache so we don't pummel the database
     // for pages that end up calling this for the same small set
@@ -270,13 +295,14 @@ function get_forum_user_id($username)
     return $user["id"];
 }
 
-function get_forum_rank_title($rank)
+// @phpstan-ignore return.unusedType
+function get_forum_rank_title(int $rank): ?string
 // Given a forum rank number, return the text title of that rank.
 {
     return "Tester";
 }
 
-function get_forum_email_address($username)
+function get_forum_email_address(string $username): string
 // Given a forum username, return the email address.
 {
     $user_details = get_forum_user_details($username);
@@ -284,19 +310,19 @@ function get_forum_email_address($username)
     return $user_details["email"] ?? "";
 }
 
-function get_url_for_forum()
+function get_url_for_forum(): string
 // Return a URL to the base of the forum
 {
     return "";
 }
 
-function get_url_for_forum_user_login()
+function get_url_for_forum_user_login(): string
 // Return a URL that a user can use to manually log in to the forums.
 {
     return "";
 }
 
-function get_url_to_compose_message_to_user($username)
+function get_url_to_compose_message_to_user(string $username): string
 // Given a forum username, return a URL that can be used to
 // access a form to send the user a message.
 {
@@ -309,38 +335,39 @@ function get_url_to_view_forum(int $forum_id): string
     return "";
 }
 
-function get_url_to_view_topic($topic_id)
+function get_url_to_view_topic(int $topic_id): string
 // Given a topic id, return a URL that can be used to view the topic.
 {
     return "";
 }
 
-function get_url_to_view_post($post_id)
+function get_url_to_view_post(int $post_id): string
 // Given a post id, return a URL that can be used to view the post.
 {
     return "";
 }
 
-function get_url_for_user_avatar($username)
+// @phpstan-ignore return.unusedType
+function get_url_for_user_avatar(string $username): ?string
 // Given a forum username, return a URL that can be used to load the user's
 // avatar. If no avatar is defined, this function returns NULL.
 {
     return null;
 }
 
-function get_url_to_edit_profile()
+function get_url_to_edit_profile(): string
 // Return a URL that can be used to edit the current user's profile.
 {
     return "";
 }
 
-function get_url_to_view_profile($user_id = 0)
+function get_url_to_view_profile(int $user_id = 0): string
 // Return a URL that can be used to view a given user's profile.
 {
     return "";
 }
 
-function get_url_for_inbox()
+function get_url_for_inbox(): string
 // Return the URL for accessing the current user's inbox.
 {
     return "";
@@ -349,22 +376,25 @@ function get_url_for_inbox()
 /**
  * Return the URL for searching the forums
  */
-function get_url_for_search($query)
+function get_url_for_search(string $query): string
 {
     return "";
 }
 
-function get_number_of_unread_messages($username)
+// * @phpstan-ignore return.unusedType
+function get_number_of_unread_messages(string $username): ?int
 // Given a forum username, return the number of unread messages.
 {
     return null;
 }
 
-function does_topic_exist($topic_id)
-// Confirm a specific topic ID exists.
-// Returns:
-//     FALSE - doesn't exist
-//     TRUE  - does exist
+/**
+ * Confirm a specific topic ID exists.
+ * Returns:
+ *     FALSE - doesn't exist
+ *     TRUE  - does exist
+ */
+function does_topic_exist(int $topic_id): bool
 {
     $postManager = new ForumJsonPost();
     $posts = $postManager->load_topic($topic_id);
@@ -376,16 +406,13 @@ function does_topic_exist($topic_id)
     }
 }
 
-function get_last_post_time_in_topic($topic_id)
-// Given a forum topic, return the time of the last post
-// in UNIX time format (seconds since UNIX epoch).
-// If no topic is found, function returns NULL.
+/**
+ * Given a forum topic, return the time of the last post
+ * in UNIX time format (seconds since UNIX epoch).
+ * If no topic is found, function returns NULL.
+ */
+function get_last_post_time_in_topic(int $topic_id): ?int
 {
-    // Validate that $topic_id is an integer and if not, return NULL
-    if (!is_numeric($topic_id)) {
-        return null;
-    }
-
     $postManager = new ForumJsonPost();
     $posts = $postManager->load_topic($topic_id);
 
@@ -403,14 +430,17 @@ function get_last_post_time_in_topic($topic_id)
     return $max_post_time;
 }
 
-function get_topic_details($topic_id)
-// Returns the following details about a topic as an associative array.
-//     topic_id         - the ID of the topic (for completeness)
-//     title            - the title of the topic
-//     num_replies      - the number of replies in the topic
-//     forum_name       - name of the forum the topic is in
-//     forum_id         - the id of the forum the topic is in
-//     creator_username - the username of the topic creator
+/**
+ * @return array<string, mixed>
+ *    Returns the following details about a topic as an associative array.
+ *        topic_id         - the ID of the topic (for completeness)
+ *        title            - the title of the topic
+ *        num_replies      - the number of replies in the topic
+ *        forum_name       - name of the forum the topic is in
+ *        forum_id         - the id of the forum the topic is in
+ *        creator_username - the username of the topic creator
+ */
+function get_topic_details(int $topic_id): array
 {
     $postManager = new ForumJsonPost();
     $posts = $postManager->load_topic($topic_id);
@@ -441,12 +471,12 @@ function get_topic_details($topic_id)
 // -----------------------------------------------------------------------------
 
 function topic_create(
-    $forum_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real,
-    $make_poster_watch_topic
+    int $forum_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real,
+    ?bool $make_poster_watch_topic
 ): ?int {
     $postManager = new ForumJsonPost();
     $topic = $postManager->add_topic($post_subject, $post_text, $poster_name);
@@ -456,24 +486,24 @@ function topic_create(
 // -----------------------------------------------------------------------------
 
 function topic_add_post(
-    $topic_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real
-) {
+    int $topic_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real
+): void {
     $postManager = new ForumJsonPost();
     $postManager->add_post($topic_id, $post_subject, $post_text, $poster_name);
 }
 
 // -----------------------------------------------------------------------------
 
-function topic_change_forum($topic_id, $to_forum_id)
+function topic_change_forum(int $topic_id, int $to_forum_id): void
 {
 }
 
 // -----------------------------------------------------------------------------
 
-function forum_resynch($forum_id)
+function forum_resynch(int $forum_id): void
 {
 }
