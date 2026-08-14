@@ -21,7 +21,7 @@ various places:
                         database updated to reflect that.
 */
 
-function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_row = false)
+function upi_set_t_latest_home_visit(string $username, string $projectid, int $timestamp, bool $ensure_row = false): void
 {
     if ($ensure_row) {
         $sql = sprintf(
@@ -54,7 +54,7 @@ function upi_set_t_latest_home_visit($username, $projectid, $timestamp, $ensure_
     DPDatabase::query($sql);
 }
 
-function upi_set_t_latest_page_event($username, $projectid, $timestamp)
+function upi_set_t_latest_page_event(string $username, string $projectid, int $timestamp): void
 {
     $sql = sprintf(
         "
@@ -76,7 +76,7 @@ function upi_set_t_latest_page_event($username, $projectid, $timestamp)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function upi_set_bookmark(string $username, string $projectid, bool $bookmark = true)
+function upi_set_bookmark(string $username, string $projectid, bool $bookmark = true): void
 {
     $sql = sprintf(
         "
@@ -96,7 +96,7 @@ function upi_set_bookmark(string $username, string $projectid, bool $bookmark = 
     DPDatabase::query($sql);
 }
 
-function upi_get_bookmark(string $username, string $projectid)
+function upi_get_bookmark(string $username, string $projectid): ?int
 {
     $sql = sprintf(
         "
@@ -114,6 +114,7 @@ function upi_get_bookmark(string $username, string $projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+/** @return array<string, string> */
 function get_subscribable_project_events()
 {
     $subscribable_project_events = [
@@ -129,10 +130,10 @@ function get_subscribable_project_events()
     return $subscribable_project_events;
 }
 
-function get_label_for_event($event)
+function get_label_for_event(string $event): string
 {
     $subscribable_project_events = get_subscribable_project_events();
-    $label = @$subscribable_project_events[$event];
+    $label = $subscribable_project_events[$event] ?? null;
     if (is_null($label)) {
         throw new UnexpectedValueException("Unknown event: '$event'");
     }
@@ -142,17 +143,17 @@ function get_label_for_event($event)
 // -----------------------------------------------------------------------------
 // "iste" = "is subscribed to event"
 
-function subscribe_user_to_project_event($username, $projectid, $event)
+function subscribe_user_to_project_event(string $username, string $projectid, string $event): void
 {
     set_user_project_event_subscription($username, $projectid, $event, 1);
 }
 
-function unsubscribe_user_from_project_event($username, $projectid, $event)
+function unsubscribe_user_from_project_event(string $username, string $projectid, string $event): void
 {
     set_user_project_event_subscription($username, $projectid, $event, 0);
 }
 
-function set_user_project_event_subscription($username, $projectid, $event, $bit)
+function set_user_project_event_subscription(string $username, string $projectid, string $event, int $bit): void
 {
     assert($bit === 0 || $bit === 1);
 
@@ -178,7 +179,7 @@ function set_user_project_event_subscription($username, $projectid, $event, $bit
     $res = DPDatabase::query($sql);
 }
 
-function user_is_subscribed_to_project_event($username, $projectid, $event)
+function user_is_subscribed_to_project_event(string $username, string $projectid, string $event): bool
 {
     $event_label = get_label_for_event($event);
     // Just to ensure that $event is valid; we don't use $event_label.
@@ -197,13 +198,13 @@ function user_is_subscribed_to_project_event($username, $projectid, $event)
     $row = mysqli_fetch_row($res);
     if (!$row) {
         // ($username,$projectid) pair does not appear in table.
-        return 0;
+        return false;
     } else {
-        return $row[0];
+        return (bool) $row[0];
     }
 }
 
-function can_user_subscribe_to_project_event($username, $projectid, $event)
+function can_user_subscribe_to_project_event(string $username, string $projectid, string $event): bool
 {
     // Disallow subscribing to SR report posted event for anyone who is not the PP for the project
     if ($event == 'sr_reported') {
@@ -218,7 +219,11 @@ function can_user_subscribe_to_project_event($username, $projectid, $event)
 
 // -----------------------------------------------------------------------------
 
-function notify_project_event_subscribers($project, $event, $extras = [])
+/**
+ * @param 'posted'|'round_available'|'round_complete'|'pp_enter'|'sr_available'|'sr_reported'|'sr_complete'|'ppv_enter' $event
+ * @param array{round?: Round} $extras
+ */
+function notify_project_event_subscribers(Project $project, string $event, array $extras = []): void
 {
     $projectid = $project->projectid;
     $title = $project->nameofwork;
@@ -288,9 +293,6 @@ function notify_project_event_subscribers($project, $event, $extras = [])
                 $msg_body .=
                     _("This project has entered post-processing verification.");
                 break;
-
-            default:
-                throw new UnexpectedValueException("Unexpected event $event");
         }
         $email = get_forum_email_address($username);
         send_mail(
@@ -322,8 +324,9 @@ function notify_project_event_subscribers($project, $event, $extras = [])
 /**
  * Return an array: keys are the same as array returned by get_subscribable_project_events(),
  * each value is the number of subscriptions to that event for the given project.
+ * @return array<string, int>
  */
-function get_n_users_subscribed_to_events_for_project($projectid)
+function get_n_users_subscribed_to_events_for_project(string $projectid)
 {
     $subscribable_project_events = get_subscribable_project_events();
     $items = [];
@@ -356,7 +359,7 @@ function get_n_users_subscribed_to_events_for_project($projectid)
  * current number of users that are subscribed to the project's 'posted' event.
  * ("nouste" = "number of users subscribed to event")
  */
-function create_temporary_project_event_subscription_summary_table()
+function create_temporary_project_event_subscription_summary_table(): void
 {
     $sql = "
         CREATE TEMPORARY TABLE project_event_subscriptions_grouped_by_project
