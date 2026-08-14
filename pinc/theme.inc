@@ -15,8 +15,9 @@ include_once($relPath.'job_log.inc');
 /**
  * Emit the opening markup and theme tags, and register a callback
  * to close the page after the caller finishes output.
+ * @param array<string, mixed> $extra_args
  */
-function output_header($nameofpage, $show_statsbar = false, $extra_args = [])
+function output_header(string $nameofpage, bool $show_statsbar = false, array $extra_args = []): void
 {
     global $code_url;
 
@@ -65,7 +66,7 @@ function output_header($nameofpage, $show_statsbar = false, $extra_args = [])
     register_shutdown_function('output_footer', $nameofpage, $show_statsbar);
 }
 
-function output_footer($nameofpage, $show_statsbar = true)
+function output_footer(string $nameofpage, bool $show_statsbar = true): void
 {
     global $code_url, $PAGE_START_TIME;
 
@@ -119,7 +120,7 @@ function output_footer($nameofpage, $show_statsbar = true)
     output_html_footer();
 }
 
-function html_logobar()
+function html_logobar(): void
 {
     global $code_url;
 
@@ -265,7 +266,7 @@ function html_logobar()
  * Display the horizontal bar containing links to various important points
  * within the site (and the login form if the user is not logged in).
  */
-function html_navbar()
+function html_navbar(): void
 {
     global $code_url;
 
@@ -421,6 +422,7 @@ function html_navbar()
     echo "</div>\n";
 }
 
+/** @param array{text: string, url?: string}[] $links */
 function headerbar_menu(string $menu_title, array $links, bool $align_right = false): string
 {
     $menu_style = "";
@@ -457,6 +459,8 @@ function headerbar_menu(string $menu_title, array $links, bool $align_right = fa
  * attribute on the <a> or <span> tag. The function also determines if the
  * current page is one of the urls and if so it doesn't create the link but
  * instead wraps the text in a span.currentpage tag.
+ * @param array{text: string, title?: string, target?: string, url?: string}[] $entries
+ * @return string[]
  */
 function resolve_headerbar_entries(array $entries): array
 {
@@ -516,6 +520,7 @@ function resolve_headerbar_entries(array $entries): array
  * Outputs entries in the navbar contained within $entries.
  *
  * See resolve_headerbar_entries() for $entries format.
+ * @param array{text: string, title?: string, target?: string, url?: string}[] $entries
  */
 function headerbar_text_array(array $entries): string
 {
@@ -526,7 +531,7 @@ function headerbar_text_array(array $entries): string
     return implode($divider, resolve_headerbar_entries($entries));
 }
 
-function html_statsbar($nameofpage)
+function html_statsbar(string $nameofpage): void
 {
     global $code_url, $PG_home_url;
     maybe_show_language_selector();
@@ -612,7 +617,7 @@ function html_statsbar($nameofpage)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function maybe_show_language_selector()
+function maybe_show_language_selector(): void
 {
     global $code_url;
 
@@ -649,15 +654,16 @@ function maybe_show_language_selector()
  * Return a list of round/stage links for the user
  *
  * The returned links are in a format usable by headerbar_text_array()
+ * @return array{url: string, text: string, title: string}[]
  */
-function get_activity_links()
+function get_activity_links(): array
 {
     global $ELR_round;
 
     $user = User::load_current();
 
     if (!$user) {
-        return;
+        return [];
     }
     // Should show links to stages that are accessible to people
     // that aren't logged in? (i.e., SR)?
@@ -704,7 +710,7 @@ function get_activity_links()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_tally_specific_stats($tally_name)
+function show_tally_specific_stats(string $tally_name): void
 {
     global $code_url;
 
@@ -825,7 +831,7 @@ function show_tally_specific_stats($tally_name)
     echo "</div>";
 }
 
-function show_tally_vs_goal($label, $goal, $actual)
+function show_tally_vs_goal(string $label, ?int $goal, int $actual): void
 {
     $goal = $goal == null ? 0 : $goal;
 
@@ -845,7 +851,7 @@ function show_tally_vs_goal($label, $goal, $actual)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_user_teams()
+function show_user_teams(): void
 {
     global $code_url;
 
@@ -882,7 +888,7 @@ function show_user_teams()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_birthdays()
+function show_birthdays(): void
 {
     $seconds_in_month = 30 * 24 * 60 * 60;
 
@@ -940,7 +946,7 @@ function show_birthdays()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_completed_projects($terse = false)
+function show_completed_projects(bool $terse = false): void
 {
     global $code_url;
 
@@ -1002,7 +1008,7 @@ function show_completed_projects($terse = false)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_key_help_links()
+function show_key_help_links(): void
 {
     $faq_central_url = get_faq_url("faq_central.php");
     $p_guide_url = get_faq_url("proofreading_guidelines.php");
@@ -1068,18 +1074,19 @@ function show_key_help_links()
  *   Actual value obtained
  * @param int $goal
  *   Goal for the day
- * @param mixed $prorate_goal_for_color
- *   if TRUE or 'day', the returned color will be calculated based
- *   on how much of the current day has passed. If set to 'month'
- *   the color will be based on how much of the month has passed.
+ * @param bool|'bar'|'month' $prorate_goal_for_color
+ *   - If true or 'bar', the returned color will be calculated based
+ *   on how much of the current day has passed.
+ *   - If 'month'  the color will be based on how much of the month has passed.
  *   This is useful so that at the beginning of a new timeframe the
  *   bar isn't at the low color.
- * @param array $color_thresholds
+ * @param ?array<int, string> $color_thresholds
  *   Associative array containing the class names to use for
  *   each percentage completed range, eg:
  *   `[100 => "goal-on-target", 75 => "goal-maybe", 0 => "goal-unlikely"]
+ * @return list{int, string, float}
  */
-function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_color = true, $color_thresholds = null)
+function calculate_progress_bar_properties(int $actual, int $goal, bool|string $prorate_goal_for_color = true, ?array $color_thresholds = null): array
 {
     // Define the color classes used for the status bar graph
     if (!is_array($color_thresholds)) {
@@ -1134,7 +1141,7 @@ function calculate_progress_bar_properties($actual, $goal, $prorate_goal_for_col
  *
  * If no image is found for the file name, the function returns NULL.
  */
-function get_dyn_image_url_for_file($filename)
+function get_dyn_image_url_for_file(string $filename): ?string
 {
     $image_extensions = ["", ".png", ".jpg", ".gif"];
 
@@ -1152,7 +1159,7 @@ function get_dyn_image_url_for_file($filename)
 /**
  * Given a page basename return an <img> element for it
  */
-function get_page_header_image($image)
+function get_page_header_image(string $image): string
 {
     // Try a locale-less image first
     $dyn_url = get_dyn_image_url_for_file("page_header/$image");
@@ -1174,7 +1181,7 @@ function get_page_header_image($image)
 /**
  * Output a tab bar of various view modes and a selected mode
  *
- * @param array $view_modes
+ * @param array<int|string, array{label: string, url?: string, postscript?: string}> $view_modes
  *   A complex associative array, eg:
  *   ```
  *   [
@@ -1195,12 +1202,17 @@ function get_page_header_image($image)
  * @param string $url_addition
  *   An optional string that will be appended to the URL. This can
  *   be other page parameters and/or a page anchor
- * @param string $display_mode
- *   One of "full" or "auto" - full will cause the bar to span the
- *   entire page while auto will only use as much horizontal space as needed.
+ * @param 'full'|'auto' $display_mode
+ *   - full will cause the bar to span the entire page
+ *   - auto will only use as much horizontal space as needed.
  */
-function output_tab_bar($view_modes, $selected_mode, $view_variable, $url_addition = "", $display_mode = "full")
-{
+function output_tab_bar(
+    array $view_modes,
+    string $selected_mode,
+    string $view_variable,
+    string $url_addition = "",
+    string $display_mode = "full"
+): void {
     $div_style = $display_mode == "auto" ? "style='width: auto;'" : "";
     $clear_style = $display_mode == "auto" ? "style='clear: left;'" : "style='clear: both;'";
 
