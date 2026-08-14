@@ -15,12 +15,17 @@ include_once($relPath.'Project.inc'); // get_project_difficulties()
 class ProjectFilterElement
 {
     private bool $active;
+    /** @var array<string, string> */
     public array $selected_options;
 
+    /**
+     * @param array<string, bool> $active_fields
+     * @param array<string, mixed> $data
+     */
     public function __construct(
         private readonly string $id,
         public readonly string $label,
-        protected readonly mixed $data,
+        protected readonly array $data,
         protected readonly string $state_sql,
         array $active_fields
     ) {
@@ -28,7 +33,7 @@ class ProjectFilterElement
         $this->selected_options = [];
     }
 
-    public function echo_html_control()
+    public function echo_html_control(): void
     {
         if (!$this->active) {
             return;
@@ -37,7 +42,7 @@ class ProjectFilterElement
     }
 
     // Difficulty overrides this
-    protected function echo_active_html_control()
+    protected function echo_active_html_control(): void
     {
         echo "<td>";
         echo "<b> " . html_safe("$this->label:") . "</b><br>";
@@ -45,7 +50,7 @@ class ProjectFilterElement
         echo "</td>\n";
     }
 
-    protected function echo_selector()
+    protected function echo_selector(): void
     {
         echo "<select name='{$this->id}[]' id=$this->id size='4' multiple>";
         $options = $this->get_options();
@@ -63,7 +68,8 @@ class ProjectFilterElement
     }
 
     // project manager and post processor use this function, others override it
-    protected function get_options()
+    /** @return array<string, string> */
+    protected function get_options(): array
     {
         $query = "SELECT distinct $this->id FROM projects WHERE ($this->state_sql) ORDER BY $this->id";
         $options = [];
@@ -75,7 +81,7 @@ class ProjectFilterElement
     }
 }
 
-function echo_option($key, $value, $selected)
+function echo_option(string $key, string $value, bool $selected): void
 {
     $selected_attr = $selected ? ' selected' : '';
     echo "<option value='" . attr_safe($key) . "'$selected_attr>$value</option>\n";
@@ -83,7 +89,8 @@ function echo_option($key, $value, $selected)
 
 class GenreElement extends ProjectFilterElement
 {
-    protected function get_options()
+    /** @return array<string, string> */
+    protected function get_options(): array
     {
         maybe_create_temporary_genre_translation_table();
         $query = "
@@ -102,7 +109,8 @@ class GenreElement extends ProjectFilterElement
 
 class SpecialDayElement extends ProjectFilterElement
 {
-    protected function get_options()
+    /** @return array<string, string> */
+    protected function get_options(): array
     {
         $query = "
             SELECT DISTINCT special_code, display_name
@@ -121,7 +129,8 @@ class SpecialDayElement extends ProjectFilterElement
 
 class LanguageElement extends ProjectFilterElement
 {
-    protected function get_options()
+    /** @return array<string, string> */
+    protected function get_options(): array
     {
         $options = [];
 
@@ -142,7 +151,7 @@ class LanguageElement extends ProjectFilterElement
         return $options;
     }
 
-    protected function echo_active_html_control()
+    protected function echo_active_html_control(): void
     {
         echo "<td>";
         echo "<b>" . html_safe("$this->label:") . "</b><br>";
@@ -166,7 +175,7 @@ class LanguageElement extends ProjectFilterElement
 
 class DifficultyElement extends ProjectFilterElement
 {
-    public function echo_active_html_control()
+    public function echo_active_html_control(): void
     {
         echo "<div class='flex_row'>";
         echo "<div class='entry'><b>" . html_safe("$this->label:") . "</b></div>";
@@ -192,8 +201,15 @@ class DifficultyElement extends ProjectFilterElement
     }
 }
 
-function process_and_display_project_filter_form($username, $filter_type, $filter_label, $data, $state_sql, ?array $custom_display_fields = null)
-{
+/** @param ?array<string, bool> $custom_display_fields */
+function process_and_display_project_filter_form(
+    string $username,
+    string $filter_type,
+    string $filter_label,
+    mixed $data,
+    string $state_sql,
+    ?array $custom_display_fields = null
+): void {
     $display_fields = [
         "language" => true,
         "genre" => true,
@@ -296,7 +312,7 @@ class ProjectSearchElement
     ) {
     }
 
-    public function get_sql_component()
+    public function get_sql_component(): string
     {
         $values = $this->data[$this->id] ?? [];
         if (empty($values)) {
@@ -308,7 +324,8 @@ class ProjectSearchElement
         return $this->construct_sql($values);
     }
 
-    public function construct_sql($values)
+    /** @param string[] $values */
+    public function construct_sql(array $values): string
     {
         $values_list = surround_and_join($values, "'", "'", ", ");
         return " AND $this->id IN ($values_list)";
@@ -317,7 +334,8 @@ class ProjectSearchElement
 
 class LanguageSearchElement extends ProjectSearchElement
 {
-    public function construct_sql($values)
+    /** @param string[] $values */
+    public function construct_sql(array $values): string
     {
         // some languages have regex special chars which need escaping
         $values = array_map('preg_quote', $values);
@@ -344,7 +362,7 @@ class LanguageSearchElement extends ProjectSearchElement
     }
 }
 
-function get_project_filter_sql($pguser, $filter_type)
+function get_project_filter_sql(string $pguser, string $filter_type): string
 {
     $data = get_saved_data($pguser, $filter_type);
     $search_elements = [
@@ -363,23 +381,24 @@ function get_project_filter_sql($pguser, $filter_type)
     return $filter;
 }
 
-function get_lang_match($data)
+/** @param array<string, mixed> $data */
+function get_lang_match(array $data): string
 {
     // set a default if not set
     return $data["lang-match"] ?? "primwith";
 }
 
-function save_data($pguser, $filter_type, $data)
+function save_data(string $pguser, string $filter_type, mixed $data): void
 {
     save_raw_data($pguser, "{$filter_type}_data", serialize($data));
 }
 
-function save_display($pguser, $filter_type, $data)
+function save_display(string $pguser, string $filter_type, string $data): void
 {
     save_raw_data($pguser, "{$filter_type}_display", $data);
 }
 
-function save_raw_data($pguser, $data_name, $data)
+function save_raw_data(string $pguser, string $data_name, string $data): void
 {
     $query = sprintf(
         "
@@ -394,17 +413,21 @@ function save_raw_data($pguser, $data_name, $data)
     DPDatabase::query($query);
 }
 
-function get_saved_data($pguser, $filter_type)
+/** @return array<string, mixed> */
+function get_saved_data(string $pguser, string $filter_type): array
 {
-    return unserialize(get_raw_saved_data($pguser, "{$filter_type}_data"));
+    $data = unserialize(get_raw_saved_data($pguser, "{$filter_type}_data"));
+    // The raw data "", which we get if there's no saved data for this
+    // user/filter PHP deserializes as false. We need an array.
+    return $data !== false ? $data : [];
 }
 
-function get_project_filter_display($pguser, $filter_type)
+function get_project_filter_display(string $pguser, string $filter_type): string
 {
     return get_raw_saved_data($pguser, "{$filter_type}_display");
 }
 
-function get_raw_saved_data($pguser, $data_name)
+function get_raw_saved_data(string $pguser, string $data_name): string
 {
     $query = sprintf(
         "
