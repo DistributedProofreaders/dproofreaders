@@ -112,10 +112,12 @@ class DailyLimitExceededException extends UserAccessException
  */
 class User
 {
-    private $table_row;
-    private $current_profile;
+    /** @var array<string, mixed> */
+    private array $table_row;
+    private ?UserProfile $current_profile = null;
 
     // List of fields that when set for a user should never change
+    /** @var string[] */
     private $immutable_fields = [
         "reg_token",
         "username",
@@ -123,6 +125,7 @@ class User
     ];
 
     // Fields are assumed to be integers unless included here
+    /** @var string[] */
     private $string_fields = [
         "reg_token",
         "real_name",
@@ -135,7 +138,7 @@ class User
     ];
 
 
-    public function __construct($username = null)
+    public function __construct(?string $username = null)
     {
         if ($username !== null) {
             $this->load("username", $username);
@@ -145,7 +148,7 @@ class User
     // The __set() and __get() methods allow access to user fields without
     // creating accessors for them all individually.
     // See the PHP docs for "magic methods".
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         if (isset($this->$name) && in_array($name, $this->immutable_fields)) {
             throw new DomainException(
@@ -189,7 +192,7 @@ class User
         }
     }
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         switch ($name) {
             case "profile":
@@ -235,12 +238,12 @@ class User
         }
     }
 
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return isset($this->table_row[$name]);
     }
 
-    private function load($field, $value, $strict = true)
+    private function load(string $field, mixed $value, bool $strict = true): void
     {
         if (in_array($field, $this->string_fields)) {
             $escaped_value = sprintf("'%s'", DPDatabase::escape($value));
@@ -292,12 +295,13 @@ class User
         mysqli_free_result($result);
     }
 
-    public function save()
+    public function save(): void
     {
         throw new NotImplementedException();
     }
 
-    public function load_teams()
+    /** @return int[] */
+    public function load_teams(): array
     {
         $sql = sprintf(
             "
@@ -316,7 +320,7 @@ class User
         return $teams;
     }
 
-    public function add_team($team_id)
+    public function add_team(int $team_id): void
     {
         if (in_array($team_id, $this->load_teams())) {
             return;
@@ -335,7 +339,7 @@ class User
         Team::log_recent_join($team_id, $this->u_id);
     }
 
-    public function remove_team($team_id)
+    public function remove_team(int $team_id): void
     {
         $sql = sprintf(
             "
@@ -359,27 +363,27 @@ class User
     // allows the caller to specify if the suffix should be included
     // without forcing the logic of what needs it into this class.
 
-    public function grant_access($activity, $requester, $use_access_suffix = true)
+    public function grant_access(string $activity, string $requester, bool $use_access_suffix = true): void
     {
         $this->_change_access("grant", $activity, $requester, $use_access_suffix);
     }
 
-    public function revoke_access($activity, $requester, $use_access_suffix = true)
+    public function revoke_access(string $activity, string $requester, bool $use_access_suffix = true): void
     {
         $this->_change_access("revoke", $activity, $requester, $use_access_suffix);
     }
 
-    public function request_access($activity, $use_access_suffix = true)
+    public function request_access(string $activity, bool $use_access_suffix = true): void
     {
         $this->_change_access("request", $activity, 'n/a', $use_access_suffix);
     }
 
-    public function deny_access($activity, $requester, $use_access_suffix = true)
+    public function deny_access(string $activity, string $requester, bool $use_access_suffix = true): void
     {
         $this->_change_access("deny_request_for", $activity, $requester, $use_access_suffix);
     }
 
-    private function _change_access($action_type, $activity, $requester, $use_access_suffix)
+    private function _change_access(string $action_type, string $activity, string $requester, bool $use_access_suffix): void
     {
         if ($use_access_suffix) {
             $suffix = '.access';
@@ -450,12 +454,8 @@ class User
      * Load a User record by u_id
      *
      * Example: `$user = User::load_from_uid($u_id);`
-     *
-     * @param int $u_id
-     *
-     * @return User
      */
-    public static function load_from_uid($u_id)
+    public static function load_from_uid(int $u_id): User
     {
         $user = new User();
         $user->load('u_id', $u_id);
@@ -466,12 +466,8 @@ class User
      * Load a User record by registration token
      *
      * Example: `$user = User::load_from_registration_token($reg_token);`
-     *
-     * @param string $reg_token
-     *
-     * @return User
      */
-    public static function load_from_registration_token($reg_token)
+    public static function load_from_registration_token(string $reg_token): User
     {
         $user = new User();
         $user->load('reg_token', $reg_token);
@@ -482,12 +478,8 @@ class User
      * Load a User record by API key
      *
      * Example: `$user = User::load_from_api_key($api_key);`
-     *
-     * @param string $api_key
-     *
-     * @return User
      */
-    public static function load_from_api_key($api_key)
+    public static function load_from_api_key(string $api_key): User
     {
         $user = new User();
         $user->load('api_key', $api_key);
@@ -499,14 +491,10 @@ class User
      *
      * Example: `$user = User::load_from_email($email);`
      *
-     * @param string $email
-     *
      * @throws NonuniqueUserException
      *   The email address is not guaranteed to be unique.
-     *
-     * @return User
      */
-    public static function load_from_email($email)
+    public static function load_from_email(string $email): User
     {
         $user = new User();
         $user->load('email', $email);
@@ -517,7 +505,7 @@ class User
      * Determine if the specified username is associated
      * with a valid user without the overhead of creating an object.
      */
-    public static function is_valid_user($username, $strict = true)
+    public static function is_valid_user(string $username, bool $strict = true): bool
     {
         $sql = sprintf(
             "
@@ -555,8 +543,9 @@ class User
 
     /**
      * Return possible user referrer options
+     * @return array<string, string>
      */
-    public static function get_referrer_options()
+    public static function get_referrer_options(): array
     {
         return [
             "pg" => _("Project Gutenberg"),
@@ -587,7 +576,7 @@ $valid_username_chars_statement_for_elsewhere = _("(Valid characters are: a-z A-
  * If not, return a string detailing the problem.
  * (This is used at both registration and login.)
  */
-function check_username($username, $registering = false)
+function check_username(string $username, bool $registering = false): string
 {
     // This is the length of the 'username' field in the 'users' table.
     $username_max_len = 25;
