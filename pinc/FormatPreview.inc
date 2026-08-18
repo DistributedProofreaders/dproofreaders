@@ -62,9 +62,12 @@ class FormatPreview
             "
             INSERT INTO format_preview_events
                 (projectid, image, round_id, username, timestamp)
-            SELECT '%s', image, round_id, username, timestamp
-            FROM format_preview_events
-            WHERE projectid = '%s' $images_where
+            SELECT * FROM (
+                SELECT '%s', image, round_id, username, timestamp
+                FROM format_preview_events
+                WHERE projectid = '%s' $images_where) AS new
+            ON DUPLICATE KEY UPDATE
+                timestamp = new.timestamp
             ",
             DPDatabase::escape($dest_projectid),
             DPDatabase::escape($src_projectid)
