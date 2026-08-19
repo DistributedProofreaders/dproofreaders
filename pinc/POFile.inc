@@ -382,7 +382,7 @@ class POFileIterator implements Iterator
                 return;
             }
         }
-        if ($block) {
+        if ($block) { /** @phpstan-ignore if.alwaysFalse */
             $this->current_block = $block;
             $this->block_count++;
             return;
