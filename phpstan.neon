@@ -58,3 +58,25 @@ parameters:
         - message: "#^Access to an undefined property Pool::\\$states.$#"
           path: pinc/ProjectState.inc
           reportUnmatched: false
+    typeAliases:
+        # TODO: data.y should be numeric list, but callers needs fixing
+        GraphConfig: """
+            array{
+                width?: int,
+                height?: int,
+                axisLeft?: bool,
+                yAxisLabel?: string,
+                xAxisHeight?: int,
+                yAxisTickCount?: int,
+                groupBars?: bool,
+                barColors?: string[],
+                title?: string,
+                downloadLabel?: string,
+                legendAdjustment?: array{x?: int, y?: int},
+                bottomLegend?: string,
+                data: array<
+                    string,
+                    array{type?: string, x: string[], y: mixed[]}
+                    >,
+            }
+            """

@@ -3,6 +3,7 @@
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'page_tally.inc');
 
+/** @return array{string, string} */
 function get_graph_js_files()
 {
     global $code_url;
@@ -12,7 +13,8 @@ function get_graph_js_files()
     ];
 }
 
-function build_svg_graph_inits($graphs)
+/** @param list{string, string, GraphConfig}[] $graphs */
+function build_svg_graph_inits(array $graphs): string
 {
     foreach ($graphs as [$type, $id, $config]) {
         $js_data[] = "$type('$id', " . json_encode($config) . ");";
@@ -20,7 +22,8 @@ function build_svg_graph_inits($graphs)
     return "window.addEventListener('DOMContentLoaded', function(){" . join($js_data) . "});";
 }
 
-function cumulative_total_proj_summary_graph()
+/** @return GraphConfig */
+function cumulative_total_proj_summary_graph(): array
 {
     $max_num_data = 0;
     $data = [];
@@ -61,7 +64,12 @@ function cumulative_total_proj_summary_graph()
     ];
 }
 
-function user_logging_on($past, $preceding)
+/**
+ * @param 'year'|'day' $past
+ * @param 'hour'|'day'|'week'|'fourweek' $preceding
+ * @return GraphConfig
+ */
+function user_logging_on(string $past, string $preceding): array
 {
     // For each hour in the $past interval,
     // show the number of (distinct) users who had logged in
@@ -139,7 +147,8 @@ function user_logging_on($past, $preceding)
     ];
 }
 
-function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
+/** @return GraphConfig */
+function tallyboard_deltas(string $tally_name, string $holder_type, int $holder_id, int $days_back): array
 {
     $valid_tally_names = array_keys(get_page_tally_names());
 
@@ -173,7 +182,8 @@ function tallyboard_deltas($tally_name, $holder_type, $holder_id, $days_back)
     ];
 }
 
-function new_users($time_interval)
+/** @return GraphConfig */
+function new_users(string $time_interval): array
 {
     $time_interval_options = [
         'day' => [
@@ -223,7 +233,8 @@ function new_users($time_interval)
     ];
 }
 
-function average_hour_users_logging_on()
+/** @return GraphConfig */
+function average_hour_users_logging_on(): array
 {
     ///////////////////////////////////////////////////
     //Numbers of users logging on in each hour of the day, since the start of stats
@@ -251,7 +262,8 @@ function average_hour_users_logging_on()
     ];
 }
 
-function users_by_language()
+/** @return GraphConfig */
+function users_by_language(): array
 {
     $res = DPDatabase::query("
         SELECT IFNULL(LEFT(u_intlang, 2), '') AS intlang, COUNT(*) AS num
@@ -288,7 +300,8 @@ function users_by_language()
     ];
 }
 
-function users_by_country()
+/** @return GraphConfig */
+function users_by_country(): array
 {
     $res = DPDatabase::query("
         SELECT SUBSTRING_INDEX(email, '.' ,-1) AS domain, COUNT(*) AS num
@@ -320,8 +333,10 @@ function users_by_country()
 
 /**
  * Return the array defined by $result[$i] = $arr[$i+1] - $arr[$i]
+ * @param mixed[] $arr
+ * @return mixed[]
  */
-function array_successive_differences($arr)
+function array_successive_differences(array $arr): array
 {
     $result = [];
     foreach ($arr as $key => $value) {
@@ -334,7 +349,7 @@ function array_successive_differences($arr)
     return $result;
 }
 
-function get_number_of_days_in_current_month()
+function get_number_of_days_in_current_month(): int
 {
     $current = getdate();
     // The last day of this month is the "zeroth" day of next month.
@@ -344,7 +359,8 @@ function get_number_of_days_in_current_month()
     return $last_day['mday'];
 }
 
-function curr_month_proj($which)
+/** @return GraphConfig */
+function curr_month_proj(string $which): array
 {
     // Create "projects Xed per day" graph for current month
 
@@ -398,8 +414,10 @@ function curr_month_proj($which)
 
 /**
  * Return the array defined by $result[$i] = $arr[$i] - $arr[0]
+ * @param mixed[] $arr
+ * @return mixed[]
  */
-function array_subtract_first_from_each($arr)
+function array_subtract_first_from_each(array $arr): array
 {
     $result = [];
     foreach ($arr as $key => $value) {
@@ -411,7 +429,8 @@ function array_subtract_first_from_each($arr)
     return $result;
 }
 
-function cumulative_month_proj($which)
+/** @return GraphConfig */
+function cumulative_month_proj(string $which): array
 {
     // Create "projects Xed per day" graph for current month
 
@@ -468,7 +487,8 @@ function cumulative_month_proj($which)
     ];
 }
 
-function total_proj_graph($which)
+/** @return GraphConfig */
+function total_proj_graph(string $which): array
 {
     //Create "projects Xed per day" graph for all known history
 
@@ -503,7 +523,8 @@ function total_proj_graph($which)
     ];
 }
 
-function cumulative_total_proj_graph($which)
+/** @return GraphConfig */
+function cumulative_total_proj_graph(string $which): array
 {
     // Create "cumulative projects Xed per day" graph for all days
     // since state stats started being recorded up to yesterday
@@ -539,7 +560,8 @@ function cumulative_total_proj_graph($which)
     ];
 }
 
-function total_pages_by_month_graph($tally_name)
+/** @return GraphConfig */
+function total_pages_by_month_graph(string $tally_name): array
 {
     ///////////////////////////////////////////////////
     //Total pages by month since beginning of stats
@@ -574,8 +596,10 @@ function total_pages_by_month_graph($tally_name)
 
 /**
  * Return the array defined by: $result[$i] = sum( $arr[$j] for $j up to and including $i )
+ * @param mixed[] $arr
+ * @return mixed[]
  */
-function array_accumulate($arr)
+function array_accumulate(array $arr): array
 {
     $result = [];
     $sum = 0;
@@ -586,7 +610,11 @@ function array_accumulate($arr)
     return $result;
 }
 
-function pages_daily(string $tally_name, string $c_or_i, string $timeframe)
+/**
+ * @param 'increments'|'cumulative' $c_or_i
+ * @return GraphConfig
+ */
+function pages_daily(string $tally_name, string $c_or_i, string $timeframe): array
 {
     $now_timestamp = time();
     $now_assoc = getdate($now_timestamp);
@@ -679,8 +707,9 @@ function pages_daily(string $tally_name, string $c_or_i, string $timeframe)
  *
  * @param string $which
  *   A word denoting a round ID or a phase (NEW, PP, GB)
+ * @param string[]|string|null $desired_states
  */
-function _get_project_state_selector($which, $desired_states = null)
+function _get_project_state_selector(string $which, array|string|null $desired_states = null): string
 {
     if (null == $desired_states) {
         $desired_states = ["unavailable", "waiting", "bad", "available", "complete"];
@@ -717,7 +746,11 @@ function _get_project_state_selector($which, $desired_states = null)
     throw new UnexpectedValueException("bad value for 'which': '$which'");
 }
 
-function get_round_backlog_stats($interested_phases)
+/**
+ * @param string[] $interested_phases
+ * @return int[]
+ */
+function get_round_backlog_stats(array $interested_phases): array
 {
     // Pull the stats data out of the database
     $stats = [];
@@ -754,11 +787,16 @@ function get_round_backlog_stats($interested_phases)
 /**
  * Given a function and arguments that will generate graph data, attempt
  * to cache the value.
+ * A very thin wrapper around memoize_function that returns `GraphConfig`
+ * rather than `mixed` to make it clearer to PHPStan what's happening.
  *
  * Note that the graph function might include _() so it's important that we
  * include the user's language in the key.
+ * @param callable-string $function
+ * @param mixed[] $args
+ * @return GraphConfig
  */
-function query_graph_cache($function, $args = [], $expiration = 3600)
+function query_graph_cache(string $function, array $args = [], int $expiration = 3600): array
 {
     return memoize_function($function, $args, $expiration, get_desired_language());
 }
