@@ -567,7 +567,10 @@ function _test_project_for_bad_bytes(string $projectid): ?PQCResult
     return new PQCResult($name, $description, $status, $summary, $details);
 }
 
-// write <tr> if not the first row
+/**
+ * write <tr> if not the first row
+ * @param-out false $first_row
+ */
 function write_row_start(bool &$first_row): string
 {
     if ($first_row) {
