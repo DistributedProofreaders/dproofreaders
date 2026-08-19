@@ -1,5 +1,8 @@
 # https://phpstan.org/config-reference
 
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
 parameters:
     fileExtensions:
         - php
@@ -29,6 +32,10 @@ parameters:
           path: pinc/3rdparty/mediawiki/DiffEngine.php
         - message: '#Call to function wfDebug\(\) on a separate line has no effect.#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
+        - message: '#Assign to \$.* overwrites the last element from array\.$#'
+          path: pinc/3rdparty/mediawiki/DiffEngine.php
+        - message: '#If condition is always false\.$#'
+          path: pinc/3rdparty/mediawiki/DiffFormatter.php
         - message: '#Instantiated class DiffFormatter is abstract#'
           path: pinc/DifferenceEngineWrapper.inc
         - message: '#Call to function is_array\(\) with array<string> will always evaluate to true.#'
