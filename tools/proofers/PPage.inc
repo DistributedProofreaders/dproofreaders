@@ -45,6 +45,7 @@ function url_for_pi_do_particular_page(string $projectid, string $proj_state, st
 
 // -----------------------------------------------------------------------------
 
+/** @param array<string, mixed> $request_params */
 function get_requested_PPage(array $request_params): PPage
 {
     $projectid = get_projectID_param($request_params, 'projectid');
@@ -346,6 +347,7 @@ class PPage
         $this->lpage->saveAsInProgress($page_text, $user);
     }
 
+    /** @return list{bool, bool} */
     public function attemptSaveAsDone(string $page_text, string $user): array
     {
         return $this->lpage->attemptSaveAsDone($page_text, $user);
