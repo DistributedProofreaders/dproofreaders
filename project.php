@@ -212,7 +212,7 @@ function do_expected_state(): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/** @return array{0:?string, 1:?string} */
+/** @return list{?string, ?string} */
 function decide_blurbs(): array
 {
     global $project, $pguser, $code_url;
@@ -1296,8 +1296,15 @@ function do_history(): void
 
 /**
  * If the project's event-history has gaps, fill them with pseudo-events.
- *
- * @return array{'timestamp':?int, 'who':string, 'event_type':string, 'details1':string, 'details2':string, 'details3':string}[]
+ * @param array<string, mixed>[] $in_events
+ * @return array{
+ *      timestamp: ?int,
+ *      who: string,
+ *      event_type: string,
+ *      details1: string,
+ *      details2: string,
+ *      details3: string
+ *      }[]
  */
 // TODO(jchaffraix): Add a class for ProjectEvent and switch to this function to it.
 function fill_gaps_in_events(array $in_events): array
@@ -1358,7 +1365,7 @@ function fill_gaps_in_events(array $in_events): array
         ];
         $out_events[] = $pseudo_event;
     }
-    return $out_events;
+    return $out_events; // @phpstan-ignore return.type
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

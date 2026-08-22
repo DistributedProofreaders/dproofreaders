@@ -102,7 +102,7 @@ class ApiRouter
         $this->_validators[$label] = $function;
     }
 
-    /** @return array{0: string, 1: callable} */
+    /** @return list{string, callable} */
     private function get_validator(string $path, string $part, TrieNode $node): array
     {
         if (isset($node->children)) {

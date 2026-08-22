@@ -266,7 +266,7 @@ function _show_queue_details(Round $round, string $name, bool $unheld_only): voi
     echo "</table>";
 }
 
-/** @return array{0: int, 1: int} */
+/** @return list{int, int} */
 function _get_num_projects_and_pages_available(Round $round): array
 {
     $sql = sprintf(

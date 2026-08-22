@@ -611,7 +611,14 @@ function get_page_js(int $interface_type_init_value): string
         PAGE_JS;
 }
 
-/** @return array{"js_modules": string[], "js_data": string, "body_attributes": string, "css_data"?: string} */
+/**
+ * @return array{
+ *      js_modules: string[],
+ *      js_data: string,
+ *      body_attributes: string,
+ *      css_data?: string
+ *      }
+ */
 function get_wordcheck_page_header_args(User $user, PPage $ppage): array
 {
     global $code_url, $word_check_messages;

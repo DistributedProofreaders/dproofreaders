@@ -69,7 +69,7 @@ function user_can_see_user_access_chart_of(?string $subject_username): bool
     // We also allow PFs to see access charts.
 }
 
-/** @return array{0:bool, 1:bool} */
+/** @return list{bool, bool} */
 function user_can_modify_access_of(?string $subject_username): array
 {
     // Currently, $subject_username is ignored unless $testing is true.
