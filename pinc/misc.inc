@@ -16,13 +16,12 @@ use voku\helper\UTF8;
  * You should be using the ?? operator moving forward as this function is deprecated:
  *    $arr[$key] ?? $default
  *
- * @param array $arr
- * @param string|int $key
+ * @param array<string, mixed> $arr
  * @param mixed $default
  * @return mixed
  * @deprecated
  */
-function array_get($arr, $key, $default)
+function array_get(array $arr, string|int $key, $default)
 {
     trigger_error("array_get() is deprecated, use the null coalescing operator instead", E_USER_DEPRECATED);
     if (isset($arr[$key])) {
@@ -35,7 +34,8 @@ function array_get($arr, $key, $default)
 /**
  * Given an array of arrays/objects, return the values of the desired field.
  *
- * @param array<array|object> $array
+ * @param array<string, array<string, mixed>|object> $array
+ * @return list<mixed>
  */
 function array_extract_field(array $array, string $field): array
 {
@@ -59,7 +59,7 @@ function array_extract_field(array $array, string $field): array
  * "foo"            -> ["foo"]
  * ["bar"]          -> ["bar"]
  * ["foo" => "bar"] -> ["foo" => "bar"]
- *
+ * @param ?array<string, mixed> $array
  * @param mixed $default
  * @return mixed
  */
@@ -76,8 +76,8 @@ function array_get_as_array(?array $array, string $key, $default)
  * Remove fields from the associative array `$array` that aren't in the valid list.
  *
  * Note: This is an in-place operation that mutates `$array`!
- *
- * @param string[] $valid_fields
+ * @param array<string, mixed> &$array
+ * @param ?string[] $valid_fields
  **/
 function array_remove_invalid_fields(array &$array, ?array $valid_fields): void
 {
@@ -137,20 +137,12 @@ function get_changed_fields_for_objects(object $new, object $old, bool $remove_n
  *   ```
  *
  * @param array<string, mixed> $arr
- * @param string $key
- * @param mixed $default
  * @param array<string|int> $choices
- * @param bool $allownull
- *
- * @return mixed
  *
  * @throws InvalidArgumentException
  */
-function get_enumerated_param(array $arr, string $key, $default, array $choices, bool $allownull = false)
+function get_enumerated_param(array $arr, string $key, mixed $default, array $choices, bool $allownull = false): mixed
 {
-    // TODO: On move to PHP 8.0 as a minimum version, add 'mixed' type def to
-    // $default and a return of mixed
-
     // sanity checks on the args
     if (empty($choices)) {
         throw new InvalidArgumentException("\$choices is an empty array");
@@ -264,13 +256,6 @@ function get_enumerated_param(array $arr, string $key, $default, array $choices,
  *   ```
  *
  * @param array<string, mixed> $arr
- * @param string $key
- * @param int|null $default
- * @param int|null $min
- * @param int|null $max
- * @param bool $allownull
- *
- * @return int|null
  *
  * @throws InvalidArgumentException
  *
@@ -290,13 +275,6 @@ function get_integer_param(array $arr, string $key, ?int $default = null, ?int $
  * If it's not defined, and `$default` is null and `$allownull` is true, return null.
  *
  * @param array<string, mixed> $arr
- * @param string $key
- * @param float|null $default
- * @param float|null $min
- * @param float|null $max
- * @param bool $allownull
- *
- * @return float|null
  *
  * @throws InvalidArgumentException
  *
@@ -313,22 +291,14 @@ function get_float_param(array $arr, string $key, ?float $default = null, ?float
  * This is the parent function of `get_integer_param()` and `get_float_param()`,
  * use those versions instead.
  *
- * @param string $type - One of "integer" or "float"
  * @param array<string, mixed> $arr
- * @param string $key
- * @param int|float|null $default
- * @param int|float|null $min
- * @param int|float|null $max
- * @param bool $allownull
- *
- * @return int|float|null
  *
  * @throws InvalidArgumentException
  *
  * @see get_integer_param()
  * @see get_float_param()
  */
-function get_numeric_param(string $type, array $arr, string $key, $default = null, $min = null, $max = null, bool $allownull = false)
+function get_numeric_param(string $type, array $arr, string $key, int|float|null $default = null, int|float|null $min = null, int|float|null $max = null, bool $allownull = false): int|float|null
 {
     // sanity checks on the args
     if ($type == 'integer') {
@@ -341,17 +311,6 @@ function get_numeric_param(string $type, array $arr, string $key, $default = nul
         }
     } else {
         throw new InvalidArgumentException("\$type must be 'integer' or 'float'");
-    }
-
-    // TODO: On move to PHP 8.0 as a minimum version, the following two checks
-    // (and the unit tests for them) can be removed as we can then use union
-    // type defs for $min and $max, eg: int|float|null $min. Also add a
-    // int_float_null as a return type for this function.
-    if (! (is_null($min) || is_numeric($min))) { /** @phpstan-ignore-line */
-        throw new TypeError("\$min must be of the type numeric or null");
-    }
-    if (! (is_null($max) || is_numeric($max))) { /** @phpstan-ignore-line */
-        throw new TypeError("\$max must be of the type numeric or null");
     }
 
     if (!is_null($default)) {
@@ -509,16 +468,11 @@ function get_bool_param(array $arr, string $key, ?bool $default = null, bool $al
  *   $word = get_param_matching_regex($_GET, 'word', NULL, '/^\w+$/')
  *   ```
  * @param array<string, mixed> $arr
- * @param string $key
- * @param string|null $default
  * @param string $regex
  *   For security, $regex should almost certainly be anchored at both ends,
  *   and should not contain:
  *   - any complemented character classes (e.g. "[^A-Z]"), or
  *   - (unescaped) '.' (e.g., in "/foo.+bar/").
- * @param bool $allownull
- *
- * @return string|null
  *
  * @throws InvalidArgumentException
  */
@@ -843,17 +797,15 @@ function surround_and_join(array $strings, string $L, string $R, string $joiner)
 /**
  * Return true if a non-null `$haystack` contains any of the `$needles` as a substring.
  *
- * @param null|string $haystack
+ * @param ?string $haystack
  *   The string to search. A null haystack can never contain a needle
- * @param null|string|array $needles
+ * @param null|string|string[] $needles
  *   Search term. If:
  *   * null - Returns true for any non-null haystack.
  *   * string - Returns true if haystack contains the needle.
  *   * array - Returns true if haystack contains any of the needles (false if array is empty).
- *
- * * @return boolean
  */
-function str_contains_any_of($haystack, $needles)
+function str_contains_any_of(?string $haystack, null|string|array $needles): bool
 {
     if (is_null($haystack)) {
         return false;
@@ -878,13 +830,11 @@ function str_contains_any_of($haystack, $needles)
  *  Ex $has_odd = any([6,5,0,2], fn ($i) => i % 2 == 1);
  *     $some_missing = any($items, is_null);
  *     $some_empty_strings = any($strings);
- *
- * @param iterable $input
+ * @template T
+ * @param iterable<T> $input
  *   The items to check the predicate against
- * @param ?callable $predicate
+ * @param ?callable(T): bool $predicate
  *   The (optional) function to call with each value
- *
- * @return bool
  */
 function any(iterable $input, ?callable $predicate = null): bool
 {
@@ -917,13 +867,11 @@ function any(iterable $input, ?callable $predicate = null): bool
  *  Ex $all_numbers = all($inputs, is_numeric);
  *     $valid_enums = all($items, fn $(i) => in_array(["foo", "bar", "baz"], $i);
  *     $all_nonempty = all($arrays);
- *
- * @param iterable $input
+ * @template T
+ * @param iterable<T> $input
  *   The items to check the predicate against
- * @param ?callable $predicate
+ * @param ?callable(T): bool $predicate
  *   The (optional) function to call with each value
- *
- * @return bool
  */
 function all(iterable $input, ?callable $predicate = null): bool
 {
@@ -979,14 +927,14 @@ function set_col_num(string $colname, int $i): string
  * Currently this function will set default values ("" for strings, 0 for
  * numeric values) for all fields that are not within $source_array.
  *
- * @param array $source_array
+ * @param array<string, mixed> $source_array
  *   An associative array where the keys are MySQL column
  *   names and the values are the desired values to set in the database
- * @param array $string_fields
+ * @param string[] $string_fields
  *    A list of keys such that `$source_array[$key]` should be a string,
  *    otherwise the value is assumed to be an integer
  */
-function create_mysql_update_string($source_array, $string_fields = [])
+function create_mysql_update_string(array $source_array, array $string_fields = []): string
 {
     $update_fields = [];
     foreach ($source_array as $field => $value) {
@@ -1006,12 +954,13 @@ function create_mysql_update_string($source_array, $string_fields = [])
  *
  * @param string $dirpath
  *   The directory to search in. May be relative to the cwd.
- * @param array $validext
+ * @param string[] $validext
  *   An array of extensions to check filenames against, may include the '.'
  * @param bool $with_path
  *   If true, the list of returned names has the directory prepended.
+ * @return false|string[]
  */
-function get_filelist($dirpath, $validext = [], $with_path = false)
+function get_filelist(string $dirpath, array $validext = [], bool $with_path = false): false|array
 {
     $filelist = [];
     if (false === ($d = opendir($dirpath))) {
@@ -1067,7 +1016,7 @@ function get_filelist($dirpath, $validext = [], $with_path = false)
  * If the first argument is not an existing directory, an InvalidArgumentException will be thrown.
  * If it is unable to flatten the directory, it will throw a RuntimeException.
  */
-function flatten_directory(string $directory_to_flatten)
+function flatten_directory(string $directory_to_flatten): void
 {
     if (!file_exists($directory_to_flatten) || !is_dir($directory_to_flatten)) {
         throw new InvalidArgumentException(sprintf(
@@ -1170,6 +1119,7 @@ function validate_zip_file(string $file_path, bool $ignore_extension_check = fal
  *
  * It uses the is_valid_zip_file function to check whether the argument is a valid zip file, if it
  * is not, an InvalidArgumentException is thrown.
+ * @return string[]
  */
 function list_files_in_zip(string $file_path): array
 {
@@ -1288,10 +1238,13 @@ function remove_common_basedir_from_zip(string $path_to_zip): void
 /**
  * Creates a zip archive containing the specified files.
  *
- * The first argument represents the files to add to the zip archive and globing is allowed.
- * If there is a directory the files from it are added with its name prefixed (only one level)
- * The second argument represents the path to the zip archive which should be created.
- *
+ * @param string[] $files_to_zip
+ *     The files to add to the zip archive and globing is allowed.
+ *     If there is a directory the files from it are added with its name
+ *     prefixed (only one level)
+ * @param string $path_to_zip
+ *     The path to the zip archive which should be created.
+ * @return bool
  * Returns whether the zip file was created successfully.
  *
  * Throws a InvalidArgumentException if:
@@ -1390,7 +1343,7 @@ function humanize_bytes(float $n): string
  * for all $i.
  *
  * @param string[] $strings
- * @return array{0: string, 1: string[], 2: string}
+ * @return list{string, string[], string}
  */
 function factor_strings(array $strings): array
 {
@@ -1518,8 +1471,10 @@ function factor_strings(array $strings): array
  *
  * If the requested function returns data that has localized strings, it's
  * important that $key_salt = get_desired_language();
+ * @param callable-string $function
+ * @param array<string|int, mixed> $args
  */
-function memoize_function(string $function, array $args = [], int $expiration = 3600, string $key_salt = "")
+function memoize_function(callable $function, array $args = [], int $expiration = 3600, string $key_salt = ""): mixed
 {
     // cache this connection for possible re-use during this page load
     static $memcache = null;
