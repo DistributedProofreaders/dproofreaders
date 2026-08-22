@@ -246,11 +246,6 @@ function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
 
     // load the suggestions
     $suggestions = load_project_good_word_suggestions($projectid, $timeCutoff);
-    if (!is_array($suggestions)) {
-        $messages[] = sprintf(_("Unable to load suggestions: %s"), $suggestions);
-        return [[], [], [], [], [], [], $messages];
-    }
-
     if (count($suggestions) == 0) {
         return [[], [], [], [], [], [], $messages];
     }
