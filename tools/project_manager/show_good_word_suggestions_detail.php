@@ -43,9 +43,6 @@ echo "<div style='padding: 0.5em;'>";
 
 // load the suggestions
 $suggestions = load_wordcheck_events($projectid, $timeCutoff);
-if (!is_array($suggestions)) {
-    $messages[] = sprintf(_("Unable to load suggestions: %s"), $suggestions);
-}
 
 // parse the suggestions complex array
 // it was pulled in the raw format
