@@ -1,8 +1,6 @@
 <?php
 
-/**
- * @return string[]
- */
+/** @return string[] */
 function get_js_manifest(string $basedir = ""): array
 {
     global $code_dir;
@@ -33,9 +31,7 @@ function get_js_manifest(string $basedir = ""): array
     return [];
 }
 
-/**
- * @param string[] $manifest
- */
+/** @param string[] $manifest */
 function generate_cached_js_manifest(string $basedir, array $manifest): void
 {
     if (!$manifest) {

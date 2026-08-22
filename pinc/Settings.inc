@@ -58,37 +58,24 @@ class Settings
 
     /**
      * Set a setting to true
-     *
-     * @param string $settingCode
-     *
-     * @return void
      */
-    public function set_true($settingCode)
+    public function set_true(string $settingCode): void
     {
         $this->set_boolean($settingCode, true);
     }
 
     /**
      * Set a setting to false
-     *
-     * @param string $settingCode
-     *
-     * @return void
      */
-    public function set_false($settingCode)
+    public function set_false(string $settingCode): void
     {
         $this->set_boolean($settingCode, false);
     }
 
     /**
      * A wrapper around set_value() for boolean values.
-     *
-     * @param string $settingCode
-     * @param bool $boolval
-     *
-     * @return void
      */
-    public function set_boolean($settingCode, $boolval)
+    public function set_boolean(string $settingCode, bool $boolval): void
     {
         $this->set_value($settingCode, ($boolval ? 'yes' : null));
     }
@@ -96,12 +83,8 @@ class Settings
     /**
      * Return True iff the setting exists and its value is 'yes',
      * otherwise, return False.
-     *
-     * @param string $settingCode
-     *
-     * @return bool
      */
-    public function get_boolean($settingCode)
+    public function get_boolean(string $settingCode): bool
     {
         return ($this->get_value($settingCode) === 'yes');
     }
@@ -122,8 +105,7 @@ class Settings
         DPDatabase::query($sql);
     }
 
-    /** @param mixed $value */
-    private function _insert_setting_value(string $settingCode, $value): void
+    private function _insert_setting_value(string $settingCode, mixed $value): void
     {
         $sql = sprintf(
             "
@@ -138,8 +120,7 @@ class Settings
         DPDatabase::query($sql);
     }
 
-    /** @param mixed $value */
-    private function _delete_setting_value(string $settingCode, $value): void
+    private function _delete_setting_value(string $settingCode, mixed $value): void
     {
         $sql = sprintf(
             "
@@ -160,13 +141,8 @@ class Settings
      *
      * If this is a multi-valued setting this will become a single-valued setting.
      * If $value is NULL, remove the setting.
-     *
-     * @param string $settingCode
-     * @param mixed $value
-     *
-     * @return void
      */
-    public function set_value($settingCode, $value)
+    public function set_value(string $settingCode, mixed $value): void
     {
         if ($this->username == '') {
             // If we don't have a username set, don't try to write anything
@@ -189,13 +165,8 @@ class Settings
      * If no record exists, return `$default`. Otherwise return what's in the
      * Value column. Note: if setting is really boolean, this will NOT return
      * True, but 'yes' (a string).
-     *
-     * @param string $settingCode
-     * @param mixed $default
-     *
-     * @return mixed
      */
-    public function get_value($settingCode, $default = null)
+    public function get_value(string $settingCode, mixed $default = null): mixed
     {
         $values = $this->get_values($settingCode);
 
@@ -216,13 +187,8 @@ class Settings
 
     /**
      * Load a setting value into the $settings_array data structure
-     *
-     * @param string $setting
-     * @param mixed $value
-     *
-     * @return void
      */
-    private function _load_value($setting, $value)
+    private function _load_value(string $setting, mixed $value): void
     {
         if (isset($this->settings_array[$setting])) {
             $this->settings_array[$setting][] = $value;
@@ -236,13 +202,8 @@ class Settings
      * exists.
      *
      * This allows a setting to have multiple values.
-     *
-     * @param string $settingCode
-     * @param mixed $value
-     *
-     * @return void
      */
-    public function add_value($settingCode, $value)
+    public function add_value(string $settingCode, mixed $value): void
     {
         $this->_load_value($settingCode, $value);
         $this->_insert_setting_value($settingCode, $value);
@@ -250,13 +211,8 @@ class Settings
 
     /**
      * Remove a setting:value pair
-     *
-     * @param string $settingCode
-     * @param mixed $value
-     *
-     * @return void
      */
-    public function remove_value($settingCode, $value)
+    public function remove_value(string $settingCode, mixed $value): void
     {
         if (array_key_exists($settingCode, $this->settings_array) && in_array($value, $this->settings_array[$settingCode])) {
             $this->settings_array[$settingCode] = array_diff(
@@ -270,12 +226,8 @@ class Settings
 
     /**
      * Returns an array of values for the setting
-     *
-     * @param string $settingCode
-     *
-     * @return mixed
      */
-    public function get_values($settingCode)
+    public function get_values(string $settingCode): mixed
     {
         if (!array_key_exists($settingCode, $this->settings_array)) {
             return [];
@@ -288,10 +240,8 @@ class Settings
 
     /**
      * Count the number of settings for this user
-     *
-     * @return int
      */
-    public function settings_count()
+    public function settings_count(): int
     {
         return count($this->settings_array);
     }
@@ -331,12 +281,9 @@ class Settings
      * Return a list of unique usernames that have a specific setting
      * specified (and optionally with a specific value).
      *
-     * @param string $setting
-     * @param mixed $value
-     *
      * @return string[]
      */
-    public static function get_users_with_setting($setting, $value = null): array
+    public static function get_users_with_setting(string $setting, mixed $value = null): array
     {
         $usernames = [];
         $sql = sprintf(
