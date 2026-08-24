@@ -60,7 +60,7 @@ foreach ($day_options as $days) {
 
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 ]);
 echo "<h1>$title</h1>";
 echo "<p>" . _('Only "today" is real-time; others updated at stats run time.') . "</p>";

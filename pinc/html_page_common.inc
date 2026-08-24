@@ -134,6 +134,12 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     }
     echo "</script>\n";
 
+    if (isset($extra_args['js_module_data'])) {
+        echo "<script type='module'>\n";
+        echo $extra_args['js_module_data'];
+        echo "</script>\n";
+    }
+
     // Any additional head tags
     if (isset($extra_args['head_data'])) {
         echo $extra_args['head_data'];

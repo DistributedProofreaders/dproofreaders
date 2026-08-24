@@ -49,7 +49,7 @@ if (isset($start) && isset($end)) {
 }
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_module_data" => $js_data,
 ]);
 
 echo "<h1>$title</h1>\n";
