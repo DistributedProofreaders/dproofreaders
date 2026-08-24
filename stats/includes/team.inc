@@ -436,7 +436,7 @@ function showTeamHistory($curTeam, $tally_name)
     );
 
     $t->end();
-    echo "<script type='application/javascript'>";
+    echo "<script type='module'>";
     echo build_svg_graph_inits([["barLineGraph", "tallyboard_deltas", $tallyboard_deltas_config]]);
     echo "</script>";
 }

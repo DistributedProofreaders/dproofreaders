@@ -148,7 +148,7 @@ $graphs = [
 
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 ]);
 
 

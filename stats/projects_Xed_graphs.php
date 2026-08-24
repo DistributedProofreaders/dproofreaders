@@ -19,7 +19,7 @@ $graphs = [
 
 output_header($psd->graphs_title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 ]);
 
 echo "<h1>$psd->graphs_title</h1>";

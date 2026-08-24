@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "d3": "^6.6.2",
+    "d3": "^7.9.0",
     "gettext.js": "^2.0.3",
     "jquery": "^3.5.1",
     "mathjax": "^4.1.3",
