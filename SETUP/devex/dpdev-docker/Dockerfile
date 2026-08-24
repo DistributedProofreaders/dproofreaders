@@ -22,7 +22,7 @@ COPY install_composer.sh /tmp
 RUN bash /tmp/install_composer.sh && mv composer.phar /usr/local/bin/composer && rm /tmp/install_composer.sh
 
 # Install nodejs/npm courtesy of https://deb.nodesource.com/
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash - && apt-get install -y nodejs
 
 # Create the dyndir mount point with the right permissions
 RUN mkdir -p /var/www/html/d && chown www-data:www-data /var/www/html/d
