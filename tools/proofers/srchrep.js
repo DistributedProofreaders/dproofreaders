@@ -17,7 +17,16 @@ var srchrep = (function () {
 
     function doReplace() {
         var search = document.getElementById("search").value;
-        var replacetext = document.getElementById("replace").value.replace(new RegExp("\\\\n", "g"), "\r\n");
+        // Handle \n for newline. And \<x> becomes just <x>. So \\ becomes a single \.
+        var replacetext = document.getElementById("replace").value.replace(/\\(.)/g, (match, esc) => {
+            switch (esc) {
+                case "n":
+                    return "\r\n";
+                default:
+                    return esc; // anything else, leave as is without the backslash
+            }
+        });
+
         saveText();
         if (!document.getElementById("is_regex").checked) {
             search = escapeRegExp(search);
