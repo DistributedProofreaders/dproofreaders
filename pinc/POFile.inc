@@ -11,32 +11,30 @@ use Symfony\Component\Process\Process;
  */
 class POFile
 {
-    private ?string $po_filename;
     private ?int $num_messages = null;
     private ?int $num_messages_translated = null;
 
-    public function __construct($po_filename = null)
+    public function __construct(private ?string $po_filename = null)
     {
-        $this->po_filename = $po_filename;
     }
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         $func = "get_$name";
         return $this->$func();
     }
 
-    private function get_exists()
+    private function get_exists(): bool
     {
         return file_exists($this->po_filename);
     }
 
-    private function get_last_modified()
+    private function get_last_modified(): int
     {
         return filemtime($this->po_filename);
     }
 
-    private function get_messages_count()
+    private function get_messages_count(): int
     {
         if ($this->num_messages === null) {
             $this->count_translated_strings();
@@ -44,7 +42,7 @@ class POFile
         return $this->num_messages;
     }
 
-    private function get_messages_translated_count()
+    private function get_messages_translated_count(): int
     {
         if ($this->num_messages_translated === null) {
             $this->count_translated_strings();
@@ -55,7 +53,7 @@ class POFile
     /**
      * Count the total number of strings and the number of translated strings.
      */
-    private function count_translated_strings()
+    private function count_translated_strings(): void
     {
         $iterator = new POFileIterator($this->po_filename);
         $count = 0;
@@ -91,7 +89,7 @@ class POFile
      *
      * This is slightly complicated because of multiline strings, hence the gymnastics.
      */
-    private function is_block_translated($block)
+    private function is_block_translated(string $block): bool
     {
         [$msgid, $msgstr] = @explode("msgstr", $block);
         $msgstr = "msgstr$msgstr";
@@ -107,7 +105,7 @@ class POFile
      * Get the full Content-Type from the comment block at the beginning of a PO
      * file (without any trailing newline) or NULL on error.
      */
-    private function get_content_type()
+    private function get_content_type(): ?string
     {
         $fh = fopen($this->po_filename, "rt");
         if (!$fh) {
@@ -223,7 +221,7 @@ class POFile
         return "$pot_tempfile.pot";
     }
 
-    public function create_template($basedir, $pot_filename)
+    public function create_template(string $basedir, string $pot_filename): void
     {
         $php_pot = $this->create_pot_from_php($basedir);
         $js_pot = $this->create_pot_from_js($basedir);
@@ -262,7 +260,7 @@ class POFile
         }
     }
 
-    public function create_from_template($pot_filename, $locale)
+    public function create_from_template(string $pot_filename, string $locale): void
     {
         $process = new Process([
             "msginit",
@@ -277,7 +275,7 @@ class POFile
         }
     }
 
-    public function merge_from_template($template, $fuzzy = false)
+    public function merge_from_template(string $template, bool $fuzzy = false): void
     {
         $args = [
             "msgmerge",
@@ -299,7 +297,7 @@ class POFile
         touch($this->po_filename);
     }
 
-    public function compile()
+    public function compile(): void
     {
         $compiled_filename = str_replace(".po", ".mo", $this->po_filename);
 
@@ -314,7 +312,7 @@ class POFile
         }
     }
 
-    public function convert_to_json($json_filename)
+    public function convert_to_json(string $json_filename): void
     {
         global $code_dir;
 
@@ -332,16 +330,16 @@ class POFile
 }
 
 
+/** @implements Iterator<int, string> */
 class POFileIterator implements Iterator
 {
-    private $po_filename;
+    /** @var resource|null $file_handle */
     private $file_handle = null;
-    private $current_block = null;
-    private $block_count = -1;
+    private ?string $current_block = null;
+    private int $block_count = -1;
 
-    public function __construct($po_filename)
+    public function __construct(private string $po_filename)
     {
-        $this->po_filename = $po_filename;
     }
 
     public function rewind(): void
@@ -349,7 +347,7 @@ class POFileIterator implements Iterator
         if ($this->file_handle) {
             fseek($this->file_handle, 0);
         } else {
-            $this->file_handle = fopen($this->po_filename, "rt");
+            $this->file_handle = fopen($this->po_filename, "rt") ?: null;
         }
 
         $this->next();
@@ -367,7 +365,7 @@ class POFileIterator implements Iterator
 
     public function next(): void
     {
-        if (!$this->file_handle) {
+        if (!isset($this->file_handle)) {
             return;
         }
 
@@ -399,7 +397,7 @@ class POFileIterator implements Iterator
 
     public function __destruct()
     {
-        if ($this->file_handle) {
+        if (isset($this->file_handle)) {
             fclose($this->file_handle);
         }
     }
