@@ -2,7 +2,7 @@
 include_once($relPath.'send_mail.inc');
 include_once($relPath.'release_queue.inc');
 
-function autorelease()
+function autorelease(): void
 {
     echo "Starting autorelease\n";
 
@@ -11,7 +11,8 @@ function autorelease()
     }
 }
 
-function attempt_to_release($round, $project, $queue_name)
+/** @param array<string, mixed> $project */
+function attempt_to_release(Round $round, array $project, string $queue_name): bool
 {
     $projectid = $project['projectid'];
 
@@ -48,7 +49,7 @@ function attempt_to_release($round, $project, $queue_name)
 
 
 
-function autorelease_for_round($round)
+function autorelease_for_round(Round $round): void
 {
     echo "\n";
     echo "Starting autorelease for round {$round->id}...\n";
@@ -207,11 +208,11 @@ function autorelease_for_round($round)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 function maybe_release_projects(
-    $round,
-    $qd,
-    $observe_release_restrictions,
-    $release_at_most_one
-) {
+    Round $round,
+    ?Object $qd,
+    bool $observe_release_restrictions,
+    bool $release_at_most_one
+): Object {
     $n_projects = new StdClass();
 
     $and_extra_condition = ($qd ? "AND ($qd->cooked_project_selector)" : "");
@@ -350,11 +351,14 @@ class ReleaseRestrictor
     /** @var array<string, ReleaseRestrictor> */
     public static array $restrictors = [];
 
-    public $this_round_authors;
+    /** @var array<string, int> */
+    public array $this_round_authors;
+    /** @var array<string, int> */
     public $this_round_pms;
+    /** @var array<string, int> */
     public $fresh_released_pms;
 
-    public function __construct($round)
+    public function __construct(Round $round)
     {
         // ----------------------------------------------------------
         // First, get the set of all authors with works in this round
@@ -411,7 +415,8 @@ class ReleaseRestrictor
 
     // =========================================================================
 
-    public function approves_project($project)
+    /** @param array<string, mixed> $project */
+    public function approves_project(array $project): bool
     {
         $is_special = !empty($project['special_code']);
         if ($is_special) {
@@ -460,7 +465,8 @@ class ReleaseRestrictor
 
     // =========================================================================
 
-    public function update_for_released_project($project)
+    /** @param array<string, mixed> $project */
+    public function update_for_released_project(array $project): void
     {
         // special authors (anon, etc) have to have their counts incremented
         $authorsname = $project['authorsname'];
@@ -520,7 +526,7 @@ class ReleaseRestrictor
  * but contains slightly different information.
  * Maybe they could be merged.
  */
-function AP_setup($round)
+function AP_setup(Round $round): void
 {
     // If we had one table with all page info,
     // we could set up this table with a single
@@ -555,13 +561,13 @@ function AP_setup($round)
     }
 }
 
-function AP_teardown($round)
+function AP_teardown(Round $round): void
 {
     $sql = "DROP TABLE active_page_counts";
     DPDatabase::query($sql);
 }
 
-function AP_add_project($round, $projectid)
+function AP_add_project(Round $round, string $projectid): void
 {
     validate_projectID($projectid);
     $sql = sprintf(
@@ -577,7 +583,7 @@ function AP_add_project($round, $projectid)
     DPDatabase::query($sql);
 }
 
-function AP_evaluate_criteria($round, $cooked_project_selector, $projects_target, $pages_target)
+function AP_evaluate_criteria(Round $round, string $cooked_project_selector, int $projects_target, int $pages_target): bool
 {
     $release_criterion = format_queue_targets_as_condition($projects_target, $pages_target);
 
