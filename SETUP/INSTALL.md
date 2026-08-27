@@ -69,7 +69,7 @@ The following are the lowest known supported browser versions for the code:
 * Firefox 78
 * Microsoft Edge 79
 * Opera 51
-* Safari 11.1
+* Safari 14.1
 
 Internet Explorer is not supported.
 
