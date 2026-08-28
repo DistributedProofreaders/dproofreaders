@@ -256,19 +256,6 @@ class QuizCharSuites
 // -----------------------------------------------------------------------------
 
 /**
- * Return a valid quiz ID from an array
- *
- * If $arr[$key] is defined and is a valid quiz id, return it.
- * Otherwise, die with an error message.
- *
- * @param array<string, mixed> $arr
- */
-function get_quiz_id_param(array $arr, string $key): string
-{
-    return get_enumerated_param($arr, $key, null, array_keys(Quiz::$map_quiz_id_to_Quiz));
-}
-
-/**
  * Return a valid quiz page ID from an array
  *
  * If $arr[$key] is defined and is a valid quiz page id, return it.
