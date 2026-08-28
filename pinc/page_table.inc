@@ -673,6 +673,8 @@ function echo_cells_for_round(
             $wordcheck_status = '';
         } elseif ($round_data["wordcheck_ran"]) {
             $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+        } elseif ($R_time < SiteConfig::get()->wordcheck_deployed) {
+            $wordcheck_status = '&nbsp;<span title="' . _('This page was saved before WordCheck was deployed.') . '">?</span>';
         } else {
             $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
         }
@@ -681,6 +683,8 @@ function echo_cells_for_round(
             $format_preview_status = '';
         } elseif ($round_data["format_preview_ran"]) {
             $format_preview_status = '&nbsp;<span title="' . _('Format Preview was used on this page.') . '">&check;</span>';
+        } elseif ($R_time < SiteConfig::get()->format_preview_tracking_deployed) {
+            $format_preview_status = '&nbsp;<span title="' . _('This page was saved before Format Preview usage was tracked.') . '">?</span>';
         } else {
             $format_preview_status = '&nbsp;<span title="' . _('Format Preview was not used on this page.') . '">&#x2717;</span>';
         }
