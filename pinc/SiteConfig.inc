@@ -73,6 +73,12 @@ class SiteConfig
     public string $uploads_subdir_commons = "Commons";
     public string $uploads_subdir_users = "Users";
     public ?string $antivirus_executable = null;
+    // When setting uploads_max_size_mb, review the following settings in clamd.conf:
+    //     MaxScanSize -- should be set to twice the desired max upload size
+    //     AlertExceedsMax -- should be set to true if you wish files that cannot
+    //                        be scanned at that limit to be rejected.
+    // See `man clamd.conf` for more detailed info
+    public int $uploads_max_size_mb = 1024;
 
     // WordCheck & locales
     public string $aspell_executable = '/usr/bin/aspell';

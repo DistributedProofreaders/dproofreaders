@@ -12,7 +12,7 @@
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
-define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
+define("RESUMABLE_UPLOAD_SIZE", SiteConfig::get()->uploads_max_size_mb * 1024 * 1024);
 
 /**
  * Detect too-large file uploads
