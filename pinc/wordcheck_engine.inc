@@ -1024,7 +1024,8 @@ function save_word_list(string $path, $words): string
     // standardize word list
     array_walk($words, 'rtrim_walk');
     $words = array_unique($words);
-    uasort($words, "deterministicStrnatcasecmp");
+
+    natcasesort($words);
 
     // remove any empty words
     $words = array_diff($words, ['']);
@@ -1329,17 +1330,6 @@ function get_langcode3s_for_languages(array $languages): array
     return [$langcode3s, $messages];
 }
 
-/**
- * Comparison function for similar to strnatcasecmp but deterministic
- *
- * Without the strnatcmp() call if the words are the same discounting case,
- * the calling sort function would be non-deterministic based on PHP
- * docs (see online docs for usort()) and manual confirmation.
- */
-function deterministicStrnatcasecmp(string $a, string $b): int
-{
-    return ($cmp = strnatcasecmp($a, $b)) != 0 ? $cmp : strnatcmp($a, $b);
-}
 
 /**
  * rtrim version to use in array_walk

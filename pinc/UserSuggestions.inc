@@ -390,7 +390,7 @@ class UserSuggestions
         }
         mysqli_free_result($result);
 
-        uasort($projects, "compare_array_by_priority");
+        uasort($projects, fn ($a, $b) => $a['priority'] <=> $b['priority']);
 
         $user = new User($this->_username);
         $return_projects = [];
@@ -446,17 +446,4 @@ class UserSuggestions
         mysqli_free_result($result);
         return $field_counts;
     }
-}
-
-/**
- * @param array{priority: mixed, ...} $a
- * @param array{priority: mixed, ...} $b
- */
-function compare_array_by_priority(array $a, array $b): int
-{
-    if ($a["priority"] == $b["priority"]) {
-        return 0;
-    }
-
-    return ($a["priority"] < $b["priority"]) ? -1 : 1;
 }
