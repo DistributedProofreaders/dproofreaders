@@ -78,7 +78,7 @@ class SiteConfig
     //     AlertExceedsMax -- should be set to true if you wish files that cannot
     //                        be scanned at that limit to be rejected.
     // See `man clamd.conf` for more detailed info
-    public int $uploads_max_size_mb = 1024;
+    public int $uploads_max_size_mb = 200;
 
     // WordCheck & locales
     public string $aspell_executable = '/usr/bin/aspell';
@@ -107,9 +107,9 @@ class SiteConfig
     public ?string $translation_coordinator_email_addr;
 
     // New feature deployment timestamps
-    public int $wordcheck_deployed = 0;
-    public int $unicode_deployed = 0;
-    public int $format_preview_tracking_deployed = 0;
+    public int $wordcheck_deployed = 1173762000; // March 13 2007
+    public int $unicode_deployed = 1589785200;  // midnight May 18 2020
+    public int $format_preview_tracking_deployed = 1765472400; // December 11 2025
 
     // Misc configuration
     public bool $use_secure_cookies = false;
