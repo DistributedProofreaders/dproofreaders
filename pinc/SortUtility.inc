@@ -111,11 +111,6 @@ class SortUtility
     /** @var SortableValue[] */
     private array $_collection;
 
-    // optionally: one SortableValue is 'primary' meaning it is
-    // always sorted by
-    // ( ORDER BY whatever, primary )
-    private SortableValue $_primaryValue;
-
     // sorting
     private ?SortableValue $_sortingValue;
     private ?int $_sortingDirection;
@@ -293,37 +288,10 @@ class SortUtility
         $val = $this->getSortingValue();
         if (isset($val)) {
             $rule = $val->getSQLRule($this->_sortingDirection);
-            if (isset($this->_primaryValue)) {
-                return $rule . ', ' . $this->_primaryValue->getName();
-            }
             return $rule;
         } else {
-            if (isset($this->_primaryValue)) {
-                return $this->_primaryValue->getName();
-            }
             return null;
         }
-    }
-
-    /**
-     * Defines the primary SortableValue which is always appended
-     * to the end of the ORDER BY-string.
-     *
-     * This can be a name- or id-column by which sorting should be performed
-     * when the sorting value as selected by the user cannot
-     * distinguish between two or more rows in the database.
-     */
-    public function setPrimaryValue($primaryValue)
-    {
-        $this->_primaryValue = $primaryValue;
-    }
-
-    /**
-     * Returns the primary SortableValue.
-     */
-    public function getPrimaryValue()
-    {
-        return $this->_primaryValue;
     }
 
     /**
