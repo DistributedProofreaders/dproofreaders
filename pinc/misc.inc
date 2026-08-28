@@ -1571,22 +1571,6 @@ function is_url_for_current_page(string $url): bool
 }
 
 /**
- * Given a humanized size of bytes return the number of bytes
- *
- * From http://php.net/manual/en/function.ini-get.php
- */
-function return_bytes(string $size_str): int
-{
-    switch (substr($size_str, -1)) {
-        case 'M': case 'm': return (int)$size_str * 1048576;
-        case 'K': case 'k': return (int)$size_str * 1024;
-        case 'G': case 'g': return (int)$size_str * 1073741824;
-        default: return (int)$size_str;
-    }
-}
-
-
-/**
  * Encode a string using base64 with a variant alphabet that's safe to use in URL query values.
  * See https://datatracker.ietf.org/doc/html/rfc4648
  */
