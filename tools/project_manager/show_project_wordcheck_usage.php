@@ -47,7 +47,7 @@ echo "</ul>";
 <?php
 
 // identifying pages that were proofread pre-WordCheck requires
-// $t_wordcheck_start being defined in site_vars.php
+// $wordcheck_deployed being defined in site_vars.php
 // with its value set to the timestamp of when WordCheck was
 // deployed on the site
 
@@ -121,7 +121,7 @@ while ($result = mysqli_fetch_assoc($res)) {
             $data = "$timesChecked: $lastProoferLink";
         }
         // if the page was finished before WordCheck was deployed on the site
-        elseif ($pageIsDoneInRound && $timesChecked == 0 && $timeProofed < @$t_wordcheck_start) {
+        elseif ($pageIsDoneInRound && $timesChecked == 0 && $timeProofed < SiteConfig::get()->wordcheck_deployed) {
             $class = "class='preWC'";
             $data = $lastProoferLink;
         }

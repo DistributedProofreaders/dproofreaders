@@ -100,6 +100,10 @@ class SiteConfig
     public ?string $image_sources_manager_addr;
     public ?string $translation_coordinator_email_addr;
 
+    // New feature deployment timestamps
+    public int $wordcheck_deployed = 0;
+    public int $format_preview_tracking_deployed = 0;
+
     // Misc configuration
     public bool $use_secure_cookies = false;
     public string $php_cli_executable = '/usr/bin/php';

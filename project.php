@@ -827,6 +827,8 @@ function recentlyproofed(int $wlist): void
                 $format_preview_status = '';
             } elseif ($row["format_preview_status"] > 0) {
                 $format_preview_status = '&nbsp;<span title="' . _('Format Preview was used on this page.') . '">&check;</span>';
+            } elseif ($timestamp < SiteConfig::get()->wordcheck_deployed) {
+                $format_preview_status = '&nbsp;<span title="' . _('This page was saved before Format Preview usage was tracked.') . '">?</span>';
             } else {
                 $format_preview_status = '&nbsp;<span title="' . _('Format Preview was not used on this page.') . '">&#x2717;</span>';
             }
@@ -835,6 +837,8 @@ function recentlyproofed(int $wlist): void
                 $wordcheck_status = '';
             } elseif ($row["wordcheck_status"] > 0) {
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+            } elseif ($timestamp < SiteConfig::get()->wordcheck_deployed) {
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was saved before WordCheck was deployed.') . '">?</span>';
             } else {
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
             }
