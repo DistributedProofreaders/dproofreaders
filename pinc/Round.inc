@@ -311,21 +311,6 @@ function get_Round_for_text_column_name($text_column_name)
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 /**
- * Return an SQL snippet used to sort rounds
- *
- * In an SQL query, if you `ORDER BY round_id`, it will use alphabetical order,
- * which is not very useful. Instead, ORDER BY the result of this function,
- * and it will use the canonical order-of-declaration for rounds.
- */
-function sql_collator_for_round_id($round_id_column)
-{
-    return sprintf(
-        "FIELD($round_id_column, %s)",
-        surround_and_join(Rounds::get_ids(), "'", "'", ",")
-    );
-}
-
-/**
  * Return an SQL snippet used to page states
  *
  * In an SQL query, if you `ORDER BY state`, it will use alphabetical order,
