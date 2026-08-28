@@ -9,7 +9,6 @@ include_once($relPath.'site_news.inc');
 include_once($relPath.'walkthrough.inc');
 
 output_header(_("Welcome"), SHOW_STATSBAR);
-$etext_limit = 10;
 
 $image = get_page_header_image("FRONT");
 if ($image) {
@@ -120,13 +119,13 @@ echo "\n"
     . "\n";
 
 //Gold E-texts
-showstartexts($etext_limit, 'gold');
+showstartexts('gold');
 
 //Silver E-texts
-showstartexts($etext_limit, 'silver');
+showstartexts('silver');
 
 //Bronze E-texts
-showstartexts($etext_limit, 'bronze');
+showstartexts('bronze');
 
 echo "<hr style='clear: both'>";
 echo "<p class='center-align'>\n";
