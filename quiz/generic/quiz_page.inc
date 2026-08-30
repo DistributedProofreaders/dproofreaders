@@ -61,7 +61,7 @@ $quiz_feedbacktext = sprintf($default_feedbacktext, $quiz_feedbackurl);
 
 // called by main.php:
 
-function qp_round_id_for_pi_toolbox()
+function qp_round_id_for_pi_toolbox(): string
 {
     global $quiz;
     if ($quiz->activity_type == 'proof') {
@@ -77,7 +77,7 @@ function qp_round_id_for_pi_toolbox()
 
 // called by orig.php:
 
-function qp_page_image_path()
+function qp_page_image_path(): string
 {
     global $quiz_page_id;
     return "./images/qi_$quiz_page_id.png";
@@ -88,13 +88,13 @@ function qp_page_image_path()
 
 // called from proof.php:
 
-function qp_initial_page_text()
+function qp_initial_page_text(): string
 {
     global $initial_text;
     return $initial_text;
 }
 
-function qp_sample_solution()
+function qp_sample_solution(): string
 {
     global $solutions;
     return $solutions[0];
@@ -104,7 +104,7 @@ function qp_sample_solution()
 
 // called from right.php:
 
-function qp_echo_introduction_html()
+function qp_echo_introduction_html(): void
 {
     global $intro_title, $initial_instructions, $constant_message;
 
@@ -121,7 +121,8 @@ function qp_echo_introduction_html()
 
 // called by returnfeed.php:
 
-function qp_text_contains_anticipated_error($text, $test)
+/** @param array<string, mixed> $test */
+function qp_text_contains_anticipated_error(string $text, array $test): string
 {
     switch ($test['type']) {
         case "forbiddentext":
@@ -245,22 +246,22 @@ function qp_text_contains_anticipated_error($text, $test)
     return "";
 }
 
-function in_string($needle, $haystack, $sensitive = 0)
+function in_string(string $needle, string $haystack, bool $cs = false): bool
 {
-    return (str_posn($haystack, $needle, $sensitive) !== false);
+    return (str_posn($haystack, $needle, $cs) !== false);
 }
 
 /**
  * Find the numeric (0-based) position of
  * the first occurrence of $needle in $haystack.
  *
- * The search is case-sensitive or not, depending on
- * whether the value of $cs is true-ish or not (respectively).
+ * @param bool $cs
+ *     Is the search is case-sensitive
  *
- * Returns FALSE if $needle is not found.
- * Be careful to distinguish FALSE from 0.
+ * @return false|int
+ *     false if `$needle` is not found, and string index if it is found
  */
-function str_posn($haystack, $needle, $cs)
+function str_posn(string $haystack, string $needle, bool $cs): false|int
 {
     if ($cs) {
         return strpos($haystack, $needle);
@@ -269,7 +270,7 @@ function str_posn($haystack, $needle, $cs)
     }
 }
 
-function number_of_occurrences($haystack, $needle, $cs)
+function number_of_occurrences(string $haystack, string $needle, bool $cs): int
 {
     if (!$cs) {
         $needle = strtolower($needle);
@@ -281,7 +282,7 @@ function number_of_occurrences($haystack, $needle, $cs)
 
 // =============================================================================
 
-function qp_echo_error_html($message_id)
+function qp_echo_error_html(string $message_id): void
 {
     global $messages, $constant_message; // from the qd file
     global $default_challenge; // from quiz_defaults.inc
@@ -350,7 +351,7 @@ function qp_echo_error_html($message_id)
     echo_quiz_feedback_and_links(@$message["feedbacktext"]);
 }
 
-function echo_quiz_feedback_and_links($message = null)
+function echo_quiz_feedback_and_links(?string $message = null): void
 {
     global $code_dir;
     global $quiz_feedbacktext;
@@ -387,7 +388,7 @@ function echo_quiz_feedback_and_links($message = null)
 
 // =============================================================================
 
-function qp_choose_solution($text)
+function qp_choose_solution(string $text): string
 {
     global $solutions, $criteria;
 
@@ -429,7 +430,7 @@ function qp_choose_solution($text)
  * If the two texts are the same, return FALSE.
  * If they differ, output HTML that describes how they differ, and return TRUE.
  */
-function qp_compare_texts($user_text, $soln_text)
+function qp_compare_texts(string $user_text, string $soln_text): bool
 {
     if ($user_text == $soln_text) {
         return false;
@@ -449,7 +450,7 @@ function qp_compare_texts($user_text, $soln_text)
     return true;
 }
 
-function qp_describe_difference($user_text, $soln_text)
+function qp_describe_difference(string $user_text, string $soln_text): void
 {
     assert($user_text != $soln_text);
 
@@ -520,7 +521,7 @@ function qp_describe_difference($user_text, $soln_text)
 
 // =============================================================================
 
-function qp_echo_solved_html()
+function qp_echo_solved_html(): void
 {
     global $code_dir;
     global $quiz_page_id, $quiz;
@@ -568,7 +569,7 @@ function qp_echo_solved_html()
     echo "</ul>\n";
 }
 
-function qp_exit_link($url, $text)
+function qp_exit_link(string $url, string $text): string
 {
     return "<li><a href='$url' target='_top'>$text</a></li>";
 }
@@ -577,7 +578,7 @@ function qp_exit_link($url, $text)
 
 // called from hints.php:
 
-function qp_echo_hint_html($message_id, $hint_number)
+function qp_echo_hint_html(string $message_id, int $hint_number): void
 {
     global $messages;
 
@@ -605,7 +606,7 @@ function qp_echo_hint_html($message_id, $hint_number)
     qp_echo_link_to_hint_if_it_exists($message_id, $hint_number + 1);
 }
 
-function qp_echo_link_to_hint_if_it_exists($message_id, $hint_number)
+function qp_echo_link_to_hint_if_it_exists(string $message_id, int $hint_number): void
 {
     global $quiz_page_id;
     global $messages, $default_hintlink;
