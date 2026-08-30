@@ -87,7 +87,7 @@ class ProofProjectPage extends LPage
             ];
     }
 
-    /** @return array<string, mixed> */
+    /** @return array{text: string, pagestate: string, saved: bool} */
     public function get_page_text_data(): array
     {
         return [
