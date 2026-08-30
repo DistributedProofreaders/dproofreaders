@@ -30,7 +30,6 @@ parameters:
               - accounts/addproofer.php
               - accounts/login.php
               - credits.php
-              - crontab/NotifyOldPP.inc
               - faq/font_sample.php
               - faq/privacy.php
               - faq/prooffacehelp.php
@@ -98,7 +97,6 @@ parameters:
           paths:
               - api/index.php
               - credits.php
-              - crontab/NotifyOldPP.inc
               - faq/font_sample.php
               - faq/privacy.php
               - faq/prooffacehelp.php
@@ -167,9 +165,6 @@ parameters:
               - tools/site_admin/delete_pages.php
               - tools/site_admin/shared_postednums.php
               - tools/site_search.php
-        - identifier: missingType.property
-          paths:
-              - crontab/AutoModify.inc
 
         # Errors in third party code, and our interfaces to it
         - message: '#Property .* does not accept false#'

@@ -7,6 +7,7 @@ class AutoModify extends BackgroundJob
 {
     public bool $requires_web_context = true;
 
+    /** @var ?resource $filehandle */
     private $filehandle = null;
     private ?string $logfile = null;
 
