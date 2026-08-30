@@ -26,12 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - pinc/3rdparty/mediawiki/DairikiDiff.php
-              - pinc/3rdparty/mediawiki/DiffEngine.php
-              - pinc/3rdparty/mediawiki/DiffFormatter.php
-              - pinc/3rdparty/mediawiki/WordAccumulator.php
-              - pinc/3rdparty/mediawiki/TableDiffFormatter.php
-              - pinc/BBDiffFormatter.inc
               - api/api_common.inc
               - api/index.php
               - api/v1_projects.inc
@@ -105,9 +99,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - pinc/3rdparty/mediawiki/DairikiDiff.php
-              - pinc/3rdparty/mediawiki/DiffEngine.php
-              - pinc/BBDiffFormatter.inc
               - api/exceptions.inc
               - api/index.php
               - api/v1_projects.inc
@@ -165,9 +156,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.iterableValue
           paths:
-              - pinc/3rdparty/mediawiki/DiffFormatter.php
-              - pinc/3rdparty/mediawiki/WordLevelDiff.php
-              - pinc/BBDiffFormatter.inc
               - api/exceptions.inc
               - api/v1_docs.inc
               - api/v1_projects.inc
@@ -194,9 +182,6 @@ parameters:
               - tools/site_search.php
         - identifier: missingType.property
           paths:
-              - pinc/3rdparty/mediawiki/DiffEngine.php
-              - pinc/3rdparty/mediawiki/WordAccumulator.php
-              - pinc/BBDiffFormatter.inc
               - crontab/AutoModify.inc
 
         # Errors in third party code, and our interfaces to it
@@ -234,6 +219,28 @@ parameters:
         - message: "#^Access to an undefined property Pool::\\$states.$#"
           path: pinc/ProjectState.inc
           reportUnmatched: false
+
+        # Level 6 errors in third party code, and our interfaces to it
+        - message: '#^Property .* has no type specified\.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* has parameter \$.* with no type specified\.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* has no return type specified\.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* has parameter \$.* with no value type specified in iterable type array.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* return type has no value type specified in iterable type array.$#'
+          paths:
+            - pinc/3rdparty/mediawiki/*.php
+
     typeAliases:
         # TODO: data.y should be numeric list, but callers needs fixing
         GraphConfig: """
