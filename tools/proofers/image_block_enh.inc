@@ -12,7 +12,7 @@
  * as percentages of its container box
  * (which is typically the "proofframe" of the proofing interface).
  */
-function ibe_get_styles()
+function ibe_get_styles(): string
 {
     $user = User::load_current();
 
@@ -61,7 +61,7 @@ function ibe_get_styles()
 
 // -----------------------------------------------------------------------------
 
-function ibe_echo_block()
+function ibe_echo_block(): void
 {
     echo "<div id='newimageframe'>
     <div id='image-view'>
