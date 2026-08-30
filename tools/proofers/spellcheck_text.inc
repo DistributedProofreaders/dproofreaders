@@ -22,14 +22,14 @@ use voku\helper\UTF8;
  *   Id of projected, needed for temp filename and to load the custom dictionaries
  * @param string $imagefile
  *   Image filename, needed for temp filename
- * @param array $languages
+ * @param string[] $languages
  *   Languages to check against
- * @param array $accepted_words
+ * @param string[] $accepted_words
  *   Array of words that should not be considered misspelled
  *
- * @return array
+ * @return list{string, string[], string[], array<string, string>}
  */
-function spellcheck_text($orig_text, $projectid, $imagefile, $languages, $accepted_words)
+function spellcheck_text(string $orig_text, string $projectid, string $imagefile, array $languages, array $accepted_words): array
 {
     global $puncCharacters;
 
@@ -197,7 +197,7 @@ function spellcheck_text($orig_text, $projectid, $imagefile, $languages, $accept
 /**
  * Adds HTML code to highlight text
  */
-function _wrapHighlight($word, $highlightClass)
+function _wrapHighlight(string $word, string $highlightClass): string
 {
     return "<span class='$highlightClass'>$word</span>";
 }
@@ -205,15 +205,16 @@ function _wrapHighlight($word, $highlightClass)
 /**
  * Adds HTML code to punctuation to highlight it
  */
-function _wrapPunc($word)
+function _wrapPunc(string $word): string
 {
     return _wrapHighlight($word, "hl-punc");
 }
 
 /**
  * Adds HTML code to highlight words in multiple scripts
+ * @param array<string, string> $scriptMap
  */
-function _wrapScriptWord($word, $scriptMap)
+function _wrapScriptWord(string $word, array $scriptMap): string
 {
     global $common_unicode_scripts;
 
@@ -233,15 +234,16 @@ function _wrapScriptWord($word, $scriptMap)
 /**
  * Adds HTML code to an accepted word to highlight it
  */
-function _wrapAW($word)
+function _wrapAW(string $word): string
 {
     return "<span class='aw'>$word</span>";
 }
 
 /**
  * Adds HTML code to manage a bad word
+ * @return list{string, int}
  */
-function _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, $badWordType)
+function _wrapBadWord(string $word, int $origLineNum, int $lineIndex, int $wordLen, int $badWordType): array
 {
     global $code_url;
 
@@ -292,13 +294,14 @@ function _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, $badWordType)
 
 // --------------------------------------------
 
-function spellcheck_quit()
+function spellcheck_quit(): string
 {
     $orig_text = $_POST['revert_text'];
     return str_replace("[lf]", "\r\n", $orig_text);
 }
 
-function spellcheck_apply_corrections()
+/** @return list{string, list{string, string}[]} */
+function spellcheck_apply_corrections(): array
 {
     $orig_text = $_POST['text_data'];
 

@@ -2,7 +2,7 @@
 include_once($relPath.'http_headers.inc');
 include_once($relPath.'slim_header.inc');
 
-function echo_proof_frame_std($ppage)
+function echo_proof_frame_std(PPage $ppage): void
 {
     $user = User::load_current();
 
