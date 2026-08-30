@@ -43,9 +43,6 @@ parameters:
               - quiz/generic/wizard/output_quiz.php
               - quiz/generic/wizard/quiz_pages.php
               - stats/equilibria.php
-              - stats/includes/common.inc
-              - stats/includes/member.inc
-              - stats/includes/team.inc
               - stats/index.php
               - stats/misc_stats1.php
               - stats/pp_stage_goal.php
@@ -106,9 +103,6 @@ parameters:
               - quiz/generic/wizard/output_quiz.php
               - quiz/generic/wizard/quiz_pages.php
               - stats/equilibria.php
-              - stats/includes/common.inc
-              - stats/includes/member.inc
-              - stats/includes/team.inc
               - stats/index.php
               - stats/misc_stats1.php
               - stats/pp_stage_goal.php

@@ -549,7 +549,7 @@ function get_url_to_view_post(int $post_id): string
  *
  * If no avatar is defined, this function returns NULL.
  */
-function get_url_for_user_avatar(int $username): ?string
+function get_url_for_user_avatar(string $username): ?string
 {
     $user_details = get_forum_user_details($username);
 

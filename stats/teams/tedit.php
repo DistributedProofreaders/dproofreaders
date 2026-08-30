@@ -41,7 +41,7 @@ if (isset($_GET['tid'])) {
     $edit = _("Edit");
     output_header($edit . " " . $curTeam['teamname'], NO_STATSBAR, $theme_extra_args);
     echo "<div class='center-align'><br>";
-    showEdit($curTeam['teamname'], $curTeam['team_info'], $curTeam['webpage'], 0, $tid);
+    showEdit($curTeam['teamname'], $curTeam['team_info'], $curTeam['webpage'], false, $tid);
     echo "</div>";
 } elseif (isset($_POST['edQuit'])) {
     $title = _("Quit Without Saving");
@@ -50,13 +50,13 @@ if (isset($_GET['tid'])) {
 } elseif (isset($_POST['edPreview'])) {
     $preview = _("Preview");
     output_header($preview . " " . $teamname, NO_STATSBAR, $theme_extra_args);
-    $teamimages = uploadImages(1, $tid, "both");
+    $teamimages = uploadImages(true, $tid, "both");
     $curTeam['teamname'] = $teamname;
     $curTeam['team_info'] = $text_data;
     $curTeam['webpage'] = $teamwebpage;
     $curTeam['avatar'] = $teamimages['avatar'];
     echo "<div class='center-align'><br>";
-    showEdit($teamname, $text_data, $teamwebpage, 0, $tid);
+    showEdit($teamname, $text_data, $teamwebpage, false, $tid);
     echo "<br>";
     showTeamProfile($curTeam, /*$preview = */ true);
     echo "</div><br>";
@@ -75,7 +75,7 @@ if (isset($_GET['tid'])) {
     if (mysqli_num_rows($result) > 0 || $teamname == '') {
         $preview = _("Preview");
         output_header($preview, NO_STATSBAR, $theme_extra_args);
-        $teamimages = uploadImages(1, $tid, "both");
+        $teamimages = uploadImages(true, $tid, "both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if ($teamname == "") {
             echo "<div class='center-align'><br>" . _("The team name must not be empty.") . "<br>";
@@ -83,7 +83,7 @@ if (isset($_GET['tid'])) {
             echo "<div class='center-align'><br>" . _("The team name must be unique. Please make any changes and resubmit.") . "<br>";
         }
 
-        showEdit($teamname, $text_data, $teamwebpage, 0, $tid);
+        showEdit($teamname, $text_data, $teamwebpage, false, $tid);
         echo "<br></div><br>";
     } else {
         if (!empty($tavatar)) {
@@ -98,7 +98,7 @@ if (isset($_GET['tid'])) {
             );
             DPDatabase::query($sql);
         } elseif (!empty($_FILES['teamavatar'])) {
-            uploadImages(0, $tid, "avatar");
+            uploadImages(false, $tid, "avatar");
         }
         if (!empty($ticon)) {
             $sql = sprintf(
@@ -112,7 +112,7 @@ if (isset($_GET['tid'])) {
             );
             DPDatabase::query($sql);
         } elseif (!empty($_FILES['teamicon'])) {
-            uploadImages(0, $tid, "icon");
+            uploadImages(false, $tid, "icon");
         }
 
         $sql = sprintf(
