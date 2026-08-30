@@ -11,7 +11,7 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'Settings.inc');
 include_once($relPath.'graph_data.inc');
 
-function showMbrInformation($user, $tally_name)
+function showMbrInformation(User $user, ?string $tally_name): void
 {
     showMbrProfile($user);
 
@@ -29,7 +29,7 @@ function showMbrInformation($user, $tally_name)
     }
 }
 
-function showXmlButton($username)
+function format_xml_button(string $username): string
 {
     global $code_url;
 
@@ -40,7 +40,7 @@ function showXmlButton($username)
     return $xml_button;
 }
 
-function showMbrProfile($user)
+function showMbrProfile(User $user): void
 {
     echo "\n";
     echo "<table style='width: 100%;'>";
@@ -69,7 +69,7 @@ function showMbrProfile($user)
  * Return a string like "Today", or "Yesterday", or "2 days ago" depending on
  * a timestamp
  */
-function days_to_now($timestamp)
+function days_to_now(?int $timestamp): string
 {
     // Ensure that all calls to this function have the same base time.
     static $now = null;
@@ -90,7 +90,7 @@ function days_to_now($timestamp)
     }
 }
 
-function showMbrDpProfile($user)
+function showMbrDpProfile(User $user): void
 {
     // Days since joined:
     $daysInExistenceString = days_to_now($user->date_created);
@@ -117,17 +117,17 @@ function showMbrDpProfile($user)
     );
     $t->row(
         _('Roles'),
-        showMbrRoles($user)
+        format_mbr_roles($user)
     );
     $t->row(
         _("Stats Feed"),
-        showXmlButton($user->username)
+        format_xml_button($user->username)
     );
 
     $t->end();
 }
 
-function showMbrRoles($user)
+function format_mbr_roles(User $user): string
 {
     [$users_ELR_page_tallyboard, ] = get_ELR_tallyboards();
     $current_P_page_tally = $users_ELR_page_tallyboard->get_current_tally($user->u_id);
@@ -192,7 +192,7 @@ function showMbrRoles($user)
     return $mbrStatus;
 }
 
-function showForumProfile($username)
+function showForumProfile(string $username): void
 {
     $bb_user = get_forum_user_details($username);
     if (is_null($bb_user)) {
@@ -354,7 +354,7 @@ function showForumProfile($username)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrAccess($user)
+function showMbrAccess(User $user): void
 {
     if (!user_can_see_user_access_chart_of($user->username)) {
         return;
@@ -369,7 +369,7 @@ function showMbrAccess($user)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrTallySelector($u_id, $tally_name)
+function showMbrTallySelector(int $u_id, ?string $tally_name): void
 {
     $choices = '';
     $page_tally_names = get_page_tally_names();
@@ -405,7 +405,7 @@ function showMbrTallySelector($u_id, $tally_name)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showMbrPageStats($user, $tally_name)
+function showMbrPageStats(User $user, string $tally_name): void
 {
     global $ELR_round;
 
@@ -468,7 +468,7 @@ function showMbrPageStats($user, $tally_name)
         _("Highest Rank"),
         number_format($vitals->best_rank)
         . "&nbsp;<i>(" . date("M. jS, Y", $vitals->best_rank_timestamp - 1) . ")</i>"
-        . "&nbsp;" . showChangeInRank($vitals->best_rank, $vitals->current_rank)
+        . "&nbsp;" . format_change_in_rank($vitals->best_rank, $vitals->current_rank)
     );
     $t->row(
         _("Best Day Ever"),
@@ -483,7 +483,7 @@ function showMbrPageStats($user, $tally_name)
     $t->end();
 }
 
-function showMbrNeighbors($user, $tally_name)
+function showMbrNeighbors(User $user, string $tally_name): void
 {
     $now = time();
 
@@ -534,7 +534,7 @@ function showMbrNeighbors($user, $tally_name)
     $t->end();
 }
 
-function showMbrTeams($user)
+function showMbrTeams(User $user): void
 {
     global $code_url;
 
@@ -576,7 +576,7 @@ function showMbrTeams($user)
     $t->end();
 }
 
-function showMbrHistory($user, $tally_name)
+function showMbrHistory(User $user, string $tally_name): void
 {
     if (@$_GET['range'] == 'all') {
         $range = 'all';
