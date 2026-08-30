@@ -3,7 +3,7 @@ include_once($relPath.'html_page_common.inc'); // output_html_header()
 include_once($relPath.'theme.inc'); // headerbar_text_array()
 include_once($relPath.'faq.inc');
 
-function output_small_header($quiz)
+function output_small_header(Quiz $quiz): void
 {
     output_html_header('');
 
@@ -61,7 +61,7 @@ function output_small_header($quiz)
     register_shutdown_function('output_small_footer');
 }
 
-function output_small_footer()
+function output_small_footer(): void
 {
     echo "</div>\n";
     output_html_footer();
