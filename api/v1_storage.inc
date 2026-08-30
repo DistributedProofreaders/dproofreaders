@@ -7,10 +7,10 @@
 
 /**
  * Store/retrieve storage item (depending on the method).
- *
- * @return mixed
+ * @param 'GET'|'PUT' $method
+ * @param array<string, mixed> $data
  */
-function api_v1_storage(string $method, array $data)
+function api_v1_storage(string $method, array $data): mixed
 {
     global $pguser;
 
@@ -33,6 +33,7 @@ function api_v1_storage(string $method, array $data)
     }
 }
 
+/** @param array<string, mixed> $data */
 function api_v1_storage_delete(string $method, array $data): void
 {
     global $pguser;

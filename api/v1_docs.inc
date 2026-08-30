@@ -2,7 +2,12 @@
 include_once($relPath.'faq.inc');
 include_once("api_common.inc");
 
-/** @param array<string, string|string[]> $query_params */
+/**
+ * @param array<string, mixed> $data
+ * @param array<string, string|string[]> $query_params
+ * @return string[]
+ *     List of document IDs
+ */
 function api_v1_documents(string $method, array $data, array $query_params): array
 {
     global $external_faq_overrides;
@@ -23,7 +28,10 @@ function api_v1_documents(string $method, array $data, array $query_params): arr
     return $docs;
 }
 
-/** @param array<string, string|string[]> $query_params */
+/**
+ * @param array<string, mixed> $data
+ * @param array<string, string|string[]> $query_params
+ */
 function api_v1_document(string $method, array $data, array $query_params): string
 {
     $lang_code = $query_params["language_code"] ?? "en";
@@ -36,6 +44,10 @@ function api_v1_document(string $method, array $data, array $query_params): stri
     return $faq_url;
 }
 
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, string>
+ */
 function api_v1_dictionaries(string $method, array $data): array
 {
     $dict_list = get_languages_with_dictionaries();

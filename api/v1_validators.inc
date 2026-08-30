@@ -5,6 +5,7 @@ include_once($relPath.'release_queue.inc');
 //===========================================================================
 // Validators
 
+/** @param array<string, mixed> $_data */
 function validate_stage(string $stageid, array $_data): Stage
 {
     try {
@@ -18,6 +19,7 @@ function validate_stage(string $stageid, array $_data): Stage
     }
 }
 
+/** @param array<string, mixed> $_data */
 function validate_round(string $roundid, array $_data): Round
 {
     try {
@@ -31,6 +33,7 @@ function validate_round(string $roundid, array $_data): Round
     }
 }
 
+/** @param array<string, mixed> $_data */
 function validate_project(string $projectid, array $_data): Project
 {
     // validate and load the specified projectid
@@ -41,6 +44,7 @@ function validate_project(string $projectid, array $_data): Project
     }
 }
 
+/** @param array<string, mixed> $_data */
 function validate_wordlist(string $wordlist, array $_data): string
 {
     if (!in_array($wordlist, ["good", "bad"])) {
@@ -49,6 +53,7 @@ function validate_wordlist(string $wordlist, array $_data): string
     return $wordlist;
 }
 
+/** @param array<string, mixed> $data */
 function validate_page_name(string $pagename, array $data): ProjectPage
 {
     try {
@@ -58,6 +63,7 @@ function validate_page_name(string $pagename, array $data): ProjectPage
     }
 }
 
+/** @param array<string, mixed> $_data */
 function validate_page_round(string $pageround, array $_data): string
 {
     try {
@@ -72,6 +78,10 @@ function validate_page_round(string $pageround, array $_data): string
     }
 }
 
+/**
+ * @param array<string, mixed> $_data
+ * @return array<string, mixed>
+ */
 function validate_release_queue(string $queueid, array $_data): array
 {
     $queue_data = fetch_queue_data((int)$queueid);
@@ -91,6 +101,7 @@ function validate_document(string $document): string
     return $document;
 }
 
+/** @param array<string, mixed> $data */
 function validate_storage_key(string $storage_key, array $data): string
 {
     if (!in_array($storage_key, SiteConfig::get()->api_storage_keys)) {

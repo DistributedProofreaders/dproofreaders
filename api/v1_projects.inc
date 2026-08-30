@@ -22,7 +22,7 @@ include_once("api_common.inc");
  * @return ?array<string> null means 'render all fields'
  * @throws InvalidValue if any of the filter arguments aren't recognized
  */
-function get_return_fields(array $query_params, ?Project $project)
+function get_return_fields(array $query_params, ?Project $project): ?array
 {
     $return_fields = array_get_as_array($query_params, "field", null);
     if (is_null($return_fields)) {
@@ -41,8 +41,12 @@ function get_return_fields(array $query_params, ?Project $project)
     return $return_fields;
 }
 
-/** @param array<string,string|string[]> $query_params */
-function api_v1_projects(string $method, array $data, array $query_params)
+/**
+ * @param array<string, mixed> $data
+ * @param array<string,string|string[]> $query_params
+ * @return array<string, mixed>[]
+ */
+function api_v1_projects(string $method, array $data, array $query_params): array
 {
     // set which fields are queryable and their column names
     $valid_fields = get_project_fields_with_attr("queryable", null);
@@ -164,6 +168,7 @@ function api_v1_projects(string $method, array $data, array $query_params)
 //---------------------------------------------------------------------------
 // projects/:projectid
 
+/** @return array<string, string> */
 function get_project_fields_with_attr(?string $attr, ?Project $project): array
 {
     // A list of all the fields that can be rendered by render_project_json
@@ -226,13 +231,14 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
 /**
  * Return a list of updatable project fields mapped from the API names
  * to the Project object names.
+ * @return string[]
  */
 function get_updatable_project_fields(Project $project): array
 {
     return get_project_fields_with_attr("updatable", $project);
 }
 
-function create_or_update_project(Project $project)
+function create_or_update_project(Project $project): Project
 {
     // can the user use this update API at all?
     if (!user_is_PM()) {
@@ -317,8 +323,13 @@ function create_or_update_project(Project $project)
     return $project;
 }
 
-/** @param array<string,string|string[]> $query_params */
-function api_v1_project(string $method, array $data, array $query_params)
+/**
+ * @param 'GET'|'PUT'|'POST' $method
+ * @param array<string, mixed> $data
+ * @param array<string,string|string[]> $query_params
+ * @return array<string, mixed>
+ */
+function api_v1_project(string $method, array $data, array $query_params): array
 {
     if ($method == "GET") {
         // restrict to list of desired fields, if set
@@ -336,7 +347,11 @@ function api_v1_project(string $method, array $data, array $query_params)
     }
 }
 
-function render_project_json(Project $project, ?array $return_fields = null)
+/**
+ * @param ?string[] $return_fields
+ * @return array<string, mixed>
+ */
+function render_project_json(Project $project, ?array $return_fields = null): array
 {
     // We want to explicitly call out the parameters we want to return so
     // callers can know what to expect in this version of the API.
@@ -385,7 +400,11 @@ function render_project_json(Project $project, ?array $return_fields = null)
 //---------------------------------------------------------------------------
 // projects/:projectID/artifacts/:stageid
 
-function api_v1_project_artifacts(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array{stage: string, name: string, url:string}[]
+ */
+function api_v1_project_artifacts(string $method, array $data): array
 {
     // get the project and the stage
     $project = $data[":projectid"];
@@ -426,7 +445,12 @@ function api_v1_project_artifacts(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/:projectID/wordlists/:type
 
-function api_v1_project_wordlists(string $method, array $data)
+/**
+ * @param 'GET'|'PUT' $method
+ * @param array<string, mixed> $data
+ * @return string|string[]
+ */
+function api_v1_project_wordlists(string $method, array $data): string|array
 {
     // get the project this is for and the type of word list
     $project = $data[":projectid"];
@@ -459,7 +483,12 @@ function api_v1_project_wordlists(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/:projectID/holdstates
 
-function api_v1_project_holdstates(string $method, array $data)
+/**
+ * @param 'GET'|'PUT' $method
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
+function api_v1_project_holdstates(string $method, array $data): array
 {
     $project = $data[":projectid"];
 
@@ -499,7 +528,11 @@ function api_v1_project_holdstates(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/:projectid/pages
 
-function api_v1_project_pages(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array{image: string, image_url: string, image_size: int}[]
+ */
+function api_v1_project_pages(string $method, array $data): array
 {
     $project = $data[":projectid"];
 
@@ -521,7 +554,12 @@ function api_v1_project_pages(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/:projectid/pagedetails
 
-function api_v1_project_pagedetails(string $method, array $data, array $query_params)
+/**
+ * @param array<string, mixed> $data
+ * @param array<string, mixed> $query_params
+ * @return array<string, mixed>[]
+ */
+function api_v1_project_pagedetails(string $method, array $data, array $query_params): array
 {
     // optional page round IDs (one or more) to filter down to
     $only_rounds = null;
@@ -577,7 +615,11 @@ function api_v1_project_pagedetails(string $method, array $data, array $query_pa
 //---------------------------------------------------------------------------
 // projects/:projectid/pages/:pagename/pagerounds/:pageroundid
 
-function api_v1_project_page_round(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, mixed>
+ */
+function api_v1_project_page_round(string $method, array $data): array
 {
     if ($data[":pageroundid"] == "OCR") {
         $text_column = "master_text";
@@ -622,7 +664,11 @@ function api_v1_project_page_round(string $method, array $data)
     return $json;
 }
 
-function render_project_page_json($row)
+/**
+ * @param array<string, mixed> $row
+ * @return array{username: string, pagename: string, image_url: string, text: string, state: string}
+ */
+function render_project_page_json(array $row): array
 {
     return [
         "username" => $row["user"],
@@ -636,7 +682,11 @@ function render_project_page_json($row)
 //---------------------------------------------------------------------------
 // projects/:projectid/transitions
 
-function api_v1_project_transitions(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array{timestamp: string, event_type: string, details: string[]}[]
+ */
+function api_v1_project_transitions(string $method, array $data): array
 {
     $sql = sprintf(
         "
@@ -663,7 +713,11 @@ function api_v1_project_transitions(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/difficulties
 
-function api_v1_projects_difficulties(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
+function api_v1_projects_difficulties(string $method, array $data): array
 {
     $difficulties = get_project_difficulties();
     return array_keys($difficulties);
@@ -672,7 +726,11 @@ function api_v1_projects_difficulties(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/genres
 
-function api_v1_projects_genres(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
+function api_v1_projects_genres(string $method, array $data): array
 {
     $genres = ProjectSearchForm::genre_options();
     unset($genres['']);
@@ -682,7 +740,11 @@ function api_v1_projects_genres(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/languages
 
-function api_v1_projects_languages(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
+function api_v1_projects_languages(string $method, array $data): array
 {
     $languages = ProjectSearchForm::language_options();
     unset($languages['']);
@@ -692,7 +754,11 @@ function api_v1_projects_languages(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/states
 
-function api_v1_projects_states(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
+function api_v1_projects_states(string $method, array $data): array
 {
     $states = ProjectSearchForm::state_options();
     unset($states['']);
@@ -702,7 +768,11 @@ function api_v1_projects_states(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/pagerounds
 
-function api_v1_projects_pagerounds(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
+function api_v1_projects_pagerounds(string $method, array $data): array
 {
     return array_merge(["OCR"], Rounds::get_ids());
 }
@@ -710,8 +780,12 @@ function api_v1_projects_pagerounds(string $method, array $data)
 //---------------------------------------------------------------------------
 // projects/charsuites
 
-/** @param array<string,string|string[]> $query_params */
-function api_v1_projects_charsuites(string $method, array $data, array $query_params)
+/**
+ * @param array<string, mixed> $data
+ * @param array<string,string|string[]> $query_params
+ * @return array{id: string, name: string, characters: (string|null)[], enabled: bool}[]
+ */
+function api_v1_projects_charsuites(string $method, array $data, array $query_params): array
 {
     $enabled_filter = _get_enabled_filter($query_params);
     if ($enabled_filter === null) {
@@ -740,8 +814,25 @@ function api_v1_projects_charsuites(string $method, array $data, array $query_pa
 //---------------------------------------------------------------------------
 // projects/specialdays
 
-/** @param array<string,string|string[]> $query_params */
-function api_v1_projects_specialdays(string $method, array $data, array $query_params)
+/**
+ * @param array<string, mixed> $data
+ * @param array<string,string|string[]> $query_params
+ * @return array{
+ *             id: string,
+ *             name: string,
+ *             comment: string,
+ *             url: string,
+ *             color: string,
+ *             color: string,
+ *             symbol: string,
+ *             date_open_month: int,
+ *             date_open_day: int,
+ *             date_close_month: int,
+ *             date_close_day: int,
+ *             enabled: bool
+ *         }[]
+ */
+function api_v1_projects_specialdays(string $method, array $data, array $query_params): array
 {
     $return_data = [];
 
@@ -775,7 +866,18 @@ function api_v1_projects_specialdays(string $method, array $data, array $query_p
 //---------------------------------------------------------------------------
 // projects/imagesources
 
-/** @param array<string,string|string[]> $query_params */
+/**
+ * @param array<string, mixed> $data
+ * @param array<string,string|string[]> $query_params
+ * @return array{
+ *             id: string,
+ *             name: string,
+ *             name_full: string,
+ *             url: string,
+ *             credit: string,
+ *             enabled: bool
+ *         }[]
+ */
 function api_v1_projects_imagesources(string $method, array $data, array $query_params): array
 {
     $return_data = [];
@@ -811,6 +913,10 @@ function api_v1_projects_imagesources(string $method, array $data, array $query_
 //---------------------------------------------------------------------------
 // projects/holdstates
 
+/**
+ * @param array<string, mixed> $data
+ * @return string[]
+ */
 function api_v1_projects_holdstates(string $method, array $data): array
 {
     return Project::get_holdable_states();
@@ -826,8 +932,9 @@ function api_v1_projects_holdstates(string $method, array $data): array
  * - null - no enabled flag was set
  * - true - enabled flag was set to "true" or an empty string (for ?enabled)
  * - false - enabled flag was set to "false"
+ * @param array<string, mixed> $query_params
  */
-function _get_enabled_filter($query_params)
+function _get_enabled_filter(array $query_params): ?bool
 {
     return get_flag_value($query_params, "enabled");
 }
@@ -838,7 +945,9 @@ function _get_enabled_filter($query_params)
 /**
  * Checkout a page
  *
+ * @param array<string, mixed> $data
  * @param array<string,string|string[]> $query_params
+ * @return array<string, mixed>
  */
 function api_v1_project_checkout(string $method, array $data, array $query_params): array
 {
@@ -855,6 +964,10 @@ function api_v1_project_checkout(string $method, array $data, array $query_param
     }
 }
 
+/**
+ * @param array<string, mixed> $data
+ * @return array{invalid_chars: array<string, string>}
+ */
 function api_v1_project_validatetext(string $method, array $data): array
 {
     $project = $data[":projectid"];
@@ -862,6 +975,10 @@ function api_v1_project_validatetext(string $method, array $data): array
     return ["invalid_chars" => $invalid_characters];
 }
 
+/**
+ * @param array<string, mixed> $data
+ * @return array{bad_words: array<string, int>, messages: string[]}
+ */
 function api_v1_project_wordcheck(string $method, array $data): array
 {
     $project = $data[":projectid"];
@@ -879,6 +996,17 @@ function api_v1_project_wordcheck(string $method, array $data): array
     ];
 }
 
+/**
+ * @param array<string, mixed> $data
+ * @return array{
+ *             name: string,
+ *             subsets: array{
+ *                 name: string,
+ *                 title: string,
+ *                 rows: (?string)[][][]
+ *             }[]
+ *         }[]
+ */
 function api_v1_project_pickersets(string $method, array $data): array
 {
     $project = $data[":projectid"];
@@ -889,8 +1017,11 @@ function api_v1_project_pickersets(string $method, array $data): array
 /**
  * Return a page from a project
  *
+ * @param 'GET'|'PUT' $method
+ * @param array<string, mixed> $data
  * @param array<string,string|string[]> $query_params
- * @return mixed
+ * @return ($method is 'GET' ? array{text: string, pagestate: string, saved: bool}
+ *                           : mixed)
  */
 // TODO(jchaffraix): Refine this return once all callees have been typed.
 function api_v1_project_page(string $method, array $data, array $query_params)
@@ -939,6 +1070,7 @@ function api_v1_project_page(string $method, array $data, array $query_params)
     }
 }
 
+/** @param array<string, mixed> $data */
 function api_v1_project_page_format_preview(string $method, array $data): void
 {
     try {
@@ -956,6 +1088,7 @@ function api_v1_project_page_format_preview(string $method, array $data): void
     }
 }
 
+/** @param array<string, mixed> $data */
 function api_v1_project_page_report_bad(string $method, array $data): void
 {
     global $pguser, $PAGE_BADNESS_REASONS;
@@ -984,6 +1117,7 @@ function api_v1_project_page_report_bad(string $method, array $data): void
     }
 }
 
+/** @param array<string, mixed> $data */
 function api_v1_project_page_wordcheck(string $method, array $data): void
 {
     try {
@@ -1052,7 +1186,7 @@ function receive_project_text_from_request_body(): string
     return $page_text;
 }
 
-function receive_data_from_request_body(string $field)
+function receive_data_from_request_body(string $field): mixed
 {
     $request_data = api_get_request_body();
     return $request_data[$field] ?? null;

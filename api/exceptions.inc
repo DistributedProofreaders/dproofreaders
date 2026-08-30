@@ -94,6 +94,7 @@ class UnexpectedError extends ApiException
 
 class InvalidAPI extends ApiException
 {
+    /** @param string[] $children */
     public function __construct(string $url, ?string $part, array $children, int $code = 8)
     {
         if (is_null($part)) {
@@ -114,7 +115,8 @@ class InvalidAPI extends ApiException
 
 class MethodNotAllowed extends ApiException
 {
-    public function __construct(string $url, string $invalid, array $valids, $code = 9)
+    /** @param string[] $valids */
+    public function __construct(string $url, string $invalid, array $valids, int $code = 9)
     {
         $valid = implode(", ", $valids);
         $message = "API endpoint $url: Method $invalid not supported. Valid methods: $valid.";

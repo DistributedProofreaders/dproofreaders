@@ -26,10 +26,7 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - api/api_common.inc
               - api/index.php
-              - api/v1_projects.inc
-              - api/v1_stats.inc
               - accounts/addproofer.php
               - accounts/login.php
               - credits.php
@@ -99,10 +96,7 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - api/exceptions.inc
               - api/index.php
-              - api/v1_projects.inc
-              - api/v1_stats.inc
               - credits.php
               - crontab/NotifyOldPP.inc
               - faq/font_sample.php
@@ -156,13 +150,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.iterableValue
           paths:
-              - api/exceptions.inc
-              - api/v1_docs.inc
-              - api/v1_projects.inc
-              - api/v1_queues.inc
-              - api/v1_stats.inc
-              - api/v1_storage.inc
-              - api/v1_validators.inc
               - credits.php
               - index.php
               - tasks.php

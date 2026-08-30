@@ -57,9 +57,8 @@ class ApiRouter
      * Route an API call to its specific handler.
      *
      * @param array<string, string|string[]> $query_params
-     * @return mixed
      */
-    public function route(string $url, array $query_params)
+    public function route(string $url, array $query_params): mixed
     {
         $node = $this->root;
         $data = [];
@@ -118,8 +117,7 @@ class ApiRouter
         throw new InvalidAPI($path, $part, $children);
     }
 
-    /** @return mixed */
-    public function request(bool $raw = false)
+    public function request(bool $raw = false): mixed
     {
         if ($raw) {
             return file_get_contents('php://input');
