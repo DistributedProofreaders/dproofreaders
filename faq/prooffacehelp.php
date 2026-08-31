@@ -425,7 +425,7 @@ COLSPAN="2">
 
 <?php
 
-function echo_row($name, $tooltip, $button_image_base, $accelerator)
+function echo_row(string $name, string $tooltip, string $button_image_base, string $accelerator): void
 {
     global $help;
     echo "<TR><TD class='top-align'>\n";

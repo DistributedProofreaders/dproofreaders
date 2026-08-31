@@ -72,7 +72,7 @@ foreach ($character_sets as $set) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_font_specimen($name, $font)
+function show_font_specimen(string $name, string $font): void
 {
     echo "<div style='float: left; margin-right: 1em; margin-top: 0;'>";
     //echo "<h3>$name</h3>";

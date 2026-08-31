@@ -114,7 +114,7 @@ output_section(
 
 //---------------------------------------------------------------------------
 
-function insert_site_name($sentence)
+function insert_site_name(string $sentence): string
 {
     return sprintf($sentence, SiteConfig::get()->site_name);
 }
@@ -123,8 +123,9 @@ function insert_site_name($sentence)
  * Output a paragraph of sentences.
  *
  * Each sentence will have the first sprintf argument replaced with $site_name.
+ * @param string[] $sentences
  */
-function output_paragraph($sentences)
+function output_paragraph(array $sentences): void
 {
     echo "<p>";
     echo implode(" ", array_map("insert_site_name", $sentences));
@@ -138,13 +139,12 @@ function output_paragraph($sentences)
  * The number of arguments this function accepts is variable, and is of the
  * format ($header, $paragraph1, $paragraph2, ...) where each paragraph is
  * an array of strings (ie: sentences).
+ * @param string[] ...$paragraphs
  */
-function output_section()
+function output_section(string $header, array ...$paragraphs): void
 {
-    $arguments = func_get_args();
-    $header = array_shift($arguments);
     echo "<h3>$header</h3>";
-    foreach ($arguments as $paragraph) {
+    foreach ($paragraphs as $paragraph) {
         output_paragraph($paragraph);
     }
 }

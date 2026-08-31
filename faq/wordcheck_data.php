@@ -21,7 +21,8 @@ echo "<p>" . _("Possible Bad word lists are used to suggest possible Bad words f
 
 createWordListTable(get_site_possible_bad_word_lists());
 
-function createWordListTable($word_lists)
+/** @param array<string, string> $word_lists */
+function createWordListTable(array $word_lists): void
 {
     // return if there aren't any word_lists
     if (count($word_lists) == 0) {
