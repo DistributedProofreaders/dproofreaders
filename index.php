@@ -154,7 +154,11 @@ echo sprintf(
 );
 echo "</p>\n";
 
-function _get_user_counts(array $days_back_set)
+/**
+ * @param int[] $days_back_set
+ * @return array<int, int>
+ */
+function _get_user_counts(array $days_back_set): array
 {
     $results = [];
     foreach ($days_back_set as $days_back) {

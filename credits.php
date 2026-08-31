@@ -25,38 +25,51 @@ echo "<h2>" . _("Dependencies"). "</h2>";
 
 echo "<p>" . _("The following open source dependencies are used by the dproofreaders code.") . "</p>";
 
+class CreditDetails
+{
+    public function __construct(
+        public readonly string $name,
+        public readonly string $license,
+        public readonly ?string $url,
+        public readonly ?string $license_url
+    ) {
+    }
+}
+
 $credit_details = array_merge(
     load_composer_credit_details(),
     load_npm_credit_details()
 );
-uksort($credit_details, "strcasecmp");
+uksort($credit_details, strcasecmp(...));
 output_credit_details($credit_details);
 
 //----------------------------------------------------------------------------
 
-function output_credit_details($credit_details)
+/** @param array<string, CreditDetails> $credit_details */
+function output_credit_details(array $credit_details): void
 {
     echo "<ul>";
     foreach ($credit_details as $detail) {
         echo "<li>";
         echo "<b>";
-        if ($detail["url"]) {
-            echo "<a href='" . $detail["url"] . "'>" . html_safe($detail["name"]) . "</a>";
+        if ($detail->url) {
+            echo "<a href='" . $detail->url . "'>" . html_safe($detail->name) . "</a>";
         } else {
-            echo html_safe($detail["name"]);
+            echo html_safe($detail->name);
         }
         echo "</b><br>";
-        if (isset($detail["license_url"])) {
-            echo _("License") . ": <a href='" . $detail["license_url"] . "'>" . html_safe($detail["license"]) . "</a>";
+        if (isset($detail->license_url)) {
+            echo _("License") . ": <a href='" . $detail->license_url . "'>" . html_safe($detail->license) . "</a>";
         } else {
-            echo _("License") . ": " . html_safe($detail["license"]);
+            echo _("License") . ": " . html_safe($detail->license);
         }
         echo "</li>";
     }
     echo "</ul>";
 }
 
-function load_bundled_credit_details($code_dir)
+/** @return array<string, CreditDetails> */
+function load_bundled_credit_details(string $code_dir): array
 {
     $credit_details = [];
     $files = new RecursiveIteratorIterator(
@@ -74,30 +87,38 @@ function load_bundled_credit_details($code_dir)
             $details = [$details];
         }
         foreach ($details as $detail) {
-            $credit_details[$detail["name"]] = $detail;
+            $credit_details[$detail["name"]] = new CreditDetails(
+                name: $detail["name"],
+                url: $detail["url"] ?? null,
+                license: $detail["license"],
+                license_url: $detail["license_url"] ?? null
+            );
         }
     }
 
-    uksort($credit_details, "strcasecmp");
+    uksort($credit_details, strcasecmp(...));
     return $credit_details;
 }
 
+/** @return array<string, CreditDetails> */
 function load_composer_credit_details()
 {
     global $code_dir;
 
     $packages = json_decode(file_get_contents("$code_dir/composer.lock"));
     foreach ($packages->packages as $index => $package) {
-        $credit_details[$package->name] = [
-            "name" => $package->name,
-            "url" => $package->homepage ?? null,
-            "license" => join(", ", $package->license),
-        ];
+        $credit_details[$package->name] = new CreditDetails(
+            name: $package->name,
+            url: $package->homepage ?? null,
+            license: join(", ", $package->license),
+            license_url: null
+        );
     }
 
     return $credit_details;
 }
 
+/** @return array<string, CreditDetails> */
 function load_npm_credit_details()
 {
     global $code_dir;
@@ -111,11 +132,12 @@ function load_npm_credit_details()
     foreach ($packages["packages"] as $name => $package) {
         $short_name = str_replace("node_modules/", "", $name);
         if (in_array($short_name, $dependencies)) {
-            $credit_details[$short_name] = [
-                "name" => $short_name,
-                "url" => null,
-                "license" => $package["license"],
-            ];
+            $credit_details[$short_name] = new CreditDetails(
+                name: $short_name,
+                url: null,
+                license: $package["license"],
+                license_url: null,
+            );
         }
     }
 
@@ -126,8 +148,9 @@ function load_npm_credit_details()
  * Detect if an array is associative or sequential
  *
  * From https://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential
+ * @param array<mixed, mixed>|list<mixed> $arr
  */
-function isAssoc(array $arr)
+function isAssoc(array $arr): bool
 {
     if ([] === $arr) {
         return false;
