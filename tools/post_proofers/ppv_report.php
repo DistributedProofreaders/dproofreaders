@@ -160,7 +160,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     $i5 = $i4 . "    ";
     $i6 = $i5 . "    ";
 
-    function tr_w_one_cell_centered($class, $content)
+    function tr_w_one_cell_centered(string $class, string $content): string
     {
         global $i4, $i5;
         return ""
@@ -169,7 +169,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             . "\n$i4</tr>";
     }
 
-    function tr_w_two_cells($left_content, $right_content)
+    function tr_w_two_cells(string $left_content, string $right_content): string
     {
         global $i4, $i5;
         return ""
@@ -185,7 +185,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     $n_form_problems = 0;
 
-    function maybe_report_form_problem($message)
+    function maybe_report_form_problem(string $message): string
     {
         if ($message == "") {
             return "";
@@ -197,7 +197,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
     }
 
     // Checkboxes to record level of complexity for a feature; Basic, Average, Complex
-    function feature_level_combo($feature_type)
+    function feature_level_combo(string $feature_type): string
     {
         global $action;
         $feature_label_map = get_feature_labels(true);
@@ -240,7 +240,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     // Checkbox to record hard feature, which always counts as Complex
     // Optional argument to provide hyperlink to further information
-    function hard_check_box($feature_type, $info_url = "")
+    function hard_check_box(string $feature_type, string $info_url = ""): string
     {
         $feature_label_map = get_feature_labels(true);
 
@@ -251,7 +251,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return check_box("hrd_".$feature_type, $label);
     }
 
-    function check_box($id, $label, $checked_in_blank_form = false)
+    function check_box(string $id, string $label, bool $checked_in_blank_form = false): string
     {
         global $i6;
         return ""
@@ -261,7 +261,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             . "</p>";
     }
 
-    function _checkbox($id, $label, $checked_in_blank_form = false)
+    function _checkbox(string $id, string $label, bool $checked_in_blank_form = false): string
     {
         global $action;
         if ($action == SHOW_BLANK_ENTRY_FORM) {
@@ -274,7 +274,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return "<input type='checkbox' name='$id' id='$id'$checked_attr><label for='$id'>$label</label>";
     }
 
-    function number_box($id, $label, $options = [])
+    /** @param array{size?: int, use_a_label_element?: bool, put_label_on_left?: bool} $options */
+    function number_box(string $id, string $label, array $options = []): string
     {
         global $action;
         $problem = "";
@@ -310,7 +311,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             . "</p>";
     }
 
-    function _textbox($id, $label, $options = [])
+    /** @param array{size?: int, use_a_label_element?: bool, put_label_on_left?: bool} $options */
+    function _textbox(string $id, string $label, array $options = []): string
     {
         global $action;
         if ($action == SHOW_BLANK_ENTRY_FORM) {
@@ -347,7 +349,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return $result;
     }
 
-    function comment_box($id)
+    function comment_box(string $id): string
     {
         global $action;
         if ($action == SHOW_BLANK_ENTRY_FORM) {
@@ -361,13 +363,13 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         return "<textarea rows='4' cols='67' name='$id' id='$id' wrap='hard'>$esc_text</textarea>";
     }
 
-    function is_decimal_digits($s)
+    function is_decimal_digits(string $s): bool
     {
-        assert(is_string($s));
         return ctype_digit($s);
     }
 
-    function get_feature_labels($translate)
+    /** @return array<string, string> */
+    function get_feature_labels(bool $translate): array
     {
         return [
             "poetry" => $translate ? _("Poetry") : "Poetry",
@@ -642,14 +644,14 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         $pp_difficulty_level = "Easy";
     }
 
-    function number_of_errors_allowed($size_per)
+    function number_of_errors_allowed(int $size_per): int
     {
         $project_size = $_POST["kb_size"];
         if ($project_size <= $size_per) {
             return 1;
         }
 
-        return round($project_size / $size_per);
+        return (int) round($project_size / $size_per);
     }
 
     if ($level_2_errors == 0) {
@@ -901,7 +903,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
  * Wrap a string to about 72 characters wide so it's
  * suitable for displaying in <pre>-formatted HTML email.
  */
-function ppv_report_wrap($string)
+function ppv_report_wrap(string $string): string
 {
     $string = wordwrap($string, 72);
     $string = str_replace("\n    ", "\n", $string); // Remove 4 blank spaces if they are there
@@ -909,7 +911,8 @@ function ppv_report_wrap($string)
     return $string;
 }
 
-function report_error_counts($errors)
+/** @param array<string, string> $errors */
+function report_error_counts(array $errors): string
 {
     $result = "";
     foreach ($errors as $id => $label) {
@@ -923,7 +926,8 @@ function report_error_counts($errors)
     return $result;
 }
 
-function report_recommendations($recommendations)
+/** @param array<string, string> $recommendations */
+function report_recommendations(array $recommendations): string
 {
     $result = "";
     foreach ($recommendations as $id => $label) {
@@ -937,7 +941,7 @@ function report_recommendations($recommendations)
     return $result;
 }
 
-function report_comments($base_indent, $id, $label)
+function report_comments(string $base_indent, string $id, string $label): string
 {
     $comments = $_POST[$id] ?? '';
     if (empty($comments)) {
