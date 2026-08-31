@@ -26,7 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - tools/post_proofers/ppv_report.php
               - tools/project_manager/bad_bytes_explainer.php
               - tools/project_manager/clearance_check.php
               - tools/project_manager/diff.php
@@ -53,7 +52,6 @@ parameters:
               - tools/site_admin/projects_with_odd_values.php
         - identifier: missingType.parameter
           paths:
-              - tools/post_proofers/ppv_report.php
               - tools/project_manager/bad_bytes_explainer.php
               - tools/project_manager/clearance_check.php
               - tools/project_manager/diff.php
