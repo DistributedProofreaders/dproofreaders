@@ -9,7 +9,7 @@ include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
 
 require_login();
 
-$verbose = get_integer_param($_GET, "verbose", 0, 0, 1);
+$verbose = get_bool_param($_GET, "verbose", false);
 $flush_cache = get_bool_param($_GET, "flush_cache", false);
 
 $username = User::current_username();
@@ -98,7 +98,7 @@ if ($verbose) {
 
 // --------------------------------------------------------------------------
 
-function output_link_box($username, $verbose)
+function output_link_box(string $username, bool $verbose): void
 {
     echo "<div id='linkbox'>";
     if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
@@ -115,7 +115,8 @@ function output_link_box($username, $verbose)
 
 // --------------------------------------------------------------------------
 
-function get_table_column_specs()
+/** @return array<string, array{label: string, class?: string}> */
+function get_table_column_specs(): array
 {
     // $colspecs = array (
     //     $id => array ( 'label' => $label, 'class' => $class )
@@ -161,7 +162,9 @@ function get_table_column_specs()
 }
 
 // to make sure that some projects are displayed, iterate over the view order
-function get_view_options($username)
+
+/** @return array<string, array{label: string, text_none: string, text_verbose: string}> */
+function get_view_options(string $username): array
 {
     return [
         "impact" => [
@@ -192,7 +195,8 @@ function get_view_options($username)
     ];
 }
 
-function show_page_menu($all_view_modes, $round_view, $username, $verbose, $key)
+/** @param array<int|string, array{label: string, ...}> $all_view_modes */
+function show_page_menu(array $all_view_modes, string $round_view, string $username, bool $verbose, string $key): void
 {
     $qs_username = "";
     if (User::current_username() != $username) {
@@ -210,7 +214,8 @@ function show_page_menu($all_view_modes, $round_view, $username, $verbose, $key)
     output_tab_bar($all_view_modes, $round_view, $key, "$qs_username$qs_verbose");
 }
 
-function show_headings($colspecs, $username, $anchor)
+/** @param array<string, array{class?: string, label: string}> $colspecs */
+function show_headings(array $colspecs, string $username): void
 {
     echo "<tr>\n";
     foreach ($colspecs as $col_id => $colspec) {
@@ -229,13 +234,17 @@ function show_headings($colspecs, $username, $anchor)
     echo "</tr>\n";
 }
 
-function output_suggestion_table($projects, $colspecs, $username)
+/**
+ * @param array<string, mixed>[] $projects
+ * @param array<string, array{class?: string, label: string}> $colspecs
+ */
+function output_suggestion_table(array $projects, array $colspecs, string $username): void
 {
     global $code_url;
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($colspecs, $username, 'round_view');
+    show_headings($colspecs, $username);
 
     foreach ($projects as $row) {
         echo "<tr>\n";
@@ -316,7 +325,14 @@ function output_suggestion_table($projects, $colspecs, $username)
     echo "<br>\n";
 }
 
-function output_selection_criteria($criteria)
+/**
+ * @param array{
+ *            filters: array<string, string[]|string|bool>,
+ *            weights: array<string, float>,
+ *            ...
+ *        } $criteria
+ */
+function output_selection_criteria(array $criteria): void
 {
     echo "<p>";
     echo _("Available selection criteria. Not all views use all criteria and there is special logic for beginners.");
@@ -364,7 +380,8 @@ function output_selection_criteria($criteria)
     echo "</p>";
 }
 
-function array_get_first($array, $part)
+/** @param array<string, mixed> $array */
+function array_get_first(array $array, string $part): mixed
 {
     $key = array_keys($array)[0];
     if ($part == "key") {

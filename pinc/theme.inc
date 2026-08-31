@@ -1181,7 +1181,7 @@ function get_page_header_image(string $image): string
 /**
  * Output a tab bar of various view modes and a selected mode
  *
- * @param array<int|string, array{label: string, url?: string, postscript?: string}> $view_modes
+ * @param array<int|string, array{label: string, url?: string, postscript?: string, ...}> $view_modes
  *   A complex associative array, eg:
  *   ```
  *   [

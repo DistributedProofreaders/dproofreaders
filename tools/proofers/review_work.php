@@ -87,7 +87,7 @@ echo "</table>";
 echo "<input type='submit' value='", attr_safe(_("Search")), "'>";
 echo "</form>";
 
-function _echo_eval_query_select($selected)
+function _echo_eval_query_select(string $selected): void
 {
     $options = [1 => _("Yes"), 0 => _("No")];
     foreach ($options as $value => $name) {
@@ -99,7 +99,8 @@ function _echo_eval_query_select($selected)
     }
 }
 
-function _echo_round_select($rounds, $selected_round)
+/** @param Round[] $rounds */
+function _echo_round_select(array $rounds, ?Round $selected_round): void
 {
     foreach ($rounds as $round) {
         echo "<option value='" . attr_safe($round->id) . "'";

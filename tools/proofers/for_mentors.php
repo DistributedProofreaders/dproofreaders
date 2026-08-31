@@ -97,7 +97,7 @@ if ($projects_available) {
     echo "<ol>";
     foreach ($projects_available as $proj_obj) {
         echo "<li><a href='#$proj_obj->projectid'>";
-        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
+        output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
         echo "</a></li>";
     }
     echo "</ol>";
@@ -118,7 +118,7 @@ if ($projects_waiting) {
     foreach ($projects_waiting as $proj_obj) {
         $project = new Project($proj_obj->projectid);
         echo "<li>";
-        echo output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
+        output_project_label($proj_obj->nameofwork, $proj_obj->authorsname, $proj_obj->t_left_mentee_round);
         if (in_array($mentoring_round->project_waiting_state, $project->get_hold_states())) {
             // TRANSLATORS: string indicates that the project is "on hold"
             echo sprintf(" <b>[%s]</b>", _("On hold"));
@@ -137,7 +137,7 @@ foreach ($projects_available as $proj_obj) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function output_project_label(string $nameofwork, string $authorsname, ?int $date = null)
+function output_project_label(string $nameofwork, string $authorsname, ?int $date = null): void
 {
     // TRANSLATORS: format is <title> by <author>.
     echo sprintf(_("%1\$s by %2\$s"), $nameofwork, $authorsname);
@@ -151,7 +151,7 @@ function output_project_label(string $nameofwork, string $authorsname, ?int $dat
  * For each mentorable project (in this round), show a summary (one line per mentee)
  * and then a listing (one line per page).
  */
-function output_project_details(Round $mentoring_round, Round $mentored_round, string $projectid, string $nameofwork, string $authorsname)
+function output_project_details(Round $mentoring_round, Round $mentored_round, string $projectid, string $nameofwork, string $authorsname): void
 {
     global $code_url;
 
@@ -180,7 +180,7 @@ function output_project_details(Round $mentoring_round, Round $mentored_round, s
  * We do this per-project instead of at the top so that messages about the
  * checkout are included with the project on the page.
  */
-function checkout_return_project_pages(Round $mentoring_round, Round $mentored_round, string $projectid)
+function checkout_return_project_pages(Round $mentoring_round, Round $mentored_round, string $projectid): void
 {
     // return if the user hasn't requested checkouts/returns for this project
     if ((!isset($_POST["checkout_proofreader"]) && !isset($_POST["return_proofreader"]))
@@ -273,6 +273,7 @@ function checkout_return_project_pages(Round $mentoring_round, Round $mentored_r
 
 // -------------------------------------------------------------------
 
+/** @return object[] */
 function get_beginner_projects_in_state(string $state, Round $mentored_round): array
 {
     $mentored_round_detail = $mentored_round->project_complete_state;
@@ -307,7 +308,7 @@ function get_beginner_projects_in_state(string $state, Round $mentored_round): a
 
 // -------------------------------------------------------------------
 
-function output_page_summary_table(Round $mentored_round, string $projectid)
+function output_page_summary_table(Round $mentored_round, string $projectid): void
 {
     global $code_url;
 
@@ -390,7 +391,7 @@ function output_page_summary_table(Round $mentored_round, string $projectid)
 
 // -------------------------------------------------------------------
 
-function output_page_list_table(Round $mentored_round, string $projectid)
+function output_page_list_table(Round $mentored_round, string $projectid): void
 {
     echo "<input type='hidden' name='projectid' value='$projectid'>";
     echo "<table class='striped basic'>";

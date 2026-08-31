@@ -42,13 +42,6 @@ parameters:
               - tools/project_manager/show_image_sources.php
               - tools/project_manager/show_specials.php
               - tools/project_manager/update_illos.php
-              - tools/proofers/for_mentors.php
-              - tools/proofers/images_index.php
-              - tools/proofers/mktable.php
-              - tools/proofers/my_projects.php
-              - tools/proofers/my_suggestions.php
-              - tools/proofers/proof_frame.php
-              - tools/proofers/review_work.php
         - identifier: missingType.parameter
           paths:
               - tools/project_manager/bad_bytes_explainer.php
@@ -62,12 +55,6 @@ parameters:
               - tools/project_manager/projectmgr.php
               - tools/project_manager/show_good_word_suggestions_detail.php
               - tools/project_manager/update_illos.php
-              - tools/proofers/images_index.php
-              - tools/proofers/mktable.php
-              - tools/proofers/my_projects.php
-              - tools/proofers/my_suggestions.php
-              - tools/proofers/proof_frame.php
-              - tools/proofers/review_work.php
         - identifier: missingType.iterableValue
           paths:
               - tools/project_manager/page_compare.php
@@ -77,7 +64,6 @@ parameters:
               - tools/project_manager/show_good_word_suggestions.php
               - tools/project_manager/show_project_possible_bad_words.php
               - tools/project_manager/show_project_stealth_scannos.php
-              - tools/proofers/for_mentors.php
 
         # Errors in third party code, and our interfaces to it
         - message: '#Property .* does not accept false#'
