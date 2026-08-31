@@ -792,7 +792,7 @@ function get_current_dir_relative_path(string $home_dirname): string
     return preg_replace("#^$abs_uploads_dir/*#", "", $abspath);
 }
 
-function get_access_mode(string $username)
+function get_access_mode(string $username): ?string
 {
     $userSettings = & Settings::get_settings($username);
     return $userSettings->get_value("remote_file_manager");

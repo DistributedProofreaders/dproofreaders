@@ -27,7 +27,7 @@ function get_cutoff_string(array $cutoffOptions, string $labelSuffix = ""): stri
  * Given the list of cutoff options and the word count
  * make sure the initial cutoff shows something
  * @param int[] $cutoffOptions
- * @param ?array<string, int> $wordCount
+ * @param ?array<string, int|numeric-string> $wordCount
  */
 function getInitialCutoff(int $idealCutoff, array $cutoffOptions, ?array $wordCount = null): int
 {
@@ -70,7 +70,7 @@ function getInitialCutoff(int $idealCutoff, array $cutoffOptions, ?array $wordCo
  *   Initial cutoff frequency, anything after this is hidden
  * @param int[] $cutoffOptions
  *   List of javascript cutoff options (eg: [1,2,3,4,5])
- * @param array<string, int> $wordCount
+ * @param array<string, int|numeric-string> $wordCount
  *   A table containing the word/frequency pairs already
  *   sorted and ready for display.
  *   Can contain the following special keys used for formatting
@@ -389,7 +389,7 @@ function parse_posted_words(array $words): array
 }
 
 /**
- * @param array<string, int> $array
+ * @param array<string, int|numeric-string> $array
  * @return string[]
  */
 function build_checkbox_array(array $array, string $instance = "0"): array

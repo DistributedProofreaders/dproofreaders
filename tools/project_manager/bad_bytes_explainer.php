@@ -148,7 +148,7 @@ echo "
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_a_table_of_bads($desired_badness)
+function show_a_table_of_bads(string $desired_badness): void
 {
     echo "
         <table class='basic striped'>

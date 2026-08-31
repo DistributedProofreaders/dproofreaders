@@ -73,7 +73,7 @@ echo "<br>\n";
 
 // =============================================================================
 
-function output_column_headers()
+function output_column_headers(): void
 {
     echo "<tr>";
     echo "<th>" . _("Symbol") . "</th>";

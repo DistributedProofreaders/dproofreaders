@@ -58,7 +58,7 @@ if ($action == 'show_query_form') {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function show_query_form()
+function show_query_form(): void
 {
     global $search_params;
     global $PGLAF_inprogress_url;
@@ -144,7 +144,7 @@ function show_query_form()
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function do_search_and_show_hits()
+function do_search_and_show_hits(): void
 {
     output_header("Search Results");
     echo "<br>";
@@ -346,7 +346,7 @@ function display_record_table(MARCRecord $marc_record, bool $hide_nontext): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function query_format()
+function query_format(): string
 {
     global $serial_attrs;
     // Build a Z39.50 Type-1 query.

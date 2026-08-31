@@ -200,6 +200,7 @@ echo "</div></div>";
 //---------------------------------------------------------------------------
 // supporting page functions
 
+/** @return list{array<string, int>, array<string, int>} */
 function _get_all_suggestions_word_list(string $projectid, int $time_cutoff): array
 {
     $suggestions = load_project_good_word_suggestions_flat($projectid, $time_cutoff);
@@ -246,6 +247,7 @@ function _get_all_suggestions_word_list(string $projectid, int $time_cutoff): ar
     return [$all_suggestions_w_freq, $all_suggestions_w_occurrences];
 }
 
+/** @return array<string, list{string, string}> */
 function _get_projects_for_pm(string $pm): array
 {
     $returnArray = [];
@@ -268,6 +270,7 @@ function _get_projects_for_pm(string $pm): array
     return $returnArray;
 }
 
+/** @return string[] */
 function _get_project_states_in_order(): array
 {
     $projectStates = [];

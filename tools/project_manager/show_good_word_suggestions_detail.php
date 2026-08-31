@@ -106,7 +106,8 @@ echo "<p style='margin: 0.5em;'>" . _("Select one of the page links to view the 
 echo "</div>";
 echo "</div>";
 
-function _get_word_context_on_page($projectid, $page, $roundid, $word)
+/** @return list{array<int, string>, int} */
+function _get_word_context_on_page(string $projectid, string $page, string $roundid, string $word): array
 {
     $page_text = Page_getText($projectid, $page, get_Round_for_round_id($roundid)->text_column_name);
     return _get_word_context_from_text($page_text, $word);

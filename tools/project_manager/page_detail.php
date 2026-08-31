@@ -81,7 +81,7 @@ foreach ($errors as $error) {
 echo "<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "</p>\n";
 
 
-function echo_filter_box(string $projectid, int $show_image_size, ?string $username, ?Round $round)
+function echo_filter_box(string $projectid, int $show_image_size, ?string $username, ?Round $round): void
 {
     $username = $username === '' ? User::current_username() : $username;
     $roundid = $round ? $round->id : '';

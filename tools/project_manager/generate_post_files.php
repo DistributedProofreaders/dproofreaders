@@ -66,7 +66,7 @@ if ($errors) {
     exit();
 }
 
-function output_page_header($project)
+function output_page_header(Project $project): void
 {
     global $round_id, $which_text, $include_proofers, $save_files;
 

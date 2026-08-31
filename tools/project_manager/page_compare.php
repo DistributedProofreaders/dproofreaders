@@ -149,6 +149,7 @@ class Comparator
         echo "</p>";
     }
 
+    /** @param string[] $rounds */
     private function selector_string(Round $selected_round, string $name, array $rounds): string
     {
         $sel_str = "<select name=$name>";

@@ -155,8 +155,9 @@ if ($operation == 'replace') {
  *
  * If there's a problem, return a string containing an error message.
  * If no problem, return the empty string.
+ * @param array<string, mixed> $replacement_image_info
  */
-function handle_upload($projectid, $image, $replacement_image_info)
+function handle_upload(string $projectid, string $image, array $replacement_image_info): string
 {
     global $projects_dir;
 
@@ -199,7 +200,7 @@ function handle_upload($projectid, $image, $replacement_image_info)
  * If there's a problem, return a string containing an error message.
  * If no problem, return the empty string.
  */
-function handle_delete($projectid, $image)
+function handle_delete(string $projectid, string $image): string
 {
     global $projects_dir;
 
@@ -218,8 +219,9 @@ function handle_delete($projectid, $image)
  *
  * If there's a problem, return a string containing an error message.
  * If no problem, return the empty string.
+ * @param string[] $nonpage_image_names
  */
-function handle_delete_all($projectid, $nonpage_image_names)
+function handle_delete_all(string $projectid, array $nonpage_image_names): string
 {
     global $projects_dir;
 
