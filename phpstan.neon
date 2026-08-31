@@ -26,12 +26,10 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - credits.php
               - faq/font_sample.php
               - faq/privacy.php
               - faq/prooffacehelp.php
               - faq/wordcheck_data.php
-              - index.php
               - locale/translators/index.php
               - quiz/generic/returnfeed.php
               - quiz/generic/wizard/checks.php
@@ -45,7 +43,6 @@ parameters:
               - stats/pp_stage_goal.php
               - stats/round_backlog.php
               - stats/round_backlog_days.php
-              - tasks.php
               - tools/changestate.php
               - tools/modify_access.php
               - tools/post_proofers/ppv_report.php
@@ -78,7 +75,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - credits.php
               - faq/font_sample.php
               - faq/privacy.php
               - faq/prooffacehelp.php
@@ -93,7 +89,6 @@ parameters:
               - stats/index.php
               - stats/misc_stats1.php
               - stats/pp_stage_goal.php
-              - tasks.php
               - tools/changestate.php
               - tools/modify_access.php
               - tools/post_proofers/ppv_report.php
@@ -119,9 +114,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.iterableValue
           paths:
-              - credits.php
-              - index.php
-              - tasks.php
               - tools/project_manager/page_compare.php
               - tools/project_manager/show_adhoc_word_details.php
               - tools/project_manager/show_all_good_word_suggestions.php
