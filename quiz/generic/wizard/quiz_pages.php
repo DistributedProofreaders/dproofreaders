@@ -11,7 +11,7 @@ if (!user_is_a_sitemanager()) {
 
 output_header(_('Quiz Wizard'));
 
-function evalpages()
+function evalpages(): bool
 {
     if (isset($_SESSION['quiz_data']['pages'][$_POST['page_id']])) {
         return false;
@@ -21,7 +21,7 @@ function evalpages()
     }
 }
 
-function evalstart()
+function evalstart(): void
 {
     $_SESSION['quiz_data']['quiz_id'] = $_POST['quiz_id'];
     $_SESSION['quiz_data']['quiz_name'] = $_POST['quiz_name'];
@@ -30,12 +30,10 @@ function evalstart()
     $_SESSION['quiz_data']['thread'] = $_POST['thread'];
 }
 
-function filltext($x)
+function filltext(string $x): string
 {
     global $fill;
-    if ($fill) {
-        return html_safe($_POST[$x]);
-    }
+    return $fill ? html_safe($_POST[$x]) : "";
 }
 
 echo "<h2>" . _("Add Quiz Pages") . "</h2>";

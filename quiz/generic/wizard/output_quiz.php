@@ -11,24 +11,24 @@ if (!user_is_a_sitemanager()) {
 
 output_header(_('Quiz Wizard'));
 
-function ssqs($x)
+function ssqs(string $x): string
 {
     return str_replace('\\\'', '\'', $x);
 }
 
-function enl($x)
+function enl(string $x): string
 {
     $out = str_replace("\r\n", '\n', $x);
     return str_replace("\n", '\n', $out);
 }
 
-function sdbsn($x)
+function sdbsn(string $x): string
 {
     return str_replace('\\\\n', '\\n', $x);
 }
 
 
-function make_output()
+function make_output(): string
 {
     $out = '$' . ssqs($_SESSION['quiz_data']['quiz_id']) . " = new Quiz(\n";
     $out .= ' "' . ssqs($_SESSION['quiz_data']['quiz_id']) . "\",\n";
