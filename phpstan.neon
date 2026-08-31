@@ -26,10 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - faq/font_sample.php
-              - faq/privacy.php
-              - faq/prooffacehelp.php
-              - faq/wordcheck_data.php
               - locale/translators/index.php
               - quiz/generic/returnfeed.php
               - quiz/generic/wizard/checks.php
@@ -75,10 +71,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - faq/font_sample.php
-              - faq/privacy.php
-              - faq/prooffacehelp.php
-              - faq/wordcheck_data.php
               - locale/translators/index.php
               - quiz/generic/returnfeed.php
               - quiz/generic/wizard/messages.php
