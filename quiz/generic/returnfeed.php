@@ -34,7 +34,7 @@ echo "\n</div>\n";
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function remove_insignificant_whitespace($x)
+function remove_insignificant_whitespace(string $x): string
 {
     // Remove blank lines at the bottom of the text
     // (and whitespace at the end of the last non-blank line).
@@ -42,18 +42,13 @@ function remove_insignificant_whitespace($x)
 
     // Remove whitespace at the end of each line.
     // (Note that this also converts line-ends from CRLF to just LF.)
-    $arr = explode("\n", $x);
-    foreach ($arr as $line) {
-        $out[] = rtrim($line);
-    }
-
-    return implode("\n", $out);
+    return implode("\n", array_map(rtrim(...), explode("\n", $x)));
 
     // This function is similar to _normalize_page_text() in pinc/DPage.inc.
     // Should we just call that one instead?
 }
 
-function handle_anticipated_error()
+function handle_anticipated_error(): bool
 {
     global $tests, $text;
 
@@ -68,7 +63,7 @@ function handle_anticipated_error()
     return false;
 }
 
-function handle_unanticipated_error()
+function handle_unanticipated_error(): bool
 {
     global $text;
 
@@ -77,7 +72,7 @@ function handle_unanticipated_error()
     return qp_compare_texts($text, $solution);
 }
 
-function handle_solved()
+function handle_solved(): bool
 {
     global $pguser;
     global $quiz_page_id;

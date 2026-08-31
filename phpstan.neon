@@ -26,12 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - quiz/generic/returnfeed.php
-              - quiz/generic/wizard/checks.php
-              - quiz/generic/wizard/messages.php
-              - quiz/generic/wizard/output.php
-              - quiz/generic/wizard/output_quiz.php
-              - quiz/generic/wizard/quiz_pages.php
               - stats/equilibria.php
               - stats/index.php
               - stats/misc_stats1.php
@@ -70,11 +64,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - quiz/generic/returnfeed.php
-              - quiz/generic/wizard/messages.php
-              - quiz/generic/wizard/output.php
-              - quiz/generic/wizard/output_quiz.php
-              - quiz/generic/wizard/quiz_pages.php
               - stats/equilibria.php
               - stats/index.php
               - stats/misc_stats1.php
