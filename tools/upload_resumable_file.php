@@ -83,7 +83,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
  * edge failure cases where all of the parts have been uploaded in a prior
  * attempt but not yet reassembled.
  */
-function reassemble()
+function reassemble(): void
 {
     global $root_staging_dir, $staging_dir, $hashed_filename;
     global $total_chunks, $total_size;
@@ -130,7 +130,7 @@ function reassemble()
     }
 }
 
-function report_error($error, $response_code = 204)
+function report_error(string $error, int $response_code = 204): void
 {
     // by default return a 204 which will cause the resumable upload
     // to retry the chunk upload

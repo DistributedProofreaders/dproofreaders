@@ -26,8 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - tools/changestate.php
-              - tools/modify_access.php
               - tools/post_proofers/ppv_report.php
               - tools/project_manager/bad_bytes_explainer.php
               - tools/project_manager/clearance_check.php
@@ -52,14 +50,9 @@ parameters:
               - tools/proofers/my_suggestions.php
               - tools/proofers/proof_frame.php
               - tools/proofers/review_work.php
-              - tools/set_project_event_subs.php
               - tools/site_admin/projects_with_odd_values.php
-              - tools/site_search.php
-              - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - tools/changestate.php
-              - tools/modify_access.php
               - tools/post_proofers/ppv_report.php
               - tools/project_manager/bad_bytes_explainer.php
               - tools/project_manager/clearance_check.php
@@ -78,9 +71,7 @@ parameters:
               - tools/proofers/my_suggestions.php
               - tools/proofers/proof_frame.php
               - tools/proofers/review_work.php
-              - tools/set_project_event_subs.php
               - tools/site_admin/projects_with_odd_values.php
-              - tools/upload_resumable_file.php
         - identifier: missingType.iterableValue
           paths:
               - tools/project_manager/page_compare.php
@@ -94,7 +85,6 @@ parameters:
               - tools/site_admin/copy_pages.php
               - tools/site_admin/delete_pages.php
               - tools/site_admin/shared_postednums.php
-              - tools/site_search.php
 
         # Errors in third party code, and our interfaces to it
         - message: '#Property .* does not accept false#'

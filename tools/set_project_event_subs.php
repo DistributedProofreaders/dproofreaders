@@ -39,7 +39,8 @@ _html_ul(
     $unsubs
 );
 
-function _html_ul($header, $items)
+/** @param string[] $items */
+function _html_ul(string $header, array $items): void
 {
     echo "<p>" . html_safe($header) . "</p>";
     echo "<ul>\n";
