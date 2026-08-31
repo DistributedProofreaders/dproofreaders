@@ -214,7 +214,7 @@ include($relPath.'/../faq/privacy.php');
 /**
  * Validate the user input fields for the page.
  *
- * Returns an empty string or Null upon success and an error message upon failure.
+ * Returns an empty string on success and an error message on failure.
  */
 function _validate_fields(
     string $real_name,
@@ -226,7 +226,7 @@ function _validate_fields(
     bool $email_updates,
     string $referrer,
     string $referrer_details
-) {
+): string {
     // Make sure that password and confirmed password are equal.
     if ($userpass != $userpass2) {
         return _("The passwords you entered were not equal.");
@@ -254,8 +254,7 @@ function _validate_fields(
 
     // Do some validity-checks on inputted username, password, e-mail and real name
 
-    $err = check_username($username, true);
-    if ($err != '') {
+    if (($err = check_username($username, true)) != '') {
         return $err;
     }
 
@@ -264,8 +263,7 @@ function _validate_fields(
     // thinks the domain should end in a 2-63 character top level
     // domain, so disable the address check for testing.
     if (!SiteConfig::get()->testing) {
-        $err = check_email_address($email);
-        if ($err != '') {
+        if (($err = check_email_address($email)) != '') {
             return $err;
         }
     }
@@ -303,7 +301,7 @@ function _validate_fields(
     return '';
 }
 
-function _validate_csrf()
+function _validate_csrf(): string
 {
     try {
         validate_csrf_token();
