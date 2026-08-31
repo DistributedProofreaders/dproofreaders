@@ -57,7 +57,7 @@ show_news_for_page("STATS");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //General site stats with links to view the queue's
 
-function count_books_in_state($state, $clauses = "")
+function count_books_in_state(string $state, string $clauses = ""): int
 {
     $sql = sprintf(
         "

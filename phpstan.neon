@@ -26,12 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - stats/equilibria.php
-              - stats/index.php
-              - stats/misc_stats1.php
-              - stats/pp_stage_goal.php
-              - stats/round_backlog.php
-              - stats/round_backlog_days.php
               - tools/changestate.php
               - tools/modify_access.php
               - tools/post_proofers/ppv_report.php
@@ -64,10 +58,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - stats/equilibria.php
-              - stats/index.php
-              - stats/misc_stats1.php
-              - stats/pp_stage_goal.php
               - tools/changestate.php
               - tools/modify_access.php
               - tools/post_proofers/ppv_report.php
@@ -179,7 +169,9 @@ parameters:
                 downloadLabel?: string,
                 legendAdjustment?: array{x?: int, y?: int},
                 bottomLegend?: string,
-                data: array<
+                labels?: string[],
+                error?: string,
+                data: int[]|array<
                     string,
                     array{type?: string, x: string[], y: mixed[]}
                     >,
