@@ -110,6 +110,7 @@ echo "</ul>";
 
 //----------------------------------------------------------------------------
 
+/** @return array<string, array{url: string, desc: string, alias?: string}> */
 function get_prefix_searches(bool $flatten_aliases = false): array
 {
     global $code_url, $wiki_url;
@@ -173,6 +174,7 @@ function get_prefix_searches(bool $flatten_aliases = false): array
     return $prefix_searches;
 }
 
+/** @return array<string, array{url: string, desc: string, alias?: string}> */
 function get_jump_words(bool $flatten_aliases = false): array
 {
     global $code_url;
@@ -275,6 +277,7 @@ function get_jump_words(bool $flatten_aliases = false): array
     return $jump_words;
 }
 
+/** @return array<string, string> */
 function get_activity_jumps(): array
 {
     global $code_url;
@@ -294,7 +297,7 @@ function get_activity_jumps(): array
     return $activity_jumps;
 }
 
-function jump_search(string $query)
+function jump_search(string $query): void
 {
     $query = strtolower($query);
     $jump_words = get_jump_words(true);
@@ -303,7 +306,7 @@ function jump_search(string $query)
     }
 }
 
-function smart_search(string $query)
+function smart_search(string $query): void
 {
     global $code_url;
 
@@ -322,7 +325,7 @@ function smart_search(string $query)
     }
 }
 
-function prefix_search(string $query)
+function prefix_search(string $query): void
 {
     $matches = [];
     if (!preg_match('/^(\w+):\s*(.*)$/', $query, $matches)) {

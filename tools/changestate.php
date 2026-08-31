@@ -44,7 +44,7 @@ if ($transition->why_disabled($project) == 'SR') {
     fatal_error($body);
 }
 
-function fatal_error($msg)
+function fatal_error(string $msg): never
 {
     global $project, $curr_state, $next_state;
 
@@ -136,7 +136,7 @@ metarefresh(2, $refresh_url, $title, $body);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function prepare_url($url_template)
+function prepare_url(string $url_template): string
 {
     global $projectid, $return_uri;
 
@@ -150,7 +150,7 @@ function prepare_url($url_template)
     return $url;
 }
 
-function output_page_header()
+function output_page_header(): void
 {
     $title = _("Change Project State");
     slim_header($title);
