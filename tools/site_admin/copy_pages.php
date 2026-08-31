@@ -146,6 +146,10 @@ switch ($action) {
         break;
 }
 
+/**
+ * @param array{from: string, to: string} $projectid_
+ * @param array{lo: string, hi: string} $from_image_
+ */
 function display_copy_pages_form(
     ?array $projectid_,
     ?array $from_image_,
@@ -242,6 +246,10 @@ function do_radio_button_pair(string $prompt, string $input_name, bool $repeatin
     echo "</td></tr>\n";
 }
 
+/**
+ * @param array{from: string, to: string} $projectid_
+ * @param array{lo: string, hi: string} $from_image_
+ */
 function display_hiddens(
     array $projectid_,
     array $from_image_,
@@ -260,6 +268,10 @@ function display_hiddens(
     echo "\n<input type='hidden' name='copy_format_preview_data' value='" . ($copy_format_preview_data ? 1 : 0) . "'>";
 }
 
+/**
+ * @param ?array{from: string, to: string} $projectid_
+ * @param ?array{lo: string, hi: string} $from_image_
+ */
 function copy_pages(
     ?array $projectid_,
     ?array $from_image_,

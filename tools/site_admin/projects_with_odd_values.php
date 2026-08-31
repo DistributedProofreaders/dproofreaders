@@ -48,7 +48,8 @@ foreach (load_projects_with_bad_values($lc) as $property => $projects) {
 
 // ---------------------------------------------------------------------------
 
-function load_common_values()
+/** @return array<string, array<string, int>> */
+function load_common_values(): array
 {
     $lc = [];
 
@@ -85,7 +86,11 @@ function load_common_values()
     return $lc;
 }
 
-function load_projects_with_bad_values($lc)
+/**
+ * @param array<string, array<string, int>> $lc
+ * @return array<string, Project[]>
+ */
+function load_projects_with_bad_values($lc): array
 {
     $projects_with_bad = [];
 

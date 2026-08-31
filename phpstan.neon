@@ -49,7 +49,6 @@ parameters:
               - tools/proofers/my_suggestions.php
               - tools/proofers/proof_frame.php
               - tools/proofers/review_work.php
-              - tools/site_admin/projects_with_odd_values.php
         - identifier: missingType.parameter
           paths:
               - tools/project_manager/bad_bytes_explainer.php
@@ -69,7 +68,6 @@ parameters:
               - tools/proofers/my_suggestions.php
               - tools/proofers/proof_frame.php
               - tools/proofers/review_work.php
-              - tools/site_admin/projects_with_odd_values.php
         - identifier: missingType.iterableValue
           paths:
               - tools/project_manager/page_compare.php
@@ -80,9 +78,6 @@ parameters:
               - tools/project_manager/show_project_possible_bad_words.php
               - tools/project_manager/show_project_stealth_scannos.php
               - tools/proofers/for_mentors.php
-              - tools/site_admin/copy_pages.php
-              - tools/site_admin/delete_pages.php
-              - tools/site_admin/shared_postednums.php
 
         # Errors in third party code, and our interfaces to it
         - message: '#Property .* does not accept false#'

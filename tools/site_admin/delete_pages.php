@@ -56,6 +56,7 @@ switch ($action) {
         break;
 }
 
+/** @param ?array{lo: string, hi: string} $from_image_ */
 function display_delete_pages_form(string $action, ?string $projectid, ?array $from_image_): void
 {
     echo "<form method='post'>\n";
@@ -97,6 +98,7 @@ function display_delete_pages_form(string $action, ?string $projectid, ?array $f
     echo "<p><b>Note:</b> 'pages' are specified by their designation in the project table: e.g., '001.png'</p>\n";
 }
 
+/** @param ?array{lo: string, hi: string} $from_image_ */
 function delete_pages(?string $projectid, ?array $from_image_, bool $just_checking): void
 {
     echo "<pre>";
