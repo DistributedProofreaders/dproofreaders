@@ -9,14 +9,15 @@ include_once($relPath.'User.inc');
 include_once($relPath.'CharSuites.inc');
 include_once($relPath.'Project.inc'); // load_image_sources()
 
-function just_echo($field_value)
+function just_echo(string $field_value): void
 {
     echo html_safe($field_value);
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function text_field($field_value, $field_name, $args = [])
+/** @param array{maxlength?: int, required?: bool, type?: string, min?: int} $args */
+function text_field(?string $field_value, string $field_name, array $args = []): void
 {
     $maxlength = $args["maxlength"] ?? null;
     $maxlength_attr = $maxlength ? "maxlength='$maxlength'" : '';
@@ -32,7 +33,8 @@ function text_field($field_value, $field_name, $args = [])
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function DP_user_field($field_value, $field_name, $args = [])
+/** @param array{maxlength?: int, required?: bool, type?: string, min?: int} $args */
+function DP_user_field(string $field_value, string $field_name, array $args = []): void
 {
     $required = $args["required"] ?? false;
     $required_attr = $required ? " required" : "";
@@ -44,7 +46,7 @@ function DP_user_field($field_value, $field_name, $args = [])
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function language_list($language)
+function language_list(string $language): void
 {
     $languages = Project::decode_language($language);
     $pri_language = $languages[0];
@@ -67,7 +69,7 @@ function language_list($language)
     echo "</select>\n";
 }
 
-function echo_language_options($default)
+function echo_language_options(string $default): void
 {
     $langs_with_dicts = array_flip(get_languages_with_dictionaries());
     ksort($langs_with_dicts);
@@ -96,7 +98,7 @@ function echo_language_options($default)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function genre_list($genre)
+function genre_list(string $genre): void
 {
     $genres = load_genre_translation_array();
     echo "<select name='genre' required>\n";
@@ -114,7 +116,11 @@ function genre_list($genre)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function charsuite_list($charsuites, $project_charsuites)
+/**
+ * @param string[] $charsuites
+ * @param CharSuite[] $project_charsuites
+ */
+function charsuite_list(array $charsuites, array $project_charsuites): void
 {
     $enabled_charsuites = CharSuites::get_enabled();
 
@@ -143,7 +149,7 @@ function charsuite_list($charsuites, $project_charsuites)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function difficulty_list($difficulty_level)
+function difficulty_list(string $difficulty_level): void
 {
     global $pguser;
 
@@ -165,7 +171,7 @@ function difficulty_list($difficulty_level)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function special_list($special)
+function special_list(string $special): void
 {
     $special_days = load_special_days();
     sort_special_days($special_days, "open_month,open_day");
@@ -256,7 +262,7 @@ function special_list($special)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function image_source_list($image_source)
+function image_source_list(string $image_source): void
 {
     $imso_array = [];
     foreach (load_image_sources() as $code => $source) {
@@ -286,7 +292,7 @@ function image_source_list($image_source)
     echo "<br>";
 }
 
-function maybe_echo_placeholder_option($initial)
+function maybe_echo_placeholder_option(string $initial): void
 {
     if ("" == $initial) {
         // none of the real options can have this value
@@ -295,8 +301,8 @@ function maybe_echo_placeholder_option($initial)
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-function proj_comments_format($comment_format)
+/** @param 'markdown'|'html' $comment_format */
+function proj_comments_format(string $comment_format): void
 {
     $comment_format_list = [
         'markdown' => new_window_link('https://www.pgdp.net/wiki/Markdown', 'Markdown'),
@@ -315,7 +321,7 @@ function proj_comments_format($comment_format)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function proj_comments_field($comments, $field_name)
+function proj_comments_field(string $comments, ?string $_field_name): void
 {
     $enc_comments = html_safe($comments);
 
@@ -324,7 +330,7 @@ function proj_comments_field($comments, $field_name)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function word_lists($value, $fieldname, $projectid)
+function word_lists(?string $_value, ?string $_fieldname, string $projectid): void
 {
     echo new_window_link(
         "edit_project_word_lists.php?projectid=$projectid",
@@ -334,7 +340,7 @@ function word_lists($value, $fieldname, $projectid)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function extra_credits_field($extra_credits)
+function extra_credits_field(string $extra_credits): void
 {
     $enc_credits = html_safe($extra_credits);
 
@@ -345,7 +351,7 @@ function extra_credits_field($extra_credits)
 
 
 
-function description_field($description, $field_name)
+function description_field(string $description, string $field_name): void
 {
     $enc_description = html_safe($description);
 

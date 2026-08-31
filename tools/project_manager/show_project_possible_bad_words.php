@@ -113,7 +113,7 @@ echo_checkbox_selects();
 echo_checkbox_form_start($checkbox_form);
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 
-printTableFrequencies($initialFreq, $cutoffOptions, $bad_words_w_freq, $context_array, $word_checkbox);
+printTableFrequencies($initialFreq, $cutoffOptions, $bad_words_w_freq, [$context_array], $word_checkbox);
 
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 echo_checkbox_form_end();
