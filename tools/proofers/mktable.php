@@ -150,7 +150,14 @@ for ($i = 0; $i < $row; $i++) {
 
 //----------------------------------------------------------------------------
 
-function generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord)
+/**
+ * @param string[][][] $a
+ * @param int[] $al
+ * @param int[] $tll
+ * @param int[] $val
+ * @param int[] $lng
+ */
+function generate_ascii_table(int $row, int $col, array $a, array $al, array $tll, array $val, array $lng, bool $bord): void
 {
     global $charset;
 
@@ -184,7 +191,8 @@ function generate_ascii_table($row, $col, $a, $al, $tll, $val, $lng, $bord)
     }
 }
 
-function hline($col, $lng, $bord)
+/** @param int[] $lng */
+function hline(int $col, array $lng, bool $bord): void
 {
     if ($bord) {
         echo "+";
@@ -199,12 +207,16 @@ function hline($col, $lng, $bord)
     echo "\n";
 }
 
-function str_not_empty($str)
+function str_not_empty(string $str): bool
 {
     return $str !== "";
 }
 
-function array_pad_internal($input, $pad_size, $pad_type)
+/**
+ * @param string[][] $input
+ * @return string[][]
+ */
+function array_pad_internal(array $input, int $pad_size, int $pad_type): array
 {
     if ($pad_type == ARRAY_PAD_BOTH) {
         return array_pad(
@@ -221,7 +233,11 @@ function array_pad_internal($input, $pad_size, $pad_type)
     }
 }
 
-function table_pad($table, $rows, $columns, $value = "")
+/**
+ * @param string[][] $table
+ * @return string[][]
+ */
+function table_pad(array $table, int $rows, int $columns, string $value = ""): array
 {
     for ($i = 0; $i < $rows; $i++) {
         if (!isset($table[$i])) {

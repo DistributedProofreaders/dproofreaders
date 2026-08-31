@@ -123,13 +123,14 @@ echo_proof_frame($ppage);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function setDebounceInfo($project)
+function setDebounceInfo(string $project): void
 {
     dpsession_page_set($project . '|' . time());
 }
 
-function getDebounceInfo()
+/** @return array{project: string, pageTime: int} */
+function getDebounceInfo(): array
 {
     [$project, $time] = explode("|", dpsession_page_get());
-    return ['project' => $project, 'pageTime' => $time];
+    return ['project' => $project, 'pageTime' => (int) $time];
 }

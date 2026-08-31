@@ -93,7 +93,8 @@ if (!is_null($zip_type)) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function list_images($project, $image_names, $these_are_page_images)
+/** @param string[] $image_names */
+function list_images(Project $project, array $image_names, bool $these_are_page_images): void
 {
     global $code_url;
 
@@ -170,7 +171,8 @@ function list_images($project, $image_names, $these_are_page_images)
     echo "</table>\n";
 }
 
-function show_dl_link($projectid, $image_names, $these_are_page_images)
+/** @param string[] $image_names */
+function show_dl_link(string $projectid, array $image_names, bool $these_are_page_images): void
 {
     global $code_url;
 
@@ -191,7 +193,8 @@ function show_dl_link($projectid, $image_names, $these_are_page_images)
     }
 }
 
-function show_delete_all_link($project, $image_names)
+/** @param string[] $image_names */
+function show_delete_all_link(Project $project, array $image_names): void
 {
     global $code_url;
 
