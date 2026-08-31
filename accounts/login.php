@@ -127,7 +127,7 @@ metarefresh(0, $url);
  * @param string $destination
  *   A URL where the user should be redirected back to upon a successful login.
  */
-function login_failure($error_code, $destination)
+function login_failure(string $error_code, string $destination): never
 {
     global $code_url;
 
