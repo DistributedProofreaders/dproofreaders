@@ -83,13 +83,13 @@ class ProjectWordListHolder
     public int $gwl_timestamp;
 
 
-    public function __construct($projectid)
+    public function __construct(string $projectid)
     {
         $this->projectid = $projectid;
         $this->project = new Project($projectid);
     }
 
-    public function validate_project_and_access()
+    public function validate_project_and_access(): ?string
     {
         if (!$this->project->dir_exists) {
             return _("Project directory does not exist, unable to manage word lists.");
@@ -102,7 +102,8 @@ class ProjectWordListHolder
         return null;
     }
 
-    public function set_from_files($load_good_words = true, $load_bad_words = true)
+    /** @return string[] */
+    public function set_from_files(bool $load_good_words = true, bool $load_bad_words = true): array
     {
         $errors = [];
 
@@ -134,7 +135,7 @@ class ProjectWordListHolder
         return $errors;
     }
 
-    public function set_from_post()
+    public function set_from_post(): void
     {
         $this->good_words = @$_POST['good_words'];
         $this->bad_words = @$_POST['bad_words'];
@@ -145,7 +146,8 @@ class ProjectWordListHolder
 
     // -------------------------------------------------------------------------
 
-    public function save_to_files()
+    /** @return list{bool, bool, string[]} */
+    public function save_to_files(): array
     {
         $good_word_conflict = $bad_word_conflict = false;
         $messages = [];
@@ -187,7 +189,7 @@ class ProjectWordListHolder
 
     // =========================================================================
 
-    public function show_form()
+    public function show_form(): void
     {
         echo "<form method='post' enctype='multipart/form-data' action='". attr_safe($_SERVER['PHP_SELF']) ."'>";
 
@@ -222,7 +224,7 @@ class ProjectWordListHolder
 
     // -------------------------------------------------------------------------
 
-    public function show_hidden_controls()
+    public function show_hidden_controls(): void
     {
         global $return;
 
@@ -233,7 +235,7 @@ class ProjectWordListHolder
     }
 
 
-    public function show_visible_controls()
+    public function show_visible_controls(): void
     {
         $goodWordData = html_safe($this->good_words);
         $badWordData = html_safe($this->bad_words);
@@ -425,7 +427,7 @@ class ProjectWordListHolder
     }
 
 
-    public function number_of_pages_in_round($round)
+    public function number_of_pages_in_round(?Round $round): int
     {
         if (!$this->project->pages_table_exists) {
             return 0;

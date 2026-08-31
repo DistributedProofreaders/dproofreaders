@@ -240,6 +240,17 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
+/**
+ * @return list{
+ *             array<string, int>,                // $all_suggestions_w_freq
+ *             array<string, int>,                // $all_suggestions_w_occurrences
+ *             array<string, array<string, int>>, // $round_suggestions_w_freq
+ *             array<string, array<string, int>>, // $round_suggestions_w_occurrences
+ *             string[],                          // $rounds
+ *             int[],                             // $round_page_count
+ *             string[],                          // $messages
+ *         }
+ */
 function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
 {
     $messages = [];

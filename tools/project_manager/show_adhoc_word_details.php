@@ -152,6 +152,10 @@ if (count($queryWords)) {
 //---------------------------------------------------------------------------
 // supporting page functions
 
+/**
+ * @param string[] $queryWords
+ * @return list{array<string, int>, string[]}
+ */
 function _get_adhoc_word_list(string $projectid, array $queryWords): array
 {
     $messages = [];

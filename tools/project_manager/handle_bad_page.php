@@ -163,7 +163,7 @@ if (!$resolution) {
 
 //----------------------------------------------------------------------------
 
-function get_round_name($round_number)
+function get_round_name(int $round_number): string
 {
     if ($round_number == 0) {
         return _("OCR");
@@ -173,7 +173,7 @@ function get_round_name($round_number)
     return $round->id;
 }
 
-function show_resolution_form($projectid, $image, $state, $project_round, $is_a_bad_page, $b_user, $b_code)
+function show_resolution_form(string $projectid, string $image, string $state, Round $project_round, bool $is_a_bad_page, string $b_user, string $b_code): void
 {
     global $code_url, $PAGE_BADNESS_REASONS;
 
@@ -239,7 +239,7 @@ function show_resolution_form($projectid, $image, $state, $project_round, $is_a_
     echo "</ul>";
 }
 
-function show_text_update_form($projectid, $image, $prev_text, $text_column, $modify = 'current_text')
+function show_text_update_form(string $projectid, string $image, string $prev_text, string $text_column, string $modify = 'current_text'): void
 {
     echo "<h2>" . _("Update page text") . "</h2>";
 
@@ -286,7 +286,7 @@ function show_text_update_form($projectid, $image, $prev_text, $text_column, $mo
     echo "</div>";
 }
 
-function show_image_update_form($projectid, $image)
+function show_image_update_form(string $projectid, string $image): void
 {
     echo "<h2>" . _("Update page image") . "</h2>";
 
@@ -302,7 +302,7 @@ function show_image_update_form($projectid, $image)
     echo "</form>";
 }
 
-function update_image($projectid, $image)
+function update_image(string $projectid, string $image): void
 {
     global $projects_dir;
 

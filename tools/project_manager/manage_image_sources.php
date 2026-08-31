@@ -156,7 +156,7 @@ class ImageSource
     public ?string $internal_comment;
     public int $is_active;
 
-    public function __construct($code_name = null)
+    public function __construct(?string $code_name = null)
     {
         $this->new_source = true;
         $this->code_name = null;
@@ -180,7 +180,7 @@ class ImageSource
         }
     }
 
-    public function show_listing_row($count)
+    public function show_listing_row(int $count): void
     {
         global $page_url;
         $sid = html_safe($this->code_name);
@@ -255,7 +255,7 @@ class ImageSource
         }
     }
 
-    public function show_buttons()
+    public function show_buttons(): void
     {
         echo "<input type='submit' name='edit' value='".attr_safe(_('Edit'))."'> ";
         echo "<br>\n";
@@ -272,7 +272,7 @@ class ImageSource
         }
     }
 
-    public function show_edit_form()
+    public function show_edit_form(): void
     {
         global $page_url;
         echo "<form method='post' action='$page_url&amp;action=update_oneshot#$this->code_name'>\n";
@@ -298,7 +298,7 @@ class ImageSource
             </td></tr></table></form>\n";
     }
 
-    public function _show_edit_row($field, $label, $textarea = false, $maxlength = null, $required = false)
+    public function _show_edit_row(string $field, string $label, bool $textarea = false, ?int $maxlength = null, bool $required = false): void
     {
         $value = $this->new_source
             ? (empty($_REQUEST[$field]) ? '' : $_REQUEST[$field])
@@ -320,7 +320,7 @@ class ImageSource
             "</tr>\n";
     }
 
-    public function _show_edit_permissions_row()
+    public function _show_edit_permissions_row(): void
     {
         $cols = [
             ['field' => 'ok_keep_images', 'label' => _('Images may be stored')],
@@ -379,7 +379,7 @@ class ImageSource
         $this->_show_summary_row(_('Permissions'), $editing, false);
     }
 
-    public function save_from_post()
+    public function save_from_post(): void
     {
         global $can_edit;
 
@@ -443,18 +443,18 @@ class ImageSource
         DPDatabase::query($sql);
     }
 
-    public function enable()
+    public function enable(): void
     {
         $this->_set_field('is_active', 1);
     }
 
-    public function disable()
+    public function disable(): void
     {
         $this->_set_field('is_active', 0);
     }
 
 
-    public function approve()
+    public function approve(): void
     {
         global $pguser;
         $this->_set_field('is_active', 1);
@@ -482,7 +482,7 @@ class ImageSource
         }
     }
 
-    public function _set_field($field, $value)
+    public function _set_field(string $field, string $value): void
     {
         $sql = sprintf(
             "
@@ -498,7 +498,7 @@ class ImageSource
     }
 
 
-    public function _show_summary_row($label, $value, $htmlspecialchars = true)
+    public function _show_summary_row(string $label, string $value, bool $htmlspecialchars = true): void
     {
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
@@ -506,7 +506,7 @@ class ImageSource
             "</tr>\n";
     }
 
-    public function _get_status_cell($status, $class = '')
+    public function _get_status_cell(int $status, string $class = ''): string
     {
         switch ($status) {
             case 1:
@@ -535,7 +535,7 @@ class ImageSource
         }
     }
 
-    public function _showto($show_to)
+    public function _showto(string $show_to): string
     {
         switch ($show_to) {
             case '0':
@@ -554,7 +554,7 @@ class ImageSource
         return $to_whom;
     }
 
-    public function log_request_for_approval($requestor_username)
+    public function log_request_for_approval(string $requestor_username): void
     {
         $userSettings = & Settings::get_Settings($requestor_username);
         $userSettings->add_value('is_approval_notify', $this->code_name);
@@ -583,7 +583,7 @@ class ImageSource
 
 // ----------------------------------------------------------------------------
 
-function show_is_toolbar($action)
+function show_is_toolbar(string $action): void
 {
     $pages = [
         'add_source' => _('Add New Source'),

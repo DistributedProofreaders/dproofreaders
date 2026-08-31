@@ -122,6 +122,7 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
+/** @return list{array<string, int>, string[]} */
 function _get_possible_bad_word_list(string $projectid): array
 {
     $messages = [];

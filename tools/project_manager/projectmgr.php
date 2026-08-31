@@ -108,7 +108,8 @@ if ($show_view == "blank") {
 
 $search_results->render($condition);
 
-function echo_shortcut_links($show_view)
+/** @param 'search'|'blank' $show_view */
+function echo_shortcut_links(string $show_view): void
 {
     $views = [
         "user_avail" => [
