@@ -5,12 +5,12 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'graph_data.inc');
 
-$day_options = ["0", "1", "7", "28", "180"];
-$days = get_enumerated_param($_GET, "days", null, $day_options, true);
+$day_options = [0, 1, 7, 28, 180];
 
 $title = _("Equilibria");
 
-function display_graph($d)
+/** @return GraphConfig */
+function display_graph(int $d): array
 {
     $total_pages = 0;
 

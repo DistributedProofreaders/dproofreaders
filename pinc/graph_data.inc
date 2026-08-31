@@ -748,7 +748,7 @@ function _get_project_state_selector(string $which, array|string|null $desired_s
 
 /**
  * @param string[] $interested_phases
- * @return int[]
+ * @return array<string, int>
  */
 function get_round_backlog_stats(array $interested_phases): array
 {
@@ -763,7 +763,7 @@ function get_round_backlog_stats(array $interested_phases): array
         ";
         $res = DPDatabase::query($sql);
         while ($result = mysqli_fetch_assoc($res)) {
-            $stats[$phase] = $result["num_pages"];
+            $stats[$phase] = $result["num_pages"] ?? 0; // SELECT SUM() WHERE 0; returns NULL
         }
         mysqli_free_result($res);
     }

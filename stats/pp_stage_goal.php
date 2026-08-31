@@ -16,7 +16,7 @@ foreach (Activities::get_all() as $activity) {
 $site_stats = get_site_page_tally_summary($round_before_PP);
 $pp_page_goal = $site_stats->curr_month_actual;
 
-function _get_pages_posted_data($start_timestamp)
+function _get_pages_posted_data(int $start_timestamp): int
 {
     $page_res = DPDatabase::query(sprintf(
         "
@@ -30,7 +30,7 @@ function _get_pages_posted_data($start_timestamp)
     ));
 
     $row = mysqli_fetch_row($page_res);
-    return $row[0];
+    return $row[0] ?? 0; // SELECT SUM() WHERE 0; returns NULL
 }
 
 // Get the total pages for projects that have posted in current month
