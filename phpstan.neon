@@ -26,7 +26,6 @@ parameters:
         # TODO(bpfoley) PHPStan level 6 errors we haven't fixed yet
         - identifier: missingType.return
           paths:
-              - api/index.php
               - accounts/addproofer.php
               - accounts/login.php
               - credits.php
@@ -81,7 +80,6 @@ parameters:
               - tools/upload_resumable_file.php
         - identifier: missingType.parameter
           paths:
-              - api/index.php
               - credits.php
               - faq/font_sample.php
               - faq/privacy.php

@@ -28,7 +28,7 @@ api();
 
 // ---------------------------------------------------------------------------
 
-function api()
+function api(): void
 {
     $username = api_authenticate();
 
@@ -43,7 +43,7 @@ function api()
     api_output_response($router->response());
 }
 
-function api_authenticate()
+function api_authenticate(): string
 {
     global $pguser;
 
@@ -71,7 +71,7 @@ function api_authenticate()
     return $pguser;
 }
 
-function api_rate_limit($key)
+function api_rate_limit(string $key): void
 {
     if (!SiteConfig::get()->api_rate_limit) {
         return;
@@ -124,13 +124,13 @@ function api_rate_limit($key)
     header("X-Rate-Limit-Reset: $seconds_before_reset");
 }
 
-function api_get_request_body(bool $raw = false)
+function api_get_request_body(bool $raw = false): mixed
 {
     $router = ApiRouter::get_router();
     return $router->request($raw);
 }
 
-function api_output_response(string $data, int $response_code = 200)
+function api_output_response(string $data, int $response_code = 200): never
 {
     // drop the output buffer we've been storing to prevent errant output
     // from violating the JSON response
@@ -141,7 +141,8 @@ function api_output_response(string $data, int $response_code = 200)
     exit();
 }
 
-function api_send_pagination_header($query_params, $total_rows, $per_page, $page)
+/** @param array<string, string|string[]> $query_params */
+function api_send_pagination_header(array $query_params, int $total_rows, int $per_page, int $page): void
 {
     header("X-Results-Total: $total_rows");
 
@@ -203,7 +204,7 @@ function api_send_pagination_header($query_params, $total_rows, $per_page, $page
     header("Link: " . implode(", ", $link_header));
 }
 
-function handle_cors_headers()
+function handle_cors_headers(): void
 {
     // Enable CORS for some sites
     $allowed_origins = [
