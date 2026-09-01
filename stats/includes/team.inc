@@ -568,7 +568,6 @@ function showEdit(string $tname, string $ttext, string $twebpage, bool $tedit, i
 /**
  * TODO: fuse $preview and $tid
  * @param 'avatar'|'icon'|'both' $type
- * @param ($preview is false ? int|string : null) $tid
  * @return ?array{avatar: ?string, icon: ?string }
  */
 function uploadImages(bool $preview, null|int|string $tid, string $type): ?array
