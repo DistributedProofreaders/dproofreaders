@@ -111,9 +111,12 @@ function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string 
             echo _("It's best to select a \"BEGINNERS ONLY\" project if one is available in a language in which you are proficient. These projects have been specially prepared to teach you our style of proofreading. You can expect to receive feedback from a mentor on pages you proofread in BEGINNERS ONLY projects. This feedback will likely come at least a few days after you have completed the pages.");
             echo "</p>";
         }
-        echo "<p>";
-        echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum(SiteConfig::get()->beginners_site_forum_idx));
-        echo "</p>";
+
+        if (SiteConfig::get()->beginners_site_forum_idx) {
+            echo "<p>";
+            echo sprintf(_("Please see our <a href='%s'>Beginner's Forum</a> for answers to common questions."), get_url_to_view_forum(SiteConfig::get()->beginners_site_forum_idx));
+            echo "</p>";
+        }
 
         echo "<p><small>";
         echo _("After a period of time, this message will no longer appear.");

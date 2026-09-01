@@ -311,11 +311,14 @@ class ProjectTransition
 
         if ($project->topic_id != "") {
             // The project has a discussion topic.
-            // Ensure it's in the appropriate forum for the project's new state.
-            topic_change_forum(
-                $project->topic_id,
-                ProjectStates::get_forum($this->to_state)
-            );
+            // Ensure it's in the appropriate forum for the project's new state
+            // if the forum exists for the new state
+            if (($forum_id = ProjectStates::get_forum($this->to_state)) !== null) {
+                topic_change_forum(
+                    $project->topic_id,
+                    $forum_id
+                );
+            }
         }
 
         if ($this->collateral_actions) {
