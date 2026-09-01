@@ -9,6 +9,8 @@
 // <input type='file'> with name='uploaded_file' Then validate_uploaded_file()
 // can be used to process the upload.
 
+include_once($relPath."SiteConfig.inc");
+
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
@@ -260,7 +262,7 @@ function virus_check(string $file_path, bool $verbose): void
     // value = 0. we use -- to not parse any further arguments starting
     // with -/-- as options
     $process = new Process([$antivirus_executable, "--", $file_path]);
-    $process->setTimeout(MAX_RUNTIME_TARGET_S);
+    $process->setTimeout(SiteConfig::get()->max_runtime_target_s);
     try {
         $av_retval = $process->run();
     } catch (ProcessTimedOutException $exception) {
