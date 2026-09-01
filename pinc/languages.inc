@@ -166,7 +166,11 @@ function get_installed_locale_translations($state = "all", bool $reload_cache = 
         "disabled" => [],
     ];
 
-    $files = @scandir(SiteConfig::get()->dyn_locales_dir);
+    if (! SiteConfig::get()->dyn_locales_dir || ! is_dir(SiteConfig::get()->dyn_locales_dir)) {
+        return $translation_cache[$state];
+    }
+
+    $files = scandir(SiteConfig::get()->dyn_locales_dir);
     if (!$files) {
         return $translation_cache[$state];
     }

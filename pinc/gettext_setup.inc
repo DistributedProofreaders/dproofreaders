@@ -66,7 +66,9 @@ function configure_gettext(string $locale): void
     // Specify location of translation tables and choose domain
     $gettext_domain = 'messages';
     if (function_exists('bindtextdomain')) {
-        bindtextdomain($gettext_domain, SiteConfig::get()->dyn_locales_dir);
+        if (SiteConfig::get()->dyn_locales_dir) {
+            bindtextdomain($gettext_domain, SiteConfig::get()->dyn_locales_dir);
+        }
         bindtextdomain("iso_639", SiteConfig::get()->system_locales_dir);
         if (function_exists("bind_textdomain_codeset")) {
             bind_textdomain_codeset($gettext_domain, 'UTF-8');

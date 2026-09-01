@@ -34,7 +34,7 @@ class SiteConfig
     public string $projects_url;
     public string $dyn_dir;
     public string $dyn_url;
-    public string $dyn_locales_dir;
+    public ?string $dyn_locales_dir;
     public ?string $blog_url;
     public ?string $wiki_url;
 
