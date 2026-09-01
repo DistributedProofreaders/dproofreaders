@@ -101,4 +101,3 @@ SHIFT_TO_LIVE=yes
 # Hardcode the executables we know we're using in the CI environment
 _PHP_CLI_EXECUTABLE=$(command -v php)
 _XGETTEXT_EXECUTABLE=$(command -v xgettext)
-_URL_DUMP_PROGRAM="$(command -v wget) --quiet --tries=1 --timeout=0 -O-"

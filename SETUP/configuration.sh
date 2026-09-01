@@ -485,21 +485,3 @@ if [ ! -x "$_PHP_CLI_EXECUTABLE" ]; then
         exit 1
     fi
 fi
-
-# Automatically determine an installed program (with parameters) to dump
-# the contents of a URL. The program is then used in SETUP/dp.cron.
-_URL_DUMP_PROGRAM=
-if [ ! -x "$_URL_DUMP_PROGRAM" ]; then
-    # No program explicitly specified, attempt to find: wget or curl
-    if exe_path=$(command -v wget); then
-        _URL_DUMP_PROGRAM="$exe_path --quiet --tries=1 --timeout=0 -O-"
-    else
-        if exe_path=$(command -v curl); then
-            _URL_DUMP_PROGRAM="$exe_path --silent"
-        else
-            echo "ERROR: No program found to dump URLs."
-            echo "       Edit the configuration file and set _URL_DUMP_PROGRAM."
-            exit 1
-        fi
-    fi
-fi
