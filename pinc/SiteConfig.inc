@@ -122,6 +122,10 @@ class SiteConfig
     public array $default_project_char_suites = ["basic-latin"];
     public bool $testing = false;
 
+    // The maximum runtime in seconds a script should try to stay within,
+    // this should be below the TimeOut for the webserver.
+    public int $max_runtime_target_s = 120;
+
     protected function __construct(string $filename)
     {
         if (! is_file($filename)) {

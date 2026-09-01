@@ -1,6 +1,7 @@
 <?php
 include_once($relPath."Stopwatch.inc");
 include_once($relPath."job_log.inc");
+include_once($relPath."SiteConfig.inc");
 
 abstract class BackgroundJob
 {
@@ -10,7 +11,7 @@ abstract class BackgroundJob
     // The maximum amount of time a BackgroundJob running within a web
     // context should try to stay within. This should be under the TimeOut
     // set by the web server.
-    protected int $web_context_max_runtime_s = MAX_RUNTIME_TARGET_S;
+    protected int $web_context_max_runtime_s;
 
     protected ?string $start_message = null;
     protected ?string $stop_message = null;
@@ -22,6 +23,7 @@ abstract class BackgroundJob
     public function __construct()
     {
         $this->watch = new Stopwatch();
+        $this->web_context_max_runtime_s = SiteConfig::get()->max_runtime_target_s;
     }
 
     public function start(?string $message = null): void
