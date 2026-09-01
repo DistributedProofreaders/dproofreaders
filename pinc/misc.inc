@@ -257,6 +257,8 @@ function get_enumerated_param(array $arr, string $key, mixed $default, array $ch
  *
  * @param array<string, mixed> $arr
  *
+ * @return ($allownull is true ? ?int : int)
+ *
  * @throws InvalidArgumentException
  *
  * @see get_float_param()
@@ -276,6 +278,8 @@ function get_integer_param(array $arr, string $key, ?int $default = null, ?int $
  *
  * @param array<string, mixed> $arr
  *
+ * @return ($allownull is true ? ?float : float)
+ *
  * @throws InvalidArgumentException
  *
  * @see get_integer_param()
@@ -292,6 +296,8 @@ function get_float_param(array $arr, string $key, ?float $default = null, ?float
  * use those versions instead.
  *
  * @param array<string, mixed> $arr
+ *
+ * @return ($allownull is true ? int|float|null : int|float)
  *
  * @throws InvalidArgumentException
  *
@@ -404,6 +410,7 @@ function get_numeric_param(string $type, array $arr, string $key, int|float|null
  * "false" and various capitalizations thereof.
  *
  * @param array<string, mixed> $arr
+ * @return ($allownull is true ? ?bool : bool)
  *
  * @throws InvalidArgumentException
  */
@@ -473,6 +480,8 @@ function get_bool_param(array $arr, string $key, ?bool $default = null, bool $al
  *   and should not contain:
  *   - any complemented character classes (e.g. "[^A-Z]"), or
  *   - (unescaped) '.' (e.g., in "/foo.+bar/").
+ *
+ * @return ($allownull is true ? ?string : string)
  *
  * @throws InvalidArgumentException
  */
