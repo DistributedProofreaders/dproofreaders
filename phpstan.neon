@@ -41,7 +41,6 @@ parameters:
         - message: '#Function get_dpl_enforcement_for_user\(\) never returns null.*#'
           path: pinc/daily_page_limit.inc
 
-        - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
 

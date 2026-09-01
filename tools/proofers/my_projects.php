@@ -66,7 +66,7 @@ $page_header = [
 
 output_header(get_usertext($page_header), NO_STATSBAR);
 
-output_link_box($username);
+projects_output_link_box($username);
 
 echo "<h1>" . get_usertext($page_header) . "</h1>";
 
@@ -104,7 +104,7 @@ if (mysqli_num_rows($res) == 0) {
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($colspecs, $round_sort, $username, 'round_sort', 'round_view');
+    projects_show_headings($colspecs, $round_sort, $username, 'round_sort', 'round_view');
 
     $n_rows_displayed = 0;
     while ($row = mysqli_fetch_object($res)) {
@@ -245,7 +245,7 @@ if ($num_projects == 0) {
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($colspecs, $pool_sort, $username, 'pool_sort', 'pool_view');
+    projects_show_headings($colspecs, $pool_sort, $username, 'pool_sort', 'pool_view');
 
     $pool_checkedout_states = [
         PROJ_POST_FIRST_CHECKED_OUT,
@@ -319,7 +319,7 @@ if ($num_projects == 0) {
 
 // --------------------------------------------------------------------------
 
-function output_link_box(string $username): void
+function projects_output_link_box(string $username): void
 {
     echo "<div id='linkbox'>";
     if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
@@ -556,7 +556,7 @@ function get_sort_col_and_dir(string $sort): array
 }
 
 /** @param array<string, array{class?: string, label: string}> $colspecs */
-function show_headings(array $colspecs, string $sorting, string $username, string $sort_name, string $anchor): void
+function projects_show_headings(array $colspecs, string $sorting, string $username, string $sort_name, string $anchor): void
 {
     global $pguser;
 

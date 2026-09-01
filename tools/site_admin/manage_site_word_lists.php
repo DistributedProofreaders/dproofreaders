@@ -27,7 +27,7 @@ output_header($title, NO_STATSBAR);
 
 echo "<h1>$title</h1>";
 
-$display_list = _handle_action($action, $list_type, $language, $word_string);
+$display_list = manage_site_word_lists_handle_action($action, $list_type, $language, $word_string);
 
 if ($display_list) {
     echo "<h2>" . _("Create a new site word list") . "</h2>";
@@ -124,7 +124,7 @@ if ($display_list) {
  *
  * @return bool
  */
-function _handle_action($action, $list_type, $language, $word_string)
+function manage_site_word_lists_handle_action($action, $list_type, $language, $word_string)
 {
     // look up the langcode3 for the language passed-in
     $langcode3 = langcode3_for_langname($language);
