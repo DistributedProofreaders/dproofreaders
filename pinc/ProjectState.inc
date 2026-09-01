@@ -51,12 +51,12 @@ class ProjectStates
         return self::$states[$state]->label ?? '';
     }
 
-    public static function get_forum(?string $state): int
+    public static function get_forum(?string $state): ?int
     {
         if (is_null($state)) {
-            return -1;
+            return null;
         }
-        return self::$states[$state]->forum ?? -1;
+        return self::$states[$state]->forum ?? null;
     }
 
     public static function get_phase(?string $state): string

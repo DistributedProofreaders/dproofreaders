@@ -1440,6 +1440,11 @@ class Project
         // determine appropriate forum to create thread in
         $forum_id = ProjectStates::get_forum($this->state);
 
+        // if there is no forum defined, we can't do anything
+        if ($forum_id == null) {
+            return null;
+        }
+
         $post_subject = "\"{$this->nameofwork}\" by {$this->authorsname}";
 
         validate_projectID($this->projectid);
