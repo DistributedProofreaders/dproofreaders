@@ -79,7 +79,7 @@ function archive_project(Project $project, bool $dry_run = false): void
             }
 
             if (!rename($project_dir, $new_dir)) {
-                throw new RuntimeException(sprintf(_('Unable to move %1$s to %2$s', $project_dir, $new_dir)));
+                throw new RuntimeException(sprintf(_('Unable to move %1$s to %2$s'), $project_dir, $new_dir));
             }
         }
     } else {

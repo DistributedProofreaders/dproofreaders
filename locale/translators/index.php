@@ -208,7 +208,7 @@ elseif ($func == "xtext") {
 // Perform the upload and compilation of a translation file
 elseif ($func == "upload") {
     $locale = validate_locale($_REQUEST['locale']);
-    do_upload($locale);
+    locale_do_upload($locale);
     echo "<p><a href='$translate_url?func=manage&amp;locale=$locale'>"
         . sprintf(_("Back to manage locale %s"), $locale) . "</a></p>";
 }
@@ -449,7 +449,7 @@ function manage_form(string $locale): void
     }
 }
 
-function do_upload(string $locale): void
+function locale_do_upload(string $locale): void
 {
     global $dyn_locales_dir;
 
