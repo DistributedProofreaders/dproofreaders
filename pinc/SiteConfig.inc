@@ -124,10 +124,14 @@ class SiteConfig
 
     protected function __construct(string $filename)
     {
+        if (! is_file($filename)) {
+            throw new RuntimeException("Configuration file $filename not found.");
+        }
+
         try {
             require $filename;
         } catch (Error $error) {
-            throw new RuntimeException("Configuration file $filename not found");
+            throw new RuntimeException("Error when importing file $filename; possibly syntax error.");
         }
 
         $ro = new ReflectionObject($this);
