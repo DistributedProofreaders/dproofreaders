@@ -536,14 +536,19 @@ function get_param_matching_regex(array $arr, string $key, ?string $default, str
  * that it always uses UTF-8.
  *
  * By default this escapes all quotes with ENT_QUOTES. This can be changed
- * with the $flags argument which is passed directly into htmlspecailchars().
+ * with the $flags argument which is passed directly into htmlspecialchars().
  */
-function html_safe(?string $string, int $flags = ENT_QUOTES): string
+function html_safe(string|int|null $value, int $flags = ENT_QUOTES): string
 {
-    if ($string === null) {
+    if ($value === null) {
         return "";
     }
-    return htmlspecialchars($string, $flags, 'UTF-8');
+
+    if (is_int($value)) {
+        return (string) $value;
+    }
+
+    return htmlspecialchars((string) $value, $flags, 'UTF-8');
 }
 
 // -----------------------------------------------------------------------------
@@ -574,13 +579,18 @@ function html_safe(?string $string, int $flags = ENT_QUOTES): string
  * value `Nom de l'&oelig;uvre` and we want `attr_safe()` to return
  * `Nom de l&#39;&oelig;uvre` not `Nom de l&#39;&amp;oelig;uvre`.
  */
-function attr_safe(?string $string): string
+function attr_safe(string|int|null $value): string
 {
-    if ($string === null) {
+    if ($value === null) {
         return "";
     }
+
+    if (is_int($value)) {
+        return (string) $value;
+    }
+
     return htmlspecialchars(
-        $string,
+        (string) $value,
         ENT_QUOTES,
         'UTF-8',
         false // $double_encode
