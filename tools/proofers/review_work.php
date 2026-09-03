@@ -87,7 +87,7 @@ echo "</table>";
 echo "<input type='submit' value='", attr_safe(_("Search")), "'>";
 echo "</form>";
 
-function _echo_eval_query_select(string $selected): void
+function _echo_eval_query_select(int $selected): void
 {
     $options = [1 => _("Yes"), 0 => _("No")];
     foreach ($options as $value => $name) {

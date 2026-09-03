@@ -925,7 +925,7 @@ function _show_dropdown(string $field_name, string $current_value, array $option
     echo "</select>";
 }
 
-/** @param array<int, string> $options */
+/** @param array<string, string> $options */
 function _show_radio_group(string $field_name, string $current_value, array $options): void
 {
     foreach ($options as $option_value => $option_label) {
