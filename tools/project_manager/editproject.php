@@ -85,7 +85,12 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
         case 'clone':
             $page_title = _("Clone a Project");
-            $projectid = get_projectID_param($_GET, 'project');
+            try {
+                $projectid = get_projectID_param($_GET, 'project');
+            } catch (InvalidArgumentException | InvalidProjectIDException $e) {
+                $fatal_error = $e->getMessage();
+                break;
+            }
             $fatal_error = $pih->set_from_clone($projectid);
             break;
 
@@ -194,11 +199,11 @@ class ProjectInfoHolder
     // edit an existing project
     public function set_from_db(): ?string
     {
-        $projectid = $_GET['project'];
-        if ($projectid == '') {
-            return sprintf(_("parameter '%s' is empty"), 'project');
+        try {
+            $projectid = get_projectID_param($_GET, 'project');
+        } catch (InvalidArgumentException | InvalidProjectIDException $e) {
+            return $e->getMessage();
         }
-        validate_projectID($projectid);
 
         try {
             $this->project = new Project($projectid);
@@ -288,7 +293,9 @@ class ProjectInfoHolder
 
         // only SAs can change PM
         if (user_is_a_sitemanager()) {
-            $this->project->username = @$_POST['username'];
+            if (isset($_POST['username'])) {
+                $this->project->username = $_POST['username'];
+            }
         } elseif (user_is_proj_facilitator()) {
             // If a PF clones a project, keep the original PM.
             // If they create a new project, assign it to them, otherwise
@@ -310,18 +317,20 @@ class ProjectInfoHolder
             }
         }
 
-        $this->project->languages = [
-            @$_POST['pri_language'], @$_POST['sec_language'],
-        ];
+        if (isset($_POST['pri_language'])) {
+            $this->project->languages = [
+                $_POST['pri_language'], @$_POST['sec_language'],
+            ];
+        }
 
         // some special days are ... specialer
+        $bday = @$_POST['bdaymonth'] . @$_POST['bdayday'];
         if (str_starts_with($this->project->special_code, "Otherday") ||
             str_starts_with($this->project->special_code, "Birthday")) {
-            $this->project->special_code .= " {$_POST['bdaymonth']}{$_POST['bdayday']}";
-        } elseif (empty($this->project->special_code) &&
-                  !empty("{$_POST['bdaymonth']}{$_POST['bdayday']}")) {
+            $this->project->special_code .= " $bday";
+        } elseif (empty($this->project->special_code) && !empty($bday)) {
             // month/year specified but no special code, so set to Birthday
-            $this->project->special_code = "Birthday {$_POST['bdaymonth']}{$_POST['bdayday']}";
+            $this->project->special_code = "Birthday $bday";
             $errors[] = _("Special Day code set to 'Birthday'. Check before saving.");
         }
 
