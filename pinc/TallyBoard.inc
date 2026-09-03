@@ -72,7 +72,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    public function add_to_tally(string $holder_id, int $amount): void
+    public function add_to_tally(int $holder_id, int $amount): void
     {
         $sql = sprintf(
             "
@@ -87,7 +87,7 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id),
+            $holder_id,
             intval($amount),
             intval($amount)
         );
@@ -173,7 +173,7 @@ class TallyBoard
      * Note that if you want tallies for multiple holders, it's probably
      * more efficient to use SQL-joinery supplied by the previous method.
      */
-    public function get_current_tally(string $holder_id): int
+    public function get_current_tally(int $holder_id): int
     {
         $sql = sprintf(
             "
@@ -182,11 +182,11 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND holder_id   = %s
+                AND holder_id   = %d
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $res = DPDatabase::query($sql);
 
@@ -482,7 +482,7 @@ class TallyBoard
                     ",
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type),
-                    intval($holder_id)
+                    $holder_id
                 );
                 if ($dry_run) {
                     // Normalize whitespace
@@ -572,7 +572,7 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $result = DPDatabase::query($sql);
 
@@ -624,7 +624,7 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $result = DPDatabase::query($sql);
 
@@ -662,7 +662,7 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $result = DPDatabase::query($sql);
 
