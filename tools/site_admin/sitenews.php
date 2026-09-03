@@ -108,7 +108,7 @@ function echo_selection(string $name, array $options, string $value_selected): v
     echo "</select>";
 }
 
-function handle_any_requested_db_updates(string $news_page_id, ?string $action, ?string $item_id, string $header, string $content, ?string $locale, ?string $item_status, ?string $item_type): void
+function handle_any_requested_db_updates(string $news_page_id, ?string $action, ?int $item_id, string $header, string $content, ?string $locale, ?string $item_status, ?string $item_type): void
 {
     $allowed_tags = '<a><b><i><u><span><img><p><div><br><iframe>';
     switch ($action) {
@@ -236,7 +236,7 @@ function handle_any_requested_db_updates(string $news_page_id, ?string $action, 
 /**
  * Show a form to edit a news item
  */
-function show_item_editor(string $news_page_id, ?string $action, ?string $item_id): void
+function show_item_editor(string $news_page_id, ?string $action, ?int $item_id): void
 {
     global $locale_options;
     global $status_options;
@@ -420,7 +420,7 @@ function show_all_news_items_for_page(string $news_page_id): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function update_news_item_status(string $item_id, string $status): void
+function update_news_item_status(int $item_id, string $status): void
 {
     $sql = sprintf(
         "
@@ -451,7 +451,7 @@ function news_change_made(string $news_page_id): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function move_news_item(string $news_page_id, string $id_of_item_to_move, string $direction): void
+function move_news_item(string $news_page_id, int $id_of_item_to_move, string $direction): void
 {
     $sql = sprintf(
         "
