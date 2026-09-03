@@ -91,8 +91,8 @@ if (substr($abs_source, -4) == ".zip") {
     // We will unpack it to a sibling directory.
     $source_project_dir = substr($abs_source, 0, -4);
     if (!file_exists($source_project_dir)) {
-        mkdir($source_project_dir, 0777);
-        chmod($source_project_dir, 0777);
+        mkdir($source_project_dir, 0o777);
+        chmod($source_project_dir, 0o777);
     }
 
     extract_zip_to($abs_source, $source_project_dir);
@@ -177,10 +177,18 @@ class Loader
     private int $image_field_len;
     /** @var array<string, string> */
     private array $ignored_files;
-    /** @var string[] */
-    /** @var array<string, array{'error_msgs': string[], 'warning_msgs': string[]}> */
+    /** @var array<string, array{error_msgs: string[], warning_msgs: string[]}> */
     private array $non_page_files;
-    /** @var array<string, array{'text': array{'src'?: string[], 'db'?: string[], 'action': string}, 'image': array{'src'?: string[], 'db'?: string[], 'action': string}, 'error_msgs': string[], 'warning_msgs': string[]}> */
+    /** @var array<
+     *           string,
+     *           array{
+     *               text: array{src?: string[], db?: string[], action: string},
+     *               image: array{src?: string[], db?: string[], action: string},
+     *               error_msgs: string[],
+     *               warning_msgs: string[]
+     *           }
+     *       >
+     */
     private array $page_file_table;
     /** @var array<string, string> */
     private array $db_text_for_base;

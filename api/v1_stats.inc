@@ -6,7 +6,11 @@ include_once("exceptions.inc");
 //---------------------------------------------------------------------------
 // stats/site
 
-function api_v1_stats_site(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array{server_time: string, ...<string, int>}
+ */
+function api_v1_stats_site(string $method, array $data): array
 {
     $res = DPDatabase::query("SELECT COUNT(*) FROM users");
     [$registered_users] = mysqli_fetch_row($res);
@@ -35,25 +39,30 @@ function api_v1_stats_site(string $method, array $data)
 
 //---------------------------------------------------------------------------
 // stats/site/projects_states
-// Produces output like
-// ```
-// {
-//    "project_new": 224,
-//    "project_bad": 0,
-//    "F1.proj_avail": 11,
-//    "F2.proj_avail": 7,
-//    "F2.proj_unavail": 2,
-//    "F2.proj_waiting": 1,
-//    ...
-//    "P3.proj_unavail": 1,
-//    "proj_post_first_available": 4,
-//    "proj_post_first_checked_out": 24,
-//    "proj_post_first_unavailable": 3,
-//    "proj_post_second_available": 4,
-//    "proj_post_second_checked_out": 2,
-//    "proj_delete": 46,
-// }```
-function api_v1_stats_site_projects_states(string $method, array $data)
+
+/**
+ * Produces output like
+ * ```
+ * {
+ *    "project_new": 224,
+ *    "project_bad": 0,
+ *    "F1.proj_avail": 11,
+ *    "F2.proj_avail": 7,
+ *    "F2.proj_unavail": 2,
+ *    "F2.proj_waiting": 1,
+ *    ...
+ *    "P3.proj_unavail": 1,
+ *    "proj_post_first_available": 4,
+ *    "proj_post_first_checked_out": 24,
+ *    "proj_post_first_unavailable": 3,
+ *    "proj_post_second_available": 4,
+ *    "proj_post_second_checked_out": 2,
+ *    "proj_delete": 46,
+ * }```
+ * @param array<string, mixed> $data
+ * @return array<string, int>
+ */
+function api_v1_stats_site_projects_states(string $method, array $data): array
 {
     // Make sure all project state statistics are provided.
     $output = [];
@@ -74,7 +83,11 @@ function api_v1_stats_site_projects_states(string $method, array $data)
     return $output;
 }
 
-function api_v1_stats_site_projects_stages(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, int>
+ */
+function api_v1_stats_site_projects_stages(string $method, array $data): array
 {
     // Make sure all project stage statistics are provided.
     $output = [];
@@ -121,7 +134,8 @@ function api_v1_stats_site_projects_stages(string $method, array $data)
 //---------------------------------------------------------------------------
 // stats/site/rounds
 
-function render_round_stats($round_id)
+/** @return array<string, int> */
+function render_round_stats(string $round_id): array
 {
     $stats = get_site_page_tally_summary($round_id);
     $tallyboard = new TallyBoard($round_id, 'U');
@@ -136,7 +150,11 @@ function render_round_stats($round_id)
     ];
 }
 
-function api_v1_stats_site_rounds(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, array<string, int>>
+ */
+function api_v1_stats_site_rounds(string $method, array $data): array
 {
     $return = [];
     foreach (Rounds::get_ids() as $round_id) {
@@ -149,7 +167,11 @@ function api_v1_stats_site_rounds(string $method, array $data)
 //---------------------------------------------------------------------------
 // stats/site/rounds/:roundid
 
-function api_v1_stats_site_round(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, int>
+ */
+function api_v1_stats_site_round(string $method, array $data): array
 {
     $round = $data[":roundid"];
 
@@ -159,7 +181,8 @@ function api_v1_stats_site_round(string $method, array $data)
 //---------------------------------------------------------------------------
 // stats/user/:username/rounds
 
-function render_round_user_stats(User $user, Round $round)
+/** @return array<string, int> */
+function render_round_user_stats(User $user, Round $round): array
 {
     if (!user_is_a_sitemanager()) {
         if ($user->username != User::current_username()) {
@@ -184,7 +207,11 @@ function render_round_user_stats(User $user, Round $round)
     ];
 }
 
-function api_v1_stats_user_rounds(string $method, array $data)
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, array<string, int>>
+ */
+function api_v1_stats_user_rounds(string $method, array $data): array
 {
     $user = $data[":username"];
 
@@ -198,7 +225,12 @@ function api_v1_stats_user_rounds(string $method, array $data)
 
 //---------------------------------------------------------------------------
 // stats/user/:username/rounds/:roundid
-function api_v1_stats_user_round(string $method, array $data)
+
+/**
+ * @param array<string, mixed> $data
+ * @return array<string, int>
+ */
+function api_v1_stats_user_round(string $method, array $data): array
 {
     $user = $data[":username"];
     $round = $data[":roundid"];

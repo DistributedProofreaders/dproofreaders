@@ -12,24 +12,33 @@ if (!user_is_a_sitemanager()) {
 
 output_header(_('Quiz Wizard'), NO_STATSBAR);
 
-function ssqs($x)
+function ssqs(string $x): string
 {
     return str_replace('\\\'', '\'', $x);
 }
 
-function enl($x)
+function enl(string $x): string
 {
     $out = str_replace("\r\n", '\n', $x);
     return str_replace("\n", '\n', $out);
 }
 
-function sdbsn($x)
+function sdbsn(string $x): string
 {
     return str_replace('\\\\n', '\\n', $x);
 }
 
+/**
+ * @param array<string, string> $a
+ * @return array<string, string>
+ */
+function ssqs_sdbsn_a(array $a): array
+{
+    $out = str_replace('\\\\n', '\\n', $a);
+    return str_replace('\\\'', '\'', $out);
+}
 
-function make_output()
+function make_output(): string
 {
     $out = '<?php' . "\n\n";
     $out .= 'function quizsolved()';
@@ -135,7 +144,7 @@ function make_output()
             $out .= '"';
         } elseif ($test['type'] == 'forbiddentext') {
             $out .= ', "searchtext" =>  array(';
-            foreach (ssqs(sdbsn($test['searchtext'])) as $numsearch => $search) {
+            foreach (ssqs_sdbsn_a($test['searchtext']) as $numsearch => $search) {
                 if ($numsearch != 0) {
                     $out .= ', ';
                 }
@@ -152,7 +161,7 @@ function make_output()
             $out .= '"';
         } elseif ($test['type'] == 'expectedtext') {
             $out .= ', "searchtext" =>  array(';
-            foreach (ssqs(sdbsn($test['searchtext'])) as $numsearch => $search) {
+            foreach (ssqs_sdbsn_a($test['searchtext']) as $numsearch => $search) {
                 if ($numsearch != 0) {
                     $out .= ', ';
                 }

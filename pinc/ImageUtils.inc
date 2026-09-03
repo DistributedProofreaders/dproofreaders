@@ -60,7 +60,7 @@ class ImageUtils
     /**
      * Validates integrity of the specified image using external tools.
      *
-     * @returns array<int, string>
+     * @return list{int, string}
      */
     public function validate_integrity(string $filename): array
     {

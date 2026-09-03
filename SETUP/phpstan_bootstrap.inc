@@ -8,11 +8,11 @@ define('SKIP_DB_CONNECT', true);
 
 
 // BEGIN dummy exception handlers
-function test_exception_handler($exception)
+function test_exception_handler(Throwable $exception): void
 {
 }
 
-function production_exception_handler($exception)
+function production_exception_handler(Throwable $exception): void
 {
 }
 // END dummy exception handlers

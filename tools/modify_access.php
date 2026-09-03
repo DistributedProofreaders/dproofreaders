@@ -140,7 +140,8 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 
 // -----------------------------------------------------------------------------
 
-function notify_user($user, $actions)
+/** @param array<string, string> $actions */
+function notify_user(User $user, array $actions): string
 {
     if ((count($actions) == 1) && (array_search('grant', $actions) !== false)) {
         // Special case: If the user has been granted access to

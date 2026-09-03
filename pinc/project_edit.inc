@@ -2,7 +2,7 @@
 include_once($relPath.'user_is.inc');
 
 
-function user_can_add_project_pages($projectid)
+function user_can_add_project_pages(string $projectid): bool
 {
     $project = new Project($projectid);
     $state = $project->state;
@@ -29,7 +29,7 @@ function user_can_add_project_pages($projectid)
  * Politely abort if the current user
  * is not allowed to edit the specified project
  */
-function abort_if_cant_edit_project($projectid)
+function abort_if_cant_edit_project(string $projectid): void
 {
     try {
         $project = new Project($projectid);
@@ -60,7 +60,7 @@ function abort_if_cant_edit_project($projectid)
     }
 }
 
-function check_user_can_load_projects($exit_if_not)
+function check_user_can_load_projects(bool $exit_if_not): void
 {
     if (user_has_project_loads_disabled()) {
         echo "

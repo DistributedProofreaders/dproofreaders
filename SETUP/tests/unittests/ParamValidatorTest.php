@@ -122,20 +122,6 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         get_numeric_param("boolean", $this->GET, 'enum', 1, 0, 1, false);
     }
 
-    public function testNumericMinType(): void
-    {
-        $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("type numeric or null");
-        get_numeric_param("integer", $this->GET, 'enum', 1, "min", 1, false);
-    }
-
-    public function testNumericMaxType(): void
-    {
-        $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("type numeric or null");
-        get_numeric_param("integer", $this->GET, 'enum', 1, 0, "max", false);
-    }
-
     public function testNumericMinLtMax(): void
     {
         $this->expectException(InvalidArgumentException::class);

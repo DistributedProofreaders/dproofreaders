@@ -44,11 +44,11 @@ if ($transition->why_disabled($project) == 'SR') {
     fatal_error($body);
 }
 
-function fatal_error($msg)
+function fatal_error(string $msg): never
 {
     global $project, $curr_state, $next_state;
 
-    output_page_header();
+    changestate_output_page_header();
 
     echo "<pre>\n";
     echo _("You requested:") . "\n";
@@ -65,7 +65,7 @@ function fatal_error($msg)
 // If there's a question associated with this transition,
 // and we haven't just asked it, ask it now.
 if (!is_null($transition->confirmation_question) && $confirmed != 'yes') {
-    output_page_header();
+    changestate_output_page_header();
 
     echo "<p><b>" . _("Project ID") . ":</b> $projectid<br>\n";
     echo "<b>" . _("Title") . ":</b> " . html_safe($project->nameofwork) . "<br>\n";
@@ -136,7 +136,7 @@ metarefresh(2, $refresh_url, $title, $body);
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function prepare_url($url_template)
+function prepare_url(string $url_template): string
 {
     global $projectid, $return_uri;
 
@@ -150,7 +150,7 @@ function prepare_url($url_template)
     return $url;
 }
 
-function output_page_header()
+function changestate_output_page_header(): void
 {
     $title = _("Change Project State");
     slim_header($title);

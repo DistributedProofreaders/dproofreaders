@@ -8,13 +8,13 @@ class CharSuiteNotEnabledException extends Exception
 class PickerSet
 {
     public string $name;
-    /** @var list<list<?string>> */
+    /** @var (?string)[][] */
     private array $subsets;
     /** @var string[] */
     private array $titles;
 
-    /** @param list<list<?string>> $codepoints */
-    public function add_subset(string $name, array $codepoints, ?string $title = null)
+    /** @param (?string)[][] $codepoints */
+    public function add_subset(string $name, array $codepoints, ?string $title = null): void
     {
         $this->subsets[$name] = $codepoints;
 
@@ -25,13 +25,13 @@ class PickerSet
         }
     }
 
-    /** @return list<list<?string>> */
+    /** @return (?string)[][] */
     public function get_subsets(): array
     {
         return $this->subsets;
     }
 
-    /** @return array{name: string, title: string, rows: list<list<list<?string>>>}[] */
+    /** @return array{name: string, title: string, rows: list{?string,?string}[][]}[] */
     public function get_verbose_subsets(): array
     {
         $verbose_subsets = [];
@@ -62,6 +62,7 @@ class PickerSet
 class CharSuite
 {
     public ?string $description = null;
+    /** @var string[] */
     public $reference_urls = [];
     private ?PickerSet $_pickerset = null;
 
@@ -119,7 +120,8 @@ class CharSuite
         return in_array($this, $enabled_sets);
     }
 
-    public function get_nonnormalized_codepoints()
+    /** @return array<string, string> */
+    public function get_nonnormalized_codepoints(): array
     {
         return get_nonnormalized_codepoints($this->codepoints);
     }
@@ -244,8 +246,16 @@ class CharSuites
 
 trait CharSuiteSet
 {
-    /** @return array{name: string, subsets: array{name: string, title: string, rows: (?string[])[][]}[]}[] */
-    public function get_verbose_pickersets(): array
+    /** @return array{
+     *              name: string,
+     *              subsets: array{
+     *                  name: string,
+     *                  title: string,
+     *                  rows: (?string)[][][]
+     *              }[]
+     *          }[]
+     */
+    public function get_verbose_pickersets()
     {
         $verbose_pickersets = [];
         foreach ($this->get_pickersets() as $pickerset) {

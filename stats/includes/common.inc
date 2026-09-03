@@ -5,7 +5,7 @@
  * Return a snippet of HTML that visually conveys
  * the change in rank between $previous_rank and $current_rank.
  */
-function showChangeInRank($previous_rank, $current_rank)
+function format_change_in_rank(int $previous_rank, int $current_rank): string
 {
     if (empty($current_rank) || empty($previous_rank)) {
         // Normally, this means that the rank is zero,
@@ -42,8 +42,9 @@ function showChangeInRank($previous_rank, $current_rank)
     return $snippet;
 }
 
-function get_username_for_uid($u_id)
+function get_username_for_uid(int $u_id): string
 {
+    // TODO this is fallible!
     $user = User::load_from_uid($u_id);
     return $user->username;
 }

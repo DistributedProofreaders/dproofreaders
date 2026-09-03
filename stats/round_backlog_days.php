@@ -15,7 +15,8 @@ include_once($relPath.'slim_header.inc');
 $width = 300;
 $height = 200;
 
-function _get_round_backlog_days_data()
+/** @return array<string, int|float> */
+function _get_round_backlog_days_data(): array
 {
     // Pull all interested phases, primarily all the rounds and PP
     $interested_phases = Rounds::get_ids();
@@ -112,7 +113,7 @@ $graphs = [
 slim_header($title, [
     "body_attributes" => "style='margin: 0;overflow: hidden'",
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 
 ]);
 

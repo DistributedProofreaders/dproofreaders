@@ -13,7 +13,7 @@ if (!user_is_a_sitemanager()) {
 
 output_header(_('Quiz Wizard'));
 
-function evalmessages()
+function evalmessages(): bool
 {
     if (isset($_SESSION['quiz_data']['messages'][$_POST['name']]) || $_POST['name'] == '') {
         return false;
@@ -39,7 +39,7 @@ function evalmessages()
 }
 
 
-function evalstart()
+function evalstart(): void
 {
     $_SESSION['quiz_data']['browser_title'] = $_POST['browser_title'];
     $_SESSION['quiz_data']['welcome'] = $_POST['welcome'];
@@ -69,12 +69,10 @@ function evalstart()
     $_SESSION['quiz_data']['links_out'] = $_POST['links_out'];
 }
 
-function filltext($x)
+function filltext(string $x): string
 {
     global $fill;
-    if ($fill) {
-        return html_safe($_POST[$x]);
-    }
+    return $fill ? html_safe($_POST[$x]) : "";
 }
 
 

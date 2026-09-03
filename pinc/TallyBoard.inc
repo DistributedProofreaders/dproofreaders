@@ -72,7 +72,7 @@ class TallyBoard
 
     // -------------------------------------------------------------------------
 
-    public function add_to_tally(string $holder_id, int $amount)
+    public function add_to_tally(int $holder_id, int $amount): void
     {
         $sql = sprintf(
             "
@@ -87,7 +87,7 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id),
+            $holder_id,
             intval($amount),
             intval($amount)
         );
@@ -173,7 +173,7 @@ class TallyBoard
      * Note that if you want tallies for multiple holders, it's probably
      * more efficient to use SQL-joinery supplied by the previous method.
      */
-    public function get_current_tally(string $holder_id): int
+    public function get_current_tally(int $holder_id): int
     {
         $sql = sprintf(
             "
@@ -182,11 +182,11 @@ class TallyBoard
             WHERE
                 tally_name      = '%s'
                 AND holder_type = '%s'
-                AND holder_id   = %s
+                AND holder_id   = %d
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $res = DPDatabase::query($sql);
 
@@ -207,7 +207,7 @@ class TallyBoard
      * Return the given holder's rank, as determined by the current tallies
      * on this TallyBoard.
      */
-    public function get_rank($holder_id)
+    public function get_rank(int $holder_id): int
     {
         $sql = sprintf(
             "
@@ -254,8 +254,9 @@ class TallyBoard
      *
      * Parameters after `$radius` are an optimization for extracting
      * other info from the database at the same time.
+     * @return array<int, array<string, mixed>>
      */
-    public function get_neighborhood($target_holder_id, $radius)
+    public function get_neighborhood(int $target_holder_id, int $radius): array
     {
         assert($radius >= 0);
 
@@ -359,7 +360,7 @@ class TallyBoard
      *
      * If `$dry_run` is true, merely echo queries that would change db.
      */
-    public function take_snapshot($ascribe_time, $dry_run = false)
+    public function take_snapshot(int $ascribe_time, bool $dry_run = false): ?string
     {
         $prev_ascribe_time = $this->get_time_of_latest_snapshot();
 
@@ -481,7 +482,7 @@ class TallyBoard
                     ",
                     DPDatabase::escape($this->tally_name),
                     DPDatabase::escape($this->holder_type),
-                    intval($holder_id)
+                    $holder_id
                 );
                 if ($dry_run) {
                     // Normalize whitespace
@@ -513,6 +514,7 @@ class TallyBoard
         } else {
             DPDatabase::query($sql);
         }
+        return null;
     }
 
     // -------------------------------------------------------------------------
@@ -520,8 +522,9 @@ class TallyBoard
     /**
      * Return the ascribed timestamp of the latest snapshot for this TallyBoard,
      * or $default if there has been no snapshot yet.
+     * @return ($default is not null ? int : ?int)
      */
-    public function get_time_of_latest_snapshot($default = null)
+    public function get_time_of_latest_snapshot(?int $default = null): ?int
     {
         $sql = sprintf(
             "
@@ -552,13 +555,9 @@ class TallyBoard
     /**
      * Return an associative array of information about the given holder
      * from the latest snapshot.
-     *
-     * Keys are:
-     * - timestamp
-     * - tally_delta
-     * - tally_value
+     * @return array{timestamp: int, tally_delta: int, tally_value: int}
      */
-    public function get_info_from_latest_snapshot($holder_id)
+    public function get_info_from_latest_snapshot(int $holder_id): array
     {
         $sql = sprintf(
             "
@@ -573,26 +572,31 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_assoc($result);
-        if (!$info) {
+        if ($info) {
+            $tally_delta = $info['tally_delta'];
+            $tally_value = $info['tally_value'];
+        } else {
             // That holder does not appear in any snapshot for this TallyBoard.
             // So we can infer that, at the latest snapshot:
             //     his tally would have been zero, and thus
             //     his delta would have been zero, and also
             //     his rank would have been zero (null rank).
 
-            $info = [
-                'tally_delta' => 0,
-                'tally_value' => 0,
-            ];
+            $tally_delta = 0;
+            $tally_value = 0;
         }
-        $info["timestamp"] = $this->get_time_of_latest_snapshot(0);
+        $timestamp = $this->get_time_of_latest_snapshot(0);
 
-        return $info;
+        return [
+            'tally_delta' => $tally_delta,
+            'tally_value' => $tally_value,
+            'timestamp' => $timestamp,
+        ];
     }
 
     // -------------------------------------------------------------------------
@@ -600,11 +604,12 @@ class TallyBoard
     /**
      * Return an array of the largest recorded delta on this TallyBoard
      *
+     * @return list{int, int}
      * Array consisting of:
      * - the given holder's largest recorded delta on this TallyBoard, and
      * - the earliest timestamp for which that delta was recorded.
      */
-    public function get_info_re_largest_delta($holder_id)
+    public function get_info_re_largest_delta(int $holder_id): array
     {
         $sql = sprintf(
             "
@@ -619,18 +624,19 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_row($result);
-        if (!$info) {
+        if ($info) {
+            [$largest_delta, $timestamp] = $info;
+        } else {
             // That holder does not appear in any snapshot for this TallyBoard.
             $largest_delta = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
-            $info = [$largest_delta, $timestamp];
         }
-        return $info;
+        return [$largest_delta, $timestamp];
     }
 
     // -------------------------------------------------------------------------
@@ -638,11 +644,12 @@ class TallyBoard
     /**
      * Return an array of the best recorded rank on this TallyBoard
      *
+     * @return list{int, int}
      * Array consisting of:
      * - the given holder's best recorded rank on this TallyBoard, and
      * - the earliest timestamp for which that rank was recorded.
      */
-    public function get_info_re_best_rank($holder_id)
+    public function get_info_re_best_rank(int $holder_id): array
     {
         $sql = sprintf(
             "
@@ -655,18 +662,19 @@ class TallyBoard
             ",
             DPDatabase::escape($this->tally_name),
             DPDatabase::escape($this->holder_type),
-            intval($holder_id)
+            $holder_id
         );
         $result = DPDatabase::query($sql);
 
         $info = mysqli_fetch_row($result);
-        if (!$info) {
+        if ($info) {
+            [$best_rank, $timestamp] = $info;
+        } else {
             // That holder does not appear on this TallyBoard.
             $best_rank = 0;
             $timestamp = $this->get_time_of_latest_snapshot(0);
-            $info = [$best_rank, $timestamp];
         }
-        return $info;
+        return [$best_rank, $timestamp];
     }
 
     // -------------------------------------------------------------------------
@@ -675,12 +683,13 @@ class TallyBoard
      * Return all tally deltas recorded for the given holder
      * since $min_timestamp and optionally before $max_timestamp
      *
+     * @return array<int, int>
      * Specifically, the result is an array of key => value pairs,
      * where key is the ascribed time of a snapshot,
      * and value is the tally delta recorded for that time.
      * (The items are sorted by timestamp.)
      */
-    public function get_deltas($holder_id, $min_timestamp, $max_timestamp = null)
+    public function get_deltas(int $holder_id, int $min_timestamp, ?int $max_timestamp = null): array
     {
         $addl_where = $max_timestamp === null ? "" : sprintf("AND timestamp < %d", $max_timestamp);
 
@@ -747,7 +756,7 @@ class TallyBoard
      * as the difference between the tally_value at those two times.
      * But summing the intervening deltas is the more general solution.
      */
-    public function get_delta_sum($holder_id, $start_timestamp, $end_timestamp)
+    public function get_delta_sum(int $holder_id, int $start_timestamp, int $end_timestamp): int
     {
         $sql = sprintf(
             "
@@ -768,12 +777,12 @@ class TallyBoard
         );
         $res = DPDatabase::query($sql);
         [$sum] = mysqli_fetch_row($res);
-        return $sum;
+        return $sum ?? 0; // SELECT SUM() WHERE 0; returns NULL
     }
 
     // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    public function get_delta_since_latest_snapshot($holder_id)
+    public function get_delta_since_latest_snapshot(int $holder_id): int
     {
         $current_tally = $this->get_current_tally($holder_id);
         $snapshot_info = $this->get_info_from_latest_snapshot($holder_id);
@@ -787,7 +796,7 @@ class TallyBoard
      *
      * This is just a convenience function.
      */
-    public function get_vitals($holder_id)
+    public function get_vitals(int $holder_id): Object
     {
         $obj = new StdClass();
 
@@ -846,7 +855,7 @@ class Ranker
         // and is thus the first approximation to each item's rank.
     }
 
-    public function next($value)
+    public function next(int $value): int
     {
         $this->n++;
 

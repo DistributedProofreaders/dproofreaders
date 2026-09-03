@@ -36,7 +36,7 @@ use Symfony\Component\Process\Process;
 /**
  * Return a table name with the phpBB table prefix prepended to it
  */
-function phpbb_table($table)
+function phpbb_table(string $table): string
 {
     return SiteConfig::get()->forums_phpbb_table_prefix . "_" . $table;
 }
@@ -47,7 +47,7 @@ function phpbb_table($table)
  *
  * Fall back to English if $langcode is not installed on the system.
  */
-function phpbb_lang($locale = false)
+function phpbb_lang(string|false $locale = false): string
 {
     if ($locale === false) {
         $locale = get_desired_language();
@@ -86,7 +86,7 @@ function phpbb_lang($locale = false)
  * non_activated_users table and use it directly when creating the account
  * post-activation.
  */
-function forum_password_hash($password)
+function forum_password_hash(string $password): string
 {
     // phpBB3 hashing function is involved, so we'll call it directly
     // instead of duplicating it here, but we don't want to pollute
@@ -108,7 +108,7 @@ function forum_password_hash($password)
  * Note: Use a strict comparison operator (=== or !==) against TRUE
  * to evaluate the pass/fail status of this function.
  */
-function create_forum_user($username, $password, $email, $password_is_digested = false)
+function create_forum_user(string $username, string $password, string $email, bool $password_is_digested = false): string|true
 {
     // Use the phpBB3 API to create the user, but do so via phpbb3.inc
     // as to not mix the DP and phpBB3 codespace.
@@ -144,7 +144,7 @@ function create_forum_user($username, $password, $email, $password_is_digested =
     return true;
 }
 
-function phpbb_user_error_handler($errno, $errstr, $errfile, $errline)
+function phpbb_user_error_handler(int $errno, string $errstr, string $errfile, int $errline): bool
 {
     if (in_array($errno, [E_USER_ERROR, E_USER_NOTICE])) {
         throw new ValueError($errstr);
@@ -155,21 +155,21 @@ function phpbb_user_error_handler($errno, $errstr, $errfile, $errline)
 
 /**
  * Log in the user to the forums.
- *
- * Returns:
- * - [TRUE, '']  - user successfully logged in
- * - [FALSE, $reason] - login failed and the reason why, valid $reasons:
- *   - incorrect_username
- *   - incorrect_password
- *   - too_many_attempts
- *   - unknown
+ * @return list{bool, string}
+ *     Returns:
+ *     - [true, '']  - user successfully logged in
+ *     - [false, $reason] - login failed and the reason why, valid $reasons:
+ *       - incorrect_username
+ *       - incorrect_password
+ *       - too_many_attempts
+ *       - unknown
  */
-function login_forum_user($username, $password)
+function login_forum_user(string $username, string $password)
 {
     $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
 
     if (!is_dir($forums_phpbb_dir)) {
-        return false;
+        return [false, 'uknown'];
     }
 
     // phpbb code sets variables (e.g. $db) upon include assuming they are
@@ -275,7 +275,7 @@ function login_forum_user($username, $password)
 /**
  * Log out the currently-authenticated user from the forum.
  */
-function logout_forum_user()
+function logout_forum_user(): void
 {
     global $pguser;
 
@@ -316,7 +316,7 @@ function logout_forum_user()
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 }
 
-function get_reset_password_url()
+function get_reset_password_url(): string
 {
     return get_url_for_forum() . "/ucp.php?mode=sendpassword";
 }
@@ -324,10 +324,11 @@ function get_reset_password_url()
 /**
  * Given a username, return details about the user.
  *
- * Returns an associative array. See $interested_columns for the keys.
- * If the user isn't found, the function returns NULL.
+ * @return ?array<string, mixed>
+ *     Returns an associative array. See $interested_columns for the keys.
+ *     If the user isn't found, the function returns NULL.
  */
-function get_forum_user_details($username)
+function get_forum_user_details(string $username): ?array
 {
     $interested_columns = [
         "id",         // forum user id
@@ -421,7 +422,7 @@ function get_forum_user_details($username)
 /**
  * Given a forum username, return the forum user ID.
  */
-function get_forum_user_id($username)
+function get_forum_user_id(string $username): ?int
 {
     // Use a local in-memory cache so we don't pummel the database
     // for pages that end up calling this for the same small set
@@ -458,7 +459,7 @@ function get_forum_user_id($username)
 /**
  * Given a forum rank number, return the text title of that rank.
  */
-function get_forum_rank_title($rank)
+function get_forum_rank_title(int $rank): ?string
 {
     $query = sprintf(
         "
@@ -484,7 +485,7 @@ function get_forum_rank_title($rank)
 /**
  * Given a forum username, return the email address.
  */
-function get_forum_email_address($username)
+function get_forum_email_address(string $username): string
 {
     $user_details = get_forum_user_details($username);
 
@@ -494,7 +495,7 @@ function get_forum_email_address($username)
 /**
  * Return a URL to the base of the forum
  */
-function get_url_for_forum()
+function get_url_for_forum(): string
 {
     return SiteConfig::get()->forums_phpbb_url;
 }
@@ -502,7 +503,7 @@ function get_url_for_forum()
 /**
  * Return a URL that a user can use to manually log in to the forums.
  */
-function get_url_for_forum_user_login()
+function get_url_for_forum_user_login(): string
 {
     return get_url_for_forum() . "/ucp.php?mode=login";
 }
@@ -511,7 +512,7 @@ function get_url_for_forum_user_login()
  * Given a forum username, return a URL that can be used to
  * access a form to send the user a message.
  */
-function get_url_to_compose_message_to_user($username)
+function get_url_to_compose_message_to_user(string $username): string
 {
     $userid = get_forum_user_id($username);
 
@@ -529,7 +530,7 @@ function get_url_to_view_forum(int $forum_id): string
 /**
  * Given a topic id, return a URL that can be used to view the topic.
  */
-function get_url_to_view_topic($topic_id)
+function get_url_to_view_topic(int $topic_id): string
 {
     return get_url_for_forum() . "/viewtopic.php?t=$topic_id";
 }
@@ -537,7 +538,7 @@ function get_url_to_view_topic($topic_id)
 /**
  * Given a post id, return a URL that can be used to view the post.
  */
-function get_url_to_view_post($post_id)
+function get_url_to_view_post(int $post_id): string
 {
     return get_url_for_forum() . "/viewtopic.php?p=$post_id#$post_id";
 }
@@ -548,7 +549,7 @@ function get_url_to_view_post($post_id)
  *
  * If no avatar is defined, this function returns NULL.
  */
-function get_url_for_user_avatar($username)
+function get_url_for_user_avatar(string $username): ?string
 {
     $user_details = get_forum_user_details($username);
 
@@ -577,7 +578,7 @@ function get_url_for_user_avatar($username)
 /**
  * Return a URL that can be used to edit the current user's profile.
  */
-function get_url_to_edit_profile()
+function get_url_to_edit_profile(): string
 {
     return get_url_for_forum() . "/ucp.php";
 }
@@ -585,7 +586,7 @@ function get_url_to_edit_profile()
 /**
  * Return a URL that can be used to view a given user's profile.
  */
-function get_url_to_view_profile($user_id)
+function get_url_to_view_profile(int $user_id): string
 {
     return get_url_for_forum() . "/memberlist.php?mode=viewprofile&u=$user_id";
 }
@@ -593,7 +594,7 @@ function get_url_to_view_profile($user_id)
 /**
  * Return the URL for accessing the current user's inbox.
  */
-function get_url_for_inbox()
+function get_url_for_inbox(): string
 {
     return get_url_for_forum() . "/ucp.php?i=pm&folder=inbox";
 }
@@ -601,7 +602,7 @@ function get_url_for_inbox()
 /**
  * Return the URL for searching the forums
  */
-function get_url_for_search(string $query, bool $encode = true)
+function get_url_for_search(string $query, bool $encode = true): string
 {
     return get_url_for_forum() . "/search.php?keywords=" . ($encode ? urlencode($query) : $query);
 }
@@ -609,7 +610,7 @@ function get_url_for_search(string $query, bool $encode = true)
 /**
  * Given a forum username, return the number of unread messages.
  */
-function get_number_of_unread_messages($username)
+function get_number_of_unread_messages(string $username): ?int
 {
     $forum_userid = get_forum_user_id($username);
 
@@ -638,10 +639,8 @@ function get_number_of_unread_messages($username)
 
 /**
  * Confirm a specific topic ID exists.
- *
- * @return bool
  */
-function does_topic_exist($topic_id)
+function does_topic_exist(int $topic_id): bool
 {
     $query = sprintf(
         "
@@ -667,12 +666,8 @@ function does_topic_exist($topic_id)
  *
  * If no topic is found, function returns NULL.
  */
-function get_last_post_time_in_topic($topic_id)
+function get_last_post_time_in_topic(int $topic_id): ?int
 {
-    // Validate that $topic_id is an integer and if not, return NULL
-    if (!is_numeric($topic_id)) {
-        return null;
-    }
     $query = sprintf(
         "
         SELECT MAX(post_time) as max_post_time
@@ -704,8 +699,9 @@ function get_last_post_time_in_topic($topic_id)
  * - forum_name       - name of the forum the topic is in
  * - forum_id         - the id of the forum the topic is in
  * - creator_username - the username of the topic creator
+ * @return array<string, mixed>
  */
-function get_topic_details($topic_id)
+function get_topic_details(int $topic_id): array
 {
     $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
 
@@ -750,12 +746,12 @@ function get_topic_details($topic_id)
  * A proxy for phpbb3_create_topic() in external phpbb3.inc
  */
 function topic_create(
-    $forum_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real,
-    $make_poster_watch_topic
+    int $forum_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real,
+    ?bool $make_poster_watch_topic
 ): ?int {
     $args = func_get_args();
     $topic_id = call_phpbb_function('create_topic', $args);
@@ -777,12 +773,12 @@ function topic_create(
  * A proxy for phpbb3_add_post() in external phpbb3.inc
  */
 function topic_add_post(
-    $topic_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real
-) {
+    int $topic_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real
+): void {
     $args = func_get_args();
     call_phpbb_function('add_post', $args);
 }
@@ -795,7 +791,7 @@ function topic_add_post(
  * It's risky to combine DP and phpBB code in the same PHP context,
  * so we run the phpBB code in a separate process.
  */
-function call_phpbb_function($func_name, $args)
+function call_phpbb_function(string $func_name, mixed $args): ?string
 {
     // If $DEBUG is TRUE, output some additional debugging information useful
     // for figuring out where the calls into phpbb*.inc went wrong.
@@ -808,7 +804,7 @@ function call_phpbb_function($func_name, $args)
     $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
     if (!is_dir($forums_phpbb_dir)) {
         echo "Warning: unable to call '$func_name' because \$forums_phpbb_dir ($forums_phpbb_dir) does not exist.\n";
-        return;
+        return null;
     }
 
     // The phpbb3.inc assumes it's running from $code_dir/pinc/ so we need
@@ -834,16 +830,14 @@ function call_phpbb_function($func_name, $args)
 
 // -----------------------------------------------------------------------------
 
-function topic_change_forum($topic_id, $to_forum_id)
+function topic_change_forum(int $topic_id, int $to_forum_id): void
 {
-    assert($topic_id != '');
-
     call_phpbb_function('move_topic', [$topic_id, $to_forum_id]);
 }
 
 // -----------------------------------------------------------------------------
 
-function forum_resynch($forum_id)
+function forum_resynch(int $forum_id): void
 {
     call_phpbb_function('sync_forum', [$forum_id]);
 }

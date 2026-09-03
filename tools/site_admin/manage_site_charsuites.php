@@ -53,9 +53,7 @@ echo "<th>" . _("Short Name") . "</th>";
 echo "<th>" . _("Enabled") . "</th>";
 echo "<th class='right-align'>" . _("# Projects") . "</th>";
 echo "</tr>";
-usort($all_charsuites, function ($a, $b) {
-    return strcmp($a->title, $b->title);
-});
+usort($all_charsuites, fn ($a, $b) => $a->title <=> $b->title);
 foreach ($all_charsuites as $charsuite) {
     echo "<tr>";
     $charsuite_slug = attr_safe($charsuite->name);

@@ -70,7 +70,7 @@ if (@$_REQUEST['confirmed'] == 'yes') {
 
     echo _("You selected the following page(s):") . "<br>\n";
     echo "<br>\n";
-    echo_page_table($project, 0, true, $selected_pages);
+    echo_page_table($project, false, true, $selected_pages);
     echo "<br>\n";
     echo "$your_request<br>\n";
     echo "<br>\n";

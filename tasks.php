@@ -355,6 +355,7 @@ function SearchParams_echo_controls(): void
  * Return a SQL condition that expresses the restriction on tasks
  * implied by the values (if any) supplied for the search parameters
  * by the current request.
+ * @param array<string, mixed> $request_params
  */
 function SearchParams_get_sql_condition(array $request_params): string
 {
@@ -445,6 +446,7 @@ function make_default_task_object(): object
     return $task;
 }
 
+/** @param array<string, mixed> $formsub */
 function create_task_from_form_submission(array $formsub): ?string
 {
     global $task_assignees_array;
@@ -962,8 +964,14 @@ function process_related_topic(object $pre_task, string $action, int $related_to
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/** @param array<string|int, string> $array */
-function dropdown_select(string $field_name, string $current_value, array $array): string
+/**
+ * @template Key of string|int
+ * @template Value of string|int
+ * @param Key $field_name
+ * @param Value $current_value
+ * @param array<Key, Value> $array
+ */
+function dropdown_select(string|int $field_name, string|int $current_value, array $array): string
 {
     $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
     foreach ($array as $key => $val) {
@@ -1028,6 +1036,7 @@ function TaskHeader(string $header, bool $show_new_alert = false): void
 
 /**
  * Encode an array into text for insertion into the database.
+ * @param mixed[] $a
  */
 function encode_array(array $a): string
 {
@@ -1040,6 +1049,7 @@ function encode_array(array $a): string
  * This should return an array, but if $str is empty,
  * unserialize("") === bool(false). In that case we explicitly return
  * an empty array.
+ * @return mixed[]
  */
 function decode_array(string $str): array
 {
@@ -1057,6 +1067,7 @@ function list_all_open_tasks(): void
     select_and_list_tasks("date_closed = 0");
 }
 
+/** @param array<string, mixed> $request_params */
 function search_and_list_tasks(array $request_params): void
 {
     $condition = SearchParams_get_sql_condition($request_params);
@@ -1229,6 +1240,7 @@ function TaskForm(object $task): void
 
 /**
  * Echo a <tr> element containing a label and a <select> for the given property.
+ * @param array<string|int, string> $options
  */
 function property_echo_select_tr(string $property_id, string $current_value, array $options): void
 {
@@ -1351,8 +1363,8 @@ function TaskDetails(int $tid, string $action): void
     }
 }
 
-/** param mixed $row */
-function property_echo_value_tr(string $property_id, $row, bool $show_if_empty = true): void
+/** @param array<string, mixed> $row */
+function property_echo_value_tr(string $property_id, array $row, bool $show_if_empty = true): void
 {
     $label = property_get_label($property_id, false);
     $formatted_value = property_format_value($property_id, $row, false);
@@ -1368,7 +1380,7 @@ function property_echo_value_tr(string $property_id, $row, bool $show_if_empty =
     echo "\n";
 }
 
-function get_me_too_count($task_id, $requester_u_id)
+function get_me_too_count(int $task_id, int $requester_u_id): int
 {
     $sql = sprintf(
         "
@@ -1384,7 +1396,7 @@ function get_me_too_count($task_id, $requester_u_id)
     return $meTooCheck;
 }
 
-function MeToo($tid, $os, $browser)
+function MeToo(int $tid, int $os, int $browser): void
 {
     global $tasks_url;
     global $requester_u_id;
@@ -1426,7 +1438,7 @@ function MeToo($tid, $os, $browser)
     echo "</td></tr></table></form></div>";
 }
 
-function ShowError($message, $goback = false)
+function ShowError(string $message, bool $goback = false): void
 {
     TaskHeader(_("Task Error"));
     echo "<p class='error'>";
@@ -1436,12 +1448,12 @@ function ShowError($message, $goback = false)
     echo "$message</p>\n";
 }
 
-function create_anchor_for_comment($u_id, $comment_date)
+function create_anchor_for_comment(int $u_id, mixed $comment_date): string
 {
     return "$u_id" . '_' . "$comment_date";
 }
 
-function TaskComments($tid, $action)
+function TaskComments(int $tid, string $action): void
 {
     global $tasks_url, $requester_u_id, $now_sse;
     $sql = sprintf(
@@ -1500,7 +1512,7 @@ function TaskComments($tid, $action)
     }
 }
 
-function NotificationMail($tid, $message, $new_task = false)
+function NotificationMail(int $tid, string $message, bool $new_task = false): void
 {
     global $tasks_url, $pguser;
 
@@ -1537,7 +1549,7 @@ function NotificationMail($tid, $message, $new_task = false)
     }
 }
 
-function RelatedTasks($tid)
+function RelatedTasks(int $tid): void
 {
     global $tasks_url, $tasks_status_array;
     echo "<h2>" . _("Related Tasks") . "</h2>";
@@ -1572,7 +1584,8 @@ function RelatedTasks($tid)
     echo "</table>";
 }
 
-function load_related_tasks($task_id)
+/** @return int[] */
+function load_related_tasks(int $task_id): array
 {
     $sql = sprintf(
         "
@@ -1600,7 +1613,7 @@ function load_related_tasks($task_id)
     return $related_tasks;
 }
 
-function insert_related_task($task1, $task2)
+function insert_related_task(int $task1, int $task2): void
 {
     $task_id_1 = min($task1, $task2);
     $task_id_2 = max($task1, $task2);
@@ -1635,12 +1648,12 @@ function insert_related_task($task1, $task2)
     $result = DPDatabase::query($sql);
 }
 
-function remove_related_task($task1, $task2)
+function remove_related_task(int $task1, int $task2): void
 {
     $task_id_1 = min($task1, $task2);
     $task_id_2 = max($task1, $task2);
 
-    // Now do the insertion
+    // Now do the removal
     $sql = sprintf(
         "
         DELETE FROM tasks_related_tasks
@@ -1653,7 +1666,7 @@ function remove_related_task($task1, $task2)
     $result = DPDatabase::query($sql);
 }
 
-function RelatedPostings($tid)
+function RelatedPostings(int $tid): void
 {
     global $tasks_url;
     $task = load_task($tid);
@@ -1702,7 +1715,7 @@ function RelatedPostings($tid)
     echo "</table>";
 }
 
-function property_get_label($property_id, $for_list_of_tasks)
+function property_get_label(string $property_id, bool $for_list_of_tasks): string
 {
     switch ($property_id) {
         case 'date_edited':
@@ -1744,8 +1757,10 @@ function property_get_label($property_id, $for_list_of_tasks)
         case 'percent_complete':
             return ($for_list_of_tasks ? _("Progress") : _("Percent Complete"));
     }
+    throw new ValueError("Bad task property id: $property_id");
 }
 
+/** @param array<string, mixed> $task_a */
 function property_format_value(string $property_id, array $task_a, bool $for_list_of_tasks): string
 {
     global $tasks_url;
@@ -1981,8 +1996,9 @@ function title_string_for_task(object $pre_task): string
  * Get key corresponding to a task properties string
  *
  * Input string must be a valid property value
+ * @param array<int, string> $array
  */
-function get_property_key(string $value, array $array): string
+function get_property_key(string $value, array $array): int
 {
     if (($key = array_search($value, $array)) === false) {
         throw new ValueError("Bad task property value: $value");

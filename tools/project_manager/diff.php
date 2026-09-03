@@ -183,16 +183,16 @@ if ($L_text != $R_text) {
  * again at the bottom of the page
  */
 function get_navigation(
-    $project,
-    $image,
-    $L_round,
-    $R_round,
-    $L_user,
-    $format,
-    $only_nonempty_diffs,
-    $bb_diffs,
-    $diff_font
-) {
+    Project $project,
+    string $image,
+    Round $L_round,
+    Round $R_round,
+    string $L_user,
+    string $format,
+    bool $only_nonempty_diffs,
+    bool $bb_diffs,
+    string $diff_font
+): string {
     global $diff_fonts;
 
     $navigation_text = "";
@@ -302,7 +302,7 @@ function get_navigation(
 /**
  * Discover whether the user is allowed to see proofreader names for this page
  */
-function can_see_names_for_page($projectid, $image)
+function can_see_names_for_page(string $projectid, string $image): bool
 {
     global $pguser;
 
@@ -342,7 +342,7 @@ function can_see_names_for_page($projectid, $image)
 /**
  * Discover whether the user is allowed to navigate by proofreader for this page
  */
-function can_navigate_by_proofer($projectid, $L_user)
+function can_navigate_by_proofer(string $projectid, string $L_user): bool
 {
     global $pguser;
     $answer = false;

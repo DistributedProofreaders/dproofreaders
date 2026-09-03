@@ -12,7 +12,7 @@
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
-define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
+define("RESUMABLE_UPLOAD_SIZE", SiteConfig::get()->uploads_max_size_mb * 1024 * 1024);
 
 /**
  * Detect too-large file uploads
@@ -26,7 +26,7 @@ define("RESUMABLE_UPLOAD_SIZE", 1024 * 1024 * 1024);  // 1GB
  *
  * http://andrewcurioso.com/blog/archive/2010/detecting-file-size-overflow-in-php.html
  */
-function detect_too_large()
+function detect_too_large(): void
 {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST) &&
         empty($_FILES) && ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
@@ -34,21 +34,24 @@ function detect_too_large()
     }
 }
 
-function get_max_upload_size()
+function get_max_upload_size(): int
 {
-    return return_bytes(ini_get("upload_max_filesize"));
+    return ini_parse_quantity(ini_get("upload_max_filesize"));
 }
 
-function get_big_upload_blurb()
+function get_big_upload_blurb(): string
 {
     global $db_requests_email_addr;
 
     return sprintf(_("If you are trying to upload a very big zip file and the upload does not succeed, upload a small placeholder zip file instead and email %s for assistance."), "<span class='nowrap'>$db_requests_email_addr</span>");
 }
 
-// This supplies the arguments for the header in the page containing the upload
-// form below
-function get_upload_args()
+/**
+ * This supplies the arguments for the header in the page containing the upload
+ * form below
+ * @return HeaderExtraArgs
+ */
+function get_upload_args(): array
 {
     global $code_url;
 
@@ -82,7 +85,7 @@ function get_upload_args()
  * It contains a 'choose file' button and a labeled submit button
  * and shows appropriate messages to the user.
  */
-function show_upload_form($form_content, $submit_label)
+function show_upload_form(string $form_content, string $submit_label): void
 {
     $standard_blurb = _("The file must be Zipped (not gzip, tar, etc.) and have the .zip extension. The file name must consist of ASCII letters, digits, underscores, and/or hyphens. It must not begin with a hyphen and be no longer than 200 characters.");
 
@@ -146,9 +149,11 @@ class NoFileUploadedException extends Exception
  * throws NoFileUploadedException if there is no file
  * throws a FileUploadException if there is a problem
  * if an exception is thrown any file will have been deleted.
- * verbose will echo progress messages - must disable apache gzip compression
+ * @param bool $verbose
+ *   echo progress messages - must disable apache gzip compression
+ * @return array{tmp_name: string, name: string}
  */
-function validate_uploaded_file($verbose)
+function validate_uploaded_file(bool $verbose): array
 {
     $file_path = "";
     $mode = get_enumerated_param($_REQUEST, 'mode', 'upload', ['upload', 'resumable']);
@@ -177,7 +182,7 @@ function validate_uploaded_file($verbose)
                 throw new FileUploadException(_("You may only upload one file"));
             }
             // allow anti_virus to read it
-            chmod($file_path, 0644);
+            chmod($file_path, 0o644);
         } else {
             // resumable upload
             $root_staging_dir = "/tmp/resumable_uploads";
@@ -220,14 +225,14 @@ function validate_uploaded_file($verbose)
     return $file_info;
 }
 
-function empty_check($file_size)
+function empty_check(int $file_size): void
 {
     if (0 == $file_size) {
         throw new FileUploadException(_("File is empty"));
     }
 }
 
-function zip_check($original_name, $file_path)
+function zip_check(string $original_name, string $file_path): void
 {
     if (substr($original_name, -4) != ".zip") {
         throw new FileUploadException(_("File name extension must be '.zip'"));
@@ -244,7 +249,7 @@ function zip_check($original_name, $file_path)
 }
 
 // echos messages if verbose
-function virus_check($file_path, $verbose)
+function virus_check(string $file_path, bool $verbose): void
 {
     $antivirus_executable = SiteConfig::get()->antivirus_executable;
     if (!$antivirus_executable) {
@@ -274,7 +279,7 @@ function virus_check($file_path, $verbose)
     show_upload_message($verbose, _("No infection found"));
 }
 
-function show_upload_message($verbose, $message)
+function show_upload_message(bool $verbose, string $message): void
 {
     if (!$verbose) {
         return;
@@ -285,7 +290,7 @@ function show_upload_message($verbose, $message)
 
 // This function has a client-side pair in scripts/file_resume.js:validate()
 // which should be updated if the below logic changes.
-function is_valid_filename($filename, $restrict_extension = false)
+function is_valid_filename(string $filename, bool|string $restrict_extension = false): bool
 {
     // Filenames can't be longer than 200 characters total
     if (strlen($filename) > 200) {
@@ -309,7 +314,7 @@ function is_valid_filename($filename, $restrict_extension = false)
 
 // This function is used in remote_file_manager to enforce valid
 // directory names. It pairs with is_valid_filename() above.
-function is_valid_dirname($dirname)
+function is_valid_dirname(string $dirname): bool
 {
     // Directory names can't be longer than 200 characters total
     if (strlen($dirname) > 200) {

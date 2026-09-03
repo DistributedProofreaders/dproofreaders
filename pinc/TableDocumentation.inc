@@ -4,6 +4,15 @@ class TableDocumentation
 {
     public function __construct(
         private readonly string $display_name,
+        /** @var array{
+         *           Field: string,
+         *           Type: string,
+         *           Null: string,
+         *           Key: string,
+         *           Default: string,
+         *           Extra: string
+         *       }[]
+         */
         private readonly array $columns_information
     ) {
     }
@@ -51,7 +60,8 @@ class TableDocumentation
         ]);
     }
 
-    public function get_column_names(): array
+    /** @return string[] */
+    public function get_column_names()
     {
         $column_names = [];
 
@@ -67,12 +77,14 @@ class TableDocumentation
      *
      * Every cell is padded right with spaces to ensure every column is as wide as the widest cell in that column.
      *
-     * @param array $contents the data that is shown within the table
-     * @param array $table_columns the columns to display
+     * @param list<array<string, string>> $contents
+     *     the data that is shown within the table
+     * @param string[] $table_columns
+     *     the columns to display
      *
-     * @return array array of strings -- the generate markdown table
+     * @return string[] -- the generateid markdown table
      */
-    public static function create_markdown_table(array $contents, array $table_columns): array
+    public static function create_markdown_table($contents, $table_columns)
     {
         // For each column find the length of the longest value (used for padding in the table)
         $column_lengths = [];
@@ -115,12 +127,14 @@ class TableDocumentation
      * Removes column definitions for columns which are not included in the second argument and adds the column definitions
      * for any column in the second argument which does not have a column definition.
      *
-     * @param array $lines an array of strings -- the lines of the text
-     * @param array $column_names column names of the current columns in the table
+     * @param string[] $lines
+     *      lines of the text
+     * @param string[] $column_names
+     *      column names of the current columns in the table
      *
-     * @return array an array of strings containing the text with updated column definitions
+     * @return string[] lines of text with updated column definitions
      */
-    public static function update_column_definitions(array $lines, array $column_names): array
+    public static function update_column_definitions($lines, $column_names)
     {
         $lines_with_updated_column_definitions = [];
         $encountered_columns = [];
@@ -156,12 +170,14 @@ class TableDocumentation
     /**
      * Replaces first markdown table with the second argument.
      *
-     * @param array $lines an array of strings -- the lines of the text
-     * @param array $new_table an array of strings -- the new table
-     *
-     * @return array an array of strings containing the text with the first table replaced with the second argument
+     * @param string[] $lines
+     *      the lines of the text
+     * @param string[] $new_table
+     *      the new table
+     * @return string[]
+     *      the text with the first table replaced with the second argument
      */
-    public static function replace_first_table(array $lines, array $new_table): array
+    public static function replace_first_table($lines, $new_table)
     {
         $lines_with_new_table = [];
         $reached_table = false;
@@ -185,11 +201,13 @@ class TableDocumentation
     /**
      * Detects the first markdown table in the text.
      *
-     * @param array $lines an array of strings -- the lines of the text
+     * @param string[] $lines
+     *    the lines of the text
      *
-     * @return array an array of strings containing the first markdown table in the text
+     * @return string[]
+     *    lines containing the first markdown table in the text
      */
-    public static function detect_first_table_in_text(array $lines): array
+    public static function detect_first_table_in_text($lines)
     {
         $first_table_lines = [];
 
@@ -214,11 +232,13 @@ class TableDocumentation
      *
      * ## `something_useful`
      *
-     * @param array $lines an array of strings -- the lines of the text
+     * @param string[] $lines
+     *      the lines of the text
      *
-     * @return array an array of strings containing the column names detected in text
+     * @return string[]
+     *      column names detected in text
      */
-    public static function detect_columns_in_text(array $lines): array
+    public static function detect_columns_in_text($lines)
     {
         // array_values is used to reindex the array
         return array_values(preg_filter('/^## `([a-zA-Z0-9_]+)`/', '$1', $lines));

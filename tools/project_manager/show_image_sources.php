@@ -273,7 +273,8 @@ if (!$imso_code) {
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function load_image_source_stats()
+/** @return array<string, array<string, mixed>> */
+function load_image_source_stats(): array
 {
     $stats = [];
     $sql = "

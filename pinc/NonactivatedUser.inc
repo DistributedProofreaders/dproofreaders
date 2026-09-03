@@ -23,25 +23,29 @@ class NonuniqueNonactivatedUserException extends Exception
  */
 class NonactivatedUser
 {
+    /** @var array<string, mixed> */
     private $table_row;
 
     // List of fields that can never be set outside of this class
+    /** @var string[] */
     private $unsettable_fields = [
         "id",
         "date_created",
     ];
 
     // List of fields that when set should never change
+    /** @var string[] */
     private $immutable_fields = [
         "username",
     ];
 
     // Fields are assumed to be strings unless included here
+    /** @var string[] */
     private $integer_fields = [
         "email_updates",
     ];
 
-    public function __construct($username = null)
+    public function __construct(?string $username = null)
     {
         if ($username !== null) {
             $this->load("username", $username);
@@ -51,7 +55,7 @@ class NonactivatedUser
     // The __set() and __get() methods allow access to user fields without
     // creating accessors for them all individually.
     // See the PHP docs for "magic methods".
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         if (in_array($name, $this->unsettable_fields)) {
             throw new DomainException(
@@ -74,17 +78,17 @@ class NonactivatedUser
         $this->table_row[$name] = $value;
     }
 
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->table_row[$name];
     }
 
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return isset($this->table_row[$name]);
     }
 
-    private function load($field, $value, $strict = true)
+    private function load(string $field, mixed $value, bool $strict = true): void
     {
         if (!in_array($field, $this->integer_fields)) {
             $escaped_value = sprintf("'%s'", DPDatabase::escape($value));
@@ -136,7 +140,7 @@ class NonactivatedUser
         mysqli_free_result($result);
     }
 
-    public function save()
+    public function save(): void
     {
         $todays_date = time();
 
@@ -208,7 +212,7 @@ class NonactivatedUser
         }
     }
 
-    public function delete()
+    public function delete(): void
     {
         if (!isset($this->id)) {
             return;

@@ -8,12 +8,14 @@ class ProofProjectPage extends LPage
         parent::__construct($proof_project->project, $project_page->page_name, $project_page->page_state, 0);
     }
 
+    /** @return array<string, mixed> */
     public function pp_checkout(string $user): array
     {
         parent::checkout($user);
         return $this->render_page_data();
     }
 
+    /** @return array<string, mixed> */
     public function attempt_checkin(string $page_text): array
     {
         global $pguser;
@@ -43,6 +45,7 @@ class ProofProjectPage extends LPage
         return ["message" => $sentence, "status" => $status_code];
     }
 
+    /** @return array<string, mixed> */
     public function save(string $page_text): array
     {
         global $pguser;
@@ -51,6 +54,7 @@ class ProofProjectPage extends LPage
         return $this->get_page_text_data();
     }
 
+    /** @return array<string, mixed> */
     public function save_and_revert(string $page_text): array
     {
         global $pguser;
@@ -60,6 +64,7 @@ class ProofProjectPage extends LPage
         return $this->get_page_text_data();
     }
 
+    /** @return array<string, mixed> */
     public function pp_resume_page(): array
     {
         global $pguser;
@@ -68,6 +73,7 @@ class ProofProjectPage extends LPage
         return $this->render_page_data();
     }
 
+    /** @return array<string, mixed> */
     private function render_page_data(): array
     {
         return
@@ -81,6 +87,7 @@ class ProofProjectPage extends LPage
             ];
     }
 
+    /** @return array{text: string, pagestate: string, saved: bool} */
     public function get_page_text_data(): array
     {
         return [
@@ -90,6 +97,7 @@ class ProofProjectPage extends LPage
         ];
     }
 
+    /** @param string[] $accepted_words */
     public function wc_report(array $accepted_words): void
     {
         global $pguser;
@@ -134,8 +142,8 @@ class ProofProjectPage extends LPage
 
 class ProofProject
 {
-    public $project;
-    public $round;
+    public readonly Project $project;
+    public readonly Round $round;
 
     public function __construct(Project $project)
     {
@@ -148,6 +156,7 @@ class ProofProject
         $this->round = $project_round;
     }
 
+    /** @return array<string, mixed> */
     public function checkout(): array
     {
         global $pguser;

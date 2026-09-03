@@ -7,7 +7,7 @@ use voku\helper\UTF8;
  *
  * @return string|false
  */
-function utf8_normalize(string $string)
+function utf8_normalize(string $string): string|bool
 {
     $normalizer = new Normalizer();
     return $normalizer->normalize($string);
@@ -27,10 +27,8 @@ function utf8_combined_chr(string $codepoint): string
 
 /**
  * Given a character, return the Unicode script it belongs to
- *
- * @param int|string $char
  */
-function utf8_char_script($char): string
+function utf8_char_script(int|string $char): string
 {
     $enum = IntlChar::getIntPropertyValue($char, IntlChar::PROPERTY_SCRIPT);
     return IntlChar::getPropertyValueName(IntlChar::PROPERTY_SCRIPT, $enum);
@@ -77,8 +75,10 @@ function utf8_string_scripts(string $string): array
  * Returns an associative array where the key is the nonnormalized codepoint
  * and the value is the normalized version. If all codepoints are normalized
  * it returns an empty array.
+ * @param string|string[] $codepoints
+ * @return array<string, string>
  */
-function get_nonnormalized_codepoints($codepoints)
+function get_nonnormalized_codepoints($codepoints): array
 {
     $characters = convert_codepoint_ranges_to_characters($codepoints);
     $nonnorm_codepoints = [];
@@ -95,10 +95,8 @@ function get_nonnormalized_codepoints($codepoints)
 
 /**
  * Given a single character, or a combined character, return its name
- *
- * @param string $characters
  */
-function utf8_character_name($characters): string
+function utf8_character_name(string $characters): string
 {
     $title_pieces = [];
     foreach (UTF8::str_split($characters) as $char) {
@@ -140,7 +138,8 @@ function split_multiscript_string(string $string): array
     return $chunks;
 }
 
-function split_graphemes($string)
+/** @return Generator<string> */
+function split_graphemes(string $string)
 {
     $next = 0;
     $maxbytes = strlen($string);
@@ -162,8 +161,9 @@ function split_graphemes($string)
 
 /**
  * Split a Unicode string into codepoints keeping combining characters together
+ * @return string[]
  */
-function utf8_codepoints_combining($string)
+function utf8_codepoints_combining(string $string): array
 {
     $codepoints = [];
     foreach (split_graphemes($string) as $grapheme) {
@@ -175,15 +175,17 @@ function utf8_codepoints_combining($string)
 /**
  * Given a string, return a string of codepoints in U+ format
  */
-function string_to_codepoints_string($string, $imploder = " ")
+function string_to_codepoints_string(string $string, string $imploder = " "): string
 {
     return implode($imploder, UTF8::codepoints($string, true));
 }
 
 /**
  * Filter to only characters in $string that are in $valid_codepoints.
+ *
+ * @param string[] $valid_codepoints
  */
-function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement = "")
+function utf8_filter_to_codepoints(string $string, array $valid_codepoints, string $replacement = ""): string
 {
     $pattern_string = build_character_regex_filter($valid_codepoints);
     $result = "";
@@ -200,8 +202,10 @@ function utf8_filter_to_codepoints($string, $valid_codepoints, $replacement = ""
 
 /**
  * Filter out any characters in $string that are in $remove_codepoints
+ *
+ * @param string[] $remove_codepoints
  */
-function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement = "")
+function utf8_filter_out_codepoints(string $string, array $remove_codepoints, string $replacement = ""): string
 {
     $pattern_string = build_character_regex_filter($remove_codepoints);
     $result = "";
@@ -223,7 +227,7 @@ function utf8_filter_out_codepoints($string, $remove_codepoints, $replacement = 
  *
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Character_Classes
  */
-function get_unicode_regex_class($codepoint, $lang = 'php')
+function get_unicode_regex_class(string $codepoint, string $lang = 'php'): string
 {
     $hex = str_replace("U+", "", $codepoint);
     if ($lang == "php") {
@@ -241,12 +245,12 @@ function get_unicode_regex_class($codepoint, $lang = 'php')
  * return a regular expression character class to match a single
  * character.
  *
- * @param array $codepoints
+ * @param string[] $codepoints
  *
  * @param string $lang
  *   Consuming language (php or js).
  */
-function build_character_regex_filter($codepoints, $lang = 'php')
+function build_character_regex_filter(array $codepoints, string $lang = 'php'): string
 {
     $char_class = "";
     $alternatives = [];
@@ -313,9 +317,10 @@ function convert_codepoint_ranges_to_characters($codepoints): array
 /**
  * Return an array of invalid characters and their count
  *
+ * @param string[] $codepoints
  * @return array<string, int>
  */
-function get_invalid_characters(string $string, $codepoints): array
+function get_invalid_characters(string $string, array $codepoints): array
 {
     $string = utf8_filter_out_codepoints($string, $codepoints);
     $char_count = [];
@@ -336,8 +341,10 @@ function get_invalid_characters(string $string, $codepoints): array
  *
  * Returns `[ $success, $message ]` where $success is TRUE if the file is
  * already UTF-8 or was successfully converted. $message is a more detailed message.
+ *
+ * @return list{bool, string}
  */
-function convert_text_file_to_utf8(string $filename)
+function convert_text_file_to_utf8(string $filename): array
 {
     $text = file_get_contents($filename);
     $encoding = guess_string_encoding($text);

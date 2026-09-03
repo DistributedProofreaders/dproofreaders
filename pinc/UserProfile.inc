@@ -29,15 +29,18 @@ class NonexistentUserProfileException extends Exception
  */
 class UserProfile
 {
+    /** @var array<string, mixed> */
     private $table_row;
 
     // List of fields that when set for a profile should never change
+    /** @var string[] */
     private $immutable_fields = [
         "id",
         "u_ref",
     ];
 
     // Fields are assumed to be integers unless included here
+    /** @var string[] */
     private $string_fields = [
         "profilename",
         "v_fntf_other",
@@ -70,8 +73,7 @@ class UserProfile
         $this->table_row[$name] = $value;
     }
 
-    /** @return mixed */
-    public function __get(string $name)
+    public function __get(string $name): mixed
     {
         return $this->table_row[$name];
     }

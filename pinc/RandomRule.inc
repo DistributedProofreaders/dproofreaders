@@ -10,12 +10,14 @@
  */
 class RandomRule
 {
+    /** @var array<string, string> */
     private array $table_row = [];
 
     // Because these are static class variables we can't use _() to translate
     // them. But they're only used in the Admin interface so that's probably
     // OK anyway. If, in the future, we want to translate them we can move
     // them to a class function (get_document_values()) instead.
+    /** @var array<string, string> */
     public static $document_values = [
         "proofreading_guidelines.php" => "Proofreading Guidelines",
         "formatting_guidelines.php" => "Formatting Guidelines",
@@ -28,7 +30,7 @@ class RandomRule
         }
     }
 
-    public function __get(string $name)
+    public function __get(string $name): ?string
     {
         return $this->table_row[$name];
     }
@@ -146,7 +148,7 @@ class RandomRule
      *
      * Useful primarily for the administrative interface.
      *
-     * @return array{"document": string, "langcode": string, "count": int}[]
+     * @return array{document: string, langcode: string, count: int}[]
      */
     public static function get_summary(): array
     {

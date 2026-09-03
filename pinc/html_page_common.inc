@@ -12,8 +12,10 @@ define('SHOW_STATSBAR', true);
 /**
  * Output the opening HTML page code, including pulling in common styles,
  * page title, etc.
+ *
+ * @param HeaderExtraArgs $extra_args
  */
-function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true)
+function output_html_header(?string $nameofpage, array $extra_args = [], bool $show_statsbar = true): void
 {
     global $code_url;
 
@@ -134,6 +136,12 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
     }
     echo "</script>\n";
 
+    if (isset($extra_args['js_module_data'])) {
+        echo "<script type='module'>\n";
+        echo $extra_args['js_module_data'];
+        echo "</script>\n";
+    }
+
     // Any additional head tags
     if (isset($extra_args['head_data'])) {
         echo $extra_args['head_data'];
@@ -152,8 +160,10 @@ function output_html_header($nameofpage, $extra_args = [], $show_statsbar = true
 
 /**
  * Output HTML page footer to close the page
+ *
+ * @param array<string, mixed> $extra_args
  */
-function output_html_footer($extra_args = [])
+function output_html_footer(array $extra_args = []): void
 {
     // close up the page
 
@@ -174,7 +184,7 @@ function output_html_footer($extra_args = [])
  * Apache will ignore this but when the value changes the browser will reread
  * the file. PHP's statcache should make this fast.
  */
-function get_local_file_browser_cache_key($url)
+function get_local_file_browser_cache_key(string $url): string
 {
     global $code_url, $code_dir;
 

@@ -44,9 +44,8 @@ if (is_file($phpbb_root_path . 'includes/functions_compatibility.' . $phpEx)) {
 
 // -----------------------------------------------------------------------------
 
-function phpbb3_encode_and_hash_password(
-    $password
-) {
+function phpbb3_encode_and_hash_password(string $password): string
+{
     // phpBB3 code does pre-processing on the password as it comes in from
     // the web browser. We need to do the same pre-processing before
     // hashing the password if we want ours to match theirs.
@@ -56,11 +55,11 @@ function phpbb3_encode_and_hash_password(
 }
 
 function phpbb3_create_user(
-    $username,
-    $password,
-    $email,
-    $lang
-) {
+    string $username,
+    string $password,
+    string $email,
+    string $lang
+): int|false {
     $forums_phpbb_table_prefix = SiteConfig::get()->forums_phpbb_table_prefix;
 
     // get the group_id for the REGISTERED user group
@@ -91,13 +90,13 @@ function phpbb3_create_user(
 }
 
 function phpbb3_create_topic(
-    $forum_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real,
-    $make_poster_watch_topic
-) {
+    int $forum_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real,
+    ?int $make_poster_watch_topic
+): int {
     $post_result = _insert_post(
         $forum_id,
         0, // causes a new topic to be created
@@ -115,12 +114,12 @@ function phpbb3_create_topic(
 
 // -----------------------------------------------------------------------------
 
-function phpbb3_move_topic($topic_id, $forum_id)
+function phpbb3_move_topic(int $topic_id, int $forum_id): void
 {
     move_topics($topic_id, $forum_id);
 }
 
-function phpbb3_sync_forum($forum_id)
+function phpbb3_sync_forum(int $forum_id): void
 {
     $forum_ids = [$forum_id];
     sync('forum', 'forum_id', $forum_ids, true, true);
@@ -129,12 +128,12 @@ function phpbb3_sync_forum($forum_id)
 // -----------------------------------------------------------------------------
 
 function phpbb3_add_post(
-    $topic_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real
-) {
+    int $topic_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real
+): void {
     $forums_phpbb_table_prefix = SiteConfig::get()->forums_phpbb_table_prefix;
 
     // Which forum is the topic in?
@@ -172,16 +171,17 @@ function phpbb3_add_post(
  * - attachsig is deduced from poster's preferences;
  * - we override $user_ip;
  * - we disable smilies
+ * @return array<string, mixed>
  */
 function _insert_post(
-    $forum_id,
-    $topic_id,
-    $post_subject,
-    $post_text,
-    $poster_name,
-    $poster_is_real,
-    $watch_topic = null
-) {
+    int $forum_id,
+    int $topic_id,
+    string $post_subject,
+    string $post_text,
+    string $poster_name,
+    bool $poster_is_real,
+    ?int $watch_topic = null
+): array {
     $forums_phpbb_table_prefix = SiteConfig::get()->forums_phpbb_table_prefix;
     global $db, $user, $auth;
 
@@ -334,7 +334,7 @@ function _insert_post(
 /**
  * Die with a non-zero exit code.
  */
-function die_nz($string)
+function die_nz(string $string): never
 {
     echo $string, "\n";
     exit(1);

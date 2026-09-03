@@ -230,7 +230,7 @@ class InvalidMARCRecord extends Exception
 //  ]
 
 /**
- * @property-read array $yaz_array
+ * @property-read string[][] $yaz_array
  * @property string $title
  * @property string $author
  * @property-read string $lccn
@@ -247,7 +247,9 @@ class InvalidMARCRecord extends Exception
 class MARCRecord
 {
     // MARC record in the yaz_search 'array' format
+    /** @var string[][] */
     private $record = [];
+    /** @var array<int|string, string> */
     private $literary_form_array = [
         "a" => "Art",
         "b" => "Biography",
@@ -281,6 +283,7 @@ class MARCRecord
     ];
 
     // https://www.loc.gov/marc/bibliographic/bdleader.html
+    /** @var array<int|string, string> */
     private $type_of_record_array = [
         "a" => "Language material", // "resources that are basically textual in nature"
         "c" => "Notated music",
@@ -298,14 +301,11 @@ class MARCRecord
         "t" => "Manuscript language material", // material in handwriting, typescript, or computer printout including printed materials completed by hand or by keyboard
     ];
 
-    private $force_utf8;
-
-    public function __construct($force_utf8 = true)
+    public function __construct(private readonly bool $force_utf8 = true)
     {
-        $this->force_utf8 = $force_utf8;
     }
 
-    public function __get($field)
+    public function __get(string $field): string
     {
         $func = "get_$field";
         $string = $this->{$func}();
@@ -318,16 +318,19 @@ class MARCRecord
         return $string;
     }
 
-    public function load_yaz_array($yaz_array)
+    /** @param string[][] $yaz_array */
+    public function load_yaz_array(array $yaz_array): void
     {
         $this->record = $yaz_array;
     }
 
-    public function get_yaz_array()
+    /** @return string[][] */
+    public function get_yaz_array(): array
     {
         return $this->record;
     }
 
+    /** @return Generator<int> */
     private function _key_search(string $tag, string $subfield)
     {
         foreach ($this->record as $key => $value) {
@@ -346,12 +349,13 @@ class MARCRecord
             }
         }
     }
-    private function _find_first(string $tag, string $subfield)
+    private function _find_first(string $tag, string $subfield): mixed
     {
         return $this->_key_search($tag, $subfield)->current();
     }
 
-    private function _find_all(string $tag, string $subfield)
+    /** @return mixed[] */
+    private function _find_all(string $tag, string $subfield): array
     {
         return iterator_to_array($this->_key_search($tag, $subfield));
     }
@@ -566,7 +570,7 @@ class MARCRecord
         return rtrim(ltrim(implode(", ", $marc_publisher), "["), "]");
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $directory = "";
         $data = "";
@@ -600,8 +604,8 @@ class MARCRecord
                     $start = (substr($directory, -12, 4) . substr($directory, -8, 5));
                 }
 
-                $start = str_pad($start, 5, "0", STR_PAD_LEFT);
-                $length = str_pad($length + 1, 4, "0", STR_PAD_LEFT);
+                $start = sprintf("%05d", $start);
+                $length = sprintf("%04d", $length + 1);
                 $directory .= $length.$start;
 
                 foreach ($this->record as $field => $field_value) {
@@ -620,7 +624,11 @@ class MARCRecord
         }
 
         $data .= "\x1E\x1D";
-        $leader = str_pad((strlen($directory) + strlen($data) + 24), 5, "0", STR_PAD_LEFT)."cam  22".str_pad((strlen($directory) + 25), 5, "0", STR_PAD_LEFT)." u 4500";
+        $leader = sprintf(
+            "%05dcam 22%05d u 4500",
+            strlen($directory) + strlen($data) + 24,
+            strlen($directory) + 25
+        );
         $raw_marc = $leader.$directory.$data;
         return $raw_marc;
     }

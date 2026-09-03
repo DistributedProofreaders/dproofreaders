@@ -73,6 +73,12 @@ class SiteConfig
     public string $uploads_subdir_commons = "Commons";
     public string $uploads_subdir_users = "Users";
     public ?string $antivirus_executable = null;
+    // When setting uploads_max_size_mb, review the following settings in clamd.conf:
+    //     MaxScanSize -- should be set to twice the desired max upload size
+    //     AlertExceedsMax -- should be set to true if you wish files that cannot
+    //                        be scanned at that limit to be rejected.
+    // See `man clamd.conf` for more detailed info
+    public int $uploads_max_size_mb = 1024;
 
     // WordCheck & locales
     public string $aspell_executable = '/usr/bin/aspell';
@@ -84,9 +90,11 @@ class SiteConfig
     public bool $api_rate_limit = false;
     public int $api_rate_limit_requests_per_window = 3600;
     public int $api_rate_limit_seconds_in_window = 3600;
+    /** @var string[] */
     public array $api_storage_keys = [];
 
     // emails
+    /** @var array<string, string|int> */
     public array $phpmailer_smtp_config = [];
     public ?string $no_reply_email_addr;  // only used by noncvs code
     public ?string $general_help_email_addr;
@@ -98,6 +106,11 @@ class SiteConfig
     public ?string $image_sources_manager_addr;
     public ?string $translation_coordinator_email_addr;
 
+    // New feature deployment timestamps
+    public int $wordcheck_deployed = 0;
+    public int $unicode_deployed = 0;
+    public int $format_preview_tracking_deployed = 0;
+
     // Misc configuration
     public bool $use_secure_cookies = false;
     public string $php_cli_executable = '/usr/bin/php';
@@ -105,6 +118,7 @@ class SiteConfig
     public bool $auto_post_to_project_topic = false;
     public bool $ordinary_users_can_see_queue_settings = true;
     public string $external_catalog_locator = 'lx2.loc.gov:210/LCDB';
+    /** @var string[] */
     public array $default_project_char_suites = ["basic-latin"];
     public bool $testing = false;
 
@@ -145,7 +159,7 @@ class SiteConfig
         $projects_dir = $this->projects_dir;
     }
 
-    public static function load(string $filename)
+    public static function load(string $filename): void
     {
         if (self::$_site_config) {
             return;

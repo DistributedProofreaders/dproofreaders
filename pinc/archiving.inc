@@ -19,7 +19,7 @@ use Symfony\Component\Process\Process;
  * @param bool $dry_run
  *   if true, do not actually archive, but rather echo information about what would happen
  */
-function archive_project(Project $project, bool $dry_run = false)
+function archive_project(Project $project, bool $dry_run = false): void
 {
     $archive_projects_dir = SiteConfig::get()->archive_projects_dir;
     $archive_db_name = SiteConfig::get()->archive_db_name;
@@ -79,7 +79,7 @@ function archive_project(Project $project, bool $dry_run = false)
             }
 
             if (!rename($project_dir, $new_dir)) {
-                throw new RuntimeException(sprintf(_('Unable to move %1$s to %2$s', $project_dir, $new_dir)));
+                throw new RuntimeException(sprintf(_('Unable to move %1$s to %2$s'), $project_dir, $new_dir));
             }
         }
     } else {
@@ -118,7 +118,7 @@ function archive_project(Project $project, bool $dry_run = false)
  * @param bool $dry_run
  *   if true, do not actually archive, but rather echo information about what would happen
  */
-function archive_ancillary_data_for_project_etc(Project $project, string $indent, bool $dry_run)
+function archive_ancillary_data_for_project_etc(Project $project, string $indent, bool $dry_run): void
 {
     archive_ancillary_data_for_project($project, $indent, $dry_run);
 
@@ -152,7 +152,7 @@ function archive_ancillary_data_for_project_etc(Project $project, string $indent
  * @param bool $dry_run
  *   if true, do not actually archive, but rather echo information about what would happen
  */
-function archive_ancillary_data_for_project(Project $project, string $indent, bool $dry_run)
+function archive_ancillary_data_for_project(Project $project, string $indent, bool $dry_run): void
 {
     $projectid = $project->projectid;
 
@@ -197,7 +197,7 @@ function archive_ancillary_data_for_project(Project $project, string $indent, bo
  * @param bool $dry_run
  *   if true, do not actually archive, but rather echo information about what would happen
  */
-function move_project_rows_to_archive_db(string $projectid, string $table_name, string $indent, bool $dry_run)
+function move_project_rows_to_archive_db(string $projectid, string $table_name, string $indent, bool $dry_run): void
 {
     $archive_db_name = SiteConfig::get()->archive_db_name;
 
@@ -257,7 +257,7 @@ function move_project_rows_to_archive_db(string $projectid, string $table_name, 
     // this sleep gives the db server some time to recover
     // in between queries.
     global $archival_recovery_multiplier;
-    sleep($t_elapsed * $archival_recovery_multiplier);
+    sleep((int)ceil($t_elapsed * $archival_recovery_multiplier));
 }
 
 $archival_recovery_multiplier = 1;

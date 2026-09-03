@@ -337,11 +337,8 @@ function get_project_status_descriptors(): array
  * - plotting a graph of
  * projects having that status.
  *
- * @param string $which
- *   A word denoting a possible status of a project, one of:
- *   `created`, `proofed`, `PPd`, or `posted`.
- *
- * @return object
+ * @param 'created'|'proofed'|'PPd'|'posted' $which
+ *   A word denoting a possible status of a project
  */
 function get_project_status_descriptor(string $which): object
 {

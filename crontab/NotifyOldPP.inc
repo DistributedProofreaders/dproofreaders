@@ -11,7 +11,7 @@ class NotifyOldPP extends BackgroundJob
     private int $notifications_sent = 0;
     private int $notifications_failed = 0;
 
-    public function work()
+    public function work(): void
     {
         $projects_by_PPer = get_pp_projects_past_threshold();
 
@@ -34,7 +34,11 @@ class NotifyOldPP extends BackgroundJob
         $this->stop_message = "Sent notifications to {$this->notifications_sent} users";
     }
 
-    private function send_pp_reminders($PPer, $projects, $which_message)
+    /**
+     * @param array<string, mixed>[] $projects
+     * @param 'first'|'second' $which_message
+     */
+    private function send_pp_reminders(string $PPer, array $projects, string $which_message): void
     {
         global $code_url;
         global $pp_alert_threshold_days;

@@ -25,7 +25,7 @@ $ticon = $_POST["ticon"] ?? "";
 if (isset($_POST['mkPreview'])) {
     $title = sprintf(_("Preview %s"), $teamname);
     output_header($title, NO_STATSBAR, $theme_extra_args);
-    $teamimages = uploadImages(1, "", "both");
+    $teamimages = uploadImages(true, null, "both");
     $curTeam['id'] = 0;
     $curTeam['topic_id'] = 0;
     $curTeam['teamname'] = $teamname;
@@ -37,7 +37,7 @@ if (isset($_POST['mkPreview'])) {
     $curTeam['member_count'] = 0;
     $curTeam['avatar'] = $teamimages['avatar'];
     echo "<div class='center-align'><br>";
-    showEdit($teamname, $text_data, $teamwebpage, 1, 0);
+    showEdit($teamname, $text_data, $teamwebpage, true, 0);
     echo "<br>";
     showTeamProfile($curTeam, /* $preview= */ true);
     echo "</div><br>";
@@ -54,7 +54,7 @@ if (isset($_POST['mkPreview'])) {
     if (mysqli_num_rows($result) > 0 || $teamname == "") {
         $name = _("Create Team");
         output_header($name, NO_STATSBAR);
-        $teamimages = uploadImages(1, "", "both");
+        $teamimages = uploadImages(true, null, "both");
         $curTeam['avatar'] = $teamimages['avatar'];
         if ($teamname == "") {
             echo "<p class='center-align error'>" . _("The team name must not be empty.") . "</p>";
@@ -62,7 +62,7 @@ if (isset($_POST['mkPreview'])) {
             echo "<p class='center-align error'>" . _("The team name must be unique. Please make any changes and resubmit.") . "</p>";
         }
 
-        showEdit($teamname, $text_data, $teamwebpage, 1, 0);
+        showEdit($teamname, $text_data, $teamwebpage, true, 0);
     } else {
         $sql = sprintf(
             "
@@ -91,7 +91,7 @@ if (isset($_POST['mkPreview'])) {
             );
             DPDatabase::query($sql);
         } elseif (!empty($_FILES['teamavatar'])) {
-            uploadImages(0, $tid, "avatar");
+            uploadImages(false, $tid, "avatar");
         }
         if (!empty($ticon)) {
             $sql = sprintf(
@@ -105,7 +105,7 @@ if (isset($_POST['mkPreview'])) {
             );
             DPDatabase::query($sql);
         } elseif (!empty($_FILES['teamicon'])) {
-            uploadImages(0, $tid, "icon");
+            uploadImages(false, $tid, "icon");
         }
 
         //figure out which team to overwrite
@@ -123,6 +123,6 @@ if (isset($_POST['mkPreview'])) {
     $name = _("Create a New Team");
     output_header($name, NO_STATSBAR, $theme_extra_args);
     echo "<div class='center-align'><br>";
-    showEdit("", "", "", 1, 0);
+    showEdit("", "", "", true, 0);
     echo "</div>";
 }

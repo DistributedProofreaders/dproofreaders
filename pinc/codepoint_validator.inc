@@ -1,6 +1,6 @@
 <?php
 
-function render_validator()
+function render_validator(): void
 {
     $bad_char_message = _("The text contains invalid characters that will be <span class='bad-char'>highlighted</span> if possible");
     $quit_text = _("Quit");

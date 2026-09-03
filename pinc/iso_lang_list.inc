@@ -114,10 +114,13 @@ function get_script_for_langcode(string $langcode): string
 // and then have a mapping of language codes to language names in the
 // desired locale.
 
-/** @return array{"lang_name": string, "lang_code": string, "preferred"?: bool}[] */
-function get_iso_language_list(): array
+/** @return array{lang_name: string, lang_code: string, preferred?: bool}[] */
+function get_iso_language_list()
 {
-    return [
+    // Type hint to stop PHPStan from blowing up trying to infer type for
+    // huge list.
+    /** @var array{lang_name: string, lang_code: string, preferred?: bool}[] */
+    $langs = [
         ["lang_name" => "Abkhazian", "lang_code" => "abk"],
         ["lang_name" => "Achinese", "lang_code" => "ace"],
         ["lang_name" => "Acoli", "lang_code" => "ach"],
@@ -613,6 +616,7 @@ function get_iso_language_list(): array
         ["lang_name" => "Zulu", "lang_code" => "zul"],
         ["lang_name" => "Zuni", "lang_code" => "zun"],
     ];
+    return $langs;
 }
 
 /**

@@ -20,7 +20,8 @@ define('BROWSER_DEFAULT_STR', _("Browser default"));
 // The 1 => '' entry is also special, as it indicates that the user wants
 // to use the value in x_fntf_other instead.
 
-function get_available_proofreading_font_faces()
+/** @return array<int, string> */
+function get_available_proofreading_font_faces(): array
 {
     return [
         0 => '', // browser default
@@ -32,7 +33,8 @@ function get_available_proofreading_font_faces()
     ];
 }
 
-function get_available_proofreading_font_sizes()
+/** @return array<int, string> */
+function get_available_proofreading_font_sizes(): array
 {
     return [
         0 => '', // browser default
@@ -53,11 +55,14 @@ function get_available_proofreading_font_sizes()
     ];
 }
 
-// And a function to return user's current proofreading font and size
-// This returns [ $font_face, $font_size, $font_family_string, $font_size_string ]
-//
-// $full_font_family is the current selection from get_full_font_families() below.
-function get_user_proofreading_font($interface = null)
+/**
+ * A function to return user's current proofreading font and size
+ *
+ * @return list{string, string, string, string}
+ *     returns [$font_face, $font_size, $font_family_string, $font_size_string]
+ *     $full_font_family is the current selection from get_full_font_families()
+ */
+function get_user_proofreading_font(?int $interface = null): array
 {
     $proofreading_font_faces = get_available_proofreading_font_faces();
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
@@ -96,8 +101,9 @@ function get_user_proofreading_font($interface = null)
  *
  * The array is indexed like get_available_proofreading_font_faces()
  * this is used in the format preview font selector.
+ * @return string[]
  */
-function get_font_styles($interface = null)
+function get_font_styles(?int $interface = null): array
 {
     $font_styles = get_available_proofreading_font_faces();
     $font_styles[0] = BROWSER_DEFAULT_STR;
@@ -116,8 +122,10 @@ function get_font_styles($interface = null)
  * Font faces with spaces in them are escaped in _single quotes_.
  * The array is indexed like get_available_proofreading_font_faces()
  * This is used above and to select fonts in the format preview.
+ *
+ * @return string[]
  */
-function get_full_font_families($interface = null)
+function get_full_font_families(?int $interface = null): array
 {
     $full_font_family = [];
     $proofreading_font_faces = get_available_proofreading_font_faces();
@@ -137,7 +145,7 @@ function get_full_font_families($interface = null)
     return $full_font_family;
 }
 
-function get_user_proofreading_font_other($interface = null)
+function get_user_proofreading_font_other(?int $interface = null): string
 {
     $user = User::load_current();
 
@@ -158,12 +166,13 @@ function get_user_proofreading_font_other($interface = null)
 }
 
 // This string is appended to the user's proofreading font for a fallback
-function get_proofreading_font_family_fallback()
+function get_proofreading_font_family_fallback(): string
 {
     return "monospace";
 }
 
-function get_rank_neighbor_options()
+/** @return string[] */
+function get_rank_neighbor_options(): array
 {
     return ['0', '2', '4', '6', '8', '10', '12', '14', '16', '18', '20'];
 }

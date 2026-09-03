@@ -90,12 +90,12 @@ $home_path = "$uploads_dir/$home_dirname";
 if (!is_dir($home_path)) {
     // attempt to create $home_path recursively, so that if
     // $users_rel_dir doesn't exist, we create that too
-    if (!mkdir($home_path, 0777, true)) {
+    if (!mkdir($home_path, 0o777, true)) {
         show_message('error', _("Could not create home folder!"));
         exit();
     }
     if (SiteConfig::get()->testing) {
-        chmod($home_path, 0777);
+        chmod($home_path, 0o777);
         // so that it's easier to clean up test cases.
 
         // (mkdir's mode arg is 0777 by default,
@@ -792,7 +792,7 @@ function get_current_dir_relative_path(string $home_dirname): string
     return preg_replace("#^$abs_uploads_dir/*#", "", $abspath);
 }
 
-function get_access_mode(string $username)
+function get_access_mode(string $username): ?string
 {
     $userSettings = & Settings::get_settings($username);
     return $userSettings->get_value("remote_file_manager");

@@ -88,9 +88,9 @@ show_pqc_result_summary($results);
 echo "<h1>" . _("Result Details") . "</h1>";
 foreach ($results as $function => $test_result) {
     echo "<a name='$function'></a>";
-    echo "<h2>" . $test_result["name"] . "</h2>";
-    $css = get_css_for_pqc_status($test_result["status"]);
-    echo "<p $css>" . sprintf(_("Status: %s"), $test_result["status"]) . "</p>";
-    echo "<p>" . $test_result["description"] . "</p>";
-    echo $test_result["details"];
+    echo "<h2>" . $test_result->name . "</h2>";
+    $css = get_css_for_pqc_status($test_result->status);
+    echo "<p $css>" . sprintf(_("Status: %s"), $test_result->status) . "</p>";
+    echo "<p>" . $test_result->description . "</p>";
+    echo $test_result->details;
 }

@@ -52,7 +52,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Suppress warning by mkdir because despite the check above
             // race conditions from other processes can result in the
             // directory existing when we try to create it here.
-            @mkdir($staging_dir, 0777, true);
+            @mkdir($staging_dir, 0o777, true);
         }
 
         if (!move_uploaded_file($file['tmp_name'], $chunk_filename)) {
@@ -83,7 +83,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
  * edge failure cases where all of the parts have been uploaded in a prior
  * attempt but not yet reassembled.
  */
-function reassemble()
+function reassemble(): void
 {
     global $root_staging_dir, $staging_dir, $hashed_filename;
     global $total_chunks, $total_size;
@@ -130,7 +130,7 @@ function reassemble()
     }
 }
 
-function report_error($error, $response_code = 204)
+function report_error(string $error, int $response_code = 204): void
 {
     // by default return a 204 which will cause the resumable upload
     // to retry the chunk upload

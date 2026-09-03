@@ -1,5 +1,8 @@
 # https://phpstan.org/config-reference
 
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
 parameters:
     fileExtensions:
         - php
@@ -17,7 +20,7 @@ parameters:
 
     # https://phpstan.org/user-guide/rule-levels
     # We want to gradually ratchet up the level here.
-    level: 5
+    level: 6
 
     ignoreErrors:
         # Errors in third party code, and our interfaces to it
@@ -27,8 +30,10 @@ parameters:
           path: pinc/3rdparty/mediawiki/DiffEngine.php
         - message: '#^Parameter \#2 \$.* of function array_fill expects int, float given\.$#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
-        - message: '#Call to function wfDebug\(\) on a separate line has no effect.#'
+        - message: '#Assign to \$.* overwrites the last element from array\.$#'
           path: pinc/3rdparty/mediawiki/DiffEngine.php
+        - message: '#If condition is always false\.$#'
+          path: pinc/3rdparty/mediawiki/DiffFormatter.php
         - message: '#Instantiated class DiffFormatter is abstract#'
           path: pinc/DifferenceEngineWrapper.inc
         - message: '#Call to function is_array\(\) with array<string> will always evaluate to true.#'
@@ -36,12 +41,8 @@ parameters:
         - message: '#Function get_dpl_enforcement_for_user\(\) never returns null.*#'
           path: pinc/daily_page_limit.inc
 
-        - message: '#invoked with \d+ parameter(s?), \d+((-\d+)?) required#'
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
-
-        # Low value and frequent L5 errors that are ignored by default.
-        - message: '#^Parameter \#\d+ .* of (static )?(function|method) .* expects string(\|null)?, int.* given\.$#'
 
         # TODO(jchaffraix): Temporarily disabling those as they are dynamically created (see comment in Pool's constructor).
         - message: "#^Access to an undefined property Pool::\\$project_available_state.$#"
@@ -53,3 +54,81 @@ parameters:
         - message: "#^Access to an undefined property Pool::\\$states.$#"
           path: pinc/ProjectState.inc
           reportUnmatched: false
+
+        # Level 6 errors in third party code, and our interfaces to it
+        - message: '#^Property .* has no type specified\.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* has parameter \$.* with no type specified\.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* has no return type specified\.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* has parameter \$.* with no value type specified in iterable type array.$#'
+          paths:
+            - pinc/BBDiffFormatter.inc
+            - pinc/3rdparty/mediawiki/*.php
+        - message: '#^Method .* return type has no value type specified in iterable type array.$#'
+          paths:
+            - pinc/3rdparty/mediawiki/*.php
+
+    typeAliases:
+        # TODO: data.y should be numeric list, but callers needs fixing
+        GraphConfig: """
+            array{
+                width?: int,
+                height?: int,
+                axisLeft?: bool,
+                yAxisLabel?: string,
+                xAxisHeight?: int,
+                yAxisTickCount?: int,
+                groupBars?: bool,
+                barColors?: string[],
+                title?: string,
+                downloadLabel?: string,
+                legendAdjustment?: array{x?: int, y?: int},
+                bottomLegend?: string,
+                labels?: string[],
+                error?: string,
+                data: int[]|array<
+                    string,
+                    array{type?: string, x: string[], y: mixed[]}
+                    >,
+            }
+            """
+        # TODO: Fix duplication between this and class SpecialDay
+        SpecialDayInfo: """
+            array{
+                spec_code?: string,
+                display_name: string,
+                enable?: int,
+                comment?: string,
+                color: string,
+                open_day?: int,
+                open_month?: int,
+                close_day?: int,
+                close_month?: int,
+                date_changes?: string,
+                info_url?: string,
+                image_url?: string,
+                symbol: string,
+                option_label?: string,
+            }
+            """
+        HeaderExtraArgs: """
+            array{
+                frameset?: bool,          // false (default) | true
+                head_data?: string,       // string to output as-is in <head> tag
+                css_files?: string[],     // CSS files to include in the page
+                css_data?: string,        // CSS to include in the page
+                js_data?: string,         // JS code to include in the page,
+                js_files?: string[],      // array of .js files to link to
+                js_modules?: string[],    // array of .js files to link astype=module
+                js_module_data?: string,  // <script type='module'> code to include
+                body_attributes?: string, // body tag attributes to output
+            }
+            """

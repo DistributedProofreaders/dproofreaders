@@ -399,6 +399,7 @@ class HoldColumn extends Column
 
 class ColumnData
 {
+    /** @var Column[] */
     public array $columns;
 
     public function __construct(
@@ -492,7 +493,7 @@ class ProjectSearchResults
         $this->userSettings = & Settings::get_Settings($pguser);
         $this->search_origin = $search_origin;
         $option_data = new OptionData($this->userSettings, $this->search_origin);
-        $this->page_size = $option_data->results_per_page->get_value();
+        $this->page_size = intval($option_data->results_per_page->get_value());
         $time_format = $option_data->time_format->get_value();
 
         $column_data = new ColumnData($this->userSettings, $this->search_origin, $time_format);
@@ -594,7 +595,7 @@ class ProjectSearchResults
         $this->sort_sql .= ", $sec_sort_sql asc";
     }
 
-    /** @return array{0: bool|mysqli_result, 1: int} */
+    /** @return list{bool|mysqli_result, int} */
     private function _search(string $where_condition, int $results_offset): array
     {
         // load a count of the total number of projects

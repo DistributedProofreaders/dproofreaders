@@ -9,8 +9,10 @@ include_once($relPath.'ProjectTransition.inc');
  * Otherwise, return an empty string.
  *
  * This function produces no output except for debugging messages.
+ *
+ * @param array{details?: string} $extras
  */
-function project_transition(string $projectid, string $new_state, string $who, array $extras = [])
+function project_transition(string $projectid, string $new_state, string $who, array $extras = []): string
 {
     $project = new Project($projectid);
 

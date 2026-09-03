@@ -17,7 +17,7 @@ $graphs = [
 
 output_header($title, SHOW_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 ]);
 
 echo "<h1>" . _("Statistics Central") . "</h1>\n";
@@ -57,7 +57,7 @@ show_news_for_page("STATS");
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //General site stats with links to view the queue's
 
-function count_books_in_state($state, $clauses = "")
+function count_books_in_state(string $state, string $clauses = ""): int
 {
     $sql = sprintf(
         "

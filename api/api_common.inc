@@ -9,7 +9,7 @@
  *
  * @param array<string, string|string[]> $query_params
  */
-function get_flag_value(array $query_params, string $flagname)
+function get_flag_value(array $query_params, string $flagname): ?bool
 {
     if (!isset($query_params[$flagname])) {
         return null;

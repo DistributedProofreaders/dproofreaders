@@ -1,7 +1,7 @@
 <?php
 $relPath = "./../../pinc/";
 
-function output_preview_div()
+function output_preview_div(): void
 {
     global $code_url;
 
@@ -100,7 +100,7 @@ function output_preview_div()
         END1;
 }
 
-function get_preview_font_data_js()
+function get_preview_font_data_js(): string
 {
     $font_styles = get_font_styles();
     $font_styles["serif"] = _("Browser serif");

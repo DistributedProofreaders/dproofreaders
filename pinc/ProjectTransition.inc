@@ -172,6 +172,8 @@ class ProjectTransition
      *
      * It should perhaps also be the only place that modifies these columns:
      *     modifieddate checkedoutby postproofer postcomments
+     *
+     * @param array{details?: string} $extras
      */
     public function do_state_change(Project $project, string $who, array $extras): string
     {
@@ -393,6 +395,7 @@ function project_pre_release_check(Project $project, Round $round): array
 
 class ProjectTransitions
 {
+    /** @var ProjectTransition[] */
     private static $_project_transitions = [];
 
     /** @return ProjectTransition[] */

@@ -11,10 +11,10 @@ use voku\helper\UTF8;
  * Returns a string with javascript links to effect showing or hiding parts of
  * the word list
  *
- * @param array $cutoffOptions
+ * @param int[] $cutoffOptions
  *   List of javascript cutoff options (eg: `[1,2,3,4,5]`)
  */
-function get_cutoff_string($cutoffOptions, $labelSuffix = "")
+function get_cutoff_string(array $cutoffOptions, string $labelSuffix = ""): string
 {
     $cutoff_links = [];
     foreach ($cutoffOptions as $cutoff) {
@@ -26,8 +26,10 @@ function get_cutoff_string($cutoffOptions, $labelSuffix = "")
 /**
  * Given the list of cutoff options and the word count
  * make sure the initial cutoff shows something
+ * @param int[] $cutoffOptions
+ * @param ?array<string, int|numeric-string> $wordCount
  */
-function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
+function getInitialCutoff(int $idealCutoff, array $cutoffOptions, ?array $wordCount = null): int
 {
     // validate the idealCutoff is in $cutoffOptions
     if (!in_array($idealCutoff, $cutoffOptions)) {
@@ -66,9 +68,9 @@ function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
  *
  * @param int $initialFreq
  *   Initial cutoff frequency, anything after this is hidden
- * @param array $cutoffOptions
- *   List of javascript cutoff options (eg: array(1,2,3,4,5))
- * @param array $wordCount
+ * @param int[] $cutoffOptions
+ *   List of javascript cutoff options (eg: [1,2,3,4,5])
+ * @param array<string, int|numeric-string> $wordCount
  *   A table containing the word/frequency pairs already
  *   sorted and ready for display.
  *   Can contain the following special keys used for formatting
@@ -77,7 +79,7 @@ function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
  *   [[CLASS]] - class of the td
  *   [[STYLE]] - style of the td
  *   ```
- * @param array $auxData
+ * @param array<string, string>[] $auxData
  *   Array with one or more of the following `[$word => $data]`
  *   Can contain the following special keys used for formatting
  *   ```
@@ -85,18 +87,13 @@ function getInitialCutoff($idealCutoff, $cutoffOptions, $wordCount = null)
  *   [[CLASS]] - class of the td
  *   [[STYLE]] - style of the td
  *   ```
- * @param array $checkbox
+ * @param array<string, string> $checkbox
  *   Array containing checkbox form elements for each word
  * @param string $instance
  *  String identifying the table for cases where there is more than one
  */
-function printTableFrequencies(int $initialFreq, array $cutoffOptions, array $wordCount, ?array $auxData = null, ?array $checkbox = null, string $instance = 'only')
+function printTableFrequencies(int $initialFreq, array $cutoffOptions, array $wordCount, array $auxData = [], ?array $checkbox = null, string $instance = 'only'): void
 {
-    // check that auxData is an array of arrays
-    if (is_array($auxData) && !is_array(@$auxData[0])) {
-        $auxData = [$auxData];
-    }
-
     echo "<table class='basic striped' id='table_$instance'>";
 
     // output the table heading
@@ -107,7 +104,7 @@ function printTableFrequencies(int $initialFreq, array $cutoffOptions, array $wo
     } else {
         echo '<th>' . _('Freq') . '</th>';
     }
-    if (is_array($auxData)) {
+    if (!empty($auxData)) {
         for ($index = 0; $index < count($auxData); $index++) {
             echo "<th>" . $auxData[$index]['[[TITLE]]'] . "</th>";
         }
@@ -160,7 +157,7 @@ function printTableFrequencies(int $initialFreq, array $cutoffOptions, array $wo
         $line .= "<td class='right-align'>$freq</td>";
 
         // if available, process any aux data
-        if (is_array($auxData)) {
+        if (!empty($auxData)) {
             for ($index = 0; $index < count($auxData); $index++) {
                 $line .= "<td";
                 if (!empty($auxData[$index]['[[CLASS]]'])) {
@@ -188,12 +185,10 @@ function printTableFrequencies(int $initialFreq, array $cutoffOptions, array $wo
  * Arrays with numeric and string keys don't multisort correctly
  * Appending a space to the end of the numeric keys forces them
  * to strings and multisort works correctly
+ * @param array<string|int, mixed> &$assocArray
  */
-function prep_numeric_keys_for_multisort(&$assocArray)
+function prep_numeric_keys_for_multisort(array &$assocArray): void
 {
-    if (!is_array($assocArray)) {
-        return;
-    }
     foreach ($assocArray as $key => $val) {
         if (!is_string($key)) {
             unset($assocArray[$key]);
@@ -202,7 +197,7 @@ function prep_numeric_keys_for_multisort(&$assocArray)
     }
 }
 
-function echo_page_header($title, $projectid)
+function echo_page_header(string $title, string $projectid): void
 {
     global $code_url;
 
@@ -218,13 +213,14 @@ function echo_page_header($title, $projectid)
       . "</p>\n";
 }
 
-function get_project_name($projectid)
+function get_project_name(string $projectid): string
 {
     $project = new Project($projectid);
     return $project->nameofwork;
 }
 
-function echo_page_instruction_text($wordListType, $format)
+/** @param 'good'|'bad' $wordListType */
+function echo_page_instruction_text(string $wordListType, string $format): void
 {
     if ($wordListType == "good") {
         $page_instructions_string = _("If you find words in the results list that should not be flagged in the WordCheck interface, add them to the project's Good Words List.");
@@ -249,7 +245,8 @@ function echo_page_instruction_text($wordListType, $format)
     }
 }
 
-function echo_download_text($projectid, $format, $queryString = "")
+/** @param 'html'|'file' $format */
+function echo_download_text(string $projectid, string $format, string $queryString = ""): void
 {
     global $code_url;
     if ($format == "html") {
@@ -262,13 +259,15 @@ function echo_download_text($projectid, $format, $queryString = "")
     }
 }
 
-function echo_cutoff_text($initialFreq, $cutoffOptions)
+/** @param int[] $cutoffOptions */
+function echo_cutoff_text(int $initialFreq, array $cutoffOptions): void
 {
     $cutoff_text = sprintf(_("Words that appear fewer than <b><span id='current_cutoff'>%1\$d</span></b> times are not shown. Other cutoff options are available: %2\$s"), $initialFreq, get_cutoff_string($cutoffOptions));
     echo "<p>$cutoff_text</p>\n";
 }
 
-function echo_any_warnings_errors($messages)
+/** @param string[] $messages */
+function echo_any_warnings_errors(array $messages): void
 {
     if (count($messages) > 0) {
         echo "<p class='warning'>\n";
@@ -280,7 +279,7 @@ function echo_any_warnings_errors($messages)
     }
 }
 
-function echo_page_footer($page_gen_time = null)
+function echo_page_footer(?float $page_gen_time = null): void
 {
     if ($page_gen_time != null) {
         $time_generate_string = sprintf(_("Time to generate this data: %.2f seconds"), $page_gen_time);
@@ -288,7 +287,8 @@ function echo_page_footer($page_gen_time = null)
     }
 }
 
-function _get_word_context_from_text($page_text, $contextWord)
+/** @return list{array<int, string>, int} */
+function _get_word_context_from_text(string $page_text, string $contextWord): array
 {
     $contexts = [];
 
@@ -307,7 +307,7 @@ function _get_word_context_from_text($page_text, $contextWord)
     return [$contexts, $lineNum - 1];
 }
 
-function _highlight_word($text, $hlWord)
+function _highlight_word(string $text, string $hlWord): string
 {
     $wordOffsets = [];
 
@@ -332,7 +332,11 @@ function _highlight_word($text, $hlWord)
     return $text;
 }
 
-function build_context_array_links($words_w_freq, $projectid)
+/**
+ * @param array<string, int> $words_w_freq
+ * @return array<string, string>
+ */
+function build_context_array_links(array $words_w_freq, string $projectid): array
 {
     $context_array = [];
 
@@ -344,17 +348,17 @@ function build_context_array_links($words_w_freq, $projectid)
     return $context_array;
 }
 
-function encode_word($word)
+function encode_word(string $word): string
 {
     return bin2hex($word);
 }
 
-function decode_word($word)
+function decode_word(?string $word): string
 {
     return pack("H*", $word);
 }
 
-function enforce_edit_authorization($projectid)
+function enforce_edit_authorization(string $projectid): void
 {
     global $code_url;
 
@@ -368,19 +372,27 @@ function enforce_edit_authorization($projectid)
     }
 }
 
-function parse_posted_words($_array)
+/**
+ * @param array<string, string> $words
+ * @return string[]
+ */
+function parse_posted_words(array $words): array
 {
     $newProjectWords = [];
-    foreach ($_array as $key => $val) {
+    foreach ($words as $key => $val) {
         if (preg_match("/cb_(.*?)_(\d+)/", $key)) {
             $word = decode_word($val);
-            array_push($newProjectWords, $word);
+            $newProjectWords[] = $word;
         }
     }
     return $newProjectWords;
 }
 
-function build_checkbox_array($array, $instance = 0)
+/**
+ * @param array<string, int|numeric-string> $array
+ * @return string[]
+ */
+function build_checkbox_array(array $array, string $instance = "0"): array
 {
     $count = 0;
     $word_checkbox = [];
@@ -392,7 +404,7 @@ function build_checkbox_array($array, $instance = 0)
     return $word_checkbox;
 }
 
-function echo_checkbox_selects(string $instance = 'only')
+function echo_checkbox_selects(string $instance = 'only'): void
 {
     echo "<p>";
     echo "<button type='button' class='lean_button check_all' data-instance='$instance'>", _("Select all"), "</button>";
@@ -401,7 +413,8 @@ function echo_checkbox_selects(string $instance = 'only')
     echo "</p>";
 }
 
-function echo_checkbox_form_start($checkbox_form)
+/** @param array<string, string> $checkbox_form */
+function echo_checkbox_form_start(array $checkbox_form): void
 {
     echo "<form action='" . attr_safe($_SERVER['PHP_SELF']) . "' method='post'>";
     echo "<input type='hidden' name='format' value='update'>";
@@ -410,12 +423,12 @@ function echo_checkbox_form_start($checkbox_form)
     }
 }
 
-function echo_checkbox_form_submit($submit_label)
+function echo_checkbox_form_submit(string $submit_label): void
 {
     echo "<input type='submit' value='$submit_label'>";
 }
 
-function echo_checkbox_form_end()
+function echo_checkbox_form_end(): void
 {
     echo "</form>";
 }

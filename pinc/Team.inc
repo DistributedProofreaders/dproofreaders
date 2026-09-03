@@ -6,7 +6,7 @@ class Team
 {
     // static functions
 
-    public static function log_recent_join($tid, $uid)
+    public static function log_recent_join(int $tid, int $uid): void
     {
         $sql = sprintf(
             "
@@ -21,7 +21,7 @@ class Team
         DPDatabase::query($sql);
     }
 
-    public static function active_member_count($tid)
+    public static function active_member_count(int $tid): int
     {
         $sql = sprintf(
             "

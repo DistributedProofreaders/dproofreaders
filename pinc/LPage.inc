@@ -17,8 +17,7 @@ include_once($relPath.'forum_interface.inc'); // get_forum_user_id()
  *
  * If successful, it returns [ $imagename, $state ],
  * on failure it returns NULL;
- *
- * @return ?array{0:string, 1:string}
+ * @return ?list{string, string}
  */
 function get_available_page_array(Project $project, Round $round, string $pguser, string $preceding_proofer_restriction): ?array
 {
@@ -160,7 +159,7 @@ function get_available_page(string $projectid, string $proj_state, string $pguse
  * Returns an array [image, state] unless no page is available,
  * in which case throw an exception.
  *
- * @return array{0:string, 1:string}
+ * @return list{string, string}
  */
 function get_available_proof_page_array(Project $project, Round $round, string $pguser): array
 {
@@ -267,7 +266,7 @@ class RoundInfo
     public function __construct(
         public readonly string $round_id,
         public readonly string $username,
-        public readonly ?string $forum_user_id
+        public readonly ?int $forum_user_id
     ) {
     }
 }
@@ -325,16 +324,16 @@ class LPage
         return Page_getText($this->projectid, $this->imagefile, $desired_column_name);
     }
 
-    /** @return array|string */
-    public function get_filename()
+    public function get_filename(): SplFileInfo|string
     {
         return pathinfo($this->imagefile, PATHINFO_FILENAME);
     }
 
+
+    /** @return RoundInfo[] */
     public function get_info(): array
     {
         $round_info_array = [];
-
         foreach ($this->round->other_rounds_with_visible_usernames as $other_round_id) {
             $other_round = get_Round_for_round_id($other_round_id);
             $username = $this->get_username_for_round($other_round);
@@ -386,7 +385,7 @@ class LPage
      * - if this function says that the page was not saved,
      * - it can only be because the user already reached the daily page limit.
      *
-     * @return array{0:bool, 1:bool}
+     * @return list{bool, bool}
      */
     public function attemptSaveAsDone(string $text_data, string $pguser): array
     {

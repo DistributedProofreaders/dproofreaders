@@ -19,8 +19,8 @@ if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
 }
 $focus_user = new User($username);
 
-[$round_view_options, $pool_view_options] = get_view_options($username);
-[$round_column_specs, $pool_column_specs] = get_table_column_specs();
+[$round_view_options, $pool_view_options] = projects_get_view_options($username);
+[$round_column_specs, $pool_column_specs] = projects_get_table_column_specs();
 $round_sort_options = get_sort_options($round_column_specs);
 $pool_sort_options = get_sort_options($pool_column_specs);
 
@@ -66,7 +66,7 @@ $page_header = [
 
 output_header(get_usertext($page_header), NO_STATSBAR);
 
-output_link_box($username);
+projects_output_link_box($username);
 
 echo "<h1>" . get_usertext($page_header) . "</h1>";
 
@@ -94,7 +94,7 @@ foreach (Rounds::get_all() as $round) {
 
 echo "<h2 id='round_view'>" . html_safe($proof_heading) . "</h2>";
 
-show_page_menu($round_view_options, $round_view, $username, 'round_view');
+projects_show_page_menu($round_view_options, $round_view, $username, 'round_view');
 
 [$res, $colspecs] = get_round_query_result($round_view, $round_sort, $round_column_specs, $username);
 if (mysqli_num_rows($res) == 0) {
@@ -104,7 +104,7 @@ if (mysqli_num_rows($res) == 0) {
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($colspecs, $round_sort, $username, 'round_sort', 'round_view');
+    projects_show_headings($colspecs, $round_sort, $username, 'round_sort', 'round_view');
 
     $n_rows_displayed = 0;
     while ($row = mysqli_fetch_object($res)) {
@@ -234,7 +234,7 @@ if (!$can_view_post_processing) {
 
 echo "<h2 id='pool_view'>" . html_safe($pool_heading) . "</h2>\n";
 
-show_page_menu($pool_view_options, $pool_view, $username, 'pool_view');
+projects_show_page_menu($pool_view_options, $pool_view, $username, 'pool_view');
 
 [$res, $colspecs, $pool_sort] = get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $username);
 $num_projects = mysqli_num_rows($res);
@@ -245,7 +245,7 @@ if ($num_projects == 0) {
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($colspecs, $pool_sort, $username, 'pool_sort', 'pool_view');
+    projects_show_headings($colspecs, $pool_sort, $username, 'pool_sort', 'pool_view');
 
     $pool_checkedout_states = [
         PROJ_POST_FIRST_CHECKED_OUT,
@@ -304,7 +304,7 @@ if ($num_projects == 0) {
 
         if (isset($colspecs['postednum'])) {
             echo "<td class='right-align'>";
-            echo get_pg_catalog_link_for_etext($project->postednum, $project->postednum);
+            echo get_pg_catalog_link_for_etext($project->postednum, (string) $project->postednum);
             echo "</td>\n";
         }
 
@@ -319,7 +319,7 @@ if ($num_projects == 0) {
 
 // --------------------------------------------------------------------------
 
-function output_link_box($username)
+function projects_output_link_box(string $username): void
 {
     echo "<div id='linkbox'>";
     if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
@@ -345,10 +345,16 @@ function output_link_box($username)
 
 // --------------------------------------------------------------------------
 
-function get_table_column_specs()
+/**
+ * @return list{
+ *             array<string, array{label: string, sql: string, class?: string}>,
+ *             array<string, array{label: string, sql: string, class?: string}>
+ *         }
+ */
+function projects_get_table_column_specs(): array
 {
     // $colspecs = array (
-    //     $id => array ( 'label' => $label, 'sql' => $sql )
+    //     $id => ['label' => $label, 'sql' => $sql]
     // );
     // $id is the column name as passed by GET argument.
     // $label is the translatable label displayed in the column header
@@ -429,7 +435,11 @@ function get_table_column_specs()
     return [$round_columns, $pool_columns];
 }
 
-function get_sort_options($colspecs)
+/**
+ * @param array<string, mixed> $colspecs
+ * @return string[]
+ */
+function get_sort_options(array $colspecs): array
 {
     $sort_options = [];
     $columns = array_keys($colspecs);
@@ -441,7 +451,8 @@ function get_sort_options($colspecs)
 }
 
 // to make sure that some projects are displayed, iterate over the view order
-function get_view_options($username)
+/** @return list{array<string, array<string, string>>, array<string, array<string, string>>} */
+function projects_get_view_options(string $username): array
 {
     $round_view_options = [
         "available" => [
@@ -500,7 +511,8 @@ function get_view_options($username)
     return [$round_view_options, $pool_view_options];
 }
 
-function get_usertext($text_options)
+/** @param array<string, string> $text_options */
+function get_usertext(array $text_options): string
 {
     global $pguser, $username;
 
@@ -511,8 +523,8 @@ function get_usertext($text_options)
     }
 }
 
-
-function show_page_menu($all_view_modes, $round_view, $username, $key)
+/** @param array<int|string, array{label: string, ...}> $all_view_modes */
+function projects_show_page_menu(array $all_view_modes, string $round_view, string $username, string $key): void
 {
     global $pguser;
 
@@ -524,7 +536,8 @@ function show_page_menu($all_view_modes, $round_view, $username, $key)
     output_tab_bar($all_view_modes, $round_view, $key, "$qs_username#$key");
 }
 
-function sql_order_spec($colspecs, $order_col, $order_dir)
+/** @param array<string, array{sql: string, ...}> $colspecs */
+function sql_order_spec(array $colspecs, string $order_col, string $order_dir): string
 {
     return
         $colspecs[$order_col]['sql']
@@ -532,7 +545,8 @@ function sql_order_spec($colspecs, $order_col, $order_dir)
         . ($order_dir == 'A' ? 'ASC' : 'DESC');
 }
 
-function get_sort_col_and_dir($sort)
+/** @return list{string, string} */
+function get_sort_col_and_dir(string $sort): array
 {
     // The sort string is already a valid one when we get here, we just need
     // to parse the column and direction apart.
@@ -541,7 +555,8 @@ function get_sort_col_and_dir($sort)
     return [$order_col, $order_dir];
 }
 
-function show_headings($colspecs, $sorting, $username, $sort_name, $anchor)
+/** @param array<string, array{class?: string, label: string}> $colspecs */
+function projects_show_headings(array $colspecs, string $sorting, string $username, string $sort_name, string $anchor): void
 {
     global $pguser;
 
@@ -579,7 +594,11 @@ function show_headings($colspecs, $sorting, $username, $sort_name, $anchor)
     echo "</tr>\n";
 }
 
-function get_round_query_result($round_view, $round_sort, $round_column_specs, $username)
+/**
+ * @param array<string, mixed> $round_column_specs
+ * @return list{mysqli_result, array<string, mixed>}
+ */
+function get_round_query_result(string $round_view, string $round_sort, array $round_column_specs, string $username): array
 {
     [$order_col, $order_dir] = get_sort_col_and_dir($round_sort);
     $sql_order = sql_order_spec($round_column_specs, $order_col, $order_dir);
@@ -669,7 +688,12 @@ function get_round_query_result($round_view, $round_sort, $round_column_specs, $
     return [DPDatabase::query($sql), $round_column_specs];
 }
 
-function get_pool_query_result($pool_view, $pool_sort, $pool_column_specs, $username)
+/**
+ * @param 'reserved'|'active'|'posted' $pool_view
+ * @param array<string, mixed> $pool_column_specs
+ * @return list{mysqli_result, array<string, mixed>, string}
+ */
+function get_pool_query_result(string $pool_view, string $pool_sort, array $pool_column_specs, string $username): array
 {
     $created = get_project_status_descriptor('created');
     $proofed = get_project_status_descriptor('proofed');

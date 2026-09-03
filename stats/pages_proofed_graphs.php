@@ -20,38 +20,38 @@ $graphs = [
     [
         "barLineGraph",
         "pages_daily_increments_curr_month",
-        query_graph_cache("pages_daily", [$tally_name, "increments", "curr_month"], $tomorrow_midnight->format("U")),
+        query_graph_cache("pages_daily", [$tally_name, "increments", "curr_month"], $tomorrow_midnight->getTimestamp()),
     ],
     [
         "barLineGraph",
         "pages_daily_cumulative_curr_month",
-        query_graph_cache("pages_daily", [$tally_name, "cumulative", "curr_month"], $tomorrow_midnight->format("U")),
+        query_graph_cache("pages_daily", [$tally_name, "cumulative", "curr_month"], $tomorrow_midnight->getTimestamp()),
     ],
     [
         "barLineGraph",
         "pages_daily_increments_prev_month",
-        query_graph_cache("pages_daily", [$tally_name, "increments", "prev_month"], $first_next_month->format("U")),
+        query_graph_cache("pages_daily", [$tally_name, "increments", "prev_month"], $first_next_month->getTimestamp()),
     ],
     [
         "barLineGraph",
         "pages_daily_increments_all_time",
-        query_graph_cache("pages_daily", [$tally_name, "increments", "all_time"], $first_next_week->format("U")),
+        query_graph_cache("pages_daily", [$tally_name, "increments", "all_time"], $first_next_week->getTimestamp()),
     ],
     [
         "barLineGraph",
         "pages_daily_cumulative_all_time",
-        query_graph_cache("pages_daily", [$tally_name, "cumulative", "all_time"], $first_next_week->format("U")),
+        query_graph_cache("pages_daily", [$tally_name, "cumulative", "all_time"], $first_next_week->getTimestamp()),
     ],
     [
         "barLineGraph",
         "total_pages_by_month_graph",
-        query_graph_cache("total_pages_by_month_graph", [$tally_name], $first_next_month->format("U")),
+        query_graph_cache("total_pages_by_month_graph", [$tally_name], $first_next_month->getTimestamp()),
     ],
 ];
 
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 ]);
 
 echo <<<DEBUG

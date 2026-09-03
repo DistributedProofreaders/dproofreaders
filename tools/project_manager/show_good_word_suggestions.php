@@ -240,17 +240,23 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
+/**
+ * @return list{
+ *             array<string, int>,                // $all_suggestions_w_freq
+ *             array<string, int>,                // $all_suggestions_w_occurrences
+ *             array<string, array<string, int>>, // $round_suggestions_w_freq
+ *             array<string, array<string, int>>, // $round_suggestions_w_occurrences
+ *             string[],                          // $rounds
+ *             int[],                             // $round_page_count
+ *             string[],                          // $messages
+ *         }
+ */
 function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
 {
     $messages = [];
 
     // load the suggestions
     $suggestions = load_project_good_word_suggestions($projectid, $timeCutoff);
-    if (!is_array($suggestions)) {
-        $messages[] = sprintf(_("Unable to load suggestions: %s"), $suggestions);
-        return [[], [], [], [], [], [], $messages];
-    }
-
     if (count($suggestions) == 0) {
         return [[], [], [], [], [], [], $messages];
     }

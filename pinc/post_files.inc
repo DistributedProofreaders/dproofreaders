@@ -6,8 +6,13 @@ include_once($relPath.'wordcheck_engine.inc');
 /**
  * Generate the files needed for post-processing.
  */
-function generate_post_files($project, $limit_round_id, $which_text, $include_proofers, $base_extra)
-{
+function generate_post_files(
+    Project $project,
+    string $limit_round_id,
+    string $which_text,
+    bool $include_proofers,
+    string $base_extra
+): void {
     if (!$project->pages_table_exists) {
         throw new Exception(_("Project table not found, it may have been deleted or archived."));
     }
@@ -21,7 +26,9 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
     $fp = fopen($comments_path, "w");
-    // if ( $fp === FALSE ) ???
+    if ($fp === false) {
+        throw new Exception("Could not open $comments_path");
+    }
     write_project_comments($project, $fp);
     fclose($fp);
 
@@ -36,15 +43,19 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
     }
 
     $pages_res = page_info_query($project->projectid, $limit_round_id, $which_text);
-    // if ($pages_res === FALSE) ???
+    if ($pages_res === false) {
+        throw new Exception("Could not get $limit_round_id text for $project->projectid");
+    }
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
     $fp = fopen($plain_path, "w");
-    // if ( $fp === FALSE ) ???
-    join_proofed_text($pages_res, $include_proofers, true, $fp);
+    if ($fp === false) {
+        throw new Exception("Could not open $plain_path");
+    }
+    join_proofed_text($pages_res, $include_proofers, $fp);
     fclose($fp);
-    //
+
     // and make a zip of that file (plus comments).
     // (for "Download Zipped Text")
     $plain_zip_path = "{$pathbase}.zip";
@@ -59,8 +70,12 @@ function generate_post_files($project, $limit_round_id, $which_text, $include_pr
 /**
  * Generate a zip file on the fly and download it
  */
-function generate_interim_file($project, $limit_round_id, $which_text, $include_proofers)
-{
+function generate_interim_file(
+    Project $project,
+    string $limit_round_id,
+    string $which_text,
+    bool $include_proofers
+): void {
     if (!$project->pages_table_exists) {
         throw new Exception(_("Project table not found, it may have been deleted or archived."));
     }
@@ -83,13 +98,13 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     }
 
     // join the page texts together
-    $filedata = join_proofed_text($pages_res, $include_proofers, false, '');
+    $filedata = join_proofed_text($pages_res, $include_proofers, null);
 
     // zip it all up
 
     // first find a unique place to operate in:
     $dirname = sys_get_temp_dir() . "/" . uniqid("post_files");
-    mkdir($dirname, 0777);
+    mkdir($dirname, 0o777);
 
     $textfile_path = "{$dirname}/{$filename}.txt";
     $zip_path = "{$dirname}/{$filename}.zip";
@@ -111,7 +126,7 @@ function generate_interim_file($project, $limit_round_id, $which_text, $include_
     // cleanup will get called whatever happens
 }
 
-function clean_up_temp($dirname, $textfile_path, $zip_path)
+function clean_up_temp(string $dirname, string $textfile_path, string $zip_path): void
 {
     // now we must clean up behind ourselves
     unlink($zip_path);
@@ -121,7 +136,8 @@ function clean_up_temp($dirname, $textfile_path, $zip_path)
 
 // -----------------------------------------------------------------------------
 
-function write_project_comments($project, $fp)
+/** @param resource $fp */
+function write_project_comments(Project $project, $fp): void
 {
     $header = "<HTML><BODY>";
     fputs($fp, $header);
@@ -138,8 +154,9 @@ function write_project_comments($project, $fp)
 
 /**
  * Return an array whose values are the page-texts in the query-result.
+ * @return string[]
  */
-function get_page_texts($pages_res)
+function get_page_texts(mysqli_result $pages_res): array
 {
     $page_texts = [];
     while (($row = page_info_fetch($pages_res)) !== false) {
@@ -154,7 +171,7 @@ function get_page_texts($pages_res)
  *
  * Similar to join_proofed_text, but without the page-separators.
  */
-function join_page_texts($pages_res)
+function join_page_texts(mysqli_result $pages_res): string
 {
     $text = "";
     while (($row = page_info_fetch($pages_res)) !== false) {
@@ -165,8 +182,8 @@ function join_page_texts($pages_res)
 }
 
 // -----------------------------------------------------------------------------
-
-function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
+/** @param ?resource $fp */
+function join_proofed_text(mysqli_result|false $pages_res, bool $include_proofers, $fp): string
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -191,7 +208,7 @@ function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
         // and pad the string to length 75, if not wider than 75 chars.
         $separator_line = str_pad($info_str, 74, '-', STR_PAD_RIGHT) . '-';
         $fileinfo = $eol . $separator_line . $eol . $text_data;
-        if ($save_files) {
+        if (!is_null($fp)) {
             // SENDING PAGE-TEXT TO USER
             // It's a text-file, so no encoding is necessary.
             fputs($fp, $fileinfo);
@@ -200,7 +217,7 @@ function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
         }
     }
     // add a final newline
-    if ($save_files) {
+    if (!is_null($fp)) {
         fputs($fp, $eol);
     } else {
         $filedata .= $eol;
@@ -210,7 +227,7 @@ function join_proofed_text($pages_res, $include_proofers, $save_files, $fp)
 
 // -----------------------------------------------------------------------------
 
-function page_info_query($projectid, $limit_round_id, $which_text)
+function page_info_query(string $projectid, string $limit_round_id, string $which_text): mysqli_result|false
 {
     if ($limit_round_id == '[OCR]') { // somewhat kludgey
         // doesn't matter what $which_text is.
@@ -289,8 +306,10 @@ function page_info_query($projectid, $limit_round_id, $which_text)
  * - an array of the usernames of the users who worked on the page in the rounds.
  *
  * If there's no next page, return FALSE
+ *
+ * @return list{string, string, string[]}|false
  */
-function page_info_fetch($res)
+function page_info_fetch(mysqli_result $res): array|false
 {
     $a = mysqli_fetch_row($res);
     if (!$a) {
@@ -308,7 +327,7 @@ function page_info_fetch($res)
     ];
 }
 
-/** @return array{0: string, 1: string} */
+/** @return list{string, string} */
 function generate_project_images_zip(string $projectid): array
 {
     global $projects_dir;
@@ -364,7 +383,7 @@ function generate_project_images_zip(string $projectid): array
     }
 
     if (!is_dir(dirname($zipfile_path))) {
-        mkdir(dirname($zipfile_path), 0777, true /* recursive */);
+        mkdir(dirname($zipfile_path), 0o777, true /* recursive */);
     }
 
     // Get a list of image filenames

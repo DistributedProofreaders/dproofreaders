@@ -5,12 +5,12 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'graph_data.inc');
 
-$day_options = ["0", "1", "7", "28", "180"];
-$days = get_enumerated_param($_GET, "days", null, $day_options, true);
+$day_options = [0, 1, 7, 28, 180];
 
 $title = _("Equilibria");
 
-function display_graph($d)
+/** @return GraphConfig */
+function display_graph(int $d): array
 {
     $total_pages = 0;
 
@@ -60,7 +60,7 @@ foreach ($day_options as $days) {
 
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => build_svg_graph_inits($graphs),
+    "js_module_data" => build_svg_graph_inits($graphs),
 ]);
 echo "<h1>$title</h1>";
 echo "<p>" . _('Only "today" is real-time; others updated at stats run time.') . "</p>";

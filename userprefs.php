@@ -925,7 +925,7 @@ function _show_dropdown(string $field_name, string $current_value, array $option
     echo "</select>";
 }
 
-/** @param array<int, string> $options */
+/** @param array<string, string> $options */
 function _show_radio_group(string $field_name, string $current_value, array $options): void
 {
     foreach ($options as $option_value => $option_label) {
@@ -980,13 +980,6 @@ function show_link_as_if_preference(
     echo "<td>";
     echo "<a href='$link_url'>$link_text</a>";
     echo "</td>";
-}
-
-function show_blank(): void
-{
-    th_label("&nbsp;");
-    echo "<td>&nbsp;</td>";
-    echo "<td>&nbsp;</td>\n";
 }
 
 // ---------------------------------------------------------

@@ -14,7 +14,7 @@ foreach (Stages::get_all() as $stage) {
     $NEWS_PAGES[$stage->id] = $stage->name;
 }
 
-function get_news_subject($news_page_id)
+function get_news_subject(string $news_page_id): string
 {
     global $NEWS_PAGES;
     return $NEWS_PAGES[$news_page_id];
@@ -22,7 +22,7 @@ function get_news_subject($news_page_id)
 
 // -----------------------------------------------------------------------------
 
-function get_news_page_last_modified_date($news_page_id)
+function get_news_page_last_modified_date(string $news_page_id): ?int
 {
     $sql = sprintf(
         "
@@ -55,7 +55,7 @@ function get_news_page_last_modified_date($news_page_id)
  * where the news items are designated for the given page,
  * or for every page.
  */
-function show_news_for_page($news_page_id)
+function show_news_for_page(string $news_page_id): void
 {
     global $code_url;
 

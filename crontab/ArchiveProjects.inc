@@ -6,7 +6,7 @@ class ArchiveProjects extends BackgroundJob
 {
     public bool $requires_web_context = true;
 
-    public function work()
+    public function work(): void
     {
         $sql = sprintf(
             "

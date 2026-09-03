@@ -5,7 +5,7 @@
  */
 class PageUnformatter
 {
-    private function find_close($text, $offset)
+    private function find_close(string $text, int $offset): int
     {
         // find next unmatched ]
         $nest_level = 0;
@@ -28,7 +28,7 @@ class PageUnformatter
         }
     }
 
-    private function remove_user_notes($text)
+    private function remove_user_notes(string $text): string
     {
         $start = strpos($text, "[**");
         if (false === $start) { // not found
@@ -41,7 +41,7 @@ class PageUnformatter
         return substr($text, 0, $start) . $this->remove_user_notes(substr($text, $end + 1));
     }
 
-    private function advance_end($text, $end)
+    private function advance_end(string $text, int $end): int
     {
         // for continuing footnote etc., if * follows ] remove it
         $new_start = $end + 1;
@@ -51,7 +51,7 @@ class PageUnformatter
         return $new_start;
     }
 
-    private function adjust_footnotes($text)
+    private function adjust_footnotes(string $text): string
     {
         // remove "[Footnote" and ":" and "]", if ref. is an upper-case letter replace with *
         $match = preg_match("/\[Footnote (?:(\d+|[a-z])|[A-Z]):/", $text, $matches, PREG_OFFSET_CAPTURE);
@@ -75,7 +75,7 @@ class PageUnformatter
         return substr($text, 0, $start) . $note_ref . substr($text, $right_start, $end - $right_start) . $this->adjust_footnotes(substr($text, $new_start));
     }
 
-    private function adjust_notes($text)
+    private function adjust_notes(string $text): string
     {
         // Illustration with text, Sidenote, continuation Footnote without a ref.
         $match = preg_match("/\*\[Footnote:|\*?\[Sidenote:|\*?\[Illustration:/", $text, $matches, PREG_OFFSET_CAPTURE);
@@ -94,7 +94,7 @@ class PageUnformatter
         return substr($text, 0, $start) . substr($text, $right_start, $end - $right_start) . $this->adjust_notes(substr($text, $new_start));
     }
 
-    public function remove_formatting($text, $unwrap)
+    public function remove_formatting(string $text, bool $unwrap): string
     {
         $text = str_replace("\r\n", "\n", $text);
         // these can leave blank lines which will be removed later

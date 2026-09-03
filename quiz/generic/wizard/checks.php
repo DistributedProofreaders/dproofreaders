@@ -12,7 +12,7 @@ if (!user_is_a_sitemanager()) {
 
 output_header(_('Quiz Wizard'));
 
-function evalchecks()
+function evalchecks(): void
 {
     $test['type'] = $_POST['type'];
     if ($test['type'] == '') {

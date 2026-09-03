@@ -1,9 +1,9 @@
 <?php
-
 /**
  * Return a set of hard-coded special days keyed by spec_code
+ * @return array<string, SpecialDayInfo>
  */
-function load_common_special_days()
+function load_common_special_days(): array
 {
     return [
         "_BIRTHDAY_RECENT" => [
@@ -24,7 +24,8 @@ function load_common_special_days()
     ];
 }
 
-function load_special_days($load_common = false)
+/** @return array<string, SpecialDayInfo> */
+function load_special_days(bool $load_common = false): array
 {
     if ($load_common) {
         $specials_array = load_common_special_days();
@@ -62,10 +63,13 @@ function load_special_days($load_common = false)
         );
     }
 
-    return $specials_array;
+    return $specials_array; // @phpstan-ignore-line return.type
 }
-
-function sort_special_days(&$special_days, $sort_by = "display_name")
+/**
+ * @param SpecialDayInfo[] $special_days
+ * @param 'display_name'|'open_month,open_day' $sort_by
+ */
+function sort_special_days(array &$special_days, string $sort_by = "display_name"): void
 {
     $display_name = array_column($special_days, "display_name");
     $display_name = array_map('strtolower', $display_name);
@@ -100,8 +104,9 @@ function sort_special_days(&$special_days, $sort_by = "display_name")
 /**
  * Returns the special day array associated with this
  * project, or null if no such special day is specified.
+ * @return ?SpecialDayInfo
  */
-function get_special_day($special_code)
+function get_special_day(?string $special_code): ?array
 {
     static $specials_array = [];
     if (!$specials_array) {
@@ -146,7 +151,7 @@ function get_special_day($special_code)
  * specified by $projects_where_clause (WHERE keyword NOT needed)
  * for use as a legend.
  */
-function echo_special_legend($projects_where_clause)
+function echo_special_legend(string $projects_where_clause): void
 {
     global $code_url;
 
@@ -207,8 +212,10 @@ function echo_special_legend($projects_where_clause)
 
 /**
  * Given a special day, return building blocks to construct a cell for a row
+ * @param SpecialDayInfo $special_day
+ * @return list{string, string}
  */
-function get_special_day_cell_parts($special_day, $include_title = true)
+function get_special_day_cell_parts(array $special_day, bool $include_title = true): array
 {
     $background_color = str_replace("#", "", $special_day['color']);
     $text_color = pick_text_color_given_bgcolor($background_color, "white", "black");
@@ -230,7 +237,7 @@ function get_special_day_cell_parts($special_day, $include_title = true)
  *
  * From https://stackoverflow.com/questions/3942878/how-to-decide-font-color-in-white-or-black-depending-on-background-color
  */
-function pick_text_color_given_bgcolor($bg_color, $light_color, $dark_color)
+function pick_text_color_given_bgcolor(string $bg_color, string $light_color, string $dark_color): string
 {
     $color = str_replace("#", "", $bg_color);
 

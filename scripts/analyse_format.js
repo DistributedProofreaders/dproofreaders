@@ -368,9 +368,9 @@ export function analyse(txt, config) {
     // if none found, if stack empty finished else error
     function parseInLine() {
         var tagString;
-        var end = 0;
+        var end;
         var tagLen;
-        var start = 0;
+        var start;
         var tagStack = [];
         var stackTop;
         var preChar;
@@ -723,7 +723,6 @@ export function analyse(txt, config) {
                 len = 1;
                 if (txt.charAt(end) === "*") {
                     // allow * after Footnote
-                    end += 1;
                     len += 1;
                 }
                 chkAfter(end1, len, result[1], 0, true);
@@ -741,7 +740,6 @@ export function analyse(txt, config) {
                 // no ] found
                 reportIssue(start, len, "noCloseBrack", translate.gettext("No matching closing bracket"));
             } else {
-                end = end1 + 1;
                 len = 1;
                 chkAfter(end1, len, result[1], 0, true);
             }
@@ -758,7 +756,6 @@ export function analyse(txt, config) {
                 // no ] found
                 reportIssue(start, len, "noCloseBrack", translate.gettext("No matching closing bracket"));
             } else {
-                end = end1 + 1;
                 len = 1;
                 chkAfter(end1, len, result[1], 0, !config.suppress.sideNoteBlank);
             }

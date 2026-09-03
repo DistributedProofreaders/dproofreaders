@@ -213,7 +213,9 @@ class SpecialDay
         echo "</form>\n";
         echo "</td>\n";
         echo "<td>" . html_safe($this->display_name) . "</td>";
-        [$style, $cell] = get_special_day_cell_parts((array)$this);
+        /** @var SpecialDayInfo */
+        $sd = (array) $this;
+        [$style, $cell] = get_special_day_cell_parts($sd);
         echo "<td style='$style'>$cell</td>";
         echo "<td>" . $this->color . "</td>\n";
         echo $this->_get_status_cell($this->enable, ' pb') . "\n";

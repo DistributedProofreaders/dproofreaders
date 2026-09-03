@@ -212,7 +212,7 @@ function do_expected_state(): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/** @return array{0:?string, 1:?string} */
+/** @return list{?string, ?string} */
 function decide_blurbs(): array
 {
     global $project, $pguser, $code_url;
@@ -827,6 +827,8 @@ function recentlyproofed(int $wlist): void
                 $format_preview_status = '';
             } elseif ($row["format_preview_status"] > 0) {
                 $format_preview_status = '&nbsp;<span title="' . _('Format Preview was used on this page.') . '">&check;</span>';
+            } elseif ($timestamp < SiteConfig::get()->wordcheck_deployed) {
+                $format_preview_status = '&nbsp;<span title="' . _('This page was saved before Format Preview usage was tracked.') . '">?</span>';
             } else {
                 $format_preview_status = '&nbsp;<span title="' . _('Format Preview was not used on this page.') . '">&#x2717;</span>';
             }
@@ -835,6 +837,8 @@ function recentlyproofed(int $wlist): void
                 $wordcheck_status = '';
             } elseif ($row["wordcheck_status"] > 0) {
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was WordChecked.') . '">&check;</span>';
+            } elseif ($timestamp < SiteConfig::get()->wordcheck_deployed) {
+                $wordcheck_status = '&nbsp;<span title="' . _('This page was saved before WordCheck was deployed.') . '">?</span>';
             } else {
                 $wordcheck_status = '&nbsp;<span title="' . _('This page was not WordChecked.') . '">&#x2717;</span>';
             }
@@ -1296,8 +1300,15 @@ function do_history(): void
 
 /**
  * If the project's event-history has gaps, fill them with pseudo-events.
- *
- * @return array{'timestamp':?int, 'who':string, 'event_type':string, 'details1':string, 'details2':string, 'details3':string}[]
+ * @param array<string, mixed>[] $in_events
+ * @return array{
+ *      timestamp: ?int,
+ *      who: string,
+ *      event_type: string,
+ *      details1: string,
+ *      details2: string,
+ *      details3: string
+ *      }[]
  */
 // TODO(jchaffraix): Add a class for ProjectEvent and switch to this function to it.
 function fill_gaps_in_events(array $in_events): array
@@ -1358,7 +1369,7 @@ function fill_gaps_in_events(array $in_events): array
         ];
         $out_events[] = $pseudo_event;
     }
-    return $out_events;
+    return $out_events; // @phpstan-ignore return.type
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -1662,6 +1673,9 @@ function echo_download_zip(string $link_text, string $discriminator): void
     echo "</a>";
     echo_byte_size($filesize_b);
     echo_last_modified($last_modified);
+    if ($discriminator == "" && $last_modified && $last_modified < SiteConfig::get()->unicode_deployed) {
+        echo "<br><span class='warning'>" . _("This file was generated before the Unicode conversion. If you are just starting to PP this project, please ask a site administrator to regenerate the file.") . "</span>";
+    }
     echo "</li>";
     echo "\n";
 }
@@ -2059,7 +2073,7 @@ function do_page_table(): void
         echo "<p>" . _("It is <b>strongly</b> recommended that you view page differentials by right-clicking on a diff link and opening the link in a new window or tab.") . "</p>";
 
         // second arg. indicates to show size of image files.
-        echo_page_table($project, 1);
+        echo_page_table($project, true);
     }
 }
 

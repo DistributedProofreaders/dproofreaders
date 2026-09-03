@@ -11,7 +11,7 @@ include_once('image_check.inc'); // get_image_size_error()
  * Transition callback function to prevent a project state change if PQC
  * results return an error.
  */
-function gate_on_pqc($projectid)
+function gate_on_pqc(string $projectid): void
 {
     global $code_url;
 
@@ -20,7 +20,7 @@ function gate_on_pqc($projectid)
     // loop thorugh results looking for errors
     $found_error = false;
     foreach ($results as $function => $test_result) {
-        if ($test_result["status"] == _("Error")) {
+        if ($test_result->status == _("Error")) {
             $found_error = true;
             break;
         }
@@ -50,7 +50,8 @@ function gate_on_pqc($projectid)
     }
 }
 
-function show_pqc_result_summary($results, $output_links = true)
+/** @param array<string, PQCResult> $results */
+function show_pqc_result_summary(array $results, bool $output_links = true): void
 {
     echo "<table class='basic striped'>";
     echo "<tr>";
@@ -60,24 +61,24 @@ function show_pqc_result_summary($results, $output_links = true)
     echo "</tr>";
     foreach ($results as $function => $test_result) {
         echo "<tr>";
-        echo "<td>" . $test_result["name"] . "</td>";
+        echo "<td>" . $test_result->name . "</td>";
         echo "<td>";
         if ($output_links) {
             echo "<a href='#$function'>";
         }
-        echo $test_result["status"];
+        echo $test_result->status;
         if ($output_links) {
             echo "</a>";
         }
         echo "</td>";
-        $css = get_css_for_pqc_status($test_result["status"]);
-        echo "<td $css>" . $test_result["summary"] . "</td>";
+        $css = get_css_for_pqc_status($test_result->status);
+        echo "<td $css>" . $test_result->summary . "</td>";
         echo "</tr>";
     }
     echo "</table>";
 }
 
-function get_css_for_pqc_status($status)
+function get_css_for_pqc_status(string $status): string
 {
     if ($status == _("Warning")) {
         $css = "class='warning'";
@@ -89,7 +90,8 @@ function get_css_for_pqc_status($status)
     return $css;
 }
 
-function get_pqc_test_results($projectid)
+/** @return array<string, PQCResult> */
+function get_pqc_test_results(string $projectid): array
 {
     global $test_functions;
 
@@ -111,15 +113,21 @@ function get_pqc_test_results($projectid)
 // - by convention has a name that begins "_test_project_"
 // - is called with a single $projectid argument
 // - performs a particular kind of check on the given project
-// - returns an associative array of the form
-//    [
-//        "name" => $test_name,  # name of the test
-//        "description" => $test_desc,  # description of the test
-//        "status" => $status,  # overall result of the test
-//            # one of [ _("Success"), _("Warning"), _("Error"), _("Skipped") ]
-//        "summary" => $summary,  # result summary string (no HTML)
-//        "details" => $details,  # result details (can contain HTML)
-//    ]
+// - returns a PQCResult
+
+class PQCResult
+{
+    public function __construct(
+        public readonly string $name,        // name of the test
+        public readonly string $description, // description of the test
+        public readonly string $status,      // overall result of the test
+        //                                      one of [ _("Success"), _("Warning"), _("Error"), _("Skipped") ]
+        public readonly string $summary,     // result summary string (no HTML)
+        public readonly string $details      // result details (can contain HTML)
+    ) {
+    }
+}
+
 
 global $test_functions;
 $test_functions = [
@@ -138,7 +146,7 @@ $test_functions = [
     "_test_project_for_missing_pages",
 ];
 
-function _test_project_for_large_page_images($projectid)
+function _test_project_for_large_page_images(string $projectid): PQCResult
 {
     global $code_url, $page_image_size_limit;
 
@@ -188,10 +196,10 @@ function _test_project_for_large_page_images($projectid)
         $details = "";
     }
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_corrupt_pngs($projectid)
+function _test_project_for_corrupt_pngs(string $projectid): PQCResult
 {
     global $code_url;
 
@@ -251,10 +259,10 @@ function _test_project_for_corrupt_pngs($projectid)
         $details = "";
     }
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_small_images($projectid)
+function _test_project_for_small_images(string $projectid): PQCResult
 {
     global $page_image_minimum_dimension;
     $test_name = _("Small page images");
@@ -297,10 +305,10 @@ function _test_project_for_small_images($projectid)
         $summary = _("Page table does not exist.");
     }
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_illo_images($projectid)
+function _test_project_for_illo_images(string $projectid): PQCResult
 {
     global $code_url;
 
@@ -384,10 +392,10 @@ function _test_project_for_illo_images($projectid)
         $details = "";
     }
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_missing_pages($projectid)
+function _test_project_for_missing_pages(string $projectid): PQCResult
 {
     global $code_url;
 
@@ -406,10 +414,10 @@ function _test_project_for_missing_pages($projectid)
     $summary = _("This is a manual test.");
     $details = "";
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_correct_metadata($projectid)
+function _test_project_for_correct_metadata(string $projectid): PQCResult
 {
     global $code_url;
 
@@ -433,10 +441,10 @@ function _test_project_for_correct_metadata($projectid)
     $details .= "<p><b>" . html_safe(_("Language")) . "</b>: " . html_safe($language) . "</p>";
     $details .= "<p><b>" . html_safe(_("Difficulty")) . "</b>: " . html_safe($difficulty) . "</p>";
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_credited_source($projectid)
+function _test_project_for_credited_source(string $projectid): PQCResult
 {
     $project = new Project($projectid);
     $image_source = $project->image_source_name;
@@ -449,22 +457,22 @@ function _test_project_for_credited_source($projectid)
     $details = "";
     $details .= "<p><b>" . _("Image Source") . "</b>: " . html_safe($image_source) . "</p>";
 
-    return ["name" => $test_name, "description" => $test_desc, "status" => $status, "summary" => $summary, "details" => $details];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_bad_bytes($projectid)
+function _test_project_for_bad_bytes(string $projectid): ?PQCResult
 {
     global $code_url;
 
-    $r['name'] = 'Bad Bytes in Page Text';
-    $r['description'] = "This test checks the project's latest page-texts for bad byte-sequences.";
+    $name = _("Bad Bytes in Page Text");
+    $description = _("This test checks the project's latest page-texts for bad byte-sequences.");
 
     $project = new Project($projectid);
     if (!$project->pages_table_exists) {
-        $r['status'] = _("Skipped");
-        $r['details'] = '';
-        $r['summary'] = _("Page table does not exist.");
-        return $r;
+        $status = _("Skipped");
+        $details = '';
+        $summary = _("Page table does not exist.");
+        return new PQCResult($name, $description, $status, $summary, $details);
     }
 
     $pages_res = page_info_query($projectid, 'F2', 'LE');
@@ -548,20 +556,22 @@ function _test_project_for_bad_bytes($projectid)
     $details_for_this_project .= "</table>";
 
     if ($n_bad_pages == 0) {
-        $r['status'] = _('Success');
-        $r['summary'] = _('No pages with bad characters.');
-        $r['details'] = "";
+        $status = _('Success');
+        $summary = _('No pages with bad characters.');
+        $details = "";
     } else {
-        $r['status'] = _('Error');
-        $r['summary'] = sprintf(_("%d pages had bad characters, see detail."), $n_bad_pages);
-        $r['details'] = $details_for_this_project;
+        $status = _('Error');
+        $summary = sprintf(_("%d pages had bad characters, see detail."), $n_bad_pages);
+        $details = $details_for_this_project;
     }
-
-    return $r;
+    return new PQCResult($name, $description, $status, $summary, $details);
 }
 
-// write <tr> if not the first row
-function write_row_start(&$first_row)
+/**
+ * write <tr> if not the first row
+ * @param-out false $first_row
+ */
+function write_row_start(bool &$first_row): string
 {
     if ($first_row) {
         $first_row = false;
@@ -574,8 +584,9 @@ function write_row_start(&$first_row)
 /**
  * Calculate what round number a page text was selected from by
  * the number of proofers that has touched it.
+ * @param string[] $proofers
  */
-function get_round_num_from_proofers($proofers)
+function get_round_num_from_proofers(array $proofers): int
 {
     $round_num = 0;
     foreach ($proofers as $proofer) {
@@ -593,7 +604,7 @@ function get_round_num_from_proofers($proofers)
  * that present the byte-sequence $raw in various ways,
  * and say why it's bad.
  */
-function tds_for_bad_bytes($raw)
+function tds_for_bad_bytes(string $raw): string
 {
     $tds = "";
 
@@ -618,7 +629,7 @@ function tds_for_bad_bytes($raw)
     return $tds;
 }
 
-function tds_for_invalid_chars($raw)
+function tds_for_invalid_chars(string $raw): string
 {
     $tds = "<td>$raw</td>";
     $tds .= "<td>" . string_to_hex($raw) . "</td>"; // bytes
@@ -629,7 +640,7 @@ function tds_for_invalid_chars($raw)
     return $tds;
 }
 
-function _test_project_for_word_lists($projectid)
+function _test_project_for_word_lists(string $projectid): PQCResult
 {
     $num_good_words = count(load_project_good_words($projectid));
     $num_bad_words = count(load_project_bad_words($projectid));
@@ -650,16 +661,10 @@ function _test_project_for_word_lists($projectid)
         $summary = _("Both of the word lists are empty.");
     }
 
-    return [
-        "name" => $test_name,
-        "description" => $test_desc,
-        "status" => $status,
-        "summary" => $summary,
-        "details" => $details,
-    ];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_valid_clearance($projectid)
+function _test_project_for_valid_clearance(string $projectid): PQCResult
 {
     $project = new Project($projectid);
     $clearance = $project->clearance;
@@ -684,16 +689,10 @@ function _test_project_for_valid_clearance($projectid)
         $details .= "<p>" . _("Unrecognized clearance format, confirm the clearance line is correct.");
     }
 
-    return [
-        "name" => $test_name,
-        "description" => $test_desc,
-        "status" => $status,
-        "summary" => $summary,
-        "details" => $details,
-    ];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_has_all_page_images($projectid)
+function _test_project_has_all_page_images(string $projectid): PQCResult
 {
     $test_name = _("Page images exist");
     $test_desc = _("This test validates that all page images exist on the server.");
@@ -737,11 +736,5 @@ function _test_project_has_all_page_images($projectid)
         $details = "";
     }
 
-    return [
-        "name" => $test_name,
-        "description" => $test_desc,
-        "status" => $status,
-        "summary" => $summary,
-        "details" => $details,
-    ];
+    return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }

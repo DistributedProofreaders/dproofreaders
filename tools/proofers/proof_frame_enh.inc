@@ -87,7 +87,7 @@ function echo_proof_frame_enh(PPage $ppage): void
     <?php
 }
 
-function echo_button_menu($ppage)
+function echo_button_menu(PPage $ppage): void
 {
     $user = User::load_current();
     $proofreading_font_faces = get_available_proofreading_font_faces();

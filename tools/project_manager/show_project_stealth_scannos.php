@@ -155,6 +155,7 @@ $checkbox_form["projectid"] = $projectid;
 echo_checkbox_form_start($checkbox_form);
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
 
+/** @var array<string, numeric-string> $percent_changed */
 printTableFrequencies($initialFreq, $cutoffOptions, $percent_changed, [$instances_changed_to, $instances_changed, $instances_left, $instances_total, $context_array, $word_notes], $word_checkbox);
 
 echo_checkbox_form_submit(_("Add selected words to Bad Words List"));
@@ -164,6 +165,15 @@ echo_checkbox_form_end();
 //---------------------------------------------------------------------------
 // supporting page functions
 
+/**
+ * @return list{
+ *             array<string, numeric-string>, // $percent_changed
+ *             array<string, int>,            // $possible_scannos_w_freq
+ *             string[],                      // $messages
+ *             array<string, string>,         // $possible_scannos_w_correction
+ *             array<string, int>             // $possible_scannos_w_count
+ *         }
+ */
 function _get_stealth_scanno_word_list(string $projectid): array
 {
     $temp_dir = sys_get_temp_dir();

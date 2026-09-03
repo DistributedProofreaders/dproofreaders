@@ -81,7 +81,7 @@ foreach ($errors as $error) {
 echo "<p>" . return_to_project_page_link($projectid, ["expected_state=$state"]) . "</p>\n";
 
 
-function echo_filter_box(string $projectid, int $show_image_size, ?string $username, ?Round $round)
+function echo_filter_box(string $projectid, int $show_image_size, ?string $username, ?Round $round): void
 {
     $username = $username === '' ? User::current_username() : $username;
     $roundid = $round ? $round->id : '';
@@ -149,7 +149,7 @@ if ($project->pages_table_exists) {
     }
     echo "</p>";
 
-    echo_page_table($project, $show_image_size, false, $username_for_page_selection, $round_for_page_selection);
+    echo_page_table($project, (bool)$show_image_size, false, $username_for_page_selection, $round_for_page_selection);
 } else {
     $warn_message = $project->pages_table_missing_reason();
     echo "<p class='warning'>$warn_message</p>\n";

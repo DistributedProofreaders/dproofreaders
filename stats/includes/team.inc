@@ -17,7 +17,7 @@ $team_icons_url = SiteConfig::get()->dyn_url . "/teams/icon";
 // Define the maximum number of teams the user can be a member of.
 define("MAX_USER_TEAM_MEMBERSHIP", 6);
 
-function select_from_teams($where_body, $other_clauses = '')
+function select_from_teams(string $where_body, string $other_clauses = ''): mysqli_result
 {
     [, $teams_ELR_page_tallyboard] = get_ELR_tallyboards();
     [$joined_with_team_ELR_page_tallies, $team_ELR_page_tally_column] =
@@ -42,7 +42,8 @@ function select_from_teams($where_body, $other_clauses = '')
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showTeamInformation($curTeam, $tally_name)
+/** @param array<string, mixed> $curTeam */
+function showTeamInformation(array $curTeam, ?string $tally_name): void
 {
     showTeamProfile($curTeam);
 
@@ -62,7 +63,8 @@ function showTeamInformation($curTeam, $tally_name)
 
 // -----------------------------------------------------------------------------
 
-function showTeamProfile($curTeam, $preview = false)
+/** @param array<string, mixed> $curTeam */
+function showTeamProfile(array $curTeam, bool $preview = false): void
 {
     global $team_avatars_url;
     global $code_url;
@@ -199,7 +201,7 @@ function showTeamProfile($curTeam, $preview = false)
     echo "</td></tr></table>";
 }
 
-function team_get_member_count_rank($team_id)
+function team_get_member_count_rank(int $team_id): ?int
 {
     $result = DPDatabase::query("
         SELECT id
@@ -213,11 +215,13 @@ function team_get_member_count_rank($team_id)
         }
         $i++;
     }
+    return null;
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showTeamTallySelector($curTeam, $tally_name)
+/** @param array<string, mixed> $curTeam */
+function showTeamTallySelector(array $curTeam, ?string $tally_name): void
 {
     $team_id = $curTeam['id'];
 
@@ -255,7 +259,8 @@ function showTeamTallySelector($curTeam, $tally_name)
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-function showTeamStats($curTeam, $tally_name)
+/** @param array<string, mixed> $curTeam */
+function showTeamStats(array $curTeam, ?string $tally_name): void
 {
     $teams_tallyboard = new TallyBoard($tally_name, 'T');
 
@@ -291,7 +296,8 @@ function showTeamStats($curTeam, $tally_name)
     $t->end();
 }
 
-function showTeamMbrs($curTeam, $tally_name)
+/** @param array<string, mixed> $curTeam */
+function showTeamMbrs(array $curTeam, ?string $tally_name): void
 {
     global $code_url;
 
@@ -405,7 +411,8 @@ function showTeamMbrs($curTeam, $tally_name)
     $t->end();
 }
 
-function showTeamHistory($curTeam, $tally_name)
+/** @param array<string, mixed> $curTeam */
+function showTeamHistory(array $curTeam, ?string $tally_name): void
 {
     if (@$_GET['range'] == 'all') {
         $range = 'all';
@@ -436,12 +443,12 @@ function showTeamHistory($curTeam, $tally_name)
     );
 
     $t->end();
-    echo "<script type='application/javascript'>";
+    echo "<script type='module'>";
     echo build_svg_graph_inits([["barLineGraph", "tallyboard_deltas", $tallyboard_deltas_config]]);
     echo "</script>";
 }
 
-function stripAllString($ttext)
+function stripAllString(string $ttext): string
 {
     return str_replace(
         ['[b]', '[B]', '[/b]', '[/B]', '[i]', '[I]', '[/i]', '[/I]', '[p]', '[P]', '[/p]', '[/P]', '[lb]', '[LB]'],
@@ -450,7 +457,7 @@ function stripAllString($ttext)
     );
 }
 
-function unstripAllString($ttext)
+function unstripAllString(string $ttext): string
 {
     return str_replace(
         ['<b>', '</b>', '<i>', '</i>', '<p>', '</p>', '<br>'],
@@ -459,14 +466,14 @@ function unstripAllString($ttext)
     );
 }
 
-function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)
+function showEdit(string $tname, string $ttext, string $twebpage, bool $tedit, int $tsid): void
 {
     global $teamimages;
 
     $user = User::load_current();
 
     echo "<form enctype='multipart/form-data' id='mkTeam' name='mkTeam' action='";
-    if ($tedit == 1) {
+    if ($tedit) {
         echo "new_team.php";
     } else {
         echo "tedit.php";
@@ -482,7 +489,7 @@ function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)
 
     echo "\n<table class='themed'>";
     echo "<tr><th colspan='2'>";
-    if ($tedit != 1) {
+    if (!$tedit) {
         echo _("Edit Team Information");
     } else {
         echo _("New Proofreading Team");
@@ -558,7 +565,12 @@ function showEdit($tname, $ttext, $twebpage, $tedit, $tsid)
 }
 
 
-function uploadImages($preview, $tid, $type)
+/**
+ * TODO: fuse $preview and $tid
+ * @param 'avatar'|'icon'|'both' $type
+ * @return ?array{avatar: ?string, icon: ?string }
+ */
+function uploadImages(bool $preview, null|int|string $tid, string $type): ?array
 {
     global $team_avatars_dir, $team_icons_dir;
     $teamimages = [
@@ -568,14 +580,14 @@ function uploadImages($preview, $tid, $type)
 
     // see if $team_avatars_dir exists and if not try to create it
     if (! is_dir($team_avatars_dir)) {
-        if (!mkdir($team_avatars_dir, 0777, true)) {
+        if (!mkdir($team_avatars_dir, 0o777, true)) {
             throw new RuntimeException(_("Error creating team avatar directory."));
         }
     }
 
     // ditto $team_icons_dir
     if (! is_dir($team_icons_dir)) {
-        if (!mkdir($team_icons_dir, 0777, true)) {
+        if (!mkdir($team_icons_dir, 0o777, true)) {
             throw new RuntimeException(_("Error creating team icons directory."));
         }
     }
@@ -585,18 +597,18 @@ function uploadImages($preview, $tid, $type)
         if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
             if ($_FILES['teamavatar']['size'] > 2097152) {
                 echo "<p class='error'>"._("The avatar uploaded is too large.  Please limit the file size to 2MB or less.")."</p>";
-                return;
+                return null;
             }
             $avatarID = uniqid("avatar_").substr($_FILES['teamavatar']['name'], -4);
             $upload_avatar_dir = "$team_avatars_dir/$avatarID";
             move_uploaded_file($_FILES['teamavatar']['tmp_name'], $upload_avatar_dir);
-            if ($preview != 1) {
+            if (!$preview) {
                 DPDatabase::query("UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid");
             }
             $teamimages['avatar'] = $avatarID;
         } else {
             echo "<p class='error'>"._("The avatar uploaded must be either a JPEG, GIF, or PNG file.")."</p>";
-            return;
+            return null;
         }
     }
 
@@ -604,18 +616,18 @@ function uploadImages($preview, $tid, $type)
         if (strtolower(substr($_FILES['teamicon']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".gif") {
             if ($_FILES['teamicon']['size'] > 1048576) {
                 echo "<p class='error'>"._("The icon uploaded is too large. Please limit the file size to 1MB or less.")."</p>";
-                return;
+                return null;
             }
             $iconID = uniqid("icon_").substr($_FILES['teamicon']['name'], -4);
             $upload_icon_dir = "$team_icons_dir/$iconID";
             move_uploaded_file($_FILES['teamicon']['tmp_name'], $upload_icon_dir);
-            if ($preview != 1) {
+            if (!$preview) {
                 DPDatabase::query("UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
             }
             $teamimages['icon'] = $iconID;
         } else {
             echo "<p class='error'>"._("The icon uploaded must be either a JPEG, GIF, or PNG file.")."</p>";
-            return;
+            return null;
         }
     }
 
@@ -623,7 +635,7 @@ function uploadImages($preview, $tid, $type)
     return $teamimages;
 }
 
-function deleteImages()
+function deleteImages(): void
 {
     global $team_avatars_dir, $team_icons_dir;
     $oneHourAgo = time() - 600;

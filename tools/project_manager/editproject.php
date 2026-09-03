@@ -131,7 +131,7 @@ class ProjectInfoHolder
     /** @var string[] */
     private array $hold_states;
 
-    public function set_from_nothing()
+    public function set_from_nothing(): null
     {
         global $pguser;
 
@@ -141,11 +141,12 @@ class ProjectInfoHolder
         $this->project->text_preparer = $pguser;
         $this->project->difficulty = ($pguser == "BEGIN" ? "beginner" : "average");
         $this->charsuites = SiteConfig::get()->default_project_char_suites;
+        return null;
     }
 
     // -------------------------------------------------------------------------
 
-    public function set_from_marc_record()
+    public function set_from_marc_record(): ?string
     {
         $encoded_marc_array = $_POST["rec"] ?? "";
         if (!$encoded_marc_array) {
@@ -156,11 +157,12 @@ class ProjectInfoHolder
         $this->project->populate_from_marc_record($encoded_marc_array);
 
         $this->original_marc_array_encd = $encoded_marc_array;
+        return null;
     }
 
     // -------------------------------------------------------------------------
 
-    public function set_from_clone($projectid)
+    public function set_from_clone(string $projectid): null
     {
         // initialize the project from $projectid but record that it's a
         // clone as we'll use this later
@@ -186,10 +188,11 @@ class ProjectInfoHolder
         $this->project->postednum = null;
         $this->project->deletion_reason = '';
         $this->project->state = '';
+        return null;
     }
 
     // edit an existing project
-    public function set_from_db()
+    public function set_from_db(): ?string
     {
         $projectid = $_GET['project'];
         if ($projectid == '') {
@@ -214,11 +217,13 @@ class ProjectInfoHolder
         foreach ($this->project->get_charsuites(false) as $project_charsuite) {
             array_push($this->charsuites, $project_charsuite->name);
         }
+        return null;
     }
 
     // -------------------------------------------------------------------------
 
-    public function set_from_post()
+    /** @return string[]|string|null */
+    public function set_from_post(): array|string|null
     {
         global $pguser;
 
@@ -351,7 +356,7 @@ class ProjectInfoHolder
 
     // -------------------------------------------------------------------------
 
-    public function save_to_db()
+    public function save_to_db(): void
     {
         global $pguser;
 
@@ -409,7 +414,7 @@ class ProjectInfoHolder
 
     // =========================================================================
 
-    public function show_form()
+    public function show_form(): void
     {
         echo "<form method='post' enctype='multipart/form-data' action='#preview'>";
 
@@ -437,7 +442,7 @@ class ProjectInfoHolder
 
     // -------------------------------------------------------------------------
 
-    public function show_hidden_controls()
+    public function show_hidden_controls(): void
     {
         global $return;
 
@@ -460,7 +465,7 @@ class ProjectInfoHolder
 
     // -------------------------------------------------------------------------
 
-    public function show_visible_controls()
+    public function show_visible_controls(): void
     {
         global $pguser;
 
@@ -526,7 +531,7 @@ class ProjectInfoHolder
             $this->project->extra_credits,
             null,
             '',
-            '',
+            [],
             true
         );
         if ($this->project->scannercredit != '') {
@@ -543,8 +548,15 @@ class ProjectInfoHolder
         }
     }
 
-    public function row($label, $display_function, $field_value, $field_name = null, $explain = '', $args = '', $html_label = false)
-    {
+    public function row(
+        string $label,
+        string $display_function,
+        mixed $field_value,
+        mixed $field_name = null,
+        string $explain = '',
+        mixed $args = [],
+        bool $html_label = false
+    ): void {
         echo "<tr>";
         echo   "<th class='label'>";
         echo     $html_label ? $label : html_safe($label);
@@ -560,7 +572,7 @@ class ProjectInfoHolder
 
     // =========================================================================
 
-    public function preview()
+    public function preview(): void
     {
         // format Markdown to HTML
         $comments = parse_project_comments($this->project);
@@ -599,7 +611,7 @@ class ProjectInfoHolder
      * In the project's text fields, replace sequences of space characters
      * with a unique space, and trim beginning and end space
      */
-    public function normalize_spaces()
+    public function normalize_spaces(): void
     {
         $this->project->nameofwork = preg_replace('/\s+/', ' ', trim($this->project->nameofwork));
         $this->project->authorsname = preg_replace('/\s+/', ' ', trim($this->project->authorsname));
@@ -607,17 +619,13 @@ class ProjectInfoHolder
         $this->project->extra_credits = preg_replace('/\s+/', ' ', trim($this->project->extra_credits));
     }
 
-    private function serialize($value)
+    private function serialize(mixed $value): string
     {
         return base64_encode(serialize($value));
     }
 
-    private function unserialize($value)
+    private function unserialize(?string $value): mixed
     {
-        if ($value) {
-            return unserialize(base64_decode($value));
-        } else {
-            return null;
-        }
+        return $value ? unserialize(base64_decode($value)) : null;
     }
 }

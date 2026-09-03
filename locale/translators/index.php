@@ -125,8 +125,8 @@ elseif ($func == "newtranslation2") {
             . _("Back to the Translation Center") . "</a></p>";
     }
 
-    mkdir("$dyn_locales_dir/$locale", 0755);
-    mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0755);
+    mkdir("$dyn_locales_dir/$locale", 0o755);
+    mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0o755);
 
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     $po_file = new POFile($po_filename);
@@ -208,7 +208,7 @@ elseif ($func == "xtext") {
 // Perform the upload and compilation of a translation file
 elseif ($func == "upload") {
     $locale = validate_locale($_REQUEST['locale']);
-    do_upload($locale);
+    locale_do_upload($locale);
     echo "<p><a href='$translate_url?func=manage&amp;locale=$locale'>"
         . sprintf(_("Back to manage locale %s"), $locale) . "</a></p>";
 }
@@ -225,7 +225,7 @@ elseif ($func == "merge") {
 }
 
 
-function main_form()
+function main_form(): void
 {
     // display the list of languages with links to the downloadable PO files
 
@@ -348,7 +348,7 @@ function main_form()
 }
 
 
-function manage_form($locale)
+function manage_form(string $locale): void
 {
     global $dyn_locales_dir, $translate_url;
 
@@ -449,7 +449,7 @@ function manage_form($locale)
     }
 }
 
-function do_upload($locale)
+function locale_do_upload(string $locale): void
 {
     global $dyn_locales_dir;
 
@@ -518,7 +518,7 @@ function do_upload($locale)
     }
 }
 
-function do_merge($locale, $fuzzy)
+function do_merge(string $locale, ?string $fuzzy): void
 {
     global $dyn_locales_dir;
 
@@ -553,7 +553,7 @@ function do_merge($locale, $fuzzy)
     }
 }
 
-function validate_locale($locale, $check_dir_exists = true)
+function validate_locale(?string $locale, bool $check_dir_exists = true): string
 {
     global $dyn_locales_dir;
 
@@ -566,7 +566,7 @@ function validate_locale($locale, $check_dir_exists = true)
     return $locale;
 }
 
-function generate_js_only_po($po_filename)
+function generate_js_only_po(string $po_filename): string
 {
     if (!$tempfile = tempnam(sys_get_temp_dir(), "js_only")) {
         throw new RuntimeException("Unable to create temporary file");
@@ -588,7 +588,7 @@ function generate_js_only_po($po_filename)
     return $tempfile;
 }
 
-function build_translation_js()
+function build_translation_js(): void
 {
     global $dyn_locales_dir;
 

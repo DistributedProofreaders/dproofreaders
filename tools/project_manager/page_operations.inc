@@ -5,7 +5,7 @@ include_once($relPath.'page_tally.inc');
 
 // -----------------------------------------------------------------------------
 
-function page_del($projectid, $image)
+function page_del(string $projectid, string $image): ?string
 {
     validate_projectID($projectid);
     $sql = sprintf(
@@ -47,11 +47,13 @@ function page_del($projectid, $image)
     if (! unlink($image_path)) {
         return sprintf(_('Unable to remove file %s'), $image_path);
     }
+
+    return null;
 }
 
 // -----------------------------------------------------------------------------
 
-function page_clear($projectid, $image)
+function page_clear(string $projectid, string $image): ?string
 {
     // echo "page_clear( $projectid, $image )<br>\n";
 
@@ -99,4 +101,6 @@ function page_clear($projectid, $image)
 
     global $pguser;
     Page_clearRound($projectid, $image, $round, $pguser);
+
+    return null;
 }

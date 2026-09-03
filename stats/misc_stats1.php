@@ -49,7 +49,7 @@ if (isset($start) && isset($end)) {
 }
 output_header($title, NO_STATSBAR, [
     "js_files" => get_graph_js_files(),
-    "js_data" => $js_data,
+    "js_module_data" => $js_data,
 ]);
 
 echo "<h1>$title</h1>\n";
@@ -75,7 +75,7 @@ show_month_sums('all_by_pages');
 
 // -----------------------------------------------------------------------------
 
-function show_all_time_total()
+function show_all_time_total(): void
 {
     global $tally_name;
 
@@ -91,7 +91,8 @@ function show_all_time_total()
     echo "<br>\n";
 }
 
-function show_top_days($limit, $when)
+/** @param 'ever' $when */
+function show_top_days(int $limit, string $when): void
 {
     global $tally_name, $curr_year, $curr_year_month;
 
@@ -127,7 +128,8 @@ function show_top_days($limit, $when)
     echo "<br>\n";
 }
 
-function show_month_sums($which)
+/** @param 'top_ten'|'all_chron'|'all_by_pages' $which */
+function show_month_sums(string $which): void
 {
     global $tally_name, $curr_year_month;
 

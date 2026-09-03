@@ -47,10 +47,10 @@ if (!$errors) {
     try {
         if ($save_files) {
             flush();
-            generate_post_files($project, $round_id, $which_text, $include_proofers, '');
+            generate_post_files($project, $round_id, $which_text, (bool) $include_proofers, '');
             echo "<p>" . _("Done.") . "</p>";
         } else {
-            generate_interim_file($project, $round_id, $which_text, $include_proofers);
+            generate_interim_file($project, $round_id, $which_text, (bool) $include_proofers);
         }
     } catch (Exception $exception) {
         $errors[] = $exception->getMessage();
@@ -66,7 +66,7 @@ if ($errors) {
     exit();
 }
 
-function output_page_header($project)
+function output_page_header(Project $project): void
 {
     global $round_id, $which_text, $include_proofers, $save_files;
 

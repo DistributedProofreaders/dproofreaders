@@ -4,8 +4,9 @@
  * Return an associative array of genres in the format
  *     english_name => translated_name
  * sorted by the translated name
+ * @return array<string, string>
  */
-function load_genre_translation_array()
+function load_genre_translation_array(): array
 {
     $genres = [
         'Other' => _('Other'),
@@ -94,7 +95,7 @@ function load_genre_translation_array()
     return $genres;
 }
 
-function maybe_create_temporary_genre_translation_table()
+function maybe_create_temporary_genre_translation_table(): void
 {
     $genres = load_genre_translation_array();
 

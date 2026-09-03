@@ -17,7 +17,8 @@ include_once($relPath.'User.inc');
 
 // -----------------------------------------------------------------------------
 
-function get_page_tally_names()
+/** @return array<string, string> */
+function get_page_tally_names(): array
 {
     $page_tally_names = [];
     foreach (Rounds::get_all() as $round) {
@@ -29,7 +30,8 @@ function get_page_tally_names()
 
 // -----------------------------------------------------------------------------
 
-function get_ELR_tallyboards()
+/** @return list{TallyBoard, TallyBoard} */
+function get_ELR_tallyboards(): array
 {
     global $ELR_round;
 
@@ -51,7 +53,7 @@ function get_ELR_tallyboards()
  * Add $amount to the user's page tally,
  * and to the page tally of each team that the user currently belongs to.
  */
-function page_tallies_add(string $tally_name, User $user, int $amount)
+function page_tallies_add(string $tally_name, User $user, int $amount): void
 {
     // update page tally for user
     $user_tallyboard = new TallyBoard($tally_name, 'U');
@@ -72,7 +74,7 @@ function page_tallies_add(string $tally_name, User $user, int $amount)
 
 // Not actually tally-specific, but that's all it's used for.
 
-function get_daily_average($start_time, $total)
+function get_daily_average(int $start_time, int $total): float
 {
     $now = time();
     $seconds_since_start = $now - $start_time;
@@ -116,8 +118,6 @@ function user_get_ELR_page_tally(User $user): int
 
 /**
  * Get the user's page tally neighborhood
- * @param string $tally_name
- * @param User $user
  * @param int $radius
  *   (maximum) number of neighbors (on each side) to include in
  *   the neighborhood. (It will include fewer than the maximum iff the target
@@ -132,7 +132,7 @@ function user_get_ELR_page_tally(User $user): int
  *
  * @return PageTally_Neighbor[]
  */
-function user_get_page_tally_neighborhood(string $tally_name, User $user, int $radius)
+function user_get_page_tally_neighborhood(string $tally_name, User $user, int $radius): array
 {
     $tallyboard = new TallyBoard($tally_name, 'U');
     $nb =
@@ -181,8 +181,9 @@ class PageTally_Neighbor
 
 /**
  * Should we anonymize information about the given user?
+ * @param PRIVACY_PRIVATE|PRIVACY_ANONYMOUS $user_privacy_setting
  */
-function should_anonymize(?string $username, int $user_privacy_setting)
+function should_anonymize(?string $username, int $user_privacy_setting): bool
 {
     return !can_reveal_details_about($username, $user_privacy_setting);
 }
@@ -229,7 +230,7 @@ $SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
  * - prev_day_{goal,actual}
  * - curr_month_{goal,actual}
  */
-function get_site_page_tally_summary(string $tally_name)
+function get_site_page_tally_summary(string $tally_name): object
 {
     $site_stats = new StdClass();
 
@@ -282,7 +283,7 @@ function get_site_page_tally_summary(string $tally_name)
     return $site_stats;
 }
 
-function get_site_tally_goal_summed(string $tally_name, string $date_condition)
+function get_site_tally_goal_summed(string $tally_name, string $date_condition): int
 {
     $sql = sprintf(
         "
@@ -294,7 +295,7 @@ function get_site_tally_goal_summed(string $tally_name, string $date_condition)
     );
     $res = DPDatabase::query($sql);
     [$sum] = mysqli_fetch_row($res);
-    return $sum;
+    return $sum ?? 0; // SELECT SUM() returns null if there are no rows.
 }
 
 // -----------------------------------------------------------------------------
@@ -313,8 +314,8 @@ function get_site_tally_goal_summed(string $tally_name, string $date_condition)
  *
  * @param string $tally_name
  *   Tally name
- * @param string $grouped_into
- *   Which date format to group into, one of: date, year_month, year
+ * @param 'date'|'year_month'|'year' $grouped_into
+ *   Which date format to group into
  * @param ?int $min_timestamp
  *   Earliest timestamp to evaluate
  * @param ?int $max_timestamp
@@ -322,9 +323,10 @@ function get_site_tally_goal_summed(string $tally_name, string $date_condition)
  * @param ?int $limit
  *   Limit the number of rows to return
  * @param ?string $sort
- *   Field to sort on, one of: dateunit, tally_delta, goal
+ *   Field to sort on, one of dateunit, tally_delta, goal,
+ *   sort order asc/desc may be appended with a space
  *
- * @return array
+ * @return list{string, int, int}[]
  */
 function get_site_tally_grouped(
     string $tally_name,
@@ -342,8 +344,6 @@ function get_site_tally_grouped(
         $date_format = "%Y-%m";
     } elseif ($grouped_into == "year") {
         $date_format = "%Y";
-    } else {
-        throw new InvalidArgumentException("\$grouped_into is an invalid value");
     }
 
     $goal_where_time = "1 ";
@@ -446,8 +446,8 @@ function get_site_tally_grouped(
  *
  * @param string $tally_name
  *   Tally name
- * @param string $c_or_i
- *   One of: cumulative, increment
+ * @param 'increments'|'cumulative' $c_or_i
+ *   One of: cumulative, increments
  * @param int $start_timestamp
  *   Earliest timestamp to evaluate
  * @param int $end_timestamp
@@ -455,7 +455,7 @@ function get_site_tally_grouped(
  * @param int $days_to_average
  *   If using 'increment', number of days to calculate simple moving average
  *
- * @return array
+ * @return list{string[], int[], ?int[], ?float[]}
  */
 function get_site_tally_cumulative_or_incremental(
     string $tally_name,
@@ -533,13 +533,16 @@ function get_site_tally_cumulative_or_incremental(
             $datay1[] = 0;
         }
     }
-
     return [$datax, $datay1, $datay2, $moving_average];
 }
 
 /**
  * Given an array of numbers and a window, calculate the moving average over
  * the window.
+ *
+ * @param int[] $array
+ * @param int $window
+ * @return float[]
  */
 function calculate_tally_sma(array $array, int $window): array
 {
@@ -565,8 +568,10 @@ function calculate_tally_sma(array $array, int $window): array
  * where $days_back is either the string "all" or a positive integer.
  *
  * In the returned array, each key is a date-string of the form "YYYY-MM-DD".
+ *
+ * @return array<string, int>
  */
-function get_pages_per_day_for_past_n_days(string $tally_name, string $holder_type, int $holder_id, string|int $days_back)
+function get_pages_per_day_for_past_n_days(string $tally_name, string $holder_type, int $holder_id, string|int $days_back): array
 {
     global $SECONDS_TO_YESTERDAY;
 

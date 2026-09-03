@@ -16,13 +16,8 @@ include_once($relPath.'user_project_info.inc'); // notify_project_event_subscrib
  * Currently only a check for existence of record and field being > 0 is done. The latter
  * would allow the extension for a timestamp and the resetting to 0 if revoked in order
  * to still show users that have once committed but then revoked that commitment.
- *
- * @param string $projectid
- * @param string $username
- *
- * @return bool
  */
-function sr_user_is_committed($projectid, $username)
+function sr_user_is_committed(string $projectid, string $username): bool
 {
     $sql = sprintf(
         "
@@ -47,13 +42,8 @@ function sr_user_is_committed($projectid, $username)
  * Currently the record is only inserted with the committed field being set to one.
  * This allows the future extension for a timestamp and the resetting to 0 if revoked in
  * order to still show users that have once committed but then revoked that commitment.
- *
- * @param string $projectid
- * @param string $username
- *
- * @return void
  */
-function sr_commit($projectid, $username)
+function sr_commit(string $projectid, string $username): void
 {
     $sql = sprintf(
         "
@@ -70,13 +60,8 @@ function sr_commit($projectid, $username)
 
 /**
  * Delete a commitment from a user to SR a specific project
- *
- * @param string $projectid
- * @param string $username
- *
- * @return void
  */
-function sr_withdraw_commitment($projectid, $username)
+function sr_withdraw_commitment(string $projectid, string $username): void
 {
     $sql = sprintf(
         "
@@ -93,11 +78,9 @@ function sr_withdraw_commitment($projectid, $username)
 /**
  * Provide list of users with SR-commitment to project
  *
- * @param string $projectid
- *
  * @return string[]
  */
-function sr_get_committed_users($projectid)
+function sr_get_committed_users(string $projectid): array
 {
     $sql = sprintf(
         "
@@ -121,12 +104,8 @@ function sr_get_committed_users($projectid)
 
 /**
  * Return number of users with SR-commitment to project
- *
- * @param string $projectid
- *
- * @return int
  */
-function sr_number_users_committed($projectid)
+function sr_number_users_committed(string $projectid): int
 {
     return count(sr_get_committed_users($projectid));
 }
@@ -136,12 +115,8 @@ function sr_number_users_committed($projectid)
  *
  * This calls a transient page executing the database function for inserting commitment
  * and provides the current URI for return to current page.
- *
- * @param string $projectid
- *
- * @return void
  */
-function sr_echo_commitment_form($projectid)
+function sr_echo_commitment_form(string $projectid): void
 {
     global $code_url;
 
@@ -161,12 +136,8 @@ function sr_echo_commitment_form($projectid)
  *
  * This calls a transient page executing the database function for inserting commitment
  * and provides the current URI for return to current page.
- *
- * @param string $projectid
- *
- * @return void
  */
-function sr_echo_withdrawal_form($projectid)
+function sr_echo_withdrawal_form(string $projectid): void
 {
     global $code_url;
 
@@ -185,7 +156,7 @@ function sr_echo_withdrawal_form($projectid)
  * Record and notify for smooth reading upload and deadline extension
  * which do not involve a state change
  */
-function handle_smooth_reading_change($project, $postcomments, $days, $extend)
+function handle_smooth_reading_change(Project $project, string $postcomments, int $days, bool $extend): void
 {
     global $pguser;
 

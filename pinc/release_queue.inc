@@ -46,7 +46,9 @@ function cook_project_selector(string $project_selector): string
         );
 }
 
-/** @return array{0: ?int, 1: ?int} */
+/**
+ * @return list{?int, ?int}
+ */
 function _get_queue_length(string $cooked_project_selector, string $project_waiting_state): array
 {
     $state_clause = set_col_str("state", $project_waiting_state);
@@ -99,19 +101,19 @@ function _get_queue_length(string $cooked_project_selector, string $project_wait
  * }
  * ```
  *
- * @param null|Round $round
+ * @param ?Round $round
  *   Return the queues for the specified round, or all rounds if null.
  * @param string $show
  *   Select which queues to return:
  *   * all - Don't filter out any queues
  *   * enabled - Filter out queues which aren't enabled
  *   * populated - Filter out queues which aren't enabled *OR* contain no projects
- * @param null|string|array $name_selector
+ * @param null|string|string[] $name_selector
  *   Select which queues to return in the query where:
  *   * null - Don't filter out any queues
  *   * string - Filter out queues whose name does not contain string
  *   * array - Filter out queues whose name contains none of the strings
- * @param null|string|array $group_selector
+ * @param null|string|string[] $group_selector
  *   Select which groups and queues to return:
  *   * null - Don't filter out any groups/queues.
  *   * string - Filter out queues/groups whose group name does not contain string
@@ -119,7 +121,7 @@ function _get_queue_length(string $cooked_project_selector, string $project_wait
  * @param boolean $show_groups
  *   If true, return dummy group objects as well as queues
  *
- * @return Generator<array>
+ * @return Generator<array<string, mixed>>
  */
 function fetch_queues_data(?Round $round, string $show, bool $show_groups, $name_selector = null, $group_selector = null)
 {
@@ -203,9 +205,9 @@ function fetch_queues_data(?Round $round, string $show, bool $show_groups, $name
  * @param string $name
  *   The release queue's name
  *
- * @return array|null
+ * @return ?array<string, mixed>
  **/
-function fetch_queue_data_by_name($round, $name)
+function fetch_queue_data_by_name(Round $round, string $name): ?array
 {
     $sql = sprintf(
         "
@@ -225,6 +227,7 @@ function fetch_queue_data_by_name($round, $name)
 
 /**
  * Return queue data array for a specified release queue
+ * @return ?array<string, mixed>
  **/
 function fetch_queue_data(int $queueid): ?array
 {
@@ -243,6 +246,10 @@ function fetch_queue_data(int $queueid): ?array
     return _queue_data($res);
 }
 
+/**
+ * @param array<string, string> $row
+ * @return array<string, mixed>
+ */
 function _queue_data(array $row, ?int $length = null, ?int $unheld_length = null): array
 {
     $round = Rounds::get_by_id($row["round_id"]);
@@ -275,7 +282,7 @@ function _queue_data(array $row, ?int $length = null, ?int $unheld_length = null
  * @param boolean $unheld_only
  *   Only return projects that aren't in the hold state.
  *
- * @return Generator<array>
+ * @return Generator<array<string, mixed>>
  **/
 function fetch_queue_projects_data(Round $round, string $project_selector, bool $unheld_only)
 {
@@ -323,7 +330,7 @@ function fetch_queue_projects_data(Round $round, string $project_selector, bool 
  * @param string $name
  *   The name of the release queue
  *
- * @return array{"days_ago": int, "projects_released": int, "pages_released": int}[]
+ * @return array{days_ago: int, projects_released: int, pages_released: int}[]
  **/
 function fetch_queue_stats_data(Round $round, string $name): array
 {

@@ -1,5 +1,5 @@
 <?php
-function get_proofreading_interface_data_js()
+function get_proofreading_interface_data_js(): string
 {
     $font_data = [
         "faces" => get_font_styles(),

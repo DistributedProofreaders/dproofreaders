@@ -53,7 +53,7 @@ class SortableValue
         }
     }
 
-    public function _flipAscendDescendSqlRule($sqlRuleAscending)
+    public function _flipAscendDescendSqlRule(string $sqlRuleAscending): string
     {
         $vars = explode(',', $sqlRuleAscending);
         $newVars = [];
@@ -75,7 +75,7 @@ class SortableValue
     /**
      * Returns the name of the SortableValue.
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->_name;
     }
@@ -83,7 +83,7 @@ class SortableValue
     /**
      * Returns the label of the SortableValue.
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->_label;
     }
@@ -92,7 +92,7 @@ class SortableValue
      * Returns a SQL-snippet to be used in an ORDER BY-clause
      * depending on whether $direction is ASCENDING or DESCENDING
      */
-    public function getSQLRule($direction)
+    public function getSQLRule(int $direction): string
     {
         if ($direction == ASCENDING) {
             return $this->_sqlRuleAscending;
@@ -111,13 +111,9 @@ class SortUtility
     /** @var SortableValue[] */
     private array $_collection;
 
-    // optionally: one SortableValue is 'primary' meaning it is
-    // always sorted by
-    // ( ORDER BY whatever, primary )
-    private SortableValue $_primaryValue;
-
     // sorting
     private ?SortableValue $_sortingValue;
+    /** @var ASCENDING|DESCENDING */
     private ?int $_sortingDirection;
 
     /**
@@ -142,7 +138,7 @@ class SortUtility
      *
      * Those are, in order: HTTP-argument, saved setting in database
      */
-    public function _checkForUserPreferenceOnSorting()
+    public function _checkForUserPreferenceOnSorting(): bool
     {
 
         // Did the user click a sorting link (or used bookmark)?
@@ -164,8 +160,9 @@ class SortUtility
      * Sets the sorting rule to use. Will not take effect if
      * there is an HTTP-argument or setting in the database
      * specifying how to sort this data.
+     * @param ASCENDING|DESCENDING $sortingDirection
      */
-    public function setSortingRule($sortingValue, $sortingDirection = ASCENDING)
+    public function setSortingRule(?SortableValue $sortingValue, int $sortingDirection = ASCENDING): void
     {
         if (!$this->_checkForUserPreferenceOnSorting()) {
             // No Sorting link clicked, no database setting searched & found
@@ -180,7 +177,7 @@ class SortUtility
      * SortableValue and X is A or D, specifying
      * ascending and descending, respectively.
      */
-    public function _parseSortingRule($sortingRule)
+    public function _parseSortingRule(string $sortingRule): bool
     {
         if (preg_match('/A$/', $sortingRule)) {
             $name = substr($sortingRule, 0, -1);
@@ -209,7 +206,7 @@ class SortUtility
      * This is the one the user has choose to sort by,
      * or the default as specified by setSortingRule(...).
      */
-    public function getSortingValue()
+    public function getSortingValue(): ?SortableValue
     {
         if (isset($this->_sortingValue)) {
             return $this->_sortingValue;
@@ -222,22 +219,16 @@ class SortUtility
         }
     }
 
-    /**
-     * Returns ASCENDING or DESCENDING specifying how to sort.
-     */
-    public function getSortingDirection()
+    /** @return ASCENDING|DESCENDING */
+    public function getSortingDirection(): int
     {
-        if (isset($this->_sortingDirection)) {
-            return $this->_sortingDirection;
-        } else {
-            return ASCENDING;
-        }
+        return $this->_sortingDirection ?? ASCENDING;
     }
 
     /**
      * Adds the SortableValue to the list.
      */
-    public function addSortableValue($sortableValue)
+    public function addSortableValue(?SortableValue $sortableValue): void
     {
         array_push($this->_collection, $sortableValue);
     }
@@ -250,7 +241,7 @@ class SortUtility
      * Any SortableValues previously added using the
      * addSortableValue(...)-function will be removed.
      */
-    public function setSortableValues()
+    public function setSortableValues(): void
     {
         $this->_collection = func_get_args();
     }
@@ -258,7 +249,7 @@ class SortUtility
     /**
      * Returns the number of SortableValues managed by this SortUtility.
      */
-    public function getValueCount()
+    public function getValueCount(): int
     {
         return count($this->_collection);
     }
@@ -267,7 +258,7 @@ class SortUtility
      * Returns the SortableValue at the provided index, where
      * $index ranges from 0 to getvalueCount() - 1, inclusive.
      */
-    public function getValueAt($index)
+    public function getValueAt(int $index): ?SortableValue
     {
         if ($index >= 0 && $index < count($this->_collection)) {
             return $this->_collection[$index];
@@ -279,7 +270,7 @@ class SortUtility
     /**
      * Returns the name of the SortUtility.
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->_name;
     }
@@ -288,42 +279,15 @@ class SortUtility
      * Returns a SQL-snippet for use in an ORDER BY-context,
      * for example "name DESC, id".
      */
-    public function getOrderBy()
+    public function getOrderBy(): ?string
     {
         $val = $this->getSortingValue();
         if (isset($val)) {
             $rule = $val->getSQLRule($this->_sortingDirection);
-            if (isset($this->_primaryValue)) {
-                return $rule . ', ' . $this->_primaryValue->getName();
-            }
             return $rule;
         } else {
-            if (isset($this->_primaryValue)) {
-                return $this->_primaryValue->getName();
-            }
             return null;
         }
-    }
-
-    /**
-     * Defines the primary SortableValue which is always appended
-     * to the end of the ORDER BY-string.
-     *
-     * This can be a name- or id-column by which sorting should be performed
-     * when the sorting value as selected by the user cannot
-     * distinguish between two or more rows in the database.
-     */
-    public function setPrimaryValue($primaryValue)
-    {
-        $this->_primaryValue = $primaryValue;
-    }
-
-    /**
-     * Returns the primary SortableValue.
-     */
-    public function getPrimaryValue()
-    {
-        return $this->_primaryValue;
     }
 
     /**
@@ -332,7 +296,7 @@ class SortUtility
      * This should be used when building a link for reloading
      * the page for some reason, while keeping the sorting intact.
      */
-    public function getQueryStringForCurrentView($sortableValue = null)
+    public function getQueryStringForCurrentView(?SortableValue $sortableValue = null): string
     {
         $currentlySortedValue = $this->getSortingValue();
 
@@ -356,7 +320,7 @@ class SortUtility
      *
      * The argument defaults to the currently sorted value.
      */
-    public function getQueryStringForSortableValue($sortableValue)
+    public function getQueryStringForSortableValue(SortableValue $sortableValue): string
     {
         $currentlySortedValue = $this->getSortingValue();
 
