@@ -622,7 +622,7 @@ class Project
             $this->log_project_event(User::current_username(), 'creation');
 
             // Make the project directory
-            if (!mkdir($this->dir, 0777, true)) {
+            if (!mkdir($this->dir, 0o777, true)) {
                 throw new RuntimeException("Unable to mkdir '$this->dir'");
             }
 

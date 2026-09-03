@@ -104,7 +104,7 @@ function generate_interim_file(
 
     // first find a unique place to operate in:
     $dirname = sys_get_temp_dir() . "/" . uniqid("post_files");
-    mkdir($dirname, 0777);
+    mkdir($dirname, 0o777);
 
     $textfile_path = "{$dirname}/{$filename}.txt";
     $zip_path = "{$dirname}/{$filename}.zip";
@@ -383,7 +383,7 @@ function generate_project_images_zip(string $projectid): array
     }
 
     if (!is_dir(dirname($zipfile_path))) {
-        mkdir(dirname($zipfile_path), 0777, true /* recursive */);
+        mkdir(dirname($zipfile_path), 0o777, true /* recursive */);
     }
 
     // Get a list of image filenames

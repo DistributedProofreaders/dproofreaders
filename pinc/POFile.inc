@@ -255,7 +255,7 @@ class POFile
         if (!rename($tempfile, $pot_filename)) {
             throw new RuntimeException("Unable to rename $tempfile to $pot_filename");
         }
-        if (!chmod($pot_filename, 0644)) {
+        if (!chmod($pot_filename, 0o644)) {
             throw new RuntimeException("Unable to chmod $pot_filename");
         }
     }

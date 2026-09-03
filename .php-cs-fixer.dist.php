@@ -14,7 +14,7 @@ $config = new PhpCsFixer\Config();
 $config->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect());
 $config->setRules([
         '@PSR12' => true,
-        '@PHP74Migration' => true,
+        '@PHP8x5Migration' => true,
         // PHP tags
         'linebreak_after_opening_tag' => true,
         'blank_line_after_opening_tag' => false,

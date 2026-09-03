@@ -91,8 +91,8 @@ if (substr($abs_source, -4) == ".zip") {
     // We will unpack it to a sibling directory.
     $source_project_dir = substr($abs_source, 0, -4);
     if (!file_exists($source_project_dir)) {
-        mkdir($source_project_dir, 0777);
-        chmod($source_project_dir, 0777);
+        mkdir($source_project_dir, 0o777);
+        chmod($source_project_dir, 0o777);
     }
 
     extract_zip_to($abs_source, $source_project_dir);

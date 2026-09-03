@@ -580,14 +580,14 @@ function uploadImages(bool $preview, null|int|string $tid, string $type): ?array
 
     // see if $team_avatars_dir exists and if not try to create it
     if (! is_dir($team_avatars_dir)) {
-        if (!mkdir($team_avatars_dir, 0777, true)) {
+        if (!mkdir($team_avatars_dir, 0o777, true)) {
             throw new RuntimeException(_("Error creating team avatar directory."));
         }
     }
 
     // ditto $team_icons_dir
     if (! is_dir($team_icons_dir)) {
-        if (!mkdir($team_icons_dir, 0777, true)) {
+        if (!mkdir($team_icons_dir, 0o777, true)) {
             throw new RuntimeException(_("Error creating team icons directory."));
         }
     }
