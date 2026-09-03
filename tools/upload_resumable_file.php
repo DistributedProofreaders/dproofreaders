@@ -52,7 +52,7 @@ elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Suppress warning by mkdir because despite the check above
             // race conditions from other processes can result in the
             // directory existing when we try to create it here.
-            @mkdir($staging_dir, 0777, true);
+            @mkdir($staging_dir, 0o777, true);
         }
 
         if (!move_uploaded_file($file['tmp_name'], $chunk_filename)) {

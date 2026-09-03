@@ -125,8 +125,8 @@ elseif ($func == "newtranslation2") {
             . _("Back to the Translation Center") . "</a></p>";
     }
 
-    mkdir("$dyn_locales_dir/$locale", 0755);
-    mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0755);
+    mkdir("$dyn_locales_dir/$locale", 0o755);
+    mkdir("$dyn_locales_dir/$locale/LC_MESSAGES/", 0o755);
 
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     $po_file = new POFile($po_filename);

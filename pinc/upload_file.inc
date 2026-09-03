@@ -182,7 +182,7 @@ function validate_uploaded_file(bool $verbose): array
                 throw new FileUploadException(_("You may only upload one file"));
             }
             // allow anti_virus to read it
-            chmod($file_path, 0644);
+            chmod($file_path, 0o644);
         } else {
             // resumable upload
             $root_staging_dir = "/tmp/resumable_uploads";

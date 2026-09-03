@@ -16,7 +16,7 @@ class AutoModify extends BackgroundJob
         // Capture the automodify output to a log file
         $logs_dir = SiteConfig::get()->dyn_dir . "/stats/automodify_logs";
         if (! is_dir($logs_dir)) {
-            mkdir($logs_dir, 0777, true);
+            mkdir($logs_dir, 0o777, true);
         }
         $this->logfile = sprintf("$logs_dir/%s.txt", date("Y-m-d_H:i:s_T"));
         $this->filehandle = fopen($this->logfile, "wt");
