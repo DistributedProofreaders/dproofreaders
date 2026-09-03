@@ -421,7 +421,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
         )
         . tr_w_two_cells(
             _("Pages"),
-            $pages
+            (string) $pages
         )
         . tr_w_two_cells(
             _("Post-Processed by"),

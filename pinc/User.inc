@@ -184,7 +184,7 @@ class User
 
                 // now set the profile cookie if this is for the current user
                 if ($this->username == User::current_username()) {
-                    dp_setcookie("profile", $this->current_profile->id);
+                    dp_setcookie("profile", (string) $this->current_profile->id);
                 }
                 break;
             default:

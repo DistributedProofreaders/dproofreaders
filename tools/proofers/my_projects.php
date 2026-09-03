@@ -304,7 +304,7 @@ if ($num_projects == 0) {
 
         if (isset($colspecs['postednum'])) {
             echo "<td class='right-align'>";
-            echo get_pg_catalog_link_for_etext($project->postednum, $project->postednum);
+            echo get_pg_catalog_link_for_etext($project->postednum, (string) $project->postednum);
             echo "</td>\n";
         }
 
