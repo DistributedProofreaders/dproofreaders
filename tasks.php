@@ -964,8 +964,14 @@ function process_related_topic(object $pre_task, string $action, int $related_to
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/** @param array<string|int, string> $array */
-function dropdown_select(string $field_name, string $current_value, array $array): string
+/**
+ * @template Key of string|int
+ * @template Value of string|int
+ * @param Key $field_name
+ * @param Value $current_value
+ * @param array<Key, Value> $array
+ */
+function dropdown_select(string|int $field_name, string|int $current_value, array $array): string
 {
     $return = "<select size='1' name='$field_name' ID='$field_name'>\n";
     foreach ($array as $key => $val) {
