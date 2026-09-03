@@ -44,9 +44,6 @@ parameters:
         - message: '#Variable .* might not be defined#'
         - message: '#Constant .* not found#'
 
-        # Low value and frequent L5 errors that are ignored by default.
-        - message: '#^Parameter \#\d+ .* of (static )?(function|method) .* expects string(\|null)?, int.* given\.$#'
-
         # TODO(jchaffraix): Temporarily disabling those as they are dynamically created (see comment in Pool's constructor).
         - message: "#^Access to an undefined property Pool::\\$project_available_state.$#"
           path: pinc/ProjectState.inc
