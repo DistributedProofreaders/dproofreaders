@@ -1180,8 +1180,8 @@ function get_page_header_image(string $image): string
 
 /**
  * Output a tab bar of various view modes and a selected mode
- *
- * @param array<int|string, array{label: string, url?: string, postscript?: string, ...}> $view_modes
+ * @template Mode of string|int
+ * @param array<Mode, array{label: string, url?: string, postscript?: string, ...}> $view_modes
  *   A complex associative array, eg:
  *   ```
  *   [
@@ -1194,7 +1194,7 @@ function get_page_header_image(string $image): string
  *       ], ...
  *   ]
  *   ```
- * @param string $selected_mode
+ * @param Mode $selected_mode
  *   Which view mode (a key in $view_modes) is currently selected
  * @param string $view_variable
  *   The URL parameter to use when selecting a new mode,
@@ -1208,7 +1208,7 @@ function get_page_header_image(string $image): string
  */
 function output_tab_bar(
     array $view_modes,
-    string $selected_mode,
+    string|int $selected_mode,
     string $view_variable,
     string $url_addition = "",
     string $display_mode = "full"
