@@ -327,8 +327,20 @@ TOOLS_PROJECT_MANAGER_TESTS = [
     {'path': 'tools/project_manager/edit_pages.php?projectid=projectID5e23a810ef693&operation=clear&selected_pages[001.png]=on'},
     # TODO project dir doesn't exist
     {'path': 'tools/project_manager/edit_project_word_lists.php?projectid=projectID5e23a810ef693'},
-    # TODO other actions
     {'path': 'tools/project_manager/editproject.php?project=projectID5e23a810ef693&action=edit'},
+    # Test some more codepaths, and missing param cases
+    {'path': 'tools/project_manager/editproject.php?action=edit'},
+    {'path': 'tools/project_manager/editproject.php?action=clone'},
+    {
+        'method': 'POST',
+        'path': 'tools/project_manager/editproject.php?project=projectID5e23a810ef693',
+        'data': {'save': 1},
+    },
+    {
+        'method': 'POST',
+        'path': 'tools/project_manager/editproject.php?project=projectID5e23a810ef693',
+        'data': {'preview': 1},
+    },
     {'path': 'tools/project_manager/external_catalog_search.php?action=show_query_form'},
     # TODO yaz
     #{'path': 'tools/project_manager/external_catalog_search.php?action=do_search_and_show_hits'},
