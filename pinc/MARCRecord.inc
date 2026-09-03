@@ -604,8 +604,8 @@ class MARCRecord
                     $start = (substr($directory, -12, 4) . substr($directory, -8, 5));
                 }
 
-                $start = str_pad($start, 5, "0", STR_PAD_LEFT);
-                $length = str_pad($length + 1, 4, "0", STR_PAD_LEFT);
+                $start = sprintf("%05d", $start);
+                $length = sprintf("%04d", $length + 1);
                 $directory .= $length.$start;
 
                 foreach ($this->record as $field => $field_value) {
@@ -624,7 +624,11 @@ class MARCRecord
         }
 
         $data .= "\x1E\x1D";
-        $leader = str_pad((strlen($directory) + strlen($data) + 24), 5, "0", STR_PAD_LEFT)."cam  22".str_pad((strlen($directory) + 25), 5, "0", STR_PAD_LEFT)." u 4500";
+        $leader = sprintf(
+            "%05dcam 22%05d u 4500",
+            strlen($directory) + strlen($data) + 24,
+            strlen($directory) + 25
+        );
         $raw_marc = $leader.$directory.$data;
         return $raw_marc;
     }
