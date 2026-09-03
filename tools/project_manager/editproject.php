@@ -624,7 +624,7 @@ class ProjectInfoHolder
         return base64_encode(serialize($value));
     }
 
-    private function unserialize(string $value): mixed
+    private function unserialize(?string $value): mixed
     {
         return $value ? unserialize(base64_decode($value)) : null;
     }
