@@ -982,13 +982,6 @@ function show_link_as_if_preference(
     echo "</td>";
 }
 
-function show_blank(): void
-{
-    th_label("&nbsp;");
-    echo "<td>&nbsp;</td>";
-    echo "<td>&nbsp;</td>\n";
-}
-
 // ---------------------------------------------------------
 
 function th_label(string $label, string $pophelp_name = ""): void
