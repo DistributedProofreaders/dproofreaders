@@ -445,20 +445,20 @@ class ImageSource
 
     public function enable(): void
     {
-        $this->_set_field('is_active', 1);
+        $this->_set_int_field('is_active', 1);
     }
 
     public function disable(): void
     {
-        $this->_set_field('is_active', 0);
+        $this->_set_int_field('is_active', 0);
     }
 
 
     public function approve(): void
     {
         global $pguser;
-        $this->_set_field('is_active', 1);
-        $this->_set_field('info_page_visibility', 1);
+        $this->_set_int_field('is_active', 1);
+        $this->_set_int_field('info_page_visibility', 1);
 
         $notify_users = Settings::get_users_with_setting(
             'is_approval_notify',
@@ -482,15 +482,15 @@ class ImageSource
         }
     }
 
-    public function _set_field(string $field, string $value): void
+    private function _set_int_field(string $field, int $value): void
     {
         $sql = sprintf(
             "
             UPDATE image_sources
-            SET $field = '%s'
+            SET $field = %d
             WHERE code_name = '%s'
             ",
-            DPDatabase::escape($value),
+            $value,
             DPDatabase::escape($this->code_name)
         );
         DPDatabase::query($sql);
@@ -498,7 +498,7 @@ class ImageSource
     }
 
 
-    public function _show_summary_row(string $label, string $value, bool $htmlspecialchars = true): void
+    private function _show_summary_row(string $label, string $value, bool $htmlspecialchars = true): void
     {
         echo "  <tr>" .
             "<th class='label'>$label</th>" .
@@ -506,7 +506,7 @@ class ImageSource
             "</tr>\n";
     }
 
-    public function _get_status_cell(int $status, string $class = ''): string
+    private function _get_status_cell(int $status, string $class = ''): string
     {
         switch ($status) {
             case 1:
@@ -526,7 +526,7 @@ class ImageSource
         return $open . $middle . '</td>';
     }
 
-    public function _may_maynot_unknown(int $value): string
+    private function _may_maynot_unknown(int $value): string
     {
         if ($value != -1) {
             return ($value ? _('may') : _('may not'));
@@ -535,19 +535,19 @@ class ImageSource
         }
     }
 
-    public function _showto(string $show_to): string
+    private function _showto(int $show_to): string
     {
         switch ($show_to) {
-            case '0':
+            case 0:
                 $to_whom = _("Image Managers Only");
                 break;
-            case '1':
+            case 1:
                 $to_whom = _("Project Managers");
                 break;
-            case '2':
+            case 2:
                 $to_whom = sprintf(_("Any %s User"), SiteConfig::get()->site_abbreviation);
                 break;
-            case '3':
+            case 3:
                 $to_whom = _("All Users and Visitors");
                 break;
         }
