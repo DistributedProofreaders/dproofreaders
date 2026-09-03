@@ -1128,6 +1128,10 @@ function validate_zip_file(string $file_path, bool $ignore_extension_check = fal
             ZipArchive::ER_READ => "Read error.",
             ZipArchive::ER_SEEK => "Seek error.",
         ];
+        // PHP 8.4 and later
+        if (defined('ZipArchive::ER_TRUNCATED_ZIP')) {
+            $zip_results[ZipArchive::ER_TRUNCATED_ZIP] = "Truncated archive.";
+        }
         $error = $zip_results[$result] ?? "Error code $result";
         throw new ZipException("ZipArchive::open() returned '$error'");
     }
