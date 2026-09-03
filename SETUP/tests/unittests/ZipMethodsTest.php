@@ -92,7 +92,11 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     public function testValidateCorruptedZipFile(): void
     {
-        $this->expectExceptionMessage("ZipArchive::open() returned 'Zip archive inconsistent.'");
+        $this->expectExceptionMessageMatches(
+            "/^ZipArchive::open\\(\\) returned '" .
+            "(Zip archive inconsistent|Truncated archive)" .
+            "\\.'$/"
+        );
         validate_zip_file('./data/corrupted.zip');
     }
 
@@ -122,7 +126,11 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     public function testValidateCorruptedZipFileWithDisabledExtensionCheck(): void
     {
-        $this->expectExceptionMessage("ZipArchive::open() returned 'Zip archive inconsistent.'");
+        $this->expectExceptionMessageMatches(
+            "/^ZipArchive::open\\(\\) returned '" .
+            "(Zip archive inconsistent|Truncated archive)" .
+            "\\.'$/"
+        );
         validate_zip_file('./data/corrupted.zip', true);
     }
 
