@@ -475,11 +475,7 @@ function get_forum_rank_title(int $rank): ?string
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
 
-    if (!$row) {
-        return null;
-    }
-
-    return $row["rank_title"];
+    return $row["rank_title"] ?? null;
 }
 
 /**
@@ -682,11 +678,7 @@ function get_last_post_time_in_topic(int $topic_id): ?int
     $row = mysqli_fetch_assoc($res);
     mysqli_free_result($res);
 
-    if (!$row) {
-        return null;
-    }
-
-    return $row["max_post_time"];
+    return $row["max_post_time"] ?? null;
 }
 
 /**
@@ -699,9 +691,9 @@ function get_last_post_time_in_topic(int $topic_id): ?int
  * - forum_name       - name of the forum the topic is in
  * - forum_id         - the id of the forum the topic is in
  * - creator_username - the username of the topic creator
- * @return array<string, mixed>
+ * @return ?array<string, mixed>
  */
-function get_topic_details(int $topic_id): array
+function get_topic_details(int $topic_id): ?array
 {
     $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
 
@@ -757,12 +749,9 @@ function topic_create(
     $topic_id = call_phpbb_function('create_topic', $args);
 
     if (!preg_match('/^\d+$/', $topic_id)) {
-        $topic_id = null;
-    } else {
-        $topic_id = (int)$topic_id;
+        return null;
     }
-
-    return $topic_id;
+    return (int)$topic_id;
 }
 
 // -----------------------------------------------------------------------------

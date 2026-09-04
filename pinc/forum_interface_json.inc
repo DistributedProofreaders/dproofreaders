@@ -214,7 +214,6 @@ function get_reset_password_url(): string
 
 /**
  * @return ?array<string, mixed>
- * @phpstan-ignore return.unusedType
  */
 function get_forum_user_details(string $username): ?array
 // Given a username, return details about the user.
@@ -255,7 +254,10 @@ function get_forum_user_details(string $username): ?array
     ];
 
     $userManager = new ForumJsonUser();
-    $user = $userManager->load($username) ?? [];
+    $user = $userManager->load($username);
+    if (is_null($user)) {
+        return null;
+    }
 
     $return_data = [];
 
@@ -284,9 +286,7 @@ function get_forum_user_id(string $username): ?int
     $user = $userManager->load($username);
 
     if (!$user) {
-        // there might be users in the DP DB that aren't in the JSON
-        // file, so return 0
-        return 0;
+        return null;
     }
 
     // update the cache
@@ -431,7 +431,7 @@ function get_last_post_time_in_topic(int $topic_id): ?int
 }
 
 /**
- * @return array<string, mixed>
+ * @return ?array<string, mixed>
  *    Returns the following details about a topic as an associative array.
  *        topic_id         - the ID of the topic (for completeness)
  *        title            - the title of the topic
@@ -440,12 +440,12 @@ function get_last_post_time_in_topic(int $topic_id): ?int
  *        forum_id         - the id of the forum the topic is in
  *        creator_username - the username of the topic creator
  */
-function get_topic_details(int $topic_id): array
+function get_topic_details(int $topic_id): ?array
 {
     $postManager = new ForumJsonPost();
     $posts = $postManager->load_topic($topic_id);
     if (!$posts) {
-        return [];
+        return null;
     }
 
     return [
