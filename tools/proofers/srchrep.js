@@ -17,14 +17,24 @@ var srchrep = (function () {
 
     function doReplace() {
         var search = document.getElementById("search").value;
-        var replacetext = document.getElementById("replace").value.replace(new RegExp("\\\\n", "g"), "\r\n");
+        var replacetext = document.getElementById("replace").value;
+
         saveText();
         if (!document.getElementById("is_regex").checked) {
             search = escapeRegExp(search);
-
             // Replace $ in replace text with $$ to avoid special replacement patterns.
             // Note, $ here is in a .replace function and must be escaped so '$$' becomes '$$$$'.
             replacetext = replacetext.replace(/\$/g, "$$$$");
+        } else {
+            // Handle \n for newline. And \<x> becomes just <x>. So \\ becomes a single \.
+            replacetext = replacetext.replace(/\\(.)/g, (match, esc) => {
+                switch (esc) {
+                    case "n":
+                        return "\r\n";
+                    default:
+                        return esc; // anything else, leave as is without the backslash
+                }
+            });
         }
         opener.parent.docRef.editform.text_data.value = opener.parent.docRef.editform.text_data.value.replace(new RegExp(search, "gum"), replacetext);
         setUndoButtonDisabled(false);

@@ -99,11 +99,25 @@ QUnit.module("srchrep tests", (hooks) => {
         setTextValue("Example search -- and replace search text <i>value</i>.");
         $("#search").val("search");
         $("#replace").val("s\\n");
+        $("#is_regex").prop("checked", true);
         srchrep.doReplace();
         assert.strictEqual(
             window.opener.parent.docRef.editform.text_data.value,
             "Example s\r\n -- and replace s\r\n text <i>value</i>.",
             "Search replace replaces all instances with regular expressions.",
+        );
+        assert.notOk($("#undo").prop("disabled"), "Undo should be enabled.");
+    });
+
+    QUnit.test("\\n is just backslash n without regex", function (assert) {
+        setTextValue("Example search -- and replace search text <i>value</i>.");
+        $("#search").val("search");
+        $("#replace").val("s\\n");
+        srchrep.doReplace();
+        assert.strictEqual(
+            window.opener.parent.docRef.editform.text_data.value,
+            "Example s\\n -- and replace s\\n text <i>value</i>.",
+            "Search replace replaces with just \\n, not newline, without regex.",
         );
         assert.notOk($("#undo").prop("disabled"), "Undo should be enabled.");
     });

@@ -619,10 +619,8 @@ Below the tags are several links to both popup tools and documentation.
         [Aa]{6} &mdash; six As of either case<br>
         A{2,8} &mdash; between 2 and 8 capital As<br>
         [hb]e &mdash; 'he' or 'be'<br>
+        \n &mdash; new line<br>
     </blockquote>
-</p>
-<p>
-    To replace matched text with a new line, \n may be used in the replace field.
 </p>
 
 <h4>Help</h4>
