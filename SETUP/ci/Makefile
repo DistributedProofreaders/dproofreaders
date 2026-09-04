@@ -2,7 +2,12 @@
 
 SELF_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 
-all: lint code_style static_checks security_checks best_practice_checks
+all: lockfile_checks lint code_style static_checks security_checks best_practice_checks
+
+#----------------------------------------------------------------------------
+# Check lockfiles are up to date
+lockfile_checks:
+	cd $(SELF_DIR)../../ && composer validate
 
 #----------------------------------------------------------------------------
 # Security checks

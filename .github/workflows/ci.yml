@@ -92,6 +92,8 @@ jobs:
           php-version: '8.3'
       - name: Setup Node, NPM
         uses: ./.github/actions/setup-node
+      - name: Run lockfile checks
+        run: make -C SETUP/ci lockfile_checks
       - name: Run security checks
         run: make -C SETUP/ci security_checks
       - name: Run charsuite checks
