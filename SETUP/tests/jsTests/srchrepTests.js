@@ -108,4 +108,17 @@ QUnit.module("srchrep tests", (hooks) => {
         );
         assert.notOk($("#undo").prop("disabled"), "Undo should be enabled.");
     });
+
+    QUnit.test("\\n is just backslash n without regex", function (assert) {
+        setTextValue("Example search -- and replace search text <i>value</i>.");
+        $("#search").val("search");
+        $("#replace").val("s\\n");
+        srchrep.doReplace();
+        assert.strictEqual(
+            window.opener.parent.docRef.editform.text_data.value,
+            "Example s\\n -- and replace s\\n text <i>value</i>.",
+            "Search replace replaces with just \\n, not newline, without regex.",
+        );
+        assert.notOk($("#undo").prop("disabled"), "Undo should be enabled.");
+    });
 });
