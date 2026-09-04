@@ -6,7 +6,7 @@
     "minimum-stability": "stable",
     "require": {
         "ezyang/htmlpurifier" : "v4.*",
-        "erusev/parsedown": "1.8.0",
+        "erusev/parsedown": "^1.8.0",
         "erusev/parsedown-extra": "0.9.0",
         "voku/portable-utf8": "^6.1.1",
         "phpmailer/phpmailer": "^7.0",
