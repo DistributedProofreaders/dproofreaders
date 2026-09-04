@@ -99,6 +99,7 @@ QUnit.module("srchrep tests", (hooks) => {
         setTextValue("Example search -- and replace search text <i>value</i>.");
         $("#search").val("search");
         $("#replace").val("s\\n");
+        $("#is_regex").prop("checked", true);
         srchrep.doReplace();
         assert.strictEqual(
             window.opener.parent.docRef.editform.text_data.value,
