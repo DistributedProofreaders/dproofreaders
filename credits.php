@@ -31,7 +31,8 @@ class CreditDetails
         public readonly string $name,
         public readonly string $license,
         public readonly ?string $url,
-        public readonly ?string $license_url
+        public readonly ?string $license_url,
+        public readonly ?string $version,
     ) {
     }
 }
@@ -57,6 +58,10 @@ function output_credit_details(array $credit_details): void
         } else {
             echo html_safe($detail->name);
         }
+        // Only show the version if we're in testing mode.
+        if (SiteConfig::get()->testing && isset($detail->version)) {
+            echo " " . html_safe($detail->version);
+        }
         echo "</b><br>";
         if (isset($detail->license_url)) {
             echo _("License") . ": <a href='" . $detail->license_url . "'>" . html_safe($detail->license) . "</a>";
@@ -71,12 +76,12 @@ function output_credit_details(array $credit_details): void
 /** @return array<string, CreditDetails> */
 function load_bundled_credit_details(string $code_dir): array
 {
-    $credit_details = [];
     $files = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator($code_dir),
         RecursiveIteratorIterator::SELF_FIRST,
         RecursiveIteratorIterator::CATCH_GET_CHILD
     );
+    $credit_details = [];
     foreach ($files as $file_info) {
         $file = $file_info->getPathname();
         if (basename($file) != "details.json") {
@@ -91,7 +96,8 @@ function load_bundled_credit_details(string $code_dir): array
                 name: $detail["name"],
                 url: $detail["url"] ?? null,
                 license: $detail["license"],
-                license_url: $detail["license_url"] ?? null
+                license_url: $detail["license_url"] ?? null,
+                version: $detail["version"] ?? null
             );
         }
     }
@@ -106,12 +112,14 @@ function load_composer_credit_details()
     global $code_dir;
 
     $packages = json_decode(file_get_contents("$code_dir/composer.lock"));
+    $credit_details = [];
     foreach ($packages->packages as $index => $package) {
         $credit_details[$package->name] = new CreditDetails(
             name: $package->name,
             url: $package->homepage ?? null,
             license: join(", ", $package->license),
-            license_url: null
+            license_url: null,
+            version: $package->version ?? null
         );
     }
 
@@ -129,6 +137,7 @@ function load_npm_credit_details()
     $dependencies = array_keys($packages["packages"][""]["dependencies"]);
 
     // now pull the license details
+    $credit_details = [];
     foreach ($packages["packages"] as $name => $package) {
         $short_name = str_replace("node_modules/", "", $name);
         if (in_array($short_name, $dependencies)) {
@@ -137,6 +146,7 @@ function load_npm_credit_details()
                 url: null,
                 license: $package["license"],
                 license_url: null,
+                version: $package["version"] ?? null,
             );
         }
     }
