@@ -3,5 +3,6 @@
     "url": "https://www.mediawiki.org/wiki/MediaWiki",
     "license": "GNU General Public License v2.0",
     "license_url": "https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html",
-    "license_file": "gpl-2.0.txt"
+    "license_file": "gpl-2.0.txt",
+    "version": "1.31.1"
 }
