@@ -3,7 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'links.inc');
-include_once('edit_common.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
