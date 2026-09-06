@@ -132,7 +132,7 @@ function showTeamProfile(array $curTeam, bool $preview = false): void
     $t = new ThemedTable(
         2,
         html_safe($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
-        ['width' => 100]
+        width: "100"
     );
     $t->set_column_widths(25, 75);
     $t->set_column_alignments('left', 'left');
@@ -271,7 +271,7 @@ function showTeamStats(array $curTeam, ?string $tally_name): void
     $t = new ThemedTable(
         2,
         _("Team Statistics"),
-        ['theme_striped' => true]
+        theme_striped: true
     );
     $t->set_column_widths(60, 40);
 
@@ -317,10 +317,8 @@ function showTeamMbrs(array $curTeam, ?string $tally_name): void
     $t = new ThemedTable(
         3,
         _("Team Member Details"),
-        [
-            'theme_striped' => true,
-            'subtitle' => $subtitle,
-        ]
+        theme_striped: true,
+        subtitle: $subtitle
     );
     $t->set_column_widths(35, 35, 30);
 

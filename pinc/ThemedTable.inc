@@ -13,49 +13,28 @@ class ThemedTable
     /** @var string[] */
     private array $column_alignments;
 
-    /**
-     * @param array{
-     *            theme_striped?: mixed,
-     *            border?: int,
-     *            width?: int|string,
-     *            subtitle?: string,
-     *        } $options
-     *    TODO: Make these into keyword args
-     */
-    public function __construct(int $n_cols, string $title, array $options = [])
-    {
+    public function __construct(
+        int $n_cols,
+        string $title,
+        bool $theme_striped = false,
+        string $border = "",
+        string $width = "",
+        string $subtitle = "",
+    ) {
         $this->n_cols = $n_cols;
 
         $class = "themed";
         $border = 1;
-        $width = "";
-        $subtitle = null;
-        foreach ($options as $option_name => $option_value) {
-            switch ($option_name) {
-                case 'theme_striped':
-                    $class .= ' theme_striped';
-                    break;
-                case 'border':
-                    $border = $option_value;
-                    break;
-                case 'width':
-                    $width = " width: $option_value;";
-                    break;
-                case 'subtitle':
-                    $subtitle = $option_value;
-                    break;
-            }
+        if ($theme_striped) {
+            $class .= ' theme_striped';
         }
+        $width_css = $width === "" ? "" : " width: $width;";
 
         echo "\n";
-        echo "<table class='$class' style='border-width: {$border}px; {$width}'>";
+        echo "<table class='$class' style='border-width: {$border}px; {$width_css}'>";
 
         {
-            $possible_subtitle =
-                is_null($subtitle)
-                ? ''
-                : "<br>$subtitle";
-
+            $possible_subtitle = $subtitle === "" ? "" : "<br>$subtitle";
             echo "\n";
             echo "<tr>";
             $maybe_colspan = "";
