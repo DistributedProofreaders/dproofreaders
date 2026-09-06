@@ -5,7 +5,7 @@ include_once($relPath."SiteConfig.inc");
 
 abstract class BackgroundJob
 {
-    protected ?object $watch = null;
+    protected readonly Stopwatch $watch;
     private ?string $output = null;
 
     // The maximum amount of time a BackgroundJob running within a web
@@ -37,7 +37,8 @@ abstract class BackgroundJob
 
     public function stop(?string $message = null, ?bool $succeeded = null): void
     {
-        $this->output = ob_get_contents();
+        $out = ob_get_contents();
+        $this->output = $out === false ? null : $out;
         ob_end_clean();
         $this->watch->stop();
         $append = sprintf("took %d seconds", $this->watch->read());
