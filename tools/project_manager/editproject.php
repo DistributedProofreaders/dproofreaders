@@ -478,16 +478,17 @@ class ProjectInfoHolder
     {
         global $pguser;
 
+        $site = SiteConfig::get()->site_abbreviation;
         $can_set_difficulty_tofrom_beginner = ($pguser == "BEGIN") || user_is_a_sitemanager();
 
         $can_edit_PPer = true;
         $is_checked_out = false;
         if (!empty($this->project->projectid)) {
-            $this->row(_("Project ID"), 'just_echo', $this->project->projectid);
+            $this->row(_("Project ID"), html_safe($this->project->projectid));
 
             // do some things that depend on the project state
             if ($this->project->state == PROJ_DELETE) {
-                $this->row(_("Reason for Deletion"), 'text_field', $this->project->deletion_reason, 'deletion_reason');
+                $this->row(_("Reason for Deletion"), format_text_field($this->project->deletion_reason, 'deletion_reason'));
             } elseif ($this->project->state == PROJ_POST_FIRST_CHECKED_OUT) {
                 // once the project is in PP, PPer can only be changed by an SA, PF,
                 // or if it's checked out to the PM
@@ -500,70 +501,66 @@ class ProjectInfoHolder
                 $can_edit_PPer = user_is_a_sitemanager();
             }
         }
-        $this->row(_("Title"), 'text_field', $this->project->nameofwork, 'nameofwork', '', ["maxlength" => 255, "required" => true]);
-        $this->row(_("Author"), 'text_field', $this->project->authorsname, 'authorsname', '', ["maxlength" => 255, "required" => true]);
+        $this->row(_("Title"), format_text_field($this->project->nameofwork, 'nameofwork', maxlength: 255, required: true));
+        $this->row(_("Author"), format_text_field($this->project->authorsname, 'authorsname', maxlength: 255, required: true));
         if (user_is_a_sitemanager()) {
             // SAs are the only ones who can change this
-            $this->row(_("Project Manager"), 'DP_user_field', $this->project->username, 'username', sprintf(_("%s username only."), SiteConfig::get()->site_abbreviation), ["required" => true]);
+            $explain = sprintf(_("%s username only."), $site);
+            $this->row(_("Project Manager"), format_DP_user_field($this->project->username, 'username', required: true), $explain);
         }
-        $this->row(_("Language"), 'language_list', $this->project->language);
+        $this->row(_("Language"), format_language_list($this->project->language));
 
         $project_charsuites = [];
         if (isset($this->project->projectid)) {
             $project_charsuites = $this->project->get_charsuites(false);
         }
-        $this->row(_("Character Suites"), 'charsuite_list', $this->charsuites, $project_charsuites);
-        $this->row(_("Custom Characters"), 'text_field', $this->project->custom_chars, 'custom_chars');
+        $this->row(_("Character Suites"), format_charsuite_list($this->charsuites, $project_charsuites));
+        $this->row(_("Custom Characters"), format_text_field($this->project->custom_chars, 'custom_chars'));
 
-        $this->row(_("Genre"), 'genre_list', $this->project->genre);
+        $this->row(_("Genre"), format_genre_list($this->project->genre));
 
         if ($this->project->difficulty == "beginner" && !$can_set_difficulty_tofrom_beginner) {
             // allow PF to edit a BEGIN project, but without altering the difficulty
-            $this->row(_("Difficulty"), 'just_echo', _("Beginner"));
+            $this->row(_("Difficulty"), _("Beginner"));
             echo "<input type='hidden' name='difficulty' value='{$this->project->difficulty}'>";
         } else {
-            $this->row(_("Difficulty"), 'difficulty_list', $this->project->difficulty);
+            $this->row(_("Difficulty"), format_difficulty_list($this->project->difficulty));
         }
-        $this->row(_("Special Day"), 'special_list', $this->project->special_code);
+        $this->row(_("Special Day"), format_special_list($this->project->special_code));
         if ($can_edit_PPer) {
-            $this->row(_("PPer/PPVer"), 'DP_user_field', $this->project->checkedoutby, 'checkedoutby', sprintf(_("Optionally reserve for a PPer. %s username only."), SiteConfig::get()->site_abbreviation));
+            $explain = sprintf(_("Optionally reserve for a PPer. %s username only."), $site);
+            $this->row(_("PPer/PPVer"), format_DP_user_field($this->project->checkedoutby, 'checkedoutby'), $explain);
         } else {
-            $this->row(_("PPer/PPVer"), 'just_echo', $this->project->checkedoutby);
+            $this->row(_("PPer/PPVer"), html_safe($this->project->checkedoutby));
             echo "<input type='hidden' name='checkedoutby' value='{$this->project->checkedoutby}'>";
         }
-        $this->row(_("Image Source"), 'image_source_list', $this->project->image_source);
-        $this->row(_("Image Preparer"), 'DP_user_field', $this->project->image_preparer, 'image_preparer', sprintf(_("%s user who scanned or harvested the images."), SiteConfig::get()->site_abbreviation));
-        $this->row(_("Text Preparer"), 'DP_user_field', $this->project->text_preparer, 'text_preparer', sprintf(_("%s user who prepared the text files."), SiteConfig::get()->site_abbreviation));
+        $this->row(_("Image Source"), format_image_source_list($this->project->image_source));
+        $explain = sprintf(_("%s user who scanned or harvested the images."), $site);
+        $this->row(_("Image Preparer"), format_DP_user_field($this->project->image_preparer, 'image_preparer'), $explain);
+        $explain = sprintf(_("%s user who prepared the text files."), $site);
+        $this->row(_("Text Preparer"), format_DP_user_field($this->project->text_preparer, 'text_preparer'), $explain);
         $this->row(
             _("Extra Credits<br>(to be included in list of names--no URLs)"),
-            'extra_credits_field',
-            $this->project->extra_credits,
-            null,
-            '',
-            [],
-            true
+            format_extra_credits_field($this->project->extra_credits),
+            html_label: true
         );
         if ($this->project->scannercredit != '') {
-            $this->row(_("Scanner Credit (deprecated)"), 'text_field', $this->project->scannercredit, 'scannercredit');
+            $this->row(_("Scanner Credit (deprecated)"), format_text_field($this->project->scannercredit, 'scannercredit'));
         }
-        $this->row(_("Clearance Line"), 'text_field', $this->project->clearance, 'clearance');
-        $this->row(_("PG etext number"), 'text_field', $this->project->postednum, 'postednum', '', ["type" => "number", "min" => 1]);
-        $this->row(_("Project Comments Format"), 'proj_comments_format', $this->project->comment_format);
-        $this->row(_("Project Comments"), 'proj_comments_field', $this->project->comments);
+        $this->row(_("Clearance Line"), format_text_field($this->project->clearance, 'clearance'));
+        $this->row(_("PG etext number"), format_text_field((string)$this->project->postednum, 'postednum', type: "number", min: 1));
+        $this->row(_("Project Comments Format"), format_proj_comments_format($this->project->comment_format));
+        $this->row(_("Project Comments"), format_proj_comments_field($this->project->comments));
 
         // don't show the word list line if we're in the process of cloning
         if (!empty($this->project->projectid)) {
-            $this->row(_("Project Dictionary"), 'word_lists', null, null, '', $this->project->projectid);
+            $this->row(_("Project Dictionary"), format_word_lists($this->project->projectid));
         }
     }
-
     public function row(
         string $label,
-        string $display_function,
-        mixed $field_value,
-        mixed $field_name = null,
+        string $display,
         string $explain = '',
-        mixed $args = [],
         bool $html_label = false
     ): void {
         echo "<tr>";
@@ -571,7 +568,7 @@ class ProjectInfoHolder
         echo     $html_label ? $label : html_safe($label);
         echo   "</th>";
         echo   "<td>";
-        $display_function($field_value, $field_name, $args);
+        echo $display;
         echo   "  ";
         echo   html_safe($explain);
         echo   "</td>";
