@@ -4,7 +4,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * @property-read bool $exists
- * @property-read int|bool $last_modified
+ * @property-read int|false $last_modified
  * @property-read string|null $content_type
  * @property-read int|null $messages_count
  * @property-read int|null $messages_translated_count
@@ -29,7 +29,7 @@ class POFile
         return file_exists($this->po_filename);
     }
 
-    private function get_last_modified(): int
+    private function get_last_modified(): int|false
     {
         return filemtime($this->po_filename);
     }
