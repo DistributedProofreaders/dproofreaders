@@ -569,6 +569,7 @@ function calculate_tally_sma(array $array, int $window): array
  *
  * In the returned array, each key is a date-string of the form "YYYY-MM-DD".
  *
+ * @param 'all'|int $days_back
  * @return array<string, int>
  */
 function get_pages_per_day_for_past_n_days(string $tally_name, string $holder_type, int $holder_id, string|int $days_back): array
