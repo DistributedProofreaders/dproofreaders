@@ -36,6 +36,7 @@ WEB_TESTS = [
     {'name': 'base-project-3', 'path': 'project.php?id=projectID5e23a810ef693&detail_level=3'},
     {'name': 'base-project-4', 'path': 'project.php?id=projectID5e23a810ef693&detail_level=4'},
     {'name': 'base-tasks', 'path': 'tasks.php'},
+    {'name': 'base-tasks-1', 'path': 'tasks.php?task_id=2277&action=show'},
     {'name': 'base-userprefs', 'path': 'userprefs.php'},
     {'name': 'base-login-failure', 'path': 'accounts/login_failure.php', 'expect_status': 302},
     {'name': 'base-require-login', 'path': 'accounts/require_login.php'},

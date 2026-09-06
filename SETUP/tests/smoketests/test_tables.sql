@@ -37,6 +37,8 @@ REPLACE INTO `user_teams` VALUES (44,'%','','http://webpage.org','wickedcoder256
 /* There's no code in dproofers to INSERT into queue_defns yet. */
 REPLACE INTO `queue_defns` VALUES (500,'P3',3155,1,'Esperanto','language like \'Esperanto%\' and not (genre = \'Mathematics\' and difficulty = \'hard\')',4,400,'Have Esperanto available when possible (special case artificial language: \"with\" titles more common)');
 
+INSERT INTO `tasks` VALUES (2277,'DJVSM font fallback for DPCM2 is not ideal for missing characters',1,1,14,0,4,4,7,46,'When using DPCM2 as a proofreading font, missing characters are substituted with our fallback font: DJVSM. The fonts have different sizes, however, which means they do not line up.\r\n\r\n[original bug text follows]\r\nThe font used for the special Esperanto characters makes the special characters CAPITAL vs lower-case look very silly compared to ASCII CAPITAL vs lower-case. I think it needs a single, comprehensive font; not just patching together 2 different monospace fonts.',1586296667,110,1589924438,1,3,1589924438,1,100,'YTowOnt9');
+
 /* The table can be created with DPage.inc project_allow_pages, and in theory
  * can be populated (via intermediate text files) using project_add_page,
  * and Page_modifyText, but it's clunky and annoying at the moment.
@@ -110,3 +112,4 @@ CREATE TABLE `projectID3141592653589` (
   KEY round5_user (round5_user),
   KEY state (state)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
