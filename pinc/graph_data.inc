@@ -147,8 +147,11 @@ function user_logging_on(string $past, string $preceding): array
     ];
 }
 
-/** @return GraphConfig */
-function tallyboard_deltas(string $tally_name, string $holder_type, int $holder_id, int $days_back): array
+/**
+  * @param 'all'|int $days_back
+  * @return GraphConfig
+  */
+function tallyboard_deltas(string $tally_name, string $holder_type, int $holder_id, string|int $days_back): array
 {
     $valid_tally_names = array_keys(get_page_tally_names());
 
