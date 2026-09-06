@@ -1757,7 +1757,7 @@ function property_get_label(string $property_id, bool $for_list_of_tasks): strin
         case 'percent_complete':
             return ($for_list_of_tasks ? _("Progress") : _("Percent Complete"));
     }
-    throw new ValueError("Bad task property id: $property_id");
+    return '';
 }
 
 /** @param array<string, mixed> $task_a */
