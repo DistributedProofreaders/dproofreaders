@@ -76,7 +76,7 @@ function count_books_in_state(string $state, string $clauses = ""): int
 $table = new ThemedTable(
     2,
     _('General Site Statistics'),
-    ['width' => 'auto']
+    width: 'auto'
 );
 
 $table->set_column_alignments('left', 'right');
