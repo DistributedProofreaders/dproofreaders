@@ -65,7 +65,7 @@ function get_pp_projects_past_threshold(?string $PPer = null): array
  * projects past the PP alert threshold
  * @param string[] $columns
  */
-function _run_pp_threshold_query_result(string $state, array $columns, ?string $user, ?string $ordering_criteria = null): mysqli_result|bool
+function _run_pp_threshold_query_result(string $state, array $columns, ?string $user, ?string $ordering_criteria = null): mysqli_result
 {
     global $pp_alert_threshold_days;
 

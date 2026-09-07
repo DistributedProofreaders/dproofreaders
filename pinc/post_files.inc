@@ -286,7 +286,7 @@ function page_info_query(string $projectid, string $limit_round_id, string $whic
         SELECT $text_column_expr, image $user_fields
         FROM $projectid
         ORDER BY image
-    ");
+    ", throw_on_failure: false);
 
     if (!$res) {
         throw new Exception("Could not get $limit_round_id text for $projectid");

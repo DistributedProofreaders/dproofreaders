@@ -224,8 +224,8 @@ class DPSessionHandler implements SessionHandlerInterface
             DPDatabase::escape($value),
             DPDatabase::escape($_SESSION["pguser"] ?? "")
         );
-        $result = DPDatabase::query($query);
-        return $result === false ? false : true;
+        $result = DPDatabase::query($query, throw_on_failure: false);
+        return $result !== false;
     }
 
     public function destroy($sid): bool
@@ -233,8 +233,8 @@ class DPSessionHandler implements SessionHandlerInterface
         $result = DPDatabase::query(sprintf(
             "DELETE FROM sessions WHERE sid = '%s'",
             DPDatabase::escape($sid)
-        ));
-        return $result === false ? false : true;
+        ), throw_on_failure: false);
+        return $result !== false;
     }
 
     #[\ReturnTypeWillChange]
