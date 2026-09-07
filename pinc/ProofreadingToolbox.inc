@@ -123,7 +123,7 @@ class ProofreadingToolbox
      */
     private function array_extract(array $source, string|array $keys): array
     {
-        if ($keys == 'ALL') {
+        if ($keys === 'ALL') {
             return $source;
         }
         return array_intersect_key($source, array_flip($keys));
