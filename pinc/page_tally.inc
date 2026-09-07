@@ -576,7 +576,7 @@ function get_pages_per_day_for_past_n_days(string $tally_name, string $holder_ty
 {
     global $SECONDS_TO_YESTERDAY;
 
-    if ($days_back == "all") {
+    if ($days_back === "all") {
         $min_timestamp = 0;
     } else {
         $min_timestamp = time() - ($days_back * 86400);
