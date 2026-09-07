@@ -604,9 +604,14 @@ function build_translation_js(): void
 
         $pofile = new POFile($js_po_file);
         $pofile->convert_to_json($tempfile);
-        $locale_json[str_replace("_", "-", $locale)] = json_decode(file_get_contents($tempfile));
+        $contents = file_get_contents($tempfile);
         unlink($tempfile);
         unlink($js_po_file);
+        if ($contents === false) {
+            throw new RuntimeException("Failed to read translation JSON");
+        }
+        $json = json_decode($contents, flags: JSON_THROW_ON_ERROR);
+        $locale_json[str_replace("_", "-", $locale)] = $json;
     }
 
     // use "var" not "const" because Safari <14 can't see those within modules
