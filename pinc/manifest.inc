@@ -1,6 +1,6 @@
 <?php
 
-/** @return string[] */
+/** @return array<string, string> */
 function get_js_manifest(string $basedir = ""): array
 {
     global $code_dir;
@@ -16,22 +16,24 @@ function get_js_manifest(string $basedir = ""): array
         return get_cached_js_manifest(); // @phpstan-ignore function.notFound
     }
 
-    // if it doesn't exist, see if the JSON version exists and if so load
-    // and process it
-    if (is_file("$basedir/dist/manifest.json")) {
-        $raw_manifest = json_decode(file_get_contents("$basedir/dist/manifest.json"), true) ?? [];
-        // webpack puts "auto" in the pathname, no idea why
-        foreach ($raw_manifest as $filename => $path) {
-            $manifest[$filename] = str_replace("auto", "dist", $path);
-        }
-        return $manifest;
+    // If there's no JSON manifest, just return an empty manifest
+    if (!is_file("$basedir/dist/manifest.json")) {
+        return [];
     }
 
-    // otherwise, just return an empty manifest
-    return [];
+    // Otherwise load and process the JSON version
+    if (($contents = file_get_contents("$basedir/dist/manifest.json")) === false) {
+        throw new RuntimeException("Failed to read manifest.json");
+    }
+    $raw_manifest = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+    // webpack puts "auto" in the pathname, no idea why
+    foreach ($raw_manifest as $filename => $path) {
+        $manifest[$filename] = str_replace("auto", "dist", $path);
+    }
+    return $manifest;
 }
 
-/** @param string[] $manifest */
+/** @param array<string, string> $manifest */
 function generate_cached_js_manifest(string $basedir, array $manifest): void
 {
     if (!$manifest) {
