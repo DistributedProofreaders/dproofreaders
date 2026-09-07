@@ -190,6 +190,7 @@ WEB_TESTS = [
     {'name': 'teams-mbr-list', 'path': 'stats/members/mbr_list.php?tid=44'},
     {'name': 'teams-mbr-xml', 'path': 'stats/members/mbr_xml.php?username=teststeel'},
     {'name': 'teams-mdetail', 'path': 'stats/members/mdetail.php?id=1'},
+    {'name': 'teams-mdetail-nouser', 'path': 'stats/members/mdetail.php?id=999999'},
     {'name': 'teams-mdetail-all', 'path': 'stats/members/mdetail.php?id=1&tally_name=F1&range=all'},
     {'name': 'teams-new-team', 'path': 'stats/teams/new_team.php'},
     {'name': 'teams-tdetail', 'path': 'stats/teams/tdetail.php?tid=44'},

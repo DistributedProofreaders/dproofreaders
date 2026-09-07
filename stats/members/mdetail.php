@@ -15,7 +15,11 @@ $id = get_integer_param($_GET, 'id', null, 0, null, true);
 if ($id === null) {
     $user = User::load_current();
 } else {
-    $user = User::load_from_uid($id);
+    try {
+        $user = User::load_from_uid($id);
+    } catch (NonexistentUserException $e) {
+        die($e->getMessage());
+    }
 }
 
 $valid_tally_names = array_keys(get_page_tally_names());
