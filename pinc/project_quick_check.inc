@@ -320,7 +320,12 @@ function _test_project_for_illo_images(string $projectid): PQCResult
         $page_image_names = $project->get_page_names_from_db();
 
         chdir($project->dir);
-        $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+        if (($existing_image_names = glob("*.{png,jpg}", GLOB_BRACE)) === false) {
+            throw new RuntimeException(sprintf(
+                _("Failed to list page images for %s."),
+                $project->projectid
+            ));
+        }
         // That returns a sorted list of the .png files
         // followed by a sorted list of the .jpg files,
         // but we want the two lists interleaved...

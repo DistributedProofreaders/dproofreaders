@@ -1316,7 +1316,12 @@ class Project
         $db_names = $this->get_page_names_from_db();
 
         chdir($this->dir);
-        $disk_names = glob("*.{png,jpg}", GLOB_BRACE);
+        if (($disk_names = glob("*.{png,jpg}", GLOB_BRACE)) === false) {
+            throw new RuntimeException(sprintf(
+                _("Failed to list page images for %s."),
+                $this->projectid
+            ));
+        }
         sort($disk_names);
         return array_intersect($db_names, $disk_names);
     }
@@ -1347,7 +1352,12 @@ class Project
         $page_image_names = $this->get_page_names_from_db();
 
         chdir($this->dir);
-        $existing_image_names = glob("*.{png,jpg}", GLOB_BRACE);
+        if (($existing_image_names = glob("*.{png,jpg}", GLOB_BRACE)) === false) {
+            throw new RuntimeException(sprintf(
+                _("Failed to list page images for %s."),
+                $this->projectid
+            ));
+        }
         sort($existing_image_names);
         return array_diff($existing_image_names, $page_image_names);
     }

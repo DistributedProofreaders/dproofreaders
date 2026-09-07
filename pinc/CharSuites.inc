@@ -147,7 +147,9 @@ class CharSuites
             return;
         }
 
-        $charsuite_files = glob($relPath."charsuite-*.inc");
+        if (($charsuite_files = glob($relPath."charsuite-*.inc")) === false) {
+            throw new RuntimeException(_("Failed to load CharSuites files."));
+        }
         foreach ($charsuite_files as $charsuite_file) {
             include($charsuite_file);
         }

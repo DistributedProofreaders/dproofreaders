@@ -15,8 +15,10 @@ function get_languages_with_dictionaries(): array
     global $aspell_prefix;
 
     $returnArray = [];
-
-    foreach (glob("$aspell_prefix/lib/aspell/*.multi") as $filename) {
+    if (($filenames = glob("$aspell_prefix/lib/aspell/*.multi")) === false) {
+        throw new RuntimeException(_("Failed to list aspell dictionaries."));
+    }
+    foreach ($filenames as $filename) {
         // dictionaries need to map to a two- or three-letter language code
         if (preg_match("#/(\w{2,3})\.multi\$#", $filename, $matches)) {
             $langname = langname_for_langcode($matches[1]);
