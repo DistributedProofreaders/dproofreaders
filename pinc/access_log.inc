@@ -1,6 +1,6 @@
 <?php
 
-/** @return mysqli_result|bool */
+/** @return mysqli_result */
 function log_access_change(string $subject_username, string $modifier_username, string $activity_id, string $action_type)
 {
     $setters = join(", ", [
@@ -43,8 +43,8 @@ function get_first_granted_date(string $username, string $stage): ?int
     }
 }
 
-/** @return array<string, mixed>|null|false */
-function get_latest_access_change_entry(string $username, string $activity_id): array|null|false
+/** @return array<string, mixed>|null */
+function get_latest_access_change_entry(string $username, string $activity_id): array|null
 {
     $sql = sprintf(
         "
@@ -59,10 +59,5 @@ function get_latest_access_change_entry(string $username, string $activity_id): 
         DPDatabase::escape($activity_id)
     );
     $result = DPDatabase::query($sql);
-
-    if ($result) {
-        return mysqli_fetch_assoc($result);
-    } else {
-        return null;
-    }
+    return mysqli_fetch_assoc($result);
 }

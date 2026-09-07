@@ -92,9 +92,10 @@ final class DPDatabase
      *      - If it is true, it will throw an exception.
      *      - If it is false, it will return false.
      *
-     * @return mysqli_result|bool
+     * @return ($throw_on_failure is false ? mysqli_result|bool
+     *                                     : mysqli_result)
      */
-    public static function query(string $sql, bool $throw_on_failure = true, bool $log_on_failure = true)
+    public static function query(string $sql, bool $throw_on_failure = true, bool $log_on_failure = true): mysqli_result|bool
     {
         try {
             $result = self::$_connection->query($sql);

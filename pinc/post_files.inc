@@ -292,7 +292,7 @@ function page_info_query(string $projectid, string $limit_round_id, string $whic
         SELECT $text_column_expr, image $user_fields
         FROM $projectid
         ORDER BY image
-    ");
+    ", throw_on_failure: false);
 
     return $res;
 }

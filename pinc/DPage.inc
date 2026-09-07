@@ -888,7 +888,7 @@ function project_recalculate_page_counts(string $projectid): void
         SELECT COUNT(*), SUM(state LIKE '%.page_avail')
         FROM $projectid
     ";
-    $res = DPDatabase::query($sql);
+    $res = DPDatabase::query($sql, throw_on_failure: false);
 
     if ($res === false) {
         // no pages table

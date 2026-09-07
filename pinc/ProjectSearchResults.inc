@@ -595,7 +595,7 @@ class ProjectSearchResults
         $this->sort_sql .= ", $sec_sort_sql asc";
     }
 
-    /** @return list{bool|mysqli_result, int} */
+    /** @return list{mysqli_result, int} */
     private function _search(string $where_condition, int $results_offset): array
     {
         // load a count of the total number of projects
