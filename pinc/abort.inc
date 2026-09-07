@@ -116,7 +116,11 @@ function dump_request_info(): void
         $array = @${$array_name}; // PHP is a dynamic language! :)
         if ($array) {
             echo "$array_name\n";
-            echo html_safe(json_encode($array, JSON_PRETTY_PRINT));
+            if (($json = json_encode($array, JSON_PRETTY_PRINT)) === false) {
+                echo "$array_name could not be encoded as JSON";
+            } else {
+                echo html_safe($json);
+            }
             echo "\n\n";
         }
     }
