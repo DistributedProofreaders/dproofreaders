@@ -554,11 +554,13 @@ function show_project_listing(
                 // Uploaded is a special case because it is pulled from the
                 // filesystem and not from the database, and is hence not sortable.
                 global $projects_dir;
-                if ($done_files = glob("$projects_dir/{$book['projectid']}/*smooth_done_*.zip")) {
-                    $num_done = count($done_files);
-                } else {
-                    $num_done = 0;
+                if (($done_files = glob("$projects_dir/{$book['projectid']}/*smooth_done_*.zip")) === false) {
+                    throw new RuntimeException(sprintf(
+                        _("Failed to list smoothread uploads for %s."),
+                        $book['projectid']
+                    ));
                 }
+                $num_done = count($done_files);
                 $cell = $num_done;
             } elseif ($col_id == "days_avail" || $col_id == "days_left") {
                 $cell = sprintf("%.1f", $book[$col_id]);

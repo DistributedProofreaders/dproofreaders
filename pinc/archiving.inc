@@ -72,7 +72,13 @@ function archive_project(Project $project, bool $dry_run = false): void
             echo "    Move $project_dir to $new_dir.\n";
         } else {
             // Remove uncompressed versions of whole-project texts, leaving zips.
-            foreach (glob("$project_dir/projectID*.txt") as $filename) {
+            if (($filenames = glob("$project_dir/projectID*.txt")) === false) {
+                throw new RuntimeException(sprintf(
+                    _("Failed to list whole-project texts when archiving %s."),
+                    $projectid
+                ));
+            }
+            foreach ($filenames as $filename) {
                 if (!unlink($filename)) {
                     throw new RuntimeException(sprintf(_("Unable to delete %s"), $filename));
                 }
