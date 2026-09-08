@@ -100,7 +100,7 @@ $totalbooks = count_books_in_state(PROJ_SUBMIT_PG_POSTED, "AND modifieddate >= $
 
 $table->row(
     _("Books posted in the last 7 days:"),
-    $totalbooks
+    (string) $totalbooks
 );
 
 
@@ -111,7 +111,7 @@ $totalfirstwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE);
 
 $table->row(
     _("Books waiting to be released for first round:"),
-    $totalfirstwaiting
+    (string) $totalfirstwaiting
 );
 
 //get total non-English books waiting to be released
@@ -119,7 +119,7 @@ $totalnonwaiting = count_books_in_state(PROJ_P1_WAITING_FOR_RELEASE, "AND langua
 
 $table->row(
     _("Non-English Books waiting to be released for first round:"),
-    $totalnonwaiting
+    (string) $totalnonwaiting
 );
 
 //get total books waiting to be post processed
@@ -127,7 +127,7 @@ $totalwaitingpost = count_books_in_state(PROJ_POST_FIRST_AVAILABLE);
 
 $table->row(
     _("Books waiting for post processing:"),
-    $totalwaitingpost
+    (string) $totalwaitingpost
 );
 
 //get total books being post processed
@@ -135,7 +135,7 @@ $totalinpost = count_books_in_state(PROJ_POST_FIRST_CHECKED_OUT);
 
 $table->row(
     _("Books being post processed:"),
-    $totalinpost
+    (string) $totalinpost
 );
 
 //get total books in verify
@@ -143,7 +143,7 @@ $totalverify = count_books_in_state(PROJ_POST_SECOND_AVAILABLE);
 
 $table->row(
     _("Books waiting to be verified:"),
-    $totalverify
+    (string) $totalverify
 );
 
 //get total books in verifying
@@ -151,7 +151,7 @@ $totalverifying = count_books_in_state(PROJ_POST_SECOND_CHECKED_OUT);
 
 $table->row(
     _("Books being verified:"),
-    $totalverifying
+    (string) $totalverifying
 );
 
 $table->end();

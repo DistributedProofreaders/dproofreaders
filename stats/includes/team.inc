@@ -359,7 +359,7 @@ function showTeamMbrs(array $curTeam, ?string $tally_name): void
         $header_content_[] = "<a href='$url'>$cd_header_text</a>$dir_indicator";
     }
 
-    $t->column_headers($header_content_);
+    $t->column_headers(...$header_content_);
 
     $users_tallyboard = new TallyBoard($tally_name, 'U');
 
