@@ -539,15 +539,11 @@ class TallyBoard
         );
         $result = DPDatabase::query($sql);
 
-        $row = mysqli_fetch_assoc($result);
-        if (!$row) {
+        if (!is_array($row = mysqli_fetch_assoc($result))) {
             // No snapshots for this TallyBoard yet.
-            $max_timestamp = $default;
-        } else {
-            $max_timestamp = $row["max_timestamp"];
+            return $default;
         }
-
-        return $max_timestamp;
+        return (int) $row["max_timestamp"];
     }
 
     // -------------------------------------------------------------------------
@@ -796,34 +792,54 @@ class TallyBoard
      *
      * This is just a convenience function.
      */
-    public function get_vitals(int $holder_id): Object
+    public function get_vitals(int $holder_id): Vitals
     {
-        $obj = new StdClass();
-
-        $obj->current_tally = $this->get_current_tally($holder_id);
-        $obj->current_rank = $this->get_rank($holder_id);
-
+        $current_tally = $this->get_current_tally($holder_id);
+        $current_rank = $this->get_rank($holder_id);
         $snapshot_info = $this->get_info_from_latest_snapshot($holder_id);
-        $obj->latest_snapshot_timestamp = $snapshot_info['timestamp'];
-        $obj->latest_snapshot_delta = $snapshot_info['tally_delta'];
-        $obj->latest_snapshot_tally = $snapshot_info['tally_value'];
 
-        [$obj->best_delta, $obj->best_delta_timestamp] =
+        [$best_delta, $best_delta_timestamp] =
             $this->get_info_re_largest_delta($holder_id);
-        $today_delta = $obj->current_tally - $obj->latest_snapshot_tally;
-        if ($today_delta > $obj->best_delta) {
-            $obj->best_delta = $today_delta;
-            $obj->best_delta_timestamp = time();
+        $today_delta = $current_tally - $snapshot_info['tally_delta'];
+        if ($today_delta > $best_delta) {
+            $best_delta = $today_delta;
+            $best_delta_timestamp = time();
         }
 
-        [$obj->best_rank, $obj->best_rank_timestamp] =
+        [$best_rank, $best_rank_timestamp] =
             $this->get_info_re_best_rank($holder_id);
-        if ($obj->current_rank < $obj->best_rank) {
-            $obj->best_rank = $obj->current_rank;
-            $obj->best_rank_timestamp = time();
+        if ($current_rank < $best_rank) {
+            $best_rank = $current_rank;
+            $best_rank_timestamp = time();
         }
 
-        return $obj;
+        return new Vitals(
+            current_tally: $current_tally,
+            current_rank: $current_rank,
+            latest_snapshot_timestamp: $snapshot_info['timestamp'],
+            latest_snapshot_delta: $snapshot_info['tally_delta'],
+            latest_snapshot_tally: $snapshot_info['tally_value'],
+            best_delta: $best_delta,
+            best_delta_timestamp: $best_delta_timestamp,
+            best_rank: $best_rank,
+            best_rank_timestamp: $best_rank_timestamp
+        );
+
+    }
+}
+class Vitals
+{
+    public function __construct(
+        public readonly int $current_tally,
+        public readonly int $current_rank,
+        public readonly int $latest_snapshot_timestamp,
+        public readonly int $latest_snapshot_delta,
+        public readonly int $latest_snapshot_tally,
+        public readonly int $best_delta,
+        public readonly int $best_delta_timestamp,
+        public readonly int $best_rank,
+        public readonly int $best_rank_timestamp,
+    ) {
     }
 }
 
