@@ -56,7 +56,7 @@ class Round extends Stage
     public string $project_bad_state;
     public string $project_available_state;
     public string $project_complete_state;
-    /** @var ProjectState[] */
+    /** @var string[] */
     public array $project_states;
     public string $page_avail_state;
     public string $page_out_state;
