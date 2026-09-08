@@ -328,6 +328,19 @@ function get_project_status_descriptors(): array
     return ['posted', 'PPd', 'proofed', 'created'];
 }
 
+class ProjectStatusDescriptor
+{
+    public function __construct(
+        public readonly string $state_selector,
+        public readonly string $Xed_title,
+        public readonly string $projects_Xed_title,
+        public readonly string $graphs_title,
+        public readonly string $per_day_title,
+        public readonly string $cumulative_title
+    ) {
+    }
+}
+
 /**
  * Return an object with details about a project status
  *
@@ -340,20 +353,19 @@ function get_project_status_descriptors(): array
  * @param 'created'|'proofed'|'PPd'|'posted' $which
  *   A word denoting a possible status of a project
  */
-function get_project_status_descriptor(string $which): object
+function get_project_status_descriptor(string $which): ProjectStatusDescriptor
 {
-    $obj = new stdClass();
-
     switch ($which) {
         case 'created':
             $not_created_states = [PROJ_NEW, PROJ_DELETE];
-            $obj->state_selector = "(state NOT IN (" . surround_and_join($not_created_states, "'", "'", ",") . "))";
-            $obj->Xed_title = _('Created');
-            $obj->projects_Xed_title = _('Projects Created');
-            $obj->graphs_title = _('Created Projects Graphs');
-            $obj->per_day_title = _('Projects Created Each Day');
-            $obj->cumulative_title = _('Cumulative Projects Created');
-            break;
+            return new ProjectStatusDescriptor(
+                state_selector: "(state NOT IN (" . surround_and_join($not_created_states, "'", "'", ",") . "))",
+                Xed_title: _('Created'),
+                projects_Xed_title: _('Projects Created'),
+                graphs_title: _('Created Projects Graphs'),
+                per_day_title: _('Projects Created Each Day'),
+                cumulative_title: _('Cumulative Projects Created')
+            );
 
         case 'proofed':
             $proofed_states = [
@@ -365,13 +377,14 @@ function get_project_status_descriptor(string $which): object
                 PROJ_SUBMIT_PG_POSTED,
                 PROJ_POST_COMPLETE,
             ];
-            $obj->state_selector = "(state IN (" . surround_and_join($proofed_states, "'", "'", ",") . "))";
-            $obj->Xed_title = _('Proofread');
-            $obj->projects_Xed_title = _('Projects Proofread');
-            $obj->graphs_title = _('Proofread Projects Graphs');
-            $obj->per_day_title = _('Projects Proofread Each Day');
-            $obj->cumulative_title = _('Cumulative Projects Proofread');
-            break;
+            return new ProjectStatusDescriptor(
+                state_selector: "(state IN (" . surround_and_join($proofed_states, "'", "'", ",") . "))",
+                Xed_title: _('Proofread'),
+                projects_Xed_title: _('Projects Proofread'),
+                graphs_title: _('Proofread Projects Graphs'),
+                per_day_title: _('Projects Proofread Each Day'),
+                cumulative_title: _('Cumulative Projects Proofread')
+            );
 
         case 'PPd':
             $pped_states = [
@@ -379,26 +392,26 @@ function get_project_status_descriptor(string $which): object
                 PROJ_POST_SECOND_CHECKED_OUT,
                 PROJ_SUBMIT_PG_POSTED,
             ];
-            $obj->state_selector = "(state IN (" . surround_and_join($pped_states, "'", "'", ",") . "))";
-            $obj->Xed_title = _('Post-Processed');
-            $obj->projects_Xed_title = _('Projects Post-Processed');
-            $obj->graphs_title = _('PPd Projects Graphs');
-            $obj->per_day_title = _('Projects Post-Processed Each Day');
-            $obj->cumulative_title = _('Cumulative Projects PPd');
-            break;
+            return new ProjectStatusDescriptor(
+                state_selector: "(state IN (" . surround_and_join($pped_states, "'", "'", ",") . "))",
+                Xed_title: _('Post-Processed'),
+                projects_Xed_title: _('Projects Post-Processed'),
+                graphs_title: _('PPd Projects Graphs'),
+                per_day_title: _('Projects Post-Processed Each Day'),
+                cumulative_title: _('Cumulative Projects PPd')
+            );
 
         case 'posted':
-            $obj->state_selector = "(state = '" . PROJ_SUBMIT_PG_POSTED . "')";
-            $obj->Xed_title = _('Posted to PG');
-            $obj->projects_Xed_title = _('Projects Posted');
-            $obj->graphs_title = _('Posted Projects Graphs');
-            $obj->per_day_title = _('Projects Posted to PG Each Day');
-            $obj->cumulative_title = _('Cumulative Projects Posted to PG');
-            break;
+            return new ProjectStatusDescriptor(
+                state_selector: "(state = '" . PROJ_SUBMIT_PG_POSTED . "')",
+                Xed_title: _('Posted to PG'),
+                projects_Xed_title: _('Projects Posted'),
+                graphs_title: _('Posted Projects Graphs'),
+                per_day_title: _('Projects Posted to PG Each Day'),
+                cumulative_title: _('Cumulative Projects Posted to PG')
+            );
 
         default:
             throw new UnexpectedValueException(html_safe("bad value for 'which': '$which'"));
     }
-
-    return $obj;
 }
