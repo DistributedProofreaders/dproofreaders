@@ -135,7 +135,7 @@ function get_installed_system_locales()
     $utf8_locales = [];
     foreach ($system_locales as $locale) {
         if (str_ends_with($locale, '.utf8')) {
-            $utf8_locales[] = substr($locale, 0, strpos($locale, '.utf8'));
+            $utf8_locales[] = substr($locale, 0, -strlen('.utf8'));
         }
     }
 
