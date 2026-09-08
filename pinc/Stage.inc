@@ -64,7 +64,7 @@ class Stage extends Activity
         echo "<h1>$title</h1>\n" . get_page_header_image($this->id);
     }
 
-    public function page_top(object $uao): void
+    public function page_top(UserAccess $uao): void
     {
         $this->page_header("{$this->id}: {$this->name}");
 
