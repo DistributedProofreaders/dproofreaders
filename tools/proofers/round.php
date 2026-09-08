@@ -34,7 +34,7 @@ welcome_see_beginner_forum($pagesproofed, $round->id);
 
 // show user how to access this round
 if (!$uao->can_access) {
-    show_user_access_object($uao, true /* will_autogrant */);
+    show_user_access_object($uao, will_autogrant: true);
 }
 
 encourage_highest_round($pguser, $round->id);

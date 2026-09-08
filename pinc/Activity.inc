@@ -123,6 +123,29 @@ class Activities
     }
 }
 
+class UserAccess
+{
+    /**
+     * @param bool $can_access
+     *     user can access this activity.
+     * @param list{string, int, int, bool}[] $minima_table
+     *     ( $criterion_str, $minimum, $user_score, $satisfied )
+     * @param ?('sat-unneeded'|'sat-granted'|'sat-available'|'sat-requested'|'sat-wait'|'sat-denied'|'unsat-granted'|'unsat-requested'|'unsat-ungranted'|'unsat-denied') $request_status
+     * @param ?string $evaluation_criteria
+     *     message to display about evaluation
+     */
+    public function __construct(
+        public readonly ?string $username,
+        public readonly bool $can_access,
+        public readonly array $minima_table = [],
+        public readonly bool $all_minima_satisfied = false,
+        public readonly ?string $request_status = null,
+        public readonly ?string $evaluation_criteria = null,
+        public readonly ?string $activity_id = null
+    ) {
+    }
+}
+
 class Activity
 {
     /**
@@ -137,7 +160,7 @@ class Activity
      *   A (possibly empty) array of minimum requirements that a user must satisfy
      *   in order to be allowed to participate in this activity
      *   (barring special permission).
-     * @param string $after_satisfying_minima
+     * @param 'IMMEDIATE'|'REQ-AUTO'|'REQ-HUMAN'|'NOREQ' $after_satisfying_minima
      *   After satisfying the above minima (if any), does the user have to do
      *   anything else to work in this activity?
      *   ```
@@ -199,36 +222,14 @@ class Activity
     }
 
     /**
-     * Return a User Access object
-     *
-     * Return an object with the following properties:
-     * - can_access:
-     *         a boolean: TRUE iff the user can access this activity.
-     * - minima_table:
-     *         an array of arrays (4-tuples):
-     *         ( $criterion_str, $minimum, $user_score, $satisfied )
-     * - all_minima_satisfied:
-     *         boolean
-     * - request_status:
-     *         enumerated type: sat-unneeded, sat-granted, sat-available, sat-requested,
-     *                          sat-wait, sat-denied
-     *                          unsat-granted, unsat-requested, unsat-ungranted,
-     *                          unsat-denied
-     * - evaluation_criteria:
-     *         message to display about evaluation
-     *
      * UNIMPLEMENTED:
      * If $n_pages_completed is non-null, use it as the number of pages
      * that the user has completed. Otherwise, consult the database.
      */
-    // TODO(jchaffraix): Add a class for the UserAccess object for type soundness.
-    public function user_access(?string $username, ?int $n_pages_completed = null): object
+    public function user_access(?string $username, ?int $n_pages_completed = null): UserAccess
     {
         if (is_null($username)) {
-            $uao = new StdClass(); // user access object
-            $uao->username = $username;
-            $uao->can_access = false;
-            return $uao;
+            return new UserAccess(username: null, can_access: false);
         }
 
         // A user's score isn't going to change in a page load but many page
@@ -252,55 +253,52 @@ class Activity
 
         // -----------------------------------
 
-        $uao = new StdClass(); // user access object
 
-        $uao->username = $username;
-        $uao->activity_id = $this->id;
-        $uao->evaluation_criteria = $this->evaluation_criteria;
         // Considering the minima...
         global $ACCESS_CRITERIA;
-        {
-            $uao->minima_table = [];
-            $uao->all_minima_satisfied = true;
-            foreach ($this->access_minima as $criterion_code => $minimum) {
-                $criterion_str = $ACCESS_CRITERIA[$criterion_code];
-                $user_score = $user_scores[$criterion_code];
+        $minima_table = [];
+        $all_minima_satisfied = true;
+        foreach ($this->access_minima as $criterion_code => $minimum) {
+            $criterion_str = $ACCESS_CRITERIA[$criterion_code];
+            $user_score = $user_scores[$criterion_code];
 
-                $satisfied = ($user_score >= $minimum);
-                $uao->minima_table[$criterion_code] = [$criterion_str, $minimum, $user_score, $satisfied];
-                if (!$satisfied) {
-                    $uao->all_minima_satisfied = false;
-                }
+            $satisfied = ($user_score >= $minimum);
+            $minima_table[$criterion_code] = [$criterion_str, $minimum, $user_score, $satisfied];
+            if (!$satisfied) {
+                $all_minima_satisfied = false;
             }
         }
 
+        $can_access = false;
+        $requst_status = null;
+
         if ($recorded_access == 'denied') {
             // they are not allowed to access this activity or to request access
-            $uao->can_access = false;
-            if ($uao->all_minima_satisfied) {
-                $uao->request_status = 'sat-denied';
+            $can_access = false;
+            if ($all_minima_satisfied) {
+                $request_status = 'sat-denied';
             } else {
-                $uao->request_status = 'unsat-denied';
+                $request_status = 'unsat-denied';
             }
-        } elseif ($uao->all_minima_satisfied) {
+        } elseif ($all_minima_satisfied) {
             // They've satisfied the requirements...
             switch ($this->after_satisfying_minima) {
                 case 'IMMEDIATE':
                     // They get immediate access.
-                    $uao->request_status = 'sat-unneeded';
-                    $uao->can_access = true;
+                    $request_status = 'sat-unneeded';
+                    $can_access = true;
                     break;
 
                 case 'REQ-AUTO':
                     // They must ask for access, but it is auto-granted.
                     if ($recorded_access == 'yes') {
                         // They already have access
-                        $uao->request_status = 'sat-granted';
-                        $uao->can_access = true;
+                        $request_status = 'sat-granted';
+                        $can_access = true;
                     } else {
                         // They haven't asked yet, but can
-                        $uao->request_status = 'sat-available';
-                        $uao->can_access = false;
+                        $request_status = 'sat-available';
+                        $can_access = false;
                     }
                     break;
 
@@ -308,16 +306,16 @@ class Activity
                     // They must ask for access, and it must be human-granted.
                     if ($recorded_access == 'yes') {
                         // They already have access
-                        $uao->request_status = 'sat-granted';
-                        $uao->can_access = true;
+                        $request_status = 'sat-granted';
+                        $can_access = true;
                     } elseif ($recorded_access == 'requested') {
                         // They've asked, but it hasn't been granted yet
-                        $uao->request_status = 'sat-requested';
-                        $uao->can_access = false;
+                        $request_status = 'sat-requested';
+                        $can_access = false;
                     } else {
                         // They haven't asked yet, but can
-                        $uao->request_status = 'sat-available';
-                        $uao->can_access = false;
+                        $request_status = 'sat-available';
+                        $can_access = false;
                     }
                     break;
 
@@ -327,12 +325,12 @@ class Activity
                     // they are approved.
                     if ($recorded_access == 'yes') {
                         // They already have access
-                        $uao->request_status = 'sat-granted';
-                        $uao->can_access = true;
+                        $request_status = 'sat-granted';
+                        $can_access = true;
                     } else {
                         // They are waiting
-                        $uao->request_status = 'sat-wait';
-                        $uao->can_access = false;
+                        $request_status = 'sat-wait';
+                        $can_access = false;
                     }
                     break;
 
@@ -343,24 +341,32 @@ class Activity
             // They don't satisfy the requirements
             if ($recorded_access == 'yes') {
                 // but they already have access anyway
-                $uao->request_status = 'unsat-granted';
-                $uao->can_access = true;
+                $request_status = 'unsat-granted';
+                $can_access = true;
             } elseif ($recorded_access == 'requested') {
                 // but they've requested access, but don't have it yet
                 // This is unusual, but can happen.
                 // E.g., at some point in the past, they satisfied the minima and
                 // requested access, but now they no longer satisfy the minima
                 // (quiz-pass could expire, page-tally could be reduced by clears).
-                $uao->request_status = 'unsat-requested';
-                $uao->can_access = false;
+                $request_status = 'unsat-requested';
+                $can_access = false;
             } else {
                 // and they can't ask for access
-                $uao->request_status = 'unsat-ungranted';
-                $uao->can_access = false;
+                $request_status = 'unsat-ungranted';
+                $can_access = false;
             }
         }
 
-        return $uao;
+        return new UserAccess(
+            username: $username,
+            activity_id: $this->id,
+            evaluation_criteria: $this->evaluation_criteria,
+            minima_table: $minima_table,
+            all_minima_satisfied: $all_minima_satisfied,
+            can_access: $can_access,
+            request_status: $request_status
+        );
     }
 }
 
@@ -403,7 +409,7 @@ function get_user_score(User $user_obj, string $criterion_code): float
 
 // --------------------------------------------------------------------------
 
-function show_user_access_object(object $uao, bool $will_autogrant = false): void
+function show_user_access_object(UserAccess $uao, bool $will_autogrant = false): void
 {
     global $code_url;
 
@@ -427,7 +433,7 @@ function show_user_access_object(object $uao, bool $will_autogrant = false): voi
             echo "<tr>";
             echo "<td>$criterion_str</td>";
             echo "<td class='right-align'>$minimum</td>";
-            td_w_bgcolor($user_score, $satisfied);
+            td_w_bgcolor((string)$user_score, $satisfied);
             echo "</tr>\n";
         }
         echo "</table>\n";
@@ -508,7 +514,7 @@ function show_user_access_object(object $uao, bool $will_autogrant = false): voi
     }
 }
 
-function grant_user_access_if_sat(object &$uao): void
+function grant_user_access_if_sat(UserAccess &$uao): void
 {
     $activity = Activities::get_by_id($uao->activity_id);
     if ($uao->request_status == 'sat-available' &&
