@@ -221,6 +221,19 @@ $SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
 
 // -----------------------------------------------------------------------------
 
+class SitePageTally
+{
+    public function __construct(
+        public readonly int $curr_day_goal,
+        public readonly int $prev_day_goal,
+        public readonly int $curr_month_goal,
+        public readonly int $curr_day_actual,
+        public readonly int $prev_day_actual,
+        public readonly int $curr_month_actual
+    ) {
+    }
+}
+
 /**
  * Return an object whose attributes are various useful statistics about
  * the site page tally.
@@ -230,57 +243,42 @@ $SECONDS_TO_YESTERDAY = 1 + 3 * 60 * 60;
  * - prev_day_{goal,actual}
  * - curr_month_{goal,actual}
  */
-function get_site_page_tally_summary(string $tally_name): object
+function get_site_page_tally_summary(string $tally_name): SitePageTally
 {
-    $site_stats = new StdClass();
+    $tallyboard = new TallyBoard($tally_name, 'S');
+    $holder_id = 1;
+    $current_tally = $tallyboard->get_current_tally($holder_id);
+    $snapshot_info = $tallyboard->get_info_from_latest_snapshot($holder_id);
+    $today = getdate();
+    $curr_day_actual = $current_tally - $snapshot_info['tally_value'];
 
-    // Goals
-
-    $site_stats->curr_day_goal =
-        get_site_tally_goal_summed(
+    return new SitePageTally(
+        // Goals
+        curr_day_goal: get_site_tally_goal_summed(
             $tally_name,
             "date = CURRENT_DATE"
-        );
-
-    $site_stats->prev_day_goal =
-        get_site_tally_goal_summed(
+        ),
+        prev_day_goal: get_site_tally_goal_summed(
             $tally_name,
             "date = (CURRENT_DATE - INTERVAL 1 DAY)"
-        );
-
-    $site_stats->curr_month_goal =
-        get_site_tally_goal_summed(
+        ),
+        curr_month_goal: get_site_tally_goal_summed(
             $tally_name,
             "date >= DATE_FORMAT(CURRENT_DATE, '%%Y-%%m-01') AND
             date <= LAST_DAY(CURRENT_DATE)"
-        );
+        ),
 
-    // Actuals
-
-    $tallyboard = new TallyBoard($tally_name, 'S');
-
-    $holder_id = 1;
-
-    $current_tally = $tallyboard->get_current_tally($holder_id);
-
-    $snapshot_info = $tallyboard->get_info_from_latest_snapshot($holder_id);
-
-    $site_stats->curr_day_actual =
-        $current_tally - $snapshot_info['tally_value'];
-
-    $site_stats->prev_day_actual = $snapshot_info['tally_delta'];
-
-    $today = getdate();
-    $site_stats->curr_month_actual =
-        $tallyboard->get_delta_sum(
+        // Actuals
+        curr_day_actual: $curr_day_actual,
+        prev_day_actual: $snapshot_info['tally_delta'],
+        curr_month_actual: $tallyboard->get_delta_sum(
             $holder_id,
             mktime(0, 0, 0, $today['mon'], 1, $today['year']),
             mktime(0, 0, 0, $today['mon'] + 1, 1, $today['year'])
         )
         +
-        $site_stats->curr_day_actual;
-
-    return $site_stats;
+        $curr_day_actual
+    );
 }
 
 function get_site_tally_goal_summed(string $tally_name, string $date_condition): int
