@@ -877,11 +877,9 @@ function get_wordcheck_file_names(): array
  * @param string $code
  *   Must match one of the keys in array returned from `get_wordcheck_file_names()`
  *
- * @return object
- *
  * @see get_wordcheck_file_names()
  */
-function get_project_word_file(string $projectid, string $code): object
+function get_project_word_file(string $projectid, string $code): FileInfoObject
 {
     global $projects_dir, $projects_url;
 
@@ -910,7 +908,7 @@ function get_site_word_paths(): array
  *
  * @param 'good'|'bad'|'possible_bad' $code
  */
-function get_site_word_file(string $langcode3, string $code): object
+function get_site_word_file(string $langcode3, string $code): FileInfoObject
 {
     [$site_words_dir, $site_words_url] = get_site_word_paths();
 
@@ -928,33 +926,35 @@ function get_site_word_file(string $langcode3, string $code): object
     );
 }
 
+class FileInfoObject
+{
+    public function __construct(
+        public readonly string $filename,
+        public readonly string $abs_path,
+        public readonly string $abs_url,
+        public readonly bool $exists,
+        public readonly int $size,
+        public readonly int $mod_time
+    ) {
+    }
+}
 /**
  * Returns an object containing information about the specified
  * word-related file for the given project.
- *
- * Attributes include:
- * - filename: its filename
- * - abs_path: its absolute path
- * - abs_url:  its absolute URL
- * - exists:   a boolean indicating whether it exists
- * - size:     its size in bytes
- * - mod_time: the time it was last modified, as a unix timestamp.
- * Size and mod_time are set to zero if the file doesn't exist.
  */
-function get_file_info_object(string $filename, string $base_dir, string $base_url): Object
+function get_file_info_object(string $filename, string $base_dir, string $base_url): FileInfoObject
 {
     clearstatcache();
-
-    $o = new StdClass();
-
-    $o->filename = $filename;
-    $o->abs_path = "$base_dir/{$o->filename}";
-    $o->abs_url = "$base_url/{$o->filename}";
-    $o->exists = @file_exists($o->abs_path);
-    $o->size = $o->exists ? filesize($o->abs_path) : 0;
-    $o->mod_time = $o->exists ? filemtime($o->abs_path) : 0;
-
-    return $o;
+    $abs_path = "$base_dir/{$filename}";
+    $exists = @file_exists($abs_path);
+    return new FileInfoObject(
+        filename: $filename,
+        abs_path: $abs_path,
+        abs_url: "$base_url/{$filename}",
+        exists: $exists,
+        size: $exists ? filesize($abs_path) : 0,
+        mod_time: $exists ? filemtime($abs_path) : 0,
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
