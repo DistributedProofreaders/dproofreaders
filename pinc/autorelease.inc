@@ -207,16 +207,25 @@ function autorelease_for_round(Round $round): void
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+class NumProjects
+{
+    public function __construct(
+        public readonly int $waiting,
+        public readonly int $considered,
+        public readonly int $blocked,
+        public readonly int $failed,
+        public readonly int $released,
+    ) {
+    }
+}
 function maybe_release_projects(
     Round $round,
     ?Object $qd,
     bool $observe_release_restrictions,
     bool $release_at_most_one
-): Object {
-    $n_projects = new StdClass();
-
+): NumProjects {
     $and_extra_condition = ($qd ? "AND ($qd->cooked_project_selector)" : "");
-    $q_name = ($qd ? $qd->name : "");
+    $q_name = $qd ? $qd->name : "";
 
     // set of candidates for release:
     // Projects that are in this round's waiting state,
@@ -240,24 +249,24 @@ function maybe_release_projects(
     ";
     $waiting_res = DPDatabase::query($sql);
 
-    $n_projects->waiting = mysqli_num_rows($waiting_res);
+    $waiting = mysqli_num_rows($waiting_res);
 
     echo "\n";
     if ($qd) {
-        echo "    There are {$n_projects->waiting} projects waiting for release in this queue.\n";
+        echo "    There are {$waiting} projects waiting for release in this queue.\n";
     } else {
-        echo "There are {$n_projects->waiting} projects waiting for release in this round.\n";
+        echo "There are {$waiting} projects waiting for release in this round.\n";
     }
 
-    $n_projects->considered = 0;
-    $n_projects->blocked = 0;
-    $n_projects->failed = 0;
-    $n_projects->released = 0;
+    $considered = 0;
+    $blocked = 0;
+    $failed = 0;
+    $released = 0;
 
     while ($project = mysqli_fetch_assoc($waiting_res)) {
         echo "\n";
         echo "    considering {$project['projectid']} \"{$project['nameofwork']}\"...\n";
-        $n_projects->considered++;
+        $considered++;
 
         if ($observe_release_restrictions) {
             $release_restrictor = ReleaseRestrictor::$restrictors[$round->id] ?? null;
@@ -265,7 +274,7 @@ function maybe_release_projects(
 
             if (!$release_restrictor->approves_project($project)) {
                 // Messages have been echoed.
-                $n_projects->blocked++;
+                $blocked++;
                 // Go to the next project in the list.
                 continue;
             }
@@ -273,7 +282,7 @@ function maybe_release_projects(
 
         if (!attempt_to_release($round, $project, $q_name)) {
             // Something went wrong. Error messages have been output.
-            $n_projects->failed++;
+            $failed++;
             // Go to the next project in the list.
             continue;
         }
@@ -282,7 +291,7 @@ function maybe_release_projects(
 
         echo "        Project released!\n";
 
-        $n_projects->released++;
+        $released++;
 
         $release_restrictor = ReleaseRestrictor::$restrictors[$round->id] ?? null;
         if ($release_restrictor) {
@@ -324,17 +333,23 @@ function maybe_release_projects(
         }
     }
 
-    if ($n_projects->waiting > 0) {
+    if ($waiting > 0) {
         echo "\n";
-        echo sprintf("    Of the %d projects that were waiting...\n", $n_projects->waiting);
-        echo sprintf("        %3d projects were blocked by release restrictions\n", $n_projects->blocked);
-        echo sprintf("        %3d projects failed the pre-release check or the state transition\n", $n_projects->failed);
-        echo sprintf("        %3d projects were released\n", $n_projects->released);
-        echo sprintf("        %3d projects were not considered\n", $n_projects->waiting - $n_projects->considered);
+        echo sprintf("    Of the %d projects that were waiting...\n", $waiting);
+        echo sprintf("        %3d projects were blocked by release restrictions\n", $blocked);
+        echo sprintf("        %3d projects failed the pre-release check or the state transition\n", $failed);
+        echo sprintf("        %3d projects were released\n", $released);
+        echo sprintf("        %3d projects were not considered\n", $waiting - $considered);
         echo "\n";
     }
 
-    return $n_projects;
+    return new NumProjects(
+        $waiting,
+        $considered,
+        $blocked,
+        $failed,
+        $released
+    );
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
