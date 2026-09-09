@@ -7,11 +7,23 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
-## R??????
+## R202609
+Scripts supporting this upgrade are in `SETUP/upgrade/25`
 
 ### Notices & Deprecations
 
 This release requires PHP 8.3 or later.
+
+## Changes
+* Updated minimum PHP to 8.3 and upgraded dependencies to match (cpeel)
+* Updated both development and runtime JS dependencies (cpeel)
+* Updated DP Sans Mono font version (lvl)
+* mathjax in Format Preview upgraded to v4 and served locally instead of via
+  CDN (mrducky4)
+* Link to PG's In Progress search added to Create Project (srjfoo)
+* API parameter validation and exception improvements (bpfoley)
+* Extensive typing added to functions and classes (bpfoley)
+* Updated minimum browser versions, see [INSTALL.md](INSTALL.md)
 
 ## R202603
 Scripts supporting this upgrade are in `SETUP/upgrade/24`
