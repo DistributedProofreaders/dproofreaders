@@ -322,7 +322,9 @@ WEB_TESTS = [
     {'name': 'tools-pm-automodify', 'path': 'tools/project_manager/automodify.php'},
     {'name': 'tools-pm-bad-bytes-explainer', 'path': 'tools/project_manager/bad_bytes_explainer.php'},
     {'name': 'tools-pm-clearance-check', 'path': 'tools/project_manager/clearance_check.php'},
-    {'name': 'tools-pm-diff', 'path': 'tools/project_manager/diff.php?project=projectID5e23a810ef693&L_round=P1&R_round=P2&image=001.png'},
+    {'name': 'tools-pm-diff-p1-p2', 'path': 'tools/project_manager/diff.php?project=projectID5e23a810ef693&L_round=P1&R_round=P2&image=001.png'},
+    {'name': 'tools-pm-diff-ocr-p1', 'path': 'tools/project_manager/diff.php?project=projectID5e23a810ef693&L_round=OCR&R_round=P1&image=001.png'},
+    {'name': 'tools-pm-diff-p2-ocr', 'path': 'tools/project_manager/diff.php?project=projectID5e23a810ef693&L_round=P2&R_round=OCR&image=001.png'},
     # (deliberately) not clicking 'Confirm'...
     {'name': 'tools-pm-edit-pages', 'path': 'tools/project_manager/edit_pages.php?projectid=projectID5e23a810ef693&operation=clear&selected_pages[001.png]=on'},
     # TODO project dir doesn't exist
