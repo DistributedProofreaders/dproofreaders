@@ -185,8 +185,8 @@ if ($L_text != $R_text) {
 function get_navigation(
     Project $project,
     string $image,
-    Round $L_round,
-    Round $R_round,
+    Round|stdClass $L_round,
+    Round|stdClass $R_round,
     string $L_user,
     string $format,
     bool $only_nonempty_diffs,
