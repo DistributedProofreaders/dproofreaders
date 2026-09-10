@@ -92,7 +92,7 @@ function production_exception_handler(Throwable $exception): void
     if ($exception instanceof DBConnectionError && !$maintenance) {
         // We output the timestamp in the same format and timezone (UTC) as
         // the MySQL error log (sans microseconds) for easier correlation.
-        $error_message = gmdate("Y-m-d") . "T" . gmdate("H:i:s") . "Z " .  $exception->getMessage();
+        $error_message = gmdate("Y-m-d\TH:i:s\Z ") . $exception->getMessage();
 
         // Dump the error to the php error log
         error_log("base.inc - $error_message");
@@ -105,6 +105,15 @@ function production_exception_handler(Throwable $exception): void
         exit(1);
     }
 
+    // If the exception is a TypeError, silently log the full backtrace for
+    // easier debugging, and continue execution.
+    if ($exception instanceof TypeError) {
+        error_log((string) $exception);
+        return;
+    }
+
+    // For all other exceptions, pretty print the exception to the HTML,
+    // and continue execution.
     echo "<p class='error'>\n";
     echo htmlspecialchars($exception->getMessage(), ENT_QUOTES, 'UTF-8');
     echo "\n</p>";
