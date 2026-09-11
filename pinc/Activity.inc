@@ -74,7 +74,7 @@ class Activities
 
     /**
      * The return of this function is untyped for now (see the comment above `$_activities` for why).
-     * @return mixed[]
+     * @return array<string, mixed>
      */
     public static function get_all(): array
     {
