@@ -44,7 +44,7 @@ class Rounds extends Stages
 class Round extends Stage
 {
     public int $round_number;
-    /** @var array<string, string[]> */
+    /** @var array<string, 'ALL'|string[]> */
     public array $pi_tools;
     public ?int $daily_page_limit;
     /** @var array<string> */
@@ -75,7 +75,7 @@ class Round extends Stage
     /**
      * Round constructor
      *
-     * @param array<string, string|string[]> $pi_tools
+     * @param array<string, 'ALL'|string[]> $pi_tools
      *   A list of which tools should be available in the proofreading
      *   interface's toolbox when proofreading a page in this round.
      *   The format is:
