@@ -15,24 +15,13 @@ function get_rounds_to_display(Project $project): array
     // This project may have skipped some rounds, and/or it may have rounds
     // yet to do, so there may be some round-columns with no data in them.
     // Figure out which ones to display.
-    //
     $rounds_to_display = get_rounds_with_data($project);
 
     // If the project is in a round, then users expect that round to appear here,
     // even if there's no data in it.
     //
     if (!is_null($project_round)) {
-        // Look for $project_round in $rounds_to_display.
-        // If it does appear, it will normally be the last item,
-        // but check everywhere, just in case.
-        $found = false;
-        foreach ($rounds_to_display as $round) {
-            if ($round->id == $project_round->id) {
-                $found = true;
-                break;
-            }
-        }
-        if (!$found) {
+        if (!any($rounds_to_display, fn ($round) => $round->id == $project_round->id)) {
             $rounds_to_display[] = $project_round;
         }
     }
@@ -562,37 +551,29 @@ function get_rounds_with_data(Project $project): array
         throw new NoProjectPageTable(_("Project page table does not exist."));
     }
 
-    $rounds_with_data = [];
-
     // Currently, when a project skips a round, the time and text of the
     // corresponding slot are still set. It's this data that we exclude by
     // talking about "useful data" above.
-    // So a column of empty users is the best indication of a skipped round.
+    // So a column of empty usernames is the best indication of a skipped round.
     // (And also works for a not-yet-reached round.)
-
-    $sums = [];
-    foreach (Rounds::get_all() as $round) {
-        $sums[] = "SUM({$round->user_column_name} != '') AS " . $round->id;
-    }
-    $body = join(',', $sums);
+    $select_list = join(',', array_map(
+        fn ($round) => "SUM({$round->user_column_name} != '') AS {$round->id}",
+        Rounds::get_all()
+    ));
 
     validate_projectid($projectid);
     $sql = "
-        SELECT $body
+        SELECT $select_list
         FROM $projectid
     ";
     $res = DPDatabase::query($sql);
     $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
-    foreach (Rounds::get_all() as $round) {
-        if ($num_filled_user_fields_for_round_[$round->id] == 0) {
-            // no real info in this slot
-            // (skipped round or not-yet-reached round)
-        } else {
-            // There's some real info in this slot
-            $rounds_with_data[] = $round;
-        }
-    }
+    // Keep rounds with non-empty username columns in the DB
+    $rounds_with_data = array_filter(
+        array_values(Rounds::get_all()),
+        fn ($round) => ($num_filled_user_fields_for_round_[$round->id] != 0)
+    );
 
     return $rounds_with_data;
 }
