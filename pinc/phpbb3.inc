@@ -348,7 +348,7 @@ if ($this_is_top_level_cli_invocation) {
     // $argv[2+] are the arguments to pass to it.
 
     $func_name = 'phpbb3_' . $argv[1];
-    $args = array_slice($argv, 2);
+    $args = unserialize(base64_decode($argv[2]));
 
     // echo "calling $func_name with "; var_dump($args);
     $result = call_user_func_array($func_name, $args);
