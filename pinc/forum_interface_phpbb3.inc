@@ -801,7 +801,16 @@ function call_phpbb_function(string $func_name, mixed $args): ?string
     global $code_dir;
     $php_cli_executable = SiteConfig::get()->php_cli_executable;
     $phpbb_include_file = "phpbb3.inc";
-    $process = new Process(array_merge([$php_cli_executable, "-f", $phpbb_include_file, $func_name], $args), "$code_dir/pinc");
+    // Encode the args array (which may contain values of arbitrary types)
+    // to an unambiguous string encoding which we can send to the subprocess
+    // as a single command line argument. Otherwise `Process` will cast each
+    // argument to a string causing issues like `false` turning into `""`
+    // Note command line arguments are null terminated on UNIX, so can't
+    // include embeded null bytes. serialize() output can contain null bytes
+    // (simple example `serialize(chr(0))` => `"s:1:\"\0\""`) so we base64
+    // encode the result to avoid this.
+    $enc_args = base64_encode(serialize($args));
+    $process = new Process([$php_cli_executable, "-f", $phpbb_include_file, $func_name, $enc_args], "$code_dir/pinc");
     $exitcode = $process->run();
     $output = $process->getOutput();
     $output_lines = explode("\n", rtrim($output));
