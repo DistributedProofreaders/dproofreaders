@@ -743,7 +743,7 @@ function topic_create(
     string $post_text,
     string $poster_name,
     bool $poster_is_real,
-    ?bool $make_poster_watch_topic
+    bool $make_poster_watch_topic
 ): ?int {
     $args = func_get_args();
     $topic_id = call_phpbb_function('create_topic', $args);
