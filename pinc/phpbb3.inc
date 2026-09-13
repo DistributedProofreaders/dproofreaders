@@ -95,7 +95,7 @@ function phpbb3_create_topic(
     string $post_text,
     string $poster_name,
     bool $poster_is_real,
-    ?int $make_poster_watch_topic
+    bool $make_poster_watch_topic
 ): int {
     $post_result = _insert_post(
         $forum_id,
@@ -104,7 +104,7 @@ function phpbb3_create_topic(
         $post_text,
         $poster_name,
         $poster_is_real,
-        $make_poster_watch_topic
+        (int) $make_poster_watch_topic
     );
 
     $topic_id = $post_result['topic_id'];
