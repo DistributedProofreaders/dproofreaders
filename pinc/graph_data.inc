@@ -362,7 +362,10 @@ function get_number_of_days_in_current_month(): int
     return $last_day['mday'];
 }
 
-/** @return GraphConfig */
+/**
+ * @param 'created'|'proofed'|'PPd'|'posted' $which
+ * @return GraphConfig
+ */
 function curr_month_proj(string $which): array
 {
     // Create "projects Xed per day" graph for current month
@@ -432,7 +435,10 @@ function array_subtract_first_from_each(array $arr): array
     return $result;
 }
 
-/** @return GraphConfig */
+/**
+ * @param 'created'|'proofed'|'PPd'|'posted' $which
+ * @return GraphConfig
+ */
 function cumulative_month_proj(string $which): array
 {
     // Create "projects Xed per day" graph for current month
@@ -490,7 +496,10 @@ function cumulative_month_proj(string $which): array
     ];
 }
 
-/** @return GraphConfig */
+/**
+ * @param 'created'|'proofed'|'PPd'|'posted' $which
+ * @return GraphConfig
+ */
 function total_proj_graph(string $which): array
 {
     //Create "projects Xed per day" graph for all known history
@@ -526,7 +535,10 @@ function total_proj_graph(string $which): array
     ];
 }
 
-/** @return GraphConfig */
+/**
+ * @param 'created'|'proofed'|'PPd'|'posted' $which
+ * @return GraphConfig
+ */
 function cumulative_total_proj_graph(string $which): array
 {
     // Create "cumulative projects Xed per day" graph for all days
