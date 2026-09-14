@@ -269,7 +269,11 @@ class RandomRule
                     return '<a href="' . $url . $match[1] . '"';
                 } elseif (str_starts_with($match[1], '/')) {
                     $url_parts = parse_url($url);
-                    return '<a href="' . $url_parts["scheme"] . "://" . $url_parts["host"] . $match[1] . '"';
+                    if (($scheme = $url_parts["scheme"] ?? "")) {
+                        $scheme .= "://";
+                    }
+                    $host = $url_parts["host"] ?? "";
+                    return '<a href="' . $scheme . $host . $match[1] . '"';
                 } elseif (!str_starts_with($match[1], 'http')) {
                     $base_url = dirname($url) . '/';
                     return '<a href="' . $base_url . $match[1] . '"';
