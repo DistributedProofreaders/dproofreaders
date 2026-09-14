@@ -245,7 +245,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 
     // Stage rows
     foreach (Stages::get_all() as $stage) {
-        if (is_a($stage, 'Pool') || is_a($stage, 'Round')) {
+        if ($stage instanceof Pool || $stage instanceof Round) {
             continue;
         }
         if ($stage->id == "SR") {
@@ -324,7 +324,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
     }
 
     // If we're a round, get page information and calculate status.
-    if (is_a($stage, 'Round')) {
+    if ($stage instanceof Round) {
         $round_stats = get_site_page_tally_summary($stage->id);
 
         [$progress_bar_width, $progress_bar_class, $percent_complete] =
@@ -431,7 +431,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
     echo "</td>";
 
     // Rounds and Pools also get project totals.
-    if (is_a($stage, 'Round') || is_a($stage, 'Pool')) {
+    if ($stage instanceof Round || $stage instanceof Pool) {
         echo "<td>$total_projects</td>";
         foreach ($desired_states as $desired_state) {
             echo "<td>";
@@ -449,7 +449,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
     }
 
     // Rounds also get page totals.
-    if (is_a($stage, 'Round')) {
+    if ($stage instanceof Round) {
         echo "<td class='pages-goal'>{$round_stats->curr_day_goal}</td>";
         echo "<td class='pages-completed'>{$round_stats->curr_day_actual}</td>";
         echo "<td><div class='progressbar $progress_bar_class' style='width: $progress_bar_width%;'>&nbsp;</div><p style='clear: both; margin: 0;'>$percent_complete%</p></td>";
@@ -470,7 +470,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
         // specificity of inline style is needed to override default style to
         // force the filter links to align to the left.
         echo "<tr>";
-        if (is_a($stage, 'Round')) {
+        if ($stage instanceof Round) {
             echo "<td colspan='7' style='text-align: left;'>";
         } else {
             echo "<td colspan='3' style='text-align: left;'>";

@@ -208,7 +208,7 @@ class Activity
         // which seems worse.
         // TODO: We should probably have a function for declaring criteria.
         global $ACCESS_CRITERIA;
-        if (is_a($this, 'Round')) {
+        if ($this instanceof Round) {
             $ACCESS_CRITERIA[$this->id] =
                 sprintf(_("'%s' pages completed"), $this->id);
         }
