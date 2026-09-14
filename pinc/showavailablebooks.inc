@@ -359,8 +359,8 @@ function show_projects_for_pool(Pool $pool, string $checkedout_or_available): vo
  *   The sort to use when one isn't specified by url-parameter or db-setting.
  * @param string $anchor
  *   The anchor on the page to jump to
- * @param object $stage
- *   Stage object (Round, Pool, or Stage)
+ * @param Round|Pool|Stage $stage
+ *   Stage object
  * @param string $optional_join_clause
  *   If needed. Default to "", but useful/necessary for SR & PP
  * @param string $optional_select_clause
