@@ -427,7 +427,7 @@ function show_project_listing(
     // $presort allows us to place certain projects at the top of all project
     // listings such as BEGIN projects, but only for Rounds.
     $presort = "";
-    if (is_a($stage, 'Round')) {
+    if ($stage instanceof Round) {
         $presort = round_project_listing_presort($stage);
         if (!empty($presort)) {
             $presort .= ',';
@@ -521,7 +521,7 @@ function show_project_listing(
             } elseif ($col_id == "genre") {
                 $genre = $book['trans_genre'];
                 if ($book['difficulty'] == "beginner") {
-                    if (is_a($stage, 'Round')) {
+                    if ($stage instanceof Round) {
                         if ($stage->is_a_mentee_round()) {
                             $genre = _("BEGINNERS ONLY")." ".$genre;
                         } elseif ($stage->is_a_mentor_round()) {
