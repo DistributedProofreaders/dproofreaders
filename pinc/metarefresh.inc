@@ -41,9 +41,9 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
     $absolute_url_parts = parse_url($absolute_url);
     $code_url_parts = parse_url($code_url);
     if (!$allow_external && !(
-        ($absolute_url_parts["scheme"] == $code_url_parts["scheme"]) &&
-        ($absolute_url_parts["host"] == $code_url_parts["host"]) &&
-        (($absolute_url_parts["port"] ?? "") == ($code_url_parts["port"] ?? ""))
+        ($absolute_url_parts["scheme"] ?? null) === ($code_url_parts["scheme"] ?? null) &&
+        ($absolute_url_parts["host"] ?? null) === ($code_url_parts["host"] ?? null) &&
+        ($absolute_url_parts["port"] ?? null) === ($code_url_parts["port"] ?? null)
     )) {
         $absolute_url = "$code_url/index.php";
     }
