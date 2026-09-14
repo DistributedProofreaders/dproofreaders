@@ -322,7 +322,7 @@ function sql_collator_for_project_state(string $state_column): string
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-/** @return string[] */
+/** @return ('posted'|'PPd'|'proofed'|'created')[] */
 function get_project_status_descriptors(): array
 {
     return ['posted', 'PPd', 'proofed', 'created'];
