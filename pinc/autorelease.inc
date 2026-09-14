@@ -47,7 +47,33 @@ function attempt_to_release(Round $round, array $project, string $queue_name): b
 }
 
 
-
+class QueueDefn
+{
+    public readonly string $cooked_project_selector;
+    /**
+     * @param $name
+     *     A human-readable name for this queue.
+     *
+     * $param $project_selector
+     *     An SQL condition that defines the kind of project
+     *     that can be released by this queue.
+     *
+     * @param $projects_target
+     * @param $pages_target
+     *     Integers that specify the circumstances under which
+     *     this queue can release a project.
+     *
+     * For more details, see SETUP/site_admin_notes.txt under "Defining queues".
+     */
+    public function __construct(
+        public readonly string $name,
+        public readonly string $project_selector,
+        public readonly int $projects_target,
+        public readonly int $pages_target,
+    ) {
+        $this->cooked_project_selector = cook_project_selector($project_selector);
+    }
+}
 
 function autorelease_for_round(Round $round): void
 {
@@ -109,22 +135,13 @@ function autorelease_for_round(Round $round): void
     );
     $q_res = DPDatabase::query($sql);
 
-    while ($qd = mysqli_fetch_object($q_res)) {
-        // $qd->name
-        //     A human-readable name for this queue.
-        //
-        // $qd->project_selector
-        //     An SQL condition that defines the kind of project
-        //     that can be released by this queue.
-        //
-        // $qd->projects_target
-        // $qd->pages_target
-        //     Integers that specify the circumstances under which
-        //     this queue can release a project.
-        //
-        // For more details, see SETUP/site_admin_notes.txt under "Defining queues".
-
-        $qd->cooked_project_selector = cook_project_selector($qd->project_selector);
+    while ($row = mysqli_fetch_assoc($q_res)) {
+        $qd = new QueueDefn(
+            (string) $row['name'],
+            (string) $row['project_selector'],
+            (int) $row['projects_target'],
+            (int) $row['pages_target']
+        );
 
         // Release available projects of a given type (defined by $qd->project_selector)
         // as long as the condition implied by the targets is true for projects of that type.
@@ -220,7 +237,7 @@ class NumProjects
 }
 function maybe_release_projects(
     Round $round,
-    ?Object $qd,
+    ?QueueDefn $qd,
     bool $observe_release_restrictions,
     bool $release_at_most_one
 ): NumProjects {
