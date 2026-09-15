@@ -82,7 +82,7 @@ function get_rounds_to_display(Project $project): array
  * @param ?Round $work_round
  *   Round to limit a user's pages -- must be used with $page_selector set
  *   to a username.
- * @param ?string[] $only_rounds
+ * @param ?('OCR'|Round)[] $only_rounds
  *   Only return page details for a specific round, possible values are:
  *   * null - all rounds with data are returned
  *   * array of round objects and/or "OCR" - only these rounds are returned
@@ -101,6 +101,8 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
         $rounds_to_display = get_rounds_to_display($project);
         $include_ocr = true;
     } else {
+        /** @var Round[] $rounds_to_display */
+        // Remove the magic "OCR" value, leaving only Round objects
         $rounds_to_display = array_unique(array_diff($only_rounds, ["OCR"]));
         $include_ocr = in_array("OCR", $only_rounds);
     }
