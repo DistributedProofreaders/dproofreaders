@@ -1746,7 +1746,13 @@ class Project
     public function has_entered_formatting_round(): bool
     {
         $project_states = ProjectStates::get_states();
-        $completed_states = array_slice($project_states, 0, array_search($this->state, $project_states) + 1);
+        $idx = list_search($this->state, $project_states);
+        if ($idx === false) {
+            // If we're not in one of the valid project states,
+            // we're definitely not formatting.
+            return false;
+        }
+        $completed_states = array_slice($project_states, 0, $idx + 1);
         foreach (array_reverse($completed_states) as $state) {
             $round = get_Round_for_project_state($state);
             if ($round && is_formatting_round($round)) {
