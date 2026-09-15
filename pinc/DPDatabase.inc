@@ -123,10 +123,9 @@ final class DPDatabase
     {
         // Log the SQL error to the PHP error log and return a generic error
         // for display to the user
-        $backtrace = debug_backtrace();
-        $caller = $backtrace[$backtrace_level]['file'] . ":" . $backtrace[$backtrace_level]['line'];
+        $from_caller = get_backtrace_loc($backtrace_level + 1);
         $error = str_replace("\n", "\\n", mysqli_error(DPDatabase::get_connection()));
-        error_log("DPDatabase.inc - log_error from $caller: $error");
+        error_log("DPDatabase.inc - log_error $from_caller: $error");
         return _("An error occurred during a database query and has been logged.");
     }
 
@@ -196,13 +195,11 @@ final class DPDatabase
         }
 
         try {
-            $backtrace = debug_backtrace();
-            $caller = $backtrace[1]['file'] . ":" . $backtrace[1]['line'];
 
             $message = sprintf(
                 "%s %s %s\n",
                 date("c"),
-                $caller,
+                get_backtrace_loc(depth: 2),
                 preg_replace("/\s+/", " ", $sql)
             );
             $fp = fopen(DPDatabase::$tracing_log, 'a');

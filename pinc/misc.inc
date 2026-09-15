@@ -1664,6 +1664,26 @@ function validate_csrf_token(): void
     }
 }
 
+/**
+ *  @param int $depth
+ *     How deep in the call stack to get the location. 0 is the caller
+ *     of `get_backtrace_loc`, 1 is the caller of that function, etc
+ *  @return string
+ *     Returns a trace location like "in foo.php on line 742"
+ *     Omits the file name or linenumber clauses if they can't be found
+ */
+function get_backtrace_loc(int $depth = 1): string
+{
+    $trace = debug_backtrace();
+    $loc = [];
+    if (($file = $trace[$depth]["file"] ?? "")) {
+        $loc[] = "in $file";
+    }
+    if (($line = $trace[$depth]["line"] ?? "")) {
+        $loc[] = "on line $line";
+    }
+    return join(" ", $loc);
+}
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
