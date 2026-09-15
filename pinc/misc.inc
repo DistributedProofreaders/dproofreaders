@@ -295,9 +295,11 @@ function get_float_param(array $arr, string $key, ?float $default = null, ?float
  * This is the parent function of `get_integer_param()` and `get_float_param()`,
  * use those versions instead.
  *
+ * @param 'float'|'integer' $type
  * @param array<string, mixed> $arr
  *
- * @return ($allownull is true ? int|float|null : int|float)
+ * @return ($allownull is true ? ($type is 'integer' ? ?int : ?float)
+ *                             : ($type is 'integer' ? int  : float))
  *
  * @throws InvalidArgumentException
  *
