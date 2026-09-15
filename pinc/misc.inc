@@ -1163,7 +1163,9 @@ function list_files_in_zip(string $file_path): array
     $files = [];
 
     for ($i = 0; $i < $zip->numFiles; $i++) {
-        $files[] = $zip->getNameIndex($i);
+        if (($file = $zip->getNameIndex($i)) !== false) {
+            $files[] = $file;
+        }
     }
 
     return $files;
@@ -1224,7 +1226,9 @@ function remove_common_basedir_from_zip(string $path_to_zip): void
     $filenames = [];
     $last_index = $zip->numFiles - 1;
     for ($i = 0; $i <= $last_index; $i++) {
-        $filenames[] = $zip->getNameIndex($i);
+        if (($filename = $zip->getNameIndex($i)) !== false) {
+            $filenames[] = $filename;
+        }
     }
 
     sort($filenames);
