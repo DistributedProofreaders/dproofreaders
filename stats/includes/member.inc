@@ -524,7 +524,7 @@ function showMbrNeighbors(User $user, string $tally_name): void
             $day_html = "--/--/-- <i>(" . sprintf(_("%s days"), '---') .")</i>";
         }
         $t->row(
-            $rank,
+            (string) $rank,
             $username_html,
             $day_html,
             $pagescompleted

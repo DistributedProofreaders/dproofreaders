@@ -75,43 +75,37 @@ class ThemedTable
      *
      * If you don't call this method, <td> tags will be output without a 'width' attribute.
      */
-    public function set_column_widths(): void
+    public function set_column_widths(int ...$widths): void
     {
         // There should be an arg (width) for each column.
-        assert(func_num_args() == $this->n_cols);
-        $this->column_widths = func_get_args();
+        assert(count($widths) == $this->n_cols);
+        $this->column_widths = $widths;
 
         // They should add up to 100.
         assert(array_sum($this->column_widths) == 100);
     }
 
-    public function set_column_alignments(): void
+    public function set_column_alignments(string ...$alignments): void
     {
-        assert(func_num_args() == $this->n_cols);
-        $this->column_alignments = func_get_args();
+        assert(count($alignments) == $this->n_cols);
+        $this->column_alignments = $alignments;
 
         // Should check that they're sensible.
     }
 
-    public function column_headers(): void
+    public function column_headers(?string ...$headers): void
     {
-        $args = func_get_args();
-        $this->_row($args, true);
+        $this->_row($headers, true);
     }
 
-    public function row(): void
+    public function row(?string ...$headers): void
     {
-        $args = func_get_args();
-        $this->_row($args, false);
+        $this->_row($headers, false);
     }
 
-    /** @param string[]|string[][] $cell_texts */
-    public function _row(array $cell_texts, bool $is_header): void
+    /** @param (?string)[] $cell_texts */
+    private function _row(array $cell_texts, bool $is_header): void
     {
-        if ($this->n_cols > 1 && count($cell_texts) == 1 && is_array($cell_texts[0])) {
-            $cell_texts = $cell_texts[0];
-        }
-
         // There should be an arg (cell content) for each column.
         assert(count($cell_texts) == $this->n_cols);
 
