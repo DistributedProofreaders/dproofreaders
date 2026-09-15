@@ -166,9 +166,8 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
     $tables = $project->projectid;
     foreach ($rounds_to_display as $round) {
         $rn = $round->round_number;
-
         // find the previous round with data to use as the diff column
-        $rounds_with_data_index = array_search($round, $rounds_with_data);
+        $rounds_with_data_index = list_search($round, $rounds_with_data);
         if ($rounds_with_data_index === 0 || $rn == 1) {
             $prev_text_column_name = 'master_text';
         } elseif ($rounds_with_data_index === false) {
