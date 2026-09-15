@@ -1336,7 +1336,7 @@ class Project
         // TODO: This function would be better in a ProjectPage object, but we
         // don't have one of those.
         $image_path = realpath("{$this->dir}/$image");
-        if (file_exists($image_path)) {
+        if ($image_path !== false && file_exists($image_path)) {
             return filesize($image_path);
         } else {
             return null;
@@ -1803,7 +1803,9 @@ class Project
     private function delete_file(string $path): void
     {
         // ensure $path is inside $this->dir
-        if (!str_starts_with(realpath($path), realpath($this->dir))) {
+        $real_path = realpath($path);
+        $real_dir = realpath($this->dir);
+        if ($real_path === false || $real_dir === false || !str_starts_with($real_path, $real_dir)) {
             throw new UnexpectedValueException("$path is not in $this->dir");
         }
         if (is_dir($path)) {

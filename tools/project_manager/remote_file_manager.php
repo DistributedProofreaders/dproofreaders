@@ -754,7 +754,9 @@ function canonicalize_path(string $relpath): ?string
 function get_current_dir_relative_path(string $home_dirname): string
 {
     global $uploads_dir, $commons_rel_dir;
-    $abs_uploads_dir = realpath($uploads_dir);
+    if (($abs_uploads_dir = realpath($uploads_dir)) === false) {
+        fatal_error(_("Could not find absolute path for uploads dir"));
+    }
 
     // Default to home dir if the invocation didn't set cdrp.
     $cdrp = $_REQUEST['cdrp'] ?? $home_dirname;
@@ -766,8 +768,7 @@ function get_current_dir_relative_path(string $home_dirname): string
     // information about what files/directories exist on the system.
     $error_message = sprintf(_("'%s' does not exist, or is not a folder"), html_safe($cdrp));
 
-    $abspath = realpath("$abs_uploads_dir/$cdrp");
-    if ($abspath === false) {
+    if (($abspath = realpath("$abs_uploads_dir/$cdrp")) === false) {
         // (It's possible a user could get this without URL-tweaking,
         // if they deleted a directory but still had an old directory listing
         // in another browser window.)

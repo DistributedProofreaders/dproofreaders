@@ -9,7 +9,7 @@ class CleanUploadsTrash extends BackgroundJob
     public function work(): void
     {
         $trash_dir = realpath(SiteConfig::get()->uploads_dir . "/" . SiteConfig::get()->uploads_subdir_trash);
-        if (! is_dir($trash_dir)) {
+        if ($trash_dir === false || !is_dir($trash_dir)) {
             $this->stop_message = "No trash directory found, nothing to do.";
             return;
         }
