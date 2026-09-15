@@ -1579,9 +1579,11 @@ function require_localhost_request(bool $deny_cli = false): void
 function is_url_for_current_page(string $url): bool
 {
     $url_components = parse_url($url);
-
+    if ($url_components == false) {
+        return false;
+    }
     // first check the path
-    if (@$url_components['path'] != $_SERVER['SCRIPT_NAME']) {
+    if (($url_components['path'] ?? null) != $_SERVER['SCRIPT_NAME']) {
         return false;
     }
 
