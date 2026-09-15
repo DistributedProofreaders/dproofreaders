@@ -4,10 +4,8 @@ use voku\helper\UTF8;
 
 /**
  * Normalize UTF-8 strings to NFC
- *
- * @return string|false
  */
-function utf8_normalize(string $string): string|bool
+function utf8_normalize(string $string): string|false
 {
     $normalizer = new Normalizer();
     return $normalizer->normalize($string);
