@@ -668,7 +668,7 @@ function process_sorting_control(
     ];
 
     foreach ($ext_sort_providers as $ext_sort_provider) {
-        if ($ext_sort_provider == 'ABORT') {
+        if ($ext_sort_provider === 'ABORT') {
             echo "\n<p>";
             echo _("system error: the fallback default failed!");
             echo "</p>";
