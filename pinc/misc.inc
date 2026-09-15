@@ -1514,10 +1514,10 @@ function memoize_function(callable $function, array $args = [], int $expiration 
 
     $key = hash("sha256", $function . serialize($args) . $key_salt);
 
-    // if the key exists, just return the data uncompressed
-    $data = $memcache->get($key);
-    if ($data !== false) {
-        return unserialize(gzuncompress($data));
+    // if the key exists, and the data decompresses cleanly, return it
+    if (($data = $memcache->get($key)) !== false &&
+        ($uncompressed = gzuncompress($data)) !== false) {
+        return unserialize($uncompressed);
     }
 
     // if not, call the function to return the data
