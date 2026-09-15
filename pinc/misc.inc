@@ -1665,6 +1665,22 @@ function validate_csrf_token(): void
 }
 
 
+/**
+ * When calling `array_search` with a list, the key for a matching value is
+ * always an integer -- it's the index of the value.
+ * PHPStan dosen't know this because of `array_search`'s type signature, so
+ * this wrapper function lets us tell PHPStan that list keys are integers
+ * by squashing the impossible non-integral `$key` result to `false`.
+ * @template T
+ * @param T $needle
+ * @param T[] $haystack
+ */
+function list_search(mixed $needle, array $haystack): int|false
+{
+    $key = array_search($needle, $haystack, strict: true);
+    return is_int($key) ? $key : false;
+}
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Useful exceptions
