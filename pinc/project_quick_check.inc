@@ -643,23 +643,38 @@ function tds_for_invalid_chars(string $raw): string
 
 function _test_project_for_word_lists(string $projectid): PQCResult
 {
-    $num_good_words = count(load_project_good_words($projectid));
-    $num_bad_words = count(load_project_bad_words($projectid));
+    $good_words = load_project_good_words($projectid);
+    $bad_words = load_project_bad_words($projectid);
 
     $test_name = _("Good/Bad Wordlists");
     $test_desc = _("This test checks if the project good and bad word lists are populated.");
 
-    $details = "<p><ul>";
-    $details .= "<li>" . _("Number of good words") . ": $num_good_words</li>";
-    $details .= "<li>" . _("Number of bad words") . ": $num_bad_words</li>";
-    $details .= "</ul></p>";
-
-    if ($num_good_words || $num_bad_words) {
-        $status = _("Success");
-        $summary = _("At least one of the good and bad word lists have entries.");
+    if (is_string($good_words) || is_string($bad_words)) {
+        $details = "<p><ul>";
+        if (is_string($good_words)) {
+            $details .= "<li>" . _("Error loading good words") . ": $good_words</li>";
+        }
+        if (is_string($bad_words)) {
+            $details .= "<li>" . _("Error loading bad words") . ": $bad_words</li>";
+        }
+        $details .= "</ul></p>";
+        $summary = _("Error loading word lists.");
+        $status = _("Error");
     } else {
-        $status = _("Warning");
-        $summary = _("Both of the word lists are empty.");
+        $num_good_words = count($good_words);
+        $num_bad_words = count($bad_words);
+        $details = "<p><ul>";
+        $details .= "<li>" . _("Number of good words") . ": $num_good_words</li>";
+        $details .= "<li>" . _("Number of bad words") . ": $num_bad_words</li>";
+        $details .= "</ul></p>";
+
+        if ($num_good_words || $num_bad_words) {
+            $status = _("Success");
+            $summary = _("At least one of the good and bad word lists have entries.");
+        } else {
+            $status = _("Warning");
+            $summary = _("Both of the word lists are empty.");
+        }
     }
 
     return new PQCResult($test_name, $test_desc, $status, $summary, $details);
