@@ -1049,25 +1049,35 @@ function flatten_directory(string $directory_to_flatten): void
     $iterator = new RecursiveDirectoryIterator($directory_to_flatten, RecursiveDirectoryIterator::SKIP_DOTS);
     $files = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
 
+    // Note that this directory tree walk and rename/remove is decidedly
+    // non-atomic, and all sorts of things could happen in the background
+    // causing any of the FS operations or path building operations to fail,
+    // including another process removing or changing permissions on the
+    // containing directory, or the process running out of memory.
+    // There's no sane recovery mechanism in those cases, so just fail loudly
+    // so the sysadmin (sorry!) can see something has happened and can pick
+    // up the pieces.
     foreach ($files as $file) {
+        if (($real_path = $file->getRealPath()) === false) {
+            throw new RuntimeException(sprintf(
+                _("Failed to get absolute path for '%s'."),
+                $file
+            ));
+        }
         if ($file->isDir()) {
-            $result = rmdir($file->getRealPath());
-
-            if (!$result) {
+            if (!rmdir($real_path)) {
                 throw new RuntimeException(sprintf(
                     _("Could not remove directory '%1\$s' while flattening '%2\$s'."),
-                    $file->getRealPath(),
+                    $real_path,
                     $directory_to_flatten
                 ));
             }
         } else {
             $new_name = $directory_to_flatten . '/' . $file->getFilename();
-            $result = rename($file->getRealPath(), $new_name);
-
-            if (!$result) {
+            if (!rename($real_path, $new_name)) {
                 throw new RuntimeException(sprintf(
                     _("Could not move file '%1\$s' to '%2\$s' while flattening '%3\$s'."),
-                    $file->getRealPath(),
+                    $real_path,
                     $new_name,
                     $directory_to_flatten
                 ));

@@ -9,7 +9,7 @@ class CleanDownloadTemp extends BackgroundJob
     public function work(): void
     {
         $download_temp_dir = realpath(SiteConfig::get()->dyn_dir . "/download_tmp");
-        if (! is_dir($download_temp_dir)) {
+        if ($download_temp_dir === false || !is_dir($download_temp_dir)) {
             $this->stop_message = "No download temp directory found, nothing to do.";
             return;
         }
