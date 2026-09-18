@@ -29,6 +29,16 @@ $PAGE_START_TIME = microtime(true);
 
 require_once $relPath.'SiteConfig.inc';
 
+// Load the session libraries, but allow base.inc and api/index.php to do
+// the start/resume.
+include_once($relPath.'dpsession.inc');
+
+// Do a fast check on if the user could possibly be logged in based on if
+// they have a session cookie -- if not and login is required, fast-fail.
+if ($require_login && !dpsession_is_cookie_set()) {
+    require_login_redirect();
+}
+
 // Register autoloader
 spl_autoload_register('dp_class_autoloader');
 
@@ -59,10 +69,6 @@ if (!defined('SKIP_DB_CONNECT')) {
         }
     }
 }
-
-// Load the session libraries, but allow base.inc and api/index.php to do
-// the start/resume.
-include_once($relPath.'dpsession.inc');
 
 // Include misc.inc which contains useful functions that almost 90% of
 // the pages use in some way.
@@ -99,4 +105,19 @@ function dp_setcookie(string $name, string $value = "", int $expires = 0, $optio
 
     $options = array_merge($defaults, $options);
     return setcookie($name, $value, $options);
+}
+
+function require_login_redirect(): void
+{
+    global $relPath;
+
+    include_once($relPath.'metarefresh.inc');
+
+    // Remember the current REQUEST_URI, so that we can send the user there
+    // after the login process.
+    // (urlencode it because it might contain characters [specifically, &]
+    // that would confuse parsing of the login.php URL.)
+    $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
+    $url = SiteConfig::get()->code_url . "/accounts/require_login.php?destination=$request_uri_encoded";
+    metarefresh(0, $url);
 }
