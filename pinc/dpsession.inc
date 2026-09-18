@@ -86,6 +86,15 @@ function dpsession_end(): void
     session_destroy();
 }
 
+/**
+ * Return true if the session cookie has been sent in the request, else false.
+ */
+function dpsession_is_cookie_set(): bool
+{
+    $name = ini_get('session.name');
+    return isset($_COOKIE[$name]);
+}
+
 // -----------------------------------------------------------------------------
 // User-centric session management functions
 
