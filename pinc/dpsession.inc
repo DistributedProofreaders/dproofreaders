@@ -82,6 +82,11 @@ function dpsession_resume(): void
  */
 function dpsession_end(): void
 {
+    // delete the cookie
+    if (dpsession_is_cookie_set()) {
+        dp_setcookie(ini_get('session.name'), "", 0);
+    }
+
     session_unset();
     session_destroy();
 }
