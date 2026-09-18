@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 
-require_login();
-
 // Very basic display of the 'recent' news stories for the given news page
 //
 // Sorts the news by their id's and then prints one by one.

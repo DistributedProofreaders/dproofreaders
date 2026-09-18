@@ -8,8 +8,6 @@ include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 // It is difficult to test otherwise because it requires test-text in two
 // different rounds.
 
-require_login();
-
 $L_input = $_POST["Ltex"] ?? "";
 $R_input = $_POST["Rtex"] ?? "";
 $unwrap = isset($_POST['Unwrap']); // can only be 'on'

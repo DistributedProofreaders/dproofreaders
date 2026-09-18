@@ -12,8 +12,6 @@ include_once($relPath.'ProjectSearchResults.inc');
 include_once($relPath.'site_news.inc');
 include_once('projectmgr.inc'); // echo_manager_links();
 
-require_login();
-
 $user = User::load_current();
 $user_settings = Settings::get_Settings($user->username);
 $default_view = $user_settings->get_value("pm_view", "user_all");

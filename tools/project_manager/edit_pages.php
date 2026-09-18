@@ -7,8 +7,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'page_table.inc');
 include_once('page_operations.inc');
 
-require_login();
-
 $projectid = get_projectID_param($_REQUEST, 'projectid');
 $operation = get_enumerated_param($_REQUEST, 'operation', null, ['clear', 'delete']);
 $selected_pages = @$_REQUEST['selected_pages'];

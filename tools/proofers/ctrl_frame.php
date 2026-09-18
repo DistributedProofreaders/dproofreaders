@@ -1,4 +1,6 @@
 <?php
+$require_login = false;
+
 $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');

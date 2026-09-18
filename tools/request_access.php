@@ -6,8 +6,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'User.inc');
 
-require_login();
-
 
 $stage_id = @$_GET['stage_id'];
 if (empty($stage_id)) {

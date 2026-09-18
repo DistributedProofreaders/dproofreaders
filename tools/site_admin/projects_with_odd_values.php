@@ -7,8 +7,6 @@ include_once($relPath.'genres.inc'); // load_genre_translation_array()
 include_once($relPath.'Project.inc'); // get_project_difficulties()
 include_once($relPath.'user_is.inc');
 
-require_login();
-
 if (!user_is_a_sitemanager() && !user_is_proj_facilitator()) {
     die(_("You are not authorized to access this page."));
 }

@@ -1,4 +1,6 @@
 <?php
+$require_login = false;
+
 $relPath = "../pinc/";
 include_once($relPath.'bootstrap.inc');
 include_once($relPath.'site_structure.inc');

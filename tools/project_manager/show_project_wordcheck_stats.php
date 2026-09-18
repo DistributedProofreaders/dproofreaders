@@ -9,8 +9,6 @@ include_once($relPath.'graph_data.inc');
 include_once($relPath.'post_files.inc');
 include_once("./word_freq_table.inc");
 
-require_login();
-
 set_time_limit(0); // no time limit
 
 $projectid = get_projectID_param($_GET, 'projectid');

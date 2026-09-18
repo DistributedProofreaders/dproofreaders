@@ -9,8 +9,6 @@ include_once('./word_freq_table.inc');
 
 use Symfony\Component\Process\Process;
 
-require_login();
-
 set_time_limit(0); // no time limit
 
 $projectid = get_projectID_param($_REQUEST, 'projectid');

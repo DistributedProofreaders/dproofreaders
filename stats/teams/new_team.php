@@ -6,8 +6,6 @@ include_once($relPath.'pophelp.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc'); // showEdit()
 
-require_login();
-
 $user = User::load_current();
 
 $theme_extra_args = [

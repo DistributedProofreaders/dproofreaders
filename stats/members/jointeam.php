@@ -5,8 +5,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'theme.inc');
 include_once('../includes/team.inc');
 
-require_login();
-
 $otid = get_integer_param($_GET, 'otid', 0, 0, null);
 $tid = get_integer_param($_GET, 'tid', null, 0, null);
 

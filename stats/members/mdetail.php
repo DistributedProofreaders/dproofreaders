@@ -9,8 +9,6 @@ include_once($relPath.'graph_data.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
-require_login();
-
 $id = get_integer_param($_GET, 'id', null, 0, null, true);
 if ($id === null) {
     $user = User::load_current();

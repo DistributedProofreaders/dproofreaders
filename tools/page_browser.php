@@ -5,8 +5,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'user_is.inc'); // user_can_mentor_in_any_round()
 include_once($relPath.'page_controls.inc'); // get_page_data_js()
 
-require_login();
-
 $title = _("Browse pages");
 $mentorMode = user_can_mentor_in_any_round() ? "true" : "false";
 

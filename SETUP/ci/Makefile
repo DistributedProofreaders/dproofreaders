@@ -13,7 +13,6 @@ lockfile_checks:
 # Security checks
 security_checks:
 	$(SELF_DIR)check_security.php
-	$(SELF_DIR)check_require_login.php
 
 #----------------------------------------------------------------------------
 # Best Practice checks

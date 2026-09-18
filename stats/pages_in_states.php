@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'graph_data.inc');
 include_once($relPath.'slim_header.inc');
 
-require_login();
-
 $width = 800;
 $height = 500;
 

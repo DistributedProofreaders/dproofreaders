@@ -6,8 +6,6 @@ include_once($relPath.'ThemedTable.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'graph_data.inc');
 
-require_login();
-
 $title = _("Statistics Central");
 
 $cumulative_total_proj_summary_graph_data = query_graph_cache("cumulative_total_proj_summary_graph");

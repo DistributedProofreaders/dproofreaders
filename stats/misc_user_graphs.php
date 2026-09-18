@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'graph_data.inc');
 
-require_login();
-
 $title = _("Miscellaneous User Graphs");
 $graphs = [
     ["barLineGraph", "average_hour_users_logging_on", average_hour_users_logging_on()],

@@ -3,8 +3,6 @@ $relPath = './../../pinc/';
 include_once($relPath."base.inc");
 include_once($relPath."slim_header.inc");
 
-require_login();
-
 slim_header(_("Search/Replace"), [
     "js_files" => [
         "$code_url/tools/proofers/srchrep.js",

@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
 
-require_login();
-
 $tid = get_integer_param($_GET, 'tid', null, 0, null);
 
 $user = User::load_current();

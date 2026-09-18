@@ -12,8 +12,6 @@ include_once($relPath.'forum_interface.inc'); // get_forum_user_details(), get_u
 include_once($relPath.'User.inc');
 include_once($relPath.'Project.inc');
 
-require_login();
-
 // The url the user viewed immediately before coming to the preferences.
 // Not all browsers provide this, though.
 // If the user came to userprefs.php by entering the URL manually,

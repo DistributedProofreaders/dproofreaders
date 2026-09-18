@@ -6,8 +6,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'links.inc');
 
-require_login();
-
 // check to see if the user is authorized to be here
 if (!(user_is_a_sitemanager())) {
     die(_("You are not authorized to invoke this script."));

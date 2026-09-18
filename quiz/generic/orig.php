@@ -3,8 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'slim_header.inc');
 
-require_login();
-
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
 include './quiz_page.inc'; // qp_page_image_path

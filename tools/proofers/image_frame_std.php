@@ -6,8 +6,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'abort.inc');
 include_once('PPage.inc');
 
-require_login();
-
 try {
     $ppage = get_requested_PPage($_GET);
 } catch (ProjectException | ProjectPageException $exception) {

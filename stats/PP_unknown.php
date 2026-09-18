@@ -3,8 +3,6 @@ $relPath = "../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 $title = _("Post-Processing Mysteries");
 output_header($title);
 

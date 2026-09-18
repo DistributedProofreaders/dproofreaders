@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath."faq.inc");
 
-require_login();
-
 output_header(_('Ligatures Proofreading Tutorial'));
 
 echo "<h2>" . sprintf(_("Ligatures Proofreading Tutorial, page %d"), 1) . "</h2>\n";

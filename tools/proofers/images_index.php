@@ -7,8 +7,6 @@ include_once($relPath.'links.inc');
 
 use Symfony\Component\Process\Process;
 
-require_login();
-
 $projectid = get_projectID_param($_GET, 'project');
 
 $zip_type = get_enumerated_param($_GET, 'zip_type', null, ['pages', 'illos'], true);

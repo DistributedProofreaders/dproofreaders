@@ -8,8 +8,6 @@ include_once($relPath.'forum_interface.inc');
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
-require_login();
-
 $order = get_enumerated_param(
     $_GET,
     'order',

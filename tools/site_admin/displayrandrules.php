@@ -7,8 +7,6 @@ include_once($relPath.'theme.inc');
 $document = get_enumerated_param($_GET, "document", key(RandomRule::$document_values), array_keys(RandomRule::$document_values));
 $langcode = strtolower($_GET["langcode"] ?? "en");
 
-require_login();
-
 $title = _("Random Rules");
 output_header($title, NO_STATSBAR);
 

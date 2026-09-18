@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 $title = _("WordCheck Site Data");
 output_header($title, NO_STATSBAR);
 
