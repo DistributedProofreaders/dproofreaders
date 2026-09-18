@@ -21,8 +21,6 @@ $commons_dir = "$uploads_dir/$commons_rel_dir";
 $users_rel_dir = SiteConfig::get()->uploads_subdir_users;
 $users_dir = "$uploads_dir/$users_rel_dir";
 
-require_login();
-
 // The model we want users to have while interacting with this script is that,
 // at any given time, they are "in" a particular directory (folder) within
 // $uploads_dir.

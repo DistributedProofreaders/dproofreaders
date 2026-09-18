@@ -6,8 +6,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'graph_data.inc');
 include_once('../includes/team.inc'); // showTeamInformation()
 
-require_login();
-
 // tally_name may be empty/unspecified, or a round name.
 $valid_tally_names = array_keys(get_page_tally_names());
 $tally_name = get_enumerated_param($_GET, 'tally_name', null, $valid_tally_names, true);

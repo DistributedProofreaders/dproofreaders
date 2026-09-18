@@ -13,8 +13,6 @@ include_once($relPath.'links.inc');
 header_remove("Expires");
 header_remove("Cache-Control");
 
-require_login();
-
 // -------------------------------------
 
 $page_title = _('Post-Processing Verification Reporting');

@@ -8,8 +8,6 @@ include_once($relPath.'User.inc');
 include_once($relPath.'email_address.inc');
 include_once('sa_common.inc');
 
-require_login();
-
 if (!user_is_a_sitemanager()) {
     die(_("You are not authorized to invoke this script."));
 }

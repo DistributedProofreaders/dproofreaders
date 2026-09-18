@@ -8,8 +8,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'post_files.inc'); // page_info_query()
 include_once("./word_freq_table.inc"); // enforce_edit_authorization(), decode_word()
 
-require_login();
-
 define("MAX_WORD_INSTANCES", 100);
 
 set_time_limit(0); // no time limit

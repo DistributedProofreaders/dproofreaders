@@ -12,8 +12,6 @@ include_once($relPath.'mentoring.inc');
 include_once($relPath.'page_tally.inc');
 include_once($relPath.'faq.inc');
 
-require_login();
-
 $round = get_round_param($_GET, 'round_id');
 $round_id = $round->id;
 $header_args = ["js_files" => ["$code_url/scripts/filter_project.js"]];

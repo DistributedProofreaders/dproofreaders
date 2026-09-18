@@ -9,8 +9,6 @@ include_once($relPath.'faq.inc');
 
 use Symfony\Component\Process\Process;
 
-require_login();
-
 $translate_url = "$code_url/locale/translators/index.php";
 $dyn_locales_dir = SiteConfig::get()->dyn_locales_dir;
 

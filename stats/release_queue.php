@@ -6,8 +6,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'release_queue.inc');
 
-require_login();
-
 $listing_view_modes = [
     "populated" => [
         "label" => _("Enabled & populated queues"),

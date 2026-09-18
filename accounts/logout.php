@@ -1,4 +1,6 @@
 <?php
+$require_login = false;
+
 //clear cookie if one is already set
 $relPath = './../pinc/';
 include_once($relPath.'base.inc');

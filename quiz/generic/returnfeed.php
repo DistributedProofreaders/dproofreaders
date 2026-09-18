@@ -3,8 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once('../small_theme.inc'); // output_small_header
 
-require_login();
-
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 $text = $_POST['text_data'] ?? '';
 

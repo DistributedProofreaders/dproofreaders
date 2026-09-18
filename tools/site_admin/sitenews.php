@@ -5,8 +5,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'site_news.inc');
 
-require_login();
-
 if (!(user_is_a_sitemanager() or user_is_site_news_editor())) {
     die(_("You are not authorized to invoke this script."));
 }

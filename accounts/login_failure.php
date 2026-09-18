@@ -9,6 +9,8 @@ The authentication and user-presentation functions were split out to further
 minimize possible code collisions between the DP code and the phpBB code.
 */
 
+$require_login = false;
+
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');

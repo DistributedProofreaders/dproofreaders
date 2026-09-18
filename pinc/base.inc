@@ -45,6 +45,12 @@ if (DPDatabase::get_connection()) {
     dpsession_resume();
 }
 
+// We have to wait until here to do the full login check because we need
+// to resume the session if one exists.
+if ($require_login) {
+    require_login();
+}
+
 configure_gettext(get_desired_language());
 
 // Load the site structure. We do this here and not in bootstrap.inc because

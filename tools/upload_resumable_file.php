@@ -2,8 +2,6 @@
 $relPath = "../pinc/";
 include_once($relPath.'base.inc');
 
-require_login();
-
 // This is used for asynchronous uploads via JS -- nothing
 // printed here will ever be exposed to the user.
 

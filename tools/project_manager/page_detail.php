@@ -5,8 +5,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'page_table.inc');
 
-require_login();
-
 $errors = [];
 
 $projectid = get_projectID_param($_GET, 'project');

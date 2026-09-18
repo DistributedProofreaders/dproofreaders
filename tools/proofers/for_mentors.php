@@ -8,8 +8,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'mentoring.inc');
 include_once($relPath.'LPage.inc');
 
-require_login();
-
 // Display page header.
 $title = _("For Mentors");
 output_header($title, SHOW_STATSBAR);

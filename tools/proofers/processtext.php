@@ -10,8 +10,6 @@ include_once('proof_frame.inc');
 include_once('text_frame_std.inc');
 include_once('spellcheck_text.inc');
 
-require_login();
-
 /*
 $_POST:
     $projectid, $proj_state,

@@ -5,8 +5,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'User.inc');
 
-require_login();
-
 $username = $pguser;
 if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
     $username = $_GET['username'] ?? $pguser;

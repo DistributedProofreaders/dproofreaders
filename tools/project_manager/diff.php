@@ -8,8 +8,6 @@ include_once($relPath."DifferenceEngineWrapperTable.inc");
 include_once($relPath."DifferenceEngineWrapperBB.inc");
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
-require_login();
-
 $projectid = get_projectID_param($_GET, 'project');
 $image = get_page_image_param($_GET, 'image', true);
 // older code used round numbers, which we keep for backwards compatibility

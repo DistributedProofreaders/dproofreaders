@@ -8,8 +8,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Settings.inc');
 include_once($relPath.'User.inc');
 
-require_login();
-
 $page_url = "$code_url/tools/project_manager/manage_image_sources.php?";
 
 $action = get_enumerated_param(

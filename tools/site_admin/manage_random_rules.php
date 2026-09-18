@@ -3,8 +3,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 // check to see if the user is authorized to be here
 if (!(user_is_a_sitemanager())) {
     die(_("You are not authorized to invoke this script."));

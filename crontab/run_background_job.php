@@ -15,6 +15,8 @@ if (php_sapi_name() != "cli" && function_exists("apache_setenv")) {
     apache_setenv('no-brotli', '1');
 }
 
+$require_login = false;
+
 $relPath = dirname(__FILE__) . "/../pinc/";
 include_once($relPath."base.inc");
 

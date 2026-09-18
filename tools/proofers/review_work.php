@@ -6,8 +6,6 @@ include_once($relPath.'user_is.inc');
 include_once($relPath.'Project.inc'); // does_project_page_table_exist()
 include_once($relPath.'User.inc');
 
-require_login();
-
 define("MESSAGE_INFO", 0);
 define("MESSAGE_WARNING", 1);
 define("MESSAGE_ERROR", 2);

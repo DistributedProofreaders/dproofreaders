@@ -5,8 +5,6 @@ include_once($relPath.'slim_header.inc');
 include_once('faq/pophelp/prefs/prefs_pophelp.inc');
 include_once('faq/pophelp/teams/teams_pophelp.inc');
 
-require_login();
-
 $pophelp = [
     'prefs' => $prefs_pophelp,
     'teams' => $teams_pophelp,

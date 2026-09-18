@@ -16,6 +16,8 @@ Accordingly, this file should pull in only the smallest possible set of DP
 includes needed to provide authentication.
 */
 
+$require_login = false;
+
 $relPath = "./../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'metarefresh.inc');

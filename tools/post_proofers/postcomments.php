@@ -5,8 +5,6 @@ include_once($relPath.'metarefresh.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'project_trans.inc');
 
-require_login();
-
 $projectid = get_projectID_param($_POST, 'projectid');
 $postcomments = @$_POST['postcomments'];
 

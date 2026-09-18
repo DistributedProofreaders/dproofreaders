@@ -8,8 +8,6 @@ include_once($relPath.'forum_interface.inc');
 include_once($relPath.'codepoint_validator.inc');
 include_once($relPath.'page_table.inc');  // page_state_is_a_bad_state()
 
-require_login();
-
 $projectid = get_projectID_param($_REQUEST, 'projectid');
 $image = get_page_image_param($_REQUEST, 'image');
 $modify = $_REQUEST['modify'] ?? '';

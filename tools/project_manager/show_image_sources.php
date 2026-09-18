@@ -8,8 +8,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'pg.inc');
 include_once($relPath.'Project.inc'); // load_image_sources()
 
-require_login();
-
 $which = get_enumerated_param($_GET, 'which', 'DONE', ['ALL', 'DONE', 'INPROG']);
 $imso_code = $_GET['name'] ?? null;
 

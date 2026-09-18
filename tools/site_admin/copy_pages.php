@@ -8,8 +8,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'user_project_info.inc');
 include_once($relPath.'wordcheck_engine.inc');
 
-require_login();
-
 if (!user_is_a_sitemanager()) {
     die(_("You are not authorized to invoke this script."));
 }

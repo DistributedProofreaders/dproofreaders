@@ -3,8 +3,6 @@ $relPath = '../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 $username = $pguser;
 if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
     $username = $_GET['username'] ?? $pguser;

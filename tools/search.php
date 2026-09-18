@@ -8,8 +8,6 @@ include_once($relPath.'gradual.inc'); // maybe_output_new_proofer_message()
 include_once($relPath.'ProjectSearchForm.inc');
 include_once($relPath.'ProjectSearchResults.inc');
 
-require_login();
-
 try {
     $show_view = get_enumerated_param(
         $_GET,

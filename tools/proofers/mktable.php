@@ -4,8 +4,6 @@ include_once($relPath."base.inc");
 
 use voku\helper\UTF8;
 
-require_login();
-
 $charset = "UTF-8";
 header("Content-Type: text/html; charset=$charset");
 

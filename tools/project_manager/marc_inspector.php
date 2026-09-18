@@ -3,8 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 $rec = $_REQUEST['rec'] ?? null;
 if (!$rec) {
     throw new UnexpectedValueException("Unexpected rec `$rec`");
