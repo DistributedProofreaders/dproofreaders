@@ -8,8 +8,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
 
-require_login();
-
 $header_text = _("Smooth Reading Pool");
 
 // Tell RSS feed readers which RSS feed is connected to this page

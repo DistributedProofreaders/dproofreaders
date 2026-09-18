@@ -7,8 +7,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath.'abort.inc'); // provide_escape_links
 
-require_login();
-
 // (This script's functionality overlaps that of handle_bad_page.php.
 // They should perhaps be refactored.)
 

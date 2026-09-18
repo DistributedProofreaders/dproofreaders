@@ -20,8 +20,6 @@ include_once($relPath.'autorelease.inc');
 $one_project = get_projectID_param($_GET, 'project', true);
 $refresh_url = $_GET['return_uri'] ?? 'projectmgr.php';
 
-require_login();
-
 if (!user_is_a_sitemanager() && !user_is_proj_facilitator()) {
     if ($one_project) {
         $project = new Project($one_project);

@@ -10,8 +10,6 @@ include_once($relPath.'links.inc');
 include_once($relPath.'prefs_options.inc');
 include_once($relPath.'image_check.inc');
 
-require_login();
-
 $extra_args = [
     'css_data' => '
         .mono {

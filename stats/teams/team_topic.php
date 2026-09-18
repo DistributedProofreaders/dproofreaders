@@ -4,8 +4,6 @@ $relPath = "./../../pinc/";
 include_once($relPath.'base.inc');
 include_once($relPath.'forum_interface.inc'); // topic_create & get_url_to_view_topic
 
-require_login();
-
 // Which team?
 $team_id = get_integer_param($_GET, 'team', null, 0, null);
 

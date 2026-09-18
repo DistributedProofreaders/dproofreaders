@@ -8,8 +8,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'ProjectTransition.inc');
 include_once($relPath.'project_quick_check.inc'); // needed for gate_on_pqc() callable
 
-require_login();
-
 header("Content-Type: text/html; charset=UTF-8");
 
 // Get Passed parameters to code

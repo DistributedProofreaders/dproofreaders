@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'graph_data.inc');
 
-require_login();
-
 $title = _("User Logon Graphs");
 $graphs = [
     ["barLineGraph", "past_day_preceding_hour", user_logging_on("day", "hour")],

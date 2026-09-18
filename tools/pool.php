@@ -7,8 +7,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'site_news.inc');
 include_once($relPath.'showavailablebooks.inc');
 
-require_login();
-
 $pool_id = get_enumerated_param($_GET, 'pool_id', null, Pools::get_ids());
 
 $pool = get_Pool_for_id($pool_id);

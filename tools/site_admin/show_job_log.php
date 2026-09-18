@@ -10,8 +10,6 @@ $succeeded = get_bool_param($_GET, 'succeeded', null, true);
 
 $start_timestamp = time() - (60 * 60 * 24 * $days_ago);
 
-require_login();
-
 // check to see if the user is authorized to be here
 if (!(user_is_a_sitemanager())) {
     die(_("You are not authorized to invoke this script."));

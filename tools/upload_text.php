@@ -12,8 +12,6 @@ include_once($relPath.'upload_file.inc'); // show_upload_form(), detect_too_larg
 include_once($relPath.'links.inc');
 
 detect_too_large();
-require_login();
-
 $projectid = get_projectID_param($_REQUEST, 'project');
 $valid_stages = ['post_1', 're_post_1', 'in_prog_1', 'return_1', 'in_prog_2', 'return_2', 'smooth_avail', 'smooth_done'];
 $stage = get_enumerated_param($_REQUEST, 'stage', null, $valid_stages, true);

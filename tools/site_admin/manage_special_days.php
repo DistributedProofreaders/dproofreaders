@@ -6,8 +6,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'user_is.inc');
 include_once($relPath.'special_colors.inc');
 
-require_login();
-
 if (!user_is_a_sitemanager()) {
     die(_("You are not authorized to invoke this script."));
 }

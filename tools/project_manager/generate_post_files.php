@@ -5,8 +5,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'post_files.inc');
 
-require_login();
-
 $valid_round_ids = Rounds::get_ids();
 array_unshift($valid_round_ids, '[OCR]');
 

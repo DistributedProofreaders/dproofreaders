@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'dpsql.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 $title = _("Project Manager Statistics");
 output_header($title);
 

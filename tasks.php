@@ -10,8 +10,6 @@ include_once($relPath.'User.inc');
 include_once($relPath.'links.inc'); // private_message_link()
 include_once($relPath.'metarefresh.inc');
 
-require_login();
-
 $tasks_url = SiteConfig::get()->code_url . "/" . basename(__FILE__);
 
 $user = User::load_current();

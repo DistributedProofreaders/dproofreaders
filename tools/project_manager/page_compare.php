@@ -6,8 +6,6 @@ include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 include_once($relPath."PageUnformatter.inc"); // PageUnformatter()
 
-require_login();
-
 $comparator = new Comparator();
 $comparator->render();
 

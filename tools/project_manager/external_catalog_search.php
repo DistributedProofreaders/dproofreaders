@@ -46,8 +46,6 @@ function search_query_params(): string
     return http_build_query($params);
 }
 
-require_login();
-
 $action = get_enumerated_param($_REQUEST, 'action', 'show_query_form', ['show_query_form', 'do_search_and_show_hits']);
 
 if ($action == 'show_query_form') {

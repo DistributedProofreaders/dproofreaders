@@ -5,8 +5,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath."faq.inc");
 include_once('../quiz_defaults.inc'); // $default_*
 
-require_login();
-
 if (!user_is_a_sitemanager()) {
     die(_("You are not authorized to invoke this script."));
 }

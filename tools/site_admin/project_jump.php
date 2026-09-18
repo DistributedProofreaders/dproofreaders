@@ -6,8 +6,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'links.inc');
 include_once($relPath.'Project.inc');
 
-require_login();
-
 if (!user_is_a_sitemanager()) {
     die(_("You are not authorized to invoke this script."));
 }

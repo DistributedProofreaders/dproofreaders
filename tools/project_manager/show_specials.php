@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'special_colors.inc');
 
-require_login();
-
 $title = _("Special Days");
 
 output_header($title, NO_STATSBAR);

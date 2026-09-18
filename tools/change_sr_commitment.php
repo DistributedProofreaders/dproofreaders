@@ -5,8 +5,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'metarefresh.inc');
 include_once($relPath.'smoothread.inc');
 
-require_login();
-
 /***************************************************************************************
 *
 * transient page to record or remove a users intent to smoothread a project.

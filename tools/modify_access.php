@@ -6,8 +6,6 @@ include_once($relPath.'send_mail.inc');
 include_once($relPath.'User.inc');
 include_once($relPath.'slim_header.inc');
 
-require_login();
-
 $subject_username = $_POST['subject_username'] ?? null;
 $notify_user = $_POST['notify_user'] ?? null;
 

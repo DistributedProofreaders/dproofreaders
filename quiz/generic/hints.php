@@ -3,8 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once('../small_theme.inc'); // output_small_header
 
-require_login();
-
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 $error = get_param_matching_regex($_REQUEST, 'error', null, '/^\w+$/');
 $number = get_integer_param($_REQUEST, 'number', null, 0, null);

@@ -8,8 +8,6 @@ include_once($relPath.'Settings.inc');
 include_once($relPath.'pg.inc'); // get_pg_catalog_link_for_etext()
 include_once($relPath.'gradual.inc'); // maybe_output_new_proofer_message()
 
-require_login();
-
 $username = $pguser;
 if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
     $username = $_GET['username'] ?? $pguser;

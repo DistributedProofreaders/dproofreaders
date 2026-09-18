@@ -7,8 +7,6 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc'); // Project::Project
 include_once($relPath.'project_quick_check.inc');
 
-require_login();
-
 set_time_limit(0); // no time limit
 
 // get data passed into the page

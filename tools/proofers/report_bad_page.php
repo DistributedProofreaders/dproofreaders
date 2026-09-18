@@ -8,8 +8,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'abort.inc');
 include_once('PPage.inc');
 
-require_login();
-
 if (isset($ppage)) {
     // This file was include()'d (rather than invoked as a top-level script)
     // and $ppage was set before the include().
