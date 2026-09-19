@@ -12,7 +12,6 @@ final class DPDatabase
 {
     private static ?mysqli $_connection = null;
     private static ?string $_db_name = null;
-    private static ?string $_default_db_charset = null;
     private static ?string $_default_db_collation = null;
     public static ?string $tracing_log = null;
 
@@ -135,7 +134,7 @@ final class DPDatabase
     {
         $sql = sprintf(
             "
-            SELECT *
+            SELECT DEFAULT_COLLATION_NAME
             FROM information_schema.schemata
             WHERE schema_name='%s';
             ",
@@ -144,17 +143,8 @@ final class DPDatabase
         $result = self::query($sql);
 
         $row = $result->fetch_assoc();
-        self::$_default_db_charset = $row['DEFAULT_CHARACTER_SET_NAME'];
         self::$_default_db_collation = $row['DEFAULT_COLLATION_NAME'];
         $result->free();
-    }
-
-    public static function get_default_db_charset(): string
-    {
-        if (!self::$_default_db_charset) {
-            self::get_db_defaults();
-        }
-        return self::$_default_db_charset;
     }
 
     public static function get_default_db_collation(): string
