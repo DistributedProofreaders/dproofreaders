@@ -6,8 +6,6 @@ include_once($relPath."unicode.inc");
 include_once($relPath."CharSuites.inc");
 include_once($relPath."Project.inc"); // get_projectID_param()
 
-require_login();
-
 $charsuite_name = $_GET["charsuite"] ?? null;
 $projectid = get_projectID_param($_REQUEST, "projectid", true);
 

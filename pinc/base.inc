@@ -5,9 +5,9 @@
 // This file sets up the vital infrastructure for the site, including:
 // * providing exception handlers
 // * (re)establishing the session
+// * redirecting user to the login page as-necessary
 // * setting up gettext
 // * enforcing maintenance mode
-// * providing the require_login() function
 //
 // This file should be included at the top of EVERY .php page that renders
 // HTML. Keeping this and its dependencies slim improves overall page
@@ -43,6 +43,12 @@ if (!headers_sent()) {
 // If we don't have a database connection, don't try to resume the session.
 if (DPDatabase::get_connection()) {
     dpsession_resume();
+}
+
+// We have to wait until here to do the full login check because we need
+// to resume the session if one exists.
+if ($require_login && !User::is_logged_in()) {
+    require_login_redirect();
 }
 
 configure_gettext(get_desired_language());
@@ -135,21 +141,5 @@ function test_exception_handler(Throwable $exception): void
 
 function require_login(): void
 {
-    global $code_url;
-    global $relPath;
-
-    // return if the user is already logged in
-    if (User::is_logged_in()) {
-        return;
-    }
-
-    include_once($relPath.'metarefresh.inc');
-
-    // Remember the current REQUEST_URI, so that we can send the user there
-    // after the login process.
-    // (urlencode it because it might contain characters [specifically, &]
-    // that would confuse parsing of the login.php URL.)
-    $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
-    $url = "$code_url/accounts/require_login.php?destination=$request_uri_encoded";
-    metarefresh(0, $url);
+    trigger_error("require_login() is deprecated and will be removed in the next release", E_USER_DEPRECATED);
 }

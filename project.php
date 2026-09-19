@@ -23,8 +23,6 @@ include_once($relPath.'special_colors.inc'); // load_special_days
 
 // This page originally allowed unauthenticated users and showed them a limited
 // set of information but now we require users to be authenticated.
-require_login();
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Usually, the user arrives here by clicking on the title of a project

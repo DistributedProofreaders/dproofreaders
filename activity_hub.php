@@ -18,8 +18,6 @@ include_once($relPath.'filter_project_list.inc');
 include_once($relPath.'Settings.inc');
 include_once($relPath.'faq.inc');
 
-require_login();
-
 // Load user settings
 $userSettings = & Settings::get_Settings($pguser);
 

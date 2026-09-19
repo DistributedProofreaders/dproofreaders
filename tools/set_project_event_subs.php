@@ -6,8 +6,6 @@ include_once($relPath.'user_project_info.inc');
 include_once($relPath.'Project.inc');  // get_projectID_param()
 include_once($relPath.'links.inc');
 
-require_login();
-
 $projectid = get_projectID_param($_POST, 'projectid');
 
 $subs = [];

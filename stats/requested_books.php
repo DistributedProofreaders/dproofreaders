@@ -6,8 +6,6 @@ include_once($relPath.'pg.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'user_project_info.inc');
 
-require_login();
-
 $title = _("Most Requested Books");
 output_header($title);
 

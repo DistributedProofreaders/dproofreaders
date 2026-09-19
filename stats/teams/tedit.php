@@ -6,8 +6,6 @@ include_once($relPath.'pophelp.inc');
 include_once($relPath.'metarefresh.inc');
 include_once('../includes/team.inc');
 
-require_login();
-
 $theme_extra_args = [
     "js_data" => "var popHelpData = " . get_pophelp_json("teams") . ";",
     "js_files" => ["$code_url/scripts/pophelp.js"],

@@ -6,8 +6,6 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'forum_interface.inc');
 include_once($relPath.'slim_header.inc');
 
-require_login();
-
 // Which project?
 $project_id = get_projectID_param($_GET, 'project');
 

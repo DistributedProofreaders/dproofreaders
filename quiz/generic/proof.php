@@ -5,8 +5,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'prefs_options.inc'); // get_user_proofreading_font()
 include_once($relPath.'codepoint_validator.inc');
 
-require_login();
-
 $quiz_page_id = get_quiz_page_id_param($_REQUEST, 'quiz_page_id');
 
 include "./quiz_page.inc"; // qp_initial_page_text qp_sample_solution

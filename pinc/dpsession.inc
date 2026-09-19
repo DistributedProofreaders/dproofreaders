@@ -82,8 +82,22 @@ function dpsession_resume(): void
  */
 function dpsession_end(): void
 {
+    // delete the cookie
+    if (dpsession_is_cookie_set()) {
+        dp_setcookie(ini_get('session.name'), "", 0);
+    }
+
     session_unset();
     session_destroy();
+}
+
+/**
+ * Return true if the session cookie has been sent in the request, else false.
+ */
+function dpsession_is_cookie_set(): bool
+{
+    $name = ini_get('session.name');
+    return isset($_COOKIE[$name]);
 }
 
 // -----------------------------------------------------------------------------

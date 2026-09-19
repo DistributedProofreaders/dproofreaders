@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath.'Project.inc');
 
-require_login();
-
 $query = trim($_GET["q"] ?? "help");
 
 // "help" is just a string to get us here, but we don't want to keep it

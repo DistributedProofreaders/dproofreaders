@@ -1,4 +1,5 @@
 <?php
+$require_login = false;
 
 // This file can be accessed directly in which case it needs appropriate
 // HTML tags, and it can be include()d into other files, such as

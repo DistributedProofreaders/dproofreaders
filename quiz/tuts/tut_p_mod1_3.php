@@ -4,8 +4,6 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 include_once($relPath."faq.inc");
 
-require_login();
-
 output_header(sprintf(_("Moderate Proofreading Tutorial: Part %d"), 1));
 
 echo "<h2>" . sprintf(_("Moderate Proofreading Tutorial: Part %1\$d, Page %2\$d"), 1, 3) . "</h2>\n";

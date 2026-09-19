@@ -7,8 +7,6 @@ include_once($relPath.'User.inc');
 include_once($relPath.'gradual.inc'); // get_pages_proofed_maybe_simulated()
 include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
 
-require_login();
-
 $verbose = get_bool_param($_GET, "verbose", false);
 $flush_cache = get_bool_param($_GET, "flush_cache", false);
 

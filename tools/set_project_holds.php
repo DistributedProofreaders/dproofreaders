@@ -8,8 +8,6 @@ include_once($relPath.'slim_header.inc');
 include_once($relPath.'Project.inc'); // get_projectID_param()
 include_once($relPath.'links.inc');
 
-require_login();
-
 slim_header(_("Project Holds"));
 
 $projectid = get_projectID_param($_POST, 'projectid');

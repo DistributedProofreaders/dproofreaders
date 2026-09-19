@@ -9,8 +9,6 @@ include_once($relPath.'links.inc');
 include_once('PPage.inc');
 include_once('proof_frame.inc');
 
-require_login();
-
 // This page is accessed one of two ways:
 // * requesting new page (start proofreading, save as done & proofread next page)
 // * requesting specific pages (done, in-progress)

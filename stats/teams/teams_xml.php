@@ -7,8 +7,6 @@ include_once($relPath.'forum_interface.inc'); // get_url_to_view_topic
 include_once('../includes/team.inc');
 include_once('../includes/member.inc');
 
-require_login();
-
 if (empty($_GET["id"])) {
     include_once($relPath.'theme.inc');
     output_header(_("Error"));

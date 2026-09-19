@@ -9,8 +9,6 @@ include_once($relPath.'Stopwatch.inc');
 include_once($relPath.'post_files.inc');
 include_once("./word_freq_table.inc");
 
-require_login();
-
 $watch = new Stopwatch();
 $watch->start();
 

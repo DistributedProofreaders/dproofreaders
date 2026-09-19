@@ -3,8 +3,6 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
-require_login();
-
 output_header(_('Ligatures Proofreading Tutorial'));
 
 echo "<h2>" . sprintf(_("Ligatures Proofreading Tutorial, page %d"), 2) . "</h2>\n";
