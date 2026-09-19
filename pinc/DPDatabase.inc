@@ -14,7 +14,6 @@ final class DPDatabase
     private static ?string $_db_name = null;
     private static ?string $_default_db_charset = null;
     private static ?string $_default_db_collation = null;
-    public static bool $skip_encoding_check = false;
     public static ?string $tracing_log = null;
 
     public static function connect(?string $db_server = null, ?string $db_name = null, ?string $db_user = null, ?string $db_password = null): void
@@ -53,15 +52,6 @@ final class DPDatabase
         } catch (mysqli_sql_exception $e) {
             throw new DBConnectionError("Unable to set sql_mode");
         }
-
-        // To prevent corrupting Latin-1 encoded databases with UTF-8
-        // characters, bail if the database is not in the expected UTF-8
-        // encoding. We allow an override for upgrade scripts to connect
-        // and do the conversion.
-        if (!self::$skip_encoding_check and self::get_default_db_charset() != "utf8mb4") {
-            throw new DBConnectionError("Database not configured for UTF8.");
-        }
-        //-------------------------------------------------------------------
 
         // set character set to UTF8
         mysqli_set_charset(self::$_connection, "utf8mb4");
