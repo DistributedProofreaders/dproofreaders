@@ -54,6 +54,7 @@ function get_dpl_enforcement_for_user(string $username, Round $round, Project $p
         "French",
         "French, Middle (ca.1400-1600)",
         "French, Old (842-ca.1400)",
+        "Portuguese",
     ];
     if (in_array($project->languages[0], $dpl_exempt_languages)) {
         return null;
