@@ -35,7 +35,7 @@ include_once($relPath.'dpsession.inc');
 
 // Do a fast check on if the user could possibly be logged in based on if
 // they have a session cookie -- if not and login is required, fast-fail.
-if ($require_login && !dpsession_is_cookie_set()) {
+if (!defined('PHPSTAN') && $require_login && !dpsession_is_cookie_set()) {
     require_login_redirect();
 }
 
@@ -117,7 +117,7 @@ function require_login_redirect(): void
     // after the login process.
     // (urlencode it because it might contain characters [specifically, &]
     // that would confuse parsing of the login.php URL.)
-    $request_uri_encoded = urlencode($_SERVER['REQUEST_URI']);
+    $request_uri_encoded = urlencode($_SERVER['REQUEST_URI'] ?? '');
     $url = SiteConfig::get()->code_url . "/accounts/require_login.php?destination=$request_uri_encoded";
     metarefresh(0, $url);
 }
