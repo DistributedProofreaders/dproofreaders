@@ -190,6 +190,8 @@ class Project
 {
     use CharSuiteSet;
 
+    public const int MAX_CUSTOM_CODEPOINTS = 32;
+
     private ?string $_create_source = null;
     public string $nameofwork;
     public ?string $state;
@@ -475,9 +477,12 @@ class Project
                 $errors[] = _("The set of custom characters must be unique.");
             }
 
-            // only allow 32 characters
-            if (count($codepoints) > 32) {
-                $errors[] = _("A maximum of 32 custom characters are allowed.");
+            // Restrict the number of custom codepoints
+            if (count($codepoints) > MAX_CUSTOM_CODEPOINTS) {
+                $errors[] = sprintf(
+                    _("A maximum of %d custom characters are allowed."),
+                    MAX_CUSTOM_CODEPOINTS
+                );
             }
 
             // prevent disallowed characters from being added

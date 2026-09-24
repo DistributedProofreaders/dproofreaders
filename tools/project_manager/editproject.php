@@ -513,7 +513,14 @@ class ProjectInfoHolder
             $project_charsuites = $this->project->get_charsuites(false);
         }
         $this->row(_("Character Suites"), format_charsuite_list($this->charsuites, $project_charsuites));
-        $this->row(_("Custom Characters"), format_text_field($this->project->custom_chars, 'custom_chars'));
+        $this->row(
+            _("Custom Characters"),
+            format_text_field(
+                $this->project->custom_chars,
+                'custom_chars',
+                maxlength: Project::MAX_CUSTOM_CODEPOINTS
+            )
+        );
 
         $this->row(_("Genre"), format_genre_list($this->project->genre));
 
