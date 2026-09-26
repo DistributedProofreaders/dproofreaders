@@ -478,10 +478,10 @@ class Project
             }
 
             // Restrict the number of custom codepoints
-            if (count($codepoints) > MAX_CUSTOM_CODEPOINTS) {
+            if (count($codepoints) > Project::MAX_CUSTOM_CODEPOINTS) {
                 $errors[] = sprintf(
                     _("A maximum of %d custom characters are allowed."),
-                    MAX_CUSTOM_CODEPOINTS
+                    Project::MAX_CUSTOM_CODEPOINTS
                 );
             }
 
