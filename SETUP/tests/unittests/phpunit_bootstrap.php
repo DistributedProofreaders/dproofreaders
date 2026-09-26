@@ -1,6 +1,9 @@
 <?php
 global $relPath, $code_url, $projects_dir;
 
+// Don't login redirect in base.inc so tests will run
+define('SKIP_REQUIRE_LOGIN', true);
+
 $relPath = '../../../pinc/';
 include_once($relPath.'base.inc');
 

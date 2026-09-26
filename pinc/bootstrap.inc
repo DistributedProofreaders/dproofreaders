@@ -35,7 +35,8 @@ include_once($relPath.'dpsession.inc');
 
 // Do a fast check on if the user could possibly be logged in based on if
 // they have a session cookie -- if not and login is required, fast-fail.
-if (!defined('PHPSTAN') && $require_login && !dpsession_is_cookie_set()) {
+//
+if ($require_login && !dpsession_is_cookie_set() && !defined('SKIP_REQUIRE_LOGIN')) {
     require_login_redirect();
 }
 

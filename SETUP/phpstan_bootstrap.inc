@@ -2,7 +2,9 @@
 
 // Don't open a DB connection in bootstrap.inc so we can run PHPStan w/o MySQL.
 define('SKIP_DB_CONNECT', true);
-define('PHPSTAN', true);
+
+// Don't login redirect in bootstrap.inc so tests will run
+define('SKIP_REQUIRE_LOGIN', true);
 
 // Define functions, classes etc that are provided by plugins or the
 // real bootstrap well enough that PHPStan can meaninfully typecheck.

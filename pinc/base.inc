@@ -47,7 +47,7 @@ if (DPDatabase::get_connection()) {
 
 // We have to wait until here to do the full login check because we need
 // to resume the session if one exists.
-if ($require_login && !User::is_logged_in()) {
+if ($require_login && !User::is_logged_in() && !defined('SKIP_REQUIRE_LOGIN')) {
     require_login_redirect();
 }
 
