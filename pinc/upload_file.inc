@@ -292,7 +292,7 @@ function show_upload_message(bool $verbose, string $message): void
 
 // This function has a client-side pair in scripts/file_resume.js:validate()
 // which should be updated if the below logic changes.
-function is_valid_filename(string $filename, bool|string $restrict_extension = false): bool
+function is_valid_filename(string $filename, ?string $restrict_extension = null): bool
 {
     // Filenames can't be longer than 200 characters total
     if (strlen($filename) > 200) {
@@ -300,7 +300,7 @@ function is_valid_filename(string $filename, bool|string $restrict_extension = f
     }
 
     // If we want to restrict the filename extension, check that
-    if ($restrict_extension !== false && !str_ends_with($filename, $restrict_extension)) {
+    if (!is_null($restrict_extension) && !str_ends_with($filename, $restrict_extension)) {
         return false;
     }
 
