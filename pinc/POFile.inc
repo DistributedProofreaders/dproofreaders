@@ -107,8 +107,7 @@ class POFile
      */
     private function get_content_type(): ?string
     {
-        $fh = fopen($this->po_filename, "rt");
-        if (!$fh) {
+        if (($fh = fopen($this->po_filename, "rt")) === false) {
             return null;
         }
 
@@ -175,7 +174,7 @@ class POFile
         $dir_iter = new RecursiveDirectoryIterator($basedir, RecursiveDirectoryIterator::SKIP_DOTS);
 
         // Walk through our iterator writing JS filenames to our input file
-        if (!$input_fh = fopen($input_tempfile, "w")) {
+        if (($input_fh = fopen($input_tempfile, "w")) === false) {
             throw new RuntimeException("Error opening temporary file for writing");
         }
 

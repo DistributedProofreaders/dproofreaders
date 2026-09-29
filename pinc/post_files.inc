@@ -25,8 +25,7 @@ function generate_post_files(
 
     // Generate comments html file.
     $comments_path = "{$pathbase}_comments.html";
-    $fp = fopen($comments_path, "w");
-    if ($fp === false) {
+    if (($fp = fopen($comments_path, "w")) === false) {
         throw new Exception("Could not open $comments_path");
     }
     write_project_comments($project, $fp);
@@ -46,8 +45,7 @@ function generate_post_files(
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
-    $fp = fopen($plain_path, "w");
-    if ($fp === false) {
+    if (($fp = fopen($plain_path, "w")) === false) {
         throw new Exception("Could not open $plain_path");
     }
     join_proofed_text($pages_res, $include_proofers, $fp);
@@ -107,7 +105,9 @@ function generate_interim_file(
     register_shutdown_function("clean_up_temp", $dirname, $textfile_path, $zip_path);
 
     // now write the text file
-    $handle = fopen($textfile_path, "w");
+    if (($handle = fopen($textfile_path, "w")) === false) {
+        throw new Exception(_("Failed to create zip file."));
+    }
     fwrite($handle, $filedata);
     fclose($handle);
     // make the zip and sent it to the user
