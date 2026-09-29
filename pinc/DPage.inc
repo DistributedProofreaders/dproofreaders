@@ -147,8 +147,7 @@ function project_add_page(
  */
 function load_page_from_file(string $file_path, string $projectid): ?string
 {
-    $text = file_get_contents($file_path);
-    if ($text === false) {
+    if (($text = file_get_contents($file_path)) === false) {
         return null;
     }
 
@@ -755,13 +754,12 @@ function get_normalize_page_text_changes(string $text, string $projectid): array
  */
 function get_load_page_from_file_changes(string $filename, string $projectid): array
 {
-    $changes = [];
 
-    $text = file_get_contents($filename);
-    if ($text === false) {
-        return $changes;
+    if (($text = file_get_contents($filename)) === false) {
+        return [_("Unable to load page text")];
     }
 
+    $changes = [];
     if (!UTF8::is_utf8($text)) {
         $encoding = guess_string_encoding($text);
         if ($encoding === null) {

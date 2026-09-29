@@ -39,12 +39,16 @@ function createWordListTable(array $word_lists): void
     // loop through the word lists building rows as we go
     foreach ($word_lists as $word_list_file => $word_list_url) {
         $filename = basename($word_list_file);
-        $word_count = count(explode("\n", file_get_contents($word_list_file))) - 1;
-        $modifiedString = date('Y-m-d H:i', filemtime($word_list_file));
         echo "<tr>";
         echo "<td><a href=\"$word_list_url\">$filename</a></td>";
-        echo "<td style='text-align: right'>$word_count</td>";
-        echo "<td>$modifiedString</td>";
+        if (($contents = file_get_contents($word_list_file)) === false) {
+            echo "<td class='error' colspan='2'>". _("Failed to read") . "</td>";
+        } else {
+            $word_count = count(explode("\n", $contents)) - 1;
+            $modifiedString = date('Y-m-d H:i', filemtime($word_list_file));
+            echo "<td style='text-align: right'>$word_count</td>";
+            echo "<td>$modifiedString</td>";
+        }
         echo "</tr>";
     }
 

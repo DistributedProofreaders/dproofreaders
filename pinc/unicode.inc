@@ -344,7 +344,10 @@ function get_invalid_characters(string $string, array $codepoints): array
  */
 function convert_text_file_to_utf8(string $filename): array
 {
-    $text = file_get_contents($filename);
+    if (($text = file_get_contents($filename)) === false) {
+        return [false, "Unable to get content for $filename."];
+    }
+
     $encoding = guess_string_encoding($text);
 
     if ($encoding === null) {

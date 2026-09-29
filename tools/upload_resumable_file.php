@@ -111,12 +111,19 @@ function reassemble(): void
             // move_uploaded_file() should be 'atomic' but check anyway that
             // file sizes add up correctly before doing the reassembly.
             if ($got_chunks && ($size_on_server >= $total_size)) {
+                $read_all = true;
                 for ($i = 1; $i <= $total_chunks; $i++) {
                     $chunk_name = "$staging_dir/$hashed_filename.part.$i";
-                    fwrite($fp, file_get_contents($chunk_name));
+                    if (($contents = file_get_contents($chunk_name)) === false) {
+                        $read_all = false;
+                        report_error("Unable to read file $chunk_name", 500);
+                    }
+                    fwrite($fp, $contents);
                     unlink($chunk_name);
                 }
-                rmdir($staging_dir);
+                if ($read_all) {
+                    rmdir($staging_dir);
+                }
             }
             flock($fp, LOCK_UN); // release the lock
         } else {
