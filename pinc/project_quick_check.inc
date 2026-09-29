@@ -465,7 +465,7 @@ function _test_project_for_credited_source(string $projectid): PQCResult
     return new PQCResult($test_name, $test_desc, $status, $summary, $details);
 }
 
-function _test_project_for_bad_bytes(string $projectid): ?PQCResult
+function _test_project_for_bad_bytes(string $projectid): PQCResult
 {
     global $code_url;
 
@@ -481,10 +481,6 @@ function _test_project_for_bad_bytes(string $projectid): ?PQCResult
     }
 
     $pages_res = page_info_query($projectid, 'F2', 'LE');
-    if ($pages_res === false) {
-        echo "!page_info_query returned FALSE!\n";
-        return null;
-    }
 
     $page_details_url = "$code_url/tools/project_manager/page_detail.php?project=$projectid";
     $details_for_this_project = "
