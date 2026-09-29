@@ -111,7 +111,7 @@ class ForumJsonPost extends ForumJson
         $posts = $this->load_from_json();
 
         // calculate the next numeric post ID
-        $id = max(array_keys($posts)) + 1;
+        $id = 1 + (int) max(0, array_keys($posts));
 
         // if topic_id is NULL, calculate the next topic_id as we're
         // adding a new topic
