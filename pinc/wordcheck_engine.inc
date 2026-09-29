@@ -1045,9 +1045,7 @@ function save_word_list(string $path, $words): string
 
 
     // now open the file
-    $fh = @fopen($path, "w");
-
-    if ($fh === false) {
+    if (($fh = fopen($path, "w")) === false) {
         return _("Error: Unable to write to wordlist file.");
     }
 

@@ -570,7 +570,7 @@ function generate_js_only_po(string $po_filename): string
         throw new RuntimeException("Unable to create temporary file");
     }
 
-    if (!$output_fh = fopen($tempfile, "w")) {
+    if (($output_fh = fopen($tempfile, "w")) === false) {
         throw new RuntimeException("Error opening temporary file for writing");
     }
 

@@ -202,7 +202,9 @@ class RandomRule
         // delete all existing random rules for this ($document, $langcode)
         RandomRule::delete_rules($document, $langcode);
 
-        $fhandle = fopen($url, "rt");
+        if (($fhandle = fopen($url, "rt")) === false) {
+            throw new RuntimeException(sprintf(_("Failed to load rules from %s."), $url));
+        }
 
         $anchor = $subject = $rule = "";
         $in_rule = false;

@@ -19,7 +19,9 @@ class AutoModify extends BackgroundJob
             mkdir($logs_dir, 0o777, true);
         }
         $this->logfile = sprintf("$logs_dir/%s.txt", date("Y-m-d_H:i:s_T"));
-        $this->filehandle = fopen($this->logfile, "wt");
+        if (($this->filehandle = fopen($this->logfile, "wt")) === false) {
+            throw new RuntimeException(sprintf(_("Failed to open log file %s."), $this->logfile));
+        }
         ob_start([$this, 'flush'], 1024);
 
         automodify();
@@ -31,7 +33,9 @@ class AutoModify extends BackgroundJob
 
     private function flush(string $buffer, int $phase): string
     {
-        fwrite($this->filehandle, $buffer);
+        if (!is_null($this->filehandle)) {
+            fwrite($this->filehandle, $buffer);
+        }
         return $buffer;
     }
 }

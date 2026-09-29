@@ -206,9 +206,10 @@ final class DPDatabase
                 $caller,
                 preg_replace("/\s+/", " ", $sql)
             );
-            $fp = fopen(DPDatabase::$tracing_log, 'a');
-            fwrite($fp, $message);
-            fclose($fp);
+            if (($fp = fopen(DPDatabase::$tracing_log, 'a')) !== false) {
+                fwrite($fp, $message);
+                fclose($fp);
+            }
         } catch (Exception $e) {
             // never fail on tracing
         }
