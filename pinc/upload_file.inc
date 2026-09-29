@@ -212,7 +212,7 @@ function validate_uploaded_file(bool $verbose): array
             show_upload_message($verbose, _("No checksum provided"));
         } else {
             $up_hash_code = hash_file('sha256', $file_path);
-            if (0 != strcmp($hash_code, $up_hash_code)) {
+            if ($up_hash_code === false || strcmp($hash_code, $up_hash_code) != 0) {
                 throw new FileUploadException(_("The file is corrupted"));
             }
             show_upload_message($verbose, _("Checksum validated"));
