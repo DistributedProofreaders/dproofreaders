@@ -30,11 +30,12 @@ class ForumJson
 
     protected function load_from_json(): mixed
     {
-        if (! is_file($this->json_file)) {
+        if (!is_file($this->json_file) ||
+            ($contents = file_get_contents($this->json_file)) === false ||
+            ($json = json_decode($contents, true)) === null) {
             return [];
         }
-
-        return json_decode(file_get_contents($this->json_file), true);
+        return $json;
     }
 }
 
