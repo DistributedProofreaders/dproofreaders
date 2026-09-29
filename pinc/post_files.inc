@@ -43,9 +43,6 @@ function generate_post_files(
     }
 
     $pages_res = page_info_query($project->projectid, $limit_round_id, $which_text);
-    if ($pages_res === false) {
-        throw new Exception("Could not get $limit_round_id text for $project->projectid");
-    }
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
@@ -93,9 +90,6 @@ function generate_interim_file(
     }
 
     $pages_res = page_info_query($project->projectid, $limit_round_id, $which_text);
-    if ($pages_res === false) {
-        return;
-    }
 
     // join the page texts together
     $filedata = join_proofed_text($pages_res, $include_proofers, null);
@@ -183,7 +177,7 @@ function join_page_texts(mysqli_result $pages_res): string
 
 // -----------------------------------------------------------------------------
 /** @param ?resource $fp */
-function join_proofed_text(mysqli_result|false $pages_res, bool $include_proofers, $fp): string
+function join_proofed_text(mysqli_result $pages_res, bool $include_proofers, $fp): string
 {
     // Join the round 2 page-texts of the given project,
     // and write the result to file-object $fp.
@@ -227,7 +221,7 @@ function join_proofed_text(mysqli_result|false $pages_res, bool $include_proofer
 
 // -----------------------------------------------------------------------------
 
-function page_info_query(string $projectid, string $limit_round_id, string $which_text): mysqli_result|false
+function page_info_query(string $projectid, string $limit_round_id, string $which_text): mysqli_result
 {
     if ($limit_round_id == '[OCR]') { // somewhat kludgey
         // doesn't matter what $which_text is.
@@ -294,6 +288,11 @@ function page_info_query(string $projectid, string $limit_round_id, string $whic
         ORDER BY image
     ");
 
+    if (!$res) {
+        throw new Exception("Could not get $limit_round_id text for $projectid");
+    }
+
+    /** @var mysqli_result $res -- mysqli_query("SELECT") never returns true */
     return $res;
 }
 
