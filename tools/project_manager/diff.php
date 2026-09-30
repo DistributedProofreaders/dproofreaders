@@ -32,18 +32,10 @@ if ($diff_font != $user_diff_font) {
 }
 
 $project = new Project($projectid);
+// validate that the page exists within the project
+$project->get_project_page($image);
 $state = $project->state;
 $project_title = $project->nameofwork;
-
-if (!$project->pages_table_exists) {
-    // This shouldn't normally happen --
-    // if the page table doesn't exist, a "diff" link shouldn't be shown.
-    // But a user might have a bookmarked or otherwise saved a 'diff' URL.
-    echo "<p>", _("Page details are not available for this project."), "</p>\n";
-    echo "<p>", _("Project ID"), ": $projectid</p>\n";
-    echo "<p>", _("Title"), ": " . html_safe($project_title) . "</p>\n";
-    exit;
-}
 
 // --------------------------------------------------------------
 // get information about this diff
