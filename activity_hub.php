@@ -284,7 +284,7 @@ function progress_snapshot_table($show_filtered_projects, $show_filtering_links,
 /**
  * Print out an activity summary row for the progress table.
  *
- * @param object $stage Stage to summarize
+ * @param Stage $stage Stage to summarize
  *
  * @param string[] $desired_states Array of desired states
  *
@@ -339,9 +339,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
         // transitions array and the others from the current state array.
         // Only sum the stats that aren't project_complete_state as they're
         // already included in the following round's numbers.
-        // (Use '@' to suppress "Undefined property" notice:
-        // not every stage has a 'project_complete_state'.)
-        if ($stage_state == @$stage->project_complete_state) {
+        if ($stage instanceof Round && $stage_state == $stage->project_complete_state) {
             $count = $n_projects_transitioned_to_state_[$stage_state] ?? 0;
         } else {
             $count = $n_projects_in_state_[$stage_state] ?? 0;
@@ -373,9 +371,7 @@ function summarize_stage($stage, $desired_states, $show_filtered_projects = fals
             }
             $states_list .= "'$desired_state'";
             $n_projects_in_state_by_filter_[$desired_state] = 0;
-            // (Use '@' to suppress "Undefined property" notice:
-            // not every stage has a 'project_complete_state'.)
-            if ($desired_state == @$stage->project_complete_state) {
+            if ($stage instanceof Round && $desired_state == $stage->project_complete_state) {
                 $n_projects_in_state_by_filter_[$desired_state] = _("N/A");
             }
         }

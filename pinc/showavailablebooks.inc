@@ -80,6 +80,7 @@ function show_projects_for_smooth_reading(): void
         $title = _('Projects you have volunteered to Smooth Read');
         echo "\n<h2>$title</h2>";
 
+        /** @var Stage $stage */
         $stage = get_Stage_for_id("SR");
         $ext_sort_param_name = "order{$stage->id}";
         $ext_sort_setting_name = "{$stage->id}_order";
