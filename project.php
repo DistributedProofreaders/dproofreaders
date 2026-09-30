@@ -1414,23 +1414,22 @@ function do_extra_files(): void
     }
 
     // Build a list of files in the directory
-    $saved_dir = getcwd();
+    if (($saved_dir = getcwd()) === false) {
+        throw new RuntimeException("Failed to get current directory");
+    }
     chdir($project->dir);
+    $all = glob("*");
+    $dirs = glob("*", GLOB_ONLYDIR);
+    $images = glob("*.{png,jpg}", GLOB_BRACE);
+    if ($all === false || $dirs === false || $images === false) {
+        throw new RuntimeException("Failed to list project files.");
+    }
     $filenames = array_diff(
-        // get all files
-        glob("*"),
-
-        // exclude directories
-        glob("*", GLOB_ONLYDIR),
-
-        // exclude images
-        glob("*.{png,jpg}", GLOB_BRACE),
-
-        // These appear at "Word Lists"
-        get_wordcheck_file_names(),
-
-        // These three appear under "Post Downloads"
-        [
+        $all,                       // get all files
+        $dirs,                      // exclude directories
+        $images,                    // exclude images
+        get_wordcheck_file_names(), // exclude "Word Lists" entries
+        [                           // exclude "Post Downloads"
             $project->projectid . 'images.zip',
             $project->projectid . '.zip',
         ],
@@ -1637,7 +1636,13 @@ function echo_download_zip(string $link_text, string $discriminator): void
         // is a fair approximation (and hopefully an upper bound)
         // of the size of the resulting zip.
         $filesize_b = 0;
-        foreach (glob("$project->dir/*.{png,jpg}", GLOB_BRACE) as $image_path) {
+        if (($images = glob("$project->dir/*.{png,jpg}", GLOB_BRACE)) === false) {
+            throw new RuntimeException(sprintf(
+                _("Failed to list page images for %s."),
+                $projectid
+            ));
+        }
+        foreach ($images as $image_path) {
             $filesize_b += filesize($image_path);
         }
         $last_modified = null;
@@ -1868,38 +1873,56 @@ function echo_smoothreading_options(Project $project): void
     $smooth_url = "$project->url/smooth";
     echo "<li class='list-head'>", _("Download a Smooth Reading file");
     echo "<ul>";
-    echo_file_downloads(glob("$smooth_dir/*.txt"), $smooth_url);
+
+    if (($txts = glob("$smooth_dir/*.txt")) === false ||
+        ($zips = glob("$smooth_dir/*.zip")) === false ||
+        ($epub_mobis = glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE)) === false ||
+        ($pdfs = glob("$smooth_dir/*.pdf")) === false ||
+        ($all = glob("$smooth_dir/*")) === false ||
+        ($txt_htmls = glob("$smooth_dir/*.{txt,htm,html}", GLOB_BRACE)) === false ||
+        ($dirs = glob("$smooth_dir/*", GLOB_ONLYDIR)) === false
+    ) {
+        throw new RuntimeException(sprintf(
+            _("Fail to list smoothreading files for %s"),
+            $project->projectid
+        ));
+    }
+
+    echo_file_downloads($txts, $smooth_url);
 
     // zipped htm(l) file
-    foreach (glob("$smooth_dir/*.zip") as $zip_file) {
+    foreach ($zips as $zip_file) {
         $base_name = basename($zip_file);
         $extra_text = ": " . _('HTML with any images');
         echo_download_item($smooth_url, $zip_file, $base_name, $base_name, $extra_text);
     }
 
     // no space after bracket commas
-    echo_file_downloads(glob("$smooth_dir/*.{epub,mobi}", GLOB_BRACE), $smooth_url);
-    echo_file_downloads(glob("$smooth_dir/*.pdf"), $smooth_url);
+    echo_file_downloads($epub_mobis, $smooth_url);
+    echo_file_downloads($pdfs, $smooth_url);
 
     // original uploaded zip file if there is more than one component file
     $file_base_name = $project->projectid . "_smooth_avail.zip";
     $file = "$project->dir/$file_base_name";
-    if (file_exists($file) && count(glob("$smooth_dir/*")) > 1) {
+    if (file_exists($file) && count($all) > 1) {
         echo_download_item($project->url, $file, $file_base_name, "Download all formats");
     }
     echo "</ul>";
     echo "</li>";
 
     $file_bases = [];
-    $files = glob("$smooth_dir/*.{txt,htm,html}", GLOB_BRACE);
-    foreach ($files as $file) {
+    foreach ($txt_htmls as $file) {
         $file_bases[] = basename($file);
     }
 
     // if html files and image dirs were zipped in directories, find them
-    $dirs = glob("$smooth_dir/*", GLOB_ONLYDIR);
     foreach ($dirs as $dir) {
-        $subfiles = glob("$dir/*.{htm,html}", GLOB_BRACE);
+        if (($subfiles = glob("$dir/*.{htm,html}", GLOB_BRACE)) === false) {
+            throw new RuntimeException(sprintf(
+                _("Fail to list files in smoothreading subdir for %s"),
+                $project->projectid
+            ));
+        }
         foreach ($subfiles as $subfile) {
             $file_bases[] = basename($dir) . "/" . basename($subfile);
         }
