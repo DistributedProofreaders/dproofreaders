@@ -254,7 +254,8 @@ function production_exception_handler(Throwable $exception): void
 
     $response = json_encode(
         ["error" => $exception->getMessage(), "code" => $exception->getCode()],
-        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES |
+        JSON_THROW_ON_ERROR
     );
     api_output_response($response, $response_code);
 }
