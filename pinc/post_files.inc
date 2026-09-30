@@ -346,8 +346,7 @@ function generate_project_images_zip(string $projectid): array
         $zipfile_images = list_files_in_zip($zipfile_path);
 
         // List all the images in the project directory
-        $proj_images = get_filelist($project_path, ['.png', '.jpg']);
-        if ($proj_images === false) {
+        if (($proj_images = get_filelist($project_path, ['.png', '.jpg'])) === false) {
             throw new RuntimeException("Could not list project images.");
         }
 
@@ -386,8 +385,7 @@ function generate_project_images_zip(string $projectid): array
     }
 
     // Get a list of image filenames
-    $image_files = get_filelist($project_path, ['.png', '.jpg'], /*with_path*/ true);
-    if ($image_files === false) {
+    if (($image_files = get_filelist($project_path, ['.png', '.jpg'], with_path: true)) === false) {
         throw new RuntimeException("Could not list project images.");
     }
 

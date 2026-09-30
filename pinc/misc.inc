@@ -983,28 +983,20 @@ function create_mysql_update_string(array $source_array, array $string_fields = 
  */
 function get_filelist(string $dirpath, array $validext = [], bool $with_path = false): false|array
 {
-    $filelist = [];
     if (false === ($d = opendir($dirpath))) {
         return false;
     }
+
+    // If we have no validexts, all filenames are OK
+    $no_exts = count($validext) == 0;
+    $filelist = [];
     while (false !== ($f = readdir($d))) {
         // Ignore non-files
         if (!is_file("$dirpath/$f")) {
             continue;
         }
 
-        // If we're not filering on validexts, all filenames are OK
-        $filename_ok = count($validext) == 0;
-
-        // Otherwise iterate over all the extensions,
-        // stopping if we've matched on any so far.
-        foreach ($validext as $ext) {
-            if ($filename_ok) {
-                break;
-            }
-            $filename_ok = str_ends_with($f, $ext);
-        }
-        if ($filename_ok) {
+        if ($no_exts || any($validext, fn ($ext) => str_ends_with($f, $ext))) {
             $filelist[] = $with_path ? "$dirpath/$f" : $f;
         }
     }

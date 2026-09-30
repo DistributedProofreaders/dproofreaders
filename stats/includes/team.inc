@@ -654,7 +654,9 @@ function deleteImages(): void
         $activeAvatars[$id] = $row['avatar'];
     }
 
-    $avatars = get_filelist($team_avatars_dir);
+    if (($avatars = get_filelist($team_avatars_dir)) === false) {
+        throw new RuntimeException("Could not list team avatars");
+    }
     $unused_avatars = array_diff($avatars, $activeAvatars, $files_to_always_keep);
     foreach ($unused_avatars as $file) {
         if (filemtime("$team_avatars_dir/$file") <= $oneHourAgo) {
@@ -669,7 +671,9 @@ function deleteImages(): void
         $activeIcons[$id] = $row['icon'];
     }
 
-    $icons = get_filelist($team_icons_dir);
+    if (($icons = get_filelist($team_icons_dir)) === false) {
+        throw new RuntimeException("Could not list team icons");
+    }
     $unused_icons = array_diff($icons, $activeIcons, $files_to_always_keep);
     foreach ($unused_icons as $file) {
         if (filemtime("$team_icons_dir/$file") <= $oneHourAgo) {
