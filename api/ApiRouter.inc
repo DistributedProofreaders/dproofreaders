@@ -119,15 +119,19 @@ class ApiRouter
 
     public function request(bool $raw = false): mixed
     {
-        if ($raw) {
-            return file_get_contents('php://input');
-        } else {
-            $json_object = json_decode(file_get_contents('php://input'), true);
-            if ($json_object === null) {
-                throw new InvalidValue("Content was not valid JSON");
-            }
-            return $json_object;
+        if (($input = file_get_contents('php://input')) === false) {
+            throw new RuntimeException("Could not get request input");
         }
+
+        if ($raw) {
+            return $input;
+        }
+
+        if (($json = json_decode($input, true)) === false) {
+            // Throw InvalidValue instead of JsonException
+            throw new InvalidValue("Content was not valid JSON");
+        }
+        return $json;
     }
 
     public function response(bool $raw = false): string
