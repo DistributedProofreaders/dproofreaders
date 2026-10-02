@@ -1727,11 +1727,17 @@ class Project
             "image_source" => $this->image_source,
         ];
 
-        file_put_contents("{$this->dir}/metadata.json", json_encode(
+        $json = json_encode(
             $metadata,
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
-            JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK
-        ));
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES |
+            JSON_NUMERIC_CHECK | JSON_THROW_ON_ERROR
+        );
+        if (file_put_contents("{$this->dir}/metadata.json", $json) === false) {
+            throw new RuntimeException(sprintf(
+                _("Failed to write project metadata for %s"),
+                $this->projectid
+            ));
+        }
     }
 
     /**
