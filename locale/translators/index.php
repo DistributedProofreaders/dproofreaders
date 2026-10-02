@@ -618,8 +618,12 @@ function build_translation_js(): void
 
         EOF;
 
-    file_put_contents(
-        "$dyn_locales_dir/translations.js",
-        sprintf($file_contents, json_encode($locale_json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT))
+    $json = json_encode(
+        $locale_json,
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT |
+        JSON_THROW_ON_ERROR
     );
+    if (file_put_contents("$dyn_locales_dir/translations.js", sprintf($file_contents, $json)) === false) {
+        throw new RuntimeException(_("Failed to write locale JSON"));
+    }
 }
