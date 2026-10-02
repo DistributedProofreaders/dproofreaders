@@ -32,6 +32,8 @@ if ($diff_font != $user_diff_font) {
 }
 
 $project = new Project($projectid);
+// validate that the page exists within the project
+$project->get_project_page($image);
 $state = $project->state;
 $project_title = $project->nameofwork;
 
