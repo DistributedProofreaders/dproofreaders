@@ -9,7 +9,7 @@ function get_proofreading_interface_data_js(): string
 
     $proof_int_data = json_encode([
         "font" => $font_data,
-    ]);
+    ], JSON_THROW_ON_ERROR);
 
     return "var proofIntData = $proof_int_data;";
 }

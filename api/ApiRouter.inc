@@ -134,10 +134,12 @@ class ApiRouter
     {
         if ($raw || $this->_raw_response) {
             return $this->_response;
-        } else {
-            return json_encode($this->_response, JSON_PRETTY_PRINT |
-                JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
+        return json_encode(
+            $this->_response,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE |
+            JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR
+        );
     }
 
     public function set_raw_response(): void

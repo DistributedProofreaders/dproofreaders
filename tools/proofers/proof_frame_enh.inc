@@ -13,8 +13,8 @@ function echo_proof_frame_enh(PPage $ppage): void
 
     $project = new Project($ppage->projectid());
     $valid_character_pattern = build_character_regex_filter($project->get_valid_codepoints(), "js");
-    $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'));
-    $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"));
+    $switch_confirm = json_encode(_('Are you sure you want to save the current page and change layout?'), JSON_THROW_ON_ERROR);
+    $revert_confirm = json_encode(_("Are you sure you want to save the current page and revert to the original text for this round?"), JSON_THROW_ON_ERROR);
 
     $user = User::load_current();
     $storage_key = "proof-enh" . (($user->profile->i_layout == 1) ? "-v" : "-h");
@@ -25,7 +25,7 @@ function echo_proof_frame_enh(PPage $ppage): void
         "imageUrl" => $ppage->url_for_image(),
         "storageKey" => $storage_key,
         "align" => "L",
-    ]);
+    ], JSON_THROW_ON_ERROR);
 
     $header_args = [
         "css_files" => ["$code_url/styles/preview.css"],

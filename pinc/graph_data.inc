@@ -17,7 +17,7 @@ function get_graph_js_files()
 function build_svg_graph_inits(array $graphs): string
 {
     foreach ($graphs as [$type, $id, $config]) {
-        $js_data[] = "$type('$id', " . json_encode($config) . ");";
+        $js_data[] = "$type('$id', " . json_encode($config, JSON_THROW_ON_ERROR) . ");";
     }
     return "window.addEventListener('DOMContentLoaded', function(){" . join($js_data) . "});";
 }
