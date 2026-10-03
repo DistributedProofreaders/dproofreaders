@@ -13,6 +13,5 @@ function get_pophelp_json(string $category): string
     } else {
         throw new ValueError("Invalid category");
     }
-
-    return json_encode($help);
+    return json_encode($help, JSON_THROW_ON_ERROR);
 }
