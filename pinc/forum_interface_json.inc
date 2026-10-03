@@ -21,10 +21,11 @@ class ForumJson
 
     protected function save_to_json(mixed $data): bool
     {
-        return file_put_contents(
-            $this->json_file,
-            json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
-        ) !== false;
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if ($json === false) {
+            return false;
+        }
+        return file_put_contents($this->json_file, $json) !== false;
     }
 
     protected function load_from_json(): mixed
