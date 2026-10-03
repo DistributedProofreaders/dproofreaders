@@ -637,7 +637,8 @@ function get_wordcheck_page_header_args(User $user, PPage $ppage): array
         "imageUrl" => $ppage->url_for_image(),
         "storageKey" => $storage_key,
         "align" => "L",
-    ]);
+    ], JSON_THROW_ON_ERROR);
+
 
     $header_args = [
         "js_modules" => [
@@ -647,7 +648,7 @@ function get_wordcheck_page_header_args(User $user, PPage $ppage): array
         "js_data" => get_page_js($user->profile->i_type == 1 ? 2 : 3) . "
             var imageData = $image_data;
             var validCharRegex = /$valid_character_pattern/u;
-            var wordCheckMessages = " . json_encode($word_check_messages) . ";
+            var wordCheckMessages = " . json_encode($word_check_messages, JSON_THROW_ON_ERROR) . ";
         ",
 
         "body_attributes" => 'id="wordcheck_interface" onload="ldAll()"',

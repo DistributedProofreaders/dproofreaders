@@ -170,8 +170,9 @@ $theme_extra_args["js_data"] = "
         }
     });
 
-    var font_face_mapping = " . json_encode(get_available_proofreading_font_faces()) . ";
-    var font_size_mapping = " . json_encode(get_available_proofreading_font_sizes()) . ";
+    var font_face_mapping = " .  json_encode(get_available_proofreading_font_faces(), JSON_THROW_ON_ERROR) . ";
+
+    var font_size_mapping = " . json_encode(get_available_proofreading_font_sizes(), JSON_THROW_ON_ERROR) . ";
     var font_face_fallback = \"" . get_proofreading_font_family_fallback() . "\";
 ";
 

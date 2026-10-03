@@ -19,7 +19,7 @@ $image_data = json_encode([
     "imageUrl" => $ppage->url_for_image(),
     "storageKey" => $storage_key,
     "align" => "C",
-]);
+], JSON_THROW_ON_ERROR);
 
 $header_args = [
     "js_modules" => ["$code_url/tools/proofers/proof_image.js"],

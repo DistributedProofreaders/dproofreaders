@@ -75,7 +75,7 @@ if ($detail_level >= 4) {
 
 $extra_args = [
     "head_data" => '<script type="application/ld+json">' .
-        json_encode($ld_json_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) .
+        json_encode($ld_json_object, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) .
     '</script>',
     "js_files" => $js_files,
 ];

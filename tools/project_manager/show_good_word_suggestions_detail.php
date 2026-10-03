@@ -24,7 +24,7 @@ enforce_edit_authorization($projectid);
 $details = json_encode([
     "projectid" => $projectid,
     'storageKey' => 'show_good_word_suggestions_detail',
-]);
+], JSON_THROW_ON_ERROR);
 
 $header_args = [
     "js_modules" => [

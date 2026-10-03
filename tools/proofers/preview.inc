@@ -110,6 +110,6 @@ function get_preview_font_data_js(): string
     $font_families["serif"] = "serif";
     $font_families["sans-serif"] = "sans-serif";
 
-    return "fontStyles = " . json_encode($font_styles) . ";
-            fontFamilies = " . json_encode($font_families) . ";";
+    return "fontStyles = " . json_encode($font_styles, JSON_THROW_ON_ERROR) . ";
+            fontFamilies = " . json_encode($font_families, JSON_THROW_ON_ERROR) . ";";
 }
