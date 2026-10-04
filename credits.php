@@ -89,7 +89,11 @@ function load_bundled_credit_details(string $code_dir): array
         if (basename($file) != "details.json") {
             continue;
         }
-        $details = json_decode(file_get_contents($file), true);
+        if (($contents = file_get_contents($file)) === false) {
+            $pkg = basename(dirname($file)); // /foo/bar/pkg/details.json => pkg
+            throw new RuntimeException("Could not read $pkg/details.json");
+        }
+        $details = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
         if (isAssoc($details)) {
             $details = [$details];
         }
@@ -113,7 +117,10 @@ function load_composer_credit_details()
 {
     global $code_dir;
 
-    $packages = json_decode(file_get_contents("$code_dir/composer.lock"));
+    if (($contents = file_get_contents("$code_dir/composer.lock")) === false) {
+        throw new RuntimeException("Could not read composer.lock");
+    }
+    $packages = json_decode($contents, flags: JSON_THROW_ON_ERROR);
     $credit_details = [];
     foreach ($packages->packages as $index => $package) {
         $credit_details[$package->name] = new CreditDetails(
@@ -133,7 +140,10 @@ function load_npm_credit_details()
 {
     global $code_dir;
 
-    $packages = json_decode(file_get_contents("$code_dir/package-lock.json"), true);
+    if (($contents = file_get_contents("$code_dir/package-lock.json")) === false) {
+        throw new RuntimeException("Could not read package-lock.json");
+    }
+    $packages = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
 
     // first just load the immediate set of non-dev dependencies
     $dependencies = array_keys($packages["packages"][""]["dependencies"]);
