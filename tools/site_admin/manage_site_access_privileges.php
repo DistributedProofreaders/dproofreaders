@@ -62,7 +62,7 @@ if ($username) {
         exit;
     }
 
-    $user_settings = & Settings::get_settings($username);
+    $user_settings = & Settings::get_Settings($username);
 
     echo "<hr>";
     echo "<h2>$username ($user->real_name)</h2>";

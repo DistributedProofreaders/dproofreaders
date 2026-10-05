@@ -560,7 +560,7 @@ function get_rounds_with_data(Project $project): array
         Rounds::get_all()
     ));
 
-    validate_projectid($projectid);
+    validate_projectID($projectid);
     $sql = "
         SELECT $select_list
         FROM $projectid
