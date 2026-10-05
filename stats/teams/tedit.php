@@ -91,8 +91,8 @@ if (isset($_GET['tid'])) {
                 SET avatar='%s'
                 WHERE id = %d
                 ",
-                $tid,
-                DPDatabase::escape($tavatar)
+                DPDatabase::escape($tavatar),
+                $tid
             );
             DPDatabase::query($sql);
         } elseif (!empty($_FILES['teamavatar'])) {
@@ -105,8 +105,8 @@ if (isset($_GET['tid'])) {
                 SET icon='%s'
                 WHERE id = %d
                 ",
-                $tid,
-                DPDatabase::escape($ticon)
+                DPDatabase::escape($ticon),
+                $tid
             );
             DPDatabase::query($sql);
         } elseif (!empty($_FILES['teamicon'])) {
