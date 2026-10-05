@@ -372,14 +372,13 @@ function encourage_highest_round(?string $username, ?string $round_id = null): v
         // except the quizzes (eg number of days and pages done), nudge them along.
         $ready_ignoring_quizzes = true;
         $quiz_requirements = [];
-        foreach ($uao->minima_table as $criterion_code => $tuple) {
+        foreach ($uao->minima_table as $criterion_code => [$criterion_str, $minimum, $user_score, $satisfied]) {
             // skip checking any quiz criteria for pass
             if (str_starts_with($criterion_code, 'quiz/')) {
                 $quiz_requirements[] = $criterion_code;
                 continue;
             }
-            // 4th entry in the tuple is a boolean for if the criteria is satisfied
-            if ($tuple[3] == false) {
+            if (!$satisfied) {
                 $ready_ignoring_quizzes = false;
             }
         }
