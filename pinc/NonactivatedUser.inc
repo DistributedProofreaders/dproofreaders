@@ -281,7 +281,7 @@ class NonactivatedUser
             FROM non_activated_users
             WHERE date_created < %d
             ",
-            $cutoff->format("U")
+            $cutoff->getTimestamp()
         );
         DPDatabase::query($sql);
     }
