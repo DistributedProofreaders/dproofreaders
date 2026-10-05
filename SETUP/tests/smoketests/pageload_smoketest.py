@@ -196,6 +196,19 @@ WEB_TESTS = [
     {'name': 'teams-tdetail-all', 'path': 'stats/teams/tdetail.php?tid=44&tally_name=P3&range=all'},
     {'name': 'teams-teams-xml', 'path': 'stats/teams/teams_xml.php?tid=44'},
     {'name': 'teams-tedit', 'path': 'stats/teams/tedit.php?tid=44'},
+    {
+        'name': 'teams-tedit-edmake',
+        'method': 'POST',
+        'path': 'stats/teams/tedit.php',
+        'data': {
+            'edMake': 1,
+            'tsid': 44,
+            'teamname': '%',
+            'tavatar': 'pocahotas-in-space.png',
+            'ticon': 'tiny-russian-picture.png',
+        },
+        'expect_status': 302,
+    },
     {'name': 'teams-tlist', 'path': 'stats/teams/tlist.php'},
 
     {'name': 'stats-pp-unknown', 'path': 'stats/PP_unknown.php'},
