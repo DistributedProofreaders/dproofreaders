@@ -190,7 +190,9 @@ function _get_stealth_scanno_word_list(string $projectid): array
     // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together
     $all_page_text = preg_replace(['#<[/]?\w+>#', '#$#'], ['', "\r\n"], $all_page_text);
-    file_put_contents($ocr_filename, $all_page_text);
+    if (file_put_contents($ocr_filename, $all_page_text) === false) {
+        throw new RuntimeException("Failed to write {$projectid}_ocr.txt");
+    }
 
     // get the latest project text of all pages up to last possible round
     $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
@@ -198,7 +200,9 @@ function _get_stealth_scanno_word_list(string $projectid): array
     // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together
     $all_page_text = preg_replace(['#<[/]?\w+>#', '#$#'], ['', "\r\n"], $all_page_text);
-    file_put_contents($latest_filename, $all_page_text);
+    if (file_put_contents($latest_filename, $all_page_text) === false) {
+        throw new RuntimeException("Failed to write {$projectid}_latest.txt");
+    }
 
     $all_words_w_freq = get_distinct_words_in_text($all_page_text);
     // clean up unused variables

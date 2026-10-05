@@ -119,7 +119,10 @@ function generate_file_for_table(string $table_name, string $file_path, string $
 
     echo " - generating documentation for table '$table_name' to '$file_path'\n";
 
-    file_put_contents($file_path, (string) $table_documentation);
+    if (file_put_contents($file_path, (string) $table_documentation) === false) {
+        echo "  - Failed to write to '$file_path'\n";
+        exit(1);
+    }
 }
 
 /**
@@ -219,7 +222,10 @@ function update_file_for_table(string $table_name, string $file_path, string $di
 
     $lines = TableDocumentation::update_column_definitions($lines, $column_definitions_from_table);
 
-    file_put_contents($file_path, implode("\n", $lines));
+    if (file_put_contents($file_path, implode("\n", $lines)) === false) {
+        echo "  - Failed to write to '$file_path'\n";
+        exit(1);
+    }
 }
 
 // ---------- Database functions ----------

@@ -53,5 +53,7 @@ function generate_cached_js_manifest(string $basedir, array $manifest): void
         }
         EOF;
 
-    file_put_contents("$basedir/dist/manifest.php", $cached_php_file);
+    if (file_put_contents("$basedir/dist/manifest.php", $cached_php_file) === false) {
+        throw new RuntimeException("Failed to write '$basedir/dist/manifest.php'.");
+    }
 }

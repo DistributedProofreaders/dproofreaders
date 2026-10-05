@@ -145,7 +145,9 @@ class POFile
         ], $basedir);
         $process->run(function ($type, $buffer) use ($tempfile) {
             if (Process::OUT === $type) {
-                file_put_contents($tempfile, $buffer, FILE_APPEND);
+                if (file_put_contents($tempfile, $buffer, FILE_APPEND) === false) {
+                    throw new RuntimeException("Failed to write to tempfile");
+                }
             }
         });
         if (!$process->isSuccessful()) {
@@ -206,7 +208,9 @@ class POFile
         ], $basedir);
         $process->run(function ($type, $buffer) use ($pot_tempfile) {
             if (Process::OUT === $type) {
-                file_put_contents($pot_tempfile, $buffer, FILE_APPEND);
+                if (file_put_contents($pot_tempfile, $buffer, FILE_APPEND) === false) {
+                    throw new RuntimeException("Failed to write to tempfile");
+                }
             }
         });
         unlink($input_tempfile);
@@ -240,7 +244,9 @@ class POFile
         ], $basedir);
         $process->run(function ($type, $buffer) use ($tempfile) {
             if (Process::OUT === $type) {
-                file_put_contents($tempfile, $buffer, FILE_APPEND);
+                if (file_put_contents($tempfile, $buffer, FILE_APPEND) === false) {
+                    throw new RuntimeException("Faile to write to tempfile");
+                }
             }
         });
         unlink($php_pot);
