@@ -13,14 +13,14 @@ include_once($relPath.'Settings.inc');
 function & get_pguser_settings(): Settings
 {
     global $pguser;
-    return Settings::get_settings($pguser);
+    return Settings::get_Settings($pguser);
 }
 
 // -----------------------------------------------------------------------------
 
 function that_user_is_a_sitemanager(?string $username): bool
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
     return $userSettings->get_boolean("sitemanager");
 }
 
@@ -34,7 +34,7 @@ function user_is_a_sitemanager(): bool
 
 function that_user_is_proj_facilitator(?string $username): bool
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
     return
         $userSettings->get_boolean("proj_facilitator")
         ||
@@ -101,7 +101,7 @@ function user_can_modify_access_of(?string $subject_username): array
 
 function that_user_is_PM(?string $username): bool
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
 
     return that_user_is_a_sitemanager($username)
             || that_user_is_proj_facilitator($username)
@@ -114,7 +114,7 @@ function user_is_PM(): bool
 }
 function that_user_has_project_loads_disabled(?string $username): bool
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
     return $userSettings->get_boolean("disable_project_loads");
 }
 function user_has_project_loads_disabled(): bool
@@ -126,7 +126,7 @@ function user_has_project_loads_disabled(): bool
 
 function that_user_is_over_PP_checked_out_limit(?string $username): bool
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
     $limit = $userSettings->get_value("pp_limit_value", 'none');
     if (! is_numeric($limit)) {
         return false;
@@ -193,7 +193,7 @@ function user_can_mentor_in_round(Round $round): bool
 
 function that_user_can_work_on_beginner_pages_in_round(?string $username, Round $round): bool
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
     $round_number = $round->round_number;
     if (that_user_is_a_sitemanager($username)
             || that_user_is_proj_facilitator($username)

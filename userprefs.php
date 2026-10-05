@@ -958,7 +958,7 @@ function _show_textfield(string $field_name, string $current_value, array $extra
 /** @param string[] $extras */
 function _show_emailfield(string $field_name, string $current_value, array $extras): void
 {
-    _show_text_input_Field('email', $field_name, $current_value, $extras);
+    _show_text_input_field('email', $field_name, $current_value, $extras);
 }
 
 /** @param string[] $extras */

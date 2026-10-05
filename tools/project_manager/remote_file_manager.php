@@ -793,7 +793,7 @@ function get_current_dir_relative_path(string $home_dirname): string
 
 function get_access_mode(string $username): ?string
 {
-    $userSettings = & Settings::get_settings($username);
+    $userSettings = & Settings::get_Settings($username);
     return $userSettings->get_value("remote_file_manager");
 }
 
