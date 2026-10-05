@@ -89,7 +89,7 @@ function get_user_language(null|string|User $user = null): string
     if (!$user) {
         $locale = get_desired_language();
     } else {
-        if ($user instanceof User == false) {
+        if (!($user instanceof User)) {
             $user = new User($user);
         }
         $locale = get_valid_locale_for_translation($user->u_intlang);

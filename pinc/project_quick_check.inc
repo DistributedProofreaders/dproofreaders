@@ -284,7 +284,7 @@ function _test_project_for_small_images(string $projectid): PQCResult
             }
 
             $size = getimagesize($file_info->abs_path);
-            if ($size == false) {
+            if ($size === false) {
                 $details = _("Unable to determine the page image size for some pages.");
                 break;
             } elseif (get_image_small_dimension_error($size[0], $size[1]) !== null) {

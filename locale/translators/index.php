@@ -184,7 +184,7 @@ elseif ($func == "changeenable") {
 }
 // Scan PHP source code for translatable strings, create template file and report results.
 elseif ($func == "xtext") {
-    if (chdir($code_dir) == false) {
+    if (!chdir($code_dir)) {
         die("Unable to change to requested directory.");
     }
 
@@ -451,7 +451,7 @@ function locale_do_upload(string $locale): void
 {
     global $dyn_locales_dir;
 
-    if (chdir("$dyn_locales_dir/$locale/LC_MESSAGES/") == false) {
+    if (!chdir("$dyn_locales_dir/$locale/LC_MESSAGES/")) {
         die("Unable to change to messages directory.");
     }
 
@@ -520,7 +520,7 @@ function do_merge(string $locale, ?string $fuzzy): void
 {
     global $dyn_locales_dir;
 
-    if (chdir("$dyn_locales_dir/$locale/LC_MESSAGES/") == false) {
+    if (!chdir("$dyn_locales_dir/$locale/LC_MESSAGES/")) {
         die("Unable to change to messages directory.");
     }
 

@@ -169,7 +169,7 @@ function archive_ancillary_data_for_project(Project $project, string $indent, bo
         return;
     }
 
-    if (does_project_page_table_exist($projectid) == false || $dry_run) {
+    if (!does_project_page_table_exist($projectid) || $dry_run) {
         // project's page table doesn't exist.
         // Good, that's consistent with it having archived='1'
     } else {

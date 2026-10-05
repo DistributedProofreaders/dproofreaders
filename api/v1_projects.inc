@@ -221,7 +221,7 @@ function get_project_fields_with_attr(?string $attr, ?Project $project): array
 
     $r = [];
     foreach ($fields as $api_name => $attrs) {
-        if (is_null($attr) || @$attrs[$attr] == true) {
+        if (is_null($attr) || @$attrs[$attr] === true) {
             $r[$api_name] = $attrs["sql_name"];
         }
     }

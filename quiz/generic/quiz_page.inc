@@ -138,7 +138,7 @@ function qp_text_contains_anticipated_error(string $text, array $test): string
                     break;
                 }
             }
-            if ($found == true) {
+            if ($found) {
                 return $test["error"];
             }
             break;
