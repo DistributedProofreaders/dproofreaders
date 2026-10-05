@@ -254,7 +254,7 @@ function move_project_rows_to_archive_db(string $projectid, string $table_name, 
 
     $t_elapsed = $watch->read();
     if (0) { /** @phpstan-ignore-line */
-        echo sprintf(" (in %.2f sec => %d rows/sec)", $t_elapsed, $n_deleted / $t_elapsed);
+        echo sprintf(" (in %.2f sec => %d rows/sec)", $t_elapsed, (int) ($n_deleted / $t_elapsed));
     }
     echo ".\n";
 

@@ -859,8 +859,8 @@ function handle_action_on_a_specified_task(): void
                 ",
                 DPDatabase::escape($comment),
                 $task_id,
-                $u_id,
-                $comment_date
+                (int) $u_id,
+                (int) $comment_date
             );
             DPDatabase::query($sql);
 
