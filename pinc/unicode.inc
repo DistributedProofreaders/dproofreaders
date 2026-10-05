@@ -360,9 +360,8 @@ function convert_text_file_to_utf8(string $filename): array
     }
 
     $text = mb_convert_encoding($text, "UTF-8", $encoding);
-    $success = file_put_contents($filename, $text);
 
-    if ($success === false) {
+    if (file_put_contents($filename, $text) === false) {
         return [false, "Failure trying to write to $filename."];
     }
 
