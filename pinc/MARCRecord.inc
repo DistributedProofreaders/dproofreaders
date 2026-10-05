@@ -601,10 +601,14 @@ class MARCRecord
                 if (strlen($directory) == 3) {
                     $start = "00000";
                 } else {
+                    // TODO This seems like an odd way to write substr($directory, -12, 9)
+                    // NB also it seems at odds with the description in the MARC spec
+                    // https://www.loc.gov/marc/bibliographic/bddirectory.html#:~:text=DESCRIPTION%20OF%20A%20DIRECTORY%20ENTRY
+                    // A 'directory' entry has 3 char tag, 4 0-left-padded length, and 5 0-left-padded start
                     $start = (substr($directory, -12, 4) . substr($directory, -8, 5));
                 }
 
-                $start = sprintf("%05d", $start);
+                $start = sprintf("%05s", $start);
                 $length = sprintf("%04d", $length + 1);
                 $directory .= $length.$start;
 
