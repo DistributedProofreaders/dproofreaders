@@ -374,8 +374,8 @@ function curr_month_proj(string $which): array
 
     $todaysTimeStamp = time();
 
-    $year = date("Y", $todaysTimeStamp);
-    $month = date("m", $todaysTimeStamp);
+    $year = (int) date("Y", $todaysTimeStamp);
+    $month = (int) date("m", $todaysTimeStamp);
     $monthVar = _(date("F", $todaysTimeStamp));
     $timeframe = "$monthVar $year";
 
@@ -390,8 +390,8 @@ function curr_month_proj(string $which): array
         GROUP BY DAYOFMONTH(date)
         ORDER BY date
         ",
-        DPDatabase::escape($month),
-        DPDatabase::escape($year),
+        $month,
+        $year,
         $psd->state_selector
     );
     $result = DPDatabase::query($sql);
