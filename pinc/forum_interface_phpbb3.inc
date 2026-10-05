@@ -136,7 +136,7 @@ function create_forum_user(string $username, string $password, string $email, bo
             ",
             phpbb_table("users"),
             DPDatabase::escape($password),
-            $user_id
+            (int) $user_id
         );
         DPDatabase::query($sql);
     }
