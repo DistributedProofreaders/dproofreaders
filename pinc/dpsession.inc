@@ -1,9 +1,12 @@
 <?php
 
-ini_set('session.name', SiteConfig::get()->site_abbreviation . "_Session");
+$session_name = SiteConfig::get()->site_abbreviation . "_Session";
+$cookie_lifetime = 86400 * 31; // 31 days ~= 1 month
+
+ini_set('session.name', $session_name);
 ini_set('session.use_cookies', 1);
 ini_set('session.cookie_domain', ''); // A sensible value will be used.
-ini_set('session.cookie_lifetime', 86400 * 31); // 31 days ~= 1 month
+ini_set('session.cookie_lifetime', $cookie_lifetime);
 ini_set('session.cookie_secure', SiteConfig::get()->use_secure_cookies);
 ini_set('session.cookie_samesite', 'Lax');
 
@@ -39,17 +42,15 @@ function dpsession_begin(string $userID): void
  */
 function dpsession_resume(): void
 {
-    global $pguser;
+    global $cookie_lifetime, $pguser, $session_name;
 
     _session_set_handlers_and_start();
 
     if (isset($_SESSION['pguser']) && !empty($_SESSION['pguser'])) {
         // Refresh the cookie
-        dp_setcookie(
-            ini_get('session.name'),
-            session_id(),
-            time() + ini_get('session.cookie_lifetime')
-        );
+        if (($id = session_id()) !== false) {
+            dp_setcookie($session_name, $id, time() + $cookie_lifetime);
+        }
 
         // set global variable $pguser
         $pguser = $_SESSION['pguser'];
@@ -82,9 +83,11 @@ function dpsession_resume(): void
  */
 function dpsession_end(): void
 {
+    global $session_name;
+
     // delete the cookie
     if (dpsession_is_cookie_set()) {
-        dp_setcookie(ini_get('session.name'), "", 0);
+        dp_setcookie($session_name, "", 0);
     }
 
     session_unset();
@@ -96,8 +99,8 @@ function dpsession_end(): void
  */
 function dpsession_is_cookie_set(): bool
 {
-    $name = ini_get('session.name');
-    return isset($_COOKIE[$name]);
+    global $session_name;
+    return isset($_COOKIE[$session_name]);
 }
 
 // -----------------------------------------------------------------------------
@@ -203,7 +206,8 @@ class DPSessionHandler implements SessionHandlerInterface
 
     public function write($sid, $value): bool
     {
-        $expiration = time() + ini_get("session.cookie_lifetime");
+        global $cookie_lifetime;
+        $expiration = time() + $cookie_lifetime;
 
         $query = sprintf(
             "
