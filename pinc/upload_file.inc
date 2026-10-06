@@ -38,7 +38,10 @@ function detect_too_large(): void
 
 function get_max_upload_size(): int
 {
-    return ini_parse_quantity(ini_get("upload_max_filesize"));
+    if (($size = ini_get("upload_max_filesize")) === false) {
+        return 0;
+    }
+    return ini_parse_quantity($size);
 }
 
 function get_big_upload_blurb(): string
