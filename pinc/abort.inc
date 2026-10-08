@@ -57,13 +57,14 @@ function provide_escape_links(): void
 
     // link to round
     {
-        $round = get_Round_for_project_state(
-            get_parameter_value(['proj_state', 'proofstate'])
-        );
+        $round = null;
+        if ($round_id = get_parameter_value(['proj_state', 'proofstate'])) {
+            $round = get_Round_for_project_state($round_id);
+        }
         if (is_null($round)) {
-            $round = get_Round_for_page_state(
-                get_parameter_value(['pagestate', 'page_state'])
-            );
+            if ($round_id = get_parameter_value(['pagestate', 'page_state'])) {
+                $round = get_Round_for_page_state($round_id);
+            }
         }
         if (!is_null($round)) {
             echo "<li>" . return_to_round_page_link($round->id) . "</li>\n";
