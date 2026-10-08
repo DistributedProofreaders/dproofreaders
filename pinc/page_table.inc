@@ -181,7 +181,6 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
                 ON (users$rn.username = $round->user_column_name)
             $joined_with_user_page_tallies
         ";
-        $prev_text_column_name = $round->text_column_name;
     }
 
     if (is_null($page_selector)) {
