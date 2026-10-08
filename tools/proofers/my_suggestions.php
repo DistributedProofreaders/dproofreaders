@@ -216,7 +216,7 @@ function show_page_menu(array $all_view_modes, string $round_view, string $usern
 function show_headings(array $colspecs, string $username): void
 {
     echo "<tr>\n";
-    foreach ($colspecs as $col_id => $colspec) {
+    foreach ($colspecs as $colspec) {
         $class = '';
         if (isset($colspec['class'])) {
             $class = sprintf("class='%s'", $colspec['class']);

@@ -128,7 +128,7 @@ function make_output(): string
     }
     $out .= "\n\n";
     $out .= "// error checks\n\n";
-    foreach ($_SESSION['quiz_data']['tests'] as $key => $test) {
+    foreach ($_SESSION['quiz_data']['tests'] as $test) {
         $out .= '$tests[] = array("type" => "' . $test['type'] .'"';
         if ($test['type'] == 'multioccurrence') {
             $out .= ', "searchtext" => "' . ssqs(sdbsn($test['searchtext'])) .'", "case_sensitive" => ';

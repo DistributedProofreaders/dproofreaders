@@ -506,7 +506,7 @@ function showMbrNeighbors(User $user, string $tally_name): void
             $user,
             max($user->u_neigh, 4)
         );
-    foreach ($neighbors as $rel_posn => $neighbor) {
+    foreach ($neighbors as $neighbor) {
         $rank = $neighbor->current_page_tally_rank;
         $pagescompleted = number_format($neighbor->current_page_tally);
 

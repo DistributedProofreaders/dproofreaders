@@ -163,8 +163,8 @@ function api_send_pagination_header(array $query_params, int $total_rows, int $p
         }
 
         if (is_array($value)) {
-            foreach ($value as $subkey => $value) {
-                $params[] = "{$key}[]=" . urlencode($value);
+            foreach ($value as $value_element) {
+                $params[] = "{$key}[]=" . urlencode($value_element);
             }
         } else {
             $params[] = "$key=" . urlencode($value);

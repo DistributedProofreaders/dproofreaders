@@ -41,7 +41,7 @@ class TableDocumentation
         $lines = [];
 
         // Add column definitions
-        foreach ($this->columns_information as $index => $column_information) {
+        foreach ($this->columns_information as $column_information) {
             $lines[] = '## `' . $column_information['Field'] . '`';
             $lines[] = '';
         }
@@ -65,7 +65,7 @@ class TableDocumentation
     {
         $column_names = [];
 
-        foreach ($this->columns_information as $index => $column_information) {
+        foreach ($this->columns_information as $column_information) {
             $column_names[] = $column_information['Field'];
         }
 
@@ -140,7 +140,7 @@ class TableDocumentation
         $encountered_columns = [];
         $should_delete_this_part = false;
 
-        foreach ($lines as $index => $line) {
+        foreach ($lines as $line) {
             if (str_starts_with($line, '## `')) {
                 // 01234         10
                 // ## `column_name`
@@ -160,7 +160,7 @@ class TableDocumentation
 
         $missing_column_names = array_diff($column_names, $encountered_columns);
 
-        foreach ($missing_column_names as $index => $column_name) {
+        foreach ($missing_column_names as $column_name) {
             $lines_with_updated_column_definitions[] = "## `$column_name`\n\n";
         }
 
@@ -183,7 +183,7 @@ class TableDocumentation
         $reached_table = false;
         $finished_table = false;
 
-        foreach ($lines as $index => $line) {
+        foreach ($lines as $line) {
             if (str_starts_with($line, '|') && !$finished_table) {
                 $reached_table = true;
             } elseif ($reached_table && !$finished_table) {
@@ -211,7 +211,7 @@ class TableDocumentation
     {
         $first_table_lines = [];
 
-        foreach ($lines as $index => $line) {
+        foreach ($lines as $line) {
             if (str_starts_with($line, '|')) {
                 $first_table_lines[] = $line;
             } elseif (count($first_table_lines) > 0) {

@@ -19,7 +19,7 @@ function gate_on_pqc(string $projectid): void
 
     // loop thorugh results looking for errors
     $found_error = false;
-    foreach ($results as $function => $test_result) {
+    foreach ($results as $test_result) {
         if ($test_result->status == _("Error")) {
             $found_error = true;
             break;

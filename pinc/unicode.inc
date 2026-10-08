@@ -492,7 +492,7 @@ function get_utf8_to_ascii_codepoints(): array
 function get_disallowed_codepoints(): array
 {
     $invalid_codepoints = [];
-    foreach (get_utf8_to_ascii_codepoints() as $ascii => $codepoints) {
+    foreach (get_utf8_to_ascii_codepoints() as $codepoints) {
         $invalid_codepoints = array_merge($invalid_codepoints, $codepoints);
     }
     return $invalid_codepoints;

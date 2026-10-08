@@ -1114,7 +1114,7 @@ function do_holds(): void
     echo "</tr>\n";
 
     $disabled = $project->can_be_managed_by_current_user ? '' : 'disabled';
-    foreach (array_chunk(Project::get_holdable_states(), 2) as $set => $states) {
+    foreach (array_chunk(Project::get_holdable_states(), 2) as $states) {
         [$round_id] = explode(".", $states[0]);
         echo "<tr>\n";
         echo "<th>", $round_id, "</th>\n";

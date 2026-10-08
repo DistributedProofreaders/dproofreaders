@@ -517,9 +517,7 @@ function get_requested_name_mapping(): array
         die("nff_ param is empty");
     }
 
-    foreach ($nff_ as $k => $part_new_fileid_for_) {
-        // (Ignore $k, it doesn't convey any useful information.)
-
+    foreach ($nff_ as $part_new_fileid_for_) {
         foreach ($part_new_fileid_for_ as $old_fileid => $new_fileid) {
             assert(!isset($new_fileid_for_[$old_fileid]));
             $new_fileid_for_[$old_fileid] = $new_fileid;

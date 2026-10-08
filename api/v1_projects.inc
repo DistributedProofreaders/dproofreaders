@@ -837,7 +837,7 @@ function api_v1_projects_specialdays(string $method, array $data, array $query_p
 
     $special_days = load_special_days();
     $enabled_filter = _get_enabled_filter($query_params);
-    foreach ($special_days as $spec_code => $special_day) {
+    foreach ($special_days as $special_day) {
         $enabled = $special_day["enable"] == 1;
         if ($enabled_filter !== null) {
             if ($enabled_filter != $enabled) {
@@ -884,7 +884,7 @@ function api_v1_projects_imagesources(string $method, array $data, array $query_
     $image_sources = load_image_sources();
 
     $enabled_filter = _get_enabled_filter($query_params);
-    foreach ($image_sources as $id => $image_source) {
+    foreach ($image_sources as $image_source) {
         $is_active = $image_source["is_active"] == 1;
         if ($enabled_filter !== null) {
             if ($enabled_filter != $is_active) {

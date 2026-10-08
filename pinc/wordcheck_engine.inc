@@ -394,7 +394,7 @@ function get_bad_words_via_external_checker($input_words_w_freq, $languages)
 
     // Now merge all misspellings by language script together
     $finalMisspellings = [];
-    foreach ($misspellings as $lang_script => $words) {
+    foreach ($misspellings as $words) {
         $finalMisspellings = array_merge($finalMisspellings, $words);
     }
     unset($misspellings);
