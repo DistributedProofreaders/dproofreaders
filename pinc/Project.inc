@@ -1391,7 +1391,7 @@ class Project
                 // $name ($project->scannercredit) could be
                 // a username or just a typed-in string
                 try {
-                    $user = new User($name);
+                    new User($name);
                 } catch (NonexistentUserException $exception) {
                     // $name is not a username.
                     // So use it as the credit.
@@ -1494,7 +1494,7 @@ class Project
             $topic_id,
             DPDatabase::escape($this->projectid)
         );
-        $update_project = DPDatabase::query($sql);
+        DPDatabase::query($sql);
         $this->topic_id = $topic_id;
 
         return $topic_id;
@@ -1508,7 +1508,6 @@ class Project
      */
     public function email_introduction(): string
     {
-        $projectid = $this->projectid;
         $title = $this->nameofwork;
 
         return implode("\n", [

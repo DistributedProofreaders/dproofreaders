@@ -604,7 +604,7 @@ function show_user_access_chart(?string $username): void
             if (is_null($row)) {
                 echo "<td></td>";
             } else {
-                [$criterion_str, $minimum, $user_score, $satisfied] = $row;
+                [$_criterion_str, $minimum, $_user_score, $satisfied] = $row;
                 td_w_bgcolor($minimum, $satisfied);
             }
         }

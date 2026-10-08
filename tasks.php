@@ -1643,7 +1643,7 @@ function insert_related_task(int $task1, int $task2): void
         $task_id_1,
         $task_id_2
     );
-    $result = DPDatabase::query($sql);
+    DPDatabase::query($sql);
 }
 
 function remove_related_task(int $task1, int $task2): void
@@ -1661,7 +1661,7 @@ function remove_related_task(int $task1, int $task2): void
         $task_id_1,
         $task_id_2
     );
-    $result = DPDatabase::query($sql);
+    DPDatabase::query($sql);
 }
 
 function RelatedPostings(int $tid): void

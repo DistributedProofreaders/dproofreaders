@@ -480,7 +480,6 @@ class ProjectInfoHolder
         $can_set_difficulty_tofrom_beginner = ($pguser == "BEGIN") || user_is_a_sitemanager();
 
         $can_edit_PPer = true;
-        $is_checked_out = false;
         if (!empty($this->project->projectid)) {
             $this->row(_("Project ID"), html_safe($this->project->projectid));
 
@@ -490,12 +489,10 @@ class ProjectInfoHolder
             } elseif ($this->project->state == PROJ_POST_FIRST_CHECKED_OUT) {
                 // once the project is in PP, PPer can only be changed by an SA, PF,
                 // or if it's checked out to the PM
-                $is_checked_out = true;
                 $can_edit_PPer = (($this->project->username == $this->project->checkedoutby) ||
                                    user_is_a_sitemanager() ||
                                    user_is_proj_facilitator());
             } elseif ($this->project->state == PROJ_POST_SECOND_CHECKED_OUT) {
-                $is_checked_out = true;
                 $can_edit_PPer = user_is_a_sitemanager();
             }
         }

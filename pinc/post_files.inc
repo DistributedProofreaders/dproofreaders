@@ -154,7 +154,7 @@ function get_page_texts(mysqli_result $pages_res): array
 {
     $page_texts = [];
     while (($row = page_info_fetch($pages_res)) !== false) {
-        [$page_text, $imagename, $proofer_names] = $row;
+        [$page_text, $_imagename, $_proofer_names] = $row;
         $page_texts[] = $page_text;
     }
     return $page_texts;
@@ -169,7 +169,7 @@ function join_page_texts(mysqli_result $pages_res): string
 {
     $text = "";
     while (($row = page_info_fetch($pages_res)) !== false) {
-        [$text_data, $filename, $proofer_names] = $row;
+        [$text_data, $_filename, $_proofer_names] = $row;
         $text .= $text_data . "\r\n";
     }
     return $text;

@@ -2050,7 +2050,6 @@ function do_change_state(): void
 function do_page_summary(): void
 {
     global $project;
-    $projectid = $project->projectid;
 
     if (!$project->pages_table_exists) {
         return;

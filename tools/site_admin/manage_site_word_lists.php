@@ -216,7 +216,7 @@ function manage_site_word_lists_handle_action($action, $list_type, $language, $w
             // save the list if requested
 
             // if the $site_words_dir doesn't exist already, create it
-            [$site_words_dir, $site_words_url] = get_site_word_paths();
+            [$site_words_dir, $_site_words_url] = get_site_word_paths();
             if (!is_dir($site_words_dir) && !mkdir($site_words_dir)) {
                 throw new RuntimeException(sprintf(_("Unable to create site word list dir %s"), $site_words_dir));
             }

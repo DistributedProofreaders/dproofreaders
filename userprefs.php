@@ -512,7 +512,6 @@ function echo_proofreading_tab(User $user): void
     );
     echo "</tr>\n";
 
-    $proofreading_font_faces = get_available_proofreading_font_faces();
     echo "<tr>\n";
     show_preference(
         _('Font Face'),

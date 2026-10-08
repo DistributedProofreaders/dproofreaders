@@ -695,8 +695,6 @@ function get_last_post_time_in_topic(int $topic_id): ?int
  */
 function get_topic_details(int $topic_id): ?array
 {
-    $forums_phpbb_dir = SiteConfig::get()->forums_phpbb_dir;
-
     $phpbb_topics = phpbb_table("topics");
     $phpbb_forums = phpbb_table("forums");
     $phpbb_users = phpbb_table("users");

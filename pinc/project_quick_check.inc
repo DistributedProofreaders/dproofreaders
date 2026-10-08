@@ -404,11 +404,6 @@ function _test_project_for_missing_pages(string $projectid): PQCResult
 {
     global $code_url;
 
-    $display_image_link = new_window_link(
-        "$code_url/tools/page_browser.php?project=$projectid&amp;imagefile=001.png&amp;showreturnlink=0&amp;preload=next&amp;percent=50",
-        _("Display Image")
-    );
-
     $test_name = _("Missing Pages");
     $test_desc = sprintf(
         _("This manual test requires looking through each page of a project to see if there are missing pages. This is done by looking for missing page numbers, eg: image 100.png says it's page 80 and image 101.png says it's page 82. To perform this check, you can look at the pages online from the <a href='%s'>Page Details</a> page or download the project files from the project page and check them offline. Please check to make sure all illustration images are also loaded."),

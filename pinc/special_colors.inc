@@ -176,7 +176,6 @@ function echo_special_legend(string $projects_where_clause): void
     // now append the hard-coded special day names
     $day_array = array_merge($day_array, array_values(load_common_special_days()));
 
-    $specs_count = count($day_array);
     echo "<h3>" . html_safe($legend_text) . "</h3>";
     echo "<p><a href='$code_url/tools/project_manager/show_specials.php'>" . _("View all Special Days") . "</a></p>";
 

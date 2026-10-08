@@ -146,7 +146,7 @@ function _get_current_flagged_word_list(string $projectid): array
     $page_texts = get_page_texts($pages_res);
 
     // now run it through WordCheck
-    [$bad_words_w_freq, $languages, $messages] =
+    [$bad_words_w_freq, $_languages, $messages] =
         get_bad_word_freqs_for_project_text($page_texts, $projectid, get_project_languages($projectid));
 
     // multisort screws up all-numeric words so we need to preprocess first

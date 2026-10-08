@@ -96,7 +96,6 @@ function show_top_days(int $limit, string $when): void
 
     switch ($when) {
         case 'ever':
-            $where = '';
             $sub_title = sprintf(_('Top %d Proofreading Days Ever'), $limit);
             break;
 

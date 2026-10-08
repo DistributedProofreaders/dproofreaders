@@ -53,13 +53,10 @@ function send_welcome_mail(string $email, string $real_name, string $username): 
 
     $code_url = SiteConfig::get()->code_url;
     $site_name = SiteConfig::get()->site_name;
-    $site_abbreviation = SiteConfig::get()->site_abbreviation;
     $site_url = SiteConfig::get()->site_url;
     $general_help_email_addr = SiteConfig::get()->general_help_email_addr;
 
     $welcome = "Welcome to the $site_name Site!";
-
-    $reset_password_url = get_reset_password_url();
 
     // SITE-SPECIFIC
     // Much of the contents of the email below is DP site-specific, however

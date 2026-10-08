@@ -153,8 +153,6 @@ function user_logging_on(string $past, string $preceding): array
   */
 function tallyboard_deltas(string $tally_name, string $holder_type, int $holder_id, string|int $days_back): array
 {
-    $valid_tally_names = array_keys(get_page_tally_names());
-
     $pages_per_day = get_pages_per_day_for_past_n_days($tally_name, $holder_type, $holder_id, $days_back);
 
     $datax = array_keys($pages_per_day);

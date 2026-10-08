@@ -194,7 +194,7 @@ class CharSuites
     public static function enable(string $name): void
     {
         // Validate we have a valid charsuite
-        $charsuite = CharSuites::get($name);
+        CharSuites::get($name);
 
         $sql = sprintf(
             "

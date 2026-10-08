@@ -91,7 +91,7 @@ class POFile
      */
     private function is_block_translated(string $block): bool
     {
-        [$msgid, $msgstr] = @explode("msgstr", $block);
+        [$_msgid, $msgstr] = @explode("msgstr", $block);
         $msgstr = "msgstr$msgstr";
         if (strpos($msgstr, 'msgstr ""') === 0 &&
             substr_count($msgstr, "\n") == 1) {

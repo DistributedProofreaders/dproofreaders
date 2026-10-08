@@ -149,7 +149,6 @@ function api_v1_projects(string $method, array $data, array $query_params): arra
         throw new ServerError(DPDatabase::log_error());
     }
     [$total_rows] = mysqli_fetch_row($result_count);
-    $total_pages = round($total_rows / $per_page);
 
     api_send_pagination_header($query_params, $total_rows, $per_page, $page);
 
@@ -420,7 +419,7 @@ function api_v1_project_artifacts(string $method, array $data): array
 
     $response = [];
     if ($stage->id == "PP") {
-        [$zipfile_path, $zipfile_url] = generate_project_images_zip($project->projectid);
+        [$_zipfile_path, $zipfile_url] = generate_project_images_zip($project->projectid);
 
         $response[] = [
             "stage" => $stage->id,
@@ -989,7 +988,7 @@ function api_v1_project_wordcheck(string $method, array $data): array
     }
 
     $text = receive_project_text_from_request_body();
-    [$bad_words, $languages, $messages] = get_bad_word_levels_for_project_text($text, $project->projectid, $languages, $accepted_words);
+    [$bad_words, $_languages, $messages] = get_bad_word_levels_for_project_text($text, $project->projectid, $languages, $accepted_words);
     return [
         "bad_words" => $bad_words,
         "messages" => $messages,

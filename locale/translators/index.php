@@ -332,7 +332,6 @@ function main_form(): void
         echo "<li>" . _("Last modified") . ": "
                 . date("F d Y H:i:s", $pot_file->last_modified) . "</li>";
         $total_strings = $pot_file->messages_count;
-        $translated_strings = $pot_file->messages_translated_count;
         echo "<li>" . sprintf(_("%d strings total"), $total_strings) . "</li>";
         echo "</ul></p>";
     } else {

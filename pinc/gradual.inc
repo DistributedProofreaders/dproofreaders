@@ -73,8 +73,7 @@ function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string 
         echo "<p>";
         echo sprintf(_('Before you can begin proofreading, you must have:'));
         echo "<ul>";
-        foreach ($uao->minima_table as $row) {
-            [$criterion_str, $minimum, $user_score, $satisfied] = $row;
+        foreach ($uao->minima_table as [$criterion_str, $_minimum, $_user_score, $_satisfied]) {
             echo "<li>$criterion_str</li>";
         }
         echo "</ul>\n";
@@ -221,8 +220,7 @@ function maybe_output_new_proofer_project_message(Project $project): void
         echo "<p>";
         echo sprintf(_('Before you can begin proofreading, you must have:'));
         echo "<ul>";
-        foreach ($uao->minima_table as $row) {
-            [$criterion_str, $minimum, $user_score, $satisfied] = $row;
+        foreach ($uao->minima_table as [$criterion_str, $_minimum, $_user_score, $_satisfied]) {
             echo "<li>$criterion_str</li>";
         }
         echo "</ul>\n";
@@ -372,7 +370,7 @@ function encourage_highest_round(?string $username, ?string $round_id = null): v
         // except the quizzes (eg number of days and pages done), nudge them along.
         $ready_ignoring_quizzes = true;
         $quiz_requirements = [];
-        foreach ($uao->minima_table as $criterion_code => [$criterion_str, $minimum, $user_score, $satisfied]) {
+        foreach ($uao->minima_table as $criterion_code => [$_criterion_str, $_minimum, $_user_score, $satisfied]) {
             // skip checking any quiz criteria for pass
             if (str_starts_with($criterion_code, 'quiz/')) {
                 $quiz_requirements[] = $criterion_code;

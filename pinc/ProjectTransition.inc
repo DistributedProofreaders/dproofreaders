@@ -267,7 +267,7 @@ class ProjectTransition
             SET $settings
             WHERE projectid = '$escaped_projectid'
         ";
-        $res = DPDatabase::query($sql);
+        DPDatabase::query($sql);
 
         // ---------------------------------------------------------------------
         // Okay, so the update to the 'projects' table succeeded.

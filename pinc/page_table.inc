@@ -111,7 +111,7 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
     if ($round_ids_to_load_wordcheck_events) {
         $sql = sprintf(
             "
-            SELECT image, username, round_id, count(*)
+            SELECT image, username, round_id
             FROM wordcheck_events
             WHERE projectid = '%s' and round_id in (%s)
             GROUP BY image, username, round_id
@@ -122,7 +122,7 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
         $res = DPDatabase::query($sql);
 
         $wordcheck_events = [];
-        while ([$image, $username, $round_id, $count] = mysqli_fetch_row($res)) {
+        while ([$image, $username, $round_id] = mysqli_fetch_row($res)) {
             $wordcheck_events["$image$username$round_id"] = 1;
         }
     } else {
@@ -205,7 +205,6 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
                 OR $work_round->user_column_name = '%s'
             ", DPDatabase::escape($username_for_selecting_pages));
         }
-        $page_selector = null;
     } else {
         // $page_selector is an array whose keys are imagenames of the pages to select
         $imagenames_str = surround_and_join(array_keys($page_selector), "'", "'", ",");

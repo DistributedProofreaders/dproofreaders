@@ -7,13 +7,10 @@ function output_preview_div(): void
 
     $quit = attr_safe(_("Quit"));
     $configure = attr_safe(_("Configure"));
-    $add_font = attr_safe(_("Add Font"));
-    $remove_font = attr_safe(_("Remove Font"));
     $ok = attr_safe(_("OK"));
     $cancel = attr_safe(_("Cancel"));
     $some_suppressed = attr_safe(_('Some warnings are suppressed'));
     $color_markup = html_safe(_("Color markup"));
-    $image = html_safe(_("Image"));
     $text = html_safe(_("Text"));
     $font = html_safe(_("Font"));
     $tags = html_safe(_("Tags"));
@@ -21,12 +18,10 @@ function output_preview_div(): void
     $re_wrap = html_safe(_("Re-wrap"));
     $issues = html_safe(_("Issues"));
     $poss_iss = html_safe(_("Poss. Issues"));
-    $other_tags = html_safe(_("Other tags"));
     $allow_underine = html_safe(_("Allow <u> for underline"));
     $math_preview = html_safe(_("Preview Math"));
     $suppress_warnings = html_safe(_('Suppress warnings'));
     $choose_colors = html_safe(_("Choose Colors"));
-    $select = html_safe(_("Select"));
     $options = html_safe(_("Options"));
     $initial_mode = html_safe(_("Initial view mode"));
     $char_before_start = html_safe(_("Character or punctuation before inline start tag"));

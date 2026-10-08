@@ -458,7 +458,6 @@ function copy_pages(
     // The c_ prefix means that it only pertains to *copied* pages.
 
     $c_src_image_ = [];
-    $c_src_fileid_ = [];
     $c_dst_image_ = [];
     $c_dst_fileid_ = [];
 
@@ -469,7 +468,6 @@ function copy_pages(
         $c_dst_image = $c_src_image;
 
         $c_src_image_[] = $c_src_image;
-        $c_src_fileid_[] = $c_src_fileid;
         $c_dst_image_[] = $c_dst_image;
         $c_dst_fileid_[] = $c_dst_fileid;
     }
@@ -585,7 +583,6 @@ function copy_pages(
 
     for ($j = 0; $j < $n_pages_to_copy; $j++) {
         $c_src_image = $c_src_image_[$j];
-        $c_src_fileid = $c_src_fileid_[$j];
         $c_dst_image = $c_dst_image_[$j];
         $c_dst_fileid = $c_dst_fileid_[$j];
 

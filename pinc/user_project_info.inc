@@ -157,8 +157,7 @@ function set_user_project_event_subscription(string $username, string $projectid
 {
     assert($bit === 0 || $bit === 1);
 
-    $event_label = get_label_for_event($event);
-    // Just to ensure that $event is valid; we don't use $event_label.
+    get_label_for_event($event); // Just to ensure that $event is valid
 
     // Now that we're sure the row exists, we can update it.
     $sql = sprintf(
@@ -176,13 +175,12 @@ function set_user_project_event_subscription(string $username, string $projectid
         $bit,
         $bit
     );
-    $res = DPDatabase::query($sql);
+    DPDatabase::query($sql);
 }
 
 function user_is_subscribed_to_project_event(string $username, string $projectid, string $event): bool
 {
-    $event_label = get_label_for_event($event);
-    // Just to ensure that $event is valid; we don't use $event_label.
+    get_label_for_event($event); // Just to ensure that $event is valid
 
     $sql = sprintf(
         "
@@ -315,7 +313,7 @@ function notify_project_event_subscribers(Project $project, string $event, array
             $n_subscribers,
             DPDatabase::escape($projectid)
         );
-        $res4 = DPDatabase::query($sql4);
+        DPDatabase::query($sql4);
     }
 }
 
