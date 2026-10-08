@@ -178,8 +178,6 @@ function _get_stealth_scanno_word_list(string $projectid): array
     $ocr_filename = "$temp_dir/{$projectid}_ocr.txt";
     $latest_filename = "$temp_dir/{$projectid}_latest.txt";
 
-    $messages = [];
-
     // get the OCR text
     // Note: If the code is changed to allow selecting of arbitrary round text
     //       instead of just the OCR round, edit_project_word_lists.php should

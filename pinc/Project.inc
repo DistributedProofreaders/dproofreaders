@@ -1914,7 +1914,6 @@ function project_get_auto_PPer(string $projectid): ?string
     $project = new Project($projectid);
     $checkedoutby = $project->checkedoutby;
     $username = $project->username;
-    $possible_PPer = '';
     if ($checkedoutby != '') {
         // The project is reserved for a PPer, so it will be checked out to him/her.
         $possible_PPer = $checkedoutby;

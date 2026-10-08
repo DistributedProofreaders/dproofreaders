@@ -335,7 +335,6 @@ function can_see_names_for_page(string $projectid, string $image): bool
 function can_navigate_by_proofer(string $projectid, string $L_user): bool
 {
     global $pguser;
-    $answer = false;
     // If user isn't logged in, they definitely can't
     if ($pguser == '') {
         return false;

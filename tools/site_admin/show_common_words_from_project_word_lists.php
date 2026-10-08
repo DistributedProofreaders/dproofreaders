@@ -132,7 +132,6 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             $total_projects_with_words = 0;
 
             // figure out what kind of language matching we're going to use
-            $where_clause = "";
             switch ($lang_match) {
                 case "exact":
                     $where_clause = "language = '$language'";

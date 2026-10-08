@@ -139,8 +139,6 @@ echo_checkbox_form_end();
 /** @return list{array<string, int>, string[]} */
 function _get_current_flagged_word_list(string $projectid): array
 {
-    $messages = [];
-
     // get the latest project text of all pages up to last possible round
     $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
     $page_texts = get_page_texts($pages_res);

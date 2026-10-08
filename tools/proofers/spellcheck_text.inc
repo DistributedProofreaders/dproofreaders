@@ -114,7 +114,7 @@ function spellcheck_text(string $orig_text, string $projectid, string $imagefile
 
         $newLine = $origLine;
 
-        $lineIndex = $indexArray = [];
+        $indexArray = [];
 
         // find the index for each punctuation
         for ($lineIndex = 0; $lineIndex < UTF8::strlen($origLine); $lineIndex++) {
@@ -333,7 +333,7 @@ function spellcheck_apply_corrections(): array
                 continue;
             }
             // hidden values line|offset|word length
-            [$orig_line_i, $orig_word_offset, $orig_word_length] =
+            [$orig_line_i, $orig_word_offset, $_orig_word_length] =
                 explode('|', $_POST['posit'.$i]);
 
             if (!isset($offsetList[$orig_line_i])) {
