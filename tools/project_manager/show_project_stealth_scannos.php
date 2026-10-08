@@ -308,7 +308,7 @@ function _get_stealth_scanno_word_list(string $projectid): array
     $text_to_check = implode(" ", $possible_scannos);
 
     // run the list through WordCheck to see which it would flag
-    [$possible_scannos_via_wordcheck, $languages, $messages] =
+    [$possible_scannos_via_wordcheck, $_languages, $messages] =
         get_bad_word_freqs_for_project_text($text_to_check, $projectid, get_project_languages($projectid));
 
     // load site words

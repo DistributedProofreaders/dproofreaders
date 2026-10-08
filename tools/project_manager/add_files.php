@@ -536,7 +536,7 @@ class Loader
 
         $ALLOWED_EXTENSIONS = ['.txt', '.png', '.jpg'];
 
-        [$base, $ext] = split_filename($filename);
+        [$_base, $ext] = split_filename($filename);
         if (!in_array($ext, $ALLOWED_EXTENSIONS)) {
             return _('filename has unrecognized suffix');
         }

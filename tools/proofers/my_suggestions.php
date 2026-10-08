@@ -222,10 +222,6 @@ function show_headings(array $colspecs, string $username): void
             $class = sprintf("class='%s'", $colspec['class']);
         }
         echo "<th $class>";
-        $qs_username = "";
-        if ($username != User::current_username()) {
-            $qs_username = "username=" . urlencode($username) . '&amp;';
-        }
         echo $colspec['label'];
         echo "</th>";
     }

@@ -284,7 +284,7 @@ function _validate_fields(
 
     // Ensure we don't already have a registration with this name
     try {
-        $na_user = new NonactivatedUser($username);
+        new NonactivatedUser($username);
         return _("That username has already been requested. Please try another.");
     } catch (NonexistentNonactivatedUserException$exception) {
         // pass

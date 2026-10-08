@@ -305,7 +305,6 @@ function update_image(string $projectid, string $image): void
     global $projects_dir;
 
     $org_image_ext = substr($image, -4);
-    $org_image_basename = basename($image, $org_image_ext);
     $tmp_image_ext = substr($_FILES['image_upload']['name'], -4);
 
     if ($tmp_image_ext == ".png" || $tmp_image_ext == ".jpg") {

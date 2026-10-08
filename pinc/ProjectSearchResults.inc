@@ -537,8 +537,7 @@ class ProjectSearchResults
     private function get_sort_sql(string $col_id): ?string
     {
         foreach ($this->active_columns as $column) {
-            if ($column->sortable && ($column->id == $col_id)) {
-                $valid = true;
+            if ($column->sortable && $column->id == $col_id) {
                 return $column->get_sort_sql();
             }
         }

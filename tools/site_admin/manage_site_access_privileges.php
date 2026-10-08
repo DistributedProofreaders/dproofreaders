@@ -156,8 +156,6 @@ function update_settings(User $user, Settings $user_settings): void
 {
     global $boolean_user_settings, $value_user_settings, $freeform_user_settings, $pguser;
 
-    $username = $user->username;
-
     $disposition = [
         'turn on' => [],
         'turn off' => [],

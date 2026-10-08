@@ -71,7 +71,7 @@ function spellcheck_text(string $orig_text, string $projectid, string $imagefile
 
     // Prepare the style block which requires some dynamic content from
     // the user's preferences and the page itself.
-    [$font_style, $font_size, $font_family] = get_user_proofreading_font();
+    [$_font_style, $font_size, $font_family] = get_user_proofreading_font();
     if ($font_size != '') {
         $font_size = "font-size: $font_size";
     } else {

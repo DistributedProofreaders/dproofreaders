@@ -61,7 +61,7 @@ function configure_gettext(string $locale): void
     // ignore whatever is here, so unset it
     putenv("LANGUAGE=");
 
-    $locale = setlocale(LC_ALL, $locale);
+    setlocale(LC_ALL, $locale);
 
     // Specify location of translation tables and choose domain
     $gettext_domain = 'messages';

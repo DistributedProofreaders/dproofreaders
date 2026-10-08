@@ -129,7 +129,7 @@ function delete_pages(?string $projectid, ?array $from_image_, bool $just_checki
 
     validate_projectID($projectid);
     $res = DPDatabase::query("
-        SELECT image, fileid
+        SELECT image
         FROM $projectid
         ORDER BY image
     ");
@@ -143,7 +143,7 @@ function delete_pages(?string $projectid, ?array $from_image_, bool $just_checki
     }
 
     $all_image_values = [];
-    while ([$image, $fileid] = mysqli_fetch_row($res)) {
+    while ([$image] = mysqli_fetch_row($res)) {
         $all_image_values[] = $image;
     }
 

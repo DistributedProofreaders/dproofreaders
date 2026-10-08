@@ -61,8 +61,6 @@ function show_news_for_page(string $news_page_id): void
 
     $user_locale = get_desired_language();
 
-    $news_subject = get_news_subject($news_page_id);
-
     // -------------------------------------------
 
     // Get the set of 'current' news items defined for the given page.

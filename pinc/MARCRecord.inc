@@ -394,8 +394,6 @@ class MARCRecord
 
     public function get_author(): string
     {
-        $author = "";
-
         $author_fields = [
             "100", // https://www.loc.gov/marc/bibliographic/concise/bd100.html Main Entry--Personal Name
             "700", // https://www.loc.gov/marc/bibliographic/concise/bd700.html Added Entry--Personal Name
@@ -467,7 +465,6 @@ class MARCRecord
 
     public function get_type_of_record(): string
     {
-        $lang_name = "";
         // https://www.loc.gov/marc/bibliographic/bdleader.html Leader
         // Character 6 - Type of record
         $leader = $this->record[0][1]; // The leader is always the first record.

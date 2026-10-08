@@ -95,7 +95,6 @@ function generate_rss_feed(string $content, string $site_name, string $code_url,
         $data = '';
         $result = DPDatabase::query($query);
         while ($row = mysqli_fetch_array($result)) {
-            $posteddate = date("r", ($row['modifieddate']));
             $data .= "<item>
             <title>".xmlencode($row['nameofwork'])." - ".xmlencode($row['authorsname'])."</title>
             <link>".xmlencode("$code_url/project.php?id=".$row['projectid'])."</link>

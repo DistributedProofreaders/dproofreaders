@@ -56,7 +56,7 @@ function project_allow_pages(string $projectid): void
 function project_drop_pages(string $projectid): void
 {
     validate_projectID($projectid);
-    $result = DPDatabase::query("DROP TABLE $projectid");
+    DPDatabase::query("DROP TABLE $projectid");
 
     _project_adjust_n_pages($projectid, 'NONE');
     _project_adjust_n_available_pages($projectid, 'NONE');
@@ -89,7 +89,7 @@ function Pages_prepForRound(string $projectid, int $round_number): void
             SET
                 $setters
         ";
-        $result = DPDatabase::query($sql);
+        DPDatabase::query($sql);
 
         _project_adjust_n_available_pages($projectid, 'ALL');
     }

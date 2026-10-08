@@ -644,8 +644,6 @@ function define_bad_byte_sequences(): void
     $_bad_byte_sequences = [];
 
     foreach ($_character_data as $code_point => $info) {
-        $char_name = $info['name'];
-
         @$entity_name = $info['e'];
         if ($entity_name) {
             $entity_ref = "&$entity_name;";

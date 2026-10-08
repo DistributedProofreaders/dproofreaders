@@ -106,7 +106,6 @@ function send_mail(string $to, string $subject, string $message, ?string $from =
 
 function send_mail_project_manager(Project $project, string $info, string $prefix): bool
 {
-    $projectid = $project->projectid;
     $nameofwork = $project->nameofwork;
     $username = $project->username;
     configure_gettext_for_user($username);

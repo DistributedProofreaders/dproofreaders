@@ -501,8 +501,6 @@ function show_project_listing(
     // Show email addresses for site administrators
     $show_email = user_is_a_sitemanager();
 
-    $rownum = 0;
-
     while ($book = mysqli_fetch_assoc($result)) {
         echo "<tr>";
 
@@ -587,7 +585,6 @@ function show_project_listing(
         }
 
         echo "</tr>\n";
-        $rownum++;
     }
 
     echo "</table>";
@@ -708,8 +705,7 @@ function process_sorting_control(
         // Check column & convert to sql...
 
         // Find the entry in $columns whose $ext_sort_col matches $curr_ext_sort_col.
-        foreach ($columns as $col_id => $col_info) {
-            [$ext_sort_col, $label] = $col_info;
+        foreach ($columns as $col_id => [$ext_sort_col, $_label]) {
             if ($ext_sort_col == $curr_ext_sort_col) {
                 $curr_sql_sort_col = $col_id;
                 break;

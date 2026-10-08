@@ -469,7 +469,7 @@ function get_bad_words_with_diacritical_markup($input_words_w_freq): array
  */
 function get_bad_words_via_pattern($input_words_w_freq, $languages)
 {
-    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
+    [$langcode3s, $_messages] = get_langcode3s_for_languages($languages);
 
     $badWords = [];
 
@@ -816,9 +816,7 @@ function load_project_good_word_suggestions(string $projectid, int $start_time =
         return $wordsArray;
     }
 
-    foreach ($eventArray as $event) {
-        [$time, $round, $page, $proofer, $words] = $event;
-
+    foreach ($eventArray as [$_time, $round, $page, $_proofer, $words]) {
         if (count($words)) {
             if (!isset($wordsArray[$round][$page])) {
                 $wordsArray[$round][$page] = [];
@@ -836,7 +834,7 @@ function load_project_good_word_suggestions(string $projectid, int $start_time =
 function load_site_good_words_given_project(string $projectid): array
 {
     $languages = get_project_languages($projectid);
-    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
+    [$langcode3s, $_messages] = get_langcode3s_for_languages($languages);
     return load_site_good_words($langcode3s);
 }
 
@@ -844,7 +842,7 @@ function load_site_good_words_given_project(string $projectid): array
 function load_site_bad_words_given_project(string $projectid): array
 {
     $languages = get_project_languages($projectid);
-    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
+    [$langcode3s, $_messages] = get_langcode3s_for_languages($languages);
     return load_site_bad_words($langcode3s);
 }
 
@@ -852,7 +850,7 @@ function load_site_bad_words_given_project(string $projectid): array
 function load_site_possible_bad_words_given_project(string $projectid): array
 {
     $languages = get_project_languages($projectid);
-    [$langcode3s, $messages] = get_langcode3s_for_languages($languages);
+    [$langcode3s, $_messages] = get_langcode3s_for_languages($languages);
     return load_site_possible_bad_words($langcode3s);
 }
 
@@ -1274,7 +1272,6 @@ function get_all_words_in_text(string $text, bool $with_offsets = false)
     if ($with_offsets) {
         $result = [];
         foreach ($matches[0] as [$word, $offset_bytes]) {
-            $search_offset = 0;
             // offsets from preg_match_all() are in bytes, but we need the
             // offset in characters
             $offset = UTF8::strlen(substr($text, 0, $offset_bytes));
