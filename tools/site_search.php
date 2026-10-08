@@ -160,7 +160,7 @@ function get_prefix_searches(bool $flatten_aliases = false): array
     }
 
     if ($flatten_aliases) {
-        foreach ($prefix_searches as $key => &$data) {
+        foreach ($prefix_searches as &$data) {
             if (isset($data["alias"])) {
                 $alias = $data["alias"];
                 unset($data["alias"]);
@@ -262,7 +262,7 @@ function get_jump_words(bool $flatten_aliases = false): array
     }
 
     if ($flatten_aliases) {
-        foreach ($jump_words as $key => &$data) {
+        foreach ($jump_words as &$data) {
             if (isset($data["alias"])) {
                 $alias = $data["alias"];
                 unset($data["alias"]);

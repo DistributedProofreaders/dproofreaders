@@ -277,7 +277,7 @@ function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
     // it is in the format: $suggestions[$round][$pagenum]=$wordsArray
     foreach ($suggestions as $round => $pageArray) {
         $round_suggestions = [];
-        foreach ($pageArray as $page => $words) {
+        foreach ($pageArray as $words) {
             // add the words to the per-round array
             $round_suggestions = array_merge($round_suggestions, $words);
 

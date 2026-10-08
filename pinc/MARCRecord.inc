@@ -609,7 +609,7 @@ class MARCRecord
                 $length = sprintf("%04d", $length + 1);
                 $directory .= $length.$start;
 
-                foreach ($this->record as $field => $field_value) {
+                foreach ($this->record as $field_value) {
                     if (preg_match("/^\(3,".substr($tag_value[0], 3, 3)."\)\(3,[012[:space:]]+\)$/", $field_value[0]) && !in_array(substr($tag_value[0], 3, 3), $stack)) {
                         $data .= "\x1E".substr($field_value[0], 10, 2);
                     }

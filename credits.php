@@ -122,7 +122,7 @@ function load_composer_credit_details()
     }
     $packages = json_decode($contents, flags: JSON_THROW_ON_ERROR);
     $credit_details = [];
-    foreach ($packages->packages as $index => $package) {
+    foreach ($packages->packages as $package) {
         $credit_details[$package->name] = new CreditDetails(
             name: $package->name,
             url: $package->homepage ?? null,

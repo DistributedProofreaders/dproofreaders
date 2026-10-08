@@ -493,7 +493,7 @@ function output_wordcheck_interface(User $user, PPage $ppage, string $text_data,
         // get a list of languages with dictionaries installed on the system
         $dict_list = get_languages_with_dictionaries();
         asort($dict_list);
-        foreach ($dict_list as $langcode => $language) {
+        foreach ($dict_list as $language) {
             // skip the languages that we just used.
             if (in_array($language, $languages)) {
                 continue;
