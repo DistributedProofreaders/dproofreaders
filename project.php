@@ -596,7 +596,6 @@ function do_project_info_table(): void
     if ($detail_level >= 4) {
         // We'll call do_page_table later, so we don't need the "Page Detail" link.
     } else {
-        $detail = "";
         if ($project->pages_table_exists) {
             $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;show_image_size=0";
             $blurb = html_safe(_("Images, Pages Proofread, & Differences"));
@@ -669,8 +668,6 @@ function do_project_info_table(): void
     }
 
     // --------
-
-    $comments = $project->comments;
 
     // insert e.g. templates and biographies
     $comments = parse_project_comments($project);

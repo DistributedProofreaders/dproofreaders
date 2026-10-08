@@ -274,7 +274,7 @@ class Loader
         }
 
         foreach (array_keys($db_entries) as $db_image_file) {
-            [$base, $ext] = split_filename($db_image_file);
+            [$base, $_ext] = split_filename($db_image_file);
             $page_related_bases[$base] = 1;
         }
 
@@ -289,7 +289,7 @@ class Loader
         $page_files = [];
         $this->non_page_files = [];
         foreach ($loadable_files as $loadable_file) {
-            [$base, $ext] = split_filename($loadable_file);
+            [$base, $_ext] = split_filename($loadable_file);
             if (array_key_exists($base, $page_related_bases)) {
                 $page_files[] = $loadable_file;
             } else {

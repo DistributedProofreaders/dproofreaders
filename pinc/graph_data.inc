@@ -730,8 +730,6 @@ function _get_project_state_selector(string $which, array|string|null $desired_s
         $desired_states = [$desired_states];
     }
 
-    $sql = "";
-
     // see if it's a round
     $round = get_Round_for_round_id($which);
     if ($round != null) {

@@ -213,7 +213,7 @@ class RandomRule
             if (preg_match('/^<div id="(.*)"><\/div>$/', $line, $matches)) {
                 if ($in_rule) {
                     RandomRule::_add_rule($document, $langcode, $url, $anchor, $subject, $rule);
-                    $anchor = $subject = $rule = "";
+                    $subject = $rule = "";
                 }
                 $anchor = $matches[1];
                 $in_rule = true;
@@ -223,7 +223,7 @@ class RandomRule
             if (preg_match('/<h3><a name="(.*)">(.*)<\/a><\/h3>/', $line, $matches)) {
                 if ($in_rule) {
                     RandomRule::_add_rule($document, $langcode, $url, $anchor, $subject, $rule);
-                    $anchor = $subject = $rule = "";
+                    $rule = "";
                 }
                 $anchor = $matches[1];
                 $subject = $matches[2];
