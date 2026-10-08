@@ -63,7 +63,6 @@ function evalchecks(): void
         } else {
             $test['error'] = $_POST['expectedtext_error_default'];
         }
-        $test['error'] = $_POST['expectedtext_error'];
         if ($_POST['expectedtext_case_sensitive'] == 'yes') {
             $test['case_sensitive'] = true;
         } else {
@@ -118,7 +117,6 @@ function evalchecks(): void
         } else {
             $test['error'] = $_POST['multioccurrence_error_default'];
         }
-        $test['error'] = $_POST['multioccurrence_error'];
         if ($_POST['multioccurrence_case_sensitive'] == 'yes') {
             $test['case_sensitive'] = true;
         } else {
@@ -131,7 +129,6 @@ function evalchecks(): void
         } else {
             $test['error'] = $_POST['markupmissing_error_default'];
         }
-        $test['error'] = $_POST['markupmissing_error'];
         if ($_POST['markupmissing_case_sensitive'] == 'yes') {
             $test['case_sensitive'] = true;
         } else {
@@ -145,7 +142,6 @@ function evalchecks(): void
         } else {
             $test['error'] = $_POST['markupcorrupt_error_default'];
         }
-        $test['error'] = $_POST['markupcorrupt_error'];
         if ($_POST['markupcorrupt_case_sensitive'] == 'yes') {
             $test['case_sensitive'] = true;
         } else {
