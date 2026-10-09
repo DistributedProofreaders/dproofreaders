@@ -519,7 +519,7 @@ function get_site_tally_cumulative_or_incremental(
     // if no data was returned from the SELECT, create an empty dataset
     if (empty($datax)) {
         // set arrays to empty before populating them
-        $datax = $datay1 = [];
+        $datay1 = [];
         $datay2 = null;
 
         // don't go past the current date
