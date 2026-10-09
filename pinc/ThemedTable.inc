@@ -17,21 +17,19 @@ class ThemedTable
         int $n_cols,
         string $title,
         bool $theme_striped = false,
-        string $border = "",
         string $width = "",
         string $subtitle = "",
     ) {
         $this->n_cols = $n_cols;
 
         $class = "themed";
-        $border = 1;
         if ($theme_striped) {
             $class .= ' theme_striped';
         }
         $width_css = $width === "" ? "" : " width: $width;";
 
         echo "\n";
-        echo "<table class='$class' style='border-width: {$border}px; {$width_css}'>";
+        echo "<table class='$class' style='{$width_css}'>";
 
         {
             $possible_subtitle = $subtitle === "" ? "" : "<br>$subtitle";
