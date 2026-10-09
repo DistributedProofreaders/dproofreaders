@@ -76,7 +76,7 @@ if (($_POST["insertdb"] ?? "") != "") {
     } elseif ($selected_tab == 1) {
         save_proofreading_tab($user);
     } elseif ($selected_tab == 2) {
-        save_pm_tab($user);
+        save_pm_tab();
     }
 
     if (isset($_POST["saveAndQuit"]) || isset($_POST["mkProfileAndQuit"])) {
@@ -201,7 +201,7 @@ echo "<table class='preferences'>";
 if ($selected_tab == 1) {
     echo_proofreading_tab($user);
 } elseif ($selected_tab == 2 && user_is_PM()) {
-    echo_pm_tab($user);
+    echo_pm_tab();
 } else { // $selected _tab == 0 OR someone tried to access e.g. the PM-tab without being a PM.
     echo_general_tab($user);
 }
@@ -726,7 +726,7 @@ function save_proofreading_tab(User $user): void
     }
 }
 
-function echo_pm_tab(User $user): void
+function echo_pm_tab(): void
 {
     global $userSettings;
 
@@ -778,7 +778,7 @@ function echo_pm_tab(User $user): void
     echo_bottom_button_row();
 }
 
-function save_pm_tab(User $user): void
+function save_pm_tab(): void
 {
     global $userSettings;
 

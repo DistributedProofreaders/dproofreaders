@@ -215,7 +215,7 @@ function autorelease_for_round(Round $round): void
         echo "    Released <b>{$n_projects->released}</b> {$qd->name} projects.\n";
     }
 
-    AP_teardown($round);
+    AP_teardown();
 
     echo "\n";
     echo "Finished round {$round->id}\n";
@@ -593,7 +593,7 @@ function AP_setup(Round $round): void
     }
 }
 
-function AP_teardown(Round $round): void
+function AP_teardown(): void
 {
     $sql = "DROP TABLE active_page_counts";
     DPDatabase::query($sql);

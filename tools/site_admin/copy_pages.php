@@ -49,7 +49,6 @@ switch ($action) {
     case 'showform':
         display_copy_pages_form(
             $projectid_,
-            $from_image_,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
@@ -62,7 +61,6 @@ switch ($action) {
     case 'showagain':
         display_copy_pages_form(
             $projectid_,
-            $from_image_,
             $transfer_notifications,
             $add_deletion_reason,
             $merge_wordcheck_data,
@@ -146,11 +144,9 @@ switch ($action) {
 
 /**
  * @param array{from: string, to: string} $projectid_
- * @param array{lo: string, hi: string} $from_image_
  */
 function display_copy_pages_form(
     ?array $projectid_,
-    ?array $from_image_,
     bool $transfer_notifications,
     bool $add_deletion_reason,
     bool $merge_wordcheck_data,
