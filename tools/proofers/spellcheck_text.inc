@@ -20,8 +20,6 @@ use voku\helper\UTF8;
  *   Original text to run through dictionary
  * @param string $projectid
  *   Id of projected, needed for temp filename and to load the custom dictionaries
- * @param string $imagefile
- *   Image filename, needed for temp filename
  * @param string[] $languages
  *   Languages to check against
  * @param string[] $accepted_words
@@ -29,7 +27,7 @@ use voku\helper\UTF8;
  *
  * @return list{string, string[], string[], array<string, string>}
  */
-function spellcheck_text(string $orig_text, string $projectid, string $imagefile, array $languages, array $accepted_words): array
+function spellcheck_text(string $orig_text, string $projectid, array $languages, array $accepted_words): array
 {
     global $puncCharacters;
 
@@ -430,7 +428,7 @@ function output_wordcheck_interface(User $user, PPage $ppage, string $text_data,
 
     // run the text through the spellcheck - returns the form contents and a list of languages the page was checked against
     [$page_contents, $languages, $messages, $highlights] =
-        spellcheck_text($text_data, $ppage->projectid(), $ppage->imagefile(), $languages, $accepted_words);
+        spellcheck_text($text_data, $ppage->projectid(), $languages, $accepted_words);
 
     if (!$languages) {
         $messages[] = _("No check against a dictionary has been made.");

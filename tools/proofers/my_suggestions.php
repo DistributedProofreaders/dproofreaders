@@ -18,7 +18,7 @@ if (user_is_a_sitemanager() || user_is_proj_facilitator()) {
     }
 }
 
-$round_view_options = get_view_options($username);
+$round_view_options = get_view_options();
 
 // Get changes to the round views. If not set, we
 // pull the last selected option from UserSettings.
@@ -84,7 +84,7 @@ if (count($projects) == 0) {
         echo "<p>$explain_why</p>";
     }
 
-    output_suggestion_table($projects, $colspecs, $username);
+    output_suggestion_table($projects, $colspecs);
 }
 
 if ($verbose) {
@@ -162,7 +162,7 @@ function get_table_column_specs(): array
 // to make sure that some projects are displayed, iterate over the view order
 
 /** @return array<string, array{label: string, text_none: string, text_verbose: string}> */
-function get_view_options(string $username): array
+function get_view_options(): array
 {
     return [
         "impact" => [
@@ -213,7 +213,7 @@ function show_page_menu(array $all_view_modes, string $round_view, string $usern
 }
 
 /** @param array<string, array{class?: string, label: string}> $colspecs */
-function show_headings(array $colspecs, string $username): void
+function show_headings(array $colspecs): void
 {
     echo "<tr>\n";
     foreach ($colspecs as $colspec) {
@@ -232,13 +232,13 @@ function show_headings(array $colspecs, string $username): void
  * @param array<string, mixed>[] $projects
  * @param array<string, array{class?: string, label: string}> $colspecs
  */
-function output_suggestion_table(array $projects, array $colspecs, string $username): void
+function output_suggestion_table(array $projects, array $colspecs): void
 {
     global $code_url;
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
-    show_headings($colspecs, $username);
+    show_headings($colspecs);
 
     foreach ($projects as $row) {
         echo "<tr>\n";

@@ -46,7 +46,7 @@ function output_header(string $nameofpage, bool $show_statsbar = false, array $e
             // * A 1% column with the rounded corner
             // * A 74% width column for the main page content, and return.
             echo "<div id='statsbar' class='left-statsbar'>\n";
-            html_statsbar($nameofpage);
+            html_statsbar();
             echo "</div>\n";
             echo "<div id='rounded-corner' class='left-statsbar'></div>\n";
             echo "<div id='content-container' class='left-statsbar'>\n";
@@ -63,10 +63,10 @@ function output_header(string $nameofpage, bool $show_statsbar = false, array $e
 
     // Call output_footer when the main page content has been emitted so we can
     // close the table and emit the footer.
-    register_shutdown_function('output_footer', $nameofpage, $show_statsbar);
+    register_shutdown_function(output_footer(...), $show_statsbar);
 }
 
-function output_footer(string $nameofpage, bool $show_statsbar = true): void
+function output_footer(bool $show_statsbar = true): void
 {
     global $code_url, $PAGE_START_TIME;
 
@@ -82,7 +82,7 @@ function output_footer(string $nameofpage, bool $show_statsbar = true): void
         // * A 25% width column with the stats bar in it
         echo "<div id='rounded-corner' class='right-statsbar'></div>\n";
         echo "<div id='statsbar'>\n";
-        html_statsbar($nameofpage);
+        html_statsbar();
         echo "</div>\n";
     }
     // Finally close the table, and emit the footer.
@@ -531,7 +531,7 @@ function headerbar_text_array(array $entries): string
     return implode($divider, resolve_headerbar_entries($entries));
 }
 
-function html_statsbar(string $nameofpage): void
+function html_statsbar(): void
 {
     global $code_url, $PG_home_url;
     maybe_show_language_selector();
