@@ -22,20 +22,17 @@ class AutoModify extends BackgroundJob
         if (($this->filehandle = fopen($this->logfile, "wt")) === false) {
             throw new RuntimeException(sprintf(_("Failed to open log file %s."), $this->logfile));
         }
-        ob_start([$this, 'flush'], 1024);
+        ob_start(function (string $buffer) {
+            if (!is_null($this->filehandle)) {
+                fwrite($this->filehandle, $buffer);
+            }
+            return $buffer;
+        }, chunk_size: 1024);
 
         automodify();
         autorelease();
 
         ob_end_flush();
         fclose($this->filehandle);
-    }
-
-    private function flush(string $buffer, int $phase): string
-    {
-        if (!is_null($this->filehandle)) {
-            fwrite($this->filehandle, $buffer);
-        }
-        return $buffer;
     }
 }
