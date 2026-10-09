@@ -2020,15 +2020,10 @@ function do_change_state(): void
     // This can leave an extra &, but I suspect browsers can handle it.
 
     foreach ($valid_transitions as $transition) {
-        // Used for disabling the button
-        $optional_btn_attr = "";
-
         // By default say who is allowed to do this transition.
         $text_next_to_btn = " [$transition->who_restriction]";
 
         if ($transition->is_disabled($project)) {
-            $optional_btn_attr = "disabled";
-
             // Gray out the original text and add an explanation why it is disabled
             $reason = $transition->why_disabled($project);
             $text_next_to_btn = "<span class='transition-disabled'>$text_next_to_btn</span> [$reason]";
