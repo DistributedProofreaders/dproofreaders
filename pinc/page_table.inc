@@ -343,7 +343,7 @@ function echo_page_table(
 
         echo "{$td_start}"._("Page State")."{$td_end}";
 
-        foreach ($rounds_to_display as $round) {
+        foreach ($rounds_to_display as $_) {
             echo "{$td_start}"._("Diff")."{$td_end}";
             echo "{$td_start}"._("Date")."{$td_end}";
             echo "{$td_start}"._("User")."{$td_end}";
