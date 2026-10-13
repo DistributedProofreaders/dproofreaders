@@ -45,7 +45,11 @@ This section is only shown to admins for two reasons
 <h3>Prerequisites</h3>
 <p>The DP code uses GNU gettext to support site translations, so ensure it is installed and PHP is configured to use it.</p>
 
-<p>The PHP gettext library sets the locales per process, not per thread. This means that if your Apache installation is using a threaded MPM, the wrong language might be displayed to the user as threads race calling setlocale() -- see the warning in the <a href='http://php.net/manual/en/function.setlocale.php'>PHP docs for setlocale()</a>. For this reason you should ensure your Apache MPM is set to prefork and not worker or event. You can see what MPM Apache is using via:</p>
+<p>The PHP gettext library sets the locales per process, not per thread. This means that if your Apache installation is using mod_php and a threaded MPM (like worker or event), the wrong language might be displayed to the user as threads race calling setlocale() -- see the warning in the <a href='http://php.net/manual/en/function.setlocale.php'>PHP docs for setlocale()</a>.</p>
+
+<p>If you are using php-fpm, each request is handled within a separate php-fpm process so there is no race calling setlocale() and it's possible (even recommended) to use the worker or event MPM with Apache.</p>
+
+<p>If you are using mod_php however you should ensure your Apache MPM is set to prefork and not worker or event. You can see what MPM Apache is using via:</p>
 <blockquote>
 <pre>
 # Ubuntu:
@@ -74,7 +78,7 @@ Server MPM:     Prefork
 
 <p>The DP localization code requires the UTF-8 version be installed.</p>
 
-<p>After you install new locales, you <b>must restart your web server</b> for the locales to be usable by the DP code!</p>
+<p>After you install new locales, you must restart Apache if using mod_php for the locales to be usable by the DP code! If you are using php-fpm, you must restart that service instead.</p>
 
 <h3>Installing translations</h3>
 <p>The DP code comes with a set of translations provided by the community at pgdp.net. These are in the <kbd>SETUP/locale</kbd> directory. The translations may not be complete if strings were added or changed in the code since the translation was done. Strings that haven't been translated will display in English.</p>
@@ -154,7 +158,8 @@ Server MPM:     Prefork
     <li>(optional, see below) Merge the current PO file with the most current template.</li>
     <li>Use the 'download' link to download the PO file you want to update.</li>
     <li>Update the PO file using a PO editor to change translations for existing strings or translate new strings that have not been translated (see below for translation tips).</li>
-    <li>Upload the new PO file to the system using the form at the bottom of the page. If the locale translation is enabled, the changes should be immediate.</li>
+    <li>Upload the new PO file to the system using the form at the bottom of the page.</li>
+    <li>Contact a site admin to have them restart Apache (if using mod_php) or php-fpm to flush the gettext cache and have the new translation file be picked up.</li>
     <li>(optional) If the locale translation is disabled and is ready for release, contact an admin to have them enable it.</li>
 </ol>
 
