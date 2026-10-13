@@ -60,7 +60,7 @@ if (user_is_a_sitemanager()) {
     $locale = $detected_language;
     $dyn_locales_dir = SiteConfig::get()->dyn_locales_dir;
     $system_locales_dir = SiteConfig::get()->system_locales_dir;
-    $set_locale = setlocale(LC_ALL, $locale);
+    $set_locale = setlocale(LC_ALL, "$locale.UTF-8");
     $bind1 = bindtextdomain($gettext_domain, $dyn_locales_dir);
     $bind2 = bindtextdomain("iso_639", $system_locales_dir);
     $bind3 = bind_textdomain_codeset($gettext_domain, 'UTF-8');
@@ -89,7 +89,7 @@ if (user_is_a_sitemanager()) {
 
         <p>gettext function outputs:</p>
         <ul>
-            <li>setlocale(LC_ALL, $locale) returned <b>$set_locale</b></li>
+            <li>setlocale(LC_ALL, $locale.UTF-8) returned <b>$set_locale</b></li>
             <li>bindtextdomain($gettext_domain, $dyn_locales_dir) returned <b>$bind1</b></li>
             <li>bindtextdomain("iso_639", $system_locales_dir) returned <b>$bind2</b></li>
             <li>bind_textdomain_codeset($gettext_domain, "UTF-8") returned <b>$bind3</b></li>
