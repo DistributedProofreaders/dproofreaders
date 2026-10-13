@@ -250,7 +250,7 @@ function main_form(): void
     }
 
     // PO files for currently existing languages
-    echo "<table class='translation'>\n";
+    echo "<table class='themed theme_striped' style='width: auto'>\n";
     echo "<tr>";
     echo "<th>" . _("Language") . "</th>";
     echo "<th>" . _("Locale") . "</th>";
