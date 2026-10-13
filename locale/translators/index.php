@@ -314,6 +314,8 @@ function main_form(): void
 
         if (!in_array($locale, $system_locales)) {
             echo "<td>" . _("Warning: system locale not installed") . "</td>";
+        } else {
+            echo "<td></td>";
         }
         echo "</tr>\n";
     }
@@ -323,24 +325,24 @@ function main_form(): void
     echo "<h2>" . _("PO Template") . "</h2>";
     $pot_file = new POFile($pot_filename);
     if ($pot_file->exists) {
-        echo "<p>" . _("POT template file") . ": ";
-        echo "<a href='$translate_url?func=view&amp;locale=template'>" . _("View")
+        echo "<p>" . _("POT template file") . ":<ul>";
+        echo "<li><a href='$translate_url?func=view&amp;locale=template'>" . _("View")
            . "</a> | <a href='$translate_url?func=download&amp;locale=template'>"
-           . _("Download") . "</a> ";
-        echo " (" . _("Last modified") . ": "
-                . date("F d Y H:i:s", $pot_file->last_modified) . ")";
+           . _("Download") . "</a></li> ";
+        echo "<li>" . _("Last modified") . ": "
+                . date("F d Y H:i:s", $pot_file->last_modified) . "</li>";
         $total_strings = $pot_file->messages_count;
         $translated_strings = $pot_file->messages_translated_count;
-        echo "  - " . sprintf(_("%d strings total"), $total_strings);
-        echo "</p>";
+        echo "<li>" . sprintf(_("%d strings total"), $total_strings) . "</li>";
+        echo "</ul></p>";
     } else {
         echo "<p>" . _("No POT template file has been generated.") . "</p>";
     }
 
     if (in_array("xtext", $allowed_functions)) {
         echo "<form action='$translate_url?func=xtext' method='POST'>";
+        echo _("Run <code>xtext</code> to generate a fresh template file: ");
         echo "<input type='submit' value='" . attr_safe(_("Regenerate template file")) . "'> ";
-        echo _("Run <code>xtext</code> to generate a fresh template file.");
         echo "</form>\n";
     }
 }
@@ -360,16 +362,10 @@ function manage_form(string $locale): void
 
     echo "<p><b>" . _("Locale") . ":</b> $locale</p>\n";
     if (!in_array($locale, $system_locales)) {
-        echo "<p><b>" . sprintf(_("Warning: While a locale translation exists for %s, a system locale does not. Without a system locale installed, gettext will not use this translation."), $locale) . "</b></p>";
+        echo "<p class='warning'>" . sprintf(_("While a locale translation exists for %s, a system locale does not. Without a system locale installed, gettext will not use this translation."), $locale) . "</p>";
     }
     echo "<p><b>" . _("Language") . ":</b> " . eng_name($locale) . "</p>\n";
-    echo "<p><b>" . _("Translation status") . ":</b> ";
-    if ($translation_enabled) {
-        echo _("Enabled");
-    } else {
-        echo _("Disabled");
-    }
-    echo "</p>\n";
+    echo "<p><b>" . _("Translation status") . ":</b> " . ($translation_enabled ? _("Enabled") : _("Disabled")) . "</p>";
 
     $po_filename = "$dyn_locales_dir/$locale/LC_MESSAGES/messages.po";
     $po_file = new POFile($po_filename);
@@ -377,38 +373,46 @@ function manage_form(string $locale): void
         $total_strings = $po_file->messages_count;
         $translated_strings = $po_file->messages_translated_count;
 
-        echo "<p><b>" . _("PO file") . ":</b> ";
-        echo "<a href='$translate_url?func=view&amp;locale=$locale'>"
+        echo "<p><b>" . _("PO file") . ":</b>";
+        echo "<ul>";
+        echo "<li><a href='$translate_url?func=view&amp;locale=$locale'>"
             . _("View") . "</a> | <a href='$translate_url?func=download&amp;locale=$locale'>"
-            . _("Download") . "</a> (" . _("Last modified") . ": "
-            . date("F d Y H:i:s", $po_file->last_modified) . ")";
+            . _("Download") . "</a></li>";
+        echo "<li>" . _("Last modified") . ": " . date("F d Y H:i:s", $po_file->last_modified) . "</li>";
 
-        echo " - ";
+        echo "<li>";
         echo sprintf(
             _('%1$s of %2$s translated (%3$d%%)'),
             $translated_strings,
             $total_strings,
             $translated_strings / $total_strings * 100
         );
-        echo "</p>";
+        echo "</li>";
 
         $pot_filename = "$dyn_locales_dir/messages.pot";
         $pot_file = new POFile($pot_filename);
         if ($pot_file->exists && $pot_file->last_modified > $po_file->last_modified) {
-            echo "<p>" . _("The current template is more recent than the PO file. You should merge the PO file with the current template.") . "</p>";
+            echo "<li class='warning'>" . _("The current template is more recent than the PO file. You should merge the PO file with the current template.") . "</li>";
         }
+        echo "</ul></p>";
+
+        echo "<h2>" . _("Update PO with current template") . "</h2>";
 
         echo "<form action='$translate_url?func=merge' method='POST'>";
         echo "<input type='hidden' name='locale' value='$locale'>";
-        echo "<input type='submit' value='"
-            . attr_safe(_("Merge current PO file with the current template")) . "'> ";
-        echo _("Run <code>msgmerge</code> to update the current PO file against the current template.") . "<br>\n";
+        echo "<p>" . _("Run <code>msgmerge</code> to update the current PO file against the current template to pick up new strings that need translation.") . "</p>\n";
         echo "<input type='checkbox' name='fuzzy' checked> "
             . _("Do fuzzy matching when an exact match is not found (can be much slower but more accurate)") . "<br>" ;
-        echo "</form><br><br>\n";
+        echo "<input type='submit' value='"
+            . attr_safe(_("Merge PO file with template")) . "'> ";
+        echo "</form>\n";
     } else {
         echo "<p>" . _("No PO file.") . "</p>\n";
     }
+
+    echo "<h2>" . _("Upload new PO file") . "</h2>";
+
+    echo "<p>" . _("This replaces the current PO file with the file you provide, and installs the translation for use by the site. Strings marked as \"fuzzy\" are not included in the new translation catalog. Be sure your PO file does not have any marked as fuzzy that you want used.") . "</p>";
 
     echo "<form action='$translate_url?func=upload' method='POST' enctype='multipart/form-data'>\n";
     echo "<input type='hidden' name='locale' value='$locale'>";
@@ -416,7 +420,6 @@ function manage_form(string $locale): void
     echo "<input type='file' name='userfile'><br>\n";
     echo "<input type='submit' value='"
         . attr_safe(_("Upload file")) . "'> ";
-    echo _("This replaces the current PO file with the file you provide, and installs the translation for use by the site.");
     echo "</form>\n";
 
     if (user_is_a_sitemanager()) {
@@ -434,15 +437,14 @@ function manage_form(string $locale): void
         echo "<input type='submit' value='" . attr_safe(_("Save")) . "'> ";
         echo "</form>\n";
 
-        echo "<br><br>";
         echo "<form action='$translate_url?func=delete' method='POST'>";
         echo "<input type='hidden' name='locale' value='$locale'>";
         $confirm = javascript_safe(
             _("Are you sure you want to delete this locale and its translation file?")
         );
+        echo "<p>" . _("Delete the locale directory, PO file and MO file:") . " ";
         echo "<input type='submit' onClick='return confirm(\"$confirm\");' value='"
             . attr_safe(_("Delete this locale")) . "'> ";
-        echo _("Delete the locale directory, PO file and MO file.") . "<br>\n";
         echo "</form>\n";
     }
 }
