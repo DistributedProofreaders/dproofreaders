@@ -2134,12 +2134,6 @@ table.stats th {
   padding-right: 2em;
 }
 /* ------------------------------------------------------------------------ */
-/* Translation table */
-table.translation td,
-table.translation th {
-  padding-right: 1em;
-}
-/* ------------------------------------------------------------------------ */
 /* Available Project Listings */
 table.availprojectlisting {
   width: 100%;
