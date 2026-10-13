@@ -270,7 +270,7 @@ class Activity
         }
 
         $can_access = false;
-        $requst_status = null;
+        $request_status = null;
 
         if ($recorded_access == 'denied') {
             // they are not allowed to access this activity or to request access
