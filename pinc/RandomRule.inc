@@ -202,8 +202,29 @@ class RandomRule
         // delete all existing random rules for this ($document, $langcode)
         RandomRule::delete_rules($document, $langcode);
 
-        if (($fhandle = fopen($url, "rt")) === false) {
+        // basic HTTP contexts for the fopen -- mostly a placeholder for
+        // customization in other branches who want to set specific headers
+        $context_opts = [
+            'http' => [
+                'method' => "GET",
+            ],
+        ];
+
+        $context = stream_context_create($context_opts);
+        if (($fhandle = fopen($url, "rt", context: $context)) === false) {
             throw new RuntimeException(sprintf(_("Failed to load rules from %s."), $url));
+        }
+
+        $meta_data = stream_get_meta_data($fhandle);
+        $status_line = $meta_data["wrapper_data"][0] ?? "";
+        if (! preg_match("/HTTP\/\S+\s+200\b/", $status_line)) {
+            throw new RuntimeException(
+                sprintf(
+                    "%s %s",
+                    sprintf(_("Failed to load rules from %s."), $url),
+                    $status_line
+                )
+            );
         }
 
         $anchor = $subject = $rule = "";
