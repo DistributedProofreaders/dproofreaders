@@ -23,9 +23,14 @@ echo "<p>" . _("On the round pages, users are presented a random rule from the p
 
 // do POST actions
 if ($action == 'update') {
-    RandomRule::reload_rules($url, $document, $langcode);
-    // TRANSLATORS: %3$s is a URL
-    echo "<p class='warning'>" . sprintf(_('Loaded rules for document %1$s and language %2$s from %3$s.'), RandomRule::$document_values[$document], $langcode, $url) . "</p>";
+    try {
+        RandomRule::reload_rules($url, $document, $langcode);
+
+        // TRANSLATORS: %3$s is a URL
+        echo "<p class='warning'>" . sprintf(_('Loaded rules for document %1$s and language %2$s from %3$s.'), RandomRule::$document_values[$document], $langcode, $url) . "</p>";
+    } catch (RuntimeException $exception) {
+        echo "<p class='error'>" . $exception->getMessage() . "</p>";
+    }
 } elseif ($action == 'delete') {
     RandomRule::delete_rules($document, $langcode);
     echo "<p class='warning'>" . sprintf(_('Deleted rules for document %1$s and language %2$s.'), RandomRule::$document_values[$document], $langcode) . "</p>";
