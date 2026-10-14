@@ -75,11 +75,160 @@ CREATE TABLE `projectID5e23a810ef693` (
   KEY state (state)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
-REPLACE INTO `projectID5e23a810ef693` VALUES ('001','001.png','THE BOY IN THE IIOL\'SE OF THE TRUES. (SEE PAGE 115.)',1579633527,'sanspeur43','THE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',1579652671,'jjz','\r\nTHE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',1708294896,'bfoley','\r\nTHE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',0,'','',0,'','','P3.page_saved','',0,'');
-REPLACE INTO `projectID5e23a810ef693` VALUES ('002','002.png','THE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK -- STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUYHOR \'OF SOME STRANGE CORNERS OF OUR COUNTRY\"\r\n\"A IVEW MEX/CO DAVID,\" ETC.\r\n\r\n\r\n\r\nNEW YORK\r\nTHE CENIURY CO.\r\n1894',1579633637,'sanspeur43','THE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR \'OF SOME STRANGE CORNERS OF OUR COUNTRY\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\n\r\n\r\nNEW YORK\r\nTHE CENTURY CO.\r\n1894',1579651078,'jjz','\r\nTHE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR OF \"SOME STRANGE CORNERS OF OUR COUNTRY[**,]\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\nNEW YORK\r\nTHE CENTURY CO.\r\n1894',1708308780,'srjfoo','\r\nTHE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR OF \"SOME STRANGE CORNERS OF OUR COUNTRY[**,]\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\nNEW YORK\r\n\r\nTHE CENTURY CO.\r\n\r\n1894',0,'','',0,'','','P3.page_saved','',0,'');
-REPLACE INTO `projectID5e23a810ef693` VALUES ('003','003.png','Copyright, 1891, 1892, 1894,\r\n\r\nBy THE CENTURY C0.\r\n\r\n\r\n\r\nTHE DEVINNE PREss;',1579633720,'sanspeur43','Copyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\n\r\n\r\nTHE DE VINNE PREss.',1579651130,'jjz','\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nTHE DE VINNE PREss.',1708308890,'srjfoo','\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nThe De Vinne Press.',0,'','',0,'','','P3.page_saved','',0,'');
-REPLACE INTO `projectID5e23a810ef693` VALUES ('004','004.png','To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',1579633808,'sanspeur43','To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',1579651187,'jjz','\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',1708308955,'srjfoo','\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',0,'','',0,'','','P3.page_saved','',0,'');
-REPLACE INTO `projectID5e23a810ef693` VALUES ('005','005.png','',1579633830,'sanspeur43','[Blank Page]',1579651201,'jjz','[Blank Page]',1708308967,'srjfoo','[Blank Page]',0,'','',0,'','','P3.page_saved','',0,'');
+REPLACE INTO `projectID5e23a810ef693` VALUES (
+    '001',
+    '001.png',
+    -- master_text
+    'THE BOY IN THE IIOL\'SE OF THE TRUES. (SEE PAGE 115.)',
+    -- round1
+    1579633527,
+    'sanspeur43',
+    'THE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',
+    -- round2
+    1579652671,
+    'jjz',
+    '\r\nTHE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',
+    -- round3
+    1708294896,
+    'bfoley',
+    '\r\nTHE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',
+    0,
+    -- round4
+    '',
+    '',
+    -- round5
+    0,
+    '',
+    '',
+    -- state
+    'P3.page_saved',
+    '',
+    0,
+    ''
+);
+REPLACE INTO `projectID5e23a810ef693` VALUES (
+    '002',
+    '002.png',
+    -- master_text
+    'THE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK -- STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUYHOR \'OF SOME STRANGE CORNERS OF OUR COUNTRY\"\r\n\"A IVEW MEX/CO DAVID,\" ETC.\r\n\r\n\r\n\r\nNEW YORK\r\nTHE CENIURY CO.\r\n1894',
+    -- round1
+    1579633637,
+    'sanspeur43',
+    'THE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR \'OF SOME STRANGE CORNERS OF OUR COUNTRY\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\n\r\n\r\nNEW YORK\r\nTHE CENTURY CO.\r\n1894',
+    -- round2
+    1579651078,
+    'jjz',
+    '\r\nTHE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR OF \"SOME STRANGE CORNERS OF OUR COUNTRY[**,]\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\nNEW YORK\r\nTHE CENTURY CO.\r\n1894',
+    -- round3
+    1708308780,
+    'srjfoo',
+    '\r\nTHE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR OF \"SOME STRANGE CORNERS OF OUR COUNTRY[**,]\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\nNEW YORK\r\n\r\nTHE CENTURY CO.\r\n\r\n1894',
+    -- round4
+    0,
+    '',
+    '',
+    -- round5
+    0,
+    '',
+    '',
+    -- state
+    'P3.page_saved',
+    '',
+    0,
+    ''
+);
+REPLACE INTO `projectID5e23a810ef693` VALUES (
+    '003',
+    '003.png',
+    -- master_text
+    'Copyright, 1891, 1892, 1894,\r\n\r\nBy THE CENTURY C0.\r\n\r\n\r\n\r\nTHE DEVINNE PREss;',
+    -- round1
+    1579633720,
+    'sanspeur43',
+    'Copyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\n\r\n\r\nTHE DE VINNE PREss.',
+    -- round2
+    1579651130,
+    'jjz',
+    '\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nTHE DE VINNE PREss.',
+    -- round3
+    1708308890,
+    'srjfoo',
+    '\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nThe De Vinne Press.',
+    -- round4
+    0,
+    '',
+    '',
+    -- round5
+    0,
+    '',
+    '',
+    'P3.page_saved',
+    '',
+    0,
+    ''
+);
+REPLACE INTO `projectID5e23a810ef693` VALUES (
+    '004',
+    '004.png',
+    -- master_text
+    'To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',
+    -- round1
+    1579633808,
+    'sanspeur43',
+    'To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',
+    -- round2
+    1579651187,
+    'jjz',
+    '\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',
+    -- round3
+    1708308955,
+    'srjfoo',
+    '\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',
+    -- round4
+    0,
+    '',
+    '',
+    -- round5
+    0,
+    '',
+    '',
+    -- state
+    'P3.page_saved',
+    '',
+    0,
+    ''
+);
+REPLACE INTO `projectID5e23a810ef693` VALUES (
+    '005',
+    '005.png',
+    -- master_text
+    '',
+    -- round1
+    1579633830,
+    'sanspeur43',
+    '[Blank Page]',
+    -- round2
+    1579651201,
+    'jjz',
+    '[Blank Page]',
+    -- round3
+    1708308967,
+    'srjfoo',
+    '[Blank Page]',
+    -- round4
+    0,
+    '',
+    '',
+    -- round5
+    0,
+    '',
+    '',
+    -- state
+    'P3.page_saved',
+    '',
+    0,
+    ''
+);
 
 DROP TABLE IF EXISTS `projectID3141592653589`;
 CREATE TABLE `projectID3141592653589` (
