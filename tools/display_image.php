@@ -4,8 +4,6 @@ include_once($relPath."base.inc");
 include_once($relPath."slim_header.inc");
 include_once($relPath."Project.inc");
 
-require_login();
-
 $projectid = get_projectID_param($_GET, 'project', true) ??
     get_projectID_param($_GET, 'projectid', true);
 $imagefile = get_page_image_param($_GET, 'imagefile', true) ??
