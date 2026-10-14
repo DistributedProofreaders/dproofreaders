@@ -569,10 +569,11 @@ function get_rounds_with_data(Project $project): array
     $num_filled_user_fields_for_round_ = mysqli_fetch_assoc($res);
 
     // Keep rounds with non-empty username columns in the DB
-    $rounds_with_data = array_filter(
-        array_values(Rounds::get_all()),
+    // NB we return a list with sequential keys from 0..N-1
+    $rounds_with_data = array_values(array_filter(
+        Rounds::get_all(),
         fn ($round) => ($num_filled_user_fields_for_round_[$round->id] != 0)
-    );
+    ));
 
     return $rounds_with_data;
 }
