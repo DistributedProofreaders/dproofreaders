@@ -85,9 +85,9 @@ REPLACE INTO `projectID5e23a810ef693` VALUES (
     'sanspeur43',
     'THE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',
     -- round2
-    1579652671,
-    'jjz',
-    '\r\nTHE BOY IN THE HOUSE OF THE TRUES. (SEE PAGE 115.)',
+    0,
+    '',
+    '',
     -- round3
     1708294896,
     'bfoley',
@@ -116,9 +116,9 @@ REPLACE INTO `projectID5e23a810ef693` VALUES (
     'sanspeur43',
     'THE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR \'OF SOME STRANGE CORNERS OF OUR COUNTRY\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\n\r\n\r\nNEW YORK\r\nTHE CENTURY CO.\r\n1894',
     -- round2
-    1579651078,
-    'jjz',
-    '\r\nTHE MAN WHO MARRIED\r\nTHE MOON\r\n\r\nAND OTHER PUEBLO INDIAN FOLK-STORIES\r\n\r\nBY\r\n\r\nCHARLES E. LUMMIS\r\n\r\n(AUTHOR OF \"SOME STRANGE CORNERS OF OUR COUNTRY[**,]\"\r\n\"A NEW MEXICO DAVID,\" ETC.\r\n\r\nNEW YORK\r\nTHE CENTURY CO.\r\n1894',
+    0,
+    '',
+    '',
     -- round3
     1708308780,
     'srjfoo',
@@ -147,9 +147,9 @@ REPLACE INTO `projectID5e23a810ef693` VALUES (
     'sanspeur43',
     'Copyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\n\r\n\r\nTHE DE VINNE PREss.',
     -- round2
-    1579651130,
-    'jjz',
-    '\r\nCopyright, 1891, 1892, 1894,\r\nBy THE CENTURY Co.\r\n\r\nTHE DE VINNE PREss.',
+    0,
+    '',
+    '',
     -- round3
     1708308890,
     'srjfoo',
@@ -177,9 +177,9 @@ REPLACE INTO `projectID5e23a810ef693` VALUES (
     'sanspeur43',
     'To\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',
     -- round2
-    1579651187,
-    'jjz',
-    '\r\nTo\r\nTHE FAIRY TALE THAT CAME TRUE IN\r\nTHE HOME OF THE TEE-WAHN\r\nMY WIFE AND CHILD',
+    0,
+    '',
+    '',
     -- round3
     1708308955,
     'srjfoo',
@@ -208,9 +208,9 @@ REPLACE INTO `projectID5e23a810ef693` VALUES (
     'sanspeur43',
     '[Blank Page]',
     -- round2
-    1579651201,
-    'jjz',
-    '[Blank Page]',
+    0,
+    '',
+    '',
     -- round3
     1708308967,
     'srjfoo',
