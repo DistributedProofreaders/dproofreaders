@@ -10,7 +10,7 @@ include_once($relPath.'forum_interface.inc');
 // This is because this function may be called by a site admin to send
 // a mail to a completely different user (e.g. a Polish user shouldn't
 // get a Spanish mail because one of the site admins is Spanish).
-function send_activate_mail(string $email, string $real_name, string $reg_token, string $username, string $u_intlang): void
+function send_activate_mail(string $email, string $real_name, string $reg_token, string $username, string $_u_intlang): void
 {
     $code_url = SiteConfig::get()->code_url;
     $site_name = SiteConfig::get()->site_name;
