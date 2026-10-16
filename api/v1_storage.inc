@@ -34,7 +34,7 @@ function api_v1_storage(string $method, array $data): mixed
 }
 
 /** @param array<string, mixed> $data */
-function api_v1_storage_delete(string $method, array $data): void
+function api_v1_storage_delete(string $_method, array $data): void
 {
     global $pguser;
 

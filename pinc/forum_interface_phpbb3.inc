@@ -144,7 +144,7 @@ function create_forum_user(string $username, string $password, string $email, bo
     return true;
 }
 
-function phpbb_user_error_handler(int $errno, string $errstr, string $errfile, int $errline): bool
+function phpbb_user_error_handler(int $errno, string $errstr, string $_errfile, int $_errline): bool
 {
     if (in_array($errno, [E_USER_ERROR, E_USER_NOTICE])) {
         throw new ValueError($errstr);

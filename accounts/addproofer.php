@@ -225,7 +225,7 @@ function _validate_fields(
     string $userpass2,
     string $email,
     string $email2,
-    bool $email_updates,
+    bool $_email_updates,
     string $referrer,
     string $referrer_details
 ): string {
