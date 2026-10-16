@@ -800,7 +800,7 @@ class TallyBoard
 
         [$best_delta, $best_delta_timestamp] =
             $this->get_info_re_largest_delta($holder_id);
-        $today_delta = $current_tally - $snapshot_info['tally_delta'];
+        $today_delta = $current_tally - $snapshot_info['tally_value'];
         if ($today_delta > $best_delta) {
             $best_delta = $today_delta;
             $best_delta_timestamp = time();
