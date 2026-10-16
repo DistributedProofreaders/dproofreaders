@@ -1138,7 +1138,7 @@ function create_project_transitions(): array
 // The functions below are used as callbacks for ProjectTransitions, either
 // as the project_restriction or the collateral_actions.
 
-function round_release_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function round_release_collateral(Project $_old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     $round = get_Round_for_project_state($transition->to_state);
     assert(!is_null($round));
@@ -1178,7 +1178,7 @@ function round_release_collateral(Project $old_project, Project $project, Projec
     }
 }
 
-function bad_project_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function bad_project_collateral(Project $_old_project, Project $project, ProjectTransition $_transition, string $_who): void
 {
     configure_gettext_for_user($project->username);
     $body_blurb_messages[] = _("This project has been shut down. This is due to 10 or more problem reports, from at least 3 unique users, noting errors or problems with this project.");
@@ -1188,7 +1188,7 @@ function bad_project_collateral(Project $old_project, Project $project, ProjectT
     configure_gettext_for_user();
 }
 
-function round_complete_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function round_complete_collateral(Project $_old_project, Project $project, ProjectTransition $transition, string $_who): void
 {
     $round = get_Round_for_project_state($transition->to_state);
     assert(!is_null($round));
@@ -1224,7 +1224,7 @@ function proj_would_go_to_PP_out(Project $project, ProjectTransition $transition
     return !is_null(project_get_auto_PPer($project->projectid));
 }
 
-function round_to_PP_avail_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function round_to_PP_avail_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $_who): void
 {
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files($project, $from_round->id, 'LE', false, '');
@@ -1265,7 +1265,7 @@ function round_to_PP_avail_collateral(Project $old_project, Project $project, Pr
 }
 
 // From either PP Checked out or PP Unavailable to PP Available
-function to_PP_available_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function to_PP_available_collateral(Project $_old_project, Project $project, ProjectTransition $transition, string $_who): void
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1282,7 +1282,7 @@ function to_PP_available_collateral(Project $old_project, Project $project, Proj
     notify_project_event_subscribers($project, 'pp_enter');
 }
 
-function round_to_PP_out_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function round_to_PP_out_collateral(Project $_old_project, Project $project, ProjectTransition $transition, string $_who): void
 {
     $from_round = get_Round_for_project_state($transition->from_state);
     generate_post_files($project, $from_round->id, 'LE', false, '');
@@ -1338,7 +1338,7 @@ function round_to_PP_out_collateral(Project $old_project, Project $project, Proj
 }
 
 // From PP Un/Available to PP Checked out
-function PP_to_PP_out_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function PP_to_PP_out_collateral(Project $_old_project, Project $project, ProjectTransition $_transition, string $_who): void
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1353,12 +1353,12 @@ function PP_to_PP_out_collateral(Project $old_project, Project $project, Project
     configure_gettext_for_user();
 }
 
-function to_PPV_available_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function to_PPV_available_collateral(Project $_old_project, Project $project, ProjectTransition $_transition, string $_who): void
 {
     notify_project_event_subscribers($project, 'ppv_enter');
 }
 
-function return_to_PP_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function return_to_PP_collateral(Project $_old_project, Project $project, ProjectTransition $_transition, string $_who): void
 {
     $PPer_username = $project->checkedoutby;
     $PPer = new User($PPer_username);
@@ -1385,7 +1385,7 @@ function project_was_not_returned_from_PPV(Project $project, ProjectTransition $
     return $project->ppverifier == null;
 }
 
-function return_from_PP_to_PPV_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function return_from_PP_to_PPV_collateral(Project $_old_project, Project $project, ProjectTransition $_transition, string $_who): void
 {
     $PPVer_username = $project->checkedoutby;
     $PPVer = new User($PPVer_username);
@@ -1402,7 +1402,7 @@ function return_from_PP_to_PPV_collateral(Project $old_project, Project $project
 
 // From either PP Checked out or PP Available to PP Unavailable
 // Or to Unavailable in a round
-function to_unavailable_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function to_unavailable_collateral(Project $_old_project, Project $project, ProjectTransition $transition, string $who): void
 {
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1418,7 +1418,7 @@ function to_unavailable_collateral(Project $old_project, Project $project, Proje
     configure_gettext_for_user();
 }
 
-function pg_posted_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $who): void
+function pg_posted_collateral(Project $_old_project, Project $project, ProjectTransition $_transition, string $_who): void
 {
     notify_project_event_subscribers($project, 'posted');
 }
