@@ -36,16 +36,34 @@ function dpsession_begin(string $userID): void
  * Resume a session, if one exists.
  *
  * If the request claimed to belong to a session, and that session is
- * valid/current/non-expired, then refresh the session, reinstate the
- * global variable ($pguser) of that session, and return TRUE.
- * Otherwise, return FALSE.
+ * valid/current/non-expired, then refresh the session, and reinstate the
+ * global variable ($pguser) of that session.
  */
 function dpsession_resume(): void
 {
     global $cookie_lifetime, $pguser, $session_name;
 
+    // If there's no cookie they can't be logged in and there's nothing
+    // to resume and don't bother sending them a session cookie.
+    if (!dpsession_is_cookie_set()) {
+        // If this is the first time in this browsing session that they're
+        // hitting the site, we grab the request's http_referer (if any),
+        // and stash that in a cookie for later use in case they register
+        // in this browsing session.
+        if (!isset($_COOKIE["http_referer"])) {
+            if (isset($_SERVER["HTTP_REFERER"])) {
+                dp_setcookie('http_referer', $_SERVER["HTTP_REFERER"]);
+            } else {
+                dp_setcookie('http_referer', '');
+            }
+        }
+
+        return;
+    }
+
     _session_set_handlers_and_start();
 
+    // If it's a valid session, refresh the cookie and update user activity
     if (isset($_SESSION['pguser']) && !empty($_SESSION['pguser'])) {
         // Refresh the cookie
         if (($id = session_id()) !== false) {
@@ -54,27 +72,10 @@ function dpsession_resume(): void
 
         // set global variable $pguser
         $pguser = $_SESSION['pguser'];
-        $user_is_logged_in = true;
-    } else {
-        session_unset();
-        session_destroy();
-        $user_is_logged_in = false;
-    }
 
-    if ($user_is_logged_in) {
         _update_user_activity_time(false);
-    }
-
-    // If the sender isn't logged in, and this is the first time in this
-    // browsing session that they're hitting the site, we grab the request's
-    // http_referer (if any), and stash that in a cookie for later use, in
-    // case they register in this browsing session.
-    if (!$user_is_logged_in && !isset($_COOKIE["http_referer"])) {
-        if (isset($_SERVER["HTTP_REFERER"])) {
-            dp_setcookie('http_referer', $_SERVER["HTTP_REFERER"]);
-        } else {
-            dp_setcookie('http_referer', '');
-        }
+    } else {
+        dpsession_end();
     }
 }
 
@@ -255,6 +256,12 @@ class DPSessionHandler implements SessionHandlerInterface
     }
 }
 
+/*
+ * Start PHP session management.
+ *
+ * This will create the session handler and start the session which will
+ * create a session in the DB and send the user a session cookie.
+ */
 function _session_set_handlers_and_start(): void
 {
     static $session_handler = null;
