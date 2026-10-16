@@ -101,8 +101,8 @@ function validate_document(string $document): string
     return $document;
 }
 
-/** @param array<string, mixed> $data */
-function validate_storage_key(string $storage_key, array $data): string
+/** @param array<string, mixed> $_data */
+function validate_storage_key(string $storage_key, array $_data): string
 {
     if (!in_array($storage_key, SiteConfig::get()->api_storage_keys)) {
         throw new NotFoundError("$storage_key is not a valid storage key");
