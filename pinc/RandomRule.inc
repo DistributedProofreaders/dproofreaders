@@ -207,6 +207,8 @@ class RandomRule
         $context_opts = [
             'http' => [
                 'method' => "GET",
+                // crawlers mitigations on PGDP systems
+                'header' => "Cookie: DP_Session=1,DPT_Session=1",
             ],
         ];
 
