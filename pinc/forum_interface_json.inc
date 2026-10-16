@@ -298,7 +298,7 @@ function get_forum_user_id(string $username): ?int
 }
 
 // @phpstan-ignore return.unusedType
-function get_forum_rank_title(int $rank): ?string
+function get_forum_rank_title(int $_rank): ?string
 // Given a forum rank number, return the text title of that rank.
 {
     return "Tester";
@@ -324,33 +324,33 @@ function get_url_for_forum_user_login(): string
     return "";
 }
 
-function get_url_to_compose_message_to_user(string $username): string
+function get_url_to_compose_message_to_user(string $_username): string
 // Given a forum username, return a URL that can be used to
 // access a form to send the user a message.
 {
     return "";
 }
 
-function get_url_to_view_forum(int $forum_id): string
+function get_url_to_view_forum(int $_forum_id): string
 // Given a forum id, return a URL that can be used to view the forum.
 {
     return "";
 }
 
-function get_url_to_view_topic(int $topic_id): string
+function get_url_to_view_topic(int $_topic_id): string
 // Given a topic id, return a URL that can be used to view the topic.
 {
     return "";
 }
 
-function get_url_to_view_post(int $post_id): string
+function get_url_to_view_post(int $_post_id): string
 // Given a post id, return a URL that can be used to view the post.
 {
     return "";
 }
 
 // @phpstan-ignore return.unusedType
-function get_url_for_user_avatar(string $username): ?string
+function get_url_for_user_avatar(string $_username): ?string
 // Given a forum username, return a URL that can be used to load the user's
 // avatar. If no avatar is defined, this function returns NULL.
 {
@@ -363,7 +363,7 @@ function get_url_to_edit_profile(): string
     return "";
 }
 
-function get_url_to_view_profile(int $user_id = 0): string
+function get_url_to_view_profile(int $_user_id = 0): string
 // Return a URL that can be used to view a given user's profile.
 {
     return "";
@@ -378,13 +378,13 @@ function get_url_for_inbox(): string
 /**
  * Return the URL for searching the forums
  */
-function get_url_for_search(string $query): string
+function get_url_for_search(string $_query): string
 {
     return "";
 }
 
 // * @phpstan-ignore return.unusedType
-function get_number_of_unread_messages(string $username): ?int
+function get_number_of_unread_messages(string $_username): ?int
 // Given a forum username, return the number of unread messages.
 {
     return null;
@@ -473,12 +473,12 @@ function get_topic_details(int $topic_id): ?array
 // -----------------------------------------------------------------------------
 
 function topic_create(
-    int $forum_id,
+    int $_forum_id,
     string $post_subject,
     string $post_text,
     string $poster_name,
-    bool $poster_is_real,
-    bool $make_poster_watch_topic
+    bool $_poster_is_real,
+    bool $_make_poster_watch_topic
 ): ?int {
     $postManager = new ForumJsonPost();
     $topic = $postManager->add_topic($post_subject, $post_text, $poster_name);
@@ -492,7 +492,7 @@ function topic_add_post(
     string $post_subject,
     string $post_text,
     string $poster_name,
-    bool $poster_is_real
+    bool $_poster_is_real
 ): void {
     $postManager = new ForumJsonPost();
     $postManager->add_post($topic_id, $post_subject, $post_text, $poster_name);
