@@ -7,10 +7,10 @@ include_once("exceptions.inc");
 // stats/site
 
 /**
- * @param array<string, mixed> $data
+ * @param array<string, mixed> $_data
  * @return array{server_time: string, ...<string, int>}
  */
-function api_v1_stats_site(string $method, array $data): array
+function api_v1_stats_site(string $_method, array $_data): array
 {
     $res = DPDatabase::query("SELECT COUNT(*) FROM users");
     [$registered_users] = mysqli_fetch_row($res);
@@ -59,10 +59,10 @@ function api_v1_stats_site(string $method, array $data): array
  *    "proj_post_second_checked_out": 2,
  *    "proj_delete": 46,
  * }```
- * @param array<string, mixed> $data
+ * @param array<string, mixed> $_data
  * @return array<string, int>
  */
-function api_v1_stats_site_projects_states(string $method, array $data): array
+function api_v1_stats_site_projects_states(string $_method, array $_data): array
 {
     // Make sure all project state statistics are provided.
     $output = [];
@@ -84,10 +84,10 @@ function api_v1_stats_site_projects_states(string $method, array $data): array
 }
 
 /**
- * @param array<string, mixed> $data
+ * @param array<string, mixed> $_data
  * @return array<string, int>
  */
-function api_v1_stats_site_projects_stages(string $method, array $data): array
+function api_v1_stats_site_projects_stages(string $_method, array $_data): array
 {
     // Make sure all project stage statistics are provided.
     $output = [];
@@ -151,10 +151,10 @@ function render_round_stats(string $round_id): array
 }
 
 /**
- * @param array<string, mixed> $data
+ * @param array<string, mixed> $_data
  * @return array<string, array<string, int>>
  */
-function api_v1_stats_site_rounds(string $method, array $data): array
+function api_v1_stats_site_rounds(string $_method, array $_data): array
 {
     $return = [];
     foreach (Rounds::get_ids() as $round_id) {
@@ -171,7 +171,7 @@ function api_v1_stats_site_rounds(string $method, array $data): array
  * @param array<string, mixed> $data
  * @return array<string, int>
  */
-function api_v1_stats_site_round(string $method, array $data): array
+function api_v1_stats_site_round(string $_method, array $data): array
 {
     $round = $data[":roundid"];
 
@@ -211,7 +211,7 @@ function render_round_user_stats(User $user, Round $round): array
  * @param array<string, mixed> $data
  * @return array<string, array<string, int>>
  */
-function api_v1_stats_user_rounds(string $method, array $data): array
+function api_v1_stats_user_rounds(string $_method, array $data): array
 {
     $user = $data[":username"];
 
@@ -230,7 +230,7 @@ function api_v1_stats_user_rounds(string $method, array $data): array
  * @param array<string, mixed> $data
  * @return array<string, int>
  */
-function api_v1_stats_user_round(string $method, array $data): array
+function api_v1_stats_user_round(string $_method, array $data): array
 {
     $user = $data[":username"];
     $round = $data[":roundid"];

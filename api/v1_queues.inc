@@ -9,11 +9,11 @@ include_once("api_common.inc");
 //---------------------------------------------------------------------------
 // queues -- list queues, optionally filtered by round
 /**
- * @param array<string, mixed> $data
+ * @param array<string, mixed> $_data
  * @param array<string,string|string[]> $query_params
  * @return array<string, mixed>[]
  */
-function api_v1_queues(string $method, array $data, array $query_params): array
+function api_v1_queues(string $_method, array $_data, array $query_params): array
 {
     $roundid = $query_params["roundid"] ?? null;
     $round = !is_null($roundid) ? validate_round($roundid, []) : null;
@@ -65,7 +65,7 @@ function api_v1_queues(string $method, array $data, array $query_params): array
  * @param array<string, mixed> $data
  * @return array<string, mixed>
  */
-function api_v1_queue(string $method, array $data): array
+function api_v1_queue(string $_method, array $data): array
 {
     $queue = $data[":queueid"];
 
@@ -79,7 +79,7 @@ function api_v1_queue(string $method, array $data): array
  * @param array<string, mixed> $data
  * @return array<string, mixed>
  */
-function api_v1_queue_stats(string $method, array $data): array
+function api_v1_queue_stats(string $_method, array $data): array
 {
     $queue = $data[":queueid"];
 
@@ -97,7 +97,7 @@ function api_v1_queue_stats(string $method, array $data): array
  * @param array<string,string|string[]> $query_params
  * @return array<string, mixed>[]
  */
-function api_v1_queue_projects(string $method, array $data, array $query_params): array
+function api_v1_queue_projects(string $_method, array $data, array $query_params): array
 {
     $queue = $data[":queueid"];
     $unheld_only = (bool) get_flag_value($query_params, "unheld_only");
