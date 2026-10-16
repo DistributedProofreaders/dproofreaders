@@ -47,7 +47,7 @@ function get_dpl_count_for_user_in_round(string $username, Round $round): int
  * the user has done in the specified round. If the DPL is not enforced
  * for this user/round/project for some reason, return Null.
  */
-function get_dpl_enforcement_for_user(string $username, Round $round, Project $project): ?int
+function get_dpl_enforcement_for_user(string $username, Round $round, Project $_project): ?int
 {
     // This function is a placeholder for sites to add any per-project
     // customizations that might bypass the DPL enforcement. So while it
