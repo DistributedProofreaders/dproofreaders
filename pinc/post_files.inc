@@ -8,7 +8,7 @@ include_once($relPath.'wordcheck_engine.inc');
  */
 function generate_post_files(
     Project $project,
-    string $limit_round_id,
+    Round|stdclass $limit_round,
     string $which_text,
     bool $include_proofers,
     string $base_extra
@@ -41,7 +41,7 @@ function generate_post_files(
         }
     }
 
-    $pages_res = page_info_query($project->projectid, $limit_round_id, $which_text);
+    $pages_res = page_info_query($project, $limit_round, $which_text);
 
     // Join all the page texts into a plain text file...
     $plain_path = "{$pathbase}.txt";
@@ -67,7 +67,7 @@ function generate_post_files(
  */
 function generate_interim_file(
     Project $project,
-    string $limit_round_id,
+    Round|stdclass $limit_round,
     string $which_text,
     bool $include_proofers
 ): void {
@@ -75,19 +75,14 @@ function generate_interim_file(
         throw new Exception(_("Project table not found, it may have been deleted or archived."));
     }
 
-    $filename = $project->projectid;
-    if ('[OCR]' == $limit_round_id) {
-        $filename .= '_OCR';
+    $filename = $project->projectid . '_' . $limit_round->id;
+    if ('EQ' == $which_text) {
+        $filename .= '_saved';
     } else {
-        $filename .= '_' . $limit_round_id;
-        if ('EQ' == $which_text) {
-            $filename .= '_saved';
-        } else {
-            $filename .= '_latest';
-        }
+        $filename .= '_latest';
     }
 
-    $pages_res = page_info_query($project->projectid, $limit_round_id, $which_text);
+    $pages_res = page_info_query($project, $limit_round, $which_text);
 
     // join the page texts together
     $filedata = join_proofed_text($pages_res, $include_proofers, null);
@@ -221,18 +216,13 @@ function join_proofed_text(mysqli_result $pages_res, bool $include_proofers, $fp
 
 // -----------------------------------------------------------------------------
 
-function page_info_query(string $projectid, string $limit_round_id, string $which_text): mysqli_result
+function page_info_query(Project $project, Round|stdclass $limit_round, string $which_text): mysqli_result
 {
-    if ($limit_round_id == '[OCR]') { // somewhat kludgey
+    if ($limit_round->id == 'OCR') {
         // doesn't matter what $which_text is.
-        $text_column_expr = 'master_text';
+        $text_column_expr = $limit_round->text_column_name;
         $user_fields = "";
     } else {
-        $limit_round = get_Round_for_round_id($limit_round_id);
-        if (is_null($limit_round)) {
-            throw new UnexpectedValueException("'$limit_round_id' is not a valid round-id\n");
-        }
-
         if ($which_text == 'EQ') {
             // For each page, fetch the text (if any) saved in the selected round.
             $text_column_expr = $limit_round->text_column_name;
@@ -284,12 +274,12 @@ function page_info_query(string $projectid, string $limit_round_id, string $whic
 
     $res = DPDatabase::query("
         SELECT $text_column_expr, image $user_fields
-        FROM $projectid
+        FROM $project->projectid
         ORDER BY image
     ", throw_on_failure: false);
 
     if (!$res) {
-        throw new Exception("Could not get $limit_round_id text for $projectid");
+        throw new Exception("Could not get {$limit_round->id} text for {$project->projectid}");
     }
 
     /** @var mysqli_result $res -- mysqli_query("SELECT") never returns true */

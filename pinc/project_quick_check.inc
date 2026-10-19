@@ -475,7 +475,7 @@ function _test_project_for_bad_bytes(string $projectid): PQCResult
         return new PQCResult($name, $description, $status, $summary, $details);
     }
 
-    $pages_res = page_info_query($projectid, 'F2', 'LE');
+    $pages_res = page_info_query($project, Rounds::get_by_id('F2'), 'LE');
 
     $page_details_url = "$code_url/tools/project_manager/page_detail.php?project=$projectid";
     $details_for_this_project = "

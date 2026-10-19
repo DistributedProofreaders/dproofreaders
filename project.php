@@ -1533,7 +1533,7 @@ function do_post_files(): void
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
 
     if (isset($highest_round_id)) {
-        echo "<input type='radio' name='round_id' value='[OCR]'>[OCR]&nbsp;\n";
+        echo "<input type='radio' name='round_id' value='OCR'>OCR&nbsp;\n";
         foreach (Rounds::get_all() as $round) {
             $checked = ($round->id == $highest_round_id ? 'CHECKED' : '');
             echo "<input type='radio' name='round_id' value='$round->id' $checked>$round->id&nbsp;\n";
@@ -1542,7 +1542,7 @@ function do_post_files(): void
             }
         }
     } else {
-        echo "<input type='radio' name='round_id' value='[OCR]' CHECKED>[OCR]&nbsp;\n";
+        echo "<input type='radio' name='round_id' value='OCR' CHECKED>OCR&nbsp;\n";
     }
     echo "<br>";
 
