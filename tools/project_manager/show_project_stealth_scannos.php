@@ -183,7 +183,7 @@ function _get_stealth_scanno_word_list(string $projectid): array
     //       instead of just the OCR round, edit_project_word_lists.php should
     //       be updated to allow this page to be accessed for those type-in
     //       projects with no OCR text.
-    $pages_res = page_info_query($projectid, '[OCR]', 'LE');
+    $pages_res = page_info_query(new Project($projectid), get_OCR_pseudoround(), 'LE');
     $all_page_text = get_page_texts($pages_res);
     // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together
@@ -193,7 +193,7 @@ function _get_stealth_scanno_word_list(string $projectid): array
     }
 
     // get the latest project text of all pages up to last possible round
-    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
+    $pages_res = page_info_query(new Project($projectid), Rounds::get_last(), 'LE');
     $all_page_text = get_page_texts($pages_res);
     // remove any formatting tags and add a final \r\n to each page-text
     // to ensure that there is whitespace between pages so they don't run together

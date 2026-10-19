@@ -12,16 +12,16 @@ define("MAX_WORD_INSTANCES", 100);
 
 set_time_limit(0); // no time limit
 
-$projectid = get_projectID_param($_GET, 'projectid');
+$project = new Project(get_projectID_param($_GET, 'projectid'));
 $encWord = @$_GET["word"];
 $word = rtrim(decode_word($encWord));
 
-enforce_edit_authorization($projectid);
+enforce_edit_authorization($project->projectid);
 
 $wordInstances = get_integer_param($_GET, 'wordInstances', 20, 0, MAX_WORD_INSTANCES);
 
 $details = json_encode([
-    "projectid" => $projectid,
+    "projectid" => $project->projectid,
     'storageKey' => 'show_word_context',
 ], JSON_THROW_ON_ERROR);
 
@@ -38,13 +38,13 @@ echo "<div id='show_word_context_container' style='flex: auto; width: 100%; heig
 echo "<div class='overflow-auto'>";
 echo "<div style='padding: 0.5em;'>";
 
-$project_name = get_project_name($projectid);
+$project_name = get_project_name($project->projectid);
 echo "<h2>";
 echo sprintf(
     // TRANSLATORS: %1$s is a word and %2$s is a project name.
     _("Context for '%1\$s' in %2\$s"),
     $word,
-    $project_name
+    $project->nameofwork
 );
 echo "</h2>";
 
@@ -53,7 +53,7 @@ echo "<a href='javascript:void(0)' id='h_v_switch'></a>";
 echo "</p>";
 
 echo "<form method='GET' id='wordInstancesForm'>";
-echo "<input type='hidden' name='projectid' value='$projectid'>";
+echo "<input type='hidden' name='projectid' value='$project->projectid'>";
 echo "<input type='hidden' name='word' value='$encWord'>";
 echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
 echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;'>";
@@ -64,7 +64,7 @@ echo "</select>";
 echo "</form>";
 
 
-$pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
+$pages_res = page_info_query($project, Rounds::get_last(), 'LE');
 // iterate through all the pages until we find $wordInstances of the word
 // we're looking for
 $foundInstances = 0;

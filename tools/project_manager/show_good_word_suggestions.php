@@ -266,7 +266,7 @@ function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
     $project_bad_words = load_project_bad_words($projectid);
 
     // get the latest project text of all pages up to last possible round
-    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
+    $pages_res = page_info_query(new Project($projectid), Rounds::get_last(), 'LE');
     $all_words_w_freq = get_distinct_words_in_text(get_page_texts($pages_res));
 
     // array to hold all words

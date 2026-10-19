@@ -5,14 +5,11 @@ include_once($relPath.'Project.inc');
 include_once($relPath.'slim_header.inc');
 include_once($relPath.'post_files.inc');
 
-$valid_round_ids = Rounds::get_ids();
-array_unshift($valid_round_ids, '[OCR]');
-
 $projectid = get_projectID_param($_REQUEST, 'projectid');
-$round_id = get_enumerated_param($_REQUEST, 'round_id', null, $valid_round_ids);
+$round = get_round_or_ocr_param($_REQUEST, 'round_id');
 $which_text = get_enumerated_param($_REQUEST, 'which_text', null, ['EQ', 'LE']);
-$include_proofers = get_integer_param($_REQUEST, 'include_proofers', 0, 0, 1);
-$save_files = get_integer_param($_REQUEST, 'save_files', 0, 0, 1);
+$include_proofers = get_bool_param($_REQUEST, 'include_proofers', false);
+$save_files = get_bool_param($_REQUEST, 'save_files', false);
 
 $errors = [];
 
@@ -45,10 +42,10 @@ if (!$errors) {
     try {
         if ($save_files) {
             flush();
-            generate_post_files($project, $round_id, $which_text, (bool) $include_proofers, '');
+            generate_post_files($project, $round, $which_text, $include_proofers, '');
             echo "<p>" . _("Done.") . "</p>";
         } else {
-            generate_interim_file($project, $round_id, $which_text, (bool) $include_proofers);
+            generate_interim_file($project, $round, $which_text, $include_proofers);
         }
     } catch (Exception $exception) {
         $errors[] = $exception->getMessage();
@@ -66,7 +63,7 @@ if ($errors) {
 
 function output_page_header(Project $project): void
 {
-    global $round_id, $which_text, $include_proofers, $save_files;
+    global $round, $which_text, $include_proofers, $save_files;
 
     // Allow this function to be called multiple times but only output
     // the contents once.
@@ -82,9 +79,9 @@ function output_page_header(Project $project): void
     echo "<p>" . sprintf(_("Generating files for '%s'."), html_safe($project->nameofwork)) . "</p>";
     echo "<pre>";
     echo "projectid        = $project->projectid\n";
-    echo "round_id         = $round_id\n";
+    echo "round_id         = $round->id\n";
     echo "which_text       = $which_text\n";
-    echo "include_proofers = $include_proofers\n";
-    echo "save_files       = $save_files\n";
+    echo "include_proofers = " . ($include_proofers ? 1 : 0) . "\n";
+    echo "save_files       = " . ($save_files ? 1 : 0) . "\n";
     echo "</pre>";
 }

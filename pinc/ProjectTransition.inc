@@ -1227,7 +1227,7 @@ function proj_would_go_to_PP_out(Project $project, ProjectTransition $transition
 function round_to_PP_avail_collateral(Project $old_project, Project $project, ProjectTransition $transition, string $_who): void
 {
     $from_round = get_Round_for_project_state($transition->from_state);
-    generate_post_files($project, $from_round->id, 'LE', false, '');
+    generate_post_files($project, $from_round, 'LE', false, '');
 
     // Always notify the PM
     configure_gettext_for_user($project->username);
@@ -1285,7 +1285,7 @@ function to_PP_available_collateral(Project $_old_project, Project $project, Pro
 function round_to_PP_out_collateral(Project $_old_project, Project $project, ProjectTransition $transition, string $_who): void
 {
     $from_round = get_Round_for_project_state($transition->from_state);
-    generate_post_files($project, $from_round->id, 'LE', false, '');
+    generate_post_files($project, $from_round, 'LE', false, '');
 
     // The project has been checked out to someone for PPing.
     // We want to notify the PPer and the PM,

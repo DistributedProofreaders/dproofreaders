@@ -159,7 +159,7 @@ function _get_adhoc_word_list(string $projectid, array $queryWords): array
     $messages = [];
 
     // get the latest project text of all pages up to last possible round
-    $pages_res = page_info_query($projectid, Rounds::get_last()->id, 'LE');
+    $pages_res = page_info_query(new Project($projectid), Rounds::get_last(), 'LE');
     $page_texts = get_page_texts($pages_res);
 
     // now run it through WordCheck
