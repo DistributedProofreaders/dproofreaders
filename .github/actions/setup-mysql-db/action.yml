@@ -3,7 +3,9 @@ runs:
   steps:
     - name: Start mysql service
       shell: bash
-      run: sudo /etc/init.d/mysql start
+      run: |
+        sudo systemctl start mysql.service
+        timeout 30s bash -c 'until mysqladmin ping --silent; do sleep 1; done'
     - name: Configure mysql
       shell: bash
       run: |
