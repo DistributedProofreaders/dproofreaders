@@ -23,6 +23,7 @@ function output_html_header(?string $nameofpage, array $extra_args = [], bool $s
     if ($was_output) {
         return;
     }
+    $was_output = true;
 
     $user = User::load_current();
 
