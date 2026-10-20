@@ -641,6 +641,7 @@ function define_bad_byte_sequences(): void
 {
     global $_bad_byte_sequences, $_character_data;
 
+    /** @var non-empty-array<string, list{string, string}> $_bad_byte_sequences */
     $_bad_byte_sequences = [];
 
     foreach ($_character_data as $code_point => $info) {
@@ -681,8 +682,8 @@ function define_bad_byte_sequences(): void
 
     ksort($_bad_byte_sequences);
 
-    if (0) { /** @phpstan-ignore-line */
-        foreach ($_bad_byte_sequences as $raw => $remarks) { /** @phpstan-ignore-line Fixed in https://github.com/phpstan/phpstan/issues/9403 */
+    if (0) { // @phpstan-ignore if.alwaysFalse
+        foreach ($_bad_byte_sequences as $raw => $remarks) {
             [$code_point, $why_bad] = $remarks;
             echo sprintf(
                 "%s: U+%04x %s\n",
