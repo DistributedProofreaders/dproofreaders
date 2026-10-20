@@ -76,6 +76,9 @@ WEB_TESTS = [
 
     {'name': 'api-queues', 'path': 'api/index.php?url=v1/queues'},
     {'name': 'api-queue', 'path': 'api/index.php?url=v1/queues/500'},
+    {'name': 'api-queue-noname', 'path': 'api/index.php?url=v1/queues&name=noname'},
+    {'name': 'api-queue-inv-keys', 'path': 'api/index.php?url=v1/queues&invalid=query', 'expect_status': 400},
+    {'name': 'api-queue-inv-field', 'path': 'api/index.php?url=v1/queues&field[]=name&field[]=enabled&field[]=place-des', 'expect_status': 400},
     {'name': 'api-queue-stats', 'path': 'api/index.php?url=v1/queues/500/stats'},
     {'name': 'api-queue-projects', 'path': 'api/index.php?url=v1/queues/500/projects'},
 

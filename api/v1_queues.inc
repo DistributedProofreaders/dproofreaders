@@ -43,9 +43,19 @@ function api_v1_queues(string $_method, array $_data, array $query_params): arra
         array_push($valid_return_fields, "project_selector", "projects_target", "pages_target");
     }
 
-    // restrict to list of desired fields, if set
     $return_fields = array_get_as_array($query_params, "field", $valid_return_fields);
-    $return_fields = array_intersect($return_fields, $valid_return_fields);
+
+    // Validate query params
+    $valid_query_keys = array_merge($valid_fields, ['show', 'field']);
+    $invalid_query_params = array_diff(array_keys($query_params), $valid_query_keys);
+    if (!empty($invalid_query_params)) {
+        throw new InvalidValue("Invalid query args: " . join(", ", $invalid_query_params));
+    }
+
+    $invalid_fields = array_diff($return_fields, $valid_return_fields);
+    if (!empty($invalid_fields)) {
+        throw new InvalidValue("Invalid field[] args: " . join(", ", $invalid_fields));
+    }
 
     $name_selector = $query_params["name"] ?? null;
     $group_selector = $query_params["group"] ?? null;
