@@ -6,6 +6,7 @@ include_once($relPath.'User.inc');
 
 // $ACCESS_CRITERIA are extended as activities are defined.
 
+/** @var array<string, string> $ACCESS_CRITERIA */
 global $ACCESS_CRITERIA;
 $ACCESS_CRITERIA = [
     'days since reg' => _('Days since registration'),
@@ -128,7 +129,7 @@ class UserAccess
     /**
      * @param bool $can_access
      *     user can access this activity.
-     * @param list{string, int, int, bool}[] $minima_table
+     * @param array<string, list{string, int, float, bool}> $minima_table
      *     ( $criterion_str, $minimum, $user_score, $satisfied )
      * @param ?('sat-unneeded'|'sat-granted'|'sat-available'|'sat-requested'|'sat-wait'|'sat-denied'|'unsat-granted'|'unsat-requested'|'unsat-ungranted'|'unsat-denied') $request_status
      * @param ?string $evaluation_criteria
