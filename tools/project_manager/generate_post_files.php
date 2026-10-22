@@ -67,11 +67,13 @@ function output_page_header(Project $project): void
 
     // Allow this function to be called multiple times but only output
     // the contents once.
-    static $was_output = false;
-    if ($was_output) {
+    static $output_caller = null;
+    if (!is_null($output_caller)) {
+        $loc = get_backtrace_loc();
+        error_log("output_page_header: called from $output_caller then $loc");
         return;
     }
-    $was_output = true;
+    $output_caller = get_backtrace_loc();
 
     $title = _("Generating Post Files");
     slim_header($title);
