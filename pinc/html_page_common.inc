@@ -19,11 +19,13 @@ function output_html_header(?string $nameofpage, array $extra_args = [], bool $s
 {
     global $code_url;
 
-    static $was_output = false;
-    if ($was_output) {
+    static $output_caller = null;
+    if (!is_null($output_caller)) {
+        $loc = get_backtrace_loc();
+        error_log("output_html_header: called from $output_caller then $loc");
         return;
     }
-    $was_output = true;
+    $output_caller = get_backtrace_loc();
 
     $user = User::load_current();
 
