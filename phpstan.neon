@@ -76,12 +76,6 @@ parameters:
           paths:
             - pinc/3rdparty/mediawiki/*.php
 
-        # Use $_foo as the naming convention for unused function params that
-        # we want to keep to satisfy some API. Silence PHPStan warnings when
-        # this happens.
-        - message: '#Function .* has an unused parameter \$_.*\.#'
-
-
     typeAliases:
         # TODO: data.y should be numeric list, but callers needs fixing
         GraphConfig: """
