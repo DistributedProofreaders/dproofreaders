@@ -34,12 +34,14 @@ function slim_footer(array $extra_args = []): void
 {
     // Despite not needing to, some pages may still be calling slim_footer
     // so check to see if we've already output the footer.
-    static $was_output = false;
-    if ($was_output) {
+    static $output_caller = null;
+    if (!is_null($output_caller)) {
+        $loc = get_backtrace_loc();
+        error_log("slim_footer: called from $output_caller then $loc");
         return;
     }
 
     output_html_footer($extra_args);
 
-    $was_output = true;
+    $output_caller = get_backtrace_loc();
 }
