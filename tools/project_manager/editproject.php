@@ -15,7 +15,7 @@ include_once($relPath.'wordcheck_engine.inc');
 $return = $_REQUEST["return"] ?? "$code_url/tools/project_manager/projectmgr.php";
 
 if (!user_is_PM()) {
-    die('permission denied');
+    die(_("You are not authorized to invoke this script."));
 }
 
 $pih = new ProjectInfoHolder();
