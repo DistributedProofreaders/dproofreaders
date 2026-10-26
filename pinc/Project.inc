@@ -331,8 +331,9 @@ class Project
 
     public function populate_from_marc_record(string $encoded_marc_array): void
     {
-        $yaz_array = unserialize(base64_decode($encoded_marc_array));
-        if (!$yaz_array) {
+        if (($dec_marc = base64url_decode($encoded_marc_array)) === false ||
+            ($unc_marc = gzdecode($dec_marc)) === false ||
+            ($yaz_array = json_decode($unc_marc)) === false) {
             throw new InvalidMARCRecord();
         }
 
