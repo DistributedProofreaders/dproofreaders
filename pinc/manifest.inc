@@ -44,16 +44,22 @@ function generate_cached_js_manifest(string $basedir, array $manifest): void
         throw new RuntimeException("Directory '$basedir/dist' does not exist.");
     }
 
-    $serialized_manifest = serialize($manifest);
-    $cached_php_file = <<<EOF
-        <?php
-        function get_cached_js_manifest(): array
-        {
-            return unserialize('$serialized_manifest');
-        }
-        EOF;
+    // We know the manifest is just an array<string, string> so generate a
+    // literal array directly
+    $lines = [
+        "<?php",
+        "/** @return array<string, string> */",
+        "function get_cached_js_manifest(): array",
+        "{",
+        "    return [",
+    ];
+    foreach ($manifest as $filename => $path) {
+        $lines[] = "        " . var_export($filename, true) . " => " . var_export($path, true) . ",";
+    }
+    $lines[] = "    ];";
+    $lines[] = "}";
 
-    if (file_put_contents("$basedir/dist/manifest.php", $cached_php_file) === false) {
+    if (file_put_contents("$basedir/dist/manifest.php", join("\n", $lines)) === false) {
         throw new RuntimeException("Failed to write '$basedir/dist/manifest.php'.");
     }
 }
