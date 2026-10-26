@@ -354,7 +354,7 @@ class ProjectInfoHolder
 
         $this->original_marc_array_encd = @$_POST['rec'];
         $this->hold_states = array_intersect(
-            $this->unserialize(@$_POST['hold_states']) ?? [],
+            $this->unserialize('hold_states', @$_POST['hold_states']) ?? [],
             Project::get_holdable_states(),
         );
 
@@ -629,11 +629,18 @@ class ProjectInfoHolder
 
     private function serialize(mixed $value): string
     {
-        return base64_encode(serialize($value));
+        return base64url_encode(json_encode($value));
     }
 
-    private function unserialize(?string $value): mixed
+    private function unserialize(string $name, ?string $value): mixed
     {
-        return $value ? unserialize(base64_decode($value)) : null;
+        if (!$value) {
+            return null;
+        }
+        if (($str = base64url_decode($value)) === false ||
+            ($dec = json_decode($str)) === false) {
+            throw new UnexpectedValueException("Unexpected $name `$value`");
+        }
+        return $dec;
     }
 }
