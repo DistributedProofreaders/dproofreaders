@@ -10,8 +10,8 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
     protected function setUp(): void
     {
         // Load the yaz array from disk
-        $yaz_array_b64 = file_get_contents("./data/yaz_array.b64");
-        $this->YAZ_ARRAY = unserialize(base64_decode($yaz_array_b64));
+        $yaz_array_json = file_get_contents("./data/yaz_array.json");
+        $this->YAZ_ARRAY = json_decode($yaz_array_json);
     }
 
     private function _load_record(): MARCRecord
@@ -117,7 +117,7 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         //   ["(3,700)(3,1 )(3,a)", "Graham, John,"],
         // ..
         // ]
-        $yaz_array = unserialize(base64_decode(file_get_contents("./data/yaz_array_added_names.b64")));
+        $yaz_array = json_decode(file_get_contents("./data/yaz_array_added_names.json"));
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($yaz_array);
         $authors = implode(" & ", [
@@ -143,7 +143,7 @@ class MARCRecordTest extends PHPUnit\Framework\TestCase
         //   ["(3,260)(3,  )(3,c)", "1890?]"],
         // ..
         // ]
-        $yaz_array = unserialize(base64_decode(file_get_contents("./data/yaz_array_no_publisher_name.b64")));
+        $yaz_array = json_decode(file_get_contents("./data/yaz_array_no_publisher_name.json"));
         $marc_record = new MARCRecord();
         $marc_record->load_yaz_array($yaz_array);
         $this->assertEquals("1890?", $marc_record->publisher);
