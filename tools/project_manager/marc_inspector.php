@@ -4,11 +4,12 @@ include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
 $rec = $_REQUEST['rec'] ?? null;
-if (!$rec) {
+if (!$rec ||
+    ($dec_rec = base64url_decode($rec)) === false ||
+    ($unc_rec = gzdecode($dec_rec)) === false) {
     throw new UnexpectedValueException("Unexpected rec `$rec`");
 }
-
-$record = unserialize(gzdecode(base64url_decode($rec)));
+$record = json_decode($unc_rec, flags: JSON_THROW_ON_ERROR);
 
 $title = _("MARC record inspector");
 output_header($title, NO_STATSBAR);

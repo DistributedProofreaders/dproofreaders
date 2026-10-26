@@ -251,7 +251,7 @@ function do_search_and_show_hits(): void
                 echo "<td class='left-align top-align' style='width: 45%;'>";
 
                 // Compress the record so we don't run over URL length limits
-                $rec = base64url_encode(gzencode(serialize($r), 9));
+                $rec = base64url_encode(gzencode(json_encode($r), 9));
                 echo "<div style='text-align:right; font-size:small'>\n";
                 echo   "<a style='text-decoration: none' target='_blank' href='marc_inspector.php?rec=$rec'>\n";
                 echo     "inspect MARC <i class='fa fa-external-link-alt'></i>\n";

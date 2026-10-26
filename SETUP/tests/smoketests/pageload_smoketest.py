@@ -367,7 +367,7 @@ WEB_TESTS = [
     {'name': 'tools-pm-generate-post-files', 'path': 'tools/project_manager/generate_post_files.php?projectid=projectID5e23a810ef693&round_id=P3&which_text=EQ'},
     {'name': 'tools-pm-handle-bad-page', 'path': 'tools/project_manager/handle_bad_page.php?projectid=projectID5e23a810ef693&image=001.png'},
     {'name': 'tools-pm-manage-image-sources', 'path': 'tools/project_manager/manage_image_sources.php?action=show_sources'},
-    {'name': 'tools-pm-marc-inspector', 'path': 'tools/project_manager/marc_inspector.php?rec=H4sIAAAAAAAAA23QwQrCMAwG4FcJPSmI_Enbrc0uvko2PQgq4rzJ3t2uQ2GwXpo0_b9CTVv9XBWdqSzFqAx1O3-4Xex8ee1dd1UupxLUATnkh93JRABJmYxCBFw3zZdM-We0lQB4X2ey8uU_LNvp_0LJeJ9ahtSM3_Li4oVNL649btRxTgmRBTmKyDHXdNyS0yI3m3Jay6H8UHE9p5Fzw1TW-CTrh1L0cweAQIO9iYo6fQG-RwV6ZgEAAA'},
+    {'name': 'tools-pm-marc-inspector', 'path': 'tools/project_manager/marc_inspector.php?rec=H4sIAAAAAAACA2WMsQ7CMAxE937FKRORKnR2Gog3_qPqkJZugBDt_4vAkKHxYvvp3o0dMMKdQv9Y8339eNfDkTbYKz-RVUlNhowhkg5TX_Ok-AaUdftXhJCuQj0Eom9ANcRSYhSlRVU92yGZfAOqWsQgaRO7CMpsb-R5Kcf8-0iCWPIOlIZu6r6jRJ4c8wAAAA'},
     {'name': 'tools-pm-page-compare', 'path': 'tools/project_manager/page_compare.php?project=projectID5e23a810ef693&L_round=P1&R_round=P2'},
     {'name': 'tools-pm-page-detail', 'path': 'tools/project_manager/page_detail.php?project=projectID5e23a810ef693'},
     {'name': 'tools-pm-project-quick-check', 'path': 'tools/project_manager/project_quick_check.php?projectid=projectID5e23a810ef693'},
