@@ -148,10 +148,13 @@ function do_search_and_show_hits(): void
     echo "<br>";
     $start = get_integer_param($_GET, 'start', 1, 1, null);
     $hide_nontext = !empty(@$_REQUEST['hide_nontext']);
-    if (!empty($_GET['fq'])) {
-        $fullquery = unserialize(base64_decode($_GET['fq']));
+    if (!empty($fq = $_GET['fq'] ?? '')) {
+        if (($dec_fq = base64url_decode($fq)) === false) {
+            throw new UnexpectedValueException("Unexpected fq `$fq`");
+        }
+        $z3950_fullquery = json_decode($dec_fq, flags: JSON_THROW_ON_ERROR);
     } else {
-        $fullquery = query_format();
+        $z3950_fullquery = query_format();
     }
 
     // We request UTF-8 character set, but according to the docs (and our testing)
@@ -160,14 +163,14 @@ function do_search_and_show_hits(): void
     $id = yaz_connect(SiteConfig::get()->external_catalog_locator, ["charset" => "UTF-8"]);
     yaz_syntax($id, "usmarc");
     yaz_element($id, "F");
-    yaz_search($id, "rpn", trim(str_replace("\n", " ", $fullquery)));
+    yaz_search($id, "rpn", trim(str_replace("\n", " ", $z3950_fullquery)));
     $extra_options = ["timeout" => 60];
     yaz_wait($extra_options);
     $errorMsg = yaz_error($id);
 
     echo "<details>\n";
     echo "<summary>Raw query</summary>\n";
-    echo "<pre>$fullquery</pre>\n";
+    echo "<pre>" . html_safe($z3950_fullquery) . "</pre>\n";
     echo "</details>\n";
 
     if (!empty($errorMsg)) {
@@ -217,8 +220,8 @@ function do_search_and_show_hits(): void
     echo "<p>", sprintf(_("%d results returned."), $total_hits), "</p>\n";
 
     if ($total_hits > 0) {
-        $encoded_fullquery = base64_encode(serialize($fullquery));
-        $url_base = "external_catalog_search.php?action=do_search_and_show_hits&fq=$encoded_fullquery&" . search_query_params();
+        $enc_z3950_fullquery = base64url_encode(json_encode($z3950_fullquery));
+        $url_base = "external_catalog_search.php?action=do_search_and_show_hits&fq=$enc_z3950_fullquery&" . search_query_params();
 
         // PHPStan up to at least 1.10.57 has a bug where it doesn't correctly detect
         // that $num_nontext is updated in the loop. We need to sprinkle several ignores
