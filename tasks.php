@@ -1051,7 +1051,8 @@ function encode_array(array $a): string
  */
 function decode_array(string $str): array
 {
-    $a = unserialize(base64_decode($str));
+    $raw = base64_decode($str);
+    $a = unserialize($raw, options: ['allowed_classes' => false]);
     if (is_array($a)) {
         return $a;
     }
