@@ -3,6 +3,10 @@ $relPath = '../../pinc/';
 include_once($relPath.'base.inc');
 include_once($relPath.'theme.inc');
 
+if (!user_is_PM()) {
+    die(_("You are not authorized to invoke this script."));
+}
+
 $rec = $_REQUEST['rec'] ?? null;
 if (!$rec ||
     ($dec_rec = base64url_decode($rec)) === false ||

@@ -9,6 +9,10 @@ include_once($relPath.'theme.inc');
 include_once($relPath.'MARCRecord.inc');
 include_once($relPath.'pg.inc');
 
+if (!user_is_PM()) {
+    die(_("You are not authorized to invoke this script."));
+}
+
 $serial_attrs = [
     9 => _('LCCN'), // Library of Congress Control Number
     8 => _('ISSN'), // International Standard Serial Number
