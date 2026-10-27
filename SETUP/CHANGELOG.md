@@ -7,6 +7,13 @@ see the git history.
 [R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
 first before upgrading to R202102 or later releases.**
 
+## R######
+
+### Notices
+**This release fixes a XSS vulnerability in two Project Manager scripts.**
+Thank you to [@Santoshkumarpuppala](https://github.com/Santoshkumarpuppala)
+for responsibly disclosing this to us.
+
 ## R202609
 Scripts supporting this upgrade are in `SETUP/upgrade/25`
 
