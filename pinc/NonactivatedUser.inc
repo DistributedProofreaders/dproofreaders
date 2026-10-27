@@ -136,8 +136,6 @@ class NonactivatedUser
                 )
             );
         }
-
-        mysqli_free_result($result);
     }
 
     public function save(): void

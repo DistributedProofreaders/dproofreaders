@@ -444,8 +444,6 @@ function get_forum_user_id(string $username): ?int
     $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-
     if (!$row) {
         return null;
     }
@@ -473,8 +471,6 @@ function get_forum_rank_title(int $rank): ?string
     $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-
     return $row["rank_title"] ?? null;
 }
 
@@ -628,8 +624,6 @@ function get_number_of_unread_messages(string $username): ?int
     $res = DPDatabase::query($query);
 
     [$num_messages] = mysqli_fetch_row($res);
-    mysqli_free_result($res);
-
     return $num_messages;
 }
 
@@ -650,9 +644,6 @@ function does_topic_exist(int $topic_id): bool
     $res = DPDatabase::query($query);
 
     $exists = (mysqli_num_rows($res) > 0);
-
-    mysqli_free_result($res);
-
     return $exists;
 }
 
@@ -676,8 +667,6 @@ function get_last_post_time_in_topic(int $topic_id): ?int
     $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-
     return $row["max_post_time"] ?? null;
 }
 
@@ -713,8 +702,6 @@ function get_topic_details(int $topic_id): ?array
     $res = DPDatabase::query($query);
 
     $row = mysqli_fetch_assoc($res);
-    mysqli_free_result($res);
-
     return $row;
 }
 

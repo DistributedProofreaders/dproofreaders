@@ -776,7 +776,6 @@ function get_round_backlog_stats(array $interested_phases): array
         while ($result = mysqli_fetch_assoc($res)) {
             $stats[$phase] = $result["num_pages"] ?? 0; // SELECT SUM() WHERE 0; returns NULL
         }
-        mysqli_free_result($res);
     }
 
     // Pop off any trailing phases that have no pages.

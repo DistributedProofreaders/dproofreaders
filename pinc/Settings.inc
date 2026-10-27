@@ -46,7 +46,6 @@ class Settings
         while ($row = mysqli_fetch_assoc($result)) {
             $this->_load_value($row['setting'], $row['value']);
         }
-        mysqli_free_result($result);
     }
 
     public function UserName(): string
@@ -306,8 +305,6 @@ class Settings
         while ($row = mysqli_fetch_assoc($result)) {
             $usernames[] = $row['username'];
         }
-        mysqli_free_result($result);
-
         return $usernames;
     }
 }

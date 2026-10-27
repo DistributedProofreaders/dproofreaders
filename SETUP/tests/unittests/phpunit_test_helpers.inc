@@ -106,8 +106,6 @@ function create_test_image_source(string $image_source): void
         if (!$result) {
             throw new Exception(sprintf("Unable to create test image source %s", $image_source));
         }
-    } else {
-        mysqli_free_result($result);
     }
 }
 

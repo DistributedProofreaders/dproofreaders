@@ -69,7 +69,6 @@ class JsonStorage
         while ($row = mysqli_fetch_assoc($result)) {
             $value = $row['value'];
         }
-        mysqli_free_result($result);
         return $value;
     }
 
