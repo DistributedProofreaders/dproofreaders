@@ -79,7 +79,6 @@ class RandomRule
 
         $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
         if (!$row) {
             return null;
         }
@@ -106,7 +105,6 @@ class RandomRule
         );
         $result = DPDatabase::query($sql);
         $row = mysqli_fetch_assoc($result);
-        mysqli_free_result($result);
         if (!$row) {
             return null;
         }
@@ -138,7 +136,6 @@ class RandomRule
         while ($row = mysqli_fetch_assoc($result)) {
             $rules[] = new RandomRule($row["id"]);
         }
-        mysqli_free_result($result);
         return $rules;
     }
 
@@ -168,7 +165,6 @@ class RandomRule
                 'count' => $row['count'],
             ];
         }
-        mysqli_free_result($result);
         return $summary;
     }
 

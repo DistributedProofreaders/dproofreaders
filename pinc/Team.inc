@@ -34,7 +34,6 @@ class Team
 
         $result = DPDatabase::query($sql);
         [$count] = mysqli_fetch_row($result);
-        mysqli_free_result($result);
         return $count;
     }
 }

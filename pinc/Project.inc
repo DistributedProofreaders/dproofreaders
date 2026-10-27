@@ -905,7 +905,6 @@ class Project
         while ($row = mysqli_fetch_assoc($result)) {
             $projectids[] = $row['projectid'];
         }
-        mysqli_free_result($result);
         return $projectids;
     }
 
@@ -1013,7 +1012,6 @@ class Project
         while ($row = mysqli_fetch_assoc($result)) {
             $charsuites[] = CharSuites::get($row["charsuite_name"]);
         }
-        mysqli_free_result($result);
         return $charsuites;
     }
 
@@ -1247,8 +1245,6 @@ class Project
         while ($row = mysqli_fetch_assoc($res)) {
             $states[] = $row["state"];
         }
-        mysqli_free_result($res);
-
         return $states;
     }
 
@@ -2154,7 +2150,6 @@ function load_image_sources(): array
     while ($row = mysqli_fetch_assoc($result)) {
         $image_sources[(string)$row['code_name']] = $row;
     }
-    mysqli_free_result($result);
     return $image_sources;
 }
 

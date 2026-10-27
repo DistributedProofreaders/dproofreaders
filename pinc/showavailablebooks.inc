@@ -588,9 +588,6 @@ function show_project_listing(
     }
 
     echo "</table>";
-
-    // Free the search results.
-    mysqli_free_result($result);
 }
 
 // -----------------------------------------------------------------------------

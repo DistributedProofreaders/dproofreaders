@@ -325,7 +325,6 @@ class TallyBoard
 
             $r++;
         }
-        mysqli_free_result($result);
 
         // we need to pull the same data from the users table but with a
         // current_tally of 0 to populate $neighbors
@@ -342,7 +341,6 @@ class TallyBoard
             );
             $result = DPDatabase::query($sql);
             $row = mysqli_fetch_assoc($result);
-            mysqli_free_result($result);
             $rank = $ranker->next($row["current_tally"]);
             $row["current_rank"] = $rank;
             $neighbors[0] = $row;
