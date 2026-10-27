@@ -443,7 +443,6 @@ class UserSuggestions
         while ([$count, $value] = mysqli_fetch_row($result)) {
             $field_counts[$value] = $count;
         }
-        mysqli_free_result($result);
         return $field_counts;
     }
 }

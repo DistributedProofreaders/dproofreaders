@@ -73,7 +73,5 @@ function listHospitalProjects($input, $argv)
         $output .= "</td></tr>\n";
         $output .= "</table>\n";
     }
-
-    mysqli_free_result($result);
     return $output;
 }

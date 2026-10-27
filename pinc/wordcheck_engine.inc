@@ -735,9 +735,6 @@ function count_wordcheck_suggestion_events(string $projectid, int $start_time = 
     $res = DPDatabase::query($sql);
 
     $row = mysqli_fetch_assoc($res);
-
-    mysqli_free_result($res);
-
     return $row["numevents"];
 }
 
@@ -771,9 +768,6 @@ function load_wordcheck_events(string $projectid, int $start_time = 0): array
 
         $eventArray[] = [$time, $round, $page, $proofer, $words];
     }
-
-    mysqli_free_result($res);
-
     return $eventArray;
 }
 
@@ -796,9 +790,6 @@ function load_project_good_word_suggestions_flat(string $projectid, int $start_t
     while ([$suggestions] = mysqli_fetch_row($res)) {
         $words = array_merge($words, explode("\n", $suggestions));
     }
-
-    mysqli_free_result($res);
-
     return $words;
 }
 

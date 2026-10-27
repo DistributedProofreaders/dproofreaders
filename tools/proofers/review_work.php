@@ -437,7 +437,6 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         while ([$image] = mysqli_fetch_row($result)) {
             $diffLinkString .= "<a href='../project_manager/diff.php?project=$projectid&amp;image=$image&amp;L_round=$work_round->id&amp;R_round=$review_round->id'>$image</a> ";
         }
-        mysqli_free_result($result);
     }
 
     // not sure why the pages that have been saved in the review round

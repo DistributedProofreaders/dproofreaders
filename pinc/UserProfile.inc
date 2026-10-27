@@ -104,8 +104,6 @@ class UserProfile
             );
         }
         $this->table_row = mysqli_fetch_assoc($result);
-
-        mysqli_free_result($result);
     }
 
     public function save(): void
@@ -184,7 +182,6 @@ class UserProfile
         while ($row = mysqli_fetch_assoc($result)) {
             $profiles[] = new UserProfile((int)$row["id"]);
         }
-        mysqli_free_result($result);
         return $profiles;
     }
 }

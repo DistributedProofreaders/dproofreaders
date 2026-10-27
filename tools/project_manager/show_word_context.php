@@ -95,7 +95,6 @@ while (($row = page_info_fetch($pages_res)) !== false) {
         break;
     }
 }
-mysqli_free_result($pages_res);
 
 if ($foundInstances >= $wordInstances) {
     echo "<p>" . _("More instances were found; please choose how many to show from the drop-down.") . "</p>";

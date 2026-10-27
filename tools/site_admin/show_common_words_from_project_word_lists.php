@@ -58,7 +58,6 @@ if ($display_list) {
         $option_value = urlencode($language);
         echo "<option value='$option_value'>$option_string</option>";
     }
-    mysqli_free_result($res);
     echo "</select>";
     echo "</td>";
     echo "</tr>";

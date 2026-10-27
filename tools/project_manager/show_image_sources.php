@@ -289,6 +289,5 @@ function load_image_source_stats(): array
     while ($row = mysqli_fetch_assoc($result)) {
         $stats[(string)$row['image_source']] = $row;
     }
-    mysqli_free_result($result);
     return $stats;
 }

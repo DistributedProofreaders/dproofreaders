@@ -243,8 +243,6 @@ function query_columns_for_table(string $table_name): array
     }
 
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    mysqli_free_result($result);
-
     return $rows;
 }
 

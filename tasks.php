@@ -1266,7 +1266,6 @@ function load_task(int $tid, bool $is_assoc = true)
     } else {
         $task = mysqli_fetch_object($result);
     }
-    mysqli_free_result($result);
     return $task;
 }
 

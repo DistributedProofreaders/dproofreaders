@@ -139,8 +139,6 @@ while ($result = mysqli_fetch_assoc($res)) {
 
     echo "</tr>\n";
 }
-mysqli_free_result($res);
-
 ?>
 </table>
 <?php

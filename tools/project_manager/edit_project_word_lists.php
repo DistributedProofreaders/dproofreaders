@@ -440,9 +440,6 @@ class ProjectWordListHolder
 
         $res = DPDatabase::query($sql);
         $count = mysqli_fetch_row($res);
-
-        mysqli_free_result($res);
-
         return $count[0];
     }
 }

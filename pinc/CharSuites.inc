@@ -187,7 +187,6 @@ class CharSuites
         while ($row = mysqli_fetch_assoc($result)) {
             $charsuites[] = CharSuites::get($row["name"]);
         }
-        mysqli_free_result($result);
         return $charsuites;
     }
 

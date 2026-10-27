@@ -291,8 +291,6 @@ class User
                 )
             );
         }
-
-        mysqli_free_result($result);
     }
 
     public function save(): void
@@ -316,7 +314,6 @@ class User
         while ($row = mysqli_fetch_assoc($result)) {
             $teams[] = $row["t_id"];
         }
-        mysqli_free_result($result);
         return $teams;
     }
 
@@ -536,8 +533,6 @@ class User
                 $is_valid = true;
             }
         }
-
-        mysqli_free_result($result);
         return $is_valid;
     }
 
