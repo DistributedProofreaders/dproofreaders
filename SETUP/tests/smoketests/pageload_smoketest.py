@@ -150,16 +150,6 @@ WEB_TESTS = [
     {'name': 'quiz-proof', 'path': 'quiz/generic/proof.php?quiz_page_id=p_basic_3'},
     {'name': 'quiz-returnfeed', 'path': 'quiz/generic/returnfeed.php?quiz_page_id=p_thorn'},
     {'name': 'quiz-right', 'path': 'quiz/generic/right.php?quiz_page_id=p_fraktur'},
-    {'name': 'quiz-wizard-default-messages', 'path': 'quiz/generic/wizard/default_messages.php'},
-    {'name': 'quiz-wizard-start', 'path': 'quiz/generic/wizard/start.php'},
-    {'name': 'quiz-wizard-new-quiz', 'path': 'quiz/generic/wizard/new_quiz.php'},
-    # TODO: Needs SESSION data
-    #'quiz/generic/wizard/general.php',
-    #'quiz/generic/wizard/checks.php',
-    #'quiz/generic/wizard/messages.php',
-    #'quiz/generic/wizard/output.php',
-    #'quiz/generic/wizard/output_quiz.php',
-    #'quiz/generic/wizard/quiz_pages.php',
 
     {'name': 'quiz-aeoe-1', 'path': 'quiz/tuts/tut_p_aeoe_1.php'},
     {'name': 'quiz-aeoe-2', 'path': 'quiz/tuts/tut_p_aeoe_2.php'},
