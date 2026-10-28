@@ -583,7 +583,16 @@ export function analyse(txt, config) {
         let marker = `(?:<(?:${ILTags})>)?(?:[A-Za-z]|\\d+)(?:<.+>)?`;
         let footnoteIDRegex = new RegExp(`^(?:${marker})$`);
         // also check for *
-        let anchorRegex = new RegExp(`\\[(\\*|${marker})\\]`, "g");
+        let anchorSrc = String.raw`\[(\*|${marker})\]`;
+        // math is bounded by \[ \] or \( \)
+        let mathSrc = String.raw`\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)`;
+        let combinedRegex;
+        // find math blocks only if math preview is enabled
+        if (config.allowMathPreview) {
+            combinedRegex = new RegExp(`${mathSrc}|${anchorSrc}`, "g");
+        } else {
+            combinedRegex = new RegExp(`${anchorSrc}`, "g");
+        }
 
         function checkAnchor(anch) {
             function match(fNote) {
@@ -621,7 +630,8 @@ export function analyse(txt, config) {
 
         // search for footnote anchors and put in an array
         let result;
-        while ((result = anchorRegex.exec(txt)) !== null) {
+        while ((result = combinedRegex.exec(txt)) !== null) {
+            if (result[1] === undefined) continue; // math block, not an anchor
             if (result[1] === "*") {
                 // found [*]
                 reportIssue(result.index, 3, "starAnchor", translate.gettext("Footnote anchor should be an upper-case letter"));

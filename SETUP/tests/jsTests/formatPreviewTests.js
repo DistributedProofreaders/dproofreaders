@@ -428,6 +428,26 @@ QUnit.module("Format preview test", function () {
         noIssueTest(assert);
     });
 
+    QUnit.test("no Footnote corresponding to anchor in math, non-math mode", function (assert) {
+        text = "[A] \\(text[3]\\)\n\\[text[4]\\]\n\n[Footnote A: abc]";
+        issArray = analyse(text, configuration).issues;
+        issueTest(assert, 0, 10, 3, "noFootnote", 0); // [3]
+        issueTest(assert, 1, 22, 3, "noFootnote", 0); // [4]
+    });
+
+    QUnit.test("square bracket in math is not footnote anchor, ok", function (assert) {
+        text = "[A] \\(text[3]\\)\n\\[text[4]\\]\n\n[Footnote A: abc]";
+        issArray = analyse(text, mathConfig).issues;
+        noIssueTest(assert);
+    });
+
+    QUnit.test("no Footnote corresponding to anchor, math mode", function (assert) {
+        text = "[A] \\(text[3]\\)\n\\[text[4]\\] text[B]";
+        issArray = analyse(text, mathConfig).issues;
+        issueTest(assert, 0, 0, 3, "noFootnote", 0); // [A]
+        issueTest(assert, 1, 32, 3, "noFootnote", 0); // [B]
+    });
+
     QUnit.test("pair of inline tags with no content", function (assert) {
         text = "<g></g>";
         issArray = analyse(text, configuration).issues;
