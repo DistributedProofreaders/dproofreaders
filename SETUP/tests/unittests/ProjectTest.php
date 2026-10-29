@@ -338,7 +338,7 @@ class ProjectTest extends ProjectUtils
     {
         $this->expectException(InvalidProjectIDException::class);
         $params = [];
-        $projectid = get_projectID_param($params, "projectid");
+        get_projectID_param($params, "projectid");
     }
 
     //------------------------------------------------------------------------
@@ -378,7 +378,7 @@ class ProjectTest extends ProjectUtils
     {
         $this->expectException(InvalidPageException::class);
         $params = [];
-        $image = get_page_image_param($params, "image");
+        get_page_image_param($params, "image");
     }
 
     // tests for validate_can_be_proofed_by_current_user()

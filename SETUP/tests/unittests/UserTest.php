@@ -72,20 +72,20 @@ class UserTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(NonexistentUserException::class);
         $username = strtoupper($this->TEST_USERNAME);
-        $user = new User($username);
+        new User($username);
     }
 
     public function testLoadExistingDifferWhitespace()
     {
         $this->expectException(NonexistentUserException::class);
         $username = $this->TEST_USERNAME . '   ';
-        $user = new User($username);
+        new User($username);
     }
 
     public function testLoadNonexisting()
     {
         $this->expectException(NonexistentUserException::class);
-        $user = new User($this->NONTEST_USERNAME);
+        new User($this->NONTEST_USERNAME);
     }
 
     public function testGetters()
