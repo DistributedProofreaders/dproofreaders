@@ -557,11 +557,11 @@ function html_statsbar(): void
     }
 
     if (!isset($tally_name)) {
-        if (strpos($_SERVER['PHP_SELF'], 'activity_hub.php') !== false) {
+        if (str_contains($_SERVER['PHP_SELF'], 'activity_hub.php')) {
             show_birthdays();
         }
 
-        if (strpos($_SERVER['PHP_SELF'], 'index.php') !== false) {
+        if (str_contains($_SERVER['PHP_SELF'], 'index.php')) {
             // Show project listings to anyone, signed in or not, front page only
             // Show the 7 most recently completed, tersely
             echo "<div id='completed-titles'>\n";

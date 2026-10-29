@@ -47,7 +47,7 @@ if ($func == "download" || $func == "view") {
         // file if set. If it isn't set, use UTF-8 since all files since 2020
         // should be UTF-8.
         $po_content_type = $po_file->content_type;
-        if ($po_content_type && strpos($po_content_type, "=CHARSET") === false) {
+        if ($po_content_type && !str_contains($po_content_type, "=CHARSET")) {
             header($po_content_type);
         } else {
             header("Content-Type: text/plain; charset=UTF-8");

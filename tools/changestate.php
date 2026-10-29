@@ -141,7 +141,7 @@ function prepare_url(string $url_template): string
     $url = str_replace('<PROJECTID>', $projectid, $url_template);
 
     // Pass $return_uri on to the next page, in hopes it can use it.
-    $connector = (strpos($url, '?') === false ? '?' : '&');
+    $connector = (!str_contains($url, '?') ? '?' : '&');
     $encoded_return_uri = urlencode($return_uri);
     $url .= "{$connector}return_uri=$encoded_return_uri";
 

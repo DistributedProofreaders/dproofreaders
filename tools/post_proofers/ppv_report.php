@@ -283,7 +283,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
             if ($id == 'kb_size') {
                 if ($arg == "") {
                     $problem = _("You must enter a file size.");
-                } elseif (strpos($arg, ',') !== false) {
+                } elseif (str_contains($arg, ',')) {
                     $problem = _("The file size should not contain commas.");
                 } elseif (!preg_match('/^\d+(\.\d+)?$/', $arg)) {
                     $problem = _("You must enter a valid number.");

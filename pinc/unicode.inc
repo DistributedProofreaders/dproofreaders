@@ -253,7 +253,7 @@ function build_character_regex_filter(array $codepoints, string $lang = 'php'): 
     $char_class = "";
     $alternatives = [];
     foreach ($codepoints as $codepoint) {
-        if (strpos($codepoint, '-') !== false) {
+        if (str_contains($codepoint, '-')) {
             // we have a character range
             [$start, $end] = explode('-', $codepoint);
             $char_class .= implode("", [
@@ -261,7 +261,7 @@ function build_character_regex_filter(array $codepoints, string $lang = 'php'): 
                 '-',
                 get_unicode_regex_class($end, $lang),
             ]);
-        } elseif (strpos($codepoint, '>') !== false) {
+        } elseif (str_contains($codepoint, '>')) {
             // we have a combined character
             $combined_char = [];
             foreach (explode(">", $codepoint) as $char) {
@@ -297,7 +297,7 @@ function convert_codepoint_ranges_to_characters($codepoints): array
     foreach ($codepoints as $codepoint) {
         if ($codepoint === null) {
             $return_array[] = null;
-        } elseif (strpos($codepoint, '-') !== false) {
+        } elseif (str_contains($codepoint, '-')) {
             // we have a character range
             [$start, $end] = explode('-', $codepoint);
             $return_array = array_merge(
