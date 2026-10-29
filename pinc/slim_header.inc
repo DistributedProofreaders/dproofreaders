@@ -10,9 +10,7 @@ function slim_header(string $title = "", array $extra_args = []): void
     global $code_url;
 
     // Include the slim_header stylesheet
-    if (!isset($extra_args['css_files'])) {
-        $extra_args['css_files'] = [];
-    }
+    $extra_args['css_files'] ??= [];
     array_unshift($extra_args['css_files'], "$code_url/styles/slim_header.css");
 
     output_html_header($title, $extra_args, false);

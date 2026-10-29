@@ -68,9 +68,7 @@ function get_user_proofreading_font(?int $interface = null): array
     $proofreading_font_sizes = get_available_proofreading_font_sizes();
 
     $user = User::load_current();
-    if ($interface === null) {
-        $interface = $user ? $user->profile->i_layout : null;
-    }
+    $interface ??= $user ? $user->profile->i_layout : null;
 
     if (!$user) {
         $font_size_i = 0;
@@ -154,9 +152,7 @@ function get_user_proofreading_font_other(?int $interface = null): string
         return "";
     }
 
-    if ($interface === null) {
-        $interface = $user->profile->i_layout;
-    }
+    $interface ??= $user->profile->i_layout;
 
     if ($interface == 1) {   // "vertical"
         return $user->profile->v_fntf_other;

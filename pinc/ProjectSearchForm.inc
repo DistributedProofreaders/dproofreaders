@@ -251,9 +251,7 @@ class ProjectSearchForm
 
         // then everything else
         foreach (get_iso_language_list() as $v) {
-            if (!isset($lang_options[$v['lang_name']])) {
-                $lang_options[$v['lang_name']] = $v['lang_name'];
-            }
+            $lang_options[$v['lang_name']] ??= $v['lang_name'];
         }
         return $lang_options;
     }

@@ -27,9 +27,7 @@ include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
  */
 function get_pages_proofed_maybe_simulated(?string $username = null): int
 {
-    if ($username === null) {
-        $username = User::current_username();
-    }
+    $username ??= User::current_username();
 
 
     $pagesproofed = 0;
@@ -49,9 +47,7 @@ function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string 
 {
     global $code_url, $ELR_round;
 
-    if ($username === null) {
-        $username = User::current_username();
-    }
+    $username ??= User::current_username();
 
     // If the ELR_round requires access and the user doesn't currently
     // have it, show them what they need to do.

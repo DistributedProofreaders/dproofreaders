@@ -414,12 +414,10 @@ function get_site_tally_grouped(
     $result = DPDatabase::query($sql);
     while ([$dateunit, $tally_delta] = mysqli_fetch_row($result)) {
         // this shouldn't happen, but check for it anyway
-        if (!isset($dataset[$dateunit])) {
-            $dataset[$dateunit] = [
-                "dateunit" => $dateunit,
-                "goal" => 0,
-            ];
-        }
+        $dataset[$dateunit] ??= [
+            "dateunit" => $dateunit,
+            "goal" => 0,
+        ];
         $dataset[$dateunit]["tally_delta"] = $tally_delta;
     }
 
