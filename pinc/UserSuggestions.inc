@@ -23,13 +23,11 @@ class ProjectSuggestion extends Project
 
 class UserSuggestions
 {
-    private ?string $_username;
     private int $_cache_valid_duration = 60 * 60;
     private string $_cache_key = "my_suggestions:criteria";
 
-    public function __construct(?string $username)
+    public function __construct(private readonly ?string $_username)
     {
-        $this->_username = $username;
     }
 
     /** @return array<string, mixed> */
@@ -226,7 +224,7 @@ class UserSuggestions
             $beginner_clause = "1";
         } else {
             // if the user isn't a beginner, exclude all beginner projects
-            $beginner_clause = sprintf("difficulty <> 'beginner'");
+            $beginner_clause = "difficulty <> 'beginner'";
         }
 
         // get a sorted list of the rounds a user can work in sorted sorted by
@@ -411,7 +409,7 @@ class UserSuggestions
                 $round = Rounds::get_by_project_state($project->state);
                 validate_user_against_project_reserve($user, $project, $round);
                 $return_projects[] = $project_row;
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 continue;
             }
         }

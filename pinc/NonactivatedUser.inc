@@ -146,10 +146,8 @@ class NonactivatedUser
 
         // If this object doesn't have a unique ID, generate one before saving it to
         // the database.
-        if (!isset($this->table_row["id"])) {
-            // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
-            $this->table_row["id"] = "userID" . bin2hex(openssl_random_pseudo_bytes(16));
-        }
+        // 16 random bytes turn into a 32-character hex string prefixed with 'userID'
+        $this->table_row["id"] ??= "userID" . bin2hex(openssl_random_pseudo_bytes(16));
 
         $referrer_details = $this->referrer == 'other' ? $this->referrer_details : '';
 

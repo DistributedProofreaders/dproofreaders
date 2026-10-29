@@ -52,7 +52,7 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
     public function test_fail_insert_inexistent_table(): void
     {
         $this->expectException(DBQueryError::class);
-        $r = DPDatabase::query("INSERT INTO `inexistent_for_sure` VALUES(0)");
+        DPDatabase::query("INSERT INTO `inexistent_for_sure` VALUES(0)");
     }
 
     public function test_fail_insert_inexistent_table_no_exception(): void
@@ -64,7 +64,7 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
     public function test_fail_insert_missing_values(): void
     {
         $this->expectException(DBQueryError::class);
-        $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES()");
+        DPDatabase::query("INSERT INTO `dpdb_tests` VALUES()");
     }
 
     public function test_fail_insert_missing_values_no_exception(): void

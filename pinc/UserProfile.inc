@@ -142,9 +142,7 @@ class UserProfile
         }
         DPDatabase::query($sql);
 
-        if (!isset($this->id)) {
-            $this->id = mysqli_insert_id(DPDatabase::get_connection());
-        }
+        $this->id ??= mysqli_insert_id(DPDatabase::get_connection());
     }
 
     public function delete(): void

@@ -14,7 +14,7 @@ class POFile
     private ?int $num_messages = null;
     private ?int $num_messages_translated = null;
 
-    public function __construct(private ?string $po_filename = null)
+    public function __construct(private readonly ?string $po_filename = null)
     {
     }
 
@@ -93,8 +93,8 @@ class POFile
     {
         [$_msgid, $msgstr] = @explode("msgstr", $block);
         $msgstr = "msgstr$msgstr";
-        if (strpos($msgstr, 'msgstr ""') === 0 &&
-            substr_count($msgstr, "\n") == 1) {
+        if (str_starts_with($msgstr, 'msgstr ""') &&
+            substr_count($msgstr, "\n") === 1) {
             return false;
         }
 
@@ -343,7 +343,7 @@ class POFileIterator implements Iterator
     private ?string $current_block = null;
     private int $block_count = -1;
 
-    public function __construct(private string $po_filename)
+    public function __construct(private readonly string $po_filename)
     {
     }
 

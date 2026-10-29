@@ -28,13 +28,11 @@ abstract class DifferenceEngineWrapper
 {
     private string $oldText;
     private string $newText;
-    private DiffFormatter $formatter;
+    private readonly DiffFormatter $formatter;
 
     protected function __construct(?DiffFormatter $formatter = null)
     {
-        if ($formatter === null) {
-            $formatter = new DiffFormatter();
-        }
+        $formatter ??= new DiffFormatter();
         $this->formatter = $formatter;
     }
 

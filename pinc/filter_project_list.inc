@@ -14,7 +14,7 @@ include_once($relPath.'Project.inc'); // get_project_difficulties()
 
 class ProjectFilterElement
 {
-    private bool $active;
+    private readonly bool $active;
     /** @var array<string, string> */
     public array $selected_options;
 
@@ -144,9 +144,7 @@ class LanguageElement extends ProjectFilterElement
         // then everything else
         foreach (get_iso_language_list() as $name_code) {
             $lang = $name_code["lang_name"];
-            if (!isset($options[$lang])) {
-                $options[$lang] = $lang;
-            }
+            $options[$lang] ??= $lang;
         }
         return $options;
     }
@@ -338,7 +336,7 @@ class LanguageSearchElement extends ProjectSearchElement
     public function construct_sql(array $values): string
     {
         // some languages have regex special chars which need escaping
-        $values = array_map('preg_quote', $values);
+        $values = array_map(preg_quote(...), $values);
         $langstring = DPDatabase::escape(implode("|", $values));
         // for primary language match strings starting with it
         // for primary only match end also

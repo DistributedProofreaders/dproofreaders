@@ -2,11 +2,8 @@
 
 class JsonStorage
 {
-    private string $username;
-
-    public function __construct(string $username)
+    public function __construct(private readonly string $username)
     {
-        $this->username = $username;
     }
 
     // -------------------------------------------------------------------------

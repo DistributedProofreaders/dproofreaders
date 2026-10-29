@@ -25,13 +25,13 @@ echo sprintf(_("It no longer renames pages, use the <a href='%s'>Rename Pages</a
 // Validate the $projectid_ and $from_image_ 'by hand'
 $projectid_ = $_POST['projectid_'] ?? null;
 if (is_array($projectid_)) {
-    foreach ($projectid_ as $which => $projectid) {
+    foreach ($projectid_ as $projectid) {
         validate_projectID($projectid);
     }
 }
 $from_image_ = $_POST['from_image_'] ?? null;
 if (is_array($from_image_)) {
-    foreach ($from_image_ as $which => $filename) {
+    foreach ($from_image_ as $filename) {
         if ($filename) {
             validate_page_image($filename);
         }

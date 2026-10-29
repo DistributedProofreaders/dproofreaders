@@ -355,9 +355,7 @@ class OptionsColumn extends Column
             }
         }
         if (user_can_work_in_stage($pguser, 'PP')) {
-            if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
-                $project->state == PROJ_POST_FIRST_AVAILABLE ||
-                $project->state == PROJ_POST_FIRST_CHECKED_OUT) {
+            if (in_array($project->state, [PROJ_POST_FIRST_UNAVAILABLE, PROJ_POST_FIRST_AVAILABLE, PROJ_POST_FIRST_CHECKED_OUT])) {
                 $actions[] = "<a href=\"$project->url/$projectid.zip\">" . _("Download") . "</a>";
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||
@@ -474,9 +472,9 @@ class ProjectSearchResultEntry extends Project
 class ProjectSearchResults
 {
     private Settings $userSettings;
-    private string $search_origin;
-    private int $page_size;
-    private bool $show_special_colors;
+    private readonly string $search_origin;
+    private readonly int $page_size;
+    private readonly bool $show_special_colors;
     /** @var Column[] */
     private array $active_columns;
     private string $sort_column_id;

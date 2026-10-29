@@ -27,16 +27,14 @@ include_once($relPath.'graph_data.inc'); // get_round_backlog_stats()
  */
 function get_pages_proofed_maybe_simulated(?string $username = null): int
 {
-    if ($username === null) {
-        $username = User::current_username();
-    }
+    $username ??= User::current_username();
 
 
     $pagesproofed = 0;
     if ($username !== null) {
         try {
             $pagesproofed = user_get_ELR_page_tally(new User($username));
-        } catch (NonexistentUserException $exception) {
+        } catch (NonexistentUserException) {
         }
     }
     $max_pagesproofed = SiteConfig::get()->testing ? null : $pagesproofed;
@@ -49,9 +47,7 @@ function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string 
 {
     global $code_url, $ELR_round;
 
-    if ($username === null) {
-        $username = User::current_username();
-    }
+    $username ??= User::current_username();
 
     // If the ELR_round requires access and the user doesn't currently
     // have it, show them what they need to do.
@@ -71,7 +67,7 @@ function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string 
         echo "</div>";
 
         echo "<p>";
-        echo sprintf(_('Before you can begin proofreading, you must have:'));
+        echo _('Before you can begin proofreading, you must have:');
         echo "<ul>";
         foreach ($uao->minima_table as [$criterion_str, $_minimum, $_user_score, $_satisfied]) {
             echo "<li>$criterion_str</li>";
@@ -218,7 +214,7 @@ function maybe_output_new_proofer_project_message(Project $project): void
         echo "</div>";
 
         echo "<p>";
-        echo sprintf(_('Before you can begin proofreading, you must have:'));
+        echo _('Before you can begin proofreading, you must have:');
         echo "<ul>";
         foreach ($uao->minima_table as [$criterion_str, $_minimum, $_user_score, $_satisfied]) {
             echo "<li>$criterion_str</li>";

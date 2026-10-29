@@ -975,7 +975,7 @@ class ApiTest extends ProjectUtils
         $path = "v1/projects/$project->projectid/artifacts/PP";
         $query_params = [];
         $router = ApiRouter::get_router();
-        $result = $router->route($path, $query_params);
+        $router->route($path, $query_params);
     }
 }
 

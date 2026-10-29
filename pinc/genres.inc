@@ -124,7 +124,7 @@ function maybe_create_temporary_genre_translation_table(): void
             );
             DPDatabase::query($sql);
         }
-    } catch (DBQueryError $error) {
+    } catch (DBQueryError) {
         // if it didn't, we assume the table is already created
     }
 }

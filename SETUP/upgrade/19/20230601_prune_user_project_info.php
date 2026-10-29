@@ -72,7 +72,7 @@ while ([$projectid] = mysqli_fetch_row($result)) {
             AND username in (%s)
         ",
         DPDatabase::escape($projectid),
-        surround_and_join(array_map("DPDatabase::escape", $upi_users_to_delete), "'", "'", ",")
+        surround_and_join(array_map(DPDatabase::escape(...), $upi_users_to_delete), "'", "'", ",")
     );
 
     mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(DPDatabase::get_connection()));

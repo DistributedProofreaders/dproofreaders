@@ -20,7 +20,7 @@ function utf8_normalize(string $string): string|false
 function utf8_combined_chr(string $codepoint): string
 {
     $codepoints = explode('>', $codepoint);
-    return implode('', array_map('voku\helper\UTF8::hex_to_chr', $codepoints));
+    return implode('', array_map(\voku\helper\UTF8::hex_to_chr(...), $codepoints));
 }
 
 /**
@@ -83,8 +83,8 @@ function get_nonnormalized_codepoints($codepoints): array
     foreach ($characters as $character) {
         $norm_character = utf8_normalize($character);
         if ($character != $norm_character) {
-            $norm_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::str_split($norm_character)));
-            $orig_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::str_split($character)));
+            $norm_codepoint = implode('>', array_map(\voku\helper\UTF8::chr_to_hex(...), UTF8::str_split($norm_character)));
+            $orig_codepoint = implode('>', array_map(\voku\helper\UTF8::chr_to_hex(...), UTF8::str_split($character)));
             $nonnorm_codepoints[$orig_codepoint] = $norm_codepoint;
         }
     }
@@ -253,7 +253,7 @@ function build_character_regex_filter(array $codepoints, string $lang = 'php'): 
     $char_class = "";
     $alternatives = [];
     foreach ($codepoints as $codepoint) {
-        if (strpos($codepoint, '-') !== false) {
+        if (str_contains($codepoint, '-')) {
             // we have a character range
             [$start, $end] = explode('-', $codepoint);
             $char_class .= implode("", [
@@ -261,7 +261,7 @@ function build_character_regex_filter(array $codepoints, string $lang = 'php'): 
                 '-',
                 get_unicode_regex_class($end, $lang),
             ]);
-        } elseif (strpos($codepoint, '>') !== false) {
+        } elseif (str_contains($codepoint, '>')) {
             // we have a combined character
             $combined_char = [];
             foreach (explode(">", $codepoint) as $char) {
@@ -297,7 +297,7 @@ function convert_codepoint_ranges_to_characters($codepoints): array
     foreach ($codepoints as $codepoint) {
         if ($codepoint === null) {
             $return_array[] = null;
-        } elseif (strpos($codepoint, '-') !== false) {
+        } elseif (str_contains($codepoint, '-')) {
             // we have a character range
             [$start, $end] = explode('-', $codepoint);
             $return_array = array_merge(

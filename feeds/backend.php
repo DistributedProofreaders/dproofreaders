@@ -45,7 +45,7 @@ function generate_rss_feed(string $content, string $site_name, string $code_url,
     $absolute_url .= $_SERVER['REQUEST_URI'];
     $encoded_url = xmlencode($absolute_url);
 
-    if ($content == "posted" || $content == "postprocessing" || $content == "proofing" || $content == "smoothreading") {
+    if (in_array($content, ["posted", "postprocessing", "proofing", "smoothreading"])) {
         switch ($content) {
             case "posted":
                 $condition = sprintf("state='%s'", PROJ_SUBMIT_PG_POSTED);
@@ -82,15 +82,13 @@ function generate_rss_feed(string $content, string $site_name, string $code_url,
         }
 
         // If $query is not set, use the default query.
-        if (!isset($query)) {
-            $query = "
+        $query ??= "
                 SELECT * 
                 FROM projects 
                 WHERE $condition 
                 ORDER BY modifieddate DESC 
                 LIMIT $limit
             ";
-        }
 
         $data = '';
         $result = DPDatabase::query($query);

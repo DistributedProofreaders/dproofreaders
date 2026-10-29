@@ -29,9 +29,7 @@ if ($action == "update") {
         if (preg_match("/cb_(projectID[0-9a-f]{13})_(\d+)/", $key, $matches)) {
             $projectid = $matches[1];
             $word = decode_word($val);
-            if (!isset($newProjectWords[$projectid])) {
-                $newProjectWords[$projectid] = [];
-            }
+            $newProjectWords[$projectid] ??= [];
             array_push($newProjectWords[$projectid], $word);
         }
     }
@@ -240,7 +238,7 @@ function _get_all_suggestions_word_list(string $projectid, int $time_cutoff): ar
     prep_numeric_keys_for_multisort($all_suggestions_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
+    array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map(\voku\helper\UTF8::strtolower(...), array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
 
     return [$all_suggestions_w_freq, $all_suggestions_w_occurrences];
 }

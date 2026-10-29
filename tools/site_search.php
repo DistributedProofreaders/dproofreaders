@@ -312,7 +312,7 @@ function smart_search(string $query): void
     try {
         new Project($query);
         metarefresh(0, "$code_url/project.php?id=$query");
-    } catch (NonexistentProjectException $e) {
+    } catch (NonexistentProjectException) {
         // pass
     }
 

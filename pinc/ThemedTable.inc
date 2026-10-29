@@ -7,21 +7,18 @@
 
 class ThemedTable
 {
-    private int $n_cols;
     /** @var int[] */
     private array $column_widths;
     /** @var string[] */
     private array $column_alignments;
 
     public function __construct(
-        int $n_cols,
+        private readonly int $n_cols,
         string $title,
         bool $theme_striped = false,
         string $width = "",
         string $subtitle = "",
     ) {
-        $this->n_cols = $n_cols;
-
         $class = "themed";
         if ($theme_striped) {
             $class .= ' theme_striped';

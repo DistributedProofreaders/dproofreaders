@@ -33,9 +33,7 @@ function send_mail(string $to, string $subject, string $message, ?string $from =
     // If neither given, use default email address for From and Reply-To
     if (is_null($from)) {
         $from = SiteConfig::get()->auto_email_addr;
-        if (is_null($reply_to)) {
-            $reply_to = SiteConfig::get()->auto_email_addr;
-        }
+        $reply_to ??= SiteConfig::get()->auto_email_addr;
     }
 
     if (!str_ends_with($message, "\n")) {
@@ -96,7 +94,7 @@ function send_mail(string $to, string $subject, string $message, ?string $from =
         $mail->AltBody = $text_message;
 
         $mail->send();
-    } catch (Exception $e) {
+    } catch (Exception) {
         error_log("send_email.inc - Message could not be sent. PHPMailer Error: {$mail->ErrorInfo}");
         $success = false;
     }

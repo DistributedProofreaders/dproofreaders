@@ -58,7 +58,6 @@ parameters:
         # Level 6 errors in third party code, and our interfaces to it
         - message: '#^Property .* has no type specified\.$#'
           paths:
-            - pinc/BBDiffFormatter.inc
             - pinc/3rdparty/mediawiki/*.php
         - message: '#^Method .* has parameter \$.* with no type specified\.$#'
           paths:

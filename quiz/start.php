@@ -78,7 +78,7 @@ elseif (($so = ($_GET['show_only']) ?? null) &&
     }
 
     $levels_for_current_type = [];
-    foreach (QuizLevel::$map_quiz_level_id_to_QuizLevel as $quiz_level_id => $quiz_level) {
+    foreach (QuizLevel::$map_quiz_level_id_to_QuizLevel as $quiz_level) {
         if ($quiz_level->activity_type == $activity_type) {
             array_push($levels_for_current_type, $quiz_level);
         }

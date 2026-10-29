@@ -14,9 +14,7 @@ $theme_extra_args = [
 // Either the parameter is $_POST['tsid'] when coming from the edit form,
 // or it is $_GET['tid'] when using the link on top of the team summary.
 $tid = get_integer_param($_POST, 'tsid', null, 1, null, true);
-if (!isset($tid)) {
-    $tid = get_integer_param($_GET, 'tid', null, 1, null);
-}
+$tid ??= get_integer_param($_GET, 'tid', null, 1, null);
 $teamname = stripAllString(trim($_POST["teamname"] ?? ""));
 $text_data = stripAllString($_POST["text_data"] ?? "");
 $teamwebpage = stripAllString($_POST["teamwebpage"] ?? "");

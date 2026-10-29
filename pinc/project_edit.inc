@@ -33,7 +33,7 @@ function abort_if_cant_edit_project(string $projectid): void
 {
     try {
         $project = new Project($projectid);
-    } catch (NonexistentProjectException $exception) {
+    } catch (NonexistentProjectException) {
         echo "
             <P>
             "._("There appears to be no such project")." ($projectid).

@@ -115,11 +115,7 @@ class Quiz
         // have only pagename => timestamp rows. If any "null" values remain,
         // the user has not passed all the pages required, or the result of that
         // page is invalid (e.g. too old).
-        if (array_search(null, $pages_required_results) !== false) {
-            return false;
-        } else {
-            return true;
-        }
+        return !in_array(null, $pages_required_results);
     }
 
     public function show_results_table(string $username): void
@@ -216,7 +212,7 @@ class Quiz
                 $class = $passed ? 'quiz-passed' : 'quiz-not-passed';
                 echo "<td class='$class'>$text</td>";
 
-                $date = $pages_required_results[$quiz_page_id] ? $pages_required_results[$quiz_page_id] : 0;
+                $date = $pages_required_results[$quiz_page_id] ?: 0;
                 $text = ($date != 0) ? date("Y-m-d", $date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);

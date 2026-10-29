@@ -608,7 +608,7 @@ function save_project_bad_words(string $projectid, array $words): string
 function normalize_word_list(array $words): array
 {
     // normalize the strings
-    $words = array_map('utf8_normalize', $words);
+    $words = array_map(utf8_normalize(...), $words);
 
     // trim out leading spaces
     $words = preg_replace('/^\s+/u', '', $words);
@@ -673,7 +673,7 @@ function merge_project_wordcheck_data(string $from_projectid, string $to_project
 function copy_project_wordcheck_events(string $from_projectid, string $to_projectid, array $images = []): void
 {
     if ($images) {
-        $images_where = " AND image in (" . surround_and_join(array_map("DPDatabase::escape", $images), '"', '"', ",") . ")";
+        $images_where = " AND image in (" . surround_and_join(array_map(DPDatabase::escape(...), $images), '"', '"', ",") . ")";
     } else {
         $images_where = "";
     }
@@ -818,9 +818,7 @@ function load_project_good_word_suggestions(string $projectid, int $start_time =
 
     foreach ($eventArray as [$_time, $round, $page, $_proofer, $words]) {
         if (count($words)) {
-            if (!isset($wordsArray[$round][$page])) {
-                $wordsArray[$round][$page] = [];
-            }
+            $wordsArray[$round][$page] ??= [];
             $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page], $words);
         }
     }
@@ -1020,7 +1018,7 @@ function _explode_no_empty(string $sep, string $string): array
 function save_word_list(string $path, $words): string
 {
     // standardize word list
-    array_walk($words, 'rtrim_walk');
+    array_walk($words, rtrim_walk(...));
     $words = array_unique($words);
 
     natcasesort($words);
@@ -1082,7 +1080,7 @@ function get_project_languages(string $projectid, array $aux_languages = []): ar
 
     try {
         $project = new Project($projectid);
-    } catch (NonexistentProjectException $exception) {
+    } catch (NonexistentProjectException) {
         return $returnArray;
     }
 

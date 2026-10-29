@@ -40,7 +40,7 @@ foreach ($_POST as $name => $value) {
 
     [$activity_id, $action_type] = $a;
 
-    if ($action_type != 'grant' && $action_type != 'revoke' && $action_type != 'deny_request_for') {
+    if (!in_array($action_type, ['grant', 'revoke', 'deny_request_for'])) {
         die("Error: bad parameter name '$name'");
     }
 
@@ -141,7 +141,7 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 /** @param array<string, string> $actions */
 function notify_user(User $user, array $actions): string
 {
-    if ((count($actions) == 1) && (array_search('grant', $actions) !== false)) {
+    if (count($actions) == 1 && in_array('grant', $actions)) {
         // Special case: If the user has been granted access to
         // a single round, send a congratulations! email.
         [$activity_id] = array_keys($actions);

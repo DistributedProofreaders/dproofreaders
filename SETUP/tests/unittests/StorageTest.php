@@ -41,6 +41,6 @@ class StorageTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(ValueError::class);
 
-        $storage = new ApiStorage("invalid", "username");
+        new ApiStorage("invalid", "username");
     }
 }

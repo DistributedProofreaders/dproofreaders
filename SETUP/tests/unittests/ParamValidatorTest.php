@@ -67,7 +67,6 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
 
     public function testEnumInt(): void
     {
-        $default = 9;
         $result = get_enumerated_param($this->GET, 'one', 9, $this->ENUM_INT_CHOICES);
         $this->assertEquals($result, $this->GET['one']);
         $this->assertIsInt($result);
@@ -392,7 +391,6 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("does not match the regex");
-        $default = null;
         $regex = '/^\d{4}-\d{2}-\d{2}$/';
         get_param_matching_regex($this->GET, "enum", null, $regex);
     }
@@ -401,7 +399,6 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
-        $default = null;
         $regex = '/^\d{4}-\d{2}-\d{2}$/';
         get_param_matching_regex($this->GET, "invalidkey", null, $regex);
     }

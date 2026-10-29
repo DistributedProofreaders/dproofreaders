@@ -18,8 +18,8 @@ $col = $_POST['col'] ?? 1;
 $bord = $_POST['border'] ?? 1;
 $trim = (($_POST['trim'] ?? 'off') == 'on');
 $clear = $_POST['clear'] ?? 0;
-$vert_align = array_map('intval', $_POST['vert_align'] ?? []);
-$horiz_align = array_map('intval', $_POST['horiz_align'] ?? []);
+$vert_align = array_map(intval(...), $_POST['vert_align'] ?? []);
+$horiz_align = array_map(intval(...), $_POST['horiz_align'] ?? []);
 $table_contents = $_POST['table_contents'] ?? [];
 
 if ($clear) {
@@ -107,7 +107,7 @@ for ($i = 0; $i < $row; $i++) {
         $name = "table_contents[$i][$j]";
         $a[$i][$j] = explode("\n", str_replace("\r\n", "\n", $table_contents[$i][$j]));
         if ($trim) {
-            $a[$i][$j] = array_values(array_filter($a[$i][$j], "str_not_empty"));
+            $a[$i][$j] = array_values(array_filter($a[$i][$j], str_not_empty(...)));
         }
         foreach ($a[$i][$j] as $k => $v) {
             if ($trim) {
@@ -238,13 +238,9 @@ function array_pad_internal(array $input, int $pad_size, int $pad_type): array
 function table_pad(array $table, int $rows, int $columns, string $value = ""): array
 {
     for ($i = 0; $i < $rows; $i++) {
-        if (!isset($table[$i])) {
-            $table[$i] = [];
-        }
+        $table[$i] ??= [];
         for ($j = 0; $j < $columns; $j++) {
-            if (!isset($table[$i][$j])) {
-                $table[$i][$j] = $value;
-            }
+            $table[$i][$j] ??= $value;
         }
     }
 

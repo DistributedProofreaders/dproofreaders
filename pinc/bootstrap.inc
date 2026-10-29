@@ -17,12 +17,10 @@
 // can change inside the shutdown function based on PHP docs).
 // This also helps things like APC which can bypass stat calls
 // on includes that use absolute paths.
-$relPath = dirname(__FILE__)."/";
+$relPath = __DIR__."/";
 
 // require login by default unless the page has explicitly said otherwise
-if (!isset($require_login)) {
-    $require_login = true;
-}
+$require_login ??= true;
 
 // store the current time to calculate total page build time
 $PAGE_START_TIME = microtime(true);
@@ -41,7 +39,7 @@ if ($require_login && !dpsession_is_cookie_set() && !defined('SKIP_REQUIRE_LOGIN
 }
 
 // Register autoloader
-spl_autoload_register('dp_class_autoloader');
+spl_autoload_register(dp_class_autoloader(...));
 
 // Load composer autoloader
 require_once($relPath.'../vendor/autoload.php');

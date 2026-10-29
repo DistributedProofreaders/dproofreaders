@@ -19,7 +19,7 @@ class TrieNode
 
 class ApiRouter
 {
-    private TrieNode $root;
+    private readonly TrieNode $root;
     /** @var array<string, callable> */
     private $_validators;
     /** @var mixed */
@@ -45,9 +45,7 @@ class ApiRouter
                     "No validator specified for $part"
                 );
             }
-            if (!isset($node->children[$part])) {
-                $node->children[$part] = new TrieNode();
-            }
+            $node->children[$part] ??= new TrieNode();
             $node = $node->children[$part];
         }
         $node->handlers[$method] = $function;

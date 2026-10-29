@@ -51,7 +51,7 @@ class Settings
 
     public function UserName(): string
     {
-        return $this->username ? $this->username : "[none]";
+        return $this->username ?: "[none]";
     }
 
     // -------------------------------------------------------------------------

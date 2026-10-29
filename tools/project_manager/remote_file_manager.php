@@ -150,9 +150,7 @@ if (is_null($action)) {
     }
 
     // action defaults to 'showdir'
-    if (is_null($action)) {
-        $action = 'showdir';
-    }
+    $action ??= 'showdir';
 }
 
 $action_message = "";
@@ -393,7 +391,7 @@ function do_mkdir(): string
     }
 
     if (!mkdir($new_dir_abspath)) {
-        fatal_error(sprintf(_("Unable to create folder")));
+        fatal_error(_("Unable to create folder"));
     }
 
     return sprintf(_("Created folder %s"), html_safe($new_dir_name));
@@ -688,7 +686,7 @@ function is_subdir_of_home(string $dir): bool
     global $home_dirname;
     // Does the path start with the home dir?
     // If not, it can't be this user's subdirectory
-    if (strpos($dir, "$home_dirname/") !== 0) {
+    if (!str_starts_with($dir, "$home_dirname/")) {
         return false;
     }
 
@@ -723,7 +721,7 @@ function is_valid_move_destination(string $dir): bool
 
     // Users may only move files to a user's home directory root
     // and not a subdirectory of it.
-    return strpos($rel, "/") === false;
+    return !str_contains($rel, "/");
 }
 
 /**
@@ -997,14 +995,14 @@ function confirm_is_local(string $type, string $item_name): void
 {
     global $curr_abspath, $hce_curr_displaypath;
 
-    assert($type == 'F' || $type == 'D' || $type == 'FD');
+    assert(in_array($type, ['F', 'D', 'FD']));
 
     // NB this catches $item_name == NULL too
     if ($item_name == '') {
         fatal_error(_("Item name must not be empty."));
     }
 
-    if (strpos($item_name, '/') !== false) {
+    if (str_contains($item_name, '/')) {
         fatal_error(_("Item name must not contain a slash character"));
     }
 
@@ -1084,14 +1082,14 @@ function show_return_link(): void
 
 function show_home_link(): void
 {
-    $text = sprintf(_("Go to your home folder"));
+    $text = _("Go to your home folder");
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
 }
 
 function show_commons_link(): void
 {
     global $commons_rel_dir;
-    $text = sprintf(_("Go to Commons folder"));
+    $text = _("Go to Commons folder");
     $url = "?cdrp=" . urlencode($commons_rel_dir);
     echo "<p><a href='$url'>$text</a></p>\n";
 }

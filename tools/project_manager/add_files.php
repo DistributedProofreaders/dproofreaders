@@ -83,7 +83,7 @@ if (!file_exists($abs_source)) {
     die("source does not exist: $abs_source");
 }
 
-if (substr($abs_source, -4) == ".zip") {
+if (str_ends_with($abs_source, ".zip")) {
     // $abs_source is a zip file containing the project files
 
     // We will unpack it to a sibling directory.
@@ -193,7 +193,7 @@ class Loader
     private int $n_ops;
     private int $n_warnings;
     private int $n_errors;
-    private ImageUtils $checker;
+    private readonly ImageUtils $checker;
 
     public function __construct(
         private readonly string $source_project_dir,
@@ -884,7 +884,7 @@ class Loader
                         $pguser,
                         $now
                     );
-                } catch (DBQueryError $error) {
+                } catch (DBQueryError) {
                     $this->error("for base=$base, project_add_page raised a DB error");
                 }
 

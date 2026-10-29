@@ -10,18 +10,16 @@ define('DESCENDING', 2);
 
 class SortableValue
 {
-    public string $_name;
-    public string $_label;
     public string $_sqlRuleAscending;
     public string $_sqlRuleDescending;
 
     /**
      * SortableValue constructor
      *
-     * @param string $name
+     * @param string $_name
      *   Name of the value and is used as an HTTP-parameter when requesting
      *   that the view is sorted by this value.
-     * @param string $label
+     * @param string $_label
      *   Displayed to the user as a descriptor of the value (typically
      *   column in an HTML-table).
      * @param string $sqlRuleAscending
@@ -33,13 +31,11 @@ class SortableValue
      * "a, b DESC, c ASC" is "a DESC, b ASC, c DESC".
      */
     public function __construct(
-        $name,
-        $label,
+        public string $_name,
+        public string $_label,
         $sqlRuleAscending = null,
         $sqlRuleDescending = null
     ) {
-        $this->_name = $name;
-        $this->_label = $label;
         if (isset($sqlRuleAscending)) {
             $this->_sqlRuleAscending = $sqlRuleAscending;
             if (isset($sqlRuleDescending)) {
@@ -48,8 +44,8 @@ class SortableValue
                 $this->_sqlRuleDescending = $this->_flipAscendDescendSqlRule($sqlRuleAscending);
             }
         } else {
-            $this->_sqlRuleAscending = $name;
-            $this->_sqlRuleDescending = "$name DESC";
+            $this->_sqlRuleAscending = $this->_name;
+            $this->_sqlRuleDescending = "{$this->_name} DESC";
         }
     }
 
@@ -104,9 +100,6 @@ class SortableValue
 
 class SortUtility
 {
-    // the name of the utility -- used when identifying
-    // HTTP-arguments on sorting
-    private string $_name;
     // the SortableValues
     /** @var SortableValue[] */
     private array $_collection;
@@ -119,15 +112,14 @@ class SortUtility
     /**
      * SortUtility constructor
      *
-     * @param string $name
+     * @param string $_name
      *   Should be unique on the entire site,
      *   since, if db-storing of sorting-options is
      *   turned on, the name will be used when
      *   storing the data.
      */
-    public function __construct($name)
+    public function __construct(private readonly string $_name)
     {
-        $this->_name = $name;
         $this->_collection = [];
 
         $this->_checkForUserPreferenceOnSorting();
