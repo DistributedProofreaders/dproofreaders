@@ -96,7 +96,7 @@ function send_mail(string $to, string $subject, string $message, ?string $from =
         $mail->AltBody = $text_message;
 
         $mail->send();
-    } catch (Exception $e) {
+    } catch (Exception) {
         error_log("send_email.inc - Message could not be sent. PHPMailer Error: {$mail->ErrorInfo}");
         $success = false;
     }

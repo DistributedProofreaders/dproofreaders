@@ -411,7 +411,7 @@ class UserSuggestions
                 $round = Rounds::get_by_project_state($project->state);
                 validate_user_against_project_reserve($user, $project, $round);
                 $return_projects[] = $project_row;
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 continue;
             }
         }

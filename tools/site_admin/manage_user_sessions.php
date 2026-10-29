@@ -25,7 +25,7 @@ show_username_form($username);
 if ($username) {
     try {
         $user = new User($username);
-    } catch (NonexistentUserException $exception) {
+    } catch (NonexistentUserException) {
         echo "<p class='error'>" . _("Invalid username") . "</p>";
         exit;
     }

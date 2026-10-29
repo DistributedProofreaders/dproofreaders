@@ -268,7 +268,7 @@ function virus_check(string $file_path, bool $verbose): void
     $process->setTimeout(SiteConfig::get()->max_runtime_target_s);
     try {
         $av_retval = $process->run();
-    } catch (ProcessTimedOutException $exception) {
+    } catch (ProcessTimedOutException) {
         throw new FileUploadException(_("AntiVirus error: scan timed out, try again in a moment as the system may be busy."));
     }
     $av_test_result = explode("\n", $process->getOutput());

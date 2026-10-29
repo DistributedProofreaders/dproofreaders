@@ -36,7 +36,7 @@ function get_pages_proofed_maybe_simulated(?string $username = null): int
     if ($username !== null) {
         try {
             $pagesproofed = user_get_ELR_page_tally(new User($username));
-        } catch (NonexistentUserException $exception) {
+        } catch (NonexistentUserException) {
         }
     }
     $max_pagesproofed = SiteConfig::get()->testing ? null : $pagesproofed;

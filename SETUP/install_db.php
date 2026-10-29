@@ -7,7 +7,7 @@ include_once($relPath.'SiteConfig.inc');
 
 try {
     DPDatabase::connect();
-} catch (Exception $e) {
+} catch (Exception) {
     // Ignore DB select failure since the DB hasn't been created yet.
 }
 if (!DPDatabase::get_connection()) {

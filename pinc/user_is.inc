@@ -208,7 +208,7 @@ function that_user_can_work_on_beginner_pages_in_round(?string $username, Round 
     if ($username !== null) {
         try {
             $n_pages = user_get_ELR_page_tally(new User($username));
-        } catch (NonexistentUserException $exception) {
+        } catch (NonexistentUserException) {
         }
     }
     if ($round_number == 1) {

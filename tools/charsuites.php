@@ -14,13 +14,13 @@ $charsuite = null;
 if ($charsuite_name && !$projectid) {
     try {
         $charsuite = CharSuites::get($charsuite_name);
-    } catch (UnexpectedValueException $e) {
+    } catch (UnexpectedValueException) {
         // try loading the suite as though it were a project id
         // for a custom project suite
         try {
             $project = new Project($charsuite_name);
             $charsuite = $project->get_custom_charsuite();
-        } catch (NonexistentProjectException $e) {
+        } catch (NonexistentProjectException) {
             // continue
         }
         // continue

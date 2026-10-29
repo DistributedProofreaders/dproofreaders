@@ -15,7 +15,7 @@ try {
         'search_form',
         ['search_form', 'search', 'set_columns', 'config']
     );
-} catch (Exception $e) {
+} catch (Exception) {
     $show_view = 'search_form';
 }
 

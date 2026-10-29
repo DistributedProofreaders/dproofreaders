@@ -24,7 +24,7 @@ try {
         ['search_form', 'search', 'user_all', 'user_active',
             'user_avail', 'blank', 'set_columns', 'config', ]
     );
-} catch (Exception $e) {
+} catch (Exception) {
     $show_view = 'blank';
 }
 

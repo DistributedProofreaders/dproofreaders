@@ -59,7 +59,7 @@ function api_authenticate(): string
         else {
             try {
                 $user = User::load_from_api_key($api_key);
-            } catch (NonexistentUserException $exception) {
+            } catch (NonexistentUserException) {
                 throw new UnauthorizedError();
             }
             $pguser = $user->username;

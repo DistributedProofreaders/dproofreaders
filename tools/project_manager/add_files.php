@@ -884,7 +884,7 @@ class Loader
                         $pguser,
                         $now
                     );
-                } catch (DBQueryError $error) {
+                } catch (DBQueryError) {
                     $this->error("for base=$base, project_add_page raised a DB error");
                 }
 

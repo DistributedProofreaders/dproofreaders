@@ -30,13 +30,13 @@ final class DPDatabase
                 $db_user ?? SiteConfig::get()->db_user,
                 $db_password ?? SiteConfig::get()->db_password
             );
-        } catch (mysqli_sql_exception $e) {
+        } catch (mysqli_sql_exception) {
             throw new DBConnectionError("Unable to connect to database");
         }
 
         try {
             self::$_connection->select_db(self::$_db_name);
-        } catch (mysqli_sql_exception $e) {
+        } catch (mysqli_sql_exception) {
             throw new DBConnectionError("Unable to locate database.");
         }
 
@@ -48,7 +48,7 @@ final class DPDatabase
         $sql = "SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
         try {
             self::$_connection->query($sql);
-        } catch (mysqli_sql_exception $e) {
+        } catch (mysqli_sql_exception) {
             throw new DBConnectionError("Unable to set sql_mode");
         }
 
@@ -207,7 +207,7 @@ final class DPDatabase
                 fwrite($fp, $message);
                 fclose($fp);
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             // never fail on tracing
         }
     }
