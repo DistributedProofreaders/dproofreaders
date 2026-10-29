@@ -19,7 +19,7 @@ class TrieNode
 
 class ApiRouter
 {
-    private TrieNode $root;
+    private readonly TrieNode $root;
     /** @var array<string, callable> */
     private $_validators;
     /** @var mixed */

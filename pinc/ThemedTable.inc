@@ -7,7 +7,7 @@
 
 class ThemedTable
 {
-    private int $n_cols;
+    private readonly int $n_cols;
     /** @var int[] */
     private array $column_widths;
     /** @var string[] */

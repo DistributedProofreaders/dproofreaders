@@ -23,7 +23,7 @@ class ProjectSuggestion extends Project
 
 class UserSuggestions
 {
-    private ?string $_username;
+    private readonly ?string $_username;
     private int $_cache_valid_duration = 60 * 60;
     private string $_cache_key = "my_suggestions:criteria";
 

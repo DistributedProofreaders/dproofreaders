@@ -2,8 +2,8 @@
 
 class ApiStorage
 {
-    private JsonStorage $storage;
-    private string $setting;
+    private readonly JsonStorage $storage;
+    private readonly string $setting;
 
     public function __construct(string $storage_key, string $username)
     {
