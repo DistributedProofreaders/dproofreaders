@@ -393,7 +393,7 @@ function do_mkdir(): string
     }
 
     if (!mkdir($new_dir_abspath)) {
-        fatal_error(sprintf(_("Unable to create folder")));
+        fatal_error(_("Unable to create folder"));
     }
 
     return sprintf(_("Created folder %s"), html_safe($new_dir_name));
@@ -1084,14 +1084,14 @@ function show_return_link(): void
 
 function show_home_link(): void
 {
-    $text = sprintf(_("Go to your home folder"));
+    $text = _("Go to your home folder");
     echo "<p><a href='?action=showdir'>$text</a></p>\n";
 }
 
 function show_commons_link(): void
 {
     global $commons_rel_dir;
-    $text = sprintf(_("Go to Commons folder"));
+    $text = _("Go to Commons folder");
     $url = "?cdrp=" . urlencode($commons_rel_dir);
     echo "<p><a href='$url'>$text</a></p>\n";
 }

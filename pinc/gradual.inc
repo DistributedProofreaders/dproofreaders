@@ -71,7 +71,7 @@ function welcome_see_beginner_forum(int $pagesproofed, string $page_id, ?string 
         echo "</div>";
 
         echo "<p>";
-        echo sprintf(_('Before you can begin proofreading, you must have:'));
+        echo _('Before you can begin proofreading, you must have:');
         echo "<ul>";
         foreach ($uao->minima_table as [$criterion_str, $_minimum, $_user_score, $_satisfied]) {
             echo "<li>$criterion_str</li>";
@@ -218,7 +218,7 @@ function maybe_output_new_proofer_project_message(Project $project): void
         echo "</div>";
 
         echo "<p>";
-        echo sprintf(_('Before you can begin proofreading, you must have:'));
+        echo _('Before you can begin proofreading, you must have:');
         echo "<ul>";
         foreach ($uao->minima_table as [$criterion_str, $_minimum, $_user_score, $_satisfied]) {
             echo "<li>$criterion_str</li>";
