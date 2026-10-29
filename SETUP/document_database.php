@@ -176,14 +176,14 @@ function verify_file_for_table(string $table_name, string $file_path, string $di
     $deleted_columns = array_diff($column_definitions_in_file, $column_definitions_from_table);
 
     if (count($added_columns) !== 0) {
-        foreach ($added_columns as $index => $column) {
+        foreach ($added_columns as $column) {
             echo "  - missing column definition for column '$column'\n";
         }
 
         exit(1);
     }
     if (count($deleted_columns) !== 0) {
-        foreach ($deleted_columns as $index => $column) {
+        foreach ($deleted_columns as $column) {
             echo "  - redundant column definition for column '$column' which does not exist in table\n";
         }
 
