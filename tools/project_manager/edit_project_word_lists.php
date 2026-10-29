@@ -72,7 +72,6 @@ $pwlh->show_form();
 
 class ProjectWordListHolder
 {
-    public string $projectid;
     public Project $project;
     public string $bad_words;
     public string $good_words;
@@ -80,10 +79,9 @@ class ProjectWordListHolder
     public int $gwl_timestamp;
 
 
-    public function __construct(string $projectid)
+    public function __construct(public string $projectid)
     {
-        $this->projectid = $projectid;
-        $this->project = new Project($projectid);
+        $this->project = new Project($this->projectid);
     }
 
     public function validate_project_and_access(): ?string

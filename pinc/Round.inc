@@ -44,13 +44,6 @@ class Rounds extends Stages
 class Round extends Stage
 {
     public int $round_number;
-    /** @var array<string, 'ALL'|string[]> */
-    public array $pi_tools;
-    public ?int $daily_page_limit;
-    /** @var array<string> */
-    public array $other_rounds_with_visible_usernames;
-    /** @var array<int, string> */
-    private array $honorifics;
     public string $project_unavailable_state;
     public string $project_waiting_state;
     public string $project_bad_state;
@@ -123,10 +116,10 @@ class Round extends Stage
         $access_change_callback,
         $description,
         $document,
-        $pi_tools,
-        $daily_page_limit,
-        $other_rounds_with_visible_usernames,
-        $honorifics
+        public array $pi_tools,
+        public ?int $daily_page_limit,
+        public array $other_rounds_with_visible_usernames,
+        private array $honorifics
     ) {
         $round_id = $id;
 
@@ -143,11 +136,6 @@ class Round extends Stage
         );
 
         $this->round_number = count(Rounds::get_all());
-
-        $this->pi_tools = $pi_tools;
-        $this->daily_page_limit = $daily_page_limit;
-        $this->other_rounds_with_visible_usernames = $other_rounds_with_visible_usernames;
-        $this->honorifics = $honorifics;
         krsort($this->honorifics);
 
         // The following project-state related attributes are created & set in project_states.inc

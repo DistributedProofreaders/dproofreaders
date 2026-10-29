@@ -7,13 +7,11 @@ include_once($relPath."3rdparty/mediawiki/DiffFormatter.php");
 
 class BBDiffFormatter extends DiffFormatter
 {
-    protected $diffurl;
     protected $leadingContextLines = 1;   // Code assumes 1 leading context line - displayed for add/delete only
     protected $trailingContextLines = 0;  // Code assumes 0 trailing context lines
 
-    public function __construct($diffurl)
+    public function __construct(protected $diffurl)
     {
-        $this->diffurl = $diffurl;
     }
 
     /**
