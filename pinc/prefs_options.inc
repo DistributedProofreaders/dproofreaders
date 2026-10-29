@@ -91,7 +91,7 @@ function get_user_proofreading_font(?int $interface = null): array
     $font_size = $proofreading_font_sizes[$font_size_i] ?? '';
 
     $full_font_family = get_full_font_families($interface)[$font_style_i];
-    $font_size_family = $font_size ? $font_size : 'unset';
+    $font_size_family = $font_size ?: 'unset';
 
     return [$font_style, $font_size, $full_font_family, $font_size_family];
 }

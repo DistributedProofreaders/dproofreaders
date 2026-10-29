@@ -58,7 +58,7 @@ if (@$_REQUEST['confirmed'] == 'yes') {
         // Ignore $setting, it's always 'on'.
         echo _("Image"), "=$image:<br>\n";
         $err = $page_func($projectid, $image);
-        echo($err ? $err : _("success"));
+        echo($err ?: _("success"));
         echo "<br>\n";
         echo "<br>\n";
     }
