@@ -141,7 +141,7 @@ echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<
 /** @param array<string, string> $actions */
 function notify_user(User $user, array $actions): string
 {
-    if ((count($actions) == 1) && (array_search('grant', $actions) !== false)) {
+    if (count($actions) == 1 && in_array('grant', $actions)) {
         // Special case: If the user has been granted access to
         // a single round, send a congratulations! email.
         [$activity_id] = array_keys($actions);

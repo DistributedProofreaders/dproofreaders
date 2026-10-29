@@ -115,11 +115,7 @@ class Quiz
         // have only pagename => timestamp rows. If any "null" values remain,
         // the user has not passed all the pages required, or the result of that
         // page is invalid (e.g. too old).
-        if (array_search(null, $pages_required_results) !== false) {
-            return false;
-        } else {
-            return true;
-        }
+        return !in_array(null, $pages_required_results);
     }
 
     public function show_results_table(string $username): void
