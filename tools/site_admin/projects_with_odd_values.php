@@ -37,7 +37,7 @@ foreach (load_projects_with_bad_values($lc) as $property => $projects) {
     foreach ($projects as $project) {
         echo "<tr>\n";
         echo "<td>{$project->$property}</td>\n";
-        $label = $project->nameofwork ? $project->nameofwork : "<i>" . _("No project title") . "</i>";
+        $label = $project->nameofwork ?: "<i>" . _("No project title") . "</i>";
         echo "<td><a href='$project->page_url'>$label</a></td>\n";
         echo "</tr>\n";
     }

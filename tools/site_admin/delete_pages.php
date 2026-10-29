@@ -192,7 +192,7 @@ function delete_pages(?string $projectid, ?array $from_image_, bool $just_checki
         $image = $all_image_values[$i];
         echo "image=$image: ";
         $err = page_del($projectid, $image);
-        echo($err ? $err : "success");
+        echo($err ?: "success");
         echo "<br>";
     }
 

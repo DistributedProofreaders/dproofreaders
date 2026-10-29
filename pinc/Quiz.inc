@@ -212,7 +212,7 @@ class Quiz
                 $class = $passed ? 'quiz-passed' : 'quiz-not-passed';
                 echo "<td class='$class'>$text</td>";
 
-                $date = $pages_required_results[$quiz_page_id] ? $pages_required_results[$quiz_page_id] : 0;
+                $date = $pages_required_results[$quiz_page_id] ?: 0;
                 $text = ($date != 0) ? date("Y-m-d", $date) : _("Not attempted");
                 $max = $this->pass_requirements['maximum_age'];
                 $date_ok = ((time() - $date) < $max) || empty($max);
