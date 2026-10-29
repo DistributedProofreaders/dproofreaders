@@ -25,7 +25,7 @@ class Comparator
         // L_round_options are all rounds except the last
         $L_round_options = array_slice($all_rounds, 0, count($all_rounds) - 1);
         // R_round_options are all formatting rounds
-        $R_round_options = array_filter($all_rounds, 'is_formatting_round');
+        $R_round_options = array_filter($all_rounds, is_formatting_round(...));
         // default R_round is first R-round
         $default_R_round = reset($R_round_options);
         // default L_round is the preceding one

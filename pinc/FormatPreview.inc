@@ -53,7 +53,7 @@ class FormatPreview
     public static function copy_project_events(string $src_projectid, string $dest_projectid, array $images = []): void
     {
         if ($images) {
-            $images_where = " AND image in (" . surround_and_join(array_map("DPDatabase::escape", $images), '"', '"', ",") . ")";
+            $images_where = " AND image in (" . surround_and_join(array_map(DPDatabase::escape(...), $images), '"', '"', ",") . ")";
         } else {
             $images_where = "";
         }

@@ -20,7 +20,7 @@ function utf8_normalize(string $string): string|false
 function utf8_combined_chr(string $codepoint): string
 {
     $codepoints = explode('>', $codepoint);
-    return implode('', array_map('voku\helper\UTF8::hex_to_chr', $codepoints));
+    return implode('', array_map(\voku\helper\UTF8::hex_to_chr(...), $codepoints));
 }
 
 /**
@@ -83,8 +83,8 @@ function get_nonnormalized_codepoints($codepoints): array
     foreach ($characters as $character) {
         $norm_character = utf8_normalize($character);
         if ($character != $norm_character) {
-            $norm_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::str_split($norm_character)));
-            $orig_codepoint = implode('>', array_map('voku\helper\UTF8::chr_to_hex', UTF8::str_split($character)));
+            $norm_codepoint = implode('>', array_map(\voku\helper\UTF8::chr_to_hex(...), UTF8::str_split($norm_character)));
+            $orig_codepoint = implode('>', array_map(\voku\helper\UTF8::chr_to_hex(...), UTF8::str_split($character)));
             $nonnorm_codepoints[$orig_codepoint] = $norm_codepoint;
         }
     }

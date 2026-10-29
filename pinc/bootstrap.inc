@@ -41,7 +41,7 @@ if ($require_login && !dpsession_is_cookie_set() && !defined('SKIP_REQUIRE_LOGIN
 }
 
 // Register autoloader
-spl_autoload_register('dp_class_autoloader');
+spl_autoload_register(dp_class_autoloader(...));
 
 // Load composer autoloader
 require_once($relPath.'../vendor/autoload.php');

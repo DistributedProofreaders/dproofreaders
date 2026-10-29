@@ -221,7 +221,7 @@ function login_forum_user(string $username, string $password)
 
     // phpBB may use trigger_error() on login if the user is banned which
     // doesn't return, so we need to capture that and handle it here
-    $old_error_handler = set_error_handler("phpbb_user_error_handler");
+    $old_error_handler = set_error_handler(phpbb_user_error_handler(...));
 
     try {
         $results = $auth->login($username, $password, $persist_login);

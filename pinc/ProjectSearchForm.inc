@@ -145,13 +145,13 @@ class ProjectSearchWidget
             }
         }
 
-        $values = array_map("DPDatabase::escape", $values);
+        $values = array_map(DPDatabase::escape(...), $values);
         $inv = isset($_GET[$this->id . "_inv"]) ? " NOT " : "";
         if ($comparator == '=') {
             $values_list = surround_and_join($values, "'", "'", ",");
             $contribution = "$column_name$inv IN ($values_list)";
         } elseif ($comparator == 'LIKE') {
-            $values = array_map("DPDatabase::escape_like_wildcards", $values);
+            $values = array_map(DPDatabase::escape_like_wildcards(...), $values);
             $likes_str = surround_and_join($values, "$column_name LIKE '%", "%'", ' OR ');
             $contribution = "$inv($likes_str)";
         }
@@ -171,7 +171,7 @@ class SpecialDayWidget extends ProjectSearchWidget
             }
         }
 
-        $values = array_map("DPDatabase::escape", $values);
+        $values = array_map(DPDatabase::escape(...), $values);
         $contributions = [];
         foreach ($values as $value) {
             if (("Birthday" == $value) || ("Otherday" == $value)) {
