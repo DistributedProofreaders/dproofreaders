@@ -17,7 +17,7 @@ if (php_sapi_name() != "cli" && function_exists("apache_setenv")) {
 
 $require_login = false;
 
-$relPath = dirname(__FILE__) . "/../pinc/";
+$relPath = __DIR__ . "/../pinc/";
 include_once($relPath."base.inc");
 
 // now attempt to flush the headers configured by base.inc back to the client
