@@ -40,7 +40,7 @@ foreach ($_POST as $name => $value) {
 
     [$activity_id, $action_type] = $a;
 
-    if ($action_type != 'grant' && $action_type != 'revoke' && $action_type != 'deny_request_for') {
+    if (!in_array($action_type, ['grant', 'revoke', 'deny_request_for'])) {
         die("Error: bad parameter name '$name'");
     }
 

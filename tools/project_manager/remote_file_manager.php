@@ -997,7 +997,7 @@ function confirm_is_local(string $type, string $item_name): void
 {
     global $curr_abspath, $hce_curr_displaypath;
 
-    assert($type == 'F' || $type == 'D' || $type == 'FD');
+    assert(in_array($type, ['F', 'D', 'FD']));
 
     // NB this catches $item_name == NULL too
     if ($item_name == '') {
