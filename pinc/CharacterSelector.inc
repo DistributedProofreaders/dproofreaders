@@ -4,8 +4,8 @@ include_once($relPath."unicode.inc"); // convert_codepoint_ranges_to_characters(
 
 class CharacterSelector
 {
-    /** @var (?PickerSet)[] */
-    private array $picker_sets;
+    /** @var PickerSet[] */
+    private readonly array $picker_sets;
 
     public function __construct(string $projectid)
     {
@@ -24,10 +24,6 @@ class CharacterSelector
 
         $pickerid = 1;
         foreach ($this->picker_sets as $picker_set) {
-            if (!$picker_set) {
-                continue;
-            }
-
             if (count($this->picker_sets) == 1) {
                 $prefix = "";
             } else {

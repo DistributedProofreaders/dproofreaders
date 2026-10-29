@@ -14,7 +14,7 @@ include_once($relPath.'Project.inc'); // get_project_difficulties()
 
 class ProjectFilterElement
 {
-    private bool $active;
+    private readonly bool $active;
     /** @var array<string, string> */
     public array $selected_options;
 

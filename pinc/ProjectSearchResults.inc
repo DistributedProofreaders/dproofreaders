@@ -472,9 +472,9 @@ class ProjectSearchResultEntry extends Project
 class ProjectSearchResults
 {
     private Settings $userSettings;
-    private string $search_origin;
-    private int $page_size;
-    private bool $show_special_colors;
+    private readonly string $search_origin;
+    private readonly int $page_size;
+    private readonly bool $show_special_colors;
     /** @var Column[] */
     private array $active_columns;
     private string $sort_column_id;

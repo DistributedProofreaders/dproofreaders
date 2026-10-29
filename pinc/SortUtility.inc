@@ -106,7 +106,7 @@ class SortUtility
 {
     // the name of the utility -- used when identifying
     // HTTP-arguments on sorting
-    private string $_name;
+    private readonly string $_name;
     // the SortableValues
     /** @var SortableValue[] */
     private array $_collection;

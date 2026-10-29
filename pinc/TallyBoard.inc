@@ -850,7 +850,7 @@ class Vitals
 
 class Ranker
 {
-    private bool $zero_begets_zero;
+    private readonly bool $zero_begets_zero;
     private int $n;
     private int $prev_rank;
     private int $prev_value;

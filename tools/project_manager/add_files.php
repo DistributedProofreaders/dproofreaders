@@ -193,7 +193,7 @@ class Loader
     private int $n_ops;
     private int $n_warnings;
     private int $n_errors;
-    private ImageUtils $checker;
+    private readonly ImageUtils $checker;
 
     public function __construct(
         private readonly string $source_project_dir,

@@ -14,7 +14,7 @@ class POFile
     private ?int $num_messages = null;
     private ?int $num_messages_translated = null;
 
-    public function __construct(private ?string $po_filename = null)
+    public function __construct(private readonly ?string $po_filename = null)
     {
     }
 
@@ -343,7 +343,7 @@ class POFileIterator implements Iterator
     private ?string $current_block = null;
     private int $block_count = -1;
 
-    public function __construct(private string $po_filename)
+    public function __construct(private readonly string $po_filename)
     {
     }
 

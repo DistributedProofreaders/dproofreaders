@@ -23,7 +23,7 @@ abstract class Selector
 
 class ColumnSelector extends Selector
 {
-    private Column $column;
+    private readonly Column $column;
 
     public function __construct(Column $column, Settings $userSettings, string $search_origin)
     {
@@ -43,7 +43,7 @@ class ColumnSelector extends Selector
 
 class OptionSelector extends Selector
 {
-    private string $def_value;
+    private readonly string $def_value;
     /** @var array<int|string, int|string> */
     private array $options;
 
@@ -131,7 +131,7 @@ class ConfigForm extends ColumnData
 {
     /** @var ColumnSelector[] */
     private array $column_selectors;
-    private OptionData $option_data;
+    private readonly OptionData $option_data;
 
     public function __construct(Settings $userSettings, string $search_origin)
     {
