@@ -226,7 +226,7 @@ class UserSuggestions
             $beginner_clause = "1";
         } else {
             // if the user isn't a beginner, exclude all beginner projects
-            $beginner_clause = sprintf("difficulty <> 'beginner'");
+            $beginner_clause = "difficulty <> 'beginner'";
         }
 
         // get a sorted list of the rounds a user can work in sorted sorted by
