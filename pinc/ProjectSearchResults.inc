@@ -355,9 +355,7 @@ class OptionsColumn extends Column
             }
         }
         if (user_can_work_in_stage($pguser, 'PP')) {
-            if ($project->state == PROJ_POST_FIRST_UNAVAILABLE ||
-                $project->state == PROJ_POST_FIRST_AVAILABLE ||
-                $project->state == PROJ_POST_FIRST_CHECKED_OUT) {
+            if (in_array($project->state, [PROJ_POST_FIRST_UNAVAILABLE, PROJ_POST_FIRST_AVAILABLE, PROJ_POST_FIRST_CHECKED_OUT])) {
                 $actions[] = "<a href=\"$project->url/$projectid.zip\">" . _("Download") . "</a>";
             }
             if ($project->state == PROJ_POST_SECOND_CHECKED_OUT ||

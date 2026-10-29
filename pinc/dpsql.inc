@@ -132,9 +132,5 @@ function dpsql_fetch_columns(mysqli_result $res): array
 
 function is_mysqli_field_type_int(int $type): bool
 {
-    return $type == MYSQLI_TYPE_TINY ||
-        $type == MYSQLI_TYPE_SHORT ||
-        $type == MYSQLI_TYPE_LONG ||
-        $type == MYSQLI_TYPE_LONGLONG ||
-        $type == MYSQLI_TYPE_INT24;
+    return in_array($type, [MYSQLI_TYPE_TINY, MYSQLI_TYPE_SHORT, MYSQLI_TYPE_LONG, MYSQLI_TYPE_LONGLONG, MYSQLI_TYPE_INT24]);
 }
