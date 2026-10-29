@@ -103,7 +103,7 @@ function showProjectInfo($input, $argv, $parser)
         " <tr><td class='pi_a'><a href='/wiki/PM'>PM</a>/<a href='/wiki/PPer'>".
         "PPer</a> </td><td>$project[username]/$project[checkedoutby]</td></tr>";
 
-        if (substr($project['raw_state'], -5) == 'avail') {
+        if (str_ends_with($project['raw_state'], 'avail')) {
             $output .= " <tr><td class='pi_a'>Pages (left/total)</td>" .
                 "<td>$project[n_available_pages]/$project[n_pages]</td></tr>";
         }

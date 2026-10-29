@@ -239,7 +239,7 @@ function empty_check(int $file_size): void
 
 function zip_check(string $original_name, string $file_path): void
 {
-    if (substr($original_name, -4) != ".zip") {
+    if (!str_ends_with($original_name, ".zip")) {
         throw new FileUploadException(_("File name extension must be '.zip'"));
     }
     // ensure that it's a valid zip. The extension was already checked and the
