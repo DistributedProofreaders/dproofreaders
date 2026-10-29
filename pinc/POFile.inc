@@ -93,8 +93,8 @@ class POFile
     {
         [$_msgid, $msgstr] = @explode("msgstr", $block);
         $msgstr = "msgstr$msgstr";
-        if (strpos($msgstr, 'msgstr ""') === 0 &&
-            substr_count($msgstr, "\n") == 1) {
+        if (str_starts_with($msgstr, 'msgstr ""') &&
+            substr_count($msgstr, "\n") === 1) {
             return false;
         }
 

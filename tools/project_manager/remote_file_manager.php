@@ -688,7 +688,7 @@ function is_subdir_of_home(string $dir): bool
     global $home_dirname;
     // Does the path start with the home dir?
     // If not, it can't be this user's subdirectory
-    if (strpos($dir, "$home_dirname/") !== 0) {
+    if (!str_starts_with($dir, "$home_dirname/")) {
         return false;
     }
 
