@@ -83,7 +83,7 @@ if (!file_exists($abs_source)) {
     die("source does not exist: $abs_source");
 }
 
-if (substr($abs_source, -4) == ".zip") {
+if (str_ends_with($abs_source, ".zip")) {
     // $abs_source is a zip file containing the project files
 
     // We will unpack it to a sibling directory.
