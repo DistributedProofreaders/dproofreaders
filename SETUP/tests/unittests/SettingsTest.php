@@ -6,8 +6,6 @@ class SettingsTest extends PHPUnit\Framework\TestCase
     private $PREFIX = 'STU_';
     private $NONEXISTENT_USERNAME = 'SettingsTestUser';
 
-    private $cleanup = false;
-
     protected function setUp(): void
     {
         create_test_user($this->TEST_USERNAME);
