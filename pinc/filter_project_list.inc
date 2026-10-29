@@ -144,9 +144,7 @@ class LanguageElement extends ProjectFilterElement
         // then everything else
         foreach (get_iso_language_list() as $name_code) {
             $lang = $name_code["lang_name"];
-            if (!isset($options[$lang])) {
-                $options[$lang] = $lang;
-            }
+            $options[$lang] ??= $lang;
         }
         return $options;
     }

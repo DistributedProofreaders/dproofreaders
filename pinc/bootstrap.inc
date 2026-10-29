@@ -20,9 +20,7 @@
 $relPath = __DIR__."/";
 
 // require login by default unless the page has explicitly said otherwise
-if (!isset($require_login)) {
-    $require_login = true;
-}
+$require_login ??= true;
 
 // store the current time to calculate total page build time
 $PAGE_START_TIME = microtime(true);

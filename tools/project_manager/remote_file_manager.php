@@ -150,9 +150,7 @@ if (is_null($action)) {
     }
 
     // action defaults to 'showdir'
-    if (is_null($action)) {
-        $action = 'showdir';
-    }
+    $action ??= 'showdir';
 }
 
 $action_message = "";

@@ -238,13 +238,9 @@ function array_pad_internal(array $input, int $pad_size, int $pad_type): array
 function table_pad(array $table, int $rows, int $columns, string $value = ""): array
 {
     for ($i = 0; $i < $rows; $i++) {
-        if (!isset($table[$i])) {
-            $table[$i] = [];
-        }
+        $table[$i] ??= [];
         for ($j = 0; $j < $columns; $j++) {
-            if (!isset($table[$i][$j])) {
-                $table[$i][$j] = $value;
-            }
+            $table[$i][$j] ??= $value;
         }
     }
 

@@ -82,15 +82,13 @@ function generate_rss_feed(string $content, string $site_name, string $code_url,
         }
 
         // If $query is not set, use the default query.
-        if (!isset($query)) {
-            $query = "
+        $query ??= "
                 SELECT * 
                 FROM projects 
                 WHERE $condition 
                 ORDER BY modifieddate DESC 
                 LIMIT $limit
             ";
-        }
 
         $data = '';
         $result = DPDatabase::query($query);

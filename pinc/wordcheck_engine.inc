@@ -818,9 +818,7 @@ function load_project_good_word_suggestions(string $projectid, int $start_time =
 
     foreach ($eventArray as [$_time, $round, $page, $_proofer, $words]) {
         if (count($words)) {
-            if (!isset($wordsArray[$round][$page])) {
-                $wordsArray[$round][$page] = [];
-            }
+            $wordsArray[$round][$page] ??= [];
             $wordsArray[$round][$page] = array_merge($wordsArray[$round][$page], $words);
         }
     }

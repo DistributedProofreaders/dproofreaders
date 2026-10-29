@@ -900,9 +900,7 @@ function project_recalculate_page_counts(string $projectid): void
 
         // If pages table exists, but is empty,
         // COUNT(*) will be 0, but SUM(...) will be NULL.
-        if (is_null($n_available_pages)) {
-            $n_available_pages = 0;
-        }
+        $n_available_pages ??= 0;
 
         $settings = "n_pages=$n_pages, n_available_pages=$n_available_pages";
     }

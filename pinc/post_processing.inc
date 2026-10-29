@@ -47,9 +47,7 @@ function get_pp_projects_past_threshold(?string $PPer = null): array
 
     while ($row = mysqli_fetch_assoc($result)) {
         $row_PPer = $row["checkedoutby"];
-        if (!isset($projects_grouped_by_PPer[$row_PPer])) {
-            $projects_grouped_by_PPer[$row_PPer] = [];
-        }
+        $projects_grouped_by_PPer[$row_PPer] ??= [];
         $projects_grouped_by_PPer[$row_PPer][] = $row;
     }
 

@@ -32,9 +32,7 @@ abstract class DifferenceEngineWrapper
 
     protected function __construct(?DiffFormatter $formatter = null)
     {
-        if ($formatter === null) {
-            $formatter = new DiffFormatter();
-        }
+        $formatter ??= new DiffFormatter();
         $this->formatter = $formatter;
     }
 

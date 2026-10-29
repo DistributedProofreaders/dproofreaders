@@ -45,9 +45,7 @@ class ApiRouter
                     "No validator specified for $part"
                 );
             }
-            if (!isset($node->children[$part])) {
-                $node->children[$part] = new TrieNode();
-            }
+            $node->children[$part] ??= new TrieNode();
             $node = $node->children[$part];
         }
         $node->handlers[$method] = $function;
