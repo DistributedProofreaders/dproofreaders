@@ -723,7 +723,7 @@ function is_valid_move_destination(string $dir): bool
 
     // Users may only move files to a user's home directory root
     // and not a subdirectory of it.
-    return strpos($rel, "/") === false;
+    return !str_contains($rel, "/");
 }
 
 /**
@@ -1004,7 +1004,7 @@ function confirm_is_local(string $type, string $item_name): void
         fatal_error(_("Item name must not be empty."));
     }
 
-    if (strpos($item_name, '/') !== false) {
+    if (str_contains($item_name, '/')) {
         fatal_error(_("Item name must not contain a slash character"));
     }
 

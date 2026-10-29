@@ -61,7 +61,7 @@ function metarefresh(int $seconds, string $url, string $title = "", string $body
 
     // If ampersands are present and already escaped, unescape them so
     // attr_safe() will re-escape them along with anything else
-    if (strpos($absolute_url, '&amp;') !== false) {
+    if (str_contains($absolute_url, '&amp;')) {
         $absolute_url = str_replace('&amp;', '&', $absolute_url);
     }
 

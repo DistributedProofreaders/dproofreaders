@@ -192,7 +192,7 @@ function get_local_file_browser_cache_key(string $url): string
     global $code_url, $code_dir;
 
     $cache_fixer = "";
-    if (strpos($url, $code_url) !== false || strpos($url, SiteConfig::get()->dyn_url) !== false) {
+    if (str_contains($url, $code_url) || str_contains($url, SiteConfig::get()->dyn_url)) {
         $local_file = str_replace($code_url, $code_dir, $url);
         $local_file = str_replace(SiteConfig::get()->dyn_url, SiteConfig::get()->dyn_dir, $local_file);
 
