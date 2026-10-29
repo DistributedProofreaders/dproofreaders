@@ -275,7 +275,7 @@ function prepare_project_template_table()
 
     // attempt to delete an existing table but continue of it doesn't exist
     $sql = "DROP TABLE $PROJECT_TEMPLATE_TABLE";
-    $result = DPDatabase::query($sql);
+    DPDatabase::query($sql);
 
     // now create a new one
     project_allow_pages($PROJECT_TEMPLATE_TABLE);
