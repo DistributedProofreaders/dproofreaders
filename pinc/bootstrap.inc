@@ -17,7 +17,7 @@
 // can change inside the shutdown function based on PHP docs).
 // This also helps things like APC which can bypass stat calls
 // on includes that use absolute paths.
-$relPath = dirname(__FILE__)."/";
+$relPath = __DIR__."/";
 
 // require login by default unless the page has explicitly said otherwise
 if (!isset($require_login)) {
