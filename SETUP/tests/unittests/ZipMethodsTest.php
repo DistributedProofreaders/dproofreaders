@@ -13,7 +13,7 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
     {
         // Delete all files in the temporary extraction directory
         //   https://www.php.net/manual/en/function.unlink.php#109971
-        array_map('unlink', glob(self::TEMPORARY_EXTRACTION_DIRECTORY . '/*'));
+        array_map(unlink(...), glob(self::TEMPORARY_EXTRACTION_DIRECTORY . '/*'));
 
         rmdir(self::TEMPORARY_EXTRACTION_DIRECTORY);
     }

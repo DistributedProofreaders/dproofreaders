@@ -300,7 +300,7 @@ function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
         prep_numeric_keys_for_multisort($round_suggestions_w_freq[$round]);
 
         // sort the list by frequency, then by word
-        array_multisort(array_values($round_suggestions_w_freq[$round]), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($round_suggestions_w_freq[$round])), SORT_ASC, $round_suggestions_w_freq[$round]);
+        array_multisort(array_values($round_suggestions_w_freq[$round]), SORT_DESC, array_map(\voku\helper\UTF8::strtolower(...), array_keys($round_suggestions_w_freq[$round])), SORT_ASC, $round_suggestions_w_freq[$round]);
     }
 
     // now, remove any words that are already on the project's good or bad words lists
@@ -318,7 +318,7 @@ function _get_suggestions_word_list(string $projectid, int $timeCutoff): array
     prep_numeric_keys_for_multisort($all_suggestions_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map('strtolower', array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
+    array_multisort(array_values($all_suggestions_w_freq), SORT_DESC, array_map(strtolower(...), array_keys($all_suggestions_w_freq)), SORT_ASC, $all_suggestions_w_freq);
 
     // get a list of all rounds
     $rounds = array_keys($round_suggestions_w_freq);

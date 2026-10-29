@@ -185,7 +185,7 @@ function manage_site_word_lists_handle_action($action, $list_type, $language, $w
             $old_words = load_word_list($fileObject->abs_path);
             // clean up the new words
             $new_words = explode("\n", $word_string);
-            $new_words = array_map('rtrim', $new_words);
+            $new_words = array_map(rtrim(...), $new_words);
             $new_words = array_unique($new_words);
             // the above set mirrors the clean-up code in save_word_list
             // TODO: other good checks might be ensuring that the words are

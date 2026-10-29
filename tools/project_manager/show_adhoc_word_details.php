@@ -17,7 +17,7 @@ $queryWordText = $_POST["queryWordText"] ?? "";
 $queryWordText = str_replace("\r", "", $queryWordText);
 $queryWords = explode("\n", $queryWordText);
 // do some cleanup on the resulting words
-$queryWords = array_map('ltrim', $queryWords);
+$queryWords = array_map(ltrim(...), $queryWords);
 $queryWords = preg_replace('/\s+.*$/', '', $queryWords);
 $queryWords = array_unique($queryWords);
 // remove any empty words
@@ -176,7 +176,7 @@ function _get_adhoc_word_list(string $projectid, array $queryWords): array
     prep_numeric_keys_for_multisort($words_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($words_w_freq), SORT_DESC, array_map('voku\helper\UTF8::strtolower', array_keys($words_w_freq)), SORT_ASC, $words_w_freq);
+    array_multisort(array_values($words_w_freq), SORT_DESC, array_map(\voku\helper\UTF8::strtolower(...), array_keys($words_w_freq)), SORT_ASC, $words_w_freq);
 
     return [$words_w_freq, $messages];
 }

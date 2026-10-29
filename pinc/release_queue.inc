@@ -140,7 +140,7 @@ function fetch_queues_data(?Round $round, string $show, bool $show_groups, $name
         $name_selector = [$name_selector];
     }
     if (is_array($name_selector)) {
-        $values = array_map("DPDatabase::escape", $name_selector);
+        $values = array_map(DPDatabase::escape(...), $name_selector);
         $clauses[] = surround_and_join($values, "name LIKE '%", "%'", ' OR ');
     }
     if (empty($clauses)) {

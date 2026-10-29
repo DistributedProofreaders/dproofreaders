@@ -346,7 +346,7 @@ function get_n_users_subscribed_to_events_for_project(string $projectid)
 
     // If there are no rows for this project, the SUMs will all return NULL;
     // change those to zeroes.
-    $r = array_map('intval', $r);
+    $r = array_map(intval(...), $r);
 
     return $r;
 }

@@ -19,7 +19,7 @@ function slim_header(string $title = "", array $extra_args = []): void
 
     // Call slim_footer when the main page content has been emitted so we can
     // close the page
-    register_shutdown_function('slim_footer', $extra_args);
+    register_shutdown_function(slim_footer(...), $extra_args);
 }
 
 /** @param HeaderExtraArgs $extra_args */

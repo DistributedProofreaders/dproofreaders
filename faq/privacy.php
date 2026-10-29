@@ -129,7 +129,7 @@ function insert_site_name(string $sentence): string
 function output_paragraph(array $sentences): void
 {
     echo "<p>";
-    echo implode(" ", array_map("insert_site_name", $sentences));
+    echo implode(" ", array_map(insert_site_name(...), $sentences));
     echo "</p>";
 }
 

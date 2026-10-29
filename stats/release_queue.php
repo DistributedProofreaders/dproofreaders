@@ -247,7 +247,7 @@ function _show_queue_details(Round $round, string $name, bool $unheld_only): voi
     ];
     echo "<table class='themed theme_striped stats' style='width: 100%; table-layout: fixed'>\n";
     echo "<tr>\n";
-    echo surround_and_join(array_map("html_safe", $headers), "<th>", "</th>\n", "");
+    echo surround_and_join(array_map(html_safe(...), $headers), "<th>", "</th>\n", "");
     echo "</tr>\n";
     foreach (fetch_queue_projects_data($round, $queue["project_selector"], $unheld_only) as $p) {
         echo "<tr>\n";

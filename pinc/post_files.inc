@@ -97,7 +97,7 @@ function generate_interim_file(
     $zip_path = "{$dirname}/{$filename}.zip";
 
     // make sure that everything will be cleaned up on exit
-    register_shutdown_function("clean_up_temp", $dirname, $textfile_path, $zip_path);
+    register_shutdown_function(clean_up_temp(...), $dirname, $textfile_path, $zip_path);
 
     // now write the text file
     if (($handle = fopen($textfile_path, "w")) === false) {
