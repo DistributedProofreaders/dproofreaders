@@ -42,7 +42,7 @@ if ($userPW == '') {
 // Validate CSRF
 try {
     validate_csrf_token();
-} catch (InvalidCSRFTokenException $e) {
+} catch (InvalidCSRFTokenException) {
     login_failure('form_timeout', $destination);
 }
 

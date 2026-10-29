@@ -69,7 +69,7 @@ if ($action == 'default' && !$username) {
     }
     try {
         $user = new NonactivatedUser($username);
-    } catch (NonexistentNonactivatedUserException $exception) {
+    } catch (NonexistentNonactivatedUserException) {
         printf(
             _("No user '%s' was found in the list of non-activated users."),
             html_safe($username)

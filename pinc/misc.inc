@@ -1098,7 +1098,7 @@ function is_valid_zip_file(string $file_path, bool $ignore_extension_check = fal
 {
     try {
         validate_zip_file($file_path, $ignore_extension_check);
-    } catch (ZipException $exception) {
+    } catch (ZipException) {
         return false;
     }
     return true;

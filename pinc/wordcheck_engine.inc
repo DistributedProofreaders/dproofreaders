@@ -1082,7 +1082,7 @@ function get_project_languages(string $projectid, array $aux_languages = []): ar
 
     try {
         $project = new Project($projectid);
-    } catch (NonexistentProjectException $exception) {
+    } catch (NonexistentProjectException) {
         return $returnArray;
     }
 

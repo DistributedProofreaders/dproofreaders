@@ -91,7 +91,7 @@ if (count($_POST)) {
             );
             echo "</p>";
             exit();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $error = _("Can not initiate user registration.");
         }
     }
@@ -243,9 +243,9 @@ function _validate_fields(
     try {
         NonactivatedUser::load_from_email($email);
         $email_exists = true;
-    } catch (NonuniqueNonactivatedUserException $e) {
+    } catch (NonuniqueNonactivatedUserException) {
         $email_exists = true;
-    } catch (NonexistentNonactivatedUserException $e) {
+    } catch (NonexistentNonactivatedUserException) {
         // this is the expected case
         $email_exists = false;
     }
@@ -286,7 +286,7 @@ function _validate_fields(
     try {
         new NonactivatedUser($username);
         return _("That username has already been requested. Please try another.");
-    } catch (NonexistentNonactivatedUserException$exception) {
+    } catch (NonexistentNonactivatedUserException) {
         // pass
     }
 

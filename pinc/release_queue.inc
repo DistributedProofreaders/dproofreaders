@@ -64,7 +64,7 @@ function _get_queue_length(string $cooked_project_selector, string $project_wait
         $c_res = DPDatabase::query($c_sql);
         $row = mysqli_fetch_row($c_res);
         return [$row[0], $row[1] ?? 0];
-    } catch (DBQueryError $error) {
+    } catch (DBQueryError) {
         return [null, null];
     }
 }

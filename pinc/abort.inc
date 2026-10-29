@@ -50,7 +50,7 @@ function provide_escape_links(): void
 
             // This link won't work if the error is that the project doesn't exist.
             echo "<li>" . return_to_project_page_link($projectid) . "</li>\n";
-        } catch (InvalidProjectIDException $exception) {
+        } catch (InvalidProjectIDException) {
             // don't output anything as the project ID is not valid
         }
     }

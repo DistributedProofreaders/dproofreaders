@@ -213,7 +213,7 @@ class User
                             );
                         }
                         $this->current_profile = $profile;
-                    } catch (NonexistentUserProfileException $exception) {
+                    } catch (NonexistentUserProfileException) {
                         // reset the cookie since the value was invalid
 
                         // We can only reset the cookie if the headers haven't
@@ -443,7 +443,7 @@ class User
         if (!$current_user) {
             try {
                 $current_user = new User(User::current_username());
-            } catch (NonexistentUserException $e) {
+            } catch (NonexistentUserException) {
                 return null;
             }
         }

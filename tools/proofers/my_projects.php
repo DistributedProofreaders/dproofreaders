@@ -148,7 +148,7 @@ if (mysqli_num_rows($res) == 0) {
             try {
                 $round = Rounds::get_by_project_state($project->state);
                 validate_user_against_project_reserve($focus_user, $project, $round);
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 continue;
             }
         }
