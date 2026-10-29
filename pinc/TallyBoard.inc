@@ -61,13 +61,8 @@ function get_all_current_tallyboards()
 
 class TallyBoard
 {
-    public string $tally_name;
-    public string $holder_type;
-
-    public function __construct(string $tally_name, string $holder_type)
+    public function __construct(public string $tally_name, public string $holder_type)
     {
-        $this->tally_name = $tally_name;
-        $this->holder_type = $holder_type;
     }
 
     // -------------------------------------------------------------------------
@@ -850,7 +845,6 @@ class Vitals
 
 class Ranker
 {
-    private readonly bool $zero_begets_zero;
     private int $n;
     private int $prev_rank;
     private int $prev_value;
@@ -861,10 +855,8 @@ class Ranker
      *   If TRUE, a value of zero or less will yield the special rank of zero.
      *   (Think of it as a null rank.)
      */
-    public function __construct($zero_begets_zero)
+    public function __construct(private readonly bool $zero_begets_zero)
     {
-        $this->zero_begets_zero = $zero_begets_zero;
-
         $this->n = 0;
         // Counts the number of calls to 'next',
         // and thus the position of each item in the sequence,

@@ -23,13 +23,11 @@ class ProjectSuggestion extends Project
 
 class UserSuggestions
 {
-    private readonly ?string $_username;
     private int $_cache_valid_duration = 60 * 60;
     private string $_cache_key = "my_suggestions:criteria";
 
-    public function __construct(?string $username)
+    public function __construct(private readonly ?string $_username)
     {
-        $this->_username = $username;
     }
 
     /** @return array<string, mixed> */

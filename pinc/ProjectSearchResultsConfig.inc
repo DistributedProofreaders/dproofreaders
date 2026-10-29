@@ -23,12 +23,9 @@ abstract class Selector
 
 class ColumnSelector extends Selector
 {
-    private readonly Column $column;
-
-    public function __construct(Column $column, Settings $userSettings, string $search_origin)
+    public function __construct(private readonly Column $column, Settings $userSettings, string $search_origin)
     {
-        $this->column = $column;
-        $this->label = $column->get_long_label();
+        $this->label = $this->column->get_long_label();
 
         $this->userSettings = $userSettings;
         $this->search_origin = $search_origin;
@@ -43,19 +40,13 @@ class ColumnSelector extends Selector
 
 class OptionSelector extends Selector
 {
-    private readonly string $def_value;
-    /** @var array<int|string, int|string> */
-    private array $options;
-
     /**
      * @param array<int|string, int|string> $options
      */
-    public function __construct(string $id, string $label, string $value, array $options, Settings $userSettings, string $search_origin)
+    public function __construct(string $id, string $label, private readonly string $def_value, private array $options, Settings $userSettings, string $search_origin)
     {
         $this->id = $id;
         $this->label = $label;
-        $this->def_value = $value;
-        $this->options = $options;
 
         $this->userSettings = $userSettings;
         $this->search_origin = $search_origin;
