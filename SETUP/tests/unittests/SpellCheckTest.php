@@ -2,7 +2,6 @@
 
 class SpellCheckTest extends ProjectUtils
 {
-
     public function testSpellCheckTextStrictComparison(): void
     {
         // Create a bad words list with a word that can loose compare
@@ -16,7 +15,8 @@ class SpellCheckTest extends ProjectUtils
         // We want spellcheck to
         // a) not throw a TypeError calling _wrapBadWord
         // b) only wrap the bad word '12' and not the different word '012'
-        $ouput_text = spellcheck_text(orig_text: "12\n012\n",
+        $output_text = spellcheck_text(
+            orig_text: "12\n012\n",
             projectid: $this->valid_projectID,
             languages: ["en_US"],
             accepted_words: []
