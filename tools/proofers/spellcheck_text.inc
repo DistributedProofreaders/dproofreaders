@@ -130,8 +130,9 @@ function spellcheck_text(string $orig_text, string $projectid, array $languages,
         // find the index for each word before we futz with the line
         foreach (get_all_words_in_text($origLine, true) as $lineIndex => $word) {
             if ($word != "" && (
-                in_array($word, $badWords) || in_array($word, $accepted_words) ||
-                in_array($word, $uncommonScriptWords)
+                in_array($word, $badWords, strict: true) ||
+                in_array($word, $accepted_words, strict: true) ||
+                in_array($word, $uncommonScriptWords, strict: true)
             )) {
                 // erase any punctuation-markers covered by this word
                 for ($li = $lineIndex; $li < $lineIndex + UTF8::strlen($word); $li++) {
@@ -156,16 +157,16 @@ function spellcheck_text(string $orig_text, string $projectid, array $languages,
 
             // Process the words in the most to least important if the word
             // at the index is found in multiple arrays
-            if (in_array($word, $accepted_words)) {
+            if (in_array($word, $accepted_words, strict: true)) {
                 // an accepted word (AW)
                 $replaceString = _wrapAW($word);
-            } elseif (in_array($word, $badWords)) {
+            } elseif (in_array($word, $badWords, strict: true)) {
                 // a bad word
-                [$replaceString, $numBadWords] = _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, @$badWordHash[$word]);
-            } elseif (in_array($word, $puncArray)) {
+                [$replaceString, $numBadWords] = _wrapBadWord($word, $origLineNum, $lineIndex, $wordLen, $badWordHash[$word]);
+            } elseif (in_array($word, $puncArray, strict: true)) {
                 // punctuation
                 $replaceString = _wrapPunc($word);
-            } elseif (in_array($word, $uncommonScriptWords)) {
+            } elseif (in_array($word, $uncommonScriptWords, strict: true)) {
                 // word with one or more characters in an "uncommon" script
                 $replaceString = _wrapScriptWord($word, $uncommonScriptMap);
             }
