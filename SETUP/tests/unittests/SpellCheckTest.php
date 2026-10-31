@@ -2,7 +2,6 @@
 
 class SpellCheckTest extends ProjectUtils
 {
-
     public function testSpellCheckTextStrictComparison(): void
     {
         // Create a bad words list with a word that can loose compare
