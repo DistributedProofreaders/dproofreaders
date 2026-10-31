@@ -182,4 +182,6 @@ function delete_test_project_remains(Project $project): void
         DPDatabase::escape($projectid)
     );
     DPDatabase::query($sql);
+
+    $project->delete_project_dir();
 }

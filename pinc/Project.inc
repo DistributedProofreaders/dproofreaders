@@ -1833,6 +1833,13 @@ class Project
         }
     }
 
+    public function delete_project_dir(): void
+    {
+        if (file_exists($this->dir)) {
+            $this->delete_file($this->dir);
+        }
+    }
+
     public function get_project_page(?string $pagename): ProjectPage
     {
         if (!$this->pages_table_exists) {
