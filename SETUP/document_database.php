@@ -7,9 +7,9 @@ include_once($relPath.'TableDocumentation.inc');
 include_once($relPath.'DPage.inc'); // project_allow_pages()
 
 $OPERATIONS = [
-    'generate' => 'generate_file_for_table',
-    'verify' => 'verify_file_for_table',
-    'update' => 'update_file_for_table',
+    'generate' => generate_file_for_table,
+    'verify' => verify_file_for_table,
+    'update' => update_file_for_table,
 ];
 
 $DEFAULT_DIRECTORY_PATH = realpath("$relPath/../SETUP/dbdocs/");
@@ -33,8 +33,9 @@ if ($table_name === 'all') {
 /**
  * Return a validated set of command line arguments
  *
- * @param array $operations the set of valid operations
+ * @param string[] $operations the set of valid operations
  * @param string $default_dir_path the default directory path
+ * @return list{string, string, string}
  */
 function get_arguments(array $operations, string $default_dir_path): array
 {
@@ -91,9 +92,9 @@ function get_arguments(array $operations, string $default_dir_path): array
  * the first one and the $file_name and $display_name are set to '$projectid'.
  *
  * @param string $directory_path the directory in which to place the generated files
- * @param callable $operation the operation to perform for each table
+ * @param callable(string, string, string): void $operation the operation to perform for each table
  */
-function run_operation_for_all_tables(string $directory_path, callable $operation)
+function run_operation_for_all_tables(string $directory_path, callable $operation): void
 {
     $table_names = get_table_names_to_document();
 
@@ -111,7 +112,7 @@ function run_operation_for_all_tables(string $directory_path, callable $operatio
  * @param string $file_path where to generate the file
  * @param string $display_name the title of the markdown file
  */
-function generate_file_for_table(string $table_name, string $file_path, string $display_name)
+function generate_file_for_table(string $table_name, string $file_path, string $display_name): void
 {
     $columns = query_columns_for_table($table_name);
 
@@ -139,7 +140,7 @@ function generate_file_for_table(string $table_name, string $file_path, string $
  * @param string $file_path which file to verify
  * @param string $display_name the title of the markdown file -- is not used
  */
-function verify_file_for_table(string $table_name, string $file_path, string $display_name)
+function verify_file_for_table(string $table_name, string $file_path, string $display_name): void
 {
     echo " - verifying documentation for table '$table_name' in '$file_path' is up to date\n";
 
@@ -203,7 +204,7 @@ function verify_file_for_table(string $table_name, string $file_path, string $di
  * @param string $file_path which file to verify
  * @param string $display_name the title of the markdown file -- is not used
  */
-function update_file_for_table(string $table_name, string $file_path, string $display_name)
+function update_file_for_table(string $table_name, string $file_path, string $display_name): void
 {
     echo " - updating documentation for table '$table_name' in '$file_path'\n";
 
@@ -232,22 +233,25 @@ function update_file_for_table(string $table_name, string $file_path, string $di
 
 /**
  * Runs a "DESCRIBE $table_name" query and returns the result.
+ * @return list<array{Field: string, Type: string, Null: string, Key: string, Default: string, Extra: string}>
  */
 function query_columns_for_table(string $table_name): array
 {
-    $result = DPDatabase::query("DESCRIBE $table_name");
+    $result = DPDatabase::query("DESCRIBE $table_name", throw_on_failure: false);
 
     if (!$result) {
         echo "Failed to fetch column information for table '$table_name'.\n";
         exit(1);
     }
 
+    /** @var list<array{Field: string, Type: string, Null: string, Key: string, Default: string, Extra: string}> */
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
     return $rows;
 }
 
 /**
  * Returns the names of the tables that should be documented.
+ * @return string[]
  */
 function get_table_names_to_document(): array
 {
@@ -267,7 +271,7 @@ function get_table_names_to_document(): array
 /**
  * Prepares the projectIDxxxxxxxxxxxxx table
  */
-function prepare_project_template_table()
+function prepare_project_template_table(): void
 {
     global $PROJECT_TEMPLATE_TABLE;
 
