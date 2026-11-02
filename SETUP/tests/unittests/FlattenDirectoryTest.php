@@ -48,10 +48,8 @@ class FlattenDirectoryTest extends PHPUnit\Framework\TestCase
 
     public function testFlatteningEmptyDirectory(): void
     {
+        $this->expectNotToPerformAssertions();
         flatten_directory(self::EMPTY_DIRECTORY_PATH);
-
-        // PHPUnit labels tests without at least one assert as risky
-        $this->assertTrue(true);
     }
 
     public function testFlatteningNonExistentDirectory(): void

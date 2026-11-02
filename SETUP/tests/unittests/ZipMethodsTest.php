@@ -80,14 +80,14 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     public function testValidateValidZipFile(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_zip_file('./data/valid.zip');
-        $this->assertTrue(true);
     }
 
     public function testValidateValidEmptyZipFile(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_zip_file('./data/empty.zip');
-        $this->assertTrue(true);
     }
 
     public function testValidateCorruptedZipFile(): void
@@ -114,14 +114,14 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     public function testValidateValidZipFileWithDisabledExtensionCheck(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_zip_file('./data/valid.zip', true);
-        $this->assertTrue(true);
     }
 
     public function testValidateValidEmptyZipFileWithDisabledExtensionCheck(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_zip_file('./data/empty.zip', true);
-        $this->assertTrue(true);
     }
 
     public function testValidateCorruptedZipFileWithDisabledExtensionCheck(): void
@@ -136,8 +136,8 @@ class ZipMethodsTest extends PHPUnit\Framework\TestCase
 
     public function testValidateValidZipFileWithInvalidExtensionWithDisabledExtensionCheck(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_zip_file('./data/wrong.extension', true);
-        $this->assertTrue(true);
     }
 
     public function testValidateNonZipFile(): void
