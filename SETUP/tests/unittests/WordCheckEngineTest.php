@@ -2,7 +2,7 @@
 
 class WordCheckEngineTest extends PHPUnit\Framework\TestCase
 {
-    private $TEXT1 = <<<EOTEXT
+    private string $TEXT1 = <<<EOTEXT
         Not until the twenty-fourth day of August, 1819,
         when less than a hundred soldiers of the Fifth
         United States Infantry disembarked opposite the
@@ -98,7 +98,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
     {
         $languages = ["English"];
 
-        [$input_words_w_freq, $bad_words, $messages] =
+        [$_input_words_w_freq, $bad_words, $messages] =
             get_bad_words_for_text($this->TEXT1, $languages);
 
         $this->assertEquals(count($messages), 0);
@@ -117,7 +117,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             "site_good" => ["Snelling", "b[oe]uf"],
         ];
 
-        [$input_words_w_freq, $bad_words, $messages] =
+        [$_input_words_w_freq, $bad_words, $messages] =
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
@@ -135,7 +135,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             "project_good" => ["Snelling"],
         ];
 
-        [$input_words_w_freq, $bad_words, $messages] =
+        [$_input_words_w_freq, $bad_words, $messages] =
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
@@ -155,7 +155,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             "project_bad" => ["opposite"],
         ];
 
-        [$input_words_w_freq, $bad_words, $messages] =
+        [$_input_words_w_freq, $bad_words, $messages] =
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
@@ -174,7 +174,7 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
             "adhoc_good" => ["Snelling"],
         ];
 
-        [$input_words_w_freq, $bad_words, $messages] =
+        [$_input_words_w_freq, $bad_words, $messages] =
             get_bad_words_for_text($this->TEXT1, $languages, $word_lists);
 
         $this->assertEquals(count($messages), 0);
@@ -230,44 +230,44 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
     }
 
     // Regression tests for Task 2100
-    private $ENGLISH_TEXT = <<<EOTEXT
+    private string $ENGLISH_TEXT = <<<EOTEXT
         perfectly valid English words
         blearg blearg's
         EOTEXT;
 
-    public function testEnglish()
+    public function testEnglish(): void
     {
         $languages = ["English"];
         $words = get_distinct_words_in_text($this->ENGLISH_TEXT);
 
-        [$bad_words, $messages] =
+        [$bad_words, $_messages] =
             get_bad_words_via_external_checker($words, $languages);
 
         $this->assertEquals(["blearg", "blearg's"], $bad_words);
     }
 
-    private $FRENCH_TEXT = <<<EOTEXT
+    private string $FRENCH_TEXT = <<<EOTEXT
         mots français valides
         bonjuor l'absolulion
         EOTEXT;
 
-    public function testFrench()
+    public function testFrench(): void
     {
         $languages = ["French"];
         $words = get_distinct_words_in_text($this->FRENCH_TEXT);
 
-        [$bad_words, $messages] =
+        [$bad_words, $_messages] =
             get_bad_words_via_external_checker($words, $languages);
 
         $this->assertEquals(["bonjuor", "l'absolulion"], $bad_words);
     }
 
-    public function testEnglishFrench()
+    public function testEnglishFrench(): void
     {
         $languages = ["English", "French"];
         $words = get_distinct_words_in_text($this->ENGLISH_TEXT . ' ' . $this->FRENCH_TEXT);
 
-        [$bad_words, $messages] =
+        [$bad_words, $_messages] =
             get_bad_words_via_external_checker($words, $languages);
 
         $this->assertEquals(["blearg", "blearg's", "bonjuor", "l'absolulion"], $bad_words);
