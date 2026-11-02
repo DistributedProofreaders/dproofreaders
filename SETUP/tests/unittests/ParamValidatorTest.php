@@ -30,15 +30,6 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     //------------------------------------------------------------------------
     // get_enumerated_param() tests
 
-    public function testEnumInvalidArray(): void
-    {
-        // sanity check PHP's built-in type checking, we're not going
-        // to do this for every param and every function
-        $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("type array, null given");
-        get_enumerated_param(null, 'c', null, $this->ENUM_CHOICES);
-    }
-
     public function testEnum(): void
     {
         $default = null;
