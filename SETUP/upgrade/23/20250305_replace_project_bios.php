@@ -21,8 +21,8 @@ $result = mysqli_query(DPDatabase::get_connection(), $sql) or die(mysqli_error(D
 
 while ([$projectid, $comments] = mysqli_fetch_row($result)) {
     // handle all templates in the comment
-    while (preg_match("/\[biography=([^\]]+)\]/", $comments, $matches)) {
-        $template = $matches[1];
+    while (preg_match("/\[biography=(\d+)\]/", $comments, $matches)) {
+        $template = (int) $matches[1];
         $bio = _get_biography($template);
         $comments = str_replace("[biography=$template]", $bio, $comments);
     }
@@ -47,7 +47,7 @@ echo "\nDone!\n";
 
 // ------------------------------------------------------------
 
-function _get_biography($id)
+function _get_biography(int $id): string
 {
     $sql = sprintf(
         "
