@@ -10,7 +10,7 @@ parameters:
     paths:
         - .
     excludePaths:
-        - SETUP/*
+        - SETUP/MediaWiki_extensions/*
         - vendor/*
         - node_modules/*
     bootstrapFiles:
