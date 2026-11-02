@@ -17,7 +17,8 @@ class ApiTest extends ProjectUtils
     //---------------------------------------------------------------------------
     // helper functions
 
-    protected function get_project_data(string $projectid, array $query_params): array
+    /** @param array<string, string|string[]> $query_params */
+    protected function get_project_data(string $projectid, array $query_params): mixed
     {
         $path = "v1/projects/$projectid";
         $router = ApiRouter::get_router();
@@ -25,7 +26,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, $query_params);
     }
 
-    protected function get_project_page_round_data(string $projectid, string $page_name, string $roundid): array
+    protected function get_project_page_round_data(string $projectid, string $page_name, string $roundid): mixed
     {
         $path = "v1/projects/$projectid/pages/$page_name/pagerounds/$roundid";
         $router = ApiRouter::get_router();
@@ -33,7 +34,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
-    protected function checkout(string $projectid, string $project_state): array
+    protected function checkout(string $projectid, string $project_state): mixed
     {
         $path = "v1/projects/$projectid/checkout";
         $router = ApiRouter::get_router();
@@ -41,7 +42,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, ['state' => $project_state]);
     }
 
-    protected function resume(string $projectid, string $project_state, string $page_name, string $page_state): array
+    protected function resume(string $projectid, string $project_state, string $page_name, string $page_state): mixed
     {
         return $this->api_project_page($projectid, $project_state, $page_name, $page_state, [], "resume");
     }
@@ -51,22 +52,22 @@ class ApiTest extends ProjectUtils
         $this->api_project_page($projectid, $project_state, $page_name, $page_state, [], "abandon");
     }
 
-    protected function save_as_in_progress(string $projectid, string $project_state, string $page_name, string $page_state, string $text): array
+    protected function save_as_in_progress(string $projectid, string $project_state, string $page_name, string $page_state, string $text): mixed
     {
         return $this->api_project_page($projectid, $project_state, $page_name, $page_state, ["text" => $text], "save");
     }
 
-    protected function save_revert(string $projectid, string $project_state, string $page_name, string $page_state, string $text): array
+    protected function save_revert(string $projectid, string $project_state, string $page_name, string $page_state, string $text): mixed
     {
         return $this->api_project_page($projectid, $project_state, $page_name, $page_state, ["text" => $text], "revert");
     }
 
-    protected function save_as_done(string $projectid, string $project_state, string $page_name, string $page_state, string $text): array
+    protected function save_as_done(string $projectid, string $project_state, string $page_name, string $page_state, string $text): mixed
     {
         return $this->api_project_page($projectid, $project_state, $page_name, $page_state, ["text" => $text], "checkin");
     }
 
-    protected function get_text(string $projectid, string $project_state, string $page_name, string $page_state): array
+    protected function get_text(string $projectid, string $project_state, string $page_name, string $page_state): mixed
     {
         $_SERVER["REQUEST_METHOD"] = "GET";
         $path = "v1/projects/$projectid/pages/$page_name";
@@ -74,7 +75,8 @@ class ApiTest extends ProjectUtils
         return $router->route($path, ['state' => $project_state, 'pagestate' => $page_state]);
     }
 
-    private function api_project_page(string $projectid, string $project_state, string $page_name, string $page_state, array $request_array, string $action)
+    /** @param string|array<string, string> $request_array */
+    private function api_project_page(string $projectid, string $project_state, string $page_name, string $page_state, string|array $request_array, string $action): mixed
     {
         global $request_body;
 
@@ -85,7 +87,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, ['state' => $project_state, 'pagestate' => $page_state, 'pageaction' => $action]);
     }
 
-    protected function validate_text(string $projectid, string $text): array
+    protected function validate_text(string $projectid, string $text): mixed
     {
         global $request_body;
 
@@ -96,7 +98,11 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
-    protected function wordcheck(string $projectid, string $text, $languages = [], $accepted_words = []): array
+    /**
+     * @param string[] $languages
+     * @param string[] $accepted_words
+     */
+    protected function wordcheck(string $projectid, string $text, array $languages = [], array $accepted_words = []): mixed
     {
         global $request_body;
 
@@ -107,7 +113,8 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
-    protected function wordcheck_report(string $projectid, string $page_name, array $accepted_words = [])
+    /** @param string[] $accepted_words */
+    protected function wordcheck_report(string $projectid, string $page_name, array $accepted_words = []): mixed
     {
         global $request_body;
 
@@ -118,7 +125,7 @@ class ApiTest extends ProjectUtils
         return $router->route($path, []);
     }
 
-    protected function report_bad_page(string $projectid, string $page_name, string $reason)
+    protected function report_bad_page(string $projectid, string $page_name, string $reason): mixed
     {
         global $request_body;
 
@@ -469,6 +476,7 @@ class ApiTest extends ProjectUtils
 
     public function test_project_return_to_round(): void
     {
+        $this->expectNotToPerformAssertions();
         global $pguser;
 
         $project = $this->_create_available_project();
@@ -478,8 +486,7 @@ class ApiTest extends ProjectUtils
         $this->checkout($project->projectid, "P1.proj_avail");
 
         // return it to round
-        $response = $this->return_to_round($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out');
-        $this->assertEquals(null, $response);
+        $this->return_to_round($project->projectid, 'P1.proj_avail', '001.png', 'P1.page_out');
     }
 
     public function test_project_report_bad_page(): void
@@ -980,8 +987,8 @@ class ApiTest extends ProjectUtils
 }
 
 // this mocks the function in index.php
-/** @return string|array */
-function api_get_request_body(bool $raw = false)
+/** @return string|array<string, string> */
+function api_get_request_body(bool $_raw = false)
 {
     global $request_body;
     return $request_body;
