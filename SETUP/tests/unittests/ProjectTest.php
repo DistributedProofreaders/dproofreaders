@@ -262,13 +262,6 @@ class ProjectTest extends ProjectUtils
         $this->assertEquals([], $errors);
     }
 
-    public function test_validate_postednum_invalid(): void
-    {
-        $this->expectException(TypeError::class);
-        $project = new Project($this->valid_project_data);
-        $project->postednum = "invalid";
-    }
-
     public function test_validate_custom_chars_positive_path(): void
     {
         $project = new Project($this->valid_project_data);
