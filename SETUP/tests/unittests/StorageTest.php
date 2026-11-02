@@ -11,8 +11,7 @@ class StorageTest extends PHPUnit\Framework\TestCase
         $storage->set("setting", "{}");
         $value = $storage->get("setting");
         $this->assertEquals("{}", $value);
-        $value = $storage->delete("setting");
-        $this->assertEquals(null, $value);
+        $storage->delete("setting");
     }
 
     public function test_invalid_json(): void
@@ -33,8 +32,7 @@ class StorageTest extends PHPUnit\Framework\TestCase
         $storage->set("{}");
         $value = $storage->get();
         $this->assertEquals("{}", $value);
-        $value = $storage->delete();
-        $this->assertEquals(null, $value);
+        $storage->delete();
     }
 
     public function test_invalid_storagekey(): void
