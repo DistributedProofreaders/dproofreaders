@@ -2,9 +2,9 @@
 
 class SettingsTest extends PHPUnit\Framework\TestCase
 {
-    private $TEST_USERNAME = 'SettingsTest_php';
-    private $PREFIX = 'STU_';
-    private $NONEXISTENT_USERNAME = 'SettingsTestUser';
+    private string $TEST_USERNAME = 'SettingsTest_php';
+    private string $PREFIX = 'STU_';
+    private string $NONEXISTENT_USERNAME = 'SettingsTestUser';
 
     protected function setUp(): void
     {

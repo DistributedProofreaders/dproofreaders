@@ -5,6 +5,7 @@
  */
 class MARCRecordTest extends PHPUnit\Framework\TestCase
 {
+    /** @var ?list<list<string>> */
     private $YAZ_ARRAY = null;
 
     protected function setUp(): void
