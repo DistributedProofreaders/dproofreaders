@@ -112,7 +112,8 @@ foreach ($files as $file) {
 
 echo "\nAll files follow include() best practices.\n";
 
-function get_all_php_files($basedir)
+/** @return string[] */
+function get_all_php_files(string $basedir): array
 {
     $php_files = [];
 
@@ -128,35 +129,35 @@ function get_all_php_files($basedir)
     return $php_files;
 }
 
-function file_includes_base($filename)
+function file_includes_base(string $filename): bool
 {
     $contents = file_get_contents($filename);
 
-    return preg_match("/[?include|require].*\(.*['\"]base.inc['\"]\);$/m", $contents);
+    return preg_match("/[?include|require].*\(.*['\"]base.inc['\"]\);$/m", $contents) === 1;
 }
 
-function file_includes_site_vars($filename)
+function file_includes_site_vars(string $filename): bool
 {
     $contents = file_get_contents($filename);
 
-    return preg_match("/[?include|require].*\(.*['\"]site_vars.php['\"]\);$/m", $contents);
+    return preg_match("/[?include|require].*\(.*['\"]site_vars.php['\"]\);$/m", $contents) === 1;
 }
 
-function file_includes_misc($filename)
+function file_includes_misc(string $filename): bool
 {
     $contents = file_get_contents($filename);
 
-    return preg_match("/^\w+_once\(.*['\"]misc.inc['\"]\);$/m", $contents);
+    return preg_match("/^\w+_once\(.*['\"]misc.inc['\"]\);$/m", $contents) === 1;
 }
 
-function file_includes_site_structure($filename)
+function file_includes_site_structure(string $filename): bool
 {
     global $site_structure_includes;
 
     $contents = file_get_contents($filename);
 
     foreach ($site_structure_includes as $include) {
-        if (preg_match("/^\w+_once\(.*['\"]{$include}['\"]\);$/m", $contents)) {
+        if (preg_match("/^\w+_once\(.*['\"]{$include}['\"]\);$/m", $contents) === 1) {
             return true;
         }
     }

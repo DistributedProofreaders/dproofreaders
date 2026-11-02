@@ -72,7 +72,7 @@ function file_includes_mysqli_error(string $filename): bool
     // so we don't want to use it except under specifically vetted uses.
 
     $contents = file_get_contents($filename);
-    return preg_match("/mysqli_error\(/", $contents);
+    return preg_match("/mysqli_error\(/", $contents) === 1;
 }
 
 function file_includes_system_call(string $filename): bool
@@ -83,7 +83,7 @@ function file_includes_system_call(string $filename): bool
     // magic happening that we want to catch.
 
     $contents = file_get_contents($filename);
-    return preg_match("/\b(?:exec|system|passthru|shell_exec|escapeshellcmd)\(/", $contents, $matches);
+    return preg_match("/\b(?:exec|system|passthru|shell_exec|escapeshellcmd)\(/", $contents) === 1;
 }
 
 function ci_abort(string $file, string $message): never
