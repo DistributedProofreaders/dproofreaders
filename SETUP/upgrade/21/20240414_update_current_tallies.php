@@ -126,7 +126,7 @@ echo "\nDone!\n";
 // Tallyboard::get_time_of_latest_snapshot() method, because the new code has
 // already been installed, so that method will try to use the
 // tally_snapshot_times table, which we haven't yet populated.
-function get_time_of_latest_snapshot($tallyboard)
+function get_time_of_latest_snapshot(TallyBoard $tallyboard): int
 {
     $sql = sprintf(
         "

@@ -32,6 +32,7 @@ first by tallyboard and then by holder_id. Each chunk should be fairly quick,
 and after each, we sleep a while to let the DB recover.
 */
 
+// @phpstan-ignore deadCode.unreachable
 echo "Deleting rows from past_tallies where tally_delta=0...\n";
 
 $watch = new Stopwatch();
