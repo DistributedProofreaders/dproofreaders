@@ -21,12 +21,14 @@ function production_exception_handler(Throwable $exception): void
 // END dummy exception handlers
 
 // BEGIN site_registration_protection functions
-function get_registration_form_inserters()
+/** @return string[] */
+function get_registration_form_inserters(): array
 {
     return ["insert"];
 }
 
-function get_registration_form_validators()
+/** @return string[] */
+function get_registration_form_validators(): array
 {
     return ["validate"];
 }
@@ -40,79 +42,84 @@ class MWException extends Exception
 // END MediaWiki APIs
 
 // BEGIN Functions in the phpBB API
-function set_var(&$result, $var, $type, $multibyte = false)
+function set_var(mixed &$result, mixed $var, mixed $type, bool $multibyte = false): void
 {
 }
 
-/**
- * @param string $password
- * @return string|bool
- */
-function phpbb_hash($password)
+function phpbb_hash(string $password): string|bool
 {
-    return "string";
+    return $password !== "false" ? "string" : false;
 }
 
 /**
- * @param mixed $user_row
- * @param array $cp_data
- * @param array $notifications_data
+ * @param mixed $_user_row
+ * @param array<string, string>|false $_cp_data
+ * @param ?array<string, string> $_notifications_data
  */
-function user_add($user_row, $cp_data = false, $notifications_data = null)
+// @phpstan-ignore-next-line return.unusedType (We're matching a phpBB function signature)
+function user_add($_user_row, $_cp_data = false, $_notifications_data = null): int|false
 {
     return false;
 }
 
-function move_topics($topic_ids, $forum_id, $auto_sync = true)
+/** @param int[]|int $topic_ids */
+function move_topics(array|int $topic_ids, int $forum_id, bool $auto_sync = true): void
 {
 }
 
-function sync($mode, $where_type = '', $where_ids = '', $resync_parents = false, $sync_extra = false)
+/** @param int[]|int|string $_where_ids */
+function sync(string $_mode, string $_where_type = '', array|int|string $_where_ids = '', bool $resync_parents = false, bool $sync_extra = false): void
 {
 }
 
-/**
- * @param string $string
- * @param string $encoding
- * @return string
- */
-function utf8_recode($string, $encoding)
+function utf8_recode(string $_string, string $_encoding): string
 {
     return "Heather!";
 }
 
 /**
- * @param mixed $strings
- * @return mixed
+ * @template T of string[][]|string[]|string
+ * @param T $_strings
+ * @return T
  */
-function utf8_normalize_nfc($strings)
+// @phpstan-ignore-next-line return.unusedType (We're matching a phpBB function signature)
+function utf8_normalize_nfc(array|string $_strings): array|string
 {
     return "gently with a chainsaw";
 }
 
-/**
- * @param string $text
- * @param string $uid
- * @param string $bitfield
- * @param int $flags
- * @param bool $allow_bbcode
- * @param bool $allow_urls
- * @param bool $allow_smilies
- * @param bool $allow_img_bbcode
- * @param bool $allow_flash_bbcode
- * @param bool $allow_quote_bbcode
- * @param bool $allow_url_bbcode
- * @param string $mode
- *
- * @return array
- */
-function generate_text_for_storage(&$text, &$uid, &$bitfield, &$flags, $allow_bbcode = false, $allow_urls = false, $allow_smilies = false, $allow_img_bbcode = true, $allow_flash_bbcode = true, $allow_quote_bbcode = true, $allow_url_bbcode = true, $mode = 'post')
-{
+/** @return string[] */
+function generate_text_for_storage(
+    string &$_text,
+    string &$_uid,
+    string &$_bitfield,
+    int &$_flags,
+    bool $_allow_bbcode = false,
+    bool $_allow_urls = false,
+    bool $_allow_smilies = false,
+    bool $_allow_img_bbcode = true,
+    bool $_allow_flash_bbcode = true,
+    bool $_allow_quote_bbcode = true,
+    bool $_allow_url_bbcode = true,
+    string $_mode = 'post'
+): array {
     return ["How", "very"];
 }
 
-function submit_post($mode, $subject, $username, $topic_type, &$poll_ary, &$data_ary, $update_message = true, $update_search_index = true)
-{
+/**
+ * @param array<string, mixed> &$_poll_ary
+ * @param array<string, mixed> &$_data_ary
+ */
+function submit_post(
+    string $_mode,
+    string $_subject,
+    string $_username,
+    int $_topic_type,
+    array &$_poll_ary,
+    array &$_data_ary,
+    bool $_update_message = true,
+    bool $_update_search_index = true
+): string {
     return "http://example.com";
 }
 
