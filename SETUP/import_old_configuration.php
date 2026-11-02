@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-function usage()
+function usage(): void
 {
     global $argv, $STDERR;
 
@@ -21,7 +21,7 @@ Arguments:
 ", $argv[0]));
 }
 
-function merge_configuration_files($old_filename, $new_filename)
+function merge_configuration_files(string $old_filename, string $new_filename): void
 {
     global $STDERR;
 
@@ -57,8 +57,10 @@ function merge_configuration_files($old_filename, $new_filename)
     }
 }
 
-function load_config_file_values($filename)
+/** @return array<string, string> */
+function load_config_file_values(string $filename): array
 {
+    global $STDERR;
     $fh = fopen($filename, "r");
     if (!$fh) {
         fwrite($STDERR, "Unable to open $filename for reading\n");
@@ -77,11 +79,16 @@ function load_config_file_values($filename)
 
     fclose($fh);
 
-    return ($config_values);
+    return $config_values;
 }
 
-function output_config_file_with_new_values($filename, $config_values)
+/**
+ * @param array<string, string> $config_values
+ * @return list{array<string, string>, array<string, string>}
+ */
+function output_config_file_with_new_values(string $filename, array $config_values): array
 {
+    global $STDERR;
     $fh = fopen($filename, "r");
     if (!$fh) {
         fwrite($STDERR, "Unable to open $filename for reading\n");
@@ -108,7 +115,7 @@ function output_config_file_with_new_values($filename, $config_values)
 
     fclose($fh);
 
-    return ([$new_config_parameters, $unused_config_parameters]);
+    return [$new_config_parameters, $unused_config_parameters];
 }
 
 // ---------------------------------------------------------------------------
