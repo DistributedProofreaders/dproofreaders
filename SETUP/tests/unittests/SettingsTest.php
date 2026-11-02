@@ -19,7 +19,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             $this->TEST_USERNAME,
             $this->PREFIX
         );
-        $result = DPDatabase::query($sql);
+        $result = DPDatabase::query($sql, throw_on_failure: false);
         if (!$result) {
             throw new Exception("Unable to create test usersetting");
         }

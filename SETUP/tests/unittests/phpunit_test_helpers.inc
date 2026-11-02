@@ -16,13 +16,13 @@ function create_test_user(string $username, int $age = 0): void
         DPDatabase::escape($username),
         time() - ($age * 86400)
     );
-    $result = DPDatabase::query($sql);
+    $result = DPDatabase::query($sql, throw_on_failure: false);
     if (!$result) {
         throw new Exception(sprintf("Unable to create test user %s", $username));
     }
 }
 
-function grant_user_access(string $username, $activity): void
+function grant_user_access(string $username, string $activity): void
 {
     $user = new User($username);
     $user->grant_access($activity, "none");
@@ -71,7 +71,7 @@ function delete_test_user(string $username): void
         "DELETE FROM users WHERE username = '%s'",
         DPDatabase::escape($username)
     );
-    $result = DPDatabase::query($sql);
+    $result = DPDatabase::query($sql, throw_on_failure: false);
     if (!$result) {
         throw new Exception(sprintf("Unable to delete test user %s", $username));
     }
@@ -102,7 +102,7 @@ function create_test_image_source(string $image_source): void
             ",
             DPDatabase::escape($image_source)
         );
-        $result = DPDatabase::query($sql);
+        $result = DPDatabase::query($sql, throw_on_failure: false);
         if (!$result) {
             throw new Exception(sprintf("Unable to create test image source %s", $image_source));
         }
@@ -116,12 +116,13 @@ function delete_test_image_source(string $image_source): void
         "DELETE FROM image_sources WHERE code_name = '%s'",
         DPDatabase::escape($image_source)
     );
-    $result = DPDatabase::query($sql);
+    $result = DPDatabase::query($sql, throw_on_failure: false);
     if (!$result) {
         throw new Exception(sprintf("Unable to delete test image source %s", $image_source));
     }
 }
 
+/** @return array<string, float|int|string|null>[] */
 function load_project_events(Project $project): array
 {
     $sql = sprintf(
