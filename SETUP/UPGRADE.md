@@ -79,9 +79,9 @@ To run the upgrade scripts, you must cd into the directory and invoke the
 scripts from there. E.g.:
 
 ```bash
-cd c/SETUP/upgrade/15/
-php -f add_non_activated_users.php
-php -f add_pg_books.php
+cd c/SETUP/upgrade/21/
+php -f 20240101_drop_marc_records.php
+php -f 20240403_update_user_table.php
 ...
 ```
 
@@ -102,86 +102,11 @@ you want to run and add the following line immediately after the opening
 $maintenance_override = true;
 ```
 
-### Upgrading from a release before R202009
+### Upgrading from a release before R202403
 
-If you are upgrading a release before R202009, you must upgrade to
-[R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
+If you are upgrading a release before R202403, you must upgrade to
+[R202403](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202403)
 first.
-
-### Upgrading from release R202009
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/15/
-* c/SETUP/upgrade/16/
-* c/SETUP/upgrade/17/
-* c/SETUP/upgrade/18/
-* c/SETUP/upgrade/19/
-* c/SETUP/upgrade/20/
-* c/SETUP/upgrade/21/
-* c/SETUP/upgrade/22/
-* c/SETUP/upgrade/23/
-* c/SETUP/upgrade/24/
-* c/SETUP/upgrade/25/
-
-### Upgrading from release R202102
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/16/
-* c/SETUP/upgrade/17/
-* c/SETUP/upgrade/18/
-* c/SETUP/upgrade/19/
-* c/SETUP/upgrade/20/
-* c/SETUP/upgrade/21/
-* c/SETUP/upgrade/22/
-* c/SETUP/upgrade/23/
-* c/SETUP/upgrade/24/
-* c/SETUP/upgrade/25/
-
-### Upgrading from release R202109
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/17/
-* c/SETUP/upgrade/18/
-* c/SETUP/upgrade/19/
-* c/SETUP/upgrade/20/
-* c/SETUP/upgrade/21/
-* c/SETUP/upgrade/22/
-* c/SETUP/upgrade/23/
-* c/SETUP/upgrade/24/
-* c/SETUP/upgrade/25/
-
-### Upgrading from release R202202
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/18/
-* c/SETUP/upgrade/19/
-* c/SETUP/upgrade/20/
-* c/SETUP/upgrade/21/
-* c/SETUP/upgrade/22/
-* c/SETUP/upgrade/23/
-* c/SETUP/upgrade/24/
-* c/SETUP/upgrade/25/
-
-### Upgrading from release R202209 or R202303
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/19/
-* c/SETUP/upgrade/20/
-* c/SETUP/upgrade/21/
-* c/SETUP/upgrade/22/
-* c/SETUP/upgrade/23/
-* c/SETUP/upgrade/24/
-* c/SETUP/upgrade/25/
-
-### Upgrading from release R202309
-Run the scripts in the following directories in order
-
-* c/SETUP/upgrade/20/
-* c/SETUP/upgrade/21/
-* c/SETUP/upgrade/22/
-* c/SETUP/upgrade/23/
-* c/SETUP/upgrade/24/
-* c/SETUP/upgrade/25/
 
 ### Upgrading from release R202403
 Run the scripts in the following directories in order
