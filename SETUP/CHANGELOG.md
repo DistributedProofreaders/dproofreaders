@@ -3,9 +3,9 @@
 Major changes to this project are documented here. For minor changes,
 see the git history.
 
-**If you are upgrading from a release before R202009, you must upgrade to
-[R202009](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202009)
-first before upgrading to R202102 or later releases.**
+**If you are upgrading from a release before R202403, you must upgrade to
+[R202403](https://github.com/DistributedProofreaders/dproofreaders/releases/tag/R202403)
+first before upgrading to R202409 or later releases.**
 
 ## R######
 
