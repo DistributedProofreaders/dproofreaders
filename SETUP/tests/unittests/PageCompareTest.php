@@ -7,13 +7,14 @@ use PHPUnit\Framework\Attributes\DataProvider;
 class PageCompareTest extends PHPUnit\Framework\TestCase
 {
     #[DataProvider('textProvider')]
-    public function testRemoveFormatting($formatted_file, $expected_result_file): void
+    public function testRemoveFormatting(string $formatted_file, string $expected_result_file): void
     {
         $un_formatter = new PageUnformatter();
         $text = $un_formatter->remove_formatting(file_get_contents($formatted_file), false);
         $this->assertEquals($text, file_get_contents($expected_result_file));
     }
 
+    /** @return list<list{string, string}> */
     public static function textProvider(): array
     {
         $file_array = [];

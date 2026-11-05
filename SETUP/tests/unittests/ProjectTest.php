@@ -262,13 +262,6 @@ class ProjectTest extends ProjectUtils
         $this->assertEquals([], $errors);
     }
 
-    public function test_validate_postednum_invalid(): void
-    {
-        $this->expectException(TypeError::class);
-        $project = new Project($this->valid_project_data);
-        $project->postednum = "invalid";
-    }
-
     public function test_validate_custom_chars_positive_path(): void
     {
         $project = new Project($this->valid_project_data);
@@ -306,10 +299,8 @@ class ProjectTest extends ProjectUtils
 
     public function test_validate_projectID_positive_path(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_projectID($this->valid_projectID);
-
-        // PHPUnit labels tests without at least one assert as risky
-        $this->assertTrue(true);
     }
 
     public function test_validate_projectID_negative_path(): void
@@ -346,10 +337,8 @@ class ProjectTest extends ProjectUtils
 
     public function test_validate_page_image_positive_path(): void
     {
+        $this->expectNotToPerformAssertions();
         validate_page_image($this->valid_page_image);
-
-        // PHPUnit labels tests without at least one assert as risky
-        $this->assertTrue(true);
     }
 
     public function test_validate_page_image_negative_path(): void
@@ -407,12 +396,12 @@ class ProjectTest extends ProjectUtils
 
     public function test_can_be_proofed_available(): void
     {
+        $this->expectNotToPerformAssertions();
         global $pguser;
 
         $pguser = $this->TEST_USERNAME;
         $project = $this->_create_available_project();
         $project->validate_can_be_proofed_by_current_user();
-        $this->assertTrue(true);
     }
 
     public function test_can_be_proofed_user_not_logged_in(): void

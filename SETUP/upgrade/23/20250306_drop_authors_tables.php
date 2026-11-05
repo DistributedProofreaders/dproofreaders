@@ -16,6 +16,7 @@ exit(1);
 
 // ------------------------------------------------------------
 
+// @phpstan-ignore deadCode.unreachable
 echo "Dropping table biographies...\n";
 $sql = "
     DROP TABLE biographies

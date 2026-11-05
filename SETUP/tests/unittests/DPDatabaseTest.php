@@ -7,12 +7,12 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
     public static function setUpBeforeClass(): void
     {
         // Sanity check: Remove the existing table so we start from a clean state.
-        $r = DPDatabase::query("DROP TABLE IF EXISTS `dpdb_tests`");
+        $r = DPDatabase::query("DROP TABLE IF EXISTS `dpdb_tests`", throw_on_failure: false);
         if ($r === false) {
             throw new Exception("Failed to clean-up test table");
         }
 
-        $r = DPDatabase::query("CREATE TABLE `dpdb_tests` (`id` int(20) NOT NULL, `comment` varchar(25) NOT NULL default '', PRIMARY KEY (`id`))");
+        $r = DPDatabase::query("CREATE TABLE `dpdb_tests` (`id` int(20) NOT NULL, `comment` varchar(25) NOT NULL default '', PRIMARY KEY (`id`))", throw_on_failure: false);
         if ($r === false) {
             throw new Exception("Failed to create test table");
         }
@@ -30,11 +30,11 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
 
     public function test_insert_delete_table(): void
     {
-        $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES(0, \"test\")");
+        $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES(0, \"test\")", throw_on_failure: false);
         $this->assertTrue($r);
 
         // Fetch the row back.
-        $r = DPDatabase::query("SELECT * FROM `dpdb_tests` where id=0");
+        $r = DPDatabase::query("SELECT * FROM `dpdb_tests` where id=0", throw_on_failure: false);
         if (is_bool($r)) {
             throw new Exception("Got a boolean from select on DPDatabase::query: {$r}");
         }
@@ -57,7 +57,7 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
 
     public function test_fail_insert_inexistent_table_no_exception(): void
     {
-        $r = DPDatabase::query("INSERT INTO `inexistent_for_sure` VALUES(0)", /*throw_on_failure*/ false);
+        $r = DPDatabase::query("INSERT INTO `inexistent_for_sure` VALUES(0)", throw_on_failure: false);
         $this->assertSame(false, $r);
     }
 
@@ -69,7 +69,7 @@ class DPDatabaseTest extends PHPUnit\Framework\TestCase
 
     public function test_fail_insert_missing_values_no_exception(): void
     {
-        $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES()", /*throw_on_failure*/ false);
+        $r = DPDatabase::query("INSERT INTO `dpdb_tests` VALUES()", throw_on_failure: false);
         $this->assertSame(false, $r);
     }
 

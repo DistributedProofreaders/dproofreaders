@@ -4,9 +4,11 @@ use voku\helper\UTF8;
 
 class UnicodeTest extends PHPUnit\Framework\TestCase
 {
+    /** @var string[] */
     private $a_to_z_codepoints = [
         'U+0061-U+007a',  // a-z
     ];
+    /** @var string[] */
     private $combined_codepoints = [
         'U+004E',  // N
         'U+004E>U+0305',  // N̅

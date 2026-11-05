@@ -22,11 +22,13 @@ class MiscUtilsTest extends PHPUnit\Framework\TestCase
     {
         $this->assertFalse(any([]));
         $this->assertFalse(any([], 'is_numeric'));
-        $this->assertFalse(any([], fn ($r) => $r != 42));
+        // @phpstan-ignore-next-line equal.invalid (PHPStan confused by callable never called)
+        $this->assertFalse(any([], fn (int $r) => $r != 42));
 
         $this->assertTrue(all([]));
         $this->assertTrue(all([], 'is_string'));
-        $this->assertTrue(all([], fn ($i) => $i % 2 == 1));
+        // @phpstan-ignore-next-line equal.invalid (PHPStan confused by callable never called)
+        $this->assertTrue(all([], fn (int $i) => $i % 2 == 1));
 
         $this->assertTrue(any(explode(",", "6502,6809,8086"), fn ($cpu) => $cpu == "8086"));
 
@@ -34,14 +36,14 @@ class MiscUtilsTest extends PHPUnit\Framework\TestCase
         $this->assertFalse(all(explode(",", "6502,Z80"), 'is_numeric'));
     }
 
-    public function test_remove_all_invalid_fields()
+    public function test_remove_all_invalid_fields(): void
     {
         $array = ["f1" => false, "f2" => true];
         array_remove_invalid_fields($array, []);
         $this->assertEquals([], $array);
     }
 
-    public function test_remove_no_invalid_fields()
+    public function test_remove_no_invalid_fields(): void
     {
         $array = ["f1" => false, "f2" => true];
         array_remove_invalid_fields($array, null);

@@ -2,7 +2,8 @@
 
 class NonactivatedUserTest extends PHPUnit\Framework\TestCase
 {
-    private $TEST_USERNAME = "NonactivatedUserTest_php";
+    private string $TEST_USERNAME = "NonactivatedUserTest_php";
+    /** @var string[] */
     private $createdRecords = [];
 
     private function createNonactivatedUser(string $username): NonactivatedUser
@@ -11,7 +12,7 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
         $register->username = $username;
         $register->real_name = "Joe Shmoe";
         $register->email = 'joe@localhost';
-        $register->email_updates = 'yes';
+        $register->email_updates = true;
         $register->u_intlang = 'en_US';
         $register->user_password = 'password';
         $register->referrer = 'friend';
@@ -82,6 +83,7 @@ class NonactivatedUserTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(DomainException::class);
         $user = new NonactivatedUser();
+        // @phpstan-ignore-next-line assign.propertyReadOnly (testing setter)
         $user->id = "";
     }
 

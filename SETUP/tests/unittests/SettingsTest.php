@@ -2,9 +2,9 @@
 
 class SettingsTest extends PHPUnit\Framework\TestCase
 {
-    private $TEST_USERNAME = 'SettingsTest_php';
-    private $PREFIX = 'STU_';
-    private $NONEXISTENT_USERNAME = 'SettingsTestUser';
+    private string $TEST_USERNAME = 'SettingsTest_php';
+    private string $PREFIX = 'STU_';
+    private string $NONEXISTENT_USERNAME = 'SettingsTestUser';
 
     protected function setUp(): void
     {
@@ -19,7 +19,7 @@ class SettingsTest extends PHPUnit\Framework\TestCase
             $this->TEST_USERNAME,
             $this->PREFIX
         );
-        $result = DPDatabase::query($sql);
+        $result = DPDatabase::query($sql, throw_on_failure: false);
         if (!$result) {
             throw new Exception("Unable to create test usersetting");
         }

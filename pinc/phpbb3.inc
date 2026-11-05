@@ -257,7 +257,8 @@ function _insert_post(
         $subject = utf8_encode_ucr($subject);
     }
 
-    $poll = $uid = $bitfield = '';
+    $uid = '';
+    $bitfield = '';
     $options = 0;
     generate_text_for_storage($text, $uid, $bitfield, $options, true, true, true);
 
@@ -321,7 +322,7 @@ function _insert_post(
     } else {
         $post_method = "post";
     }
-
+    $poll = [];
     submit_post($post_method, $subject, $poster_name, POST_NORMAL, $poll, $data);
 
     $data['poster_id'] = $poster_id;

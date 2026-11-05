@@ -36,12 +36,12 @@ foreach ($files as $file) {
 
     // No file should include mysqli_error()
     if (file_includes_mysqli_error("$basedir/$file") && !in_array($file, $ok_mysqli_error_calls)) {
-        abort($file, "file includes mysqli_error()");
+        ci_abort($file, "file includes mysqli_error()");
     }
 
     // No file should include a system call (use Symfony Process instead)
     if (file_includes_system_call("$basedir/$file")) {
-        abort($file, "file includes system(), exec(), passthru(), shell_exec(), or escapeshellcmd()");
+        ci_abort($file, "file includes system(), exec(), passthru(), shell_exec(), or escapeshellcmd()");
     }
 
 }
@@ -72,7 +72,7 @@ function file_includes_mysqli_error(string $filename): bool
     // so we don't want to use it except under specifically vetted uses.
 
     $contents = file_get_contents($filename);
-    return preg_match("/mysqli_error\(/", $contents);
+    return preg_match("/mysqli_error\(/", $contents) === 1;
 }
 
 function file_includes_system_call(string $filename): bool
@@ -83,12 +83,10 @@ function file_includes_system_call(string $filename): bool
     // magic happening that we want to catch.
 
     $contents = file_get_contents($filename);
-    return preg_match("/\b(?:exec|system|passthru|shell_exec|escapeshellcmd)\(/", $contents, $matches);
+    return preg_match("/\b(?:exec|system|passthru|shell_exec|escapeshellcmd)\(/", $contents) === 1;
 }
 
-/** @return never */
-// TODO: Add never as a return value once we switch to PHP 8.1.
-function abort(string $file, string $message)
+function ci_abort(string $file, string $message): never
 {
     echo "\n$file\n";
     echo "    ERROR: $message\n";

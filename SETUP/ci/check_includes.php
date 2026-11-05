@@ -86,33 +86,34 @@ foreach ($files as $file) {
     // All .php files should include base.inc, but no .inc file should
     if (file_includes_base("$basedir/$file")) {
         if (str_ends_with($file, ".inc")) {
-            abort($file, ".inc files should not include base.inc");
+            ci_abort($file, ".inc files should not include base.inc");
         }
     } elseif (in_array($file, $ok_not_includes_base)) {
         // it's in our exception list
     } elseif (str_ends_with($file, ".php")) {
-        abort($file, "file does not include base.inc");
+        ci_abort($file, "file does not include base.inc");
     }
 
     // No file should include site_vars.php
     if (file_includes_site_vars("$basedir/$file")) {
-        abort($file, "no file should include site_vars.php");
+        ci_abort($file, "no file should include site_vars.php");
     }
 
     // No file should include misc.inc
     if (file_includes_misc("$basedir/$file") && !in_array($file, $ok_includes_misc)) {
-        abort($file, "no file should include misc.inc");
+        ci_abort($file, "no file should include misc.inc");
     }
 
     // No file should include site structure code
     if (file_includes_site_structure("$basedir/$file") && !in_array($file, $ok_includes_site_structure)) {
-        abort($file, "no file should include site structure code (" . join(", ", $site_structure_includes) . ")");
+        ci_abort($file, "no file should include site structure code (" . join(", ", $site_structure_includes) . ")");
     }
 }
 
 echo "\nAll files follow include() best practices.\n";
 
-function get_all_php_files($basedir)
+/** @return string[] */
+function get_all_php_files(string $basedir): array
 {
     $php_files = [];
 
@@ -128,42 +129,42 @@ function get_all_php_files($basedir)
     return $php_files;
 }
 
-function file_includes_base($filename)
+function file_includes_base(string $filename): bool
 {
     $contents = file_get_contents($filename);
 
-    return preg_match("/[?include|require].*\(.*['\"]base.inc['\"]\);$/m", $contents);
+    return preg_match("/[?include|require].*\(.*['\"]base.inc['\"]\);$/m", $contents) === 1;
 }
 
-function file_includes_site_vars($filename)
+function file_includes_site_vars(string $filename): bool
 {
     $contents = file_get_contents($filename);
 
-    return preg_match("/[?include|require].*\(.*['\"]site_vars.php['\"]\);$/m", $contents);
+    return preg_match("/[?include|require].*\(.*['\"]site_vars.php['\"]\);$/m", $contents) === 1;
 }
 
-function file_includes_misc($filename)
+function file_includes_misc(string $filename): bool
 {
     $contents = file_get_contents($filename);
 
-    return preg_match("/^\w+_once\(.*['\"]misc.inc['\"]\);$/m", $contents);
+    return preg_match("/^\w+_once\(.*['\"]misc.inc['\"]\);$/m", $contents) === 1;
 }
 
-function file_includes_site_structure($filename)
+function file_includes_site_structure(string $filename): bool
 {
     global $site_structure_includes;
 
     $contents = file_get_contents($filename);
 
     foreach ($site_structure_includes as $include) {
-        if (preg_match("/^\w+_once\(.*['\"]{$include}['\"]\);$/m", $contents)) {
+        if (preg_match("/^\w+_once\(.*['\"]{$include}['\"]\);$/m", $contents) === 1) {
             return true;
         }
     }
     return false;
 }
 
-function abort(string $file, string $message)
+function ci_abort(string $file, string $message): never
 {
     echo "\n$file\n";
     echo "    ERROR: $message\n";

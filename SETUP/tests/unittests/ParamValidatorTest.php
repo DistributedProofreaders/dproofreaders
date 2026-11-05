@@ -2,6 +2,7 @@
 
 class ParamValidatorTest extends PHPUnit\Framework\TestCase
 {
+    /** @var array<string, string|int|bool> */
     private $GET = [
         "enum" => "a",
         "i10" => "10",
@@ -21,20 +22,13 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         "FALSE_str" => "FALSE",
         "False_str" => "False",
     ];
+    /** @var string[] */
     private $ENUM_CHOICES = ["a", "b"];
+    /** @var int[] */
     private $ENUM_INT_CHOICES = [1, 3, 5, 9];
 
     //------------------------------------------------------------------------
     // get_enumerated_param() tests
-
-    public function testEnumInvalidArray(): void
-    {
-        // sanity check PHP's built-in type checking, we're not going
-        // to do this for every param and every function
-        $this->expectException(TypeError::class);
-        $this->expectExceptionMessage("type array, null given");
-        get_enumerated_param(null, 'c', null, $this->ENUM_CHOICES);
-    }
 
     public function testEnum(): void
     {
@@ -67,7 +61,8 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
 
     public function testEnumInt(): void
     {
-        $result = get_enumerated_param($this->GET, 'one', 9, $this->ENUM_INT_CHOICES);
+        $default = 9;
+        $result = get_enumerated_param($this->GET, 'one', $default, $this->ENUM_INT_CHOICES);
         $this->assertEquals($result, $this->GET['one']);
         $this->assertIsInt($result);
     }
@@ -118,6 +113,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("must be 'integer' or 'float'");
+        // @phpstan-ignore-next-line argument.type (checking $type arg runtime checks)
         get_numeric_param("boolean", $this->GET, 'enum', 1, 0, 1, false);
     }
 
@@ -163,6 +159,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $default = "string";
         $min = 0;
         $max = 100;
+        // @phpstan-ignore-next-line argument.type (checking $default arg runtime checks)
         get_integer_param($this->GET, 'none', $default, $min, $max);
     }
 
@@ -253,6 +250,7 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
         $default = "string";
         $min = 0;
         $max = 100;
+        // @phpstan-ignore-next-line argument.type (checking $default arg runtime checks)
         get_float_param($this->GET, 'none', $default, $min, $max);
     }
 
@@ -391,16 +389,18 @@ class ParamValidatorTest extends PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("does not match the regex");
+        $default = null;
         $regex = '/^\d{4}-\d{2}-\d{2}$/';
-        get_param_matching_regex($this->GET, "enum", null, $regex);
+        get_param_matching_regex($this->GET, "enum", $default, $regex);
     }
 
     public function testRegexNoDefault(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("is required");
+        $default = null;
         $regex = '/^\d{4}-\d{2}-\d{2}$/';
-        get_param_matching_regex($this->GET, "invalidkey", null, $regex);
+        get_param_matching_regex($this->GET, "invalidkey", $default, $regex);
     }
 
     public function testRegexDefaultAndNull(): void

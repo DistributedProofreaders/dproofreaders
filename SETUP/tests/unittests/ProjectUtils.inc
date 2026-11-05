@@ -2,12 +2,13 @@
 
 class ProjectUtils extends PHPUnit\Framework\TestCase
 {
-    protected $TEST_USERNAME_PM = "ProjectTestPM_php";
-    protected $TEST_USERNAME = "ProjectTest_php";
-    protected $TEST_OLDUSERNAME = "ProjectTest_old_php";
-    protected $TEST_IMAGESOURCE = "PrjTest";
-    protected $valid_projectID = "projectID45c225f598e32";
-    protected $valid_page_image = "001.png";
+    protected string $TEST_USERNAME_PM = "ProjectTestPM_php";
+    protected string $TEST_USERNAME = "ProjectTest_php";
+    protected string $TEST_OLDUSERNAME = "ProjectTest_old_php";
+    protected string $TEST_IMAGESOURCE = "PrjTest";
+    protected string $valid_projectID = "projectID45c225f598e32";
+    protected string $valid_page_image = "001.png";
+    /** @var array<string, string> */
     protected $valid_project_data = [
         "nameofwork" => "War and Peace",
         "authorsname" => "Bob Smith",
@@ -17,9 +18,10 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         "clearance" => "123abc",
         // username and image_source are set in setUp() after creation
     ];
+    /** @var string[] */
     protected $created_projectids = [];
-    protected $TEST_TEXT = "This is a test file";
-    protected $TEST_MODIFIED_TEXT = "This is a modified test file";
+    protected string $TEST_TEXT = "This is a test file";
+    protected string $TEST_MODIFIED_TEXT = "This is a modified test file";
 
     protected function setUp(): void
     {
@@ -84,10 +86,10 @@ class ProjectUtils extends PHPUnit\Framework\TestCase
         return $project;
     }
 
-    protected function quiet_project_transition(string $projectid, string $new_state, string $who, array $extras = []): void
+    protected function quiet_project_transition(string $projectid, string $new_state, string $who): void
     {
         ob_start();
-        project_transition($projectid, $new_state, $who, $extras);
+        project_transition($projectid, $new_state, $who, []);
         ob_end_clean();
     }
 

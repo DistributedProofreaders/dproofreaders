@@ -75,7 +75,8 @@ foreach (CharSuites::get_all() as $charsuite) {
     }
 }
 
-function validate_hex_codes_lowercase($codepoints, $error_message)
+/** @param list<?string> $codepoints */
+function validate_hex_codes_lowercase(array $codepoints, string $error_message): void
 {
     // Confirm that all hex codes are in lowercase
     $uppercase_codepoints = [];
