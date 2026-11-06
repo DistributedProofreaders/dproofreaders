@@ -15,6 +15,7 @@ DPDatabase::connect("localhost", "dp_test_db", "dp_test_user", "dp_test_password
 include_once($relPath.'wordcheck_engine.inc');
 include_once($relPath.'TableDocumentation.inc');
 include_once($relPath.'../api/v1.inc');
+include_once($relPath.'../tools/proofers/spellcheck_text.inc');
 
 include_once("phpunit_test_helpers.inc");
 include_once("ProjectUtils.inc");
