@@ -98,14 +98,16 @@ if (count($queryWords)) {
 
     $word_notes = [];
     foreach ($words_w_freq as $word => $freq) {
+        // Temporary workaround for prep_numeric_keys_for_multisort
+        $word_ = rtrim($word, ' ');
         $notes = [];
-        if (in_array($word, $site_bad_words)) {
+        if (in_array($word_, $site_bad_words, strict: true)) {
             $notes[] = _("On site BWL");
         }
-        if (in_array($word, $project_bad_words)) {
+        if (in_array($word_, $project_bad_words, strict: true)) {
             $notes[] = _("On project BWL");
         }
-        if (in_array($word, $project_good_words)) {
+        if (in_array($word_, $project_good_words, strict: true)) {
             $notes[] = _("On project GWL");
         }
         if (count($notes)) {
@@ -176,7 +178,10 @@ function _get_adhoc_word_list(string $projectid, array $queryWords): array
     prep_numeric_keys_for_multisort($words_w_freq);
 
     // sort the list by frequency, then by word
-    array_multisort(array_values($words_w_freq), SORT_DESC, array_map(\voku\helper\UTF8::strtolower(...), array_keys($words_w_freq)), SORT_ASC, $words_w_freq);
+    $freqs = array_values($words_w_freq);
+    $lc_words = array_map(\voku\helper\UTF8::strtolower(...), array_keys($words_w_freq));
+
+    array_multisort($freqs, SORT_DESC, $lc_words, SORT_ASC, $words_w_freq);
 
     return [$words_w_freq, $messages];
 }

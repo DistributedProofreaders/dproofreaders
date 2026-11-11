@@ -47,7 +47,7 @@ $suggestions = load_wordcheck_events($projectid, $timeCutoff);
 $word_suggestions = [];
 foreach ($suggestions as $suggestion) {
     [$time, $roundid, $page, $proofer, $words] = $suggestion;
-    if (in_array($word, $words)) {
+    if (in_array($word, $words, strict: true)) {
         array_push($word_suggestions, $suggestion);
     }
 }
