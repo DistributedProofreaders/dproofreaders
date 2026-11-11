@@ -1026,7 +1026,7 @@ function save_word_list(string $path, $words): string
 
     // if no change was made, return Success
     // without modifying file
-    if ($words == $oldWords) {
+    if ($words === $oldWords) {
         return "Success";
     }
 
