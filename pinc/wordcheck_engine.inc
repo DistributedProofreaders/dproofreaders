@@ -1040,11 +1040,6 @@ function save_word_list(string $path, $words): string
     flock($fh, LOCK_EX);
 
     foreach ($words as $word) {
-        // skip any blank words
-        if ($word == "") {
-            continue;
-        }
-
         fputs($fh, "$word\r\n");
     }
     fclose($fh);
