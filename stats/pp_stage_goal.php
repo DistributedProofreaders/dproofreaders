@@ -36,7 +36,7 @@ function _get_pages_posted_data(int $start_timestamp): int
 }
 
 // Get the total pages for projects that have posted in current month
-$start_timestamp = mktime(0, 0, 0, (int)date('m'), 1, (int)date('Y'));
+$start_timestamp = mktime(0, 0, 0, idate('m'), 1, idate('Y'));
 // cache pages posted data for 1 hour
 $pp_pages_total = memoize_function("_get_pages_posted_data", [$start_timestamp], 60 * 60);
 

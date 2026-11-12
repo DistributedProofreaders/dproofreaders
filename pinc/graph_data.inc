@@ -372,8 +372,8 @@ function curr_month_proj(string $which): array
 
     $todaysTimeStamp = time();
 
-    $year = (int) date("Y", $todaysTimeStamp);
-    $month = (int) date("m", $todaysTimeStamp);
+    $year = idate("Y", $todaysTimeStamp);
+    $month = idate("m", $todaysTimeStamp);
     $monthVar = _(date("F", $todaysTimeStamp));
     $timeframe = "$monthVar $year";
 
