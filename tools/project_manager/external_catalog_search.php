@@ -196,6 +196,7 @@ function do_search_and_show_hits(): void
 
     // Read and parse results in a batch
     $total_hits = yaz_hits($id);
+    /** @var int $num_nontext */
     $num_nontext = 0;
     $hits_per_page = 20; // Perhaps later this can be a PM preference or an option on the form.
 
@@ -227,13 +228,9 @@ function do_search_and_show_hits(): void
         $enc_z3950_fullquery = base64url_encode(json_encode($z3950_fullquery));
         $url_base = "external_catalog_search.php?action=do_search_and_show_hits&fq=$enc_z3950_fullquery&" . search_query_params();
 
-        // PHPStan up to at least 1.10.57 has a bug where it doesn't correctly detect
-        // that $num_nontext is updated in the loop. We need to sprinkle several ignores
-        // to get it to ignore this.
-        // @phpstan-ignore-next-line
         $book_frag = ($hide_nontext && $num_nontext > 0) ? sprintf(_(" (%d non-textual hidden)"), $num_nontext) : "";
 
-        if ($num_nontext < $hits_per_page) { /** @phpstan-ignore-line */
+        if ($num_nontext < $hits_per_page) {
             echo "<p>", _("Please pick a result from below:"), "</p>\n";
 
             display_navbar($url_base, $start, $hits_per_page, $total_hits, $book_frag);

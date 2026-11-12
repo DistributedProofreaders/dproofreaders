@@ -20,6 +20,7 @@ function ensure_project_blurb(Project $project): void
 
 function automodify(?string $projectid = null): void
 {
+    /** @var bool $trace */
     $trace = false;
 
     if ($projectid) {
@@ -58,7 +59,7 @@ function automodify(?string $projectid = null): void
         $state = $project->state;
         $nameofwork = $project->nameofwork;
 
-        if ($trace) { /** @phpstan-ignore-line */
+        if ($trace) {
             ensure_project_blurb($project);
         }
 
@@ -74,14 +75,14 @@ function automodify(?string $projectid = null): void
             if ($project->is_bad_from_pages($round)) {
                 // This project's pages indicate that it's bad.
                 // If it isn't marked as such, make it so.
-                if ($trace) { /** @phpstan-ignore-line */
+                if ($trace) {
                     echo "project looks bad.\n";
                 }
                 $appropriate_state = $round->project_bad_state;
             } else {
                 // Pages don't indicate that the project is bad.
                 // (Although it could be bad for some other reason. Hmmm.)
-                if ($trace) { /** @phpstan-ignore-line */
+                if ($trace) {
                     echo "project looks okay.\n";
                 }
                 $appropriate_state = $round->project_available_state;
@@ -92,7 +93,7 @@ function automodify(?string $projectid = null): void
                     ensure_project_blurb($project);
                     echo "    Re badness, changing state to $appropriate_state\n";
                 }
-                if ($trace) { /** @phpstan-ignore-line */
+                if ($trace) {
                     echo "changing its state to $appropriate_state\n";
                 }
                 $error_msg = project_transition($projectid, $appropriate_state, PT_AUTO);
@@ -224,7 +225,7 @@ function automodify(?string $projectid = null): void
         }
     }
 
-    if ($trace) { /** @phpstan-ignore-line */
+    if ($trace) {
         echo "\n";
     }
 

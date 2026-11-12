@@ -297,6 +297,7 @@ switch ($submit_button) {
         break;
 
     case 'Do renamings':
+        /** @var bool $for_real */
         $for_real = true;
 
         $new_fileid_for_ = get_requested_name_mapping();
@@ -353,7 +354,7 @@ switch ($submit_button) {
                     DPDatabase::escape($old_image)
                 );
                 echo $project_query;
-                if ($for_real) { /** @phpstan-ignore-line */
+                if ($for_real) {
                     DPDatabase::query($project_query);
                     $n = DPDatabase::affected_rows();
                     echo "
@@ -378,7 +379,7 @@ switch ($submit_button) {
                     DPDatabase::escape($old_image)
                 );
                 echo $wce_query;
-                if ($for_real) { /** @phpstan-ignore-line */
+                if ($for_real) {
                     DPDatabase::query($wce_query);
                     $n = DPDatabase::affected_rows();
                     echo "
@@ -398,7 +399,7 @@ switch ($submit_button) {
                     DPDatabase::escape($old_image)
                 );
                 echo $fpe_query;
-                if ($for_real) { /** @phpstan-ignore-line */
+                if ($for_real) {
                     DPDatabase::query($fpe_query);
                     $n = DPDatabase::affected_rows();
                     echo "
@@ -418,7 +419,7 @@ switch ($submit_button) {
                     DPDatabase::escape($old_image)
                 );
                 echo $pe_query;
-                if ($for_real) { /** @phpstan-ignore-line */
+                if ($for_real) {
                     DPDatabase::query($pe_query);
                     $n = DPDatabase::affected_rows();
                     echo "
@@ -432,7 +433,7 @@ switch ($submit_button) {
                 echo "
                     mv $old_image $new_image
                 ";
-                if ($for_real) { /** @phpstan-ignore-line */
+                if ($for_real) {
                     $success = rename($old_image, $new_image);
                     $s = ($success ? 'succeeded' : 'FAILED');
                     echo "
