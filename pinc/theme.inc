@@ -964,8 +964,8 @@ function show_completed_projects(bool $terse = false): void
         echo "<table>\n";
         $num_months = 12;
     }
-    $thismonth = (int)date("n");
-    $thisyear = (int)date("Y");
+    $thismonth = idate("n");
+    $thisyear = idate("Y");
     for ($months_ago = 0; $months_ago <= $num_months; $months_ago++) {
         // midnight that begins the 1st day of this month and the next:
         $begindate = mktime(0, 0, 0, $thismonth - $months_ago, 1, $thisyear);
@@ -1111,14 +1111,14 @@ function calculate_progress_bar_properties(int $actual, int $goal, bool|string $
 
     // Calculate the progress bar color scaling based on the time of day.
     if ($prorate_goal_for_color == 'bar' || $prorate_goal_for_color === true) {
-        $t_start_of_today = mktime(0, 0, 0, (int)date('m'), (int)date('d'), (int)date('y'));
+        $t_start_of_today = mktime(0, 0, 0, idate('m'), idate('d'), idate('y'));
         $fraction_of_time_passed = (time() - $t_start_of_today) / (60 * 60 * 24);
         // Note: Calculation assumes a 24-hour day which is true except
         // possibly for the first and last days of daylight saving time
         // depending on how PHP calculates DST in the mktime() call.
     } elseif ($prorate_goal_for_color == 'month') {
-        $t_start_of_month = mktime(0, 0, 0, (int)date('m'), 1, (int)date('y'));
-        $fraction_of_time_passed = (time() - $t_start_of_month) / (60 * 60 * 24 * date("t"));
+        $t_start_of_month = mktime(0, 0, 0, idate('m'), 1, idate('y'));
+        $fraction_of_time_passed = (time() - $t_start_of_month) / (60 * 60 * 24 * idate("t"));
     } else {
         $fraction_of_time_passed = 1;
     }
