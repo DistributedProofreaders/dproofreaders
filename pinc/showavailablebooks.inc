@@ -631,6 +631,7 @@ function process_sorting_control(
 ): array {
     global $pguser;
 
+    /** @var bool $local_trace */
     $local_trace = false; // set to TRUE when debugging
 
     // Load user settings
@@ -673,7 +674,7 @@ function process_sorting_control(
         }
 
         [$provider_noun, $curr_ext_sort] = $ext_sort_provider;
-        if ($local_trace) { /** @phpstan-ignore-line */
+        if ($local_trace) {
             echo "\n<p>";
             echo html_safe(
                 sprintf(
@@ -770,7 +771,7 @@ function process_sorting_control(
 
         // If sort order has changed, save it to database.
         if ($curr_ext_sort != $saved_ext_sort) {
-            if ($local_trace) { /** @phpstan-ignore-line */
+            if ($local_trace) {
                 echo "\n<p>";
                 echo html_safe(
                     sprintf(

@@ -181,6 +181,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 
     // ------------------------
 
+    /** @var int $n_form_problems */
     $n_form_problems = 0;
 
     function maybe_report_form_problem(string $message): string
@@ -579,8 +580,8 @@ if ($action == SHOW_BLANK_ENTRY_FORM || $action == HANDLE_ENTRY_FORM_SUBMISSION)
 if ($action == SHOW_BLANK_ENTRY_FORM) {
     echo $entry_form;
 } elseif ($action == HANDLE_ENTRY_FORM_SUBMISSION) {
-    if ($n_form_problems > 0) { // @phpstan-ignore greater.alwaysFalse
-        if ($n_form_problems == 1) {  // @phpstan-ignore equal.alwaysFalse, equal.invalid
+    if ($n_form_problems > 0) {
+        if ($n_form_problems == 1) {
             $message =
                 _("There was a problem with a form input, as detailed below. Please fix it and re-submit.");
         } else {

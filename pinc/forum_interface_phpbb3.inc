@@ -769,9 +769,10 @@ function call_phpbb_function(string $func_name, mixed $args): ?string
 {
     // If $DEBUG is TRUE, output some additional debugging information useful
     // for figuring out where the calls into phpbb*.inc went wrong.
+    /** @var bool $DEBUG */
     $DEBUG = false;
 
-    if ($DEBUG) { /** @phpstan-ignore-line */
+    if ($DEBUG) {
         echo "call_phpbb_function( $func_name, ", print_r($args, true), ")<br>\n";
     }
 
@@ -800,7 +801,7 @@ function call_phpbb_function(string $func_name, mixed $args): ?string
     $output = $process->getOutput();
     $output_lines = explode("\n", rtrim($output));
     $last_line = end($output_lines);
-    if (!$process->isSuccessful() || $DEBUG) { /** @phpstan-ignore-line */
+    if (!$process->isSuccessful() || $DEBUG) {
         echo "<pre>\n";
         echo "$func_name command exited with status=$exitcode\n";
         echo "Here's its output:\n";

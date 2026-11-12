@@ -544,7 +544,8 @@ function copy_pages(
     // Emit a nice big heads-up notification/separator
     echo "<hr><h2>" . _("Copying Pages...") . "</h2>\n";
 
-    $for_real = 1;
+    /** @var bool $for_real */
+    $for_real = true;
 
     // cd to projects dir to simplify filesystem moves
     global $projects_dir;
@@ -612,7 +613,7 @@ function copy_pages(
         );
         // FIXME These are very long and should perhaps be suppressed, wrapped or made smaller.
         echo html_safe($query) . "\n";
-        if ($for_real) { /** @phpstan-ignore-line */
+        if ($for_real) {
             DPDatabase::query($query);
             $n = DPDatabase::affected_rows();
             echo sprintf(_("%d rows inserted."), $n) . "\n";
@@ -626,7 +627,7 @@ function copy_pages(
 
         echo "\n" . html_safe(sprintf(_('Copying %1$s to %2$s...'), $c_src_path, $c_dst_path)) . " ";
 
-        if ($for_real) { /** @phpstan-ignore-line */
+        if ($for_real) {
             $success = copy($c_src_path, $c_dst_path);
             $s = ($success ? _('Copy succeeded.') : _('<b>Copy failed!</b>'));
             echo $s . "\n";
@@ -637,7 +638,7 @@ function copy_pages(
     project_recalculate_page_counts($projectid_['to']);
     echo "<p>" . _("Page counts recalculated") . "</p>\n";
 
-    if ($transfer_notifications && $for_real) { /** @phpstan-ignore-line */
+    if ($transfer_notifications && $for_real) {
         echo "<p>" . _("Transferring event notifications...") . "</p>\n";
 
         // for each subscribable event
@@ -680,7 +681,7 @@ function copy_pages(
             $projectid_['from'] // validated input
         );
         echo "<code>" . html_safe($query) . "</code>";
-        if ($for_real) { /** @phpstan-ignore-line */
+        if ($for_real) {
             DPDatabase::query($query);
             $n = DPDatabase::affected_rows();
             echo "<p>" . sprintf(_("%d rows updated."), $n) . "</p>\n";
@@ -689,14 +690,14 @@ function copy_pages(
 
     if ($merge_wordcheck_data) {
         echo "<p>" . _("Merging WordCheck files and events.") . "</p>\n";
-        if ($for_real) { /** @phpstan-ignore-line */
+        if ($for_real) {
             merge_project_wordcheck_data($projectid_['from'], $projectid_['to'], $c_src_image_);
         }
     }
 
     if ($copy_format_preview_data) {
         echo "<p>" . _("Copying Format Preview events.") . "</p>\n";
-        if ($for_real) { /** @phpstan-ignore-line */
+        if ($for_real) {
             FormatPreview::copy_project_events($projectid_['from'], $projectid_['to'], $c_src_image_);
         }
     }
