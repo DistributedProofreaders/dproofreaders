@@ -39,13 +39,15 @@ $total["proj_bad_words"] = 0;
 $total["site_bad_words"] = 0;
 $total["flagged"] = 0;
 foreach ($bad_words_w_freq as $word => $freq) {
+    // Temporary workaround for prep_numeric_keys_for_multisort
+    $word_ = rtrim($word, ' ');
     // is this word in the project's Bad list?
-    if (in_array($word, $proj_bad_words)) {
+    if (in_array($word_, $proj_bad_words, strict: true)) {
         $total["proj_bad_words"] += $freq;
     }
 
     // is this word in the site's Bad list?
-    if (in_array($word, $site_bad_words)) {
+    if (in_array($word_, $site_bad_words, strict: true)) {
         $total["site_bad_words"] += $freq;
     }
 

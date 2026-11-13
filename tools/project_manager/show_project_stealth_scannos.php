@@ -120,7 +120,9 @@ $context_array = build_context_array_links($instances_left, $projectid);
 $word_notes = [];
 $instances_total = [];
 foreach ($instances_left as $word => $freq) {
-    if (in_array($word, $project_good_words)) {
+    // Temporary workaround for prep_numeric_keys_for_multisort
+    $word_ = rtrim($word, ' ');
+    if (in_array($word_, $project_good_words, strict: true)) {
         $word_notes[$word] = _("On project GWL");
     }
     $instances_total[$word] = $instances_changed[$word] + $instances_left[$word];
