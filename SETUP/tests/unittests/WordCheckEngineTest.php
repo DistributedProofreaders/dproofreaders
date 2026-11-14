@@ -272,4 +272,25 @@ class WordCheckEngineTest extends PHPUnit\Framework\TestCase
 
         $this->assertEquals(["blearg", "blearg's", "bonjuor", "l'absolulion"], $bad_words);
     }
+
+    public function testSaveWordlistComparisons(): void
+    {
+        if (($path = tempnam(sys_get_temp_dir(), 'wordlist')) === false) {
+            throw new RuntimeException('Could not create temporary file');
+        }
+
+        try {
+            $words1 = ["11", "goes", "to"];
+            save_word_list($path, $words1);
+            $words2 = load_word_list($path);
+            $this->assertEquals($words1, $words2);
+
+            $words3 = ["011", "goes", "to"];
+            save_word_list($path, $words3);
+            $words4 = load_word_list($path);
+            $this->assertEquals($words3, $words4);
+        } finally {
+            unlink($path);
+        }
+    }
 }
