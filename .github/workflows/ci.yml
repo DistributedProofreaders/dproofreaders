@@ -16,11 +16,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup PHP, composer
-        uses: ./.github/actions/setup-php
+        uses: $/.github/actions/setup-php
         with:
           php-version: ${{ matrix.cfg.php }}
       - name: Setup MySQL, install schema
-        uses: ./.github/actions/setup-mysql-db
+        uses: $/.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt update && sudo apt install aspell aspell-en aspell-fr
       - name: Run phpunit tests
@@ -37,7 +37,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup Node, NPM
-        uses: ./.github/actions/setup-node
+        uses: $/.github/actions/setup-node
       - name: Run js unit tests
         run: npm run test
   linting:
@@ -54,11 +54,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup PHP, composer
-        uses: ./.github/actions/setup-php
+        uses: $/.github/actions/setup-php
         with:
           php-version: ${{ matrix.cfg.php }}
       - name: Setup Node, NPM
-        uses: ./.github/actions/setup-node
+        uses: $/.github/actions/setup-node
       - name: Lint PHP code
         run: make -C SETUP/ci lint_code
       - name: Run JS lint
@@ -77,7 +77,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup PHP, composer
-        uses: ./.github/actions/setup-php
+        uses: $/.github/actions/setup-php
         with:
           php-version: '8.3'
       # We don't install MySQL, but we do need pinc/site_vars.php & co.
@@ -98,11 +98,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup PHP, composer
-        uses: ./.github/actions/setup-php
+        uses: $/.github/actions/setup-php
         with:
           php-version: '8.3'
       - name: Setup Node, NPM
-        uses: ./.github/actions/setup-node
+        uses: $/.github/actions/setup-node
       - name: Run lockfile checks
         run: make -C SETUP/ci lockfile_checks
       - name: Run security checks
@@ -129,13 +129,13 @@ jobs:
         with:
           persist-credentials: false
       - name: Setup PHP, composer
-        uses: ./.github/actions/setup-php
+        uses: $/.github/actions/setup-php
         with:
           php-version: ${{ matrix.cfg.php }}
       - name: Setup Node, NPM
-        uses: ./.github/actions/setup-node
+        uses: $/.github/actions/setup-node
       - name: Setup MySQL, install schema
-        uses: ./.github/actions/setup-mysql-db
+        uses: $/.github/actions/setup-mysql-db
       - name: Install aspell dependencies for WordCheck tests
         run: sudo apt update && sudo apt install aspell aspell-en aspell-fr
       - name: Setup smoke test environment
