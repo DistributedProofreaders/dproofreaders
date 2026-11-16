@@ -306,7 +306,18 @@ function showTeamMbrs(array $curTeam, ?string $tally_name): void
     $req_team_id = get_integer_param($_GET, 'tid', null, 0, null);
 
     $subtitle = null;
-    $latestMbr = DPDatabase::query("SELECT users.username AS Username, users.u_privacy AS Privacy FROM user_teams INNER JOIN users ON user_teams.latestUser = users.u_id WHERE user_teams.id = ".$curTeam['id']." AND user_teams.latestUser <> 0");
+    $sql = sprintf(
+        "
+        SELECT
+            users.username AS Username,
+            users.u_privacy AS Privacy
+        FROM user_teams
+        INNER JOIN users ON user_teams.latestUser = users.u_id
+        WHERE user_teams.id = %d
+        AND user_teams.latestUser <> 0",
+        $curTeam['id']
+    );
+    $latestMbr = DPDatabase::query($sql);
     $row = mysqli_fetch_assoc($latestMbr);
     if ($row) {
         if ($row["Privacy"] == PRIVACY_PRIVATE && isset($GLOBALS['pguser'])) {
@@ -592,16 +603,26 @@ function uploadImages(bool $preview, null|int|string $tid, string $type): ?array
 
 
     if (!empty($_FILES['teamavatar']['tmp_name']) && ($type == "both" || $type == "avatar")) {
-        if (strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamavatar']['name'], -4)) == ".gif") {
+        $extension = strtolower(pathinfo($_FILES['teamavatar']['name'], PATHINFO_EXTENSION));
+        if (in_array($extension, ["png", "jpg", "gif"], strict: true)) {
             if ($_FILES['teamavatar']['size'] > 2097152) {
                 echo "<p class='error'>"._("The avatar uploaded is too large.  Please limit the file size to 2MB or less.")."</p>";
                 return null;
             }
-            $avatarID = uniqid("avatar_").substr($_FILES['teamavatar']['name'], -4);
+            $avatarID = uniqid("avatar_") . "." . $extension;
             $upload_avatar_dir = "$team_avatars_dir/$avatarID";
             move_uploaded_file($_FILES['teamavatar']['tmp_name'], $upload_avatar_dir);
             if (!$preview) {
-                DPDatabase::query("UPDATE user_teams SET avatar='$avatarID' WHERE id = $tid");
+                $sql = sprintf(
+                    "
+                    UPDATE user_teams
+                    SET avatar = '%s'
+                    WHERE id = %d
+                    ",
+                    DPDatabase::escape($avatarID),
+                    $tid
+                );
+                DPDatabase::query($sql);
             }
             $teamimages['avatar'] = $avatarID;
         } else {
@@ -611,16 +632,26 @@ function uploadImages(bool $preview, null|int|string $tid, string $type): ?array
     }
 
     if (!empty($_FILES['teamicon']['tmp_name']) && ($type == "both" || $type == "icon")) {
-        if (strtolower(substr($_FILES['teamicon']['name'], -4)) == ".png" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".jpg" || strtolower(substr($_FILES['teamicon']['name'], -4)) == ".gif") {
+        $extension = strtolower(pathinfo($_FILES['teamicon']['name'], PATHINFO_EXTENSION));
+        if (in_array($extension, ["png", "jpg", "gif"], strict: true)) {
             if ($_FILES['teamicon']['size'] > 1048576) {
                 echo "<p class='error'>"._("The icon uploaded is too large. Please limit the file size to 1MB or less.")."</p>";
                 return null;
             }
-            $iconID = uniqid("icon_").substr($_FILES['teamicon']['name'], -4);
+            $iconID = uniqid("icon_") . "." . $extension;
             $upload_icon_dir = "$team_icons_dir/$iconID";
             move_uploaded_file($_FILES['teamicon']['tmp_name'], $upload_icon_dir);
             if (!$preview) {
-                DPDatabase::query("UPDATE user_teams SET icon='$iconID' WHERE id = $tid");
+                $sql = sprintf(
+                    "
+                    UPDATE user_teams
+                    SET icon = '%s'
+                    WHERE id = %d
+                    ",
+                    DPDatabase::escape($iconID),
+                    $tid
+                );
+                DPDatabase::query($sql);
             }
             $teamimages['icon'] = $iconID;
         } else {

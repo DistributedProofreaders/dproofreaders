@@ -61,7 +61,16 @@ Use this area to have a discussion with your fellow teammates! :-D
     );
 
     //Update user_teams with topic_id so it won't be created again
-    $update_team = DPDatabase::query("UPDATE user_teams SET topic_id=$topic_id WHERE id=$team_id");
+    $sql = sprintf(
+        "
+        UPDATE user_teams
+        SET topic_id = %d
+        WHERE id = %d
+        ",
+        $topic_id,
+        $team_id
+    );
+    DPDatabase::query($sql);
 }
 
 // By here, either we had a topic or we've just created one, so redirect to it
