@@ -312,7 +312,7 @@ class User
         $result = DPDatabase::query($sql);
         $teams = [];
         while ($row = mysqli_fetch_assoc($result)) {
-            $teams[] = $row["t_id"];
+            $teams[] = (int) $row["t_id"];
         }
         return $teams;
     }

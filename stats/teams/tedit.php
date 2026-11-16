@@ -86,7 +86,7 @@ if (isset($_GET['tid'])) {
             $sql = sprintf(
                 "
                 UPDATE user_teams
-                SET avatar='%s'
+                SET avatar = '%s'
                 WHERE id = %d
                 ",
                 DPDatabase::escape($tavatar),
@@ -100,7 +100,7 @@ if (isset($_GET['tid'])) {
             $sql = sprintf(
                 "
                 UPDATE user_teams
-                SET icon='%s'
+                SET icon = '%s'
                 WHERE id = %d
                 ",
                 DPDatabase::escape($ticon),
