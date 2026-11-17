@@ -267,14 +267,14 @@ class Loader
         $page_related_bases = [];
 
         foreach ($loadable_files as $source_file) {
-            [$base, $ext] = split_filename($source_file);
-            if ($ext == '.txt') {
-                $page_related_bases[$base] = 1;
+            $pi = pathinfo($source_file);
+            if ($pi['extension'] == 'txt') {
+                $page_related_bases[$pi['filename']] = 1;
             }
         }
 
         foreach (array_keys($db_entries) as $db_image_file) {
-            [$base, $_ext] = split_filename($db_image_file);
+            $base = pathinfo($db_image_file, PATHINFO_FILENAME);
             $page_related_bases[$base] = 1;
         }
 
@@ -289,7 +289,7 @@ class Loader
         $page_files = [];
         $this->non_page_files = [];
         foreach ($loadable_files as $loadable_file) {
-            [$base, $_ext] = split_filename($loadable_file);
+            $base = pathinfo($loadable_file, PATHINFO_FILENAME);
             if (array_key_exists($base, $page_related_bases)) {
                 $page_files[] = $loadable_file;
             } else {
@@ -324,17 +324,16 @@ class Loader
         $this->db_text_for_base = [];
 
         foreach ($page_files as $page_file) {
-            [$base, $ext] = split_filename($page_file);
-            if ($ext == '.txt') {
-                $toi = 'text';
-            } else {
-                $toi = 'image';
-            }
-            $this->page_file_table[$base][$toi]['src'][] = $ext;
+            $pi = pathinfo($page_file);
+            $ext = '.' . $pi['extension'];
+            $toi = $ext == '.txt' ? 'text' : 'image';
+            $this->page_file_table[$pi['filename']][$toi]['src'][] = $ext;
         }
 
         foreach ($db_entries as $db_image_file => $text) {
-            [$base, $ext] = split_filename($db_image_file);
+            $pi = pathinfo($db_image_file);
+            $base = $pi['filename'];
+            $ext = '.' . $pi['extension'];
             if (array_key_exists($base, $this->page_file_table)) {
                 $this->page_file_table[$base]['text']['db'][] = '.txt';
                 $this->page_file_table[$base]['image']['db'][] = $ext;
@@ -534,15 +533,15 @@ class Loader
             return _('filename does not contain a dot');
         }
 
-        $ALLOWED_EXTENSIONS = ['.txt', '.png', '.jpg'];
+        $ALLOWED_EXTENSIONS = ['txt', 'png', 'jpg'];
 
-        [$_base, $ext] = split_filename($filename);
-        if (!in_array($ext, $ALLOWED_EXTENSIONS)) {
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if (!in_array($ext, $ALLOWED_EXTENSIONS, strict: true)) {
             return _('filename has unrecognized suffix');
         }
         // Task 851, complain if image file is under 100 bytes
         else {
-            if ($ext != ".txt" && (filesize($filename) < 100)) {
+            if ($ext != 'txt' && (filesize($filename) < 100)) {
                 return _('image file is small and probably bad');
             }
         }
@@ -932,26 +931,3 @@ class Loader
 }
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-/**
- * Split a filename into its base and extension.
- *
- * This function returns an array of two strings:
- *  - the part of $filename before the rightmost dot, and
- *  - the part from the rightmost dot to the end.
- *
- * @return string[]
- */
-function split_filename(string $filename): array
-{
-    $p = strrpos($filename, '.');
-    if ($p === false) {
-        // No '.' in $filename.
-        return [$filename, ''];
-    } else {
-        return [
-            substr($filename, 0, $p),
-            substr($filename, $p),
-        ];
-    }
-}
