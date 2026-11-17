@@ -81,7 +81,7 @@ if (isset($_POST['mkPreview'])) {
             $sql = sprintf(
                 "
                 UPDATE user_teams
-                SET avatar='%s'
+                SET avatar = '%s'
                 WHERE id = %d
                 ",
                 DPDatabase::escape($tavatar),
@@ -95,7 +95,7 @@ if (isset($_POST['mkPreview'])) {
             $sql = sprintf(
                 "
                 UPDATE user_teams
-                SET icon='%s'
+                SET icon = '%s'
                 WHERE id = %d
                 ",
                 DPDatabase::escape($ticon),
