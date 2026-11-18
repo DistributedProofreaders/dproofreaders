@@ -15,7 +15,7 @@ $projectid = get_projectID_param($_POST, 'projectid');
 $curr_state = get_enumerated_param($_POST, 'curr_state', null, ProjectStates::get_states());
 $next_state = get_enumerated_param($_POST, 'next_state', null, array_merge(ProjectStates::get_states(), ['automodify']));
 $confirmed = get_enumerated_param($_POST, 'confirmed', null, ['yes'], true);
-$return_uri = @$_POST['return_uri'] ?? '';
+$return_uri = $_POST['return_uri'] ?? '';
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -51,10 +51,10 @@ function fatal_error(string $msg): never
     echo "<pre>\n";
     echo _("You requested:") . "\n";
     echo "    projectid  = $project->projectid (" . html_safe($project->nameofwork) . ")\n";
-    echo "    curr_state = $curr_state\n";
-    echo "    next_state = $next_state\n";
+    echo "    curr_state = " . html_safe($curr_state) . "\n";
+    echo "    next_state = " . html_safe($next_state) . "\n";
     echo "</pre>\n";
-    echo "<p class='error'>$msg</p>\n";
+    echo "<p class='error'>" . html_safe($msg) . "</p>\n";
     exit;
 }
 
@@ -71,16 +71,16 @@ if (!is_null($transition->confirmation_question) && $confirmed != 'yes') {
     echo $transition->confirmation_question;
     echo "<br>
         <form action='changestate.php' method='POST'>
-        <input type='hidden' name='projectid'  value='$projectid'>
-        <input type='hidden' name='curr_state' value='$curr_state'>
-        <input type='hidden' name='next_state' value='$next_state'>
+        <input type='hidden' name='projectid'  value='" . attr_safe($projectid) . "'>
+        <input type='hidden' name='curr_state' value='" . attr_safe($curr_state) . "'>
+        <input type='hidden' name='next_state' value='" . attr_safe($next_state) . "'>
         <input type='hidden' name='confirmed'  value='yes'>
-        <input type='hidden' name='return_uri' value='$return_uri'>"
+        <input type='hidden' name='return_uri' value='" . attr_safe($return_uri) . "'>"
         . sprintf(
             // TRANSLATORS: %1$s is a button labeled "confirm transition change".
             _("If so, %1\$s, otherwise go back to <a href='%2\$s'>where you were</a>"),
             "<input type='submit' value='" . attr_safe(_("confirm transition change")) . "'>",
-            $return_uri
+            attr_safe($return_uri)
         )
         . "</form>";
     exit();
