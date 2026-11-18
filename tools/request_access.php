@@ -13,11 +13,14 @@ if (empty($stage_id)) {
 }
 
 $stage = get_Stage_for_id($stage_id);
+if ($stage === null) {
+    die("parameter 'stage_id' is invalid");
+}
 
 $title = sprintf(_('Requesting access to "%s"'), $stage_id);
 slim_header($title);
 
-echo "<h2>$title</h2>\n";
+echo "<h2>" . html_safe($title) . "</h2>\n";
 
 $email_addr = SiteConfig::get()->promotion_requests_email_addr;
 
