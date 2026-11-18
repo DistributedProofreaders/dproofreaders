@@ -173,14 +173,7 @@ class SpecialDay
     public function show_listing_row(int $count, ?int $current_month): ?int
     {
         global $page_url;
-        $sid = html_safe($this->spec_code);
-        $usid = urlencode($sid);
-
-        if ($count % 2 == 1) {
-            $row_class = "o";
-        } else {
-            $row_class = "e";
-        }
+        $row_class = $count % 2 == 1 ? 'o' : 'e';
 
         // Calculate how many rows this listing will have so we can span them
         // for some columns
@@ -201,12 +194,13 @@ class SpecialDay
             output_table_headers();
         }
 
-        echo "\n\n<tr class='$row_class' id='$usid'>";
+        $anchor = urlencode(html_safe($this->spec_code));
+        echo "\n\n<tr class='$row_class' id='$anchor'>";
         echo "<td class='codecell' rowspan='$listing_rows'>";
-        echo $sid . "\n";
-        echo "<form method='post' action='$page_url#$usid '>\n";
+        echo html_safe($this->spec_code) . "\n";
+        echo "<form method='post' action='$page_url#$anchor'>\n";
         echo "  <input type='hidden' name='action' value='update_oneshot'>\n";
-        echo "  <input type='hidden' name='source' value='$sid'>\n";
+        echo "  <input type='hidden' name='source' value='" . attr_safe($this->spec_code) . "'>\n";
         $this->show_buttons();
         echo "</form>\n";
         echo "</td>\n";
