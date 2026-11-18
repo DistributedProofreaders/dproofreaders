@@ -16,10 +16,19 @@ if (user_is_a_sitemanager()) {
     echo "<p><a href='manage_random_rules.php'>" . _("Manage Random Rules") . "</a></p>";
 }
 
-echo "<p>" . sprintf(_('Rules from document %1$s for langcode %2$s.'), RandomRule::$document_values[$document], $langcode) . "</hp>";
+echo "<p>" . sprintf(
+    _('Rules from document \'%1$s\' for langcode \'%2$s\'.'),
+    RandomRule::$document_values[$document],
+    html_safe($langcode)
+) . "</hp>";
 
+$count = 0;
 foreach (RandomRule::get_rules($document, $langcode) as $rule) {
+    $count += 1;
     echo "<hr>\n";
     echo "<div><b>ID:</b> $rule->id &mdash; $rule->subject (anchored as \"#$rule->anchor\")</div>\n";
     echo "<div>$rule->rule</div>\n";
+}
+if ($count == 0) {
+    echo "<p class='warning'>" . _("No rules") . "</p>";
 }
