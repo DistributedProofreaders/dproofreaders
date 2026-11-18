@@ -405,7 +405,7 @@ class TallyBoard
         if ($dry_run) {
             // Normalize whitespace
             $query = preg_replace('/\s+/', ' ', trim($query));
-            echo "$query\n";
+            echo html_safe($query) . "\n";
         } else {
             DPDatabase::query($query);
         }
@@ -456,7 +456,7 @@ class TallyBoard
                 if ($dry_run) {
                     // Normalize whitespace
                     $query = preg_replace('/\s+/', ' ', trim($query));
-                    echo "$query\n";
+                    echo html_safe($query) . "\n";
                 } else {
                     DPDatabase::query($query);
                 }
@@ -480,7 +480,7 @@ class TallyBoard
                 if ($dry_run) {
                     // Normalize whitespace
                     $query = preg_replace('/\s+/', ' ', trim($query));
-                    echo "$query\n";
+                    echo html_safe($query) . "\n";
                 } else {
                     DPDatabase::query($query);
                 }
@@ -503,7 +503,7 @@ class TallyBoard
         if ($dry_run) {
             // Normalize whitespace
             $sql = preg_replace('/\s+/', ' ', trim($sql));
-            echo "$sql\n";
+            echo html_safe($sql) . "\n";
         } else {
             DPDatabase::query($sql);
         }
