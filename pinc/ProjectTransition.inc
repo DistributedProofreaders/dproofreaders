@@ -256,7 +256,7 @@ class ProjectTransition
         // finished expanding the template, so we can go ahead and update the table
 
         if (SiteConfig::get()->testing) {
-            echo "    settings: $settings<br>\n";
+            echo "    settings: " . html_safe($settings) . "<br>\n";
         }
 
         // $settings could have %s in them, so we can't use sprintf to build
