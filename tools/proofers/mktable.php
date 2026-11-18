@@ -13,11 +13,11 @@ define("ARRAY_PAD_BOTH", 0);
 
 mb_internal_encoding($charset);
 
-$row = $_POST['row'] ?? 1;
-$col = $_POST['col'] ?? 1;
-$bord = $_POST['border'] ?? 1;
-$trim = (($_POST['trim'] ?? 'off') == 'on');
-$clear = $_POST['clear'] ?? 0;
+$row = get_integer_param($_POST, 'row', 1, min: 1);
+$col = get_integer_param($_POST, 'col', 1, min: 1);
+$bord = get_bool_param($_POST, 'border', true);
+$trim = get_enumerated_param($_POST, 'trim', 'off', ['off', 'on']) == 'on';
+$clear = get_enumerated_param($_POST, 'clear', '', ['', 'Clear']) == 'Clear';
 $vert_align = array_map(intval(...), $_POST['vert_align'] ?? []);
 $horiz_align = array_map(intval(...), $_POST['horiz_align'] ?? []);
 $table_contents = $_POST['table_contents'] ?? [];
@@ -172,7 +172,7 @@ function generate_ascii_table(int $row, int $col, array $a, array $al, array $tl
                 echo "|";
             }
             for ($j = 0; $j < $col; $j++) {
-                echo htmlspecialchars(UTF8::str_pad($a[$i][$j][$k], @$lng[$j], " ", $al[$j]), ENT_QUOTES, $charset);
+                echo htmlspecialchars(UTF8::str_pad($a[$i][$j][$k], $lng[$j] ?? 0, " ", $al[$j]), ENT_QUOTES, $charset);
                 if ($j < $col - 1) {
                     echo "|";
                 }
@@ -196,9 +196,9 @@ function hline(int $col, array $lng, bool $bord): void
         echo "+";
     }
     for ($j = 0; $j < $col - 1; $j++) {
-        echo UTF8::str_pad("", @$lng[$j], "-")."+";
+        echo UTF8::str_pad("", $lng[$j] ?? 0, "-")."+";
     }
-    echo UTF8::str_pad("", @$lng[$col - 1], "-");
+    echo UTF8::str_pad("", $lng[$col - 1] ?? 0, "-");
     if ($bord) {
         echo "+";
     }
