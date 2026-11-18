@@ -59,8 +59,8 @@ if (SiteConfig::get()->testing) {
 echo "<li>" . _("Type your username in the exact same way as when you registered.") . "</li>\n";
 echo "<li>" . sprintf(_("<a href='%s'>Reset your password</a>."), get_reset_password_url()) . "</li>\n";
 echo "<li>" . _("Enable Javascript.") . "</li>\n";
-echo "<li>" . sprintf(_("Accept cookies (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";
-echo "<li>" . sprintf(_("Allow popup windows (at least from us at %s)."), $_SERVER["HTTP_HOST"]) . "</li>\n";
+echo "<li>" . sprintf(_("Accept cookies (at least from us at %s)."), html_safe($_SERVER["HTTP_HOST"])) . "</li>\n";
+echo "<li>" . sprintf(_("Allow popup windows (at least from us at %s)."), html_safe($_SERVER["HTTP_HOST"])) . "</li>\n";
 echo "<li>" . _("Ensure your computer's clock is set to the correct date &amp; time.") . "</li>\n";
 echo "</ol>";
 echo "<p>" . sprintf(_("If all of this fails, contact a <a href='%s'>site manager</a>."), "mailto:" . SiteConfig::get()->site_manager_email_addr) . "</p>";
