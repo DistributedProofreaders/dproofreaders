@@ -479,10 +479,10 @@ function showEdit(string $tname, string $ttext, string $twebpage, bool $tedit, i
     echo "' method='post' target='_top'>";
     echo "<input type='hidden' name='tsid' value='$tsid'>";
     if (@$teamimages['avatar']) {
-        echo "<input type='hidden' name='tavatar' value='".$teamimages['avatar']."'>";
+        echo "<input type='hidden' name='tavatar' value='". attr_safe($teamimages['avatar']) ."'>";
     }
     if (@$teamimages['icon']) {
-        echo "<input type='hidden' name='ticon' value='".$teamimages['icon']."'>";
+        echo "<input type='hidden' name='ticon' value='" . attr_safe($teamimages['icon']) ."'>";
     }
 
     echo "\n<table class='themed'>";
@@ -501,7 +501,7 @@ function showEdit(string $tname, string $ttext, string $twebpage, bool $tedit, i
 
     echo "<tr>";
     echo "<td class='right-align' data-pophelp='edit_teamwebpage'><b>"._("Team Webpage")."</b>:</td>";
-    echo "<td class='left-align'><input type='text' value='$twebpage' name='teamwebpage' size='50' maxlength='255'></td>";
+    echo "<td class='left-align'><input type='text' value='" . attr_safe($twebpage) . "' name='teamwebpage' size='50' maxlength='255'></td>";
     echo "</tr>";
 
     echo "<tr>";
