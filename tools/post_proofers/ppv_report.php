@@ -600,7 +600,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
 
     // ---------------------------------
 
-    $project_size = $_POST["kb_size"];
+    $project_size = get_integer_param($_POST, "kb_size", null, min: 0);
 
     $project_basic_counter = 0;
     $project_average_counter = 0;
@@ -693,7 +693,7 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
         $pp_evaluation = "Fair";
     }
 
-    $reportcard = ""
+    $html_reportcard = ""
         . "\n"
         . "\n"
         . "\nPPV Summary for $project->postproofer"
@@ -831,9 +831,9 @@ if ($action == SHOW_BLANK_ENTRY_FORM) {
     echo "<p>" . _("Please check the information below to make sure everything is correct.
         To return to the form, simply use your browser's back button.") . "</p>\n";
     echo "<p>" . sprintf(_("The PPV Guidelines describe how the <a href='%s'>PPing Difficulty</a> and <a href='%s'>Overall evaluation of PPers' work</a> are calculated."), "$ppv_guidelines_url#difficulty", "$ppv_guidelines_url#allowable") . "</p>";
-    echo "<pre>" . $reportcard . "</pre>";
+    echo "<pre>" . $html_reportcard . "</pre>";
     echo "<form action='{$code_url}/tools/post_proofers/ppv_report.php?project=$projectid&amp;send=1' name='ppvform' method='post'>
-                <input type='hidden' name='reportcard' value='" . attr_safe($reportcard) . "'>
+                <input type='hidden' name='reportcard' value='" . attr_safe($html_reportcard) . "'>
                 <input type='hidden' name='pp_evaluation' value='" . attr_safe($pp_evaluation) . "'>";
     if (isset($_POST['cc_pp'])) {
         echo "<input type='hidden' name='cc_pp'>";
@@ -916,7 +916,7 @@ function report_error_counts(array $errors): string
     $result = "";
     foreach ($errors as $id => $label) {
         if ($_POST[$id]) {
-            $result .= "\n      {$_POST[$id]} $label";
+            $result .= "\n      " . html_safe($_POST[$id]) . " $label";
         }
     }
     if ($result == "") {
@@ -942,7 +942,7 @@ function report_recommendations(array $recommendations): string
 
 function report_comments(string $base_indent, string $id, string $label): string
 {
-    $comments = $_POST[$id] ?? '';
+    $comments = html_safe($_POST[$id] ?? '');
     if (empty($comments)) {
         return "";
     }
