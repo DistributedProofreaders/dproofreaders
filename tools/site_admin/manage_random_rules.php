@@ -26,14 +26,25 @@ if ($action == 'update') {
     try {
         RandomRule::reload_rules($url, $document, $langcode);
 
-        // TRANSLATORS: %3$s is a URL
-        echo "<p class='warning'>" . sprintf(_('Loaded rules for document %1$s and language %2$s from %3$s.'), RandomRule::$document_values[$document], $langcode, $url) . "</p>";
+        $warning = sprintf(
+            // TRANSLATORS: %3$s is a URL
+            _('Loaded rules for document %1$s and language %2$s from %3$s.'),
+            RandomRule::$document_values[$document],
+            html_safe($langcode),
+            html_safe($url)
+        );
+        echo "<p class='warning'>" . $warning . "</p>";
     } catch (RuntimeException $exception) {
-        echo "<p class='error'>" . $exception->getMessage() . "</p>";
+        echo "<p class='error'>" . html_safe($exception->getMessage()) . "</p>";
     }
 } elseif ($action == 'delete') {
     RandomRule::delete_rules($document, $langcode);
-    echo "<p class='warning'>" . sprintf(_('Deleted rules for document %1$s and language %2$s.'), RandomRule::$document_values[$document], $langcode) . "</p>";
+    $warning = sprintf(
+        _('Deleted rules for document %1$s and language %2$s.'),
+        RandomRule::$document_values[$document],
+        html_safe($langcode)
+    );
+    echo "<p class='warning'>" . $warning . "</p>";
 }
 
 $summary = RandomRule::get_summary();
@@ -54,7 +65,8 @@ foreach ($summary as $entry) {
     echo "<td>" . $entry['langcode']  . "</td>";
     echo "<td>" . RandomRule::$document_values[$entry['document']]  . "</td>";
     echo "<td>" . $entry['count'] . "</td>";
-    echo "<td><a href='displayrandrules.php?document=" . $entry['document'] . "&amp;langcode=" . $entry['langcode'] . "'>" . _("View") . "</a></td>";
+    $view_url = "displayrandrules.php?document=" . $entry['document'] . "&langcode=" . $entry['langcode'];
+    echo "<td><a href='" . attr_safe($view_url) . "'>" . _("View") . "</a></td>";
     echo "<td>";
     echo "<form method='POST'>";
     echo "<input type='hidden' name='action' value='delete'>";
