@@ -43,8 +43,8 @@ echo "<h2>";
 echo sprintf(
     // TRANSLATORS: %1$s is a word and %2$s is a project name.
     _("Context for '%1\$s' in %2\$s"),
-    $word,
-    $project->nameofwork
+    html_safe($word),
+    html_safe($project->nameofwork)
 );
 echo "</h2>";
 
@@ -54,7 +54,7 @@ echo "</p>";
 
 echo "<form method='GET' id='wordInstancesForm'>";
 echo "<input type='hidden' name='projectid' value='$project->projectid'>";
-echo "<input type='hidden' name='word' value='$encWord'>";
+echo "<input type='hidden' name='word' value='" . attr_safe($encWord) . "'>";
 echo "<label for='wordInstancesSelect'>" . _("Number of word context results: ") . "</label>";
 echo "<select id='wordInstancesSelect' name='wordInstances' style='margin-left: 2px;'>";
 foreach (range(10, MAX_WORD_INSTANCES, 10) as $option) {
