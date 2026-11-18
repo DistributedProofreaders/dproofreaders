@@ -12,19 +12,23 @@ output_header($title, NO_STATSBAR);
 
 $user = User::load_current();
 
+function html_safe_or_default(?string $string, string $default): string
+{
+    return $string !== null ? html_safe($string) : $default;
+}
+
 $detected_language = get_desired_language();
-$url_language = $_GET['lang'] ?? "<i>not set</i>";
+$url_language_safe = html_safe_or_default($_GET['lang'] ?? null, "<i>not set</i>");
 $pref_language = $user ? $user->u_intlang : "<i>not set</i>";
 $user_logged_in = $user ? $user->username : "<i>not logged in</i>";
 if ($pref_language == "") {
     $pref_language = "<i>browser detect</i>";
 }
-$cookie_language = $_COOKIE['language'] ?? "<i>not set</i>";
-$http_accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? "<i>not set </i>";
-$browser_locale = get_locale_matching_browser_accept_language(@$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+$cookie_language_safe = html_safe_or_default($_COOKIE['language'] ?? null, "<i>not set</i>");
+$http_accept_language_safe = html_safe_or_default($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? null, "<i>not set</i>");
+$browser_locale_safe = get_locale_matching_browser_accept_language($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? null);
 
-$enabled_languages = implode(", ", array_merge(get_installed_locale_translations("all"), ["en_US"]));
-
+$enabled_languages_safe = implode(", ", array_merge(get_installed_locale_translations("all"), ["en_US"]));
 echo <<<PAGE
     <h1>$title</h1>
 
@@ -38,25 +42,25 @@ echo <<<PAGE
     wins.</p>
 
     <ul>
-        <li>lang parameter: <b>$url_language</b></li>
+        <li>lang parameter: <b>$url_language_safe</b></li>
         <li>user preference: <b>$pref_language</b>
             <ul><li>user logged in: <b>$user_logged_in</b></li></ul>
         </li>
-        <li>cookie setting: <b>$cookie_language</b></li>
-        <li>browser language detected: <b>$browser_locale</b>
-            <ul><li>HTTP_ACCEPT_LANGUAGE: <b>$http_accept_language</b></li></ul>
+        <li>cookie setting: <b>$cookie_language_safe</b></li>
+        <li>browser language detected: <b>$browser_locale_safe</b>
+            <ul><li>HTTP_ACCEPT_LANGUAGE: <b>$http_accept_language_safe</b></li></ul>
         </li>
         <li>final language used: <b>$detected_language</b></li>
     </ul>
 
-    <p>Enabled UI languages: $enabled_languages.</p>
+    <p>Enabled UI languages: $enabled_languages_safe.</p>
 
     PAGE;
 
 if (user_is_a_sitemanager()) {
     $gettext_domain = 'messages';
-    $env_lang = getenv("LANG");
-    $env_language = getenv("LANGUAGE");
+    $env_lang_safe = html_safe_or_default(getenv("LANG"), "<i>not set</i>");
+    $env_language_safe = html_safe_or_default(getenv("LANGUAGE"), "<i>not set<i/>");
     $locale = $detected_language;
     $dyn_locales_dir = SiteConfig::get()->dyn_locales_dir;
     $system_locales_dir = SiteConfig::get()->system_locales_dir;
@@ -75,8 +79,8 @@ if (user_is_a_sitemanager()) {
 
         <p>env variables:</p>
         <ul>
-            <li>LANG: $env_lang</li>
-            <li>LANGUAGE: $env_language</li>
+            <li>LANG: $env_lang_safe</li>
+            <li>LANGUAGE: $env_language_safe</li>
         </ul>
 
         <p>gettext variables:</p>
