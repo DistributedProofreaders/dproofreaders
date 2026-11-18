@@ -267,10 +267,10 @@ function show_text_update_form(string $projectid, string $image, string $prev_te
     }
 
     echo "<form action='handle_bad_page.php' method='post'>";
-    echo "<input type='hidden' name='modify' value='$modify'>";
-    echo "<input type='hidden' name='projectid' value='$projectid'>";
-    echo "<input type='hidden' name='image' value='$image'>";
-    echo "<input type='hidden' name='text_column' value='$text_column'>";
+    echo "<input type='hidden' name='modify' value='" . attr_safe($modify) . "'>";
+    echo "<input type='hidden' name='projectid' value='" . attr_safe($projectid) . "'>";
+    echo "<input type='hidden' name='image' value='" . attr_safe($image) . "'>";
+    echo "<input type='hidden' name='text_column' value='" . attr_safe($text_column) . "'>";
     // newline after <textarea> needed to prevent the text box from eating the first blank line
     echo "<textarea name='prev_text' id='text_data' cols=70 rows=10>\n";
     echo html_safe($prev_text);
