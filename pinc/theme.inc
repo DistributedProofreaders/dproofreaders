@@ -722,7 +722,7 @@ function show_tally_specific_stats(string $tally_name): void
 
     $site_stats = get_site_page_tally_summary($tally_name);
 
-    echo "<h2>" . sprintf(_("%s Site Statistics"), $tally_name) . "</h2>\n";
+    echo "<h2>" . sprintf(_("%s Site Statistics"), html_safe($tally_name)) . "</h2>\n";
 
     echo "<table style='width: 100%;'>";
     echo "<tr>";
@@ -748,7 +748,7 @@ function show_tally_specific_stats(string $tally_name): void
         sprintf(
             _('%1$s users with at least one %2$s page'),
             number_format($num_positive_users),
-            $tally_name
+            html_safe($tally_name)
         ),
     "\n";
 
@@ -786,23 +786,23 @@ function show_tally_specific_stats(string $tally_name): void
         echo "<p>\n";
         echo _("Your total site pages") . ": " . number_format($site_total) . "<br>\n";
         echo "<br>";
-        echo sprintf(_("%s Pages Yesterday"), $tally_name) . ": ";
+        echo sprintf(_("%s Pages Yesterday"), html_safe($tally_name)) . ": ";
         echo number_format($yesterday_page_delta)."<br>\n";
-        echo sprintf(_("%s Pages Today"), $tally_name) . ": ";
+        echo sprintf(_("%s Pages Today"), html_safe($tally_name)) . ": ";
         echo number_format($today_page_delta)."<br>\n";
-        echo sprintf(_("%s Pages Total"), $tally_name) . ": ";
+        echo sprintf(_("%s Pages Total"), html_safe($tally_name)) . ": ";
         echo number_format($current_tally)."<br>\n";
-        echo sprintf(_("%s Current Position"), $tally_name) . ": ";
+        echo sprintf(_("%s Current Position"), html_safe($tally_name)) . ": ";
         echo number_format($current_rank)."<br>\n";
-        echo sprintf(_("%s Current Rank"), $tally_name) . ": ";
+        echo sprintf(_("%s Current Rank"), html_safe($tally_name)) . ": ";
         echo "$rankname<br>\n";
         echo "</p>\n";
-        echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$user->u_id."&amp;tally_name=".$tally_name."'>" . $tally_name . " " .  _("Details...") . "</a></p>\n";
+        echo "<p class='more-link'><a href='$code_url/stats/members/mdetail.php?id=".$user->u_id."&amp;tally_name=".attr_safe($tally_name)."'>" . html_safe($tally_name) . " " .  _("Details...") . "</a></p>\n";
 
         // -------------------------------------------------------------
         //Show the Neighbor table if the user has requested so
         if ($user->u_neigh) {
-            echo "<h2>" . sprintf(_("Your %s Neighborhood"), $tally_name) . "</h2>\n";
+            echo "<h2>" . sprintf(_("Your %s Neighborhood"), html_safe($tally_name)) . "</h2>\n";
             echo "<p>\n";
 
             $neighbors =
