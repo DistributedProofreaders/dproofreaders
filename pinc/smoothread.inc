@@ -126,7 +126,7 @@ function sr_echo_commitment_form(string $projectid): void
     echo "<form method='post' style='display:inline' action='$code_url/tools/change_sr_commitment.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='action' value='commit'>\n";
-    echo "<input type='hidden' name='next_url' value='$next_url'>\n";
+    echo "<input type='hidden' name='next_url' value='" . attr_safe($next_url) . "'>\n";
     echo "<input type='submit' value='" . attr_safe($button_text) . "'>";
     echo "</form>\n";
 }
@@ -147,7 +147,7 @@ function sr_echo_withdrawal_form(string $projectid): void
     echo "<form method='post' style='display:inline' action='$code_url/tools/change_sr_commitment.php'>";
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='action' value='withdraw'>\n";
-    echo "<input type='hidden' name='next_url' value='$next_url'>\n";
+    echo "<input type='hidden' name='next_url' value='". attr_safe($next_url) . "'>\n";
     echo "<input type='submit' value='" . attr_safe($button_text) . "'>";
     echo "</form>\n";
 }
