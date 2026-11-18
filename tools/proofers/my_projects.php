@@ -66,7 +66,7 @@ output_header(get_usertext($page_header), NO_STATSBAR);
 
 projects_output_link_box($username);
 
-echo "<h1>" . get_usertext($page_header) . "</h1>";
+echo "<h1>" . html_safe(get_usertext($page_header)) . "</h1>";
 
 $allowed_stages = array_keys(get_stages_user_can_work_in($username));
 $can_view_post_processing = (in_array("PP", $allowed_stages) or in_array("PPV", $allowed_stages));
@@ -98,7 +98,7 @@ projects_show_page_menu($round_view_options, $round_view, $username, 'round_view
 if (mysqli_num_rows($res) == 0) {
     echo "<p>" . $round_view_options[$round_view]["text_none"] . "</p>";
 } else {
-    echo "<p>" . get_usertext($round_view_options[$round_view]) . "</p>";
+    echo "<p>" . html_safe(get_usertext($round_view_options[$round_view])) . "</p>";
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
@@ -239,7 +239,7 @@ $num_projects = mysqli_num_rows($res);
 if ($num_projects == 0) {
     echo "<p>" . $pool_view_options[$pool_view]["text_none"] . "</p>";
 } else {
-    echo "<p>" . get_usertext($pool_view_options[$pool_view]) . "</p>";
+    echo "<p>" . html_safe(get_usertext($pool_view_options[$pool_view])) . "</p>";
 
     echo "<table class='themed theme_striped' style='width: auto;'>";
 
@@ -260,7 +260,7 @@ if ($num_projects == 0) {
         echo "</td>\n";
 
         echo "<td>";
-        echo $project->username;
+        echo html_safe($project->username);
         echo "</td>\n";
 
         if (isset($colspecs['postproofer'])) {
