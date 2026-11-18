@@ -56,7 +56,7 @@ if (@$_REQUEST['confirmed'] == 'yes') {
 
     foreach ($selected_pages as $image => $setting) {
         // Ignore $setting, it's always 'on'.
-        echo _("Image"), "=$image:<br>\n";
+        echo _("Image"), "=" . html_safe($image) . ":<br>\n";
         $err = $page_func($projectid, $image);
         echo($err ?: _("success"));
         echo "<br>\n";
@@ -77,7 +77,7 @@ if (@$_REQUEST['confirmed'] == 'yes') {
     echo "<input type='hidden' name='projectid' value='$projectid'>\n";
     echo "<input type='hidden' name='operation' value='$operation'>\n";
     foreach ($selected_pages as $image => $setting) {
-        echo "<input type='hidden' name='selected_pages[$image]' value='$setting'>\n";
+        echo "<input type='hidden' name='selected_pages[" . attr_safe($image) . "]' value='" . attr_safe($setting) . "'>\n";
     }
     echo "<input type='hidden' name='confirmed' value='yes'>\n";
     echo "<input type='submit' value='" . attr_safe(_("Do it")) . "'>\n";
