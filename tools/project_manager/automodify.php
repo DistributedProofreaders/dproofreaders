@@ -40,5 +40,5 @@ if (!$one_project) {
     autorelease();
     echo "</pre>\n";
 } else {
-    echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=$refresh_url\">";
+    echo "<META HTTP-EQUIV=\"refresh\" CONTENT=\"0 ;URL=" . attr_safe($refresh_url) . "\">";
 }
