@@ -273,7 +273,7 @@ class ImageSource
     public function show_edit_form(): void
     {
         global $page_url;
-        echo "<form method='post' action='$page_url&amp;action=update_oneshot#$this->code_name'>\n";
+        echo "<form method='post' action='" . attr_safe("$page_url&action=update_oneshot#$this->code_name") . "'>\n";
         echo "<table class='image_source'>\n";
 
         if ($this->new_source) {
@@ -499,7 +499,7 @@ class ImageSource
     private function _show_summary_row(string $label, string $value, bool $htmlspecialchars = true): void
     {
         echo "  <tr>" .
-            "<th class='label'>$label</th>" .
+            "<th class='label'>" . html_safe($label) . "</th>" .
             "<td>" . ($htmlspecialchars ? html_safe($value) : $value) . "</td>" .
             "</tr>\n";
     }
