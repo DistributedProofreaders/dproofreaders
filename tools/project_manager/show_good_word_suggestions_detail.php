@@ -57,13 +57,13 @@ echo "<h2>",
 sprintf(
     // TRANSLATORS: %1$s is a word and %2$s is a project name.
     _("Suggestion context for '%1\$s' in %2\$s"),
-    $word,
-    $project_name
+    html_safe($word),
+    html_safe($project_name)
 ),
 "</h2>";
 
 echo "<p>";
-echo "<a href='show_word_context.php?projectid=$projectid&amp;word=$encWord'>" .
+echo "<a href='" . attr_safe("show_word_context.php?projectid=$projectid&word=$encWord") . "'>" .
       _("Show full context set for this word") . "</a>";
 
 echo " | ";
