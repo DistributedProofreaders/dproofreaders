@@ -20,7 +20,7 @@ echo "<p>" . sprintf(
     _('Rules from document \'%1$s\' for langcode \'%2$s\'.'),
     RandomRule::$document_values[$document],
     html_safe($langcode)
-) . "</hp>";
+) . "</p>";
 
 $count = 0;
 foreach (RandomRule::get_rules($document, $langcode) as $rule) {
