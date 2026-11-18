@@ -345,9 +345,9 @@ function do_upload(): void
         if (is_file($temporary_path)) {
             @unlink($temporary_path);
         }
-        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo "<p class='error'>", html_safe($e->getMessage()), "</p>\n";
     } catch (NoFileUploadedException $e) {
-        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo "<p class='error'>", html_safe($e->getMessage()), "</p>\n";
     }
     show_return_link();
 }
@@ -378,7 +378,7 @@ function do_mkdir(): string
     $new_dir_name = @$_POST['new_dir_name'];
 
     if (!is_valid_dirname($new_dir_name)) {
-        fatal_error(sprintf(_("Invalid folder name: %s."), $new_dir_name));
+        fatal_error(sprintf(_("Invalid folder name: %s."), html_safe($new_dir_name)));
     }
 
     // XXX For 'common' users, are new subfolders auto-prefixed with their username?
@@ -442,7 +442,7 @@ function do_rename(): string
 
     if (is_file($item_path)) {
         if (!is_valid_filename($new_item_name)) {
-            fatal_error(sprintf(_("Invalid new item name: %s."), $new_item_name));
+            fatal_error(sprintf(_("Invalid new item name: %s."), html_safe($new_item_name)));
         }
 
         // Don't let them change the extension (much).
@@ -453,7 +453,7 @@ function do_rename(): string
         }
     } else {
         if (!is_valid_dirname($new_item_name)) {
-            fatal_error(sprintf(_("Invalid new item name: %s."), $new_item_name));
+            fatal_error(sprintf(_("Invalid new item name: %s."), html_safe($new_item_name)));
         }
     }
 
@@ -1059,7 +1059,7 @@ function get_message(string $type, string $message): string
         $prefix = _("Info") . ":";
         $class = "remote-file-mgr-info";
     }
-    return "<div class='$class'><b>$prefix</b> $message</div>\n";
+    return "<div class='$class'><b>$prefix</b>" . ($message) . "</div>\n";
 }
 
 function show_message(string $type, string $message): void
