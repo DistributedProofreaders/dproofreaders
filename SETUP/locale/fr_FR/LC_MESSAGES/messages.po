@@ -22520,7 +22520,7 @@ msgstr ""
 
 #: tools/site_admin/displayrandrules.php:21
 #, php-format
-msgid "Rules from document %1$s for langcode %2$s."
+msgid "Rules from document '%1$s' for langcode '%2$s'."
 msgstr ""
 
 #: tools/site_admin/edit_mail_address_for_non_activated_user.php:16
