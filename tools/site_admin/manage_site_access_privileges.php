@@ -65,7 +65,7 @@ if ($username) {
     $user_settings = & Settings::get_Settings($username);
 
     echo "<hr>";
-    echo "<h2>$username ($user->real_name)</h2>";
+    echo "<h2>" . html_safe($username) ." (" . html_safe($user->real_name) . ")</h2>";
 
     if ($action == "update") {
         update_settings($user, $user_settings);
@@ -81,7 +81,7 @@ function show_toggles_form(?string $username, Settings $user_settings): void
     global $boolean_user_settings, $value_user_settings, $freeform_user_settings;
 
     echo "<form method='POST'>\n";
-    echo "<input type='hidden' name='username' value='$username'>\n";
+    echo "<input type='hidden' name='username' value='" . attr_safe($username) . "'>\n";
     echo "<input type='hidden' name='action' value='update'>\n";
     echo "<table class='basic'>\n";
     {
@@ -140,7 +140,7 @@ function show_toggles_form(?string $username, Settings $user_settings): void
         echo "<td></td>";
         echo "<td>$setting_name</td>\n";
         echo "<td>$setting_description<br>\n";
-        echo "<input type='text' name='$setting_name' value='" . attr_safe($user_current_value) . "'>";
+        echo "<input type='text' name='" . attr_safe($setting_name) . "' value='" . attr_safe($user_current_value) . "'>";
         echo "</td>";
         echo "</tr>";
     }
@@ -204,11 +204,11 @@ function update_settings(User $user, Settings $user_settings): void
         echo "<ul>\n";
         if ($which == 'set') {
             foreach ($setting_names as $setting => $value) {
-                echo "<li>$setting = $value</li>";
+                echo "<li>" . html_safe($setting) . " = " . html_safe($value) . "</li>";
             }
         } else {
             foreach ($setting_names as $setting_name) {
-                echo "<li>$setting_name</li>\n";
+                echo "<li>" . html_safe($setting_name) . "</li>\n";
             }
         }
 
