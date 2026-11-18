@@ -52,7 +52,7 @@ while ([$fileid, $image] = mysqli_fetch_row($res)) {
 
 // -----------
 
-$submit_button = $_POST['submit_button'] ?? '';
+$submit_button = get_enumerated_param($_POST, 'submit_button', '', ['', 'Check renamings', 'Do renamings']);
 
 switch ($submit_button) {
     case '':
@@ -112,7 +112,7 @@ switch ($submit_button) {
             $n_matches = preg_match('/^(\D*)(\d+)(\D*)$/', $start_str, $matches);
             if ($n_matches == 0) {
                 echo "<p class='error'>";
-                echo "Starting name '$start_str' is invalid.\n";
+                echo "Starting name '" . html_safe($start_str) . "' is invalid.\n";
                 echo "Please hit 'Back' and fix.\n";
                 echo "</p>";
                 return;
@@ -301,13 +301,7 @@ switch ($submit_button) {
         $for_real = true;
 
         $new_fileid_for_ = get_requested_name_mapping();
-        $direction = $_POST['direction'] ?? '';
-
-        if (empty($direction)) {
-            die("direction param is empty");
-        } elseif ($direction != 'forward' && $direction != 'backward') {
-            die("direction param is '$direction'");
-        }
+        $direction = get_enumerated_param($_POST, 'direction', null, ['forward', 'backward']);
 
         echo "<pre>";
 
@@ -353,7 +347,7 @@ switch ($submit_button) {
                     DPDatabase::escape($old_fileid),
                     DPDatabase::escape($old_image)
                 );
-                echo $project_query;
+                echo html_safe($project_query);
                 if ($for_real) {
                     DPDatabase::query($project_query);
                     $n = DPDatabase::affected_rows();
@@ -378,7 +372,7 @@ switch ($submit_button) {
                     DPDatabase::escape($projectid),
                     DPDatabase::escape($old_image)
                 );
-                echo $wce_query;
+                echo html_safe($wce_query);
                 if ($for_real) {
                     DPDatabase::query($wce_query);
                     $n = DPDatabase::affected_rows();
@@ -398,7 +392,7 @@ switch ($submit_button) {
                     DPDatabase::escape($projectid),
                     DPDatabase::escape($old_image)
                 );
-                echo $fpe_query;
+                echo html_safe($fpe_query);
                 if ($for_real) {
                     DPDatabase::query($fpe_query);
                     $n = DPDatabase::affected_rows();
@@ -418,7 +412,7 @@ switch ($submit_button) {
                     DPDatabase::escape($projectid),
                     DPDatabase::escape($old_image)
                 );
-                echo $pe_query;
+                echo html_safe($pe_query);
                 if ($for_real) {
                     DPDatabase::query($pe_query);
                     $n = DPDatabase::affected_rows();
@@ -448,10 +442,6 @@ switch ($submit_button) {
             }
         }
         echo "</pre>";
-        break;
-
-    default:
-        echo "Whaaaa? submit_button='$submit_button'";
         break;
 }
 
