@@ -108,8 +108,8 @@ switch ($action) {
         );
 
         echo "<hr>\n";
-        $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&amp;show_image_size=0";
-        echo sprintf(_("<p><a href='%s'>Go to destination project's detail page</a></p>\n"), $url);
+        $url = "$code_url/tools/project_manager/page_detail.php?project={$projectid_['to']}&show_image_size=0";
+        echo sprintf(_("<p><a href='%s'>Go to destination project's detail page</a></p>\n"), attr_safe($url));
         echo "<form method='post'>\n";
         echo "<fieldset>\n";
         echo "<legend>" . _("Copy more pages...") . "</legend>";
@@ -417,7 +417,7 @@ function copy_pages(
             $n_pages_to_copy = 1 + $hi_i - $lo_i;
 
             echo "<p>";
-            echo sprintf(_('Pages to copy: %1$s &ndash; %2$s'), $lo, $hi);
+            echo sprintf(_('Pages to copy: %1$s &ndash; %2$s'), html_safe($lo), html_safe($hi));
             echo " " . sprintf(_("(%d pages)"), $n_pages_to_copy);
             echo "</p>\n";
         }
