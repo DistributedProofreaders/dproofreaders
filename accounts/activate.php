@@ -94,7 +94,7 @@ if ($create_user_status !== true) {
     echo "\n";
     echo sprintf(
         _("Please include the account activation code %s in your email for assistance."),
-        $reg_token
+        html_safe($reg_token)
     );
     echo "</p>\n";
     exit;
@@ -141,7 +141,7 @@ DPDatabase::query($refString);
 send_welcome_mail($user->email, $user->real_name, $user->username);
 
 echo "<p>";
-printf(_("User %s activated successfully."), $user->username);
+printf(_("User %s activated successfully."), html_safe($user->username));
 echo " ";
 
 // TRANSLATORS: %s is the site name
