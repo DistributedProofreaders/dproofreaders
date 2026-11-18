@@ -13,12 +13,12 @@ $user = new User($subject_username);
 
 [$can_grant, $can_revoke] = user_can_modify_access_of($subject_username);
 if (!$can_grant && !$can_revoke) {
-    die("Error: you are not permitted to modify the access of user '$subject_username'.");
+    die("Error: you are not permitted to modify the access of user '" . html_safe($subject_username) . "'.");
 }
 
 slim_header(_("Modify Access"));
 
-echo "subject_username='$subject_username'<br>\n";
+echo "subject_username='" . html_safe($subject_username) . "'<br>\n";
 
 // so we don't hit them in the following loop
 unset($_POST['subject_username']);
@@ -26,34 +26,38 @@ unset($_POST['notify_user']);
 
 $actions = [];
 foreach ($_POST as $name => $value) {
+    $safe_name = html_safe($name);
+    $safe_value = html_safe($value);
     echo "<br>\n";
-    echo "Considering '$name' => '$value'<br>\n";
+    echo "Considering '$safe_name' => '$safe_value'<br>\n";
 
     if ($value != 'on') {
-        die("Error: unexpected value in parameter '$name' => '$value'");
+        die("Error: unexpected value in parameter '$safe_name' => '$safe_value'");
     }
 
     $a = explode('|', $name);
     if (count($a) != 2) {
-        die("Error: bad parameter name '$name'");
+        die("Error: bad parameter name '$safe_name'");
     }
 
     [$activity_id, $action_type] = $a;
+    $safe_activity_id = html_safe($activity_id);
+    $safe_action_type = html_safe($action_type);
 
     if (!in_array($action_type, ['grant', 'revoke', 'deny_request_for'])) {
-        die("Error: bad parameter name '$name'");
+        die("Error: bad parameter name '$safe_name'");
     }
 
     $activity = Activities::get_by_id($activity_id);
     if (is_null($activity)) {
-        die("Error: no activity named '$activity_id'");
+        die("Error: no activity named '$safe_activity_id'");
     }
 
     // Okay, it's a meaningful action.
-    echo "    i.e., $action_type access to/from $activity_id<br>\n";
+    echo "    i.e., $safe_action_type access to/from $safe_activity_id<br>\n";
 
     if (array_key_exists($activity_id, $actions)) {
-        die("Error: You have more than one modification for $activity_id");
+        die("Error: You have more than one modification for $safe_activity_id");
     }
 
     if ($action_type == 'grant' && !$can_grant) {
@@ -70,14 +74,14 @@ foreach ($_POST as $name => $value) {
 
     if ($action_type == 'grant') {
         if ($uao->can_access) {
-            die("Error: The user already has access to $activity_id");
+            die("Error: The user already has access to $safe_activity_id");
         }
         if ($uao->request_status == 'sat-denied' || $uao->request_status == 'unsat-denied') {
-            die("Error: The user has been denied access to $activity_id");
+            die("Error: The user has been denied access to $safe_activity_id");
         }
     } elseif ($action_type == 'revoke') {
         if (!$uao->can_access) {
-            die("Error: The user does not have access to $activity_id");
+            die("Error: The user does not have access to $safe_activity_id");
         }
 
         if ($uao->request_status == 'sat-unneeded') {
@@ -89,15 +93,15 @@ foreach ($_POST as $name => $value) {
         }
     } elseif ($action_type == 'deny_request_for') {
         if ($uao->can_access) {
-            die("Error: The user already has access to $activity_id");
+            die("Error: The user already has access to $safe_activity_id");
         }
 
         if ($uao->request_status != 'sat-requested'
           && $uao->request_status != 'unsat-requested') {
-            die("Error: The user hasn't requested access to $activity_id");
+            die("Error: The user hasn't requested access to $safe_activity_id");
         }
     } else {
-        throw new UnexpectedValueException("Unexpected action_type $action_type");
+        throw new UnexpectedValueException("Unexpected action_type $safe_action_type");
     }
 
     // And it's an action hat is valid for the subject user at the current time.
@@ -132,7 +136,7 @@ foreach ($actions as $activity_id => $action_type) {
 echo "<br>\n";
 echo "Done<br>\n<br>\n";
 if ($notify_user) {
-    echo "Notifying user... ".notify_user($user, $actions)."<br>\n<br>\n";
+    echo "Notifying user... " . html_safe(notify_user($user, $actions)) . "<br>\n<br>\n";
 }
 echo "Hit 'Back' to return to user's detail page. (And you may need to reload.)<br>\n";
 
