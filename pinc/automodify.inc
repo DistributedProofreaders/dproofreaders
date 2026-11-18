@@ -135,7 +135,7 @@ function automodify(?string $projectid = null): void
             try {
                 $res = DPDatabase::query($sql);
             } catch (DBQueryError $error) {
-                echo $error->getMessage() . "\n";
+                echo html_safe($error->getMessage()) . "\n";
                 echo "Skipping further processing of this project.\n";
                 continue;
             }
