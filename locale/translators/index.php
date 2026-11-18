@@ -137,7 +137,7 @@ elseif ($func == "newtranslation2") {
             . _("Manage translation") . "</a></p>";
     } catch (Exception $exception) {
         echo "<p>" . _("An error occurred during translation initialization.") ."</p>";
-        echo "<pre>" . $exception->getMessage() . "</pre>";
+        echo "<pre>" . html_safe($exception->getMessage()) . "</pre>";
     }
 
     echo "<p><a href='$translate_url'>"
@@ -398,7 +398,7 @@ function manage_form(string $locale): void
         echo "<h2>" . _("Update PO with current template") . "</h2>";
 
         echo "<form action='$translate_url?func=merge' method='POST'>";
-        echo "<input type='hidden' name='locale' value='$locale'>";
+        echo "<input type='hidden' name='locale' value='" . attr_safe($locale) . "'>";
         echo "<p>" . _("Run <code>msgmerge</code> to update the current PO file against the current template to pick up new strings that need translation.") . "</p>\n";
         echo "<input type='checkbox' name='fuzzy' checked> "
             . _("Do fuzzy matching when an exact match is not found (can be much slower but more accurate)") . "<br>" ;
@@ -414,7 +414,7 @@ function manage_form(string $locale): void
     echo "<p>" . _("This replaces the current PO file with the file you provide, and installs the translation for use by the site. Strings marked as \"fuzzy\" are not included in the new translation catalog. Be sure your PO file does not have any marked as fuzzy that you want used.") . "</p>";
 
     echo "<form action='$translate_url?func=upload' method='POST' enctype='multipart/form-data'>\n";
-    echo "<input type='hidden' name='locale' value='$locale'>";
+    echo "<input type='hidden' name='locale' value='" . attr_safe($locale) . "'>";
     echo _("Select a PO file to upload:") . " ";
     echo "<input type='file' name='userfile'><br>\n";
     echo "<input type='submit' value='"
@@ -425,7 +425,7 @@ function manage_form(string $locale): void
         echo "<br><br>";
         echo "<h2>" . _("Site administrator functions") . "</h2>";
         echo "<form action='$translate_url?func=changeenable' method='POST'>";
-        echo "<input type='hidden' name='locale' value='$locale'>";
+        echo "<input type='hidden' name='locale' value='" . attr_safe($locale) . "'>";
         if ($translation_enabled) {
             $checkbox_state = "checked";
         } else {
@@ -437,7 +437,7 @@ function manage_form(string $locale): void
         echo "</form>\n";
 
         echo "<form action='$translate_url?func=delete' method='POST'>";
-        echo "<input type='hidden' name='locale' value='$locale'>";
+        echo "<input type='hidden' name='locale' value='" . attr_safe($locale) . "'>";
         $confirm = javascript_safe(
             _("Are you sure you want to delete this locale and its translation file?")
         );
@@ -560,7 +560,7 @@ function validate_locale(?string $locale, bool $check_dir_exists = true): string
         !(in_array($locale, get_installed_system_locales()) ||
         is_dir("$dyn_locales_dir/$locale")) ||
         ($check_dir_exists && !is_dir("$dyn_locales_dir/$locale"))) {
-        die(sprintf(_("locale %s is not valid"), $locale));
+        die(sprintf(_("locale %s is not valid"), html_safe($locale)));
     }
     return $locale;
 }
