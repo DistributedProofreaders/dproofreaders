@@ -191,7 +191,7 @@ if (!isset($action)) {
 
         show_upload_form($form_content, $submit_label);
     } catch (FileUploadException $e) {
-        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo "<p class='error'>", html_safe($e->getMessage()), "</p>\n";
         foreach ($error_messages as $message) {
             echo "<p class='error'>$message</p>";
         }
@@ -284,7 +284,7 @@ if (!isset($action)) {
         echo "<p>$msg</p>";
         echo $return_message;
     } catch (FileUploadException $e) {
-        echo "<p class='error'>", $e->getMessage(), "</p>\n";
+        echo "<p class='error'>", html_safe($e->getMessage()), "</p>\n";
         echo return_to_project_page_link($projectid) . "\n";
     }
 }
