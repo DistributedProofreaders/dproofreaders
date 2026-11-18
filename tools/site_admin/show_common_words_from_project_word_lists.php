@@ -13,12 +13,12 @@ if (!(user_is_a_sitemanager() || user_is_proj_facilitator())) {
 
 
 // fetch any data sent our way.
-$action = $_REQUEST["action"] ?? "list";
+$action = get_enumerated_param($_REQUEST, 'action', 'list', ['show', 'list']);
 $language = $_REQUEST["language"] ?? "";
 $language = urldecode($language);
-$list_type = $_REQUEST["list_type"] ?? "";
-$cutoff = $_REQUEST["cutoff"] ?? 25;
-$lang_match = $_REQUEST["lang_match"] ?? "primary";
+$list_type = get_enumerated_param($_REQUEST, 'list_type', 'good', ['good', 'bad']);
+$cutoff = get_integer_param($_REQUEST, 'cutoff', 25, min: 0, max: 100);
+$lang_match = get_enumerated_param($_REQUEST, 'lang_match', 'primary', ['any', 'primary', 'exact']);
 
 $title = _("Show common words from project word lists");
 
@@ -133,19 +133,16 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             // figure out what kind of language matching we're going to use
             switch ($lang_match) {
                 case "exact":
-                    $where_clause = "language = '$language'";
+                    $where_clause = "language = '" . DPDatabase::escape($language) . "'";
                     break;
 
                 case "primary":
-                    $where_clause = "language like '$language%'";
+                    $where_clause = "language like '" . DPDatabase::escape_like_wildcards($language) . "%'";
                     break;
 
                 case "any":
-                    $where_clause = "language like '%$language%'";
+                    $where_clause = "language like '%" . DPDatabase::escape_like_wildcards($language) . "%'";
                     break;
-
-                default:
-                    die("Unknown language match used: $lang_match");
             }
 
             // loop through all projects that use $language
@@ -181,8 +178,8 @@ function _handle_action($action, $list_type, $language, $cutoff, $lang_match)
             // show the results
             echo "<pre>";
             echo _("Language") . ": $language<br>";
-            echo sprintf(_("Language match type: %s"), $lang_match) . "<br>";
-            echo sprintf(_("Word list type: %s"), $list_type) . "<br>";
+            echo sprintf(_("Language match type: %s"), html_safe($lang_match)) . "<br>";
+            echo sprintf(_("Word list type: %s"), html_safe($list_type)) . "<br>";
             echo sprintf(_("Cutoff percentage: %d%%"), $cutoff) . "<br>";
             echo sprintf(_("Total projects matching language: %d"), $total_projects) . "<br>";
             echo sprintf(_("Total projects with word lists: %d"), $total_projects_with_words) . "<br>";
