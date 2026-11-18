@@ -112,7 +112,7 @@ if (isset($_POST['saveAndQuit']) || isset($_POST['saveAndProject']) || isset($_P
 
     if ($fatal_error != '') {
         $fatal_error = _('Error') . ': ' . $fatal_error;
-        echo "<p class='error'>$fatal_error</p>";
+        echo "<p class='error'>" . html_safe($fatal_error) . "</p>";
         exit;
     }
 
@@ -454,7 +454,7 @@ class ProjectInfoHolder
         global $return;
 
         if (!empty($this->original_marc_array_encd)) {
-            echo "<input type='hidden' name='rec' value='$this->original_marc_array_encd'>";
+            echo "<input type='hidden' name='rec' value='" . attr_safe($this->original_marc_array_encd) . "'>";
         }
         if ($this->posted) {
             echo "<input type='hidden' name='posted' value='1'>";
@@ -467,7 +467,7 @@ class ProjectInfoHolder
             echo "<input type='hidden' name='hold_states' value='" . $this->serialize($this->hold_states) . "'>";
         }
         echo "<input type='hidden' name='comment_format' value='{$this->project->comment_format}'>";
-        echo "<input type='hidden' name='return' value='$return'>";
+        echo "<input type='hidden' name='return' value='" . attr_safe($return) . "'>";
     }
 
     // -------------------------------------------------------------------------
@@ -597,7 +597,7 @@ class ProjectInfoHolder
         echo "<tr><th>", _("Author"), "</th><td>", html_safe($this->project->authorsname), "</td></tr>\n";
         if (user_is_a_sitemanager()) {
             // SAs are the only ones who can change this.
-            echo "<tr><th>", _("Project Manager"), "</th><td>", $this->project->username, "</td></tr>\n";
+            echo "<tr><th>", _("Project Manager"), "</th><td>", html_safe($this->project->username), "</td></tr>\n";
         }
         echo "<tr><th>", _("Last Proofread"), "</th><td>$now</td></tr>\n";
         echo "<tr><th>", _("Forum"), "</th><td>", _("Start a discussion about this project"), "</td></tr>\n";
