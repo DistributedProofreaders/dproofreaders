@@ -903,8 +903,8 @@ function _show_credit_name_adhoc(): void
 
     _show_dropdown('credit_name', $credit_name_value, $credit_options);
 
-    $credit_other_value = attr_safe($userSettings->get_value('credit_other', ''));
-    echo " <input type='text' name='credit_other' id='credit_other' value='$credit_other_value'>\n";
+    $safe_credit_other_value = attr_safe($userSettings->get_value('credit_other', ''));
+    echo " <input type='text' name='credit_other' id='credit_other' value='$safe_credit_other_value'>\n";
 }
 
 // ---------------------------------------------------------
