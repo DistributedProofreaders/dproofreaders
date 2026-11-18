@@ -31,7 +31,7 @@ if ($username) {
     }
 
     echo "<hr>";
-    echo "<h2>$username ($user->real_name)</h2>";
+    echo "<h2>" . html_safe($username) . " (" . html_safe($user->real_name) . ")</h2>";
 
     if ($action == "logout") {
         delete_user_sessions($username);
