@@ -45,6 +45,6 @@ try {
     slim_header($title);
     echo "<h1>$title</h1>";
     echo "<h2>", sprintf("Project: %s", html_safe($project->nameofwork)), "</h2>";
-    echo "<p class='error'>", $e->getMessage(), "</p>\n";
+    echo "<p class='error'>", html_safe($e->getMessage()), "</p>\n";
     echo return_to_project_page_link($projectid, $query_param, $anchor_link);
 }
