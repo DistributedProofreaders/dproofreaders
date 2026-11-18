@@ -80,7 +80,7 @@ if ($rel_source == '') {
 $abs_source = SiteConfig::get()->uploads_dir . "/$rel_source";
 
 if (!file_exists($abs_source)) {
-    die("source does not exist: $abs_source");
+    die("source does not exist: " . html_safe($abs_source));
 }
 
 if (str_ends_with($abs_source, ".zip")) {
@@ -688,8 +688,8 @@ class Loader
         echo "<p><b>";
         echo sprintf(
             _('Loading files from %1$s into project %2$s'),
-            $this->source_project_dir,
-            $this->projectid
+            html_safe($this->source_project_dir),
+            html_safe($this->projectid)
         );
         echo "</b></p>\n";
         echo "<p>\n";
