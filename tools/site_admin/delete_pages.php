@@ -151,6 +151,8 @@ function delete_pages(?string $projectid, ?array $from_image_, bool $just_checki
 
     $lo = trim($from_image_['lo']);
     $hi = trim($from_image_['hi']);
+    $safe_lo = html_safe($lo);
+    $safe_hi = html_safe($hi);
 
     if ($lo == '' && $hi == '') {
         die("no pages specified for deletion");
@@ -158,21 +160,21 @@ function delete_pages(?string $projectid, ?array $from_image_, bool $just_checki
         $hi = $lo;
     }
 
-    echo "    pages to delete: $lo - $hi\n";
+    echo "    pages to delete: $safe_lo - $safe_hi\n";
 
     $lo_i = array_search($lo, $all_image_values);
     $hi_i = array_search($hi, $all_image_values);
 
     if ($lo_i === false) {
-        die("project does not have a page with image='$lo'");
+        die("project does not have a page with image='$safe_lo'");
     }
 
     if ($hi_i === false) {
-        die("project does not have a page with image='$hi'");
+        die("project does not have a page with image='$safe_hi'");
     }
 
     if ($lo_i > $hi_i) {
-        die("low end of range ($lo) is greater than high end ($hi)");
+        die("low end of range ($safe_lo) is greater than high end ($safe_hi)");
     }
 
     $n_pages_to_delete = 1 + $hi_i - $lo_i;
