@@ -188,7 +188,12 @@ $res2 = DPDatabase::query($sql);
 // There are two codepaths below that result in the project not showing up in
 // either listing.
 echo "<h2>";
-echo sprintf(_('Projects with pages saved in <b>%1$s</b> by <b>%2$s</b> within the last <b>%3$d</b> days'), $work_round->id, $username, $days);
+echo sprintf(
+    _('Projects with pages saved in <b>%1$s</b> by <b>%2$s</b> within the last <b>%3$d</b> days'),
+    html_safe($work_round->id),
+    html_safe($username),
+    $days
+);
 echo "</h2>";
 
 // ---------------------------------------------
@@ -252,7 +257,7 @@ $projects_done = []; // the projects that we've done rows for
 // go through the list of projects with pages saved in the work round, according
 // to the page_events table
 while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save] = mysqli_fetch_row($res2)) {
-    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=" . $work_round->id;
+    $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&select_by_user=$username&aselect_by_round=" . $work_round->id;
 
     // if the project has been deleted, find out whether it was merged into another one
     // and if so, operate on the one it was merged into
@@ -266,7 +271,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         (1 == preg_match('/\b(projectID[0-9a-f]{13})\b/', $deletion_reason, $matches))) {
         $deleted_projectid = $projectid;
         $projectid = $matches[0];
-        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&amp;select_by_user=$username&amp;select_by_round=" . $work_round->id;
+        $url = "$code_url/tools/project_manager/page_detail.php?project=$projectid&select_by_user=$username&select_by_round=" . $work_round->id;
         $deleted_state = $state;
         $deleted_nameofwork = $nameofwork;
         $deleted_url = "$code_url/tools/project_manager/project.php?id=$deleted_projectid";
@@ -275,9 +280,9 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         $nameofwork = $project->nameofwork;
         // OK, the information is now all for the project that the deleted one was merged into
         $messages[] = [
-            "<a href='$deleted_url'>" . html_safe($deleted_nameofwork) . "</a>",
+            "<a href='" . attr_safe($deleted_url) . "'>" . html_safe($deleted_nameofwork) . "</a>",
             $deleted_state,
-            sprintf(_("Merged into %s"), "<a href='$url'>" . html_safe($nameofwork) . "</a>"),
+            sprintf(_("Merged into %s"), "<a href='" . attr_safe($url) . "'>" . html_safe($nameofwork) . "</a>"),
             MESSAGE_INFO,
         ];
     }
@@ -296,7 +301,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     if (!does_project_page_table_exist($projectid)) {
         // table doesn't exist. We are not interested.
         $messages[] = [
-            "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+            "<a href='" . attr_safe($url) . "'>" . html_safe($nameofwork) . "</a>",
             $state,
             _("Page information no longer available"),
             MESSAGE_ERROR,
@@ -342,7 +347,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     if (null == $max_done_timestamp) {
         // hasn't finished the work round. We are not interested.
         $messages[] = [
-            "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+            "<a href='" . attr_safe($url) . "'>" . html_safe($nameofwork) . "</a>",
             $state,
             sprintf(_("Has not finished %s"), $work_round->id),
             MESSAGE_INFO,
@@ -369,7 +374,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     if (0 == $done_in_rround) {
         // hasn't been proofread in review round. We are not interested.
         $messages[] = [
-            "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+            "<a href='" . attr_safe($url) . "'>" . html_safe($nameofwork) . "</a>",
             $state,
             sprintf(_('Has not been proofread in %1$s (%2$d pages worked on)'), $review_round->id, $pages_worked_in_review_round),
             MESSAGE_INFO,
@@ -406,7 +411,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
         // need to be re-introduced once we limit the projects to ones that the user has
         // actually worked on in the work round
         // $messages[] = [
-        //     "<a href='$url'>" . html_safe($nameofwork) . "</a>",
+        //     "<a href='" . attr_safe($url) . "'>" . html_safe($nameofwork) . "</a>",
         //     $state,
         //     sprintf(_("Has not been proofread in %s"), $review_round->id),
         //     MESSAGE_INFO,
@@ -451,7 +456,7 @@ while ([$projectid, $state, $nameofwork, $deletion_reason, $time_of_latest_save]
     $total_n_w_diff += $n_with_diff;
 
     echo "<tr>";
-    echo "<td><a href='$url'>" . html_safe($nameofwork) . "</a></td>";
+    echo "<td><a href='" . attr_safe($url) . "'>" . html_safe($nameofwork) . "</a></td>";
     echo "<td nowrap>";
     echo get_medium_label_for_project_state($state);
     echo "</td>";
