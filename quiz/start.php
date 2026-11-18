@@ -64,8 +64,8 @@ elseif (($so = ($_GET['show_only']) ?? null) &&
         echo "<div id='linkbox'>";
         echo "<form action='#' method='get'><p>";
         echo _("See results for another user") . "<br>";
-        echo "<input type='hidden' name='show_only' value='$activity_type' required>";
-        echo "<input type='text' name='username' value='$username' autocapitalize='none' required>";
+        echo "<input type='hidden' name='show_only' value='" . attr_safe($activity_type) . "' required>";
+        echo "<input type='text' name='username' value='" . attr_safe($username) . "' autocapitalize='none' required>";
         echo "<input type='submit' value='" . attr_safe(_("Refresh")) . "'>";
         echo "</p></form>\n";
         echo "</div>";
@@ -74,7 +74,7 @@ elseif (($so = ($_GET['show_only']) ?? null) &&
     echo $intro['head'];
 
     if ($username != $pguser) {
-        echo "<p>" . sprintf(_("Showing quiz results for user <b>%s</b>."), $username) . "</p>";
+        echo "<p>" . sprintf(_("Showing quiz results for user <b>%s</b>."), html_safe($username)) . "</p>";
     }
 
     $levels_for_current_type = [];
