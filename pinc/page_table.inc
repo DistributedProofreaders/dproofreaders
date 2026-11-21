@@ -206,8 +206,10 @@ function fetch_page_table_data(Project $project, $page_selector = null, ?Round $
         }
     } else {
         // $page_selector is an array whose keys are imagenames of the pages to select
-        $imagenames_str = surround_and_join(array_keys($page_selector), "'", "'", ",");
-        $where_condition = "image IN ($imagenames_str)";
+        $escaped_imagenames = array_map(DPDatabase::escape(...), array_keys($page_selector));
+        $where_condition = "image IN (" .
+            surround_and_join($escaped_imagenames, "'", "'", ",") .
+            ")";
     }
 
     $sql = "
