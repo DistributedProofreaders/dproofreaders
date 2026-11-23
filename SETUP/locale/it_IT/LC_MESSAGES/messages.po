@@ -4837,17 +4837,6 @@ msgstr "Esci"
 msgid "No more teams available."
 msgstr "Squadre al completo."
 
-#: stats/teams/teams_xml.php:13
-#: stats/members/mbr_xml.php:15
-#: stats/members/mbr_xml.php:26
-msgid "Error!"
-msgstr "Errore!"
-
-#: stats/teams/teams_xml.php:15
-#, php-format
-msgid "A team id must specified in the following format: %s"
-msgstr ""
-
 #: stats/release_queue.php:29
 #: tools/proofers/round.php:130
 msgid "Release Queues"
@@ -5036,16 +5025,6 @@ msgstr ""
 #: stats/pp_stats.php:75
 msgid "Pages Posted to PG"
 msgstr ""
-
-#: stats/members/mbr_xml.php:17
-#, php-format
-msgid "A username must specified in the following format: %s"
-msgstr "Il nome utente va specificato nel seguente formato: %s"
-
-#: stats/members/mbr_xml.php:28
-#, php-format
-msgid "User '%s' does not exist."
-msgstr "L'utente '%s' non esiste."
 
 #: stats/members/mdetail.php:41
 #, php-format

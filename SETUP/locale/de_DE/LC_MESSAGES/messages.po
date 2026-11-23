@@ -4643,7 +4643,7 @@ msgstr "Kann nicht existierendes Profil nicht löschen"
 #: pinc/abort.inc:7 pinc/project_quick_check.inc:23
 #: pinc/project_quick_check.inc:84 pinc/project_quick_check.inc:249
 #: pinc/project_quick_check.inc:513 pinc/project_quick_check.inc:677
-#: pinc/project_quick_check.inc:685 stats/teams/teams_xml.php:14
+#: pinc/project_quick_check.inc:685
 #: tools/changestate.php:128 tools/project_manager/add_files.php:743
 #: tools/project_manager/editproject.php:114
 #: tools/project_manager/remote_file_manager.php:1058
@@ -16568,11 +16568,6 @@ msgstr "Neues Team erstellen"
 #, php-format
 msgid "%s Statistics"
 msgstr "%s Statistiken"
-
-#: stats/teams/teams_xml.php:16
-#, php-format
-msgid "A team id must specified in the following format: %s"
-msgstr "Eine Team-ID muss im folgenden Format angegeben werden: %s"
 
 #: stats/teams/tedit.php:32
 msgid "Authorization Failed"

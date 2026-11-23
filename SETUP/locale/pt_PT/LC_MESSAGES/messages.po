@@ -5044,21 +5044,6 @@ msgstr "(Número de Projectos Concluídos em Pós-Processamento)"
 msgid "Projects Finished PPing"
 msgstr "Projectos Concluídos em Pós-Processamento"
 
-#: stats/members/mbr_xml.php:17
-#: stats/members/mbr_xml.php:28
-msgid "Error!"
-msgstr "Erro!"
-
-#: stats/members/mbr_xml.php:19
-#, php-format
-msgid "A username must specified in the following format: %s"
-msgstr "Um nome de utilizador tem de ser especificado no seguinte formato: %s"
-
-#: stats/members/mbr_xml.php:30
-#, php-format
-msgid "User '%s' does not exist."
-msgstr "O utilizador '%s' não existe."
-
 #: stats/members/mdetail.php:43
 #, php-format
 msgid "Details for user %s"

@@ -29,17 +29,6 @@ function showMbrInformation(User $user, ?string $tally_name): void
     }
 }
 
-function format_xml_button(string $username): string
-{
-    global $code_url;
-
-    $xml_doc_url = "$code_url/stats/members/mbr_xml.php?username=$username";
-    $xml_img_url = "$code_url/graphics/xml.gif";
-    $xml_img_tag = "<img src='$xml_img_url' style='border: 0; width: 36px; height: 14px; vertical-align: middle' alt='XML'>";
-    $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
-    return $xml_button;
-}
-
 function showMbrProfile(User $user): void
 {
     echo "\n";
@@ -119,11 +108,6 @@ function showMbrDpProfile(User $user): void
         _('Roles'),
         format_mbr_roles($user)
     );
-    $t->row(
-        _("Stats Feed"),
-        format_xml_button($user->username)
-    );
-
     $t->end();
 }
 
