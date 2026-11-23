@@ -72,15 +72,6 @@ function showTeamProfile(array $curTeam, bool $preview = false): void
     $user = User::load_current();
     $team_id = $curTeam['id'];
 
-    if ($team_id) {
-        $xml_doc_url = "$code_url/stats/teams/teams_xml.php?id=$team_id";
-    } else {
-        $xml_doc_url = "";
-    }
-    $xml_img_url = "$code_url/graphics/xml.gif";
-    $xml_img_tag = "<img src='$xml_img_url' style='border: 0; width: 36px; height: 14px; vertical-align: middle;' alt='XML'>";
-    $xml_button = "<a href='$xml_doc_url'>$xml_img_tag</a>";
-
     // Allow team owner and site administrators to edit the team
     if (!$preview && $user && (($user->u_id == $curTeam['owner']) || user_is_a_sitemanager())) {
         $op_url = "tedit.php?tid=$team_id";
@@ -131,7 +122,7 @@ function showTeamProfile(array $curTeam, bool $preview = false): void
 
     $t = new ThemedTable(
         2,
-        html_safe($curTeam['teamname']) . "&nbsp;$xml_button$editlink$joinquitlink",
+        html_safe($curTeam['teamname']) . "&nbsp;$editlink$joinquitlink",
         width: "100"
     );
     $t->set_column_widths(25, 75);
