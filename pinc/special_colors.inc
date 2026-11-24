@@ -72,7 +72,7 @@ function load_special_days(bool $load_common = false): array
 function sort_special_days(array &$special_days, string $sort_by = "display_name"): void
 {
     $display_name = array_column($special_days, "display_name");
-    $display_name = array_map('strtolower', $display_name);
+    $display_name = array_map(strtolower(...), $display_name);
 
     if ($sort_by == "display_name") {
         array_multisort(

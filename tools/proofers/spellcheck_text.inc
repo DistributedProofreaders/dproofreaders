@@ -99,7 +99,7 @@ function spellcheck_text(string $orig_text, string $projectid, array $languages,
     // we need to force PHP to treat bad words that are numbers
     // as strings (and compare them as such), otherwise things like
     // having a bad word of '0' messes up the in_array function
-    $badWords = array_map('strval', $badWords);
+    $badWords = array_map(strval(...), $badWords);
     $numBadWords = 0;
 
     // loop through all the original lines one at a time
@@ -355,7 +355,7 @@ function spellcheck_apply_corrections(): array
 
                 // hidden values line|offset|word length
                 [$orig_line_i, $orig_word_offset, $orig_word_length] =
-                    array_map('intval', explode('|', $_POST['posit'.$i]));
+                    array_map(intval(...), explode('|', $_POST['posit'.$i]));
 
                 // get the modified word, strip off any trailing spaces
                 $correct_word = rtrim($_POST['sp'.$i]);
