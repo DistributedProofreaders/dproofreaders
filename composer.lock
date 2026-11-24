@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae14f261c19ab5dca9d162216e4e3f2d",
+    "content-hash": "30058d30545f69ac68c47f8f0ab6b6ae",
     "packages": [
         {
             "name": "erusev/parsedown",
@@ -674,16 +674,16 @@
         },
         {
             "name": "voku/portable-utf8",
-            "version": "6.1.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "837e32cd4b166320cc3e70e3ffe1ba413e81ee46"
+                "reference": "c91d19430e524dace9431c07094c0667ee9acad5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/837e32cd4b166320cc3e70e3ffe1ba413e81ee46",
-                "reference": "837e32cd4b166320cc3e70e3ffe1ba413e81ee46",
+                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/c91d19430e524dace9431c07094c0667ee9acad5",
+                "reference": "c91d19430e524dace9431c07094c0667ee9acad5",
                 "shasum": ""
             },
             "require": {
@@ -706,6 +706,7 @@
                 "ext-json": "Use JSON for string detection",
                 "ext-mbstring": "Use Mbstring for best performance"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "files": [
@@ -745,7 +746,7 @@
             ],
             "support": {
                 "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.1.1"
+                "source": "https://github.com/voku/portable-utf8/tree/master"
             },
             "funding": [
                 {
@@ -769,7 +770,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-17T02:42:01+00:00"
+            "time": "2026-10-04T07:30:20+00:00"
         }
     ],
     "packages-dev": [
@@ -4425,7 +4426,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "voku/portable-utf8": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
