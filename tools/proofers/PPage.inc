@@ -176,7 +176,7 @@ class PPage
         echo sprintf(_("Page: %s"), $this->lpage->get_filename());
 
         if (count($round_info_array) > 0) {
-            echo " &mdash; ", implode(", ", array_map([$this, 'make_round_user_string'], $round_info_array));
+            echo " &mdash; ", implode(", ", array_map($this->make_round_user_string(...), $round_info_array));
         }
         echo "</span>\n";
     }
