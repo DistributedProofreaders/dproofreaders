@@ -90,7 +90,8 @@ function load_genre_translation_array(): array
         'Zoology' => _('Zoology'),
     ];
 
-    asort($genres, SORT_LOCALE_STRING);
+    $collator = collator_create(get_desired_language());
+    $collator->asort($genres, Collator::SORT_STRING);
 
     return $genres;
 }
