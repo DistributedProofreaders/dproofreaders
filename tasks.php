@@ -1044,19 +1044,12 @@ function encode_array(array $a): string
 /**
  * Decode an array from its text form pulled into a PHP array.
  *
- * This should return an array, but if $str is empty,
- * unserialize("") === bool(false). In that case we explicitly return
- * an empty array.
  * @return mixed[]
  */
 function decode_array(string $str): array
 {
     $raw = base64_decode($str);
-    $a = unserialize($raw, options: ['allowed_classes' => false]);
-    if (is_array($a)) {
-        return $a;
-    }
-    return [];
+    return $raw === "" ? [] : unserialize($raw, options: ['allowed_classes' => false]);
 }
 
 // -----------------------------------------------------------------------------

@@ -415,10 +415,7 @@ function save_raw_data(string $pguser, string $data_name, string $data): void
 function get_saved_data(string $pguser, string $filter_type): array
 {
     $raw = get_raw_saved_data($pguser, "{$filter_type}_data");
-    $data = unserialize($raw, options: ['allowed_classes' => false]);
-    // The raw data "", which we get if there's no saved data for this
-    // user/filter PHP deserializes as false. We need an array.
-    return $data !== false ? $data : [];
+    return $raw === "" ? [] : unserialize($raw, options: ['allowed_classes' => false]);
 }
 
 function get_project_filter_display(string $pguser, string $filter_type): string
