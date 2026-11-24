@@ -185,7 +185,7 @@ class DPSessionHandler implements SessionHandlerInterface
     }
 
     #[\ReturnTypeWillChange]
-    public function read($sid)
+    public function read(string $sid): string|false
     {
         $sql = sprintf(
             "SELECT value FROM sessions WHERE sid = '%s' AND expiration > %d",
@@ -201,7 +201,7 @@ class DPSessionHandler implements SessionHandlerInterface
         }
     }
 
-    public function write($sid, $value): bool
+    public function write(string $sid, string $value): bool
     {
         global $cookie_lifetime;
         $expiration = time() + $cookie_lifetime;
@@ -229,7 +229,7 @@ class DPSessionHandler implements SessionHandlerInterface
         return $result !== false;
     }
 
-    public function destroy($sid): bool
+    public function destroy(string $sid): bool
     {
         $result = DPDatabase::query(sprintf(
             "DELETE FROM sessions WHERE sid = '%s'",
@@ -239,7 +239,7 @@ class DPSessionHandler implements SessionHandlerInterface
     }
 
     #[\ReturnTypeWillChange]
-    public function gc($lifetime)
+    public function gc(int $lifetime): int|false
     {
         DPDatabase::query(
             sprintf(
@@ -249,6 +249,16 @@ class DPSessionHandler implements SessionHandlerInterface
         );
 
         return DPDatabase::affected_rows();
+    }
+
+    public function create_sid(): string
+    {
+        return session_create_id();
+    }
+
+    public function validateId(string $sid): bool
+    {
+        return true;
     }
 }
 
