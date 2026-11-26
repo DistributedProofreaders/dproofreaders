@@ -1118,9 +1118,7 @@ function validate_zip_file(string $file_path, bool $ignore_extension_check = fal
 
     $result = $zip->open($file_path);
 
-    if ($result === true) {
-        $zip->close();
-    } else {
+    if ($result !== true) {
         $zip_results = [
             ZipArchive::ER_EXISTS => "File already exists.",
             ZipArchive::ER_INCONS => "Zip archive inconsistent.",
@@ -1263,7 +1261,6 @@ function remove_common_basedir_from_zip(string $path_to_zip): void
             }
         }
     }
-    $zip->close();
 }
 
 /**
