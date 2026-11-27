@@ -43,4 +43,7 @@ $config->setRules([
 ]);
 
 $config->setFinder($finder);
+
+// PhpCsFixer doesn't yet support PHP 8.6
+$config->setUnsupportedPhpVersionAllowed(true);
 return $config;

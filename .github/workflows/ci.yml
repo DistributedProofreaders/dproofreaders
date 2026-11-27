@@ -9,6 +9,7 @@ jobs:
           - { os: 'ubuntu-24.04', php: '8.3' }
           - { os: 'ubuntu-24.04', php: '8.4' }
           - { os: 'ubuntu-26.04-arm', php: '8.5' }
+          - { os: 'ubuntu-26.04', php: '8.6' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -47,6 +48,7 @@ jobs:
           - { os: 'ubuntu-24.04', php: '8.3' }
           - { os: 'ubuntu-24.04', php: '8.4' }
           - { os: 'ubuntu-26.04-arm', php: '8.5' }
+          - { os: 'ubuntu-26.04', php: '8.6' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
@@ -122,6 +124,7 @@ jobs:
           - { os: 'ubuntu-24.04', php: '8.3' }
           - { os: 'ubuntu-24.04', php: '8.4' }
           - { os: 'ubuntu-26.04-arm', php: '8.5' }
+          - { os: 'ubuntu-26.04', php: '8.6' }
     runs-on: ${{ matrix.cfg.os }}
     steps:
       - name: Checkout Code
